@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\UsersController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,4 +18,5 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('users', 'UsersController@index')->name('users');
+Route::get('users',[UsersController::class,'index'])->name('users');
+Route::get('setting',[SettingsController::class,'index'])->name('setting');
