@@ -1,657 +1,555 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>{{ config('app.name', 'Laravel') }}</title>
-    <meta name="description" content="A responsive bootstrap 4 admin dashboard template by hencework" />
+<html lang="{{ app()->getLocale() }}">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon"> <!-- Favicon-->
+        <title>@yield('title') - {{ config('app.name') }}</title>
+        <meta name="description" content="@yield('meta_description', config('app.name'))">
+        <meta name="author" content="@yield('meta_author', config('app.name'))">
+        @yield('meta')
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-	
-	<!-- vector map CSS -->
-    <link href="{{asset('app/vendors/vectormap/jquery-jvectormap-2.0.3.css')}}" rel="stylesheet" type="text/css" />
+        {{-- See https://laravel.com/docs/5.5/blade#stacks for usage --}}
+        @stack('before-styles')
 
-    <!-- Toggles CSS -->
-    <link href="{{asset('app/vendors/jquery-toggles/css/toggles.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{asset('app/vendors/jquery-toggles/css/themes/toggles-light.css')}}" rel="stylesheet" type="text/css">
-	
-	<!-- Toastr CSS -->
-    <link href="{{asset('app/vendors/jquery-toast-plugin/dist/jquery.toast.min.css')}}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/font-awesome.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/vendor/jvectormap/jquery-jvectormap-2.0.3.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('assets/vendor/morrisjs/morris.min.css') }}" />
+                
+        @if (Request::segment(2) === 'analytical' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/chartist/css/chartist.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.min.css') }}">
+        @endif
+                
+        @if (Request::segment(2) === 'iot' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/morrisjs/morris.css') }}">
+        @endif
 
-    <!-- Custom CSS -->
-    <link href="{{asset('app/dist/css/style.css')}}" rel="stylesheet" type="text/css">
-    @livewireStyles
-</head>
-<body>
-	<!-- HK Wrapper -->
-	<div class="hk-wrapper hk-vertical-nav">
+        @if (Request::segment(2) === 'project' or Request::segment(2) === 'nestable' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/nestable/jquery-nestable.css') }}"/>
+        @endif
 
-        <!-- Top Navbar -->
-        <nav class="navbar navbar-expand-xl navbar-light fixed-top hk-navbar">
-            <a id="navbar_toggle_btn" class="navbar-toggle-btn nav-link-hover" href="javascript:void(0);"><i class="ion ion-ios-menu"></i></a>
-            <a class="navbar-brand" href="dashboard1.html">
-                <img class="brand-img d-inline-block mr-5" src="{{asset('app/dist/img/logo.png')}}" alt="brand" />Deepor
-            </a>
-            <ul class="navbar-nav hk-navbar-content">
-                <li class="nav-item">
-                    <a id="navbar_search_btn" class="nav-link nav-link-hover" href="javascript:void(0);"><i class="ion ion-ios-search"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a id="settings_toggle_btn" class="nav-link nav-link-hover" href="javascript:void(0);"><i class="ion ion-ios-settings"></i></a>
-                </li>
-                <li class="nav-item dropdown dropdown-notifications">
-                    <a class="nav-link dropdown-toggle no-caret" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ion ion-ios-notifications"></i><span class="badge-wrap"><span class="badge badge-primary badge-indicator badge-indicator-sm badge-pill pulse"></span></span></a>
-                    <div class="dropdown-menu dropdown-menu-right" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                        <h6 class="dropdown-header">Notifications <a href="javascript:void(0);" class="">View all</a></h6>
-                        <div class="notifications-nicescroll-bar">
-                            <a href="javascript:void(0);" class="dropdown-item">
-                                <div class="media">
-                                    <div class="media-img-wrap">
-                                        <div class="avatar avatar-sm">
-                                            <img src="{{asset('app/dist/img/avatar1.jpg')}}" alt="user" class="avatar-img rounded-circle">
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <div>
-                                            <div class="notifications-text"><span class="text-dark text-capitalize">Evie Ono</span> accepted your invitation to join the team</div>
-                                            <div class="notifications-time">12m</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="javascript:void(0);" class="dropdown-item">
-                                <div class="media">
-                                    <div class="media-img-wrap">
-                                        <div class="avatar avatar-sm">
-                                            <img src="{{asset('app/dist/img/avatar2.jpg')}}" alt="user" class="avatar-img rounded-circle">
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <div>
-                                            <div class="notifications-text">New message received from <span class="text-dark text-capitalize">Misuko Heid</span></div>
-                                            <div class="notifications-time">1h</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="javascript:void(0);" class="dropdown-item">
-                                <div class="media">
-                                    <div class="media-img-wrap">
-                                        <div class="avatar avatar-sm">
-                                            <span class="avatar-text avatar-text-primary rounded-circle">
-													<span class="initial-wrap"><span><i class="zmdi zmdi-account font-18"></i></span></span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <div>
-                                            <div class="notifications-text">You have a follow up with<span class="text-dark text-capitalize"> Deepor head</span> on <span class="text-dark text-capitalize">friday, dec 19</span> at <span class="text-dark">10.00 am</span></div>
-                                            <div class="notifications-time">2d</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="javascript:void(0);" class="dropdown-item">
-                                <div class="media">
-                                    <div class="media-img-wrap">
-                                        <div class="avatar avatar-sm">
-                                            <span class="avatar-text avatar-text-success rounded-circle">
-													<span class="initial-wrap"><span>A</span></span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <div>
-                                            <div class="notifications-text">Application of <span class="text-dark text-capitalize">Sarah Williams</span> is waiting for your approval</div>
-                                            <div class="notifications-time">1w</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="javascript:void(0);" class="dropdown-item">
-                                <div class="media">
-                                    <div class="media-img-wrap">
-                                        <div class="avatar avatar-sm">
-                                            <span class="avatar-text avatar-text-warning rounded-circle">
-													<span class="initial-wrap"><span><i class="zmdi zmdi-notifications font-18"></i></span></span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <div>
-                                            <div class="notifications-text">Last 2 days left for the project</div>
-                                            <div class="notifications-time">15d</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </li>
-                <li class="nav-item dropdown dropdown-authentication">
-                    <a class="nav-link dropdown-toggle no-caret" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <div class="media">
-                            <div class="media-img-wrap">
-                                <div class="avatar">
-                                    <img src="{{asset('app/dist/img/avatar10.jpg')}}" alt="user" class="avatar-img rounded-circle">
-                                </div>
-                                <span class="badge badge-success badge-indicator"></span>
-                            </div>
-                            <div class="media-body">
-                                <span>Madelyn Shane<i class="zmdi zmdi-chevron-down"></i></span>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" data-dropdown-in="flipInX" data-dropdown-out="flipOutX">
-                        <a class="dropdown-item" href="profile.html"><i class="dropdown-icon zmdi zmdi-account"></i><span>Profile</span></a>
-                        <a class="dropdown-item" href="#"><i class="dropdown-icon zmdi zmdi-card"></i><span>My balance</span></a>
-                        <a class="dropdown-item" href="inbox.html"><i class="dropdown-icon zmdi zmdi-email"></i><span>Inbox</span></a>
-                        <a class="dropdown-item" href="{{route('setting')}}"><i class="dropdown-icon zmdi zmdi-settings"></i><span>Settings</span></a>
-                        <div class="dropdown-divider"></div>
-                        <div class="sub-dropdown-menu show-on-hover">
-                            <a href="#" class="dropdown-toggle dropdown-item no-caret"><i class="zmdi zmdi-check text-success"></i>Online</a>
-                            <div class="dropdown-menu open-left-side">
-                                <a class="dropdown-item" href="#"><i class="dropdown-icon zmdi zmdi-check text-success"></i><span>Online</span></a>
-                                <a class="dropdown-item" href="#"><i class="dropdown-icon zmdi zmdi-circle-o text-warning"></i><span>Busy</span></a>
-                                <a class="dropdown-item" href="#"><i class="dropdown-icon zmdi zmdi-minus-circle-outline text-danger"></i><span>Offline</span></a>
-                            </div>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="dropdown-icon zmdi zmdi-power"></i><span>Log out</span></a>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-        <form role="search" class="navbar-search">
-            <div class="position-relative">
-                <a href="javascript:void(0);" class="navbar-search-icon"><i class="ion ion-ios-search"></i></a>
-                <input type="text" name="example-input1-group2" class="form-control" placeholder="Type here to Search">
-                <a id="navbar_search_close" class="navbar-search-close" href="#"><i class="ion ion-ios-close"></i></a>
+        @if (Request::segment(2) === 'project' or Request::segment(2) === 'ecommerce' or Request::segment(2) === 'typography' or Request::segment(2) === 'progress-bars' or Request::segment(2) === 'data' or Request::segment(1) === 'file-manager' && Request::segment(2) === 'dashboard' or Request::segment(2) === 'teams-board' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}">
+        @endif
+
+        @if (Request::segment(2) === 'bitcoin' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/chartist/css/chartist.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/vendor/jvectormap/jquery-jvectormap-2.0.3.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
+        @endif
+
+		@if (Request::segment(2) === 'inbox' )
+			<link rel="stylesheet" href="{{ asset('assets/css/inbox.css') }}"/>
+        @endif
+		
+		@if (Request::segment(2) === 'chat' )
+			<link rel="stylesheet" href="{{ asset('assets/css/chatapp.css') }}"/>
+        @endif
+		
+		@if (Request::segment(2) === 'calendar' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/fullcalendar/fullcalendar.min.css') }}"/>
+        @endif
+
+        @if (Request::segment(2) === 'contact-list' or Request::segment(2) === 'contact-card' or Request::segment(2) === 'inbox' or Request::segment(2) === 'taskboard' or Request::segment(2) === 'dialogs' )
+			<link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert/sweetalert.css') }}"/>
+        @endif
+
+        @if (Request::segment(2) === 'taskboard' )
+			<link rel="stylesheet" href="{{ asset('assets/vendor/nestable/jquery-nestable.css') }}"/>
+			<link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}"/>
+        @endif
+
+        @if (Request::segment(1) === 'file-manager' && Request::segment(2) === 'dashboard' )
+			<link rel="stylesheet" href="{{ asset('assets/vendor/morrisjs/morris.css') }}"/>
+        @endif
+
+        @if (Request::segment(1) === 'blog' && Request::segment(2) === 'dashboard' )
+			<link rel="stylesheet" href="{{ asset('assets/vendor/jvectormap/jquery-jvectormap-2.0.3.min.css') }}"/>
+			<link rel="stylesheet" href="{{ asset('assets/vendor/morrisjs/morris.css') }}"/>
+        @endif
+
+        @if (Request::segment(2) === 'new-post' )
+			<link rel="stylesheet" href="{{ asset('assets/vendor/summernote/dist/summernote.css') }}"/>
+        @endif
+
+        @if (Request::segment(2) === 'notifications' )
+			<link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.min.css') }}"/>
+        @endif
+
+        @if (Request::segment(2) === 'range-sliders' )
+			<link rel="stylesheet" href="{{ asset('assets/vendor/rangeslider/css/ion.rangeSlider.css') }}"/>
+			<link rel="stylesheet" href="{{ asset('assets/vendor/rangeslider/css/ion.rangeSlider.skinFlat.css') }}"/>
+			<link rel="stylesheet" href="{{ asset('assets/vendor/material-rangeslider/style.css') }}"/>
+			<link rel="stylesheet" href="{{ asset('assets/vendor/roundslider/roundslider.min.css') }}"/>
+			<link rel="stylesheet" href="{{ asset('assets/vendor/roundslider/style.css') }}"/>
+        @endif
+
+        @if (Request::segment(2) === 'treeview' )
+			<link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.min.css') }}"/>
+			<link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-treeview/bootstrap-treeview.min.css') }}"/>
+			<link rel="stylesheet" href="{{ asset('assets/vendor/jstree/themes/default/style.min.css') }}"/>
+        @endif
+
+        @if (Request::segment(2) === 'chart' )
+			<link rel="stylesheet" href="{{ asset('assets/vendor/jvectormap/jquery-jvectormap-2.0.3.min.css') }}"/>
+			<link rel="stylesheet" href="{{ asset('assets/vendor/morrisjs/morris.min.css') }}"/>
+			<link rel="stylesheet" href="{{ asset('assets/vendor/chartist/css/chartist.min.css') }}"/>
+        @endif
+
+        @if (Request::segment(2) === 'profile1' or Request::segment(2) === 'profile2' or Request::segment(2) === 'image-gallery1' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}"/>
+        @endif
+        
+        @if (Request::segment(2) === 'image-gallery2' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/light-gallery/css/lightgallery.css') }}"/>
+        @endif
+        
+        @if (Request::segment(2) === 'horizontal-timeline' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/horizontal-timeline/css/horizontal-timeline.css') }}"/>
+        @endif
+        
+        @if (Request::segment(2) === 'validation' or Request::segment(2) === 'advance-elements' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css') }}"/>
+        @endif
+        
+        @if (Request::segment(2) === 'advance-elements' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css')}}" />
+            <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.css')}}" />
+            <link rel="stylesheet" href="{{ asset('assets/vendor/multi-select/css/multi-select.css')}}" />
+            <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css')}}" />
+            <link rel="stylesheet" href="{{ asset('assets/vendor/nouislider/nouislider.min.css')}}" />
+        @endif
+        
+        @if (Request::segment(2) === 'dragdrop' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/dropify/css/dropify.min.css') }}"/>
+        @endif
+        
+        @if (Request::segment(2) === 'cropping' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/cropper/cropper.min.css') }}"/>
+        @endif
+        
+        @if (Request::segment(2) === 'summernote' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/summernote/dist/summernote.css') }}"/>
+        @endif
+        
+        @if (Request::segment(2) === 'markdown' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-markdown/bootstrap-markdown.min.css') }}"/>
+        @endif
+        
+        @if (Request::segment(2) === 'jquery-datatable' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert/sweetalert.css') }}"/>
+        @endif
+        
+        @if (Request::segment(2) === 'dragger' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/table-dragger/table-dragger.min.css') }}"/>
+        @endif
+        
+        @if (Request::segment(2) === 'morris' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/morrisjs/morris.css') }}"/>
+        @endif
+        
+        @if (Request::segment(2) === 'chartjs' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/chartist/css/chartist.min.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css') }}"/>
+        @endif
+        
+        @if (Request::segment(2) === 'c3' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/charts-c3/plugin.css') }}"/>
+        @endif
+        
+        @if (Request::segment(2) === 'jvector' )
+            <link rel="stylesheet" href="{{ asset('assets/vendor/jvectormap/jquery-jvectormap-2.0.3.css') }}"/>
+        @endif
+
+        <!-- Custom Css -->
+        <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/color_skins.css') }}">
+
+        @if (Request::segment(2) === 'list' or Request::segment(2) === 'detail' or Request::segment(2) === 'blog' or Request::segment(2) === 'profile2' )
+			<link rel="stylesheet" href="{{ asset('assets/css/blog.css') }}"/>
+        @endif
+
+        @if (Request::segment(2) === 'ecommerce' )
+			<link rel="stylesheet" href="{{ asset('assets/css/ecommerce.css') }}"/>
+        @endif
+
+        @stack('after-styles')
+
+        @if (trim($__env->yieldContent('page-styles')))
+            @yield('page-styles')
+        @endif
+
+    </head>
+    
+    <?php 
+        $setting = !empty($_GET['theme']) ? $_GET['theme'] : '';
+        $theme = "theme-cyan";
+        $menu = "";
+        if ($setting == 'p') {
+            $theme = "theme-purple";
+        } else if ($setting == 'b') {
+            $theme = "theme-blue";
+        } else if ($setting == 'g') {
+            $theme = "theme-green";
+        } else if ($setting == 'o') {
+            $theme = "theme-orange";
+        } else if ($setting == 'bl') {
+            $theme = "theme-blush";
+        } else {
+             $theme = "theme-cyan";
+        }
+
+    ?>
+
+    <body class="<?= $theme ?>">
+
+        <!-- Page Loader -->
+        <div class="page-loader-wrapper">
+            <div class="loader">
+                <div class="m-t-30"><img src="{{url('/')}}/assets/img/logo-icon.svg" width="48" height="48" alt="Lucid"></div>
+                <p>Please wait...</p>        
             </div>
-        </form>
-        <!-- /Top Navbar -->
+        </div>
 
-        <!-- Vertical Nav -->
-        <nav class="hk-nav hk-nav-light">
-            <a href="javascript:void(0);" id="hk_nav_close" class="hk-nav-close"><span class="feather-icon"><i data-feather="x"></i></span></a>
-            <div class="nicescroll-bar">
-                <div class="navbar-nav-wrap">
-                    <ul class="navbar-nav flex-column">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#dash_drp">
-                                <i class="ion ion-ios-keypad"></i>
-                                <span class="nav-link-text">Dashboard</span>
-                            </a>
-                            <ul id="dash_drp" class="nav flex-column collapse collapse-level-1">
-                                <li class="nav-item">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item active">
-                                            <a class="nav-link" href="dashboard1.html">CRM</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="dashboard2.html">Project</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="dashboard3.html">Statistics</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link link-with-badge" href="javascript:void(0);" data-toggle="collapse" data-target="#app_drp">
-                                <i class="ion ion-ios-apps"></i>
-                                <span class="nav-link-text">Application</span>
-                                <span class="badge badge-warning badge-pill">4</span>
-                            </a>
-                            <ul id="app_drp" class="nav flex-column collapse collapse-level-1">
-                                <li class="nav-item">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="chats.html">Chat</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="calendar.html">Calendar</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="email.html">Email</a>
-                                        </li>
-										<li class="nav-item">
-                                            <a class="nav-link" href="file-manager.html">File Manager</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#auth_drp">
-                                <i class="ion ion-ios-person-add"></i>
-                                <span class="nav-link-text">Management Users</span>
-                            </a>
-                            <ul id="auth_drp" class="nav flex-column collapse collapse-level-1">
-                                <li class="nav-item">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{route('users')}}">Users</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#pages_drp">
-                                <i class="ion ion-ios-copy"></i>
-								<span class="nav-link-text">Pages</span>
-                            </a>
-                            <ul id="pages_drp" class="nav flex-column collapse collapse-level-1">
-                                <li class="nav-item">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="profile.html">Profile</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="invoice.html">Invoice</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="gallery.html">Gallery</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="activity.html">Activity</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="faq.html">Faq</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <hr class="nav-separator">
-                    <div class="nav-header">
-                        <span>User Interface</span>
-                        <span>UI</span>
-                    </div>
-                    <ul class="navbar-nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#Components_drp">
-                                <i class="ion ion-ios-wallet"></i>
-                                <span class="nav-link-text">Components</span>
-                            </a>
-                            <ul id="Components_drp" class="nav flex-column collapse collapse-level-1">
-                                <li class="nav-item">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="alerts.html">Alerts</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="avatar.html">Avatar</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="badge.html">Badge</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="buttons.html">Buttons</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="cards.html">Cards</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="carousel.html">Carousel</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="collapse.html">Collapse</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="dropdowns.html">Dropdown</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="list-group.html">List Group</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="modal.html">Modal</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="nav.html">Nav</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="navbar.html">Navbar</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="nestable.html">Nestable</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="pagination.html">Pagination</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="popovers.html">Popovers</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="progress.html">Progress</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="tooltip.html">Tooltip</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#content_drp">
-                                <i class="ion ion-ios-filing"></i>
-                                <span class="nav-link-text">Content</span>
-                            </a>
-                            <ul id="content_drp" class="nav flex-column collapse collapse-level-1">
-                                <li class="nav-item">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="typography.html">Typography</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="images.html">Images</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="media-object.html">Media Object</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#utilities_drp">
-                                <i class="ion ion-ios-construct"></i>
-                                <span class="nav-link-text">Utilities</span>
-                            </a>
-                            <ul id="utilities_drp" class="nav flex-column collapse collapse-level-1">
-                                <li class="nav-item">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="background.html">Background</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="border.html">Border</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="colors.html">Colors</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="embeds.html">Embeds</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="icons.html">Icons</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="shadow.html">Shadow</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="sizing.html">Sizing</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="spacing.html">Spacing</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#forms_drp">
-                                <i class="ion ion-ios-list-box"></i>
-                                <span class="nav-link-text">Forms</span>
-                            </a>
-                            <ul id="forms_drp" class="nav flex-column collapse collapse-level-1">
-                                <li class="nav-item">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="form-element.html">Form Elements</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="input-groups.html">Input Groups</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="form-layout.html">Form Layout</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="form-mask.html">Form Mask</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="form-validation.html">Form Validation</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="form-wizard.html">Form Wizard</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="file-upload.html">File Upload</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="editor.html">Editor</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#tables_drp">
-                                <i class="ion ion-ios-today"></i>
-                                <span class="nav-link-text">Tables</span>
-                            </a>
-                            <ul id="tables_drp" class="nav flex-column collapse collapse-level-1">
-                                <li class="nav-item">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="basic-table.html">Basic Table</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="data-table.html">Data Table</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="responsive-table.html">Responsive Table</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="editable-table.html">Editable Table</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#charts_drp">
-                                <i class="ion ion-ios-stats"></i>
-                                <span class="nav-link-text">Charts</span>
-                            </a>
-                            <ul id="charts_drp" class="nav flex-column collapse collapse-level-1">
-                                <li class="nav-item">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="line-charts.html">Line Chart</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="area-charts.html">Area Chart</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="bar-charts.html">Bar Chart</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="pie-charts.html">Pie Chart</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="realtime-charts.html">Realtime Chart</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="mini-charts.html">Mini Chart</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#maps_drp">
-                                <i class="ion ion-ios-map"></i>
-                                <span class="nav-link-text">Maps</span>
-                            </a>
-                            <ul id="maps_drp" class="nav flex-column collapse collapse-level-1">
-                                <li class="nav-item">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="google-map.html">Google Map</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="vector-map.html">Vector Map</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <hr class="nav-separator">
-                    <div class="nav-header">
-                        <span>Getting Started</span>
-                        <span>GS</span>
-                    </div>
-                    <ul class="navbar-nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="documentation.html">
-                                <i class="ion ion-ios-book"></i>
-                                <span class="nav-link-text">Documentation</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <div id="hk_nav_backdrop" class="hk-nav-backdrop"></div>
-        <!-- /Vertical Nav -->
+        <div id="wrapper">
 
-        <!-- Setting Panel -->
-        <div class="hk-settings-panel">
-            <div class="nicescroll-bar position-relative">
-                <div class="settings-panel-wrap">
-                    <div class="settings-panel-head mb-15">
-                       <a href="javascript:void(0);" id="settings_panel_close" class="settings-panel-close"><span class="feather-icon"><i data-feather="x"></i></span></a>
+            @include('layouts.navbar')
+            @include('layouts.sidebar')
+
+            <div id="main-content">
+                <div class="container-fluid">
+                    <div class="block-header">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-8 col-sm-12">                        
+                                <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> @yield('title')</h2>
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{route('dashboard.analytical')}}"><i class="icon-home"></i></a></li>
+                                    @if (trim($__env->yieldContent('parentPageTitle')))
+                                       <li class="breadcrumb-item">@yield('parentPageTitle')</li>
+                                    @endif
+                                    @if (trim($__env->yieldContent('title')))
+                                        <li class="breadcrumb-item active">@yield('title')</li>
+                                    @endif
+                                </ul>
+                            </div>            
+                            <div class="col-lg-7 col-md-4 col-sm-12 text-right">
+                                <div class="inlineblock text-center m-r-15 m-l-15 hidden-sm">
+                                    <div class="sparkline text-left" data-type="line" data-width="8em" data-height="20px" data-line-Width="1" data-line-Color="#00c5dc"
+                                        data-fill-Color="transparent">3,5,1,6,5,4,8,3</div>
+                                    <span>Visitors</span>
+                                </div>
+                                <div class="inlineblock text-center m-r-15 m-l-15 hidden-sm">
+                                    <div class="sparkline text-left" data-type="line" data-width="8em" data-height="20px" data-line-Width="1" data-line-Color="#f4516c"
+                                        data-fill-Color="transparent">4,6,3,2,5,6,5,4</div>
+                                    <span>Visits</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <h6 class="mb-5">Layout</h6>
-                    <p class="font-14">Choose your preferred layout</p>
-                    <div class="layout-img-wrap">
-                        <div class="row">
-                            <a href="javascript:void(0);" class="col-6 mb-30 active">
-                                <img class="rounded opacity-70" src="{{asset('app/dist/img/layout1.png')}}" alt="layout">
-                                <i class="zmdi zmdi-check"></i>
-                            </a>
-                            <a href="dashboard2.html" class="col-6 mb-30">
-                                <img class="rounded opacity-70" src="{{asset('app/dist/img/layout2.png')}}" alt="layout">
-                                <i class="zmdi zmdi-check"></i>
-                            </a>
-                            <a href="dashboard3.html" class="col-6">
-                                <img class="rounded opacity-70" src="{{asset('app/dist/img/layout3.png')}}" alt="layout">
-                                <i class="zmdi zmdi-check"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <hr>
-                    <h6 class="mb-5">Navigation</h6>
-                    <p class="font-14">Menu comes in two modes: dark & light</p>
-                    <div class="button-list hk-nav-select mb-10">
-                        <button type="button" id="nav_light_select" class="btn btn-outline-primary btn-sm btn-wth-icon icon-wthot-bg"><span class="icon-label"><i class="fa fa-sun-o"></i> </span><span class="btn-text">Light Mode</span></button>
-                        <button type="button" id="nav_dark_select" class="btn btn-outline-light btn-sm btn-wth-icon icon-wthot-bg"><span class="icon-label"><i class="fa fa-moon-o"></i> </span><span class="btn-text">Dark Mode</span></button>
-                    </div>
-                    <hr>
-                    <h6 class="mb-5">Top Nav</h6>
-                    <p class="font-14">Choose your liked color mode</p>
-                    <div class="button-list hk-navbar-select mb-10">
-                        <button type="button" id="navtop_light_select" class="btn btn-outline-light btn-sm btn-wth-icon icon-wthot-bg"><span class="icon-label"><i class="fa fa-sun-o"></i> </span><span class="btn-text">Light Mode</span></button>
-                        <button type="button" id="navtop_dark_select" class="btn btn-outline-primary btn-sm btn-wth-icon icon-wthot-bg"><span class="icon-label"><i class="fa fa-moon-o"></i> </span><span class="btn-text">Dark Mode</span></button>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h6>Scrollable Header</h6>
-                        <div class="toggle toggle-sm toggle-simple toggle-light toggle-bg-primary scroll-nav-switch"></div>
-                    </div>
-                    <button id="reset_settings" class="btn btn-primary btn-block btn-reset mt-30">Reset</button>
+                    @yield('content')
+
+                    {{$slot}}
                 </div>
             </div>
-            <img class="d-none" src="{{asset('app/dist/img/logo-light.png')}}" alt="brand" />
-            <img class="d-none" src="{{asset('app/dist/img/logo-dark.png')}}" alt="brand" />
+
         </div>
-        <!-- /Setting Panel -->
 
-        <!-- Main Content -->
-        <div class="hk-pg-wrapper">
-            @yield('content')
-            <!-- Footer -->
-            <div class="hk-footer-wrap container">
-                <footer class="footer">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            <p>PT Putra Mulia Telecommunication © 2020</p>
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                            <p class="d-inline-block">Follow us</p>
-                            <a href="#" class="d-inline-block btn btn-icon btn-icon-only btn-indigo btn-icon-style-4"><span class="btn-icon-wrap"><i class="fa fa-facebook"></i></span></a>
-                            <a href="#" class="d-inline-block btn btn-icon btn-icon-only btn-indigo btn-icon-style-4"><span class="btn-icon-wrap"><i class="fa fa-twitter"></i></span></a>
-                            <a href="#" class="d-inline-block btn btn-icon btn-icon-only btn-indigo btn-icon-style-4"><span class="btn-icon-wrap"><i class="fa fa-google-plus"></i></span></a>
-                        </div>
-                    </div>
-                </footer>
-            </div>
-            <!-- /Footer -->
-        </div>
-        <!-- /Main Content -->
+        <!-- Scripts -->
+        @stack('before-scripts')
 
-    </div>
-    <!-- /HK Wrapper -->
+        <script src="{{ asset('assets/bundles/libscripts.bundle.js') }}"></script>    
+        <script src="{{ asset('assets/bundles/vendorscripts.bundle.js') }}"></script>
+        
+        <script src="{{ asset('assets/bundles/morrisscripts.bundle.js') }}"></script><!-- Morris Plugin Js -->
+        <script src="{{ asset('assets/bundles/jvectormap.bundle.js') }}"></script> <!-- JVectorMap Plugin Js -->
+        <script src="{{ asset('assets/bundles/knob.bundle.js') }}"></script>
+        
+        @if (Request::segment(2) === 'analytical' )
+            <script src="{{ asset('assets/bundles/chartist.bundle.js') }}"></script>
+            <script src="{{ asset('assets/vendor/toastr/toastr.js') }}"></script>
+            <script src="{{ asset('assets/js/index.js') }}"></script>
+        @endif
 
-    <!-- jQuery -->
-    <script src="{{asset('app/vendors/jquery/dist/jquery.min.js')}}"></script>
+        @if (Request::segment(2) === 'iot' )
+            <script src="{{ asset('assets/bundles/morrisscripts.bundle.js')}}"></script>
+            <script src="{{ asset('assets/vendor/jquery-sparkline/js/jquery.sparkline.min.js')}}"></script>
+            <script src="{{ asset('assets/vendor/raphael/raphael-min.js')}}"></script>
+            <script src="{{ asset('assets/js/iot.js')}}"></script>
+        @endif
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{{asset('app/vendors/popper.js/dist/umd/popper.min.js')}}"></script>
-    <script src="{{asset('app/vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+        @if (Request::segment(2) === 'bitcoin' )
+            <script src="{{ asset('assets/bundles/jvectormap.bundle.js') }}"></script>
+            <script src="{{ asset('assets/bundles/chartist.bundle.js') }}"></script>
+            <script src="{{ asset('assets/bundles/datatablescripts.bundle.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/tables/jquery-datatable.js') }}"></script>
+            <script src="{{ asset('assets/js/index7.js') }}"></script>
+        @endif
 
-    <!-- Slimscroll JavaScript -->
-    <script src="{{asset('app/dist/js/jquery.slimscroll.js')}}"></script>
+        @if (Request::segment(2) === 'demographic' )
+            <script src="{{ asset('assets/js/widgets/infobox/infobox-1.js') }}"></script>
+            <script src="{{ asset('assets/js/index2.js') }}"></script>
+        @endif
 
-    <!-- Fancy Dropdown JS -->
-    <script src="{{asset('app/dist/js/dropdown-bootstrap-extended.js')}}"></script>
+        @if (Request::segment(2) === 'hospital' )
+            <script src="{{ asset('assets/js/index3.js') }}"></script>
+        @endif
+        
+        @if (Request::segment(2) === 'university' )
+            <script src="{{ asset('assets/js/index4.js') }}"></script>
+        @endif
 
-    <!-- FeatherIcons JavaScript -->
-    <script src="{{asset('app/dist/js/feather.min.js')}}"></script>
+        @if (Request::segment(2) === 'real-estate' )
+            <script src="{{ asset('assets/js/index5.js') }}"></script>
+        @endif
 
-    <!-- Toggles JavaScript -->
-    <script src="{{asset('app/vendors/jquery-toggles/toggles.min.js')}}"></script>
-    <script src="{{asset('app/dist/js/toggle-data.js')}}"></script>
-	
-	<!-- Counter Animation JavaScript -->
-	<script src="{{asset('app/vendors/waypoints/lib/jquery.waypoints.min.js')}}"></script>
-	<script src="{{asset('app/vendors/jquery.counterup/jquery.counterup.min.js')}}"></script>
-	
-	<!-- Sparkline JavaScript -->
-    <script src="{{asset('app/vendors/jquery.sparkline/dist/jquery.sparkline.min.js')}}"></script>
-	
-	<!-- Vector Maps JavaScript -->
-    <script src="{{asset('app/vendors/vectormap/jquery-jvectormap-2.0.3.min.js')}}"></script>
-    <script src="{{asset('app/vendors/vectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
-	<script src="{{asset('app/dist/js/vectormap-data.js')}}"></script>
+        @if (Request::segment(2) === 'ecommerce' )
+            <script src="{{ asset('assets/js/index8.js') }}"></script>
+        @endif
 
-	<!-- Owl JavaScript -->
-    <script src="{{asset('app/vendors/owl.carousel/dist/owl.carousel.min.js')}}"></script>
-	
-	<!-- Toastr JS -->
-    <script src="{{asset('app/vendors/jquery-toast-plugin/dist/jquery.toast.min.js')}}"></script>
-    
-	<!-- Apex JavaScript -->
-    <script src="{{asset('app/vendors/apexcharts/dist/apexcharts.min.js')}}"></script>
-	<script src="{{asset('app/dist/js/irregular-data-series.js')}}"></script>
-	 
-    <!-- Init JavaScript -->
-    <script src="{{asset('app/dist/js/init.js')}}"></script>
-	<script src="{{asset('app/dist/js/dashboard-data.js')}}"></script>
-    @yield('scripts')
+        @if (Request::segment(2) === 'project' )
+            <script src="{{ asset('assets/vendor/nestable/jquery.nestable.js') }}"></script> <!-- Jquery Nestable -->
+            <script src="{{ asset('assets/js/pages/ui/sortable-nestable.js') }}"></script>
+            <script src="{{ asset('assets/js/index6.js') }}"></script>
+        @endif
 
-    @livewireScripts
-</body>
+        @if (Request::segment(2) === 'inbox' or Request::segment(2) === 'contact-list' or Request::segment(2) === 'taskboard' or Request::segment(2) === 'dialogs' )
+            <script src="{{ asset('assets/vendor/sweetalert/sweetalert.min.js') }}"></script>
+			<script src="{{ asset('assets/js/pages/ui/dialogs.js') }}"></script>
+        @endif
+        
+        @if (Request::segment(2) === 'calendar' )
+            <script src="{{ asset('assets/bundles/fullcalendarscripts.bundle.js') }}"></script>
+            <script src="{{ asset('assets/vendor/fullcalendar/fullcalendar.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/calendar.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'contact-card' )
+            <script src="{{ asset('assets/bundles/easypiechart.bundle.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'taskboard' )
+			<script src="{{ asset('assets/vendor/nestable/jquery.nestable.js') }}"></script>
+			<script src="{{ asset('assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+			<script src="{{ asset('assets/js/pages/ui/sortable-nestable.js') }}"></script>
+        @endif
+
+        @if (Request::segment(1) === 'file-manager' && Request::segment(2) === 'dashboard' )
+			<script src="{{ asset('assets/js/pages/file/filemanager.js') }}"></script>
+        @endif
+
+        @if (Request::segment(1) === 'blog' && Request::segment(2) === 'dashboard' )
+			<script src="{{ asset('assets/js/pages/blog.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'new-post' )
+			<script src="{{ asset('assets/vendor/summernote/dist/summernote.js') }}"></script>
+        @endif
+        
+        @if (Request::segment(2) === 'notifications' )
+			<script src="{{ asset('assets/vendor/toastr/toastr.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'nestable' )
+            <script src="{{ asset('assets/vendor/nestable/jquery.nestable.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/ui/sortable-nestable.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'range-sliders' )
+            <script src="{{ asset('assets/vendor/rangeslider/js/ion.rangeSlider.js') }}"></script>
+            <script src="{{ asset('assets/vendor/roundslider/roundslider.min.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/range-sliders.js') }}"></script>
+            <script src="{{ asset('assets/vendor/material-rangeslider/mrange.js') }}"></script>
+            <script src="{{ asset('assets/vendor/roundslider/custom.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'treeview' )
+            <script src="{{ asset('assets/vendor/bootstrap-treeview/bootstrap-treeview.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/jstree/jstree.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/toastr/toastr.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/treeview/jstree.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/treeview/bootstrap-treeview.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'statistics' )
+            <script src="{{ asset('assets/js/widgets/infobox/infobox-1.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'chart' )
+            <script src="{{ asset('assets/bundles/chartist.bundle.js') }}"></script>
+            <script src="{{ asset('assets/bundles/jvectormap.bundle.js') }}"></script>
+            <script src="{{ asset('assets/bundles/flotscripts.bundle.js') }}"></script>
+            <script src="{{ asset('assets/vendor/flot-charts/jquery.flot.selection.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/charts/chart-widgets.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'profile1' or Request::segment(2) === 'profile2' or Request::segment(2) === 'image-gallery1' )
+            <script src="{{ asset('assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+        @endif
+        
+        @if (Request::segment(2) === 'image-gallery1' )
+            <script src="{{ asset('assets/vendor/LightboxGallery/mauGallery.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/LightboxGallery/scripts.js') }}"></script>
+        @endif
+        
+        @if (Request::segment(2) === 'image-gallery2' )
+            <script src="{{ asset('assets/vendor/light-gallery/js/lightgallery-all.min.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/medias/image-gallery.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'horizontal-timeline' )
+            <script src="{{ asset('assets/vendor/horizontal-timeline/js/horizontal-timeline.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'validation' )
+            <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
+            <script src="{{ asset('assets/vendor/parsleyjs/js/parsley.min.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'advance-elements' )
+            <script src="{{ asset('assets/vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.js') }}"></script>
+            <script src="{{ asset('assets/vendor/jquery-inputmask/jquery.inputmask.bundle.js') }}"></script>
+            <script src="{{ asset('assets/vendor/jquery.maskedinput/jquery.maskedinput.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/multi-select/js/jquery.multi-select.js') }}"></script>
+            <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
+            <script src="{{ asset('assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
+            <script src="{{ asset('assets/vendor/nouislider/nouislider.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/forms/advanced-form-elements.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'wizard' )
+            <script src="{{ asset('assets/vendor/jquery-validation/jquery.validate.js') }}"></script>
+            <script src="{{ asset('assets/vendor/jquery-steps/jquery.steps.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/forms/form-wizard.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'dragdrop' )
+            <script src="{{ asset('assets/vendor/dropify/js/dropify.min.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/forms/dropify.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'cropping' )
+            <script src="{{ asset('assets/vendor/cropper/cropper.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/cropper/cropper-init.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'summernote' )
+            <script src="{{ asset('assets/vendor/summernote/dist/summernote.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'editors' )
+            <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/forms/editors.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'markdown' )
+            <script src="{{ asset('assets/vendor/markdown/markdown.js') }}"></script>
+            <script src="{{ asset('assets/vendor/to-markdown/to-markdown.js') }}"></script>
+            <script src="{{ asset('assets/vendor/bootstrap-markdown/bootstrap-markdown.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'jquery-datatable' )
+            <script src="{{ asset('assets/bundles/datatablescripts.bundle.js') }}"></script>
+            <script src="{{ asset('assets/vendor/jquery-datatable/buttons/dataTables.buttons.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/jquery-datatable/buttons/buttons.colVis.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/jquery-datatable/buttons/buttons.html5.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/sweetalert/sweetalert.min.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/tables/jquery-datatable.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'editable' )
+            <script src="{{ asset('assets/vendor/editable-table/mindmup-editabletable.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/tables/editable-table.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'dragger' )
+            <script src="{{ asset('assets/vendor/table-dragger/table-dragger.min.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'morris' )
+            <script src="{{ asset('assets/js/pages/charts/morris.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'flot' )
+            <script src="{{ asset('assets/bundles/flotscripts.bundle.js') }}"></script>
+            <script src="{{ asset('assets/vendor/flot-charts/jquery.flot.time.js') }}"></script>
+            <script src="{{ asset('assets/vendor/flot-charts/jquery.flot.selection.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/charts/flot.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'chartjs' )
+            <script src="{{ asset('assets/bundles/chartist.bundle.js') }}"></script>
+            <script src="{{ asset('assets/vendor/chartist/polar_area_chart.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/charts/chartjs.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'jquery-knob' )
+            <script src="{{ asset('assets/vendor/jquery-knob/jquery.knob.min.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/charts/jquery-knob.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'sparkline' )
+            <script src="{{ asset('assets/vendor/jquery-sparkline/js/jquery.sparkline.min.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/charts/sparkline.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'peity' )
+            <script src="{{ asset('assets/vendor/jquery-sparkline/js/jquery.sparkline.min.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/charts/peity_chart.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'c3' )
+            <script src="{{ asset('assets/bundles/c3.bundle.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/chart/c3.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'gauges' )
+            <script src="{{ asset('assets/vendor/gauge/gauge.min.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/chart/gauge.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'echart' )
+            <script src="{{ asset('assets/bundles/echarts.bundle.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/charts/echart.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'google' )
+            <script src="https://maps.google.com/maps/api/js?v=3&sensor=false"></script>
+            <script src="{{ asset('assets/vendor/gmaps/gmaps.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/maps/google.js') }}"></script>
+        @endif
+
+        @if (Request::segment(2) === 'jvector' )
+            <script src="{{ asset('assets/bundles/jvectormap.bundle.js') }}"></script>
+            <script src="{{ asset('assets/vendor/jvectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
+            <script src="{{ asset('assets/vendor/jvectormap/jquery-jvectormap-in-mill.js') }}"></script>
+            <script src="{{ asset('assets/vendor/jvectormap/jquery-jvectormap-us-aea-en.js') }}"></script>
+            <script src="{{ asset('assets/vendor/jvectormap/jquery-jvectormap-uk-mill-en.js') }}"></script>
+            <script src="{{ asset('assets/vendor/jvectormap/jquery-jvectormap-au-mill.js') }}"></script>
+            <script src="{{ asset('assets/js/pages/maps/jvectormap.js') }}"></script>
+        @endif
+
+        <script src="{{ asset('assets/bundles/mainscripts.bundle.js') }}"></script>
+
+        @stack('after-scripts')
+
+        @if (trim($__env->yieldContent('page-script')))
+            <script>
+                @yield('page-script')
+            </script>
+		@endif
+    </body>
 </html>
