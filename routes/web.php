@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Livewire\User\Index;
 use App\Http\Livewire\Home;
 
 /*
@@ -15,10 +14,17 @@ use App\Http\Livewire\Home;
 |
 */
 
-Route::get('/', Home::class)->name('home');
+Route::get('/', Home::class)->name('home')->middleware('auth');
+Route::get('login', App\Http\Livewire\Login::class)->name('login');
 
-Route::get('users',Index::class)->name('users.index');
-
+Route::group(['middleware' => ['auth']], function(){    
+    Route::get('users',App\Http\Livewire\User\Index::class)->name('users.index');
+    Route::get('users/insert',App\Http\Livewire\User\Insert::class)->name('users.insert');
+    Route::get('user-access', App\Http\Livewire\UserAccess\Index::class)->name('user-access.index');
+    Route::get('user-access/insert', App\Http\Livewire\UserAccess\Insert::class)->name('user-access.insert');
+    Route::get('profile',App\Http\Livewire\Profile::class)->name('profile');
+    Route::get('setting',App\Http\Livewire\Setting::class)->name('setting');
+});
 
 /* Dashboard */
 Route::get('dashboard', function () { return redirect('dashboard/analytical'); });
@@ -154,6 +160,6 @@ Route::get('map/google', 'MapController@google')->name('map.google');
 Route::get('map/yandex', 'MapController@yandex')->name('map.yandex');
 Route::get('map/jvector', 'MapController@jvector')->name('map.jvector');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+//     return view('dashboard');
+// })->name('dashboard');

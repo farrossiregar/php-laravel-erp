@@ -4,8 +4,8 @@
             <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
         </div>
 
-        <div class="navbar-brand">
-            <a href=""><img src="{{ asset('assets/img/logo.svg') }}" alt="Lucid Logo" class="img-responsive logo"></a>                
+        <div class="navbar-brand">    
+            @if(get_setting('logo'))<a href=""><img src="{{ get_setting('logo') }}" alt="Lucid Logo" class="img-responsive logo"></a>@endif                
         </div>
         
         <div class="navbar-right">

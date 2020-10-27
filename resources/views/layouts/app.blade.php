@@ -188,7 +188,7 @@
         @if (trim($__env->yieldContent('page-styles')))
             @yield('page-styles')
         @endif
-
+        @livewireStyles
     </head>
     
     <?php 
@@ -550,6 +550,10 @@
             <script>
                 @yield('page-script')
             </script>
-		@endif
+        @endif
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
+        @livewireScripts
     </body>
 </html>

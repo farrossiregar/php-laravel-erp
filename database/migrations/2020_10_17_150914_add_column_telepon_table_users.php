@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableUserAccess extends Migration
+class AddColumnTeleponTableUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateTableUserAccess extends Migration
      */
     public function up()
     {
-        Schema::create('user_access', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->nullable();
-            $table->text('description')->nullable();
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('telepon', 35)->nullable();
+            $table->text('address')->nullable();
         });
     }
 
@@ -28,6 +26,8 @@ class CreateTableUserAccess extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_access');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 }

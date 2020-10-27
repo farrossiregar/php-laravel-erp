@@ -4,13 +4,14 @@
             <img src="{{ asset('assets/img/user.png') }}" class="rounded-circle user-photo" alt="User Profile Picture">
             <div class="dropdown">
                 <span>Welcome,</span>
-                <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>Alizee Thomas</strong></a>
+                <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>{{\Auth::user()->name}}</strong></a>
                 <ul class="dropdown-menu dropdown-menu-right account">
-                    <li><a href=""><i class="icon-user"></i>My Profile</a></li>
+                    <li><a href="{{route('profile')}}"><i class="icon-user"></i>My Profile</a></li>
                     <li><a href=""><i class="icon-envelope-open"></i>Messages</a></li>
-                    <li><a href="javascript:void(0);"><i class="icon-settings"></i>Settings</a></li>
+                    <li><a href="{{route('setting')}}"><i class="icon-settings"></i>Settings</a></li>
                     <li class="divider"></li>
-                    <li><a href=""><i class="icon-power"></i>Logout</a></li>
+                    <li><a href="#" onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();"><i class="icon-power"></i>Logout</a></li>
                 </ul>
             </div>
             <hr>
@@ -56,11 +57,11 @@
                                 <li class="{{ Request::segment(2) === 'iot' ? 'active' : null }}"><a href="{{route('dashboard.iot')}}">IoT</a></li>
                             </ul>
                         </li>
-                        <li class="{{ Request::segment(1) === 'app' ? 'active' : null }}">
+                        <li class="{{ (Request::segment(1) === 'users' || Request::segment(1) === 'user-access') ? 'active' : null }}">
                             <a href="#App" class="has-arrow"><i class="icon-grid"></i> <span>Management User</span></a>
                             <ul>
-                                <li class="{{ Request::segment(2) === 'users' ? 'active' : null }}"><a href="{{route('users.index')}}">Users</a></li>
-                                <li class="{{ Request::segment(2) === 'chat' ? 'active' : null }}"><a href="{{route('app.chat')}}">Access</a></li>
+                                <li class="{{ (Request::segment(2) === 'insert' || Request::segment(2) === 'index') ? 'active' : null }}"><a href="{{route('users.index')}}">Users</a></li>
+                                <li class="{{ Request::segment(2) === 'access' ? 'active' : null }}"><a href="{{route('user-access.index')}}">Access</a></li>
                             </ul>
                         </li>
                         <li class="{{ Request::segment(1) === 'app' ? 'active' : null }}">
@@ -72,7 +73,9 @@
                         <li class="{{ Request::segment(1) === 'app' ? 'active' : null }}">
                             <a href="#App" class="has-arrow"><i class="icon-grid"></i> <span>Finance</span></a>
                             <ul>
-                                <li class="{{ Request::segment(2) === 'inbox' ? 'active' : null }}"><a href="{{route('app.inbox')}}">Finance</a></li>
+                                <li class="{{ Request::segment(2) === 'inbox' ? 'active' : null }}"><a href="">Finance</a></li>
+                                <li class="{{ Request::segment(2) === 'inbox' ? 'active' : null }}"><a href="">Invoice</a></li>
+                                <li class="{{ Request::segment(2) === 'inbox' ? 'active' : null }}"><a href="">Accounting</a></li>
                             </ul>
                         </li>
                         <li class="{{ Request::segment(1) === 'app' ? 'active' : null }}">
