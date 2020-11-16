@@ -39,13 +39,13 @@
                     </div>
                     <div class="form-group">
                         <label>{{ __('User Access') }}</label>
-                        <select class="form-control" name="user_access_id">
+                        <select class="form-control" wire:model="user_access_id">
                             <option value="">{{__('--- User Access --- ')}} </option>
                             @foreach($access as $item)
                             <option value="{{$item->id}}">{{$item->name}}</option>
                             @endforeach
                         </select>
-                        @error('password')
+                        @error('user_access_id')
                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                         @enderror
                     </div>

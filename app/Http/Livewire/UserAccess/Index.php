@@ -15,4 +15,9 @@ class Index extends Component
     public function delete($id){
         UserAccess::find($id)->delete();
     }
+
+    public function autologin()
+    {
+        
+    }
 }

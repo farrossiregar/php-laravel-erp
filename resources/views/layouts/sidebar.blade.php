@@ -4,7 +4,7 @@
             <img src="{{ asset('assets/img/user.png') }}" class="rounded-circle user-photo" alt="User Profile Picture">
             <div class="dropdown">
                 <span>Welcome,</span>
-                <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>{{\Auth::user()->name}}</strong></a>
+                <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>{{ isset(\Auth::user()->name)?\Auth::user()->name :''}}</strong></a>
                 <ul class="dropdown-menu dropdown-menu-right account">
                     <li><a href="{{route('profile')}}"><i class="icon-user"></i>My Profile</a></li>
                     <li><a href=""><i class="icon-envelope-open"></i>Messages</a></li>
@@ -42,7 +42,16 @@
         <div class="tab-content p-l-0 p-r-0">
             <div class="tab-pane active" id="menu">
                 <nav id="left-sidebar-nav" class="sidebar-nav">
-                    <ul id="main-menu" class="metismenu">                            
+                    <ul id="main-menu" class="metismenu">    
+                        @if(\Auth::user()->user_access_id==3)<!--Sales and Business Development-->
+                        <li class="{{ Request::segment(1) === 'project' ? 'active' : null }}">
+                            <a href="{{route('project')}}"><i class="fa fa-database"></i> <span>Projects</span></a>
+                        </li>
+                        <li class="{{ Request::segment(1) === 'business-opportunity' ? 'active' : null }}">
+                            <a href="{{route('business-opportunity')}}"><i class="fa fa-star"></i> <span>Business Opportunity</span></a>
+                        </li>
+                        @endif                   
+                        @if(\Auth::user()->user_access_id==1)<!--Administrator-->                   
                         <li class="{{ Request::segment(1) === 'dashboard' ? 'active' : null }}">
                             <a href="#Dashboard" class="has-arrow"><i class="icon-home"></i> <span>Dashboard</span></a>
                             <ul>
@@ -84,6 +93,7 @@
                                 <li class="{{ Request::segment(2) === 'inbox' ? 'active' : null }}"><a href="{{route('app.inbox')}}">Projects</a></li>
                             </ul>
                         </li>
+                        @endif
                     </ul>
                 </nav>
             </div>

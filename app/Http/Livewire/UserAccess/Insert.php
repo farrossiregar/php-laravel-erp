@@ -19,7 +19,10 @@ class Insert extends Component
     public function save(){
         $this->validate();
 
-        UserAccess::insert(['name'=>$this->name,'description'=>$this->description]);
+        $access = new UserAccess();
+        $access->name = $this->name;
+        $access->description = $this->description;
+        $access->save();
 
         return redirect()->to('user-access');
     }

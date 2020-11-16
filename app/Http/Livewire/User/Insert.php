@@ -14,7 +14,7 @@ class Insert extends Component
     public $password;
     public $telepon;
     public $address;
-
+    public $user_access_id;
     public $message;
 
     protected $rules = [
@@ -33,8 +33,15 @@ class Insert extends Component
 
     public function save(){
         $this->validate();
-
-        User::insert(['name'=>$this->name,'email'=>$this->email,'password'=>Hash::make($this->password),'telepon'=>$this->telepon,'address'=>$this->address]);
+        
+        $data = new User();
+        $data->name = $this->name;
+        $data->email = $this->email;
+        $data->password = Hash::make($this->password);
+        $data->telepon = $this->telepon;
+        $data->address = $this->address;
+        $data->user_access_id = $this->user_access_id;
+        $data->save();
 
         return redirect()->to('users');
     }

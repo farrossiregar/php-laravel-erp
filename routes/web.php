@@ -24,6 +24,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('user-access/insert', App\Http\Livewire\UserAccess\Insert::class)->name('user-access.insert');
     Route::get('profile',App\Http\Livewire\Profile::class)->name('profile');
     Route::get('setting',App\Http\Livewire\Setting::class)->name('setting');
+    Route::get('project',\App\Http\Livewire\Project\Index::class)->name('project');
+    Route::get('business-opportunity',\App\Http\Livewire\Businesopportunity\Index::class)->name('business-opportunity');
 });
 
 /* Dashboard */

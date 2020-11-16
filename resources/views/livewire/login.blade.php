@@ -3,7 +3,8 @@
 	<div class="vertical-align-middle auth-main">
 		<div class="auth-box">
             <div class="top">
-                <img src="{{url('/')}}/assets/img/logo-white.svg" alt="Lucid">
+                {{-- <img src="{{url('/')}}/assets/img/logo-white.svg" alt="Lucid"> --}}
+                <img src="{{get_setting('logo')}}" alt="{{get_setting('company')}}">
             </div>
 			<div class="card">
                 <div class="header">

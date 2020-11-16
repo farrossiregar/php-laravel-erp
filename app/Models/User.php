@@ -58,4 +58,9 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function access()
+    {
+        return $this->hasOne('App\Models\UserAccess','id','user_access_id');
+    }
 }

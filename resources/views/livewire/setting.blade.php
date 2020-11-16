@@ -29,7 +29,7 @@
                                     @enderror
                                     <p>Upload your logo.
                                         <br> <em>Image should be at least 140px x 140px</em></p>
-                                    <button type="button" class="btn btn-default-dark" id="btn-upload-photo">Upload Logo</button>
+                                    <button type="button" class="btn btn-default-dark" id="btn-upload-photo">Select File</button>
                                     <input type="file" wire:model="logo" id="filePhoto" class="sr-only">
                                 </div>
                             </div>
@@ -39,100 +39,31 @@
 
                     <div class="body">
                         <h6>Basic Information</h6>
-                        <div class="row clearfix">
-                            <div class="col-lg-6 col-md-12">
-                                <div class="form-group">                                                
-                                    <input type="text" class="form-control" placeholder="Company" wire:model="company">
-                                </div>
-                                <div class="form-group">                                                
-                                    <input type="text" class="form-control" placeholder="Phone" wire:model="phone">
-                                </div>
-                                <div class="form-group">                                                
-                                    <input type="text" class="form-control" placeholder="Email" wire:model="email">
-                                </div>
-                                <div class="form-group">
-                                    <div>
-                                        <label class="fancy-radio">
-                                            <input name="gender2" value="male" type="radio" checked>
-                                            <span><i></i>Male</span>
-                                        </label>
-                                        <label class="fancy-radio">
-                                            <input name="gender2" value="female" type="radio">
-                                            <span><i></i>Female</span>
-                                        </label>
+                        <form  wire:submit.prevent="updateBasic">
+                            <div class="row clearfix">
+                                <div class="col-lg-6 col-md-12">
+                                    <div class="form-group">                                                
+                                        <input type="text" class="form-control" placeholder="Company" wire:model="company">
+                                    </div>
+                                    <div class="form-group">                                                
+                                        <input type="text" class="form-control" placeholder="Phone" wire:model="phone">
+                                    </div>
+                                    <div class="form-group">                                                
+                                        <input type="text" class="form-control" placeholder="Email" wire:model="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="http://" wire:model="website">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="icon-calendar"></i></span>
-                                        </div>
-                                        <input data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="Birthdate">
+                                <div class="col-lg-6 col-md-12">
+                                    <div class="form-group">    
+                                        <textarea class="form-control" wire:model="address" style="height:180px;" placeholder="Address"></textarea>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="http://">
-                                </div>
                             </div>
-                            <div class="col-lg-6 col-md-12">
-                                <div class="form-group">                                                
-                                    <input type="text" class="form-control" placeholder="Address Line 1">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Address Line 2">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="City">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="State/Province">
-                                </div>
-                                <div class="form-group">
-                                    <select class="form-control">
-                                        <option value="">-- Select Country --</option>
-                                      
-                                        
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-primary">Update</button> &nbsp;&nbsp;
-                        <button type="button" class="btn btn-default">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
                     </div>
-
-                    <div class="body">
-                        <div class="row clearfix">
-                            <div class="col-lg-6 col-md-12">
-                                <h6>Account Data</h6>
-                                <div class="form-group">                                                
-                                    <input type="text" class="form-control" value="alizeethomas" disabled placeholder="Username">
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" class="form-control" wire:model="email" placeholder="Email">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" wire:model="telepon" placeholder="Phone Number">
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6 col-md-12">
-                                <h6>Change Password</h6>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Current Password">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="New Password">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Confirm New Password">
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-primary">Update</button> &nbsp;&nbsp;
-                        <button class="btn btn-default">Cancel</button>
-                    </div>
-
-                  
                 </div>
 
                 <div class="tab-pane" id="billings">
