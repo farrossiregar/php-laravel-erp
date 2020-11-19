@@ -16,8 +16,8 @@ class UserAccess
      */
     public function handle(Request $request, Closure $next,$user_access_id)
     {
-        if (! $request->user()->user_access_id!= $user_access_id) {
-            return redirect()->to('login')->with('message-error','Access Denied!');
+        if ($request->user()->user_access_id != $user_access_id) {
+            return redirect()->to('/')->with('message-error','Access Denied!');
         }
         return $next($request);
     }

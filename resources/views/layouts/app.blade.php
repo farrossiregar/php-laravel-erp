@@ -30,27 +30,7 @@
         @endif
         @livewireStyles
     </head>
-    
-    <?php 
-        $setting = !empty($_GET['theme']) ? $_GET['theme'] : '';
-        $theme = "theme-cyan";
-        $menu = "";
-        if ($setting == 'p') {
-            $theme = "theme-purple";
-        } else if ($setting == 'b') {
-            $theme = "theme-blue";
-        } else if ($setting == 'g') {
-            $theme = "theme-green";
-        } else if ($setting == 'o') {
-            $theme = "theme-orange";
-        } else if ($setting == 'bl') {
-            $theme = "theme-blush";
-        } else {
-             $theme = "theme-cyan";
-        }
-    ?>
-
-    <body class="<?= $theme ?>">
+    <body class="theme-cyan">
 
         <!-- Page Loader -->
         <div class="page-loader-wrapper">
@@ -68,11 +48,25 @@
             <div id="main-content">
                 <div class="container-fluid">
                     <div class="block-header">
+                        @if(session()->has('message-success'))
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <i class="fa fa-check-circle"></i> {{session('message-success')}}
+                        </div>
+                        @endif
+
+                        @if(session()->has('message-error'))
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <i class="fa fa-times-circle"></i>  {{session('message-error')}}
+                        </div>
+                        @endif
+
                         <div class="row">
                             <div class="col-lg-5 col-md-8 col-sm-12">                        
                                 <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> @yield('title')</h2>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="{{route('dashboard.analytical')}}"><i class="icon-home"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="'/'"><i class="icon-home"></i></a></li>
                                     @if (trim($__env->yieldContent('parentPageTitle')))
                                        <li class="breadcrumb-item">@yield('parentPageTitle')</li>
                                     @endif
@@ -118,6 +112,11 @@
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
+        <script>
+            function confirm_delete(){
+                $("#confirm_delete").modal("show");
+            }
+        </script>
         @livewireScripts
     </body>
 </html>

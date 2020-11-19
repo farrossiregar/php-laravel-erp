@@ -1,5 +1,10 @@
 <?php
 
+function format_idr($number)
+{
+    return number_format($number,0,0,'.');
+}
+
 function get_setting($key)
 {
     $setting = \App\Models\Settings::where('key',$key)->first();

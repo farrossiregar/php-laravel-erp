@@ -1,5 +1,5 @@
-@section('title', 'All User')
-@section('parentPageTitle', 'Management User')
+@section('title', 'All Project / Business Opportunity')
+@section('parentPageTitle', 'Project / Business Opportunity')
 
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -9,15 +9,7 @@
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                 </div>
                 <div class="col-md-2">
-                    <select class="form-control" wire:model="user_access_id">
-                        <option value="">--- User Access ---</option>
-                        @foreach(\App\Models\UserAccess::all() as $i)
-                        <option value="{{$i->id}}">{{$i->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <a href="{{route('users.insert')}}" class="btn btn-outline-primary btn-sm"><i class="fa fa-plus"></i> Add User</a>
+                    <a href="{{route('project.insert')}}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Project / Business Opportunity</a>
                 </div>
             </div>
             <div class="body">
@@ -26,35 +18,33 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Name</th>                                    
-                                <th>Phone</th>                                    
-                                <th>Email</th>                                    
-                                <th>Address</th>
-                                <th>Access</th>
-                                <th>Action</th>
+                                <th>Customer</th>                                    
+                                <th>Background of Opportunity</th>                                    
+                                <th>Contract Value</th>                                    
+                                <th>Date Info</th>
+                                <th>Status</th>
+                                <th>RFI Docs,Bidding Info Docs, etc</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($data as $k => $item)
                             <tr>
                                 <td style="width: 50px;">{{$k+1}}</td>
-                                <td>{{$item->name}}</td>
-                                <td>
-                                    <span class="phone"><i class="zmdi zmdi-phone m-r-10"></i>{{$item->telepon}}</span>
-                                </td> 
-                                <td>
-                                    <span class="phone">{{$item->email}}</span>
-                                </td>                                   
-                                <td>{{$item->address}}</td>
-                                <td>{{isset($item->access->name)?$item->access->name:''}}</td>
-                                <td>                                            
-                                    <a href="#" class="text-danger" wire:click="delete({{$item->id}})"><i class="fa fa-trash-o"></i></a>
-                                </td>
+                                <td><a href="">{{isset($item->customer->name) ? $item->customer->name : ''}}</a></td>
+                                <td><a href="">{{$item->background_of_opportunity}}</a></td> 
+                                <td>{{format_idr($item->contract_value)}}</td>                                   
+                                <td>{{$item->date_receiving_info}}</td>
+                                <td>{{status_project($item->status)}}</td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+                <br />
+                {{$data->links()}}
             </div>
         </div>
     </div>

@@ -21,14 +21,15 @@ class Insert extends Component
         'name' => 'required|string',
         'email' => 'required|email|unique:users',
         'password' => 'required|string',
-        'telepon' => 'required'
+        'telepon' => 'required',
+        'user_access_id' => 'required',
     ];
 
     public function render()
     {
-        $params['access'] = UserAccess::all();
-
-        return view('livewire.user.insert')->with($params);
+        return view('livewire.user.insert')->with(
+            ['access'=>UserAccess::all()]
+        );
     }
 
     public function save(){
@@ -42,6 +43,8 @@ class Insert extends Component
         $data->address = $this->address;
         $data->user_access_id = $this->user_access_id;
         $data->save();
+
+        session()->flash('message-success',__('Data saved successfully'));
 
         return redirect()->to('users');
     }

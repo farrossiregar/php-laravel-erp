@@ -16,6 +16,20 @@
             </div>
             <hr>
             <ul class="row list-unstyled">
+                @if(\Auth::user()->user_access_id==3)<!--Sales and Business Development-->
+                <li class="col-4 text-center">
+                    <small>Opportunity</small>
+                    <h6>{{count_project_status(1)}}</h6>
+                </li>
+                <li class="col-4 text-center">
+                    <small>Successful</small>
+                    <h6>{{count_project_status(2)}}</h6>
+                </li>
+                <li class="col-4 text-center">
+                    <small>Unsuccessful</small>
+                    <h6>{{count_project_status(3)}}</h6>
+                </li>
+                @else
                 <li class="col-4">
                     <small>Sales</small>
                     <h6>456</h6>
@@ -28,6 +42,7 @@
                     <small>Revenue</small>
                     <h6>$2.13B</h6>
                 </li>
+                @endif
             </ul>
         </div>
         <!-- Nav tabs -->
@@ -47,23 +62,21 @@
                         <li class="{{ Request::segment(1) === 'project' ? 'active' : null }}">
                             <a href="{{route('project')}}"><i class="fa fa-database"></i> <span>Projects</span></a>
                         </li>
-                        <li class="{{ Request::segment(1) === 'business-opportunity' ? 'active' : null }}">
-                            <a href="{{route('business-opportunity')}}"><i class="fa fa-star"></i> <span>Business Opportunity</span></a>
+                        <li class="{{ Request::segment(1) === 'customer' ? 'active' : null }}">
+                            <a href="{{route('customer')}}"><i class="fa fa-user"></i> <span>Customer</span></a>
                         </li>
-                        @endif                   
+                        @endif
+                        @if(\Auth::user()->user_access_id==4)<!--Project Manager-->
+                        <li class="{{ Request::segment(1) === 'vendor' ? 'active' : null }}">
+                            <a href="{{route('vendor')}}"><i class="fa fa-database"></i> <span>Vendor</span></a>
+                        </li>
+                        @endif
+
                         @if(\Auth::user()->user_access_id==1)<!--Administrator-->                   
                         <li class="{{ Request::segment(1) === 'dashboard' ? 'active' : null }}">
                             <a href="#Dashboard" class="has-arrow"><i class="icon-home"></i> <span>Dashboard</span></a>
                             <ul>
-                                <li class="{{ Request::segment(2) === 'analytical' ? 'active' : null }}"><a href="{{route('dashboard.analytical')}}">Analytical</a></li>                                    
-                                <li class="{{ Request::segment(2) === 'demographic' ? 'active' : null }}"><a href="{{route('dashboard.demographic')}}">Demographic</a></li>
-                                <li class="{{ Request::segment(2) === 'hospital' ? 'active' : null }}"><a href="{{route('dashboard.hospital')}}">Hospital</a></li>
-                                <li class="{{ Request::segment(2) === 'university' ? 'active' : null }}"><a href="{{route('dashboard.university')}}">University</a></li>
-                                <li class="{{ Request::segment(2) === 'real-estate' ? 'active' : null }}"><a href="{{route('dashboard.real-estate')}}">Real Estate</a></li>
-                                <li class="{{ Request::segment(2) === 'project' ? 'active' : null }}"><a href="{{route('dashboard.project')}}">Project</a></li>
-                                <li class="{{ Request::segment(2) === 'bitcoin' ? 'active' : null }}"><a href="{{route('dashboard.bitcoin')}}">Bitcoin</a></li>
-                                <li class="{{ Request::segment(2) === 'ecommerce' ? 'active' : null }}"><a href="{{route('dashboard.ecommerce')}}">eCommerce</a></li>
-                                <li class="{{ Request::segment(2) === 'iot' ? 'active' : null }}"><a href="{{route('dashboard.iot')}}">IoT</a></li>
+                                <li class="{{ Request::segment(2) === 'analytical' ? 'active' : null }}"><a href="">Analytical</a></li>                                    
                             </ul>
                         </li>
                         <li class="{{ (Request::segment(1) === 'users' || Request::segment(1) === 'user-access') ? 'active' : null }}">
@@ -76,7 +89,7 @@
                         <li class="{{ Request::segment(1) === 'app' ? 'active' : null }}">
                             <a href="#App" class="has-arrow"><i class="icon-grid"></i> <span>Management Sales</span></a>
                             <ul>
-                                <li class="{{ Request::segment(2) === 'inbox' ? 'active' : null }}"><a href="{{route('app.inbox')}}">Sales</a></li>
+                                <li class="{{ Request::segment(2) === 'inbox' ? 'active' : null }}"><a href="">Sales</a></li>
                             </ul>
                         </li>
                         <li class="{{ Request::segment(1) === 'app' ? 'active' : null }}">
@@ -90,7 +103,7 @@
                         <li class="{{ Request::segment(1) === 'app' ? 'active' : null }}">
                             <a href="#App" class="has-arrow"><i class="icon-grid"></i> <span>Project Management</span></a>
                             <ul>
-                                <li class="{{ Request::segment(2) === 'inbox' ? 'active' : null }}"><a href="{{route('app.inbox')}}">Projects</a></li>
+                                <li class="{{ Request::segment(2) === 'inbox' ? 'active' : null }}"><a href="">Projects</a></li>
                             </ul>
                         </li>
                         @endif
