@@ -32,6 +32,9 @@ Route::group(['middleware' => ['auth','access:1']], function(){
     Route::get('users',App\Http\Livewire\User\Index::class)->name('users.index');
     Route::get('users/edit/{id}',App\Http\Livewire\User\Edit::class)->name('users.edit');
     Route::post('users/autologin/{id}',[App\Http\Livewire\User\Index::class,'autologin'])->name('users.autologin');
+    Route::get('module',App\Http\Livewire\Module\Index::class)->name('module.index');
+    Route::get('module/insert',App\Http\Livewire\Module\Insert::class)->name('module.insert');
+    Route::get('module/edit/{id}',App\Http\Livewire\Module\Edit::class)->name('module.edit');
 });
 
 // Sales and Business Development

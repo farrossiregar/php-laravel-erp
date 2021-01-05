@@ -22,6 +22,7 @@
         <!-- Custom Css -->
         <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/color_skins.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
 
         @stack('after-styles')
 
@@ -104,6 +105,7 @@
         <script src="{{ asset('assets/bundles/knob.bundle.js') }}"></script>
         <script src="{{ asset('assets/bundles/mainscripts.bundle.js') }}"></script>
         @stack('after-scripts')
+        @livewireScripts
         @if (trim($__env->yieldContent('page-script')))
             <script>
                 @yield('page-script')
@@ -117,6 +119,5 @@
                 $("#confirm_delete").modal("show");
             }
         </script>
-        @livewireScripts
     </body>
 </html>

@@ -12,6 +12,8 @@ class Setting extends Component
 
     public $logoUrl;
     public $logo;
+    public $faviconUrl;
+    public $favicon;
     public $message;
     public $company;
     public $email;
@@ -32,6 +34,7 @@ class Setting extends Component
         $this->website = get_setting('website');
         $this->address = get_setting('address');
         $this->logoUrl = get_setting('logo');
+        $this->faviconUrl = get_setting('favicon');
     }
     public function updateBasic()
     {
@@ -44,12 +47,27 @@ class Setting extends Component
 
     public function save()
     {
-        $this->validate([
-            'logo' => 'image:max:1024', // 1Mb Max
-        ]);
-        $name = 'logo.'.$this->logo->extension();
-        $this->logo->storePubliclyAs('public',$name);
+        if($this->logo!=""){
+            $this->validate([
+                'logo' => 'image:max:1024', // 1Mb Max
+            ]);
+            $name = 'logo'.date('Ymdhis').'.'.$this->logo->extension();
+            $this->logo->storePubliclyAs('public',$name);
+    
+            update_setting('logo',$name);
+        }
 
-        update_setting('logo',$name);
+        if($this->favicon!=""){
+            $this->validate([
+                'favicon' => 'max:1024', // 1Mb Max
+            ]);
+            $name = 'favicon'.date('YmdHis').'.'.$this->favicon->extension();
+            $this->favicon->storePubliclyAs('public',$name);
+
+            update_setting('favicon',$name);
+        }
+        session()->flash('message-success',__('Data saved successfully'));
+
+        return redirect()->to('setting');
     }
 }

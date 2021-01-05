@@ -11,14 +11,13 @@ function get_setting($key)
 
     if($setting)
     {
-        if($key=='logo'){
+        if($key=='logo' || $key=='favicon' ){
             return  asset("storage/{$setting->value}");
         }
 
         return $setting->value;
     }
 }
-
 function update_setting($key,$value)
 {
     $setting = \App\Models\Settings::where('key',$key)->first();

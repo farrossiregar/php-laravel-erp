@@ -86,6 +86,9 @@
                                 <li class="{{ Request::segment(2) === 'access' ? 'active' : null }}"><a href="{{route('user-access.index')}}">Access</a></li>
                             </ul>
                         </li>
+                        <li class="{{ Request::segment(1) === 'module' ? 'active' : null }}">
+                            <a href="{{route('module.index')}}"><i class="icon-list"></i> <span>Module</span></a>
+                        </li>
                         <li class="{{ Request::segment(1) === 'app' ? 'active' : null }}">
                             <a href="#App" class="has-arrow"><i class="icon-grid"></i> <span>Management Sales</span></a>
                             <ul>

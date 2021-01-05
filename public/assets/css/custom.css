@@ -1,0 +1,7 @@
+.table tr td,.table tr th{
+    padding-top:6px;
+    padding-bottom:6px;
+}
+.table-nowrap tr td{
+    white-space:unset !important;
+}
