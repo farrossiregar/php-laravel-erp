@@ -1,5 +1,5 @@
 @section('title', __('Insert'))
-@section('parentPageTitle', 'Module')
+@section('parentPageTitle', 'Menu')
 
 <div class="row clearfix">
     <div class="col-md-4">

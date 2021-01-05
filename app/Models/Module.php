@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Module extends Model
 {
     use HasFactory;
+
+    public function menu()
+    {
+        return $this->hasMany('\App\Models\ModulesItem','module_id','id')->where('type',1);
+    }
 }

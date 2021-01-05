@@ -1,5 +1,5 @@
 @section('title', $data->name)
-@section('parentPageTitle', 'Module')
+@section('parentPageTitle', 'Menu')
 
 <div class="row clearfix">
     <div class="col-md-4">
@@ -24,7 +24,7 @@
     <div class="col-md-8">
         <div class="card">
             <div class="header">
-                <h2>Menu / Function Name</h2>
+                <h2>Sub Menu</h2>
             </div>
             <div class="body pt-0">
                 <div class="table-responsive">

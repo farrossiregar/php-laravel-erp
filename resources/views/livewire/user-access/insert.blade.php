@@ -4,9 +4,6 @@
 <div class="row clearfix">
     <div class="col-md-6">
         <div class="card">
-            <div class="header">
-                <h2>{{ __('Insert User Access') }}</h2>
-            </div>
             <div class="body">
                 <form id="basic-form" method="post" wire:submit.prevent="save">
                     <div class="form-group">

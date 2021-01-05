@@ -52,7 +52,6 @@
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#setting"><i class="icon-settings"></i></a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#question"><i class="icon-question"></i></a></li>                
         </ul>
-            
         <!-- Tab panes -->
         <div class="tab-content p-l-0 p-r-0">
             <div class="tab-pane active" id="menu">
@@ -73,42 +72,24 @@
                         @endif
 
                         @if(\Auth::user()->user_access_id==1)<!--Administrator-->                   
-                        <li class="{{ Request::segment(1) === 'dashboard' ? 'active' : null }}">
-                            <a href="#Dashboard" class="has-arrow"><i class="icon-home"></i> <span>Dashboard</span></a>
-                            <ul>
-                                <li class="{{ Request::segment(2) === 'analytical' ? 'active' : null }}"><a href="">Analytical</a></li>                                    
-                            </ul>
-                        </li>
-                        <li class="{{ (Request::segment(1) === 'users' || Request::segment(1) === 'user-access') ? 'active' : null }}">
-                            <a href="#App" class="has-arrow"><i class="icon-grid"></i> <span>Management User</span></a>
-                            <ul>
-                                <li class="{{ (Request::segment(2) === 'insert' || Request::segment(2) === 'index') ? 'active' : null }}"><a href="{{route('users.index')}}">Users</a></li>
-                                <li class="{{ Request::segment(2) === 'access' ? 'active' : null }}"><a href="{{route('user-access.index')}}">Access</a></li>
-                            </ul>
-                        </li>
-                        <li class="{{ Request::segment(1) === 'module' ? 'active' : null }}">
-                            <a href="{{route('module.index')}}"><i class="icon-list"></i> <span>Module</span></a>
-                        </li>
-                        <li class="{{ Request::segment(1) === 'app' ? 'active' : null }}">
-                            <a href="#App" class="has-arrow"><i class="icon-grid"></i> <span>Management Sales</span></a>
-                            <ul>
-                                <li class="{{ Request::segment(2) === 'inbox' ? 'active' : null }}"><a href="">Sales</a></li>
-                            </ul>
-                        </li>
-                        <li class="{{ Request::segment(1) === 'app' ? 'active' : null }}">
-                            <a href="#App" class="has-arrow"><i class="icon-grid"></i> <span>Finance</span></a>
-                            <ul>
-                                <li class="{{ Request::segment(2) === 'inbox' ? 'active' : null }}"><a href="">Finance</a></li>
-                                <li class="{{ Request::segment(2) === 'inbox' ? 'active' : null }}"><a href="">Invoice</a></li>
-                                <li class="{{ Request::segment(2) === 'inbox' ? 'active' : null }}"><a href="">Accounting</a></li>
-                            </ul>
-                        </li>
-                        <li class="{{ Request::segment(1) === 'app' ? 'active' : null }}">
-                            <a href="#App" class="has-arrow"><i class="icon-grid"></i> <span>Project Management</span></a>
-                            <ul>
-                                <li class="{{ Request::segment(2) === 'inbox' ? 'active' : null }}"><a href="">Projects</a></li>
-                            </ul>
-                        </li>
+                            <li class="{{ Request::segment(1) === 'dashboard' ? 'active' : null }}">
+                                <a href="#Dashboard" class="has-arrow"><i class="icon-home"></i> <span>Dashboard</span></a>
+                                <ul>
+                                    <li class="{{ Request::segment(2) === 'analytical' ? 'active' : null }}"><a href="">Analytical</a></li>                                    
+                                </ul>
+                            </li>
+                            @foreach(get_menu(\Auth::user()->user_access_id) as $menu)
+                            <li class="{{ (in_array(Request::segment(1),$menu['prefix_all'])) ? 'active' : null }}">
+                                <a href="#App" class="has-arrow"><i class="icon-grid"></i> <span>{{ $menu['name'] }}</span></a>
+                                @if(isset($menu['sub_menu']))
+                                <ul>
+                                    @foreach($menu['sub_menu'] as $k =>$sub_menu)
+                                    <li class="{{ (Request::segment(2) === $sub_menu['prefix_link']) ? 'active' : null }}"><a href="{{route($sub_menu['link'])}}">{{ $sub_menu['name'] }}</a></li>
+                                    @endforeach
+                                </ul>
+                                @endif
+                            </li>
+                            @endforeach
                         @endif
                     </ul>
                 </nav>

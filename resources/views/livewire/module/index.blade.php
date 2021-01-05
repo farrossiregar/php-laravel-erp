@@ -1,5 +1,5 @@
-@section('title', 'Module')
-@section('parentPageTitle', 'Management Module')
+@section('title', 'Menu')
+@section('parentPageTitle', 'Management Menu')
 
 <div class="row clearfix">
     <div class="col-lg-6">
@@ -9,7 +9,7 @@
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                 </div>
                 <div class="col-md-3">
-                    <a href="{{route('module.insert')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Module</a>
+                    <a href="{{route('module.insert')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Menu</a>
                 </div>
             </div>
             <div class="body pt-0">
