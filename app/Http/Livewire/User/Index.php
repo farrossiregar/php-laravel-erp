@@ -25,8 +25,7 @@ class Index extends Component
 
         if($this->keyword) $data = $data->where('name','LIKE', '%'.$this->keyword.'%')
                                         ->orWhere('email','LIKE', '%'.$this->keyword.'%')
-                                        ->orWhere('telepon','LIKE', '%'.$this->keyword.'%');
-                                        
+                                        ->orWhere('telepon','LIKE', '%'.$this->keyword.'%');                
         if($this->user_access_id) $data = $data->where('user_access_id',$this->user_access_id);
 
         $module_item_id = '51';
@@ -34,18 +33,13 @@ class Index extends Component
         $access = UserAccessModule::where('user_access_id', Auth::user()->user_access_id)
                                     ->where('module_id', $module_item_id)
                                     ->get();
-
-        // dd(json_decode($access));                                    
-        if(count($access) > 0){
-            return view('livewire.user.index')
-                ->layout('layouts.app')
-                ->with(['data'=>$data->paginate(100)]);
-        }else{
-            // return view('livewire.home');
-            // return redirect()->route('home');
-            
-            $this->redirect()->route('home');
+        if(count($access) == 0){
+            session()->flash('message-error','Access denied.');
+            $this->redirect('/');
         }
+        return view('livewire.user.index')
+            ->layout('layouts.app')
+            ->with(['data'=>$data->paginate(100)]);
     }
 
    
