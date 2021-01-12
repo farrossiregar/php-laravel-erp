@@ -6,7 +6,7 @@ use Livewire\Component;
 
 class Form extends Component
 {
-    public $item_name;
+    public $item_name,$prefix_link;
     public $item_link;
     public $type;
     public $data;
@@ -26,7 +26,8 @@ class Form extends Component
         $valid = [
             'item_name'=>'required',
             'item_link'=>'required',
-            'type'=>'required'
+            'type'=>'required',
+            'prefix_link'=>'required'
         ];
         $valid_msg = [];
         if($this->type=='1'){ 
@@ -43,12 +44,13 @@ class Form extends Component
         $data->link = $this->item_link;
         $data->type = 1;
         $data->icon = $this->icon;
+        $data->prefix_link = $this->prefix_link;
         $data->status = 1;
         $data->save();
 
         session()->flash('message-success',__('Data saved successfully'));
         
         $this->emitTo('module.edit','toggleModal');
-        $this->reset('item_name','item_link','type','icon');
+        $this->reset('item_name','item_link','type','icon','prefix_link');
     }
 }

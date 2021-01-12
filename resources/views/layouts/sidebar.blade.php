@@ -1,7 +1,11 @@
 <div id="left-sidebar" class="sidebar">
     <div class="sidebar-scroll">
         <div class="user-account">
-            <img src="{{ asset('assets/img/user.png') }}" class="rounded-circle user-photo" alt="User Profile Picture">
+            @if(\Auth::user()->profile_photo_path!="")
+            <img src="{{ \Auth::user()->profile_photo_path }}" class="rounded-circle user-photo" alt="{{\Auth::user()->name}}">
+            @else
+            <img src="{{ asset('assets/img/user.png') }}" class="rounded-circle user-photo" alt="{{\Auth::user()->name}}">
+            @endif
             <div class="dropdown">
                 <span>Welcome,</span>
                 <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>{{ isset(\Auth::user()->name)?\Auth::user()->name :''}}</strong></a>
@@ -83,7 +87,7 @@
                             @if(isset($menu['sub_menu']))
                             <ul>
                                 @foreach($menu['sub_menu'] as $k =>$sub_menu)
-                                <li class="{{ (Request::segment(2) === $sub_menu['prefix_link']) ? 'active' : null }}"><a href="{{route($sub_menu['link'])}}">{{ $sub_menu['name'] }}</a></li>
+                                <li class="{{ (Request::segment(2) === $sub_menu['prefix_link'] || Request::segment(1) === $sub_menu['prefix_link']) ? 'active' : null }}"><a href="{{route($sub_menu['link'])}}">{{ $sub_menu['name'] }}</a></li>
                                 @endforeach
                             </ul>
                             @endif

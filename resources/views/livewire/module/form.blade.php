@@ -35,6 +35,13 @@
             @enderror
         </div>
         <div class="form-group">
+            <label>Prefix Link</label>
+            <input type="text" class="form-control" wire:model="prefix_link" />
+            @error('prefix_link')
+            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+            @enderror
+        </div>
+        <div class="form-group">
             <label>Icon <span>icon-start, icon-settings, etc<span></label>
             <input type="text" class="form-control" wire:model="icon" />
             @error('icon')
@@ -43,7 +50,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">No</button>
-        <button type="submit" class="btn btn-info close-modal"><i class="fa fa-save"></i> Save</button>
+        <button type="button" class="btn btn-danger close-btn btn-sm" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+        <button type="submit" class="btn btn-info close-modal btn-sm"><i class="fa fa-save"></i> Save</button>
     </div>
 </form>

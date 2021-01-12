@@ -31,7 +31,7 @@
         @endif
         @livewireStyles
     </head>
-    <body class="theme-cyan">
+    <body class="theme-blue">
 
         <!-- Page Loader -->
         <div class="page-loader-wrapper">

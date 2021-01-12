@@ -21,7 +21,7 @@
                                     <div class="media photo">
                                         <div class="media-left m-r-15">
                                             @if($logoUrl)
-                                            <img src="{{$logoUrl}}" class="user-photo media-object" style="height:50px;" alt="User">
+                                            <img src="{{$logoUrl}}" class="user-photo media-object" style="width:100%;" alt="User">
                                             @endif
                                         </div>
                                         <div class="media-body">

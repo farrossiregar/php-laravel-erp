@@ -30,7 +30,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">No</button>
-        <button type="submit" class="btn btn-info close-modal"><i class="fa fa-save"></i> Save</button>
+        <button type="button" class="btn btn-danger close-btn btn-sm" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+        <button type="submit" class="btn btn-info close-modal btn-sm"><i class="fa fa-save"></i> Save</button>
     </div>
 </form>

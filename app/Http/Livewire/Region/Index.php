@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Livewire\Project;
+namespace App\Http\Livewire\Region;
 
 use Livewire\Component;
-use App\Models\Project;
 use Livewire\WithPagination;
 
 class Index extends Component
@@ -13,9 +12,9 @@ class Index extends Component
     public $keyword;
     public function render()
     {
-        $data = Project::select('projects.*')->orderBy('id','DESC');
+        $data = \App\Models\Region::orderBy('id','DESC');
 
-        return view('livewire.project.index')
+        return view('livewire.region.index')
                     ->with(['data'=>$data->paginate(100)]);
     }
 }

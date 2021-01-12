@@ -41,6 +41,9 @@ class Edit extends Component
     public function deleteItem($id)
     {
         \App\Models\ModulesItem::find($id)->delete();
+        $user_access = \App\Models\UserAccessModule::where('module_id')->first();
+        if($user_access) $user_access->delete();
+        
         $this->items = $this->items->fresh();
         $this->items = \App\Models\ModulesItem::where('module_id',$this->data->id)->get();
     }
