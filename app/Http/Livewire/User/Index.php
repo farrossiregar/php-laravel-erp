@@ -5,7 +5,10 @@ namespace App\Http\Livewire\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
+use App\Models\UserAccessModule;
+use App\Http\Livewire\Home;
 
+use Auth;
 class Index extends Component
 {
     public $keyword;
@@ -26,10 +29,26 @@ class Index extends Component
                                         
         if($this->user_access_id) $data = $data->where('user_access_id',$this->user_access_id);
 
-        return view('livewire.user.index')
+        $module_item_id = '51';
+
+        $access = UserAccessModule::where('user_access_id', Auth::user()->user_access_id)
+                                    ->where('module_id', $module_item_id)
+                                    ->get();
+
+        // dd(json_decode($access));                                    
+        if(count($access) > 0){
+            return view('livewire.user.index')
                 ->layout('layouts.app')
                 ->with(['data'=>$data->paginate(100)]);
+        }else{
+            // return view('livewire.home');
+            // return redirect()->route('home');
+            
+            $this->redirect()->route('home');
+        }
     }
+
+   
 
     public function setActiveId($id)
     {
