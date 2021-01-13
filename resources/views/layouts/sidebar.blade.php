@@ -74,7 +74,6 @@
                             <a href="{{route('vendor')}}"><i class="fa fa-database"></i> <span>Vendor</span></a>
                         </li>
                         @endif
-             
                         <li class="{{ Request::segment(1) === 'dashboard' ? 'active' : null }}">
                             <a href="#Dashboard" class="has-arrow"><i class="icon-home"></i> <span>Dashboard</span></a>
                             <ul>

@@ -20,7 +20,7 @@
                                 <th>No</th>
                                 <th>Name</th>
                                 <th>Updated</th>
-                                <th></th>
+                                {{-- <th></th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -29,7 +29,7 @@
                                 <td style="width: 50px;">{{$k+1}}</td>
                                 <td><a href="{{route('module.edit',['id'=>$item->id])}}">{{$item->name}}</a></td>
                                 <td>{{$item->updated_at}}</td>
-                                <td><a href="#" class="text-danger" wire:click="delete({{$item->id}})" title="Delete"><i class="fa fa-trash-o"></i></a></td>
+                                {{-- <td><a href="#" class="text-danger" wire:click="delete({{$item->id}})" title="Delete"><i class="fa fa-trash-o"></i></a></td> --}}
                             </tr>
                             @endforeach
                         </tbody>
