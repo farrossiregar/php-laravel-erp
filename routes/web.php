@@ -40,4 +40,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('budget/index',App\Http\Livewire\Budget\Index::class)->name('budget.index');
     Route::get('region/index',App\Http\Livewire\Region\Index::class)->name('region.index');
     Route::get('region/insert',App\Http\Livewire\Region\Insert::class)->name('region.insert');
+    Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
+    Route::get('employee/insert',App\Http\Livewire\Employee\Insert::class)->name('employee.insert');
+    Route::get('department',App\Http\Livewire\Department\Index::class)->name('department.index');
+    Route::get('department/insert',App\Http\Livewire\Department\Index::class)->name('department.insert');
+    Route::get('department/edit/{id}',App\Http\Livewire\Department\Index::class)->name('department.edit');
 });

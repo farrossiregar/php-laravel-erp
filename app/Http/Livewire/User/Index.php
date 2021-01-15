@@ -7,7 +7,6 @@ use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\UserAccessModule;
 use App\Http\Livewire\Home;
-
 use Auth;
 class Index extends Component
 {
