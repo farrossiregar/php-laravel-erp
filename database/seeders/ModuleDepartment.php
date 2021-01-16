@@ -85,8 +85,8 @@ class ModuleDepartment extends Seeder
                     ],
                     [
                         'module_id'      => $module->id,
-                        'name' => 'Update Sub Department',
-                        'link' => 'department.update-sub-department',
+                        'name' => 'Edit Sub Department',
+                        'link' => 'department.edit-sub-department',
                         'status' => 1,
                         'type' => 2,
                         'parent_id'=>$menu->id,

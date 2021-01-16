@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class DepartmentSub extends Model
 {
     use HasFactory;
+
+    public function department()
+    {
+        return $this->belongsTo(\App\Models\Department::class);
+    }
 }
