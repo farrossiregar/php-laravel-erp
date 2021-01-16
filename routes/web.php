@@ -43,11 +43,13 @@ Route::group(['middleware' => ['auth']], function(){
 
 
     Route::get('cluster',App\Http\Livewire\Cluster\Index::class)->name('cluster.index');
-    Route::get('cluster/edit',App\Http\Livewire\Cluster\Edit::class)->name('cluster.edit');
+    Route::get('cluster/edit/{id}',App\Http\Livewire\Cluster\Edit::class)->name('cluster.edit');
+    Route::get('cluster/delete/{id}',App\Http\Livewire\Cluster\Delete::class)->name('cluster.delete');
     Route::get('cluster/insert',App\Http\Livewire\Cluster\Insert::class)->name('cluster.insert');
 
     Route::get('company',App\Http\Livewire\Company\Index::class)->name('company.index');
-    Route::get('company/edit',App\Http\Livewire\Company\Edit::class)->name('company.edit');
+    Route::get('company/edit/{id}',App\Http\Livewire\Company\Edit::class)->name('company.edit');
+    Route::get('company/delete/{id}',App\Http\Livewire\Company\Delete::class)->name('company.delete');
     Route::get('company/insert',App\Http\Livewire\Company\Insert::class)->name('company.insert');
 
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');

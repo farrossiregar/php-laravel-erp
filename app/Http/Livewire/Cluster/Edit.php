@@ -4,51 +4,42 @@ namespace App\Http\Livewire\Cluster;
 
 use Livewire\Component;
 use App\Models\Cluster;
+use App\Helpers\GeneralHelper;
 
 class Edit extends Component
 {
     public $data;
-    public $pic;
+    public $region_id;
     public $name;
-    public $email;
-    public $phone;
-    public $address;
-    public $fax;
     public $message;
 
     protected $rules = [
-        'pic' => 'required|string',
+        'region_id' => 'required|string',
         'name' => 'required|string',
-        'email' => 'required|email|unique:users',
-        'phone' => 'required',
-        'address' => 'required',
     ];
 
     public function render()
     {
+        if(check_access_controller('cluster.edit') == false){
+            session()->flash('message-error','Access denied.');
+            $this->redirect('/');
+        }
         return view('livewire.cluster.edit')->with(['data'=>$this->data]);
     }
 
     public function mount($id)
     {
-        $this->data = Vendor::find($id);
-        $this->pic = $this->data->pic;
-        $this->name = $this->data->name;
-        $this->email = $this->data->email;
-        $this->phone = $this->data->phone;
-        $this->address = $this->data->address;
-        $this->fax = $this->data->fax;
+        $this->data         = Cluster::find($id);
+        
+        $this->name         = $this->data->name;
+        $this->region_id    = $this->data->region_id;
     }
 
     public function save(){
         $this->validate();
         
-        $this->data->pic = $this->pic;
         $this->data->name = $this->name;
-        $this->data->email = $this->email;
-        $this->data->phone = $this->phone;
-        $this->data->fax = $this->fax;
-        $this->data->address = $this->address;
+        $this->data->region_id = $this->region_id;
         $this->data->save();
 
         session()->flash('message-success',__('Data saved successfully'));

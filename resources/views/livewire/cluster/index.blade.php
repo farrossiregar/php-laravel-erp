@@ -19,7 +19,7 @@
                             <tr>
                                 <th>No</th>                               
                                 <th>Name Region</th>          
-                                <th></th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -27,7 +27,7 @@
                             <tr>
                                 <td style="width: 50px;">{{$k+1}}</td>
                                 <td><a href="{{route('cluster.edit',['id'=>$item->id])}}">{{$item->name}}</a></td>
-                                <td></td>
+                                <td><a href="{{ route('cluster.delete', $item->id) }}" class="btn btn-danger">Delete</a></td>
                             </tr>
                             @endforeach
                         </tbody>
