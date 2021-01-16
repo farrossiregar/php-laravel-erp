@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\UserAccessModule;
+use App\Helpers\GeneralHelper;
 use App\Http\Livewire\Home;
 use Auth;
 class Index extends Component
@@ -20,28 +21,34 @@ class Index extends Component
 
     public function render()
     {
-        $data = User::orderBy('id','desc');
+        // $data = User::orderBy('id','desc');
 
         if($this->keyword) $data = $data->where('name','LIKE', '%'.$this->keyword.'%')
                                         ->orWhere('email','LIKE', '%'.$this->keyword.'%')
-                                        ->orWhere('telepon','LIKE', '%'.$this->keyword.'%');                
+                                        ->orWhere('telepon','LIKE', '%'.$this->keyword.'%');
         if($this->user_access_id) $data = $data->where('user_access_id',$this->user_access_id);
 
-        $module_item_id = '51';
+        // $module_item_id = '51';
 
-        $access = UserAccessModule::where('user_access_id', Auth::user()->user_access_id)
-                                    ->where('module_id', $module_item_id)
-                                    ->get();
-        if(count($access) == 0){
+        // $access = UserAccessModule::where('user_access_id', Auth::user()->user_access_id)
+        //                             ->where('module_id', $module_item_id)
+        //                             ->get();
+        // if(count($access) == 0){
+        //     session()->flash('message-error','Access denied.');
+        //     $this->redirect('/');
+        // }
+
+        if(check_access_controller('users.index') == false){
             session()->flash('message-error','Access denied.');
             $this->redirect('/');
         }
+        
         return view('livewire.user.index')
             ->layout('layouts.app')
             ->with(['data'=>$data->paginate(100)]);
     }
 
-   
+
 
     public function setActiveId($id)
     {

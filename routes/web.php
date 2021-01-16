@@ -40,9 +40,22 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('budget/index',App\Http\Livewire\Budget\Index::class)->name('budget.index');
     Route::get('region/index',App\Http\Livewire\Region\Index::class)->name('region.index');
     Route::get('region/insert',App\Http\Livewire\Region\Insert::class)->name('region.insert');
+
+
+    Route::get('cluster',App\Http\Livewire\Cluster\Index::class)->name('cluster.index');
+    Route::get('cluster/edit/{id}',App\Http\Livewire\Cluster\Edit::class)->name('cluster.edit');
+    Route::get('cluster/delete/{id}',App\Http\Livewire\Cluster\Delete::class)->name('cluster.delete');
+    Route::get('cluster/insert',App\Http\Livewire\Cluster\Insert::class)->name('cluster.insert');
+
+    Route::get('company',App\Http\Livewire\Company\Index::class)->name('company.index');
+    Route::get('company/edit/{id}',App\Http\Livewire\Company\Edit::class)->name('company.edit');
+    Route::get('company/delete/{id}',App\Http\Livewire\Company\Delete::class)->name('company.delete');
+    Route::get('company/insert',App\Http\Livewire\Company\Insert::class)->name('company.insert');
+
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
     Route::get('employee/insert',App\Http\Livewire\Employee\Insert::class)->name('employee.insert');
     Route::get('department',App\Http\Livewire\Department\Index::class)->name('department.index');
     Route::get('department/insert',App\Http\Livewire\Department\Index::class)->name('department.insert');
     Route::get('department/edit/{id}',App\Http\Livewire\Department\Index::class)->name('department.edit');
+
 });
