@@ -29,9 +29,10 @@
     </div>
     <div class="col-md-6">
         <div class="card">
-            <div class="header">
+            <div class="header mb-0 pb-0">
                 <h2>{{ __('Menu') }}</h2>
             </div>
+            <hr />
             <div class="body pt-0">
                 <table class="table table-hover">
                     @foreach(\App\Models\Module::all() as $key_module => $module)
