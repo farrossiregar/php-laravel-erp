@@ -27,7 +27,5 @@ class Edit extends Component
         $this->data->save();
         $this->emit('emitEditHide');
         $this->reset();
-        // session()->flash('message-success',__('Data saved successfully'));
-        // return redirect()->to('department');
     }
 }

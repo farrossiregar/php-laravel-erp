@@ -85,14 +85,6 @@
 </div>
 @endif
 
-@if(check_access('department.edit-sub-department'))
-<div class="modal fade" id="modal_edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <livewire:department.edit-sub-department />
-    </div>
-</div>
-@endif
-
 @if(check_access('department.insert-sub-department'))
 <div class="modal fade" id="modal_insert_sub" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -108,8 +100,10 @@
     </div>
 </div>
 @endif
-
 @section('page-script')
+Livewire.on('emitEditSubDepartmentHide', ()=>{
+    $("#modal_edit_sub").modal('hide');
+});
 Livewire.on('emitEditHide', () => {
     $("#modal_edit").modal('hide');
 })

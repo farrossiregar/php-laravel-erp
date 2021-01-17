@@ -10,7 +10,7 @@ class Index extends Component
     public $data;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['emitEditHide'=>'$refresh'];
+    protected $listeners = ['emitEditHide'=>'$refresh','emitEditSubDepartmentHide'=>'$refresh'];
     public function render()
     {
         return view('livewire.department.index');

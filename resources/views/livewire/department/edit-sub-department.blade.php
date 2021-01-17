@@ -8,6 +8,14 @@
         </div>
         <div class="modal-body">
             <div class="form-group">
+                <select class="form-control" wire:model="department_id">
+                    <option value=""> --- Department --- </option>
+                    @foreach(\App\Models\Department::orderBy('name','ASC')->get() as $i)
+                    <option value="{{$i->id}}">{{$i->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
                 <input type="text" class="form-control" wire:model="name" placeholder="Sub Department" />
             </div>
         </div>
