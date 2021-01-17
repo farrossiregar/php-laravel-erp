@@ -27,13 +27,13 @@
                         <tbody>
                             @foreach($data as $k => $item)
                             <tr>
-                                <td>
+                                <th>
                                     @if(check_access('department.edit'))
                                         <a href="javascript:;" wire:click="$emit('emit-edit',{{$item->id}})" data-toggle="modal" data-target="#modal_edit">{{$item->name}}</a>
                                     @else
                                         {{$item->name}}
                                     @endif
-                                </td>
+                                </th>
                                 <td class="text-center">{{\App\Models\Employee::where('department_id',$item->id)->count()}}</td>
                                 <td>
                                     @if(check_access('department.insert-sub-department'))
