@@ -15,7 +15,7 @@ class UpdateRegioncluster extends Migration
     {
         Schema::connection('epl_pmt')->table('region_cluster', function($table)
         {
-            $table->timestamps();
+            $table->dateTime('updated_at')->nullable();
         });
     }
 
