@@ -10,6 +10,7 @@ use App\Helpers\GeneralHelper;
 class Index extends Component
 {
     public $keyword;
+    public $clusterdel;
 
     use WithPagination;
 

@@ -4,10 +4,11 @@ namespace App\Http\Livewire\Company;
 
 use Livewire\Component;
 use App\Models\Company;
-use App\Helpers\GeneralHelper;
+use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
+    use WithFileUploads;
     public $data;
     public $name;
     public $telepon;
@@ -54,7 +55,12 @@ class Edit extends Component
         $this->data->name = $this->name;
         $this->data->telepon = $this->telepon;
         $this->data->address = $this->address;
-        $this->data->logo = $this->logo;
+        if($this->logo!=""){
+            $logo = 'logo'.date('Ymdhis').'.'.$this->logo->extension();
+            $this->logo->storePubliclyAs('public/logo/'.$data->name,$logo);
+            $data->logo = $logo;
+        }
+        // $this->data->logo = $this->logo;
         $this->data->code = $this->code;
         $this->data->website = $this->website;
         $this->data->save();

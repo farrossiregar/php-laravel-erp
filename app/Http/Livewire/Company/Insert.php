@@ -4,10 +4,11 @@ namespace App\Http\Livewire\Company;
 
 use Livewire\Component;
 use App\Models\Company;
+use Livewire\WithFileUploads;
 
 class Insert extends Component
 {
-    
+    use WithFileUploads;
     public $name;
     public $telepon;
     public $address;
@@ -37,7 +38,12 @@ class Insert extends Component
         $data->name = $this->name;
         $data->telepon = $this->telepon;
         $data->address = $this->address;
-        $data->logo = $this->logo;
+        if($this->logo!=""){
+            $logo = 'logo'.date('Ymdhis').'.'.$this->logo->extension();
+            $this->logo->storePubliclyAs('public/logo/'.$data->name,$logo);
+            $data->logo = $logo;
+        }
+        // $data->logo = $this->logo;
         $data->code = $this->code;
         $data->website = $this->website;
         $data->save();
