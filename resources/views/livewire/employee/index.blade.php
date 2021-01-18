@@ -8,7 +8,7 @@
                 <div class="col-md-2">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 px-0">
                     <select class="form-control" wire:model="user_access_id">
                         <option value="">--- User Access ---</option>
                         @foreach(\App\Models\UserAccess::all() as $i)
@@ -16,20 +16,34 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="col-md-2 pr-0">
+                    <select class="form-control" wire:model="department_sub_id">
+                        <option value="">{{__('--- Department --- ')}} </option>
+                        @foreach(\App\Models\Department::orderBy('name','ASC')->get() as $item)
+                        <optgroup label="{{$item->name}}">
+                            @foreach(\App\Models\DepartmentSub::where('department_id',$item->id)->get() as $sub)
+                            <option value="{{$sub->id}}">{{$sub->name}}</option>
+                            @endforeach
+                        </optgroup>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="col-md-1">
                     <a href="{{route('employee.insert')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Employee</a>
                 </div>
             </div>
-            <div class="body">
+            <div class="body pt-0">
                 <div class="table-responsive">
                     <table class="table table-striped m-b-0 c_list">
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>NIK</th>                                    
                                 <th>Name</th>                                    
                                 <th>Phone</th>                                    
                                 <th>Email</th>                                    
                                 <th>Address</th>
+                                <th>Department</th>
                                 <th>Access</th>
                                 <th>Updated</th>
                                 <th></th>
@@ -39,15 +53,19 @@
                             @foreach($data as $k => $item)
                             <tr>
                                 <td style="width: 50px;">{{$k+1}}</td>
+                                <td><a href="{{route('users.edit',['id'=>$item->id])}}">{{$item->nik}}</a></td>
                                 <td><a href="{{route('users.edit',['id'=>$item->id])}}">{{$item->name}}</a></td>
                                 <td>{{$item->telepon}}</td> 
                                 <td>{{$item->email}}</td>                                   
                                 <td>{{$item->address}}</td>
+                                <td>{{isset($item->department->name)?$item->department->name:''}}</td>
                                 <td>{{isset($item->access->name)?$item->access->name:''}}</td>
                                 <td>{{$item->updated_at}}</td>
                                 <td>  
                                     <a href="#" class="text-success pr-2" onclick="autologin('{{ route('users.autologin',['id'=>$item->id]) }}','{{$item->name}}')" title="Autologin"><i class="fa fa-sign-in"></i></a>
-                                    <a href="#" class="text-danger" wire:click="delete({{$item->id}})" title="Delete"><i class="fa fa-trash-o"></i></a>
+                                    @if(check_access('employee.delete'))
+                                    <a href="#" class="text-danger" wire:click="$emit('emit-delete',{{$item->id}})" data-toggle="modal" data-target="#modal_delete" title="Delete"><i class="fa fa-trash-o"></i></a>
+                                    @endif
                                     {{-- <a href="#" class="text-danger" data-toggle="modal" data-target="#confirm_delete" wire:click="setActiveId({{$item->id}})" title="Delete"><i class="fa fa-trash-o"></i></a> --}}
                                 </td>
                             </tr>
@@ -61,6 +79,14 @@
         </div>
     </div>
 </div>
+@if(check_access('employee.delete'))
+<div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <livewire:employee.delete />
+    </div>
+</div>
+@endif
+
 
 <div class="modal fade" id="modal_autologin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -105,7 +131,11 @@
         </div>
     </div>
 </div>
+
 @section('page-script')
+Livewire.on('emit-delete-hide',()=>{
+    $("#modal_delete").modal('hide');
+});
 function autologin(action,name){
     $("#modal_autologin form").attr("action",action);
     $("#modal_autologin .modal-body").html('<p>Autologin as '+name+' ?</p>');

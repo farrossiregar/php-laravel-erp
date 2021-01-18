@@ -128,7 +128,7 @@
                                         <option>{{$i}}</option>
                                         @endforeach
                                     </select>
-                                    @error('marital_status')
+                                    @error('blood_type')
                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                     @enderror
                                 </div>
@@ -192,3 +192,11 @@
         </div>
     </div>
 </div>
+@section('page-script')
+$('#btn-upload-photo').on('click', function() {
+    $(this).siblings('#filePhoto').trigger('click');
+});
+$('#btn-upload-foto_ktp').on('click', function() {
+    $(this).siblings('#foto_ktp').trigger('click');
+});
+@endsection

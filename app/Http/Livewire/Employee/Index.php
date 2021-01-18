@@ -9,6 +9,7 @@ class Index extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
+    protected $listeners = ['emit-delete-hide' => '$refresh'];
     public function render()
     {
         $data = \App\Models\Employee::orderBy('id','DESC');
