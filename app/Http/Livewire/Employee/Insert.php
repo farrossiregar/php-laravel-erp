@@ -21,6 +21,13 @@ class Insert extends Component
                 'foto' => 'image|max:1024'
             ]);
     }
+    public function updatedFoto_ktp()
+    {
+        $this->validate(
+            [
+                'foto_ktp' => 'image|max:1024'
+            ]);
+    }
     public function save()
     {   
         $this->validate([
@@ -70,12 +77,12 @@ class Insert extends Component
         $employee->user_id = $user->id;
         if($this->foto!=""){
             $foto = 'foto'.date('Ymdhis').'.'.$this->foto->extension();
-            $this->foto->storePubliclyAs('public',$foto);
+            $this->foto->storePubliclyAs('public/foto/'.$user->id,$foto);
             $employee->foto = $foto;
         }
         if($this->foto_ktp!=""){
             $foto_ktp = 'foto_ktp'.date('Ymdhis').'.'.$this->foto_ktp->extension();
-            $this->foto_ktp->storePubliclyAs('public',$foto_ktp);
+            $this->foto_ktp->storePubliclyAs('public/foto/'.$user->id,$foto_ktp);
             $employee->foto_ktp = $foto_ktp;
         }
         $employee->save();

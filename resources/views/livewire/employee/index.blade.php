@@ -53,8 +53,14 @@
                             @foreach($data as $k => $item)
                             <tr>
                                 <td style="width: 50px;">{{$k+1}}</td>
-                                <td><a href="{{route('users.edit',['id'=>$item->id])}}">{{$item->nik}}</a></td>
-                                <td><a href="{{route('users.edit',['id'=>$item->id])}}">{{$item->name}}</a></td>
+                                <td>
+                                    @if(check_access('employee.edit'))
+                                    <a href="{{route('employee.edit',['id'=>$item->id])}}">{{$item->nik}}</a>
+                                    @else
+                                    {{$item->nik}}
+                                    @endif
+                                </td>
+                                <td>{{$item->name}}</td>
                                 <td>{{$item->telepon}}</td> 
                                 <td>{{$item->email}}</td>                                   
                                 <td>{{$item->address}}</td>
@@ -62,11 +68,12 @@
                                 <td>{{isset($item->access->name)?$item->access->name:''}}</td>
                                 <td>{{$item->updated_at}}</td>
                                 <td>  
-                                    <a href="#" class="text-success pr-2" onclick="autologin('{{ route('users.autologin',['id'=>$item->id]) }}','{{$item->name}}')" title="Autologin"><i class="fa fa-sign-in"></i></a>
+                                    @if(check_access('employee.autologin'))
+                                    <a href="#" class="text-success pr-2" onclick="autologin('{{ route('users.autologin',['id'=>$item->user_id]) }}','{{$item->name}}')" title="Autologin"><i class="fa fa-sign-in"></i></a>
+                                    @endif
                                     @if(check_access('employee.delete'))
                                     <a href="#" class="text-danger" wire:click="$emit('emit-delete',{{$item->id}})" data-toggle="modal" data-target="#modal_delete" title="Delete"><i class="fa fa-trash-o"></i></a>
                                     @endif
-                                    {{-- <a href="#" class="text-danger" data-toggle="modal" data-target="#confirm_delete" wire:click="setActiveId({{$item->id}})" title="Delete"><i class="fa fa-trash-o"></i></a> --}}
                                 </td>
                             </tr>
                             @endforeach

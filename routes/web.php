@@ -53,5 +53,6 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
     Route::get('employee/insert',App\Http\Livewire\Employee\Insert::class)->name('employee.insert');
+    Route::get('employee/edit/{id}',App\Http\Livewire\Employee\Edit::class)->name('employee.edit');
     Route::get('department',App\Http\Livewire\Department\Index::class)->name('department.index');
 });
