@@ -18,7 +18,8 @@ class Insert extends Component
 
     public function render()
     {
-        return view('livewire.cluster.insert');
+        $data = \App\Models\Region::orderBy('id','ASC');
+        return view('livewire.cluster.insert')->with(['data'=>$data->paginate(100)]);
     }
 
     public function save(){

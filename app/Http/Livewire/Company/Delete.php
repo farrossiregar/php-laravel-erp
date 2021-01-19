@@ -8,26 +8,46 @@ use App\Helpers\GeneralHelper;
 
 class Delete extends Component
 {
+    // public $data;
+    // public $region_id;
+    // public $name;
+    // public $message;
+
+    // public function render()
+    // {
+    //     $delete = Company::find($this->id);
+
+    //     $delete->delete(); 
+    //     session()->flash('message-error','Delete Success.'); 
+    //     return redirect()->to('company');
+        
+    // }
+
+    // public function mount($id)
+    // {
+    //     $this->data         = Company::find($id);
+        
+    //     $this->id         = $this->data->id;
+    // }
+
+
     public $data;
     public $region_id;
     public $name;
-    public $message;
-
+    protected $listeners = ['company-delete' => 'companyDelete'];
     public function render()
     {
-        $delete = Company::find($this->id);
-
-        $delete->delete(); 
-        session()->flash('message-error','Delete Success.'); 
-        return redirect()->to('company');
-        
+        return view('livewire.company.delete');
     }
-
-    public function mount($id)
+    public function companyDelete($id)
     {
-        $this->data         = Company::find($id);
-        
-        $this->id         = $this->data->id;
+        $this->region_id = $id;
+    }
+    public function delete()
+    {
+        \App\Models\Company::find($this->id)->delete();
+        $this->companydel('company-delete-hide');
+        $this->reset();
     }
 
 }

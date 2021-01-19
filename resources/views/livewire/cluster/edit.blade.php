@@ -7,19 +7,25 @@
             <div class="body">
                 <form id="basic-form" method="post" wire:submit.prevent="save">
                     <div class="form-group">
+                        <label for="sel1">{{ __('Region Name') }}</label>
+                        <select class="form-control" id="sel1"  wire:model="region_id">
+                            <option value="">{{__('--- Region Name --- ')}} </option>
+                            @foreach(\App\Models\Region::orderBy('id','ASC')->get() as $item)
+                            <option value="{{$item->id}}" <?php if($data->region_id == $item->id){ echo "selected"; } ?>>{{$item->region}}</option>
+                            @endforeach
+                        </select>
+                        @error('Region Name')
+                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label>{{ __('Cluster Name') }}</label>
                         <input type="text" class="form-control" wire:model="name" >
                         @error('Cluster Name')
                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                         @enderror
                     </div>
-                    <div class="form-group">
-                        <label>{{ __('Region Id') }}</label>
-                        <input type="text" class="form-control"  wire:model="region_id" >
-                        @error('Region Id')
-                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                        @enderror
-                    </div>
+                    
 
 
                     
