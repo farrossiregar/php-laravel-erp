@@ -28,26 +28,28 @@
             </div>
             <div class="body pt-0">
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table">
                         <tbod>
                         @foreach($items as $k => $item)
                         <tr>
-                            <td>
-                                <h5>{{$item->name}}</h5>
-                                {{ $item->link }}<br />
-
-                                <table class="table">
-                                    @foreach($item->func as $function)
-                                    <tr>
-                                        <td>{{ $function->name }}</td>
-                                    </tr>
-                                    @endforeach
-                                </table>
-
-                                <a href="javascript:void(0)" wire:click="addFunction({{$item->id}})" class="mr-3"><i class="fa fa-plus"></i></a>
-                                <a href="javascript:void(0)" wire:click="deleteItem({{$item->id}})" class="text-danger"><i class="fa fa-trash"></i> </a>
-                            </td>
+                            <th style="background:#eee;">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <h5 class="pb-0 mb-0">{{$item->name}}</h5>
+                                        <small>{{ $item->link }}</small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="javascript:void(0)" wire:click="addFunction({{$item->id}})" class="mr-3"><i class="fa fa-plus"></i></a>
+                                        <a href="javascript:void(0)" wire:click="deleteItem({{$item->id}})" class="text-danger"><i class="fa fa-trash"></i> </a>
+                                    </div>
+                                </div>
+                            </th>
                         </tr>
+                            @foreach($item->func as $function)
+                            <tr>
+                                <td> - {{ $function->name }}</td>
+                            </tr>
+                            @endforeach
                         @endforeach
                         </tbody>
                     </table>

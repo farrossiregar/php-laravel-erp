@@ -9,17 +9,15 @@ use App\Helpers\GeneralHelper;
 
 class Index extends Component
 {
-    public $keyword;
-    public $clusterdel;
-
+    public $keyword,$region_id;
     use WithPagination;
-
     protected $paginationTheme = 'bootstrap';
-
+    protected $listeners = ['emit-delete-hide' => '$refresh'];
     public function render()
     {
         $data = Cluster::orderBy('id','DESC');
-
+        if($this->keyword) $ata = $data->where('name','LIKE',"{$this->keyword}");
+        if($this->region_id) $ata = $data->where('region_id',$this->region_id);
         if(check_access_controller('cluster.index') == false){
             session()->flash('message-error','Access denied.');
             $this->redirect('/');
