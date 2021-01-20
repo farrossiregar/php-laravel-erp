@@ -43,7 +43,7 @@
                                     <div class="media-body">
                                         <button type="button" class="btn btn-default-dark" id="btn-upload-logo"><i class="fa fa-upload"></i> Upload Logo</button>
                                         <input type="file" id="filePhoto" class="sr-only" wire:model="logo">
-                                        @error('Logo')
+                                        @error('logo')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>

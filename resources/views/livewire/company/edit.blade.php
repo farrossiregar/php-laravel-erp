@@ -32,35 +32,27 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <!-- <label>{{ __('Logo') }}</label>
-                                <input type="text" class="form-control"  wire:model="logo" >
-                                @error('Logo')
-                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                @enderror -->
                                 <h6>{{ __('Logo') }}</h6>
-                                <div class="media photo">
-                                    <div class="media-left m-r-15">
-                                    <?php
-                                    /*
-                                    ?>
-                                        <!-- @if(!empty($logo))
-                                        <img src="{{ $logo->temporaryUrl() }}" class="user-photo media-object" alt="Logo" style="width:100%;">
-                                        @else  -->
-                                            @if(!empty($data->logo))
-                                                <img src="{{ asset('public/logo/'.$data->name.','.$logo) }}" class="user-photo media-object" alt="Pasphoto" style="width:100%;">
+                                <div class="form-group">
+                                    <div class="media photo">
+                                        <div class="media-left m-r-15">
+                                            @if(!empty($logo))
+                                            <img src="{{ $logo->temporaryUrl() }}" class="user-photo media-object" alt="Logo" style="width:100%;">
+                                            @else 
+                                                @if(!empty($data->logo))
+                                                    <img src="{{ asset('storage/logo/'.$data->logo) }}" class="user-photo media-object" alt="Logo" style="width:100%;">
+                                                @endif
                                             @endif
-                                        @endif
-                                    <?php
-                                        */
-                                    ?>
-                                    </div>
-                                    <div class="media-body">
-                                        <p>Upload your Foto</p>
-                                        <button type="button" class="btn btn-default-dark" id="btn-upload-photo"><i class="fa fa-upload"></i> Upload Photo</button>
-                                        <input type="file" id="filePhoto" class="sr-only" wire:model="foto">
-                                        @error('pas_foto')
-                                        <span class="text-danger">{{ $message }}</span>
-                                        @enderror
+
+                                        </div>
+                                        <div class="media-body">
+                                            <p>Upload your Foto</p>
+                                            <button type="button" class="btn btn-default-dark" id="btn-upload-logo"><i class="fa fa-upload"></i> Upload Photo</button>
+                                            <input type="file" id="logo" class="sr-only" wire:model="logo">
+                                            @error('logo')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -90,3 +82,10 @@
         </div>
     </div>
 </div>
+
+@section('page-script')
+$('#btn-upload-logo').on('click', function() {
+    $(this).siblings('#logo').trigger('click');
+});
+
+@endsection
