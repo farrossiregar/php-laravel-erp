@@ -36,12 +36,8 @@
                                 <div class="form-group">
                                     <div class="media photo">
                                         <div class="media-left m-r-15">
-                                            @if(!empty($logo))
-                                            <img src="{{ $logo->temporaryUrl() }}" class="user-photo media-object" alt="Logo" style="width:100%;">
-                                            @else 
-                                                @if(!empty($data->logo))
-                                                    <img src="{{ asset('storage/logo/'.$data->logo) }}" class="user-photo media-object" alt="Logo" style="width:100%;">
-                                                @endif
+                                            @if(!empty($data->logo))
+                                                <img src="{{ asset('storage/logo/'.$data->logo) }}" class="user-photo media-object" alt="Logo" style="width:100%;">
                                             @endif
 
                                         </div>
