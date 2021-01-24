@@ -24,8 +24,7 @@
                                 <th>Telephone</th>          
                                 <th>Address</th>          
                                 <th>Code</th>          
-                                <th>Website</th>          
-                                <th>Action</th>
+                                <th>Website</th> 
                             </tr>
                         </thead>
                         <tbody>
@@ -43,13 +42,7 @@
                                 <td>{{$item->address}}</td>
                                 <td>{{$item->code}}</td>
                                 <td>{{$item->website}}</td>
-                                <td>
-                                    @if(check_access('company.delete'))
-                                    <a href="#" class="text-danger" wire:click="$companydel('company-delete',{{$item->id}})" data-toggle="modal" data-target="#modal_delete" title="Delete"><i class="fa fa-trash-o"></i></a>
-                                    @endif
-                                    <a href="#" class="text-danger" wire:click="$companydel('company-delete',{{$item->id}})" data-toggle="modal" data-target="#modal_delete" title="Delete"><i class="fa fa-trash-o"></i></a>
-                                    <!-- <a href="{{ route('company.delete', $item->id) }}" class="btn btn-danger">Delete</a> -->
-                                </td>
+                                
                             </tr>
                             @endforeach
                         </tbody>

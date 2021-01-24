@@ -14,7 +14,7 @@ class Edit extends Component
     public $message;
 
     protected $rules = [
-        'region_id' => 'required|string',
+        'region_id' => 'required',
         'name' => 'required|string',
     ];
 

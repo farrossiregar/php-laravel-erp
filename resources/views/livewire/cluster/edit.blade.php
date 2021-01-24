@@ -11,17 +11,17 @@
                         <select class="form-control" id="sel1"  wire:model="region_id">
                             <option value="">{{__('--- Region Name --- ')}} </option>
                             @foreach(\App\Models\Region::orderBy('id','ASC')->get() as $item)
-                            <option value="{{$item->id}}" <?php if($data->region_id == $item->id){ echo "selected"; } ?>>{{$item->region}}</option>
+                            <option value="{{$item->id}}" >{{$item->region}}</option>
                             @endforeach
                         </select>
-                        @error('Region Name')
+                        @error('region_id')
                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label>{{ __('Cluster Name') }}</label>
                         <input type="text" class="form-control" wire:model="name" >
-                        @error('Cluster Name')
+                        @error('name')
                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                         @enderror
                     </div>

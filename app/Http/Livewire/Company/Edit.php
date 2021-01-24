@@ -22,7 +22,7 @@ class Edit extends Component
         'name' => 'required|string',
         'telepon' => 'required|string',
         'address' => 'required|string',
-        'logo' => 'required|string',
+        'logo' => 'required',
         'code' => 'required|string',
         'website' => 'required|string',
     ];
@@ -56,11 +56,10 @@ class Edit extends Component
         $this->data->telepon = $this->telepon;
         $this->data->address = $this->address;
         if($this->logo!=""){
-            $logo = 'logo'.date('Ymdhis').'.'.$this->logo->extension();
-            $this->logo->storePubliclyAs('public/logo/'.$data->name,$logo);
-            $data->logo = $logo;
+            $logo = 'logo'.$this->code.date('Ymdhis').'.'.$this->logo->extension();
+            $this->logo->storePubliclyAs('public/logo/',$logo);
+            $this->data->logo = $logo;
         }
-        // $this->data->logo = $this->logo;
         $this->data->code = $this->code;
         $this->data->website = $this->website;
         $this->data->save();

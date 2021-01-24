@@ -21,7 +21,7 @@ class Insert extends Component
         'name' => 'required|string',
         'telepon' => 'required|string',
         'address' => 'required|string',
-        'logo' => 'required|string',
+        'logo' => 'required',
         'code' => 'required|string',
         'website' => 'required|string',
     ];
@@ -39,8 +39,8 @@ class Insert extends Component
         $data->telepon = $this->telepon;
         $data->address = $this->address;
         if($this->logo!=""){
-            $logo = 'logo'.date('Ymdhis').'.'.$this->logo->extension();
-            $this->logo->storePubliclyAs('public/logo/'.$data->name,$logo);
+            $logo = 'logo'.$this->code.date('Ymdhis').'.'.$this->logo->extension();
+            $this->logo->storePubliclyAs('public/logo/',$logo);
             $data->logo = $logo;
         }
         // $data->logo = $this->logo;
