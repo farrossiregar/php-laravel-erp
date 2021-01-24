@@ -55,4 +55,6 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('employee/insert',App\Http\Livewire\Employee\Insert::class)->name('employee.insert');
     Route::get('employee/edit/{id}',App\Http\Livewire\Employee\Edit::class)->name('employee.edit');
     Route::get('department',App\Http\Livewire\Department\Index::class)->name('department.index');
+    Route::get('work-flow-management/dashboard',App\Http\Livewire\WorkFlowManagement\Index::class)->name('work-flow-management.index');
+    Route::get('work-flow-management/data',App\Http\Livewire\WorkFlowManagement\Data::class)->name('work-flow-management.data');
 });
