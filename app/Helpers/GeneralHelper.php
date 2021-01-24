@@ -35,6 +35,7 @@ function get_menu($user_access_id){
     foreach($parent as $key => $item){
         $menu[$key]['id'] = $item->id;
         $menu[$key]['name'] = $item->name;
+        $menu[$key]['prefix_link'] = $item->prefix_link;
         // find_sub menu
         $sub_menu = \App\Models\UserAccessModule::select('modules_items.*')
                                             ->where('user_access_modules.user_access_id',$user_access_id)->where('modules_items.type',1)->where('modules_items.module_id',$item->id)
