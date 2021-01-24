@@ -14,12 +14,11 @@ class ModuleWFM extends Seeder
     public function run()
     {
         $module = \App\Models\Module::where('name','Work Flow Management')->first();
-        if(!$module){
-            $module = new \App\Models\Module();
-            $module->name = 'Work Flow Management';
-            $module->status = 1;
-            $module->save();
-        }
+        if(!$module) $module = new \App\Models\Module();
+        $module->name = 'Work Flow Management';
+        $module->status = 1;
+        $module->prefix_link = 'work-flow-management';
+        $module->save();
         if($module){
             $menu = \App\Models\ModulesItem::where('name','Dashboard')->first();
             $user = \App\Models\UserAccess::where('name','LIKE',"%Administrator%")->first();
