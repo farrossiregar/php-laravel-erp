@@ -1,6 +1,97 @@
 @section('title', 'Home')
 @section('parentPageTitle', 'Dashboard')
 
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-6 col-sm-6">
+        <div class="card overflowhidden number-chart">
+            <div class="body pt-0">
+                <div class="row my-3">
+                    <div class="col">
+                        <h4>Battery Cage Install</h4>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-md-12 py-1">
+                        <div class="card">
+                            <div class="card-body">
+                                <canvas id="chLine"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    /* chart.js chart examples */
+
+    // chart colors
+    var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+
+    /* large line chart */
+    var chLine = document.getElementById("chLine");
+    var chartData = {
+    
+    labels: ["", "NO", "NY SUBMIT", "YES"],
+    datasets: [{
+        data: [0, 589, 445, 483],
+        backgroundColor: 'transparent',
+        borderColor: colors[0],
+        borderWidth: 4,
+        pointBackgroundColor: colors[0]
+    },
+    {
+        data: [0, 789, 345, 583],
+        backgroundColor: 'transparent',
+        borderColor: colors[1],
+        borderWidth: 4,
+        pointBackgroundColor: colors[1]
+    },
+    {
+        data: [0, 520, 400, 550],
+        backgroundColor: 'transparent',
+        borderColor: colors[2],
+        borderWidth: 4,
+        pointBackgroundColor: colors[2]
+    }
+ 
+    ]
+    };
+    if (chLine) {
+    new Chart(chLine, {
+    type: 'line',
+    data: chartData,
+    options: {
+        scales: {
+        xAxes: [{
+            ticks: {
+            beginAtZero: false
+            }
+        }]
+        },
+        legend: {
+        display: false
+        },
+        responsive: true
+    }
+    });
+    }
+    </script>
+
+
+
+
+
+
 <div class="row clearfix">
     <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="card overflowhidden number-chart">
