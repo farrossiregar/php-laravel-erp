@@ -1,48 +1,58 @@
-@section('title', __('Site Tracking'))
+@section('title', __('Site Tracking Dashboard'))
 @section('parentPageTitle', 'Home')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
             <div class="header row">
-                
-                <div class="col-md-1">
-                    @if(check_access('cluster.insert'))
-                    <a href="{{route('cluster.insert')}}" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Site Tracking')}}</a>
-                    @endif
+                <div class="row my-3">
+                    <div class="col">
+                        <h4>NETWORK GROWTH MD EID ISAT</h4>
+                    </div>
                 </div>
+
             </div>
+
             <div class="body pt-0">
-
-<!--             
-                <div class="table-responsive">
-                    <table class="table table-striped m-b-0 c_list">
-                        <thead>
-                            <tr>
-                                <th>No</th>                               
-                                <th>Date Upload</th>          
-                                <th>Upload By</th>          
-                                <th>Action</th>  
-                            </tr>
-                        </thead>
-                        <tbody>
-                           
-                        </tbody>
-                    </table>
+                <div class="row my-2">
+                    <div class="col-md-4 px-0">
+                        <select class="form-control" wire:model="region_id">
+                            <option value=""> --- Region --- </option>
+                            @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $region)
+                            <option value="{{$region->id}}">{{$region->region}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4 px-0">
+                        <select class="form-control" wire:model="region_id">
+                            <option value=""> --- Type Site --- </option>
+                            @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $region)
+                            <option value="{{$region->id}}">{{$region->region}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-                <br /> -->
-                
+                <div class="row my-2">
+                    <div class="col-md-12 py-1">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- <canvas id="chBar"></canvas> -->
+                                <div id="multiple-chart" class="ct-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
 
-                <div class="container">
+                <!-- <div class="container">
                     <div class="row my-3">
                         <div class="col">
                             <h4>NETWORK GROWTH MD EID ISAT</h4>
                         </div>
                     </div>
-                    <div class="row my-2">
+                    <div class="row my-2"> -->
                         <!-- <div class="col-md-8 py-1">
                             <div class="card">
                                 <div class="card-body">
@@ -50,14 +60,14 @@
                                 </div>
                             </div>
                         </div> -->
-                        <div class="col-md-6 py-1">
+                        <!-- <div class="col-md-12 py-1">
                             <div class="card">
                                 <div class="card-body">
                                     <canvas id="chBar"></canvas>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- <div class="row py-2">
                         <div class="col-md-4 py-1">
                             <div class="card">
@@ -81,7 +91,7 @@
                             </div>
                         </div>
                     </div> -->
-                </div>
+                <!-- </div> -->
                 
             </div>
         </div>
@@ -90,52 +100,52 @@
 
 
 
-<div class="modal fade" id="confirm_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-warning"></i> Confirm Delete</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true close-btn">×</span>
-                </button>
-            </div>
-            <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myModalLabel">Import Data</h4> </div>
-                <form method="POST" id="form-upload" enctype="multipart/form-data" class="form-horizontal frm-modal-education" action="route('attendance.import')">
-                    
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label class="col-md-3">File (xls)</label>
-                            <div class="col-md-9">
-                                <input type="file" name="file" class="form-control" />
-                            </div>
-                        </div>
-                        <a href="asset('storage/sample/Sample-Attendance.xlsx')"><i class="fa fa-download"></i> Download Sample Excel</a>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect btn-sm" data-dismiss="modal">Close</button>
-                        <label class="btn btn-info btn-sm" id="btn_import">Import</label>
-                    </div>
-                </form>
-                <div style="text-align: center;display: none;" class="div-proses-upload">
-                    <h3>Uploading !</h3>
-                    <h1 class=""><i class="fa fa-spin fa-spinner"></i></h1>
-                </div>
-        </div>
-    </div>
-</div>
 
 
-
+@push('after-scripts')
+<link rel="stylesheet" href="{{ asset('assets/vendor/chartist/css/chartist.min.css')}}"/>
+<link rel="stylesheet" href="{{ asset('assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css')}}"/>
+<script src="{{ asset('assets/bundles/chartist.bundle.js')}}"></script>
+<script src="{{ asset('assets/vendor/chartist/polar_area_chart.js')}}"></script>
+<script src="{{ asset('assets/js/pages/charts/chartjs.js')}}"></script>
+@endpush
 @section('page-script')
-Livewire.on('company-delete-hide',()=>{
-    $("#modal_delete").modal('hide');
-});
+var dataMultiple = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    series: [{
+        name: 'series-real',
+        data: [200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
+    }, {
+        name: 'series-projection',
+        data: [240, 350, 360, 380, 400, 450, 480, 523, 555, 600, 700, 800],            
+    }]
+};
+options = {
+    lineSmooth: false,
+    height: "230px",
+    low: 0,
+    high: 'auto',
+    series: {
+        'series-projection': {
+            showPoint: true,                
+        },
+    },
+    
+    options: {
+        responsive: true,
+        legend: false
+    },
 
+    plugins: [
+        Chartist.plugins.legend({
+            legendNames: ['Actual', 'Projection']
+        })
+    ]
+};
+new Chartist.Line('#multiple-chart', dataMultiple, options);
 @endsection
 
-
+<!-- 
 <script>
     /* chart.js chart examples */
 
@@ -413,7 +423,7 @@ Livewire.on('company-delete-hide',()=>{
         options: lineOptions
     });
     }
-</script>
+</script> -->
 
 @if(check_access('cluster.delete'))
 <div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

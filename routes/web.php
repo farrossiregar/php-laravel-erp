@@ -52,6 +52,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('company/insert',App\Http\Livewire\Company\Insert::class)->name('company.insert');
 
     Route::get('site-tracking',App\Http\Livewire\Sitetracking\Index::class)->name('site-tracking.index');
+    Route::get('site-tracking/dashboard',App\Http\Livewire\Sitetracking\Dashboard::class)->name('site-tracking.dashboard');
+    // Route::get('site-tracking/insert',App\Http\Livewire\Sitetracking\insert::class)->name('site-tracking.insert');
+    // Route::get('site-tracking/upload',App\Http\Livewire\Sitetracking\Upload::class)->name('site-tracking.upload');
+    // Route::get('site-tracking/approval',App\Http\Livewire\Sitetracking\Approval::class)->name('site-tracking.approval');
 
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
     Route::get('employee/insert',App\Http\Livewire\Employee\Insert::class)->name('employee.insert');

@@ -1,4 +1,4 @@
-@section('title', __('Site Tracking'))
+@section('title', __('Site Tracking Data'))
 @section('parentPageTitle', 'Home')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <div class="row clearfix">
@@ -7,9 +7,9 @@
             <div class="header row">
                 
                 <div class="col-md-1">
-                    @if(check_access('cluster.insert'))
-                    <a href="{{route('cluster.insert')}}" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Site Tracking')}}</a>
-                    @endif
+                    
+                    <a href="#" data-toggle="modal" data-target="#modal-sitetracking-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Site Tracking')}}</a>
+                    
                 </div>
             </div>
             <div class="body pt-0">
@@ -22,6 +22,7 @@
                                 <th>No</th>                               
                                 <th>Date Upload</th>          
                                 <th>Upload By</th>          
+                                <th>Status</th>          
                                 <th>Action</th>  
                             </tr>
                         </thead>
@@ -90,38 +91,11 @@
 
 
 
-<div class="modal fade" id="confirm_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-sitetracking-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-warning"></i> Confirm Delete</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true close-btn">×</span>
-                </button>
-            </div>
-            <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myModalLabel">Import Data</h4> </div>
-                <form method="POST" id="form-upload" enctype="multipart/form-data" class="form-horizontal frm-modal-education" action="route('attendance.import')">
-                    
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label class="col-md-3">File (xls)</label>
-                            <div class="col-md-9">
-                                <input type="file" name="file" class="form-control" />
-                            </div>
-                        </div>
-                        <a href="asset('storage/sample/Sample-Attendance.xlsx')"><i class="fa fa-download"></i> Download Sample Excel</a>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect btn-sm" data-dismiss="modal">Close</button>
-                        <label class="btn btn-info btn-sm" id="btn_import">Import</label>
-                    </div>
-                </form>
-                <div style="text-align: center;display: none;" class="div-proses-upload">
-                    <h3>Uploading !</h3>
-                    <h1 class=""><i class="fa fa-spin fa-spinner"></i></h1>
-                </div>
+            <!-- <livewire:sitetracking.insert /> -->
+
         </div>
     </div>
 </div>
@@ -129,8 +103,8 @@
 
 
 @section('page-script')
-Livewire.on('company-delete-hide',()=>{
-    $("#modal_delete").modal('hide');
+Livewire.on('sitetracking-upload',()=>{
+    $("#modal-sitetracking-upload").modal('hide');
 });
 
 @endsection

@@ -4,7 +4,9 @@ namespace App\Http\Livewire\Sitetracking;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Cluster;
+use App\Models\SiteListTrackingMaster;
+use App\Models\SiteListTrackingDetail;
+use App\Models\SiteListTrackingTemp;
 use App\Helpers\GeneralHelper;
 
 class Index extends Component
