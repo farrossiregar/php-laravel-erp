@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Cluster;
+namespace App\Http\Livewire\Sitetracking;
 
 use Livewire\Component;
 use App\Models\Cluster;
