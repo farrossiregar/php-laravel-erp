@@ -51,6 +51,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('company/delete/{id}',App\Http\Livewire\Company\Delete::class)->name('company.delete');
     Route::get('company/insert',App\Http\Livewire\Company\Insert::class)->name('company.insert');
 
+    Route::get('site-tracking',App\Http\Livewire\Sitetracking\Index::class)->name('site-tracking.index');
+
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
     Route::get('employee/insert',App\Http\Livewire\Employee\Insert::class)->name('employee.insert');
     Route::get('employee/edit/{id}',App\Http\Livewire\Employee\Edit::class)->name('employee.edit');
