@@ -1,6 +1,7 @@
 @section('title', __('Site Tracking Dashboard'))
 @section('parentPageTitle', 'Home')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -15,6 +16,17 @@
 
             <div class="body pt-0">
                 <div class="row my-2">
+                    <div class="col-md-4 px-0">
+                        <select class="form-control" wire:model="region_id">
+                            <option value=""> --- Year --- </option>
+                            
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                            <option value="2019">2019</option>
+                            <option value="2018">2018</option>
+                            
+                        </select>
+                    </div>
                     <div class="col-md-4 px-0">
                         <select class="form-control" wire:model="region_id">
                             <option value=""> --- Region --- </option>
@@ -37,13 +49,13 @@
                         <div class="card">
                             <div class="card-body">
                                 <!-- <canvas id="chBar"></canvas> -->
-                                <div id="multiple-chart" class="ct-chart"></div>
+                                <!-- <div id="multiple-chart" class="ct-chart"></div> -->
+                                <canvas id="chLine"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
 
 
                 <!-- <div class="container">
@@ -111,13 +123,14 @@
 @endpush
 @section('page-script')
 var dataMultiple = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    labels: ['Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    <!-- labels: [<?php foreach($datamonth as $itemmonth) ?>], -->
     series: [{
         name: 'series-real',
-        data: [200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
+        data: [620, 750, 900],
     }, {
         name: 'series-projection',
-        data: [240, 350, 360, 380, 400, 450, 480, 523, 555, 600, 700, 800],            
+        data: [600, 700, 800],            
     }]
 };
 options = {
@@ -145,7 +158,7 @@ options = {
 new Chartist.Line('#multiple-chart', dataMultiple, options);
 @endsection
 
-<!-- 
+
 <script>
     /* chart.js chart examples */
 
@@ -156,7 +169,8 @@ new Chartist.Line('#multiple-chart', dataMultiple, options);
     var chLine = document.getElementById("chLine");
     var chartData = {
     // labels: ["S", "M", "T", "W", "T", "F", "S"],
-    labels: ["NO", "NY SUBMIT", "YES"],
+    // labels: ["NO", "NY SUBMIT", "YES"],
+    labels: ['', <?php foreach($datamonth as $key => $item){ if($key+1 == count($datamonth)){ $br = "'"; }else{ $br = "',";  } echo "'".$item['month'].$br; } ?>],
     datasets: [{
         // data: [589, 445, 483, 503, 689, 692, 634],
         data: [589, 445, 483],
@@ -423,7 +437,7 @@ new Chartist.Line('#multiple-chart', dataMultiple, options);
         options: lineOptions
     });
     }
-</script> -->
+</script>
 
 @if(check_access('cluster.delete'))
 <div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Sitetracking;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Auth;
 
 class Insert extends Component
 {
@@ -19,52 +20,68 @@ class Insert extends Component
             'file'=>'required|mimes:xls,xlsx|max:51200' // 50MB maksimal
         ]);
         
+        $users = Auth::user();
+
         $path = $this->file->getRealPath();
        
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $data = $reader->load($path);
         $sheetData = $data->getActiveSheet()->toArray();
 
-        $data               = new \App\Models\SiteListTrackingMaster();
-        $data->name         = 'Farros';
-        $data->upload_by    = 'Farros Shier';
-        $data->status       = '1';
+        $data                   = new \App\Models\SiteListTrackingMaster();
+        $data->name             = $users->name;
+        $data->upload_by        = $users->name;
+        $data->status           = '0';
         $data->save();
         
         if(count($sheetData) > 0){
-            // $countLimit = 1;
-            // $total_failed = 0;
-            // $total_success = 0;
-            // foreach($sheetData as $key => $i){
-            //     if($key<1) continue; // skip header
+            $countLimit = 1;
+            $total_failed = 0;
+            $total_success = 0;
+            foreach($sheetData as $key => $i){
+                if($key<1) continue; // skip header
                 
-            //     foreach($i as $k=>$a){ $i[$k] = trim($a); }
-            //     $data = new \App\Models\SiteListTrackingDetail();
-            //     if($i[0]!="") $data->date = $i[0];
-            //     $data->name = $i[1];
-            //     $data->id_ = $i[2];
-            //     $data->servicearea4 = $i[3];
-            //     $data->city = $i[4];
-            //     $data->servicearea2 = $i[5];
-            //     $data->region = $i[6];
-            //     $data->asp = $i[7];
-            //     $data->region_dan_asp_info = $i[8];
-            //     $data->skills = $i[9];
-            //     $data->wo_assign = $i[10];
-            //     $data->wo_accept = $i[11];
-            //     $data->wo_close_manual = $i[12];
-            //     $data->wo_close_auto = $i[13];
-            //     $data->mttr = $i[14];
-            //     $data->remark_wo_assign = $i[15];
-            //     $data->remark_wo_accept = $i[16];
-            //     $data->remark_wo_close_manual = $i[17];
-            //     $data->final_remark = $i[18];
-            //     $data->save();
+                foreach($i as $k=>$a){ $i[$k] = trim($a); }
+                $datadetail = new \App\Models\SiteListTrackingDetail();
+                if($i[0]!="") 
+                
 
-            //     $total_success++;
-            // }
+                $datadetail->id_site_master                         = $data->id;
+                $datadetail->collection                             = date_format(date_create($i[4]), 'm');;
+                $datadetail->no_po                                  = $i[2];
+                $datadetail->item_number                            = $i[3];
+                $datadetail->date_po_release                        = date_format(date_create($i[4]), 'Y-m-d');
+                $datadetail->pic_rpm                                = $i[5];
+                $datadetail->pic_sm                                 = $i[6];
+                $datadetail->type                                   = $i[7];
+                $datadetail->item_description                       = $i[8];
+                $datadetail->period                                 = date_format(date_create($i[9]), 'Y-m');
+                $datadetail->region                                 = $i[10];
+                $datadetail->region1                                = $i[11];
+                $datadetail->project                                = $i[12];
+                $datadetail->penalty                                = $i[13];
+                $datadetail->last_status                            = $i[14];
+                $datadetail->remark                                 = $i[15];
+                $datadetail->qty_po                                 = $i[16];
+                $datadetail->actual_qty                             = $i[17];
+                $datadetail->no_bast                                = $i[18];
+                $datadetail->date_bast_approval                     = date_format(date_create($i[19]), 'Y-m-d');
+                $datadetail->date_bast_approval_by_system           = date_format(date_create($i[20]), 'Y-m-d');
+                $datadetail->date_gr_req                            = $i[21];
+                $datadetail->no_gr                                  = $i[22];
+                $datadetail->date_gr_share                          = $i[23];
+                $datadetail->no_invoice                             = $i[24];
+                $datadetail->inv_date                               = date_format(date_create($i[25]), 'Y-m-d');
+                $datadetail->payment_date                           = date_format(date_create($i[26]), 'Y-m-d');
+                $datadetail->created_at                             = date('Y-m-d');
+                $datadetail->updated_at                             = date('Y-m-d');
+                $datadetail->save();
+
+                $total_success++;
+            }
             session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
-            return redirect()->route('sitetracking.index');
+            
+            return redirect()->route('site-tracking.index');
         }
     }
 }
