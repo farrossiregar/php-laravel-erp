@@ -19,8 +19,9 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::post('login', [\App\Http\Controllers\Api\UserController::class,'login']);
-Route::post('register', 'Api\UserController@register');
+Route::post('auth-login', [\App\Http\Controllers\Api\UserController::class,'login']);
+Route::post('register', [\App\Http\Controllers\Api\UserController::class,'register']);
+Route::get('all-user', [\App\Http\Controllers\Api\UserController::class,'allUser']);
 
 Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('details', 'Api\UserController@details');

@@ -11,18 +11,20 @@ use Validator;
 class UserController extends Controller
 {
     public $successStatus = 200;
-
-    public function login(Request $r){
+    
+    public function allUser(){
         $response = [
             'success' => true,
-            'data'    => $result,
-            'message' => $message,
+            'data'    => \App\Models\User::all(),
+            'message' => 'OKE',
         ];
-        return 'test';response()->json($response, 200);
-
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
+        return response()->json($response, 200);
+    }
+    public function login(Request $r){
+        
+        if(Auth::attempt(['email' => $r->email, 'password' => $r->password])){
             $user = Auth::user();
-            $success['token'] =  $user->createToken('nApp')->accessToken;
+            $success['token'] =  $user->createToken('Laravel')->accessToken;
             return response()->json(['success' => $success], $this->successStatus);
         }
         else{
