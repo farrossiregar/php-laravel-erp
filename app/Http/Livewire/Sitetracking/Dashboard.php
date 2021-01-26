@@ -9,7 +9,7 @@ use App\Models\SiteListTrackingDetail;
 use App\Models\SiteListTrackingTemp;
 use App\Helpers\GeneralHelper;
 
-class Index extends Component
+class Dashboard extends Component
 {
     // public $keyword,$region_id;
     // use WithPagination;
@@ -19,6 +19,6 @@ class Index extends Component
     {
         
 
-        return view('livewire.sitetracking.index');
+        return view('livewire.sitetracking.dashboard');
     }
 }
