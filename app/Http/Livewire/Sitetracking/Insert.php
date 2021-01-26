@@ -11,7 +11,7 @@ class Insert extends Component
     public $file;
     public function render()
     {
-        return view('livewire.sitetracking.index');
+        return view('livewire.sitetracking.insert');
     }
     public function save()
     {

@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/font-awesome.min.css') }}">
         <!-- Custom Css -->
-        <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}?v={{date("ymdHis")}}">
         <link rel="stylesheet" href="{{ asset('assets/css/color_skins.css') }}">
         @stack('after-styles')
         @livewireStyles
@@ -29,6 +29,7 @@
             </div>
         </div>
         <div id="wrapper">
+            <img src="{{get_setting('logo')}}" style="height:85px;position:absolute;right:5%;top:20px;" class="mr-5"  alt="{{get_setting('company')}}">
             @yield('content')
             {{$slot}}
         </div>
