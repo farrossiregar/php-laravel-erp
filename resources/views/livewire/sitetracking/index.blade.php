@@ -5,7 +5,14 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="header row">
-                
+                <!-- <div class="col-md-2 px-0">
+                    <select class="form-control" wire:model="region_id">
+                        <option value=""> --- Region --- </option>
+                        @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $region)
+                        <option value="{{$region->id}}">{{$region->region}}</option>
+                        @endforeach
+                    </select>
+                </div> -->
                 <div class="col-md-1">
                     
                     <a href="#" data-toggle="modal" data-target="#modal-sitetracking-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Site Tracking')}}</a>
@@ -34,8 +41,8 @@
                                 <td>
                                     {{ $item->upload_by }}
                                 </td>
-                                <td><a href="{{route('site-tracking.edit',['id'=>$item->id])}}"><?php if($item->status == '1'){echo '<div class="btn btn-success">Approved</div>'; }else{ echo '<div class="btn btn-warning">Progress</div>'; } ?></a></td>
-                                <td><button type="button" class="btn btn-primary">Approve</button></td>
+                                <td><?php if($item->status == '1'){echo '<div class="btn btn-success">Approved</div>'; }else{ echo '<div class="btn btn-warning">Progress</div>'; } ?></td>
+                                <td><a href="{{route('site-tracking.edit',['id'=>$item->id])}}"><button type="button" class="btn btn-primary">Approve</button></a></td>
                                 
                             </tr>
                             @endforeach
@@ -43,7 +50,7 @@
                     </table>
                 </div>
                 <br />
-                
+                {{$data->links()}}
             </div>
 
 

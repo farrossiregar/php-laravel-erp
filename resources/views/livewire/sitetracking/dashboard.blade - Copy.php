@@ -127,7 +127,52 @@
             </div>
 
 
-              
+                <!-- <div class="container">
+                    <div class="row my-3">
+                        <div class="col">
+                            <h4>NETWORK GROWTH MD EID ISAT</h4>
+                        </div>
+                    </div>
+                    <div class="row my-2"> -->
+                        <!-- <div class="col-md-8 py-1">
+                            <div class="card">
+                                <div class="card-body">
+                                    <canvas id="chLine"></canvas>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-md-12 py-1">
+                            <div class="card">
+                                <div class="card-body">
+                                    <canvas id="chBar"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row py-2">
+                        <div class="col-md-4 py-1">
+                            <div class="card">
+                                <div class="card-body">
+                                    <canvas id="chDonut1"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 py-1">
+                            <div class="card">
+                                <div class="card-body">
+                                    <canvas id="chDonut2"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 py-1">
+                            <div class="card">
+                                <div class="card-body">
+                                    <canvas id="chDonut3"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                <!-- </div> -->
                 
             </div>
         </div>
@@ -145,7 +190,42 @@
 <script src="{{ asset('assets/vendor/chartist/polar_area_chart.js')}}"></script>
 <script src="{{ asset('assets/js/pages/charts/chartjs.js')}}"></script>
 @endpush
+@section('page-script')
+var dataMultiple = {
+    labels: ['Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    <!-- labels: [<?php foreach($datamonth as $itemmonth) ?>], -->
+    series: [{
+        name: 'series-real',
+        data: [620, 750, 900],
+    }, {
+        name: 'series-projection',
+        data: [600, 700, 800],            
+    }]
+};
+options = {
+    lineSmooth: false,
+    height: "230px",
+    low: 0,
+    high: 'auto',
+    series: {
+        'series-projection': {
+            showPoint: true,                
+        },
+    },
+    
+    options: {
+        responsive: true,
+        legend: false
+    },
 
+    plugins: [
+        Chartist.plugins.legend({
+            legendNames: ['Actual', 'Projection']
+        })
+    ]
+};
+new Chartist.Line('#multiple-chart', dataMultiple, options);
+@endsection
 
 
 <script>
@@ -205,7 +285,41 @@
     });
     }
 
-   
+    /* large pie/donut chart */
+    var chPie = document.getElementById("chPie");
+    if (chPie) {
+    new Chart(chPie, {
+        type: 'pie',
+        data: {
+        labels: ['Desktop', 'Phone', 'Tablet', 'Unknown'],
+        datasets: [
+            {
+            backgroundColor: [colors[1],colors[0],colors[2],colors[5]],
+            borderWidth: 0,
+            data: [50, 40, 15, 5]
+            }
+        ]
+        },
+        plugins: [{
+        beforeDraw: function(chart) {
+            var width = chart.chart.width,
+                height = chart.chart.height,
+                ctx = chart.chart.ctx;
+            ctx.restore();
+            var fontSize = (height / 70).toFixed(2);
+            ctx.font = fontSize + "em sans-serif";
+            ctx.textBaseline = "middle";
+            var text = chart.config.data.datasets[0].data[0] + "%",
+                textX = Math.round((width - ctx.measureText(text).width) / 2),
+                textY = height / 2;
+            ctx.fillText(text, textX, textY);
+            ctx.save();
+        }
+        }],
+        options: {layout:{padding:0}, legend:{display:false}, cutoutPercentage: 80}
+    });
+    }
+
     /* bar chart */
     var dataqty = [];
     var dataqty1 = {!!json_encode($data)!!};
@@ -268,7 +382,100 @@
     });
     }
 
-   
+    /* 3 donut charts */
+    var donutOptions = {
+    cutoutPercentage: 85, 
+    legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
+    };
+
+    // donut 1
+    var chDonutData1 = {
+        labels: ['Bootstrap', 'Popper', 'Other'],
+        datasets: [
+        {
+            backgroundColor: colors.slice(0,3),
+            borderWidth: 0,
+            data: [74, 11, 40]
+        }
+        ]
+    };
+
+    var chDonut1 = document.getElementById("chDonut1");
+    if (chDonut1) {
+    new Chart(chDonut1, {
+        type: 'pie',
+        data: chDonutData1,
+        options: donutOptions
+    });
+    }
+
+    // donut 2
+    var chDonutData2 = {
+        labels: ['Wips', 'Pops', 'Dags'],
+        datasets: [
+        {
+            backgroundColor: colors.slice(0,3),
+            borderWidth: 0,
+            data: [40, 45, 30]
+        }
+        ]
+    };
+    var chDonut2 = document.getElementById("chDonut2");
+    if (chDonut2) {
+    new Chart(chDonut2, {
+        type: 'pie',
+        data: chDonutData2,
+        options: donutOptions
+    });
+    }
+
+    // donut 3
+    var chDonutData3 = {
+        labels: ['Angular', 'React', 'Other'],
+        datasets: [
+        {
+            backgroundColor: colors.slice(0,3),
+            borderWidth: 0,
+            data: [21, 45, 55, 33]
+        }
+        ]
+    };
+    var chDonut3 = document.getElementById("chDonut3");
+    if (chDonut3) {
+    new Chart(chDonut3, {
+        type: 'pie',
+        data: chDonutData3,
+        options: donutOptions
+    });
+    }
+
+    /* 3 line charts */
+    var lineOptions = {
+        legend:{display:false},
+        tooltips:{interest:false,bodyFontSize:11,titleFontSize:11},
+        scales:{
+            xAxes:[
+                {
+                    ticks:{
+                        display:false
+                    },
+                    gridLines: {
+                        display:false,
+                        drawBorder:false
+                    }
+                }
+            ],
+            yAxes:[{display:false}]
+        },
+        layout: {
+            padding: {
+                left: 6,
+                right: 6,
+                top: 4,
+                bottom: 6
+            }
+        }
+    };
 
     var chLine1 = document.getElementById("chLine1");
     if (chLine1) {

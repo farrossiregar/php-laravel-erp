@@ -45,7 +45,7 @@ class Insert extends Component
                 $datadetail = new \App\Models\SiteListTrackingDetail();
                 if($i[0]!="") 
                 
-
+                
                 $datadetail->id_site_master                         = $data->id;
                 $datadetail->collection                             = date_format(date_create($i[4]), 'm');;
                 $datadetail->no_po                                  = $i[2];
@@ -75,7 +75,46 @@ class Insert extends Component
                 $datadetail->payment_date                           = date_format(date_create($i[26]), 'Y-m-d');
                 $datadetail->created_at                             = date('Y-m-d');
                 $datadetail->updated_at                             = date('Y-m-d');
-                $datadetail->save();
+
+                $datadetailcek  = \App\Models\SiteListTrackingDetail::where('no_po', $i[2])->get();
+                
+                if($datadetailcek->count() > 0){
+                    $datatemp       = new \App\Models\SiteListTrackingTemp();
+                    $datatemp->id_site_master                         = $data->id;
+                    $datatemp->collection                             = date_format(date_create($i[4]), 'm');;
+                    $datatemp->no_po                                  = $i[2];
+                    $datatemp->item_number                            = $i[3];
+                    $datatemp->date_po_release                        = date_format(date_create($i[4]), 'Y-m-d');
+                    $datatemp->pic_rpm                                = $i[5];
+                    $datatemp->pic_sm                                 = $i[6];
+                    $datatemp->type                                   = $i[7];
+                    $datatemp->item_description                       = $i[8];
+                    $datatemp->period                                 = date_format(date_create($i[9]), 'Y-m');
+                    $datatemp->region                                 = $i[10];
+                    $datatemp->region1                                = $i[11];
+                    $datatemp->project                                = $i[12];
+                    $datatemp->penalty                                = $i[13];
+                    $datatemp->last_status                            = $i[14];
+                    $datatemp->remark                                 = $i[15];
+                    $datatemp->qty_po                                 = $i[16];
+                    $datatemp->actual_qty                             = $i[17];
+                    $datatemp->no_bast                                = $i[18];
+                    $datatemp->date_bast_approval                     = date_format(date_create($i[19]), 'Y-m-d');
+                    $datatemp->date_bast_approval_by_system           = date_format(date_create($i[20]), 'Y-m-d');
+                    $datatemp->date_gr_req                            = $i[21];
+                    $datatemp->no_gr                                  = $i[22];
+                    $datatemp->date_gr_share                          = $i[23];
+                    $datatemp->no_invoice                             = $i[24];
+                    $datatemp->inv_date                               = date_format(date_create($i[25]), 'Y-m-d');
+                    $datatemp->payment_date                           = date_format(date_create($i[26]), 'Y-m-d');
+                    $datatemp->created_at                             = date('Y-m-d');
+                    $datatemp->updated_at                             = date('Y-m-d');
+                    $datatemp->save();
+                }else{
+                    $datadetail->save();
+                }
+
+                
 
                 $total_success++;
             }
