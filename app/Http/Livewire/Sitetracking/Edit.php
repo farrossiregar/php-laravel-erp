@@ -3,47 +3,48 @@
 namespace App\Http\Livewire\Sitetracking;
 
 use Livewire\Component;
-use App\Models\Cluster;
+use App\Models\SiteListTrackingMaster;
+use App\Models\SiteListTrackingDetail;
 
 
 class Edit extends Component
 {
     public $data;
-    public $region_id;
-    public $name;
+    // public $id;
+    public $collection;
+    public $item_number;
+    public $date_po_released;
+    public $pic_rpm;
+    public $pic_sm;
+    public $type;
     public $message;
 
-    protected $rules = [
-        'region_id' => 'required',
-        'name' => 'required|string',
-    ];
 
     public function render()
     {
-        if(check_access_controller('cluster.edit') == false){
-            session()->flash('message-error','Access denied.');
-            $this->redirect('/');
-        }
-        return view('livewire.cluster.edit')->with(['data'=>$this->data]);
+        // if(check_access_controller('cluster.edit') == false){
+        //     session()->flash('message-error','Access denied.');
+        //     $this->redirect('/');
+        // }
+        // dd(json_decode($this->id));
+        return view('livewire.sitetracking.edit')->with(['data'=>$this->data]);
     }
 
     public function mount($id)
     {
-        $this->data         = Cluster::find($id);
+        $this->data                     = SiteListTrackingDetail::where('id_site_master',$id)->get();
         
-        $this->name         = $this->data->name;
-        $this->region_id    = $this->data->region_id;
     }
 
-    public function save(){
-        $this->validate();
+    // public function save(){
+    //     $this->validate();
         
-        $this->data->name = $this->name;
-        $this->data->region_id = $this->region_id;
-        $this->data->save();
+    //     $this->data->name = $this->name;
+    //     $this->data->region_id = $this->region_id;
+    //     $this->data->save();
 
-        session()->flash('message-success',__('Data saved successfully'));
+    //     session()->flash('message-success',__('Data saved successfully'));
 
-        return redirect()->to('cluster');
-    }
+    //     return redirect()->to('cluster');
+    // }
 }

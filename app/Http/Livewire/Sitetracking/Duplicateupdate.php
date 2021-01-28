@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Auth;
 
-class Insert extends Component
+class Duplicateupdate extends Component
 {
     use WithFileUploads;
     public $file;

@@ -53,6 +53,11 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::get('site-tracking',App\Http\Livewire\Sitetracking\Index::class)->name('site-tracking.index');
     Route::get('site-tracking/dashboard',App\Http\Livewire\Sitetracking\Dashboard::class)->name('site-tracking.dashboard');
+    Route::get('site-tracking/edit/{id}',App\Http\Livewire\Sitetracking\Edit::class)->name('site-tracking.edit');
+    Route::post('site-tracking/deleteoriginal', [App\Http\Controllers\DuplicateSiteListController::class,'deleteoriginal'])->name('site-tracking.deleteoriginal');
+    Route::post('site-tracking/deleteduplicate', [App\Http\Controllers\DuplicateSiteListController::class,'deleteduplicate'])->name('site-tracking.deleteduplicate');
+    Route::post('site-tracking/cekdataTemp', [App\Http\Controllers\DuplicateSiteListController::class,'cekdataTemp'])->name('site-tracking.cekdataTemp');
+    Route::post('site-tracking/cekdataOri', [App\Http\Controllers\DuplicateSiteListController::class,'cekdataOri'])->name('site-tracking.cekdataOri');
     // Route::get('site-tracking/insert',App\Http\Livewire\Sitetracking\insert::class)->name('site-tracking.insert');
     // Route::get('site-tracking/upload',App\Http\Livewire\Sitetracking\Upload::class)->name('site-tracking.upload');
     // Route::get('site-tracking/approval',App\Http\Livewire\Sitetracking\Approval::class)->name('site-tracking.approval');
