@@ -80,3 +80,14 @@ function update_setting($key,$value)
         $setting->save();
     }
 }
+
+
+function check_duplicate_sitelist($no){
+    $cek = \App\Models\SiteListTrackingTemp::where('no_po', $no)->get();
+    // return response()->json($data[0]->id);
+    if($cek->count() > 0){
+        return 'ada';
+    }else{
+        return 'g';
+    }
+}
