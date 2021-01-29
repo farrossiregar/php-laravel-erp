@@ -9,7 +9,7 @@
         </div>
         <div class="text-center mt-1 ml-2" wire:loading>
             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-            <span class="sr-only">Loading...</span>
+            <span class="sr-only">{{ __('Loading...') }}</span>
         </div>
     </div>
     <div class="body">
@@ -17,8 +17,8 @@
             <table class="table table-striped table-bordered m-b-0 c_list">
                 <thead>
                     <tr>
-                        <th>SERVICEAREA2</th>
-                        <th>NAME</th>
+                        <th>{{ __('SERVICEAREA2') }}</th>
+                        <th>{{ __('NAME') }}</th>
                         @foreach($date as $d)
                         <th>{{date('d M Y',strtotime($d->date))}}</th>
                         @endforeach

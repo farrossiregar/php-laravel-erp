@@ -20,7 +20,6 @@ class Upload extends Component
         ]);
         
         $path = $this->file->getRealPath();
-       
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $data = $reader->load($path);
         $sheetData = $data->getActiveSheet()->toArray();

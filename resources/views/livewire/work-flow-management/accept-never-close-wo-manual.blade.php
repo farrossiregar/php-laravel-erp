@@ -9,7 +9,7 @@
         </div>
         <div class="col-md-2 px-0">
             <select class="form-control" wire:model="month">
-                <option value=""> --- Month --- </option>
+                <option value=""> --- {{ __('Month') }} --- </option>
                 @foreach(\App\Models\WorkFlowManagement::select(\DB::raw('MONTH(date) as bulan'))->whereYear('date',$year)->groupBy('bulan')->get() as $item)
                 <option value="{{$item->bulan}}">{{date('F', mktime(0, 0, 0, $item->bulan, 10))}}</option>
                 @endforeach
@@ -17,7 +17,7 @@
         </div>
         <div class="text-center mt-1 ml-2" wire:loading>
             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-            <span class="sr-only">Loading...</span>
+            <span class="sr-only">{{ __('Loading...') }}</span>
         </div>
     </div>
     <div class="body p-0">
