@@ -6,6 +6,7 @@ use App\Models\SiteListTrackingTemp;
 use App\Models\SiteListTrackingDetail;
 use Illuminate\Http\Request;
 use Auth;
+use DB;
 
 class DuplicateSiteListController extends Controller
 {
@@ -77,5 +78,29 @@ class DuplicateSiteListController extends Controller
         $data = SiteListTrackingDetail::where('no_po', $no_po)->get();
         return response()->json($data);
         
+    }
+
+
+    public function dashboardsitelist(Request $request){
+        // $year = $request->year;
+        // $month = $request->month;
+        $year = '2021';
+        $month = $request->month;
+        $data = SiteListTrackingDetail::
+                                        select(DB::Raw('sum(site_list_tracking_detail.qty_po) as QTY'))->
+                                        leftJoin('site_list_tracking_master', 'site_list_tracking_detail.id_site_master', '=', 'site_list_tracking_master.id')->
+                                        whereIn('site_list_tracking_detail.period', [$year.'-12', $year.'-11'])->
+                                        // where('site_list_tracking_detail.id_site_master', '1')->
+                                        where('site_list_tracking_master.status', '1')->
+                                        whereIn('site_list_tracking_detail.region', ['Sumatera', 'Central Java'])->
+                                        // where('region', 'sumatera')->
+                                        // groupBy(DB::Raw('substring(period, 5, 2)'));
+                                        groupBy('site_list_tracking_detail.period')->
+                                        groupBy('site_list_tracking_detail.region')->
+                                        orderBy('site_list_tracking_detail.id', 'ASC')->
+                                        get();
+        $data = json_decode($data);                                        
+        // dd($data[0]->QTY);                                        
+        return response()->json($data);
     }
 }

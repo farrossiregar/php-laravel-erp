@@ -1,6 +1,7 @@
 @section('title', __('Site Tracking Dashboard'))
 @section('parentPageTitle', 'Home')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -17,73 +18,73 @@
             <div class="body pt-0">
                 <div class="row my-2">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="01"  wire:model="month">
+                        <input class="form-check-input" type="checkbox" name="cxm" value="01" value="m01">
                         <label class="form-check-label" for="flexCheckDefault">
                             January
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="02"  wire:model="month">
+                        <input class="form-check-input" type="checkbox" name="cxm" value="02" value="m02">
                         <label class="form-check-label" for="flexCheckDefault">
                             February
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="03"  wire:model="month">
+                        <input class="form-check-input" type="checkbox" name="cxm" value="03" value="m03">
                         <label class="form-check-label" for="flexCheckDefault">
                             March
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="04"  wire:model="month">
+                        <input class="form-check-input" type="checkbox" name="cxm" value="04" value="m04">
                         <label class="form-check-label" for="flexCheckDefault">
                             April
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="05"  wire:model="month">
+                        <input class="form-check-input" type="checkbox" name="cxm" value="05" value="m05">
                         <label class="form-check-label" for="flexCheckDefault">
                             May
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="06"  wire:model="month">
+                        <input class="form-check-input" type="checkbox" name="cxm" value="06" value="m06">
                         <label class="form-check-label" for="flexCheckDefault">
                             June
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="07"  wire:model="month">
+                        <input class="form-check-input" type="checkbox" name="cxm" value="07" value="m07">
                         <label class="form-check-label" for="flexCheckDefault">
                             July
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="08"  wire:model="month">
+                        <input class="form-check-input" type="checkbox" name="cxm" value="08" value="m08">
                         <label class="form-check-label" for="flexCheckDefault">
                             August
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="09"  wire:model="month">
+                        <input class="form-check-input" type="checkbox" name="cxm" value="09" value="m09">
                         <label class="form-check-label" for="flexCheckDefault">
                             September
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="10" id="10" wire:click="month" checked>
+                        <input class="form-check-input" type="checkbox" name="cxm" value="10" id="m10">
                         <label class="form-check-label" for="flexCheckDefault">
                             October
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="11" id="11" wire:click="month" checked>
+                        <input class="form-check-input" type="checkbox" name="cxm" value="11" id="m11">
                         <label class="form-check-label" for="flexCheckDefault">
                             November
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="12" id="12" wire:click="month" checked>
+                        <input class="form-check-input" type="checkbox" name="cxm" value="12" id="m12">
                         <label class="form-check-label" for="flexCheckDefault">
                             December
                         </label>
@@ -92,9 +93,8 @@
                 </div>
                 <div class="row my-2">
                     <div class="col-md-2 px-0">
-                        <select class="form-control" wire:model="year">
+                        <select class="form-control" id="year">
                             <option value=""> --- Year --- </option>
-                            
                             <option value="2021">2021</option>
                             <option value="2020">2020</option>
                             <option value="2019">2019</option>
@@ -103,12 +103,15 @@
                         </select>
                     </div>
                     <div class="col-md-2 px-0">
-                        <select class="form-control" wire:model="region_id">
+                        <select class="form-control" id="region_id">
                             <option value=""> --- Region --- </option>
                             @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $region)
                             <option value="{{$region->id}}">{{$region->region}}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <div class="col-md-2 px-0">
+                        <div href="#" class="btn btn-primary" onclick="getsitelisttracking()"><i class="fa fa-search"></i>Submit</div>
                     </div>
                     
                 </div>
@@ -147,6 +150,80 @@
 @endpush
 
 
+<script>
+    function getsitelisttracking(){
+        var year        = $('#year').val();
+        var region_id   = $('#region_id').val();
+        var mth = [];
+        $.each($("input[name='cxm']:checked"), function(){
+            mth.push($(this).val());
+        });
+        // console.log(mth);
+
+        $.ajax({
+            url: "{{ route('site-tracking.dashboardsitelist') }}", 
+            type: "POST",
+            data: {'year' : year, 'month' : mth, '_token' : $("meta[name='csrf-token']").attr('content')},
+            dataType: 'json',
+            success: function(result){
+                console.log(result);
+
+                var chBar = document.getElementById("chBar");
+                if (chBar) {
+                    new Chart(chBar, {
+                        type: 'bar',
+                        data: {
+                            // labels: ["S", "M"],
+                            labels: mth,
+                            datasets: [{
+                                        data: [445, 483],
+                                        backgroundColor: colors[0],
+                                        borderColor: colors[0],
+                                        borderWidth: 4,
+                                        pointBackgroundColor: colors[0]
+                                    },
+                                    {
+                                        data: [345, 583],
+                                        backgroundColor: colors[1],
+                                        borderColor: colors[1],
+                                        borderWidth: 4,
+                                        pointBackgroundColor: colors[1]
+                                    }
+                            ],
+                        },
+                        options: {
+                            legend: {
+                            display: false
+                            },
+                            scales: {
+                            xAxes: [{
+                                barPercentage: 0.4,
+                                categoryPercentage: 0.5
+                            }]
+                            }
+                        }
+                    });
+                }
+
+            }
+        });
+
+        
+    }
+
+    $(document).ready(function(){
+        var month = '<?php echo date('m'); ?>';
+        var year = '<?php echo date('Y'); ?>';
+
+        getsitelisttracking();
+       
+
+        console.log(month);
+    });
+
+    
+
+</script>
 
 <script>
     /* chart.js chart examples */
@@ -154,177 +231,185 @@
     // chart colors
     var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
 
-    /* large line chart */
-    var chLine = document.getElementById("chLine");
-    var chartData = {
-    // labels: ["S", "M", "T", "W", "T", "F", "S"],
-    // labels: ["NO", "NY SUBMIT", "YES"],
-        labels: ['', <?php foreach($datamonth as $key => $item){ if($key+1 == count($datamonth)){ $br = "'"; }else{ $br = "',";  } echo "'".$item['month'].$br; } ?>],
-            datasets: [{
-                // data: [589, 445, 483, 503, 689, 692, 634],
-                data: [589, 445, 483],
-                backgroundColor: 'transparent',
-                borderColor: colors[0],
-                borderWidth: 4,
-                pointBackgroundColor: colors[0]
-            },
-            {
-                data: [789, 345, 583],
-                backgroundColor: 'transparent',
-                borderColor: colors[1],
-                borderWidth: 4,
-                pointBackgroundColor: colors[1]
-            },
-            {
-                data: [520, 400, 550],
-                backgroundColor: 'transparent',
-                borderColor: colors[2],
-                borderWidth: 4,
-                pointBackgroundColor: colors[2]
-            }
-           
-        ]
-    };
-    if (chLine) {
-    new Chart(chLine, {
-    type: 'line',
-    data: chartData,
-    options: {
-        scales: {
-        xAxes: [{
-            ticks: {
-            beginAtZero: false
-            }
-        }]
-        },
-        legend: {
-        display: false
-        },
-        responsive: true
-    }
-    });
-    }
 
-   
     /* bar chart */
     var dataqty = [];
     var dataqty1 = {!!json_encode($data)!!};
     // alert(dataqty1);
 
-    for(var i = 0; i < 2; i++){
-        dataqty.push( {
-                        data: [445, 483, 520],
-                        backgroundColor: colors[0],
-                        borderColor: colors[0],
-                        borderWidth: 4,
-                        pointBackgroundColor: colors[0]
-                    });
-    }
-    var chBar = document.getElementById("chBar");
-    if (chBar) {
-    new Chart(chBar, {
-    type: 'bar',
-    data: {
-        // labels: ["S", "M", "T", "W", "T", "F", "S"],
-        labels: [<?php foreach($datamonth as $key => $item){ if($key+1 == count($datamonth)){ $br = "'"; }else{ $br = "',";  } echo "'".$item['month'].$br; } ?>],
-        // datasets: [{
-        // data: [589, 445, 483, 503, 689, 692, 634],
-        // backgroundColor: colors[0]
-        // },
-        // {
-        // data: [639, 465, 493, 478, 589, 632, 674],
-        // backgroundColor: colors[1]
-        // }]
+    // for(var i = 0; i < 2; i++){
+    //     dataqty.push( {
+    //                     data: [445, 483, 520],
+    //                     backgroundColor: colors[0],
+    //                     borderColor: colors[0],
+    //                     borderWidth: 4,
+    //                     pointBackgroundColor: colors[0]
+    //                 });
+    // }
+    // var chBar = document.getElementById("chBar");
+    // if (chBar) {
+    //     new Chart(chBar, {
+    //         type: 'bar',
+    //         data: {
+                // labels: ["S", "M", "T", "W", "T", "F", "S"],
+                // labels: [<?php foreach($datamonth as $key => $item){ if($key+1 == count($datamonth)){ $br = "'"; }else{ $br = "',";  } echo "'".$item['month'].$br; } ?>],
+                // datasets: [{
+                // data: [589, 445, 483, 503, 689, 692, 634],
+                // backgroundColor: colors[0]
+                // },
+                // {
+                // data: [639, 465, 493, 478, 589, 632, 674],
+                // backgroundColor: colors[1]
+                // }]
 
-        // datasets: [{
-        //                 data: [445, 483],
-        //                 backgroundColor: colors[0],
-        //                 borderColor: colors[0],
-        //                 borderWidth: 4,
-        //                 pointBackgroundColor: colors[0]
-        //             },
-        //             {
-        //                 data: [345, 583],
-        //                 backgroundColor: colors[1],
-        //                 borderColor: colors[1],
-        //                 borderWidth: 4,
-        //                 pointBackgroundColor: colors[1]
-        //             }
-        // ]
+                // datasets: [{
+                //                 data: [445, 483],
+                //                 backgroundColor: colors[0],
+                //                 borderColor: colors[0],
+                //                 borderWidth: 4,
+                //                 pointBackgroundColor: colors[0]
+                //             },
+                //             {
+                //                 data: [345, 583],
+                //                 backgroundColor: colors[1],
+                //                 borderColor: colors[1],
+                //                 borderWidth: 4,
+                //                 pointBackgroundColor: colors[1]
+                //             }
+                // ]
 
-        datasets: dataqty
-    },
-    options: {
-        legend: {
-        display: false
-        },
-        scales: {
-        xAxes: [{
-            barPercentage: 0.4,
-            categoryPercentage: 0.5
-        }]
-        }
-    }
-    });
-    }
+    //             datasets: dataqty
+    //         },
+    //         options: {
+    //             legend: {
+    //             display: false
+    //             },
+    //             scales: {
+    //             xAxes: [{
+    //                 barPercentage: 0.4,
+    //                 categoryPercentage: 0.5
+    //             }]
+    //             }
+    //         }
+    //     });
+    // }
+
+
+
+
+
+
+    // /* large line chart */
+    // var chLine = document.getElementById("chLine");
+    // var chartData = {
+    // // labels: ["S", "M", "T", "W", "T", "F", "S"],
+    // // labels: ["NO", "NY SUBMIT", "YES"],
+    //     labels: ['', <?php foreach($datamonth as $key => $item){ if($key+1 == count($datamonth)){ $br = "'"; }else{ $br = "',";  } echo "'".$item['month'].$br; } ?>],
+    //         datasets: [{
+    //             // data: [589, 445, 483, 503, 689, 692, 634],
+    //             data: [589, 445, 483],
+    //             backgroundColor: 'transparent',
+    //             borderColor: colors[0],
+    //             borderWidth: 4,
+    //             pointBackgroundColor: colors[0]
+    //         },
+    //         {
+    //             data: [789, 345, 583],
+    //             backgroundColor: 'transparent',
+    //             borderColor: colors[1],
+    //             borderWidth: 4,
+    //             pointBackgroundColor: colors[1]
+    //         },
+    //         {
+    //             data: [520, 400, 550],
+    //             backgroundColor: 'transparent',
+    //             borderColor: colors[2],
+    //             borderWidth: 4,
+    //             pointBackgroundColor: colors[2]
+    //         }
+           
+    //     ]
+    // };
+    // if (chLine) {
+    // new Chart(chLine, {
+    // type: 'line',
+    // data: chartData,
+    // options: {
+    //     scales: {
+    //     xAxes: [{
+    //         ticks: {
+    //         beginAtZero: false
+    //         }
+    //     }]
+    //     },
+    //     legend: {
+    //     display: false
+    //     },
+    //     responsive: true
+    // }
+    // });
+    // }
+
+   
+    
 
    
 
-    var chLine1 = document.getElementById("chLine1");
-    if (chLine1) {
-    new Chart(chLine1, {
-        type: 'line',
-        data: {
-            labels: ['Jan','Feb','Mar','Apr','May'],
-            datasets: [
-                {
-                backgroundColor:'#ffffff',
-                borderColor:'#ffffff',
-                data: [10, 11, 4, 11, 4],
-                fill: false
-                }
-            ]
-        },
-        options: lineOptions
-    });
-    }
-    var chLine2 = document.getElementById("chLine2");
-    if (chLine2) {
-    new Chart(chLine2, {
-        type: 'line',
-        data: {
-            labels: ['A','B','C','D','E'],
-            datasets: [
-                {
-                backgroundColor:'#ffffff',
-                borderColor:'#ffffff',
-                data: [4, 5, 7, 13, 12],
-                fill: false
-                }
-            ]
-        },
-        options: lineOptions
-    });
-    }
+    // var chLine1 = document.getElementById("chLine1");
+    // if (chLine1) {
+    // new Chart(chLine1, {
+    //     type: 'line',
+    //     data: {
+    //         labels: ['Jan','Feb','Mar','Apr','May'],
+    //         datasets: [
+    //             {
+    //             backgroundColor:'#ffffff',
+    //             borderColor:'#ffffff',
+    //             data: [10, 11, 4, 11, 4],
+    //             fill: false
+    //             }
+    //         ]
+    //     },
+    //     options: lineOptions
+    // });
+    // }
+    // var chLine2 = document.getElementById("chLine2");
+    // if (chLine2) {
+    // new Chart(chLine2, {
+    //     type: 'line',
+    //     data: {
+    //         labels: ['A','B','C','D','E'],
+    //         datasets: [
+    //             {
+    //             backgroundColor:'#ffffff',
+    //             borderColor:'#ffffff',
+    //             data: [4, 5, 7, 13, 12],
+    //             fill: false
+    //             }
+    //         ]
+    //     },
+    //     options: lineOptions
+    // });
+    // }
 
-    var chLine3 = document.getElementById("chLine3");
-    if (chLine3) {
-    new Chart(chLine3, {
-        type: 'line',
-        data: {
-            labels: ['Pos','Neg','Nue','Other','Unknown'],
-            datasets: [
-                {
-                backgroundColor:'#ffffff',
-                borderColor:'#ffffff',
-                data: [13, 15, 10, 9, 14],
-                fill: false
-                }
-            ]
-        },
-        options: lineOptions
-    });
-    }
+    // var chLine3 = document.getElementById("chLine3");
+    // if (chLine3) {
+    // new Chart(chLine3, {
+    //     type: 'line',
+    //     data: {
+    //         labels: ['Pos','Neg','Nue','Other','Unknown'],
+    //         datasets: [
+    //             {
+    //             backgroundColor:'#ffffff',
+    //             borderColor:'#ffffff',
+    //             data: [13, 15, 10, 9, 14],
+    //             fill: false
+    //             }
+    //         ]
+    //     },
+    //     options: lineOptions
+    // });
+    // }
 </script>
 
 @if(check_access('cluster.delete'))

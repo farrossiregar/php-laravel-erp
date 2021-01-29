@@ -10,14 +10,18 @@
             </div>
             <div class="body pt-0">
 
-            
+                <div class="row">
+                    <div class="col-md-2">
+                        <b><h4>Original</h4></b> 
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-striped m-b-0 c_list">
                         <thead>
                             <tr>
                                 <th>No</th>                               
                                 <th>Collection</th>  
-                                <th><i class="fa fa-plus"></i> {{__('NO PO')}}</th>  
+                                <th>{{__('NO PO')}}</th>  
                                 <!-- <th>NO PO</th> -->
                                 <th>Item Number</th>  
                                 <th>DATE PO RELEASED</th>  
@@ -83,6 +87,97 @@
                                 <td>{{ $item->no_invoice }}</td>
                                 <td>{{ $item->inv_date }}</td>
                                 <td>{{ $item->payment_date }}</td>
+
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <br />
+                
+            </div>
+
+            
+            @if(check_sitelist_temp($id_site_master))
+                                                  
+            <div class="body pt-0">
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <b><h4>Duplicate </h4></b> 
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped m-b-0 c_list">
+                        <thead>
+                            <tr>
+                                <th>No</th>                               
+                                <th>Collection</th>  
+                                <th>{{__('NO PO')}}</th>  
+                                <th>Item Number</th>  
+                                <th>DATE PO RELEASED</th>  
+                                <th>Pic RPM</th>  
+                                <th>Pic SM</th>  
+                                <th>Type</th>  
+                                <th>Item Description</th>  
+                                <th>Period</th>  
+                                <th>Region</th>  
+                                <th>Region1</th>  
+                                <th>Project</th>  
+                                <th>Penalty</th>  
+                                <th>Last Status</th>  
+                                <th>Remark</th>  
+                                <th>QTY PO</th>  
+                                <th>Actual QTY</th>  
+                                <th>NO BAST</th>  
+                                <th>DATE BAST APPROVAL</th>  
+                                <th>DATE BAST APPROVAL BY SYSTEM</th>  
+                                <th>Date GR Req</th>  
+                                <th>No GR</th>  
+                                <th>Date GR Share</th>  
+                                <th>NO INV</th>  
+                                <th>INV Date</th>  
+                                <th>Payment Date</th>  
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach(check_sitelist_temp($id_site_master) as $k => $item)
+                            <tr>
+                                <td style="width: 50px;">{{ $k+1 }}</td>
+                                <td>{{ $item->collection }}</td>
+                                <td> 
+                                    <?php 
+                                        if(check_duplicate_sitelist($item->no_po) == 'ada'){ 
+                                            echo '<a href="#" id="nopo" onclick="modalduplicate('.$item->no_po.')" title="Upload" ><b style="color:red;">'.$item->no_po.'</b></a>'; 
+                                        }else{ 
+                                            echo $item->no_po; 
+                                        } 
+                                    ?>
+                                </td>
+                                <td>{{ $item->item_number }}</td>
+                                <td>{{ $item->date_po_release }}</td>
+                                <td>{{ $item->pic_rpm }}</td>
+                                <td>{{ $item->pic_sm }}</td>
+                                <td>{{ $item->type }}</td>
+                                <td>{{ $item->item_description }}</td>
+                                <td>{{ $item->period }}</td>
+                                <td>{{ $item->region }}</td>
+                                <td>{{ $item->region1 }}</td>
+                                <td>{{ $item->project }}</td>
+                                <td>{{ $item->penalty }}</td>
+                                <td>{{ $item->last_status }}</td>
+                                <td>{{ $item->remark }}</td>
+                                <td>{{ $item->qty_po }}</td>
+                                <td>{{ $item->actual_qty }}</td>
+                                <td>{{ $item->no_bast }}</td>
+                                <td>{{ $item->date_bast_approval }}</td>
+                                <td>{{ $item->date_bast_approval_by_system }}</td>
+                                <td>{{ $item->date_gr_req }}</td>
+                                <td>{{ $item->no_gr }}</td>
+                                <td>{{ $item->date_gr_share }}</td>
+                                <td>{{ $item->no_invoice }}</td>
+                                <td>{{ $item->inv_date }}</td>
+                                <td>{{ $item->payment_date }}</td>
                                 
                             </tr>
                             @endforeach
@@ -92,6 +187,9 @@
                 <br />
                 
             </div>
+            
+            @endif
+            
 
         </div>
     </div>
