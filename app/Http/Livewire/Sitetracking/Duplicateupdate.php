@@ -12,7 +12,7 @@ class Duplicateupdate extends Component
     public $file;
     public function render()
     {
-        return view('livewire.sitetracking.insert');
+        return view('livewire.sitetracking.duplicateupdate');
     }
     public function save()
     {
