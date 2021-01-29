@@ -1,5 +1,5 @@
 @section('title', 'Data')
-@section('parentPageTitle', 'Work Flow Management')
+@section('parentPageTitle',  __('Work Flow Management'))
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -19,11 +19,11 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
+                    <input type="text" class="form-control" wire:model="keyword" placeholder="{{ __('Searching...') }}" />
                 </div>
                 <div class="col-md-2 px-0">
                     <select class="form-control" wire:model="region">
-                        <option value=""> --- Region --- </option>
+                        <option value=""> --- {{ __('Region') }} --- </option>
                         @foreach(\App\Models\WorkFlowManagement::groupBy('region')->get() as $item)
                         <option>{{$item->region}}</option>
                         @endforeach
@@ -33,7 +33,7 @@
                     <input type="text" class="form-control" wire:model="created_at" placeholder="Date Uploaded" onfocus="(this.type='date')" />
                 </div>
                 <div class="col-md-1 px-0">
-                    <a href="javascript:;" class="btn btn-primary" data-toggle="modal" data-target="#modal_upload"><i class="fa fa-upload"></i> Upload</a>
+                    <a href="javascript:;" class="btn btn-primary" data-toggle="modal" data-target="#modal_upload"><i class="fa fa-upload"></i> {{ __('Upload') }}</a>
                 </div>
             </div>
             <div class="body pt-0">
@@ -41,27 +41,27 @@
                     <table class="table table-striped m-b-0 c_list">
                         <thead>
                             <tr>
-                                <th>NO</th>
-                                <th>UPLOADED</th>                                    
-                                <th>DATE</th>                                    
-                                <th>NAME</th>                                    
-                                <th>ID</th>                                    
-                                <th>SERVICEAREA4</th>
-                                <th>CITY</th>
-                                <th>SERVICEAREA2</th>
-                                <th>REGION</th>
-                                <th>ASP</th>
-                                <th>REGION_&_ASP_INFO</th>
-                                <th>SKILLS</th>
-                                <th>WO ASSIGN</th>
-                                <th>WO ACCEPT</th>
-                                <th>WO_CLOSE_MANUAL</th>
-                                <th>WO_CLOSE_AUTO</th>
-                                <th>MTTR</th>
-                                <th>REMARK_WO_ASSIGN</th>
-                                <th>REMARK_WO_ACCEPT</th>
-                                <th>REMARK_WO_CLOSE MANUAL</th>
-                                <th>FINAL REMARK</th>
+                                <th>{{ __('NO') }}</th>
+                                <th>{{ __('UPLOADED') }}</th>                                    
+                                <th>{{ __('DATE') }}</th>                                    
+                                <th>{{ __('NAME') }}</th>                                    
+                                <th>{{ __('ID') }}</th>                                    
+                                <th>{{ __('SERVICEAREA4') }}</th>
+                                <th>{{ __('CITY') }}</th>
+                                <th>{{ __('SERVICEAREA2') }}</th>
+                                <th>{{ __('REGION') }}</th>
+                                <th>{{ __('ASP') }}</th>
+                                <th>{{ __('REGION_&_ASP_INFO') }}</th>
+                                <th>{{ __('SKILLS') }}</th>
+                                <th>{{ __('WO ASSIGN') }}</th>
+                                <th>{{ __('WO ACCEPT') }}</th>
+                                <th>{{ __('WO_CLOSE_MANUAL') }}</th>
+                                <th>{{ __('WO_CLOSE_AUTO') }}</th>
+                                <th>{{ __('MTTR') }}</th>
+                                <th>{{ __('REMARK_WO_ASSIGN') }}</th>
+                                <th>{{ __('REMARK_WO_ACCEPT') }}</th>
+                                <th>{{ __('REMARK_WO_CLOSE MANUAL') }}</th>
+                                <th>{{ __('FINAL REMARK') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -99,7 +99,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal -->
 <div class="modal fade" id="modal_upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
