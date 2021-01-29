@@ -102,8 +102,8 @@
         <script src="{{ asset('assets/bundles/jvectormap.bundle.js') }}"></script> <!-- JVectorMap Plugin Js -->
         <script src="{{ asset('assets/bundles/knob.bundle.js') }}"></script>
         <script src="{{ asset('assets/bundles/mainscripts.bundle.js') }}"></script>
-        @stack('after-scripts')
         @livewireScripts
+        @stack('after-scripts')
         @if (trim($__env->yieldContent('page-script')))
             <script>
                 @yield('page-script')

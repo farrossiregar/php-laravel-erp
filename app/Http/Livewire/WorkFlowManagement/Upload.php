@@ -29,6 +29,7 @@ class Upload extends Component
             $countLimit = 1;
             $total_failed = 0;
             $total_success = 0;
+            $data_notification = [];
             foreach($sheetData as $key => $i){
                 if($key<1) continue; // skip header
                 
@@ -48,13 +49,14 @@ class Upload extends Component
                 $data->wo_accept = $i[11];
                 $data->wo_close_manual = $i[12];
                 $data->wo_close_auto = $i[13];
-                $data->mttr = $i[14];
+                if($i[14]) $data->mttr = round($i[14] * 100,2);
                 $data->remark_wo_assign = $i[15];
                 $data->remark_wo_accept = $i[16];
                 $data->remark_wo_close_manual = $i[17];
                 $data->final_remark = $i[18];
+                $data->user_id = \Auth::user()->id;
                 $data->save();
-
+                if((int)$data->mttr >=5) $data_notification[] = $data;
                 $total_success++;
             }
             session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");

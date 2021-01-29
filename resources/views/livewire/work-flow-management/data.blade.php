@@ -4,8 +4,33 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="header row">
-                <div class="col-md-2">
+                <div class="col-md-1 pr-0">
+                    <select class="form-control" wire:model="perpage">
+                        <option value="100">-- limit -- </option>
+                        <option>200</option>
+                        <option>300</option>
+                        <option>400</option>
+                        <option>500</option>
+                        <option>600</option>
+                        <option>700</option>
+                        <option>800</option>
+                        <option>900</option>
+                        <option>1000</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
+                </div>
+                <div class="col-md-2 px-0">
+                    <select class="form-control" wire:model="region">
+                        <option value=""> --- Region --- </option>
+                        @foreach(\App\Models\WorkFlowManagement::groupBy('region')->get() as $item)
+                        <option>{{$item->region}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" wire:model="created_at" placeholder="Date Uploaded" onfocus="(this.type='date')" />
                 </div>
                 <div class="col-md-1 px-0">
                     <a href="javascript:;" class="btn btn-primary" data-toggle="modal" data-target="#modal_upload"><i class="fa fa-upload"></i> Upload</a>
@@ -17,6 +42,7 @@
                         <thead>
                             <tr>
                                 <th>NO</th>
+                                <th>UPLOADED</th>                                    
                                 <th>DATE</th>                                    
                                 <th>NAME</th>                                    
                                 <th>ID</th>                                    
@@ -25,16 +51,16 @@
                                 <th>SERVICEAREA2</th>
                                 <th>REGION</th>
                                 <th>ASP</th>
-                                <th>REGION & ASP INFO</th>
+                                <th>REGION_&_ASP_INFO</th>
                                 <th>SKILLS</th>
                                 <th>WO ASSIGN</th>
                                 <th>WO ACCEPT</th>
-                                <th>WO CLOSE MANUAL</th>
-                                <th>WO CLOSE AUTO</th>
+                                <th>WO_CLOSE_MANUAL</th>
+                                <th>WO_CLOSE_AUTO</th>
                                 <th>MTTR</th>
-                                <th>REMARK WO ASSIGN</th>
-                                <th>REMARK WO ACCEPT</th>
-                                <th>REMARK WO CLOSE MANUAL</th>
+                                <th>REMARK_WO_ASSIGN</th>
+                                <th>REMARK_WO_ACCEPT</th>
+                                <th>REMARK_WO_CLOSE MANUAL</th>
                                 <th>FINAL REMARK</th>
                             </tr>
                         </thead>
@@ -42,6 +68,7 @@
                             @foreach($data as $k => $item)
                             <tr>
                                 <td style="width: 50px;">{{$k+1}}</td>
+                                <td>{{date('d M Y',strtotime($item->created_at))}}</td> 
                                 <td>{{$item->date}}</td> 
                                 <td>{{$item->name}}</td> 
                                 <td>{{$item->id_}}</td> 

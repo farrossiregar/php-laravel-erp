@@ -19,6 +19,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Name</th>
+                                <th>Prefix Link</th>
                                 <th>Updated</th>
                                 {{-- <th></th> --}}
                             </tr>

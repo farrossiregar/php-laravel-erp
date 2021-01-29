@@ -9,6 +9,7 @@ class Edit extends Component
 {
     public $data;
     public $name;
+    public $prefix_link;
     public $items;
     public $parent_id;
     protected $listeners = ['toggleModal'];
@@ -33,6 +34,7 @@ class Edit extends Component
             'name'=>'required'
         ]);   
         $this->data->name = $this->name;
+        $this->data->prefix_link = $this->prefix_link;
         $this->data->save();
         session()->flash('message-success',__('Data saved successfully'));
 

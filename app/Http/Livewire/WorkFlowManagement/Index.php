@@ -17,5 +17,4 @@ class Index extends Component
         $data = \App\Models\WorkFlowManagement::orderBy('updated_at','DESC');
         return view('livewire.work-flow-management.index')->with(['data'=>$data->paginate(100)]);
     }
-
 }
