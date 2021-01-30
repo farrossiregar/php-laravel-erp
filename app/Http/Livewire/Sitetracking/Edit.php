@@ -28,15 +28,17 @@ class Edit extends Component
         // }
         
         $data           = $this->data;
+        $status         = $this->status;
         $id_site_master = $this->id;
 
         // return view('livewire.sitetracking.edit')->with(['data'=>$this->data]);
-        return view('livewire.sitetracking.edit')->with(compact('data', 'id_site_master'));
+        return view('livewire.sitetracking.edit')->with(compact('data', 'id_site_master', 'status'));
     }
 
     public function mount($id)
     {
         $this->data      = SiteListTrackingDetail::where('id_site_master',$id)->get();
+        $this->status    = SiteListTrackingMaster::select('status')->where('id',$id)->get();
         $this->id        = $id;       
         
     }

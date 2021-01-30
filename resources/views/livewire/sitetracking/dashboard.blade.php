@@ -103,10 +103,10 @@
                         </select>
                     </div>
                     <div class="col-md-2 px-0">
-                        <select class="form-control" id="region_id">
+                        <select class="form-control" id="region">
                             <option value=""> --- Region --- </option>
                             @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $region)
-                            <option value="{{$region->id}}">{{$region->region}}</option>
+                            <option value="{{$region->region}}">{{$region->region}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -116,7 +116,7 @@
                     
                 </div>
                 <div class="row my-2">
-                    <div class="col-md-12 py-1">
+                    <div class="col-md-8 py-1">
                         <div class="card">
                             <div class="card-body">
                                 <canvas id="chBar"></canvas>
@@ -142,54 +142,78 @@
 
 
 @push('after-scripts')
-<link rel="stylesheet" href="{{ asset('assets/vendor/chartist/css/chartist.min.css')}}"/>
+<!-- <link rel="stylesheet" href="{{ asset('assets/vendor/chartist/css/chartist.min.css')}}"/>
 <link rel="stylesheet" href="{{ asset('assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css')}}"/>
 <script src="{{ asset('assets/bundles/chartist.bundle.js')}}"></script>
 <script src="{{ asset('assets/vendor/chartist/polar_area_chart.js')}}"></script>
 <script src="{{ asset('assets/js/pages/charts/chartjs.js')}}"></script>
-@endpush
+@endpush -->
 
 
 <script>
     function getsitelisttracking(){
         var year        = $('#year').val();
-        var region_id   = $('#region_id').val();
-        var mth = [];
+        var region      = $('#region').val();
+        var mth         = [];
         $.each($("input[name='cxm']:checked"), function(){
             mth.push($(this).val());
         });
         // console.log(mth);
 
+        
+
         $.ajax({
             url: "{{ route('site-tracking.dashboardsitelist') }}", 
             type: "POST",
-            data: {'year' : year, 'month' : mth, '_token' : $("meta[name='csrf-token']").attr('content')},
+            data: {'year' : year, 'month' : mth, 'region' : region, '_token' : $("meta[name='csrf-token']").attr('content')},
             dataType: 'json',
             success: function(result){
-                console.log(result);
 
                 var chBar = document.getElementById("chBar");
+                
+
+                var dataslt = [];
+                // var datas = [[123, 456], [789, 987], [185, 223]];
+                var bulan = [];
+                
+                for(var i = 0; i < result.length; i++)  {
+                    console.log(result[i]['QTY']);
+                    dataslt.push({
+                            data: [result[i]['QTY']],
+                            backgroundColor: colors[i],
+                            borderColor: colors[i],
+                            borderWidth: 4,
+                            pointBackgroundColor: colors[0]
+                        });
+
+                    bulan.push(result[i]['period']);
+                    // console.log(datas[i]);
+                }
+                // console.log(dataslt);
+                // console.log({mth});
+                
                 if (chBar) {
                     new Chart(chBar, {
                         type: 'bar',
                         data: {
-                            // labels: ["S", "M"],
-                            labels: mth,
-                            datasets: [{
-                                        data: [445, 483],
-                                        backgroundColor: colors[0],
-                                        borderColor: colors[0],
-                                        borderWidth: 4,
-                                        pointBackgroundColor: colors[0]
-                                    },
-                                    {
-                                        data: [345, 583],
-                                        backgroundColor: colors[1],
-                                        borderColor: colors[1],
-                                        borderWidth: 4,
-                                        pointBackgroundColor: colors[1]
-                                    }
-                            ],
+                            
+                            labels: bulan,
+                            // datasets: [{
+                            //             data: [445, 483],
+                            //             backgroundColor: colors[0],
+                            //             borderColor: colors[0],
+                            //             borderWidth: 4,
+                            //             pointBackgroundColor: colors[0]
+                            //         },
+                            //         {
+                            //             data: [345, 583],
+                            //             backgroundColor: colors[1],
+                            //             borderColor: colors[1],
+                            //             borderWidth: 4,
+                            //             pointBackgroundColor: colors[1]
+                            //         }
+                            // ],
+                            datasets : dataslt,
                         },
                         options: {
                             legend: {
@@ -212,13 +236,15 @@
     }
 
     $(document).ready(function(){
-        var month = '<?php echo date('m'); ?>';
-        var year = '<?php echo date('Y'); ?>';
-
+        var year        = $('#year').val();
+        var region      = $('#region').val();
+        var mth         = [];
+        $.each($("input[name='cxm']:checked"), function(){
+            mth.push($(this).val());
+        });
+        
         getsitelisttracking();
        
-
-        console.log(month);
     });
 
     
@@ -234,7 +260,7 @@
 
     /* bar chart */
     var dataqty = [];
-    var dataqty1 = {!!json_encode($data)!!};
+    
     // alert(dataqty1);
 
     // for(var i = 0; i < 2; i++){
@@ -246,170 +272,10 @@
     //                     pointBackgroundColor: colors[0]
     //                 });
     // }
-    // var chBar = document.getElementById("chBar");
-    // if (chBar) {
-    //     new Chart(chBar, {
-    //         type: 'bar',
-    //         data: {
-                // labels: ["S", "M", "T", "W", "T", "F", "S"],
-                // labels: [<?php foreach($datamonth as $key => $item){ if($key+1 == count($datamonth)){ $br = "'"; }else{ $br = "',";  } echo "'".$item['month'].$br; } ?>],
-                // datasets: [{
-                // data: [589, 445, 483, 503, 689, 692, 634],
-                // backgroundColor: colors[0]
-                // },
-                // {
-                // data: [639, 465, 493, 478, 589, 632, 674],
-                // backgroundColor: colors[1]
-                // }]
-
-                // datasets: [{
-                //                 data: [445, 483],
-                //                 backgroundColor: colors[0],
-                //                 borderColor: colors[0],
-                //                 borderWidth: 4,
-                //                 pointBackgroundColor: colors[0]
-                //             },
-                //             {
-                //                 data: [345, 583],
-                //                 backgroundColor: colors[1],
-                //                 borderColor: colors[1],
-                //                 borderWidth: 4,
-                //                 pointBackgroundColor: colors[1]
-                //             }
-                // ]
-
-    //             datasets: dataqty
-    //         },
-    //         options: {
-    //             legend: {
-    //             display: false
-    //             },
-    //             scales: {
-    //             xAxes: [{
-    //                 barPercentage: 0.4,
-    //                 categoryPercentage: 0.5
-    //             }]
-    //             }
-    //         }
-    //     });
-    // }
-
-
-
-
-
-
-    // /* large line chart */
-    // var chLine = document.getElementById("chLine");
-    // var chartData = {
-    // // labels: ["S", "M", "T", "W", "T", "F", "S"],
-    // // labels: ["NO", "NY SUBMIT", "YES"],
-    //     labels: ['', <?php foreach($datamonth as $key => $item){ if($key+1 == count($datamonth)){ $br = "'"; }else{ $br = "',";  } echo "'".$item['month'].$br; } ?>],
-    //         datasets: [{
-    //             // data: [589, 445, 483, 503, 689, 692, 634],
-    //             data: [589, 445, 483],
-    //             backgroundColor: 'transparent',
-    //             borderColor: colors[0],
-    //             borderWidth: 4,
-    //             pointBackgroundColor: colors[0]
-    //         },
-    //         {
-    //             data: [789, 345, 583],
-    //             backgroundColor: 'transparent',
-    //             borderColor: colors[1],
-    //             borderWidth: 4,
-    //             pointBackgroundColor: colors[1]
-    //         },
-    //         {
-    //             data: [520, 400, 550],
-    //             backgroundColor: 'transparent',
-    //             borderColor: colors[2],
-    //             borderWidth: 4,
-    //             pointBackgroundColor: colors[2]
-    //         }
-           
-    //     ]
-    // };
-    // if (chLine) {
-    // new Chart(chLine, {
-    // type: 'line',
-    // data: chartData,
-    // options: {
-    //     scales: {
-    //     xAxes: [{
-    //         ticks: {
-    //         beginAtZero: false
-    //         }
-    //     }]
-    //     },
-    //     legend: {
-    //     display: false
-    //     },
-    //     responsive: true
-    // }
-    // });
-    // }
 
    
     
 
-   
-
-    // var chLine1 = document.getElementById("chLine1");
-    // if (chLine1) {
-    // new Chart(chLine1, {
-    //     type: 'line',
-    //     data: {
-    //         labels: ['Jan','Feb','Mar','Apr','May'],
-    //         datasets: [
-    //             {
-    //             backgroundColor:'#ffffff',
-    //             borderColor:'#ffffff',
-    //             data: [10, 11, 4, 11, 4],
-    //             fill: false
-    //             }
-    //         ]
-    //     },
-    //     options: lineOptions
-    // });
-    // }
-    // var chLine2 = document.getElementById("chLine2");
-    // if (chLine2) {
-    // new Chart(chLine2, {
-    //     type: 'line',
-    //     data: {
-    //         labels: ['A','B','C','D','E'],
-    //         datasets: [
-    //             {
-    //             backgroundColor:'#ffffff',
-    //             borderColor:'#ffffff',
-    //             data: [4, 5, 7, 13, 12],
-    //             fill: false
-    //             }
-    //         ]
-    //     },
-    //     options: lineOptions
-    // });
-    // }
-
-    // var chLine3 = document.getElementById("chLine3");
-    // if (chLine3) {
-    // new Chart(chLine3, {
-    //     type: 'line',
-    //     data: {
-    //         labels: ['Pos','Neg','Nue','Other','Unknown'],
-    //         datasets: [
-    //             {
-    //             backgroundColor:'#ffffff',
-    //             borderColor:'#ffffff',
-    //             data: [13, 15, 10, 9, 14],
-    //             fill: false
-    //             }
-    //         ]
-    //     },
-    //     options: lineOptions
-    // });
-    // }
 </script>
 
 @if(check_access('cluster.delete'))

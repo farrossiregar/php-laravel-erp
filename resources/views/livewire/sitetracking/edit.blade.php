@@ -190,7 +190,31 @@
             
             @endif
             
-
+            <div class="body pt-0">
+                <div class="row">
+                   <div class="col-md-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1" <?php if($status[0]['status'] == '1'){ echo "checked";} ?>>
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Approve
+                            </label>
+                        </div>
+                        <br>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="0" <?php if($status[0]['status'] == '0'){ echo "checked";} ?>>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Reject
+                            </label>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div href="#" class="btn btn-primary" onclick="approvesitelisttracking()"><i class="fa fa-search"></i>Submit</div>
+                    </div>
+                </div>
+            </div>                                        
         </div>
     </div>
 </div>
@@ -282,6 +306,22 @@
             }
         });
 
+    }
+
+
+    function approvesitelisttracking(){
+        var status = $("input[name='flexRadioDefault']:checked").val();
+        alert(status);
+        var id = '<?php echo $id_site_master;?>';
+        $.ajax({
+            url: "{{ route('site-tracking.approvesitelisttracking') }}", 
+            type: "POST",
+            data: {'id' : id, 'status' : status, '_token' : $("meta[name='csrf-token']").attr('content')},
+            dataType: 'json',
+            success: function(result){
+                location.reload();
+            }
+        )};
     }
 </script>
 
