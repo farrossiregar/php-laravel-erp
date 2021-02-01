@@ -91,3 +91,9 @@ function check_duplicate_sitelist($no){
         return 'g';
     }
 }
+
+
+function check_sitelist_temp($id_site_master){
+    $data = \App\Models\SiteListTrackingTemp::where('id_site_master', $id_site_master)->get();
+    return $data;
+}
