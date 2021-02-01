@@ -201,7 +201,7 @@
                         </div>
                         <br>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="0" <?php if($status[0]['status'] == '0'){ echo "checked";} ?>>
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2" <?php if($status[0]['status'] == '2'){ echo "checked";} ?>>
                             <label class="form-check-label" for="flexRadioDefault2">
                                 Reject
                             </label>
@@ -320,6 +320,7 @@
             data: {'id' : id, 'status' : status, '_token' : $("meta[name='csrf-token']").attr('content')},
             dataType: 'json',
             success: function(result){
+                // console.log(result);
                 location.reload();
             }
         });

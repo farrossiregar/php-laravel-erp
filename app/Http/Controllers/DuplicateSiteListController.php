@@ -116,8 +116,9 @@ class DuplicateSiteListController extends Controller
     public function approvesitelisttracking(Request $request){
         $id = $request->id;
         $status = $request->status;
-        $data = SiteListTrackingMaster::where('id', $id)->get();
+        $data = SiteListTrackingMaster::where('id', $id)->first();
         $data->status = $status;
         $data->save();
+        return response()->json($data);
     }
 }
