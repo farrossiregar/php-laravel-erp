@@ -233,6 +233,7 @@
 
 <script>
     function modalduplicate($nopo){
+        
         $("#modal-preview-duplicate").modal('show');
         $('.title_no_po').html('Preview Duplicate ' + $nopo);
         $('#deleteoriginal').attr('onclick','deleteoriginal(' + $nopo + ')');
@@ -311,7 +312,7 @@
 
     function approvesitelisttracking(){
         var status = $("input[name='flexRadioDefault']:checked").val();
-        alert(status);
+        // alert(status);
         var id = '<?php echo $id_site_master;?>';
         $.ajax({
             url: "{{ route('site-tracking.approvesitelisttracking') }}", 
@@ -321,7 +322,7 @@
             success: function(result){
                 location.reload();
             }
-        )};
+        });
     }
 </script>
 
