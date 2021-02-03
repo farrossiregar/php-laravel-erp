@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddNameSiteListTracking extends Migration
+class AddColumnClusterRegionTSites extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddNameSiteListTracking extends Migration
      */
     public function up()
     {
-        Schema::table('site_list_tracking_master', function (Blueprint $table) {
-            $table->string('name',200)->nullable();
+        Schema::table('sites', function (Blueprint $table) {
+            $table->integer('region_id')->nullable();
+            $table->integer('cluster_id')->nullable();
         });
     }
 
@@ -25,7 +26,7 @@ class AddNameSiteListTracking extends Migration
      */
     public function down()
     {
-        Schema::table('site_list_tracking_master', function (Blueprint $table) {
+        Schema::table('sites', function (Blueprint $table) {
             //
         });
     }
