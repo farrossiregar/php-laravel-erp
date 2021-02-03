@@ -10,13 +10,13 @@ use App\Models\SiteListTrackingDetail;
 class Edit extends Component
 {
     public $data;
-    // public $id;
-    public $collection;
-    public $item_number;
-    public $date_po_released;
-    public $pic_rpm;
-    public $pic_sm;
-    public $type;
+    // // public $id;
+    // public $collection;
+    // public $item_number;
+    // public $date_po_released;
+    // public $pic_rpm;
+    // public $pic_sm;
+    // public $type;
     public $message;
 
 
@@ -27,21 +27,22 @@ class Edit extends Component
         //     $this->redirect('/');
         // }
         
-        $data           = $this->data;
-        $status         = $this->status;
-        $id_site_master = $this->id;
+        // $data           = $this->data;
+        // $status         = $this->status;
+        // $id_site_master = $this->id;
 
         // return view('livewire.sitetracking.edit')->with(['data'=>$this->data]);
-        return view('livewire.sitetracking.edit')->with(compact('data', 'id_site_master', 'status'));
+        // return view('livewire.criticalcase.edit')->with(compact('data', 'id_site_master', 'status'));
+        return view('livewire.criticalcase.update');
     }
 
-    public function mount($id)
-    {
-        $this->data      = SiteListTrackingDetail::where('id_site_master',$id)->get();
-        $this->status    = SiteListTrackingMaster::select('status')->where('id',$id)->get();
-        $this->id        = $id;       
+    // public function mount($id)
+    // {
+    //     $this->data      = SiteListTrackingDetail::where('id_site_master',$id)->get();
+    //     $this->status    = SiteListTrackingMaster::select('status')->where('id',$id)->get();
+    //     $this->id        = $id;       
         
-    }
+    // }
 
     // public function save(){
     //     $this->validate();
