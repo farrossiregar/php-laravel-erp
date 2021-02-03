@@ -68,7 +68,7 @@
                                 <td>{{isset($item->access->name)?$item->access->name:''}}</td>
                                 <td>{{$item->updated_at}}</td>
                                 <td>  
-                                    @if(check_access('employee.autologin'))
+                                    @if(check_access('employee.autologin') and !empty($item->user_id))
                                     <a href="#" class="text-success pr-2" onclick="autologin('{{ route('users.autologin',['id'=>$item->user_id]) }}','{{$item->name}}')" title="Autologin"><i class="fa fa-sign-in"></i></a>
                                     @endif
                                     @if(check_access('employee.delete'))
