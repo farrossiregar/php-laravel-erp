@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="{{ asset('assets/vendor/jvectormap/jquery-jvectormap-2.0.3.min.css') }}"/>
         <link rel="stylesheet" href="{{ asset('assets/vendor/morrisjs/morris.min.css') }}" />
         <!-- Custom Css -->
-        <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}?v=1">
+        <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}?v=2">
         <link rel="stylesheet" href="{{ asset('assets/css/color_skins.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
 
