@@ -20,7 +20,7 @@
         <!-- Custom Css -->
         <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}?v=2">
         <link rel="stylesheet" href="{{ asset('assets/css/color_skins.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}?v=2">
         @stack('after-styles')
         @if (trim($__env->yieldContent('page-styles')))
             @yield('page-styles')
@@ -59,20 +59,11 @@
                         </div>
                         @endif
 
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-lg-5 col-md-8 col-sm-12">                        
                                 <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> @yield('title')</h2>
-                                {{-- <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="'/'"><i class="icon-home"></i></a></li>
-                                    @if (trim($__env->yieldContent('parentPageTitle')))
-                                       <li class="breadcrumb-item">@yield('parentPageTitle')</li>
-                                    @endif
-                                    @if (trim($__env->yieldContent('title')))
-                                        <li class="breadcrumb-item active">@yield('title')</li>
-                                    @endif
-                                </ul> --}}
                             </div>            
-                        </div>
+                        </div> --}}
                     </div>
                     @yield('content')
                     {{$slot}}
@@ -87,7 +78,7 @@
         <script src="{{ asset('assets/bundles/morrisscripts.bundle.js') }}"></script><!-- Morris Plugin Js -->
         <script src="{{ asset('assets/bundles/jvectormap.bundle.js') }}"></script> <!-- JVectorMap Plugin Js -->
         <script src="{{ asset('assets/bundles/knob.bundle.js') }}"></script>
-        <script src="{{ asset('assets/bundles/mainscripts.bundle.js') }}"></script>
+        <script src="{{ asset('assets/bundles/mainscripts.bundle.js') }}?v=1"></script>
         @livewireScripts
         @stack('after-scripts')
         @if (trim($__env->yieldContent('page-script')))

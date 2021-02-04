@@ -63,11 +63,10 @@ $(document).ready(function() {
 	$('.btn-toggle-fullwidth').on('click', function() {
 		if(!$('body').hasClass('layout-fullwidth')) {
 			$('body').addClass('layout-fullwidth');
-			$(this).find(".fa").toggleClass('fa-arrow-left fa-arrow-right');
-
+			//$(this).find(".fa").toggleClass('fa-arrow-left fa-arrow-right');
 		} else {
 			$('body').removeClass('layout-fullwidth');
-			$(this).find(".fa").toggleClass('fa-arrow-left fa-arrow-right');
+			//$(this).find(".fa").toggleClass('fa-arrow-left fa-arrow-right');
 		}
 	});
 

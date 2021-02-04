@@ -13,7 +13,7 @@ class WfmInternalReview extends Component
     }
     public function mount()
     {
-        $this->data = \App\Models\WorkFlowManagement::groupBy('servicearea2','name')->get();
-        $this->date = \App\Models\WorkFlowManagement::groupBy('date')->get();
+        $this->data = [];//\App\Models\WorkFlowManagement::groupBy('servicearea2','name')->get();
+        $this->date = []; //\App\Models\WorkFlowManagement::groupBy('date')->get();
     }
 }

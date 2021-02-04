@@ -15,7 +15,6 @@ class AcceptNeverCloseWoManual extends Component
     public function mount()
     {
         $this->year = date('Y');
-        $this->generate_chart();
     }
     public function updated($componentName){
         if($componentName=='year') $this->month = '';

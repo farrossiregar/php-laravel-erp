@@ -5,3 +5,7 @@
 .table-nowrap tr td{
     white-space:unset !important;
 }
+.btn-toggle-fullwidth {
+    font-size:25px;
+    margin-right: 10px;
+}
