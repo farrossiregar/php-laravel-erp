@@ -3,9 +3,9 @@
 <div class="vertical-align-wrap">
 	<div class="vertical-align-middle auth-main">
 		<div class="auth-box">
-            {{-- <div class="top text-center">
+            <div class="top text-center">
                 <img src="{{get_setting('logo')}}" alt="{{get_setting('company')}}">
-            </div> --}}
+            </div>
 			<div class="card">
                 <div class="header">
                     <p class="lead">{{__('Login to your account')}}</p>

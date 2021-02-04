@@ -9,7 +9,7 @@ class Edit extends Component
 {
     public $data;
     public $name;
-    public $prefix_link;
+    public $prefix_link,$icon;
     public $items;
     public $parent_id;
     protected $listeners = ['toggleModal'];
@@ -27,15 +27,18 @@ class Edit extends Component
         $this->data = \App\Models\Module::find($id);
         $this->items = \App\Models\ModulesItem::where('module_id',$id)->whereNull('parent_id')->get();
         $this->name = $this->data->name;
+        $this->icon = $this->data->icon;
         $this->prefix_link = $this->data->prefix_link;
     }
     public function save()
     {
         $this->validate([
-            'name'=>'required'
+            'name'=>'required',
+            'icon'=>'required'
         ]);   
         $this->data->name = $this->name;
         $this->data->prefix_link = $this->prefix_link;
+        $this->data->icon = $this->icon;
         $this->data->save();
         session()->flash('message-success',__('Data saved successfully'));
 

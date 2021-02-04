@@ -29,7 +29,7 @@
             </div>
         </div>
         <div id="wrapper">
-            <img src="{{get_setting('logo')}}" style="height:85px;position:absolute;right:5%;top:20px;" class="mr-5"  alt="{{get_setting('company')}}">
+            {{-- <img src="{{get_setting('logo')}}" style="height:85px;position:absolute;right:5%;top:20px;" class="mr-5"  alt="{{get_setting('company')}}"> --}}
             @yield('content')
             {{$slot}}
         </div>

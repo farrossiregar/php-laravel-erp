@@ -73,7 +73,10 @@
                             <tr>
                                 <td style="width: 50px;">{{$k+1}}</td>
                                 <td>{{date('d M Y',strtotime($item->created_at))}}</td> 
-                                <td>{{$item->tanggal_submission}}</td> 
+                                <td>
+                                    <a href="javascript:;" class="text-danger" wire:click="$emit('confirm-delete',{{$item->id}})"><i class="fa fa-trash"></i></a>
+                                    {{$item->tanggal_submission}}
+                                </td> 
                                 <td>{{isset($item->employee->name)?$item->employee->name : ''}}</td> 
                                 <td>{{isset($item->employee->nik)?$item->employee->nik : ''}}</td>
                                 <td>{{isset($item->tower->name)?$item->tower->name : ''}}</td> 
@@ -102,3 +105,16 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal_confirm_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:customer-asset-management.confirm-delete />
+        </div>
+    </div>
+</div>
+@section('page-script')
+Livewire.on('confirm-delete',(data)=>{
+    $("#modal_confirm_delete").modal("show");
+});
+@endsection

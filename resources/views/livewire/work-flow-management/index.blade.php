@@ -32,9 +32,4 @@
 </div>
 @push('after-scripts')
 <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
-<script>
-    $( document ).ready(function() {
-        $(".btn-toggle-fullwidth").trigger('click');
-    });
-</script>
 @endpush
