@@ -32,7 +32,7 @@
                                 <td>{{$item->prefix_link}}</td>
                                 <td>
                                     @if($item->icon)
-                                        <i class="fa fa-{{$item->icon}}"></i>
+                                        <i style="{{$item->color?'color:'.$item->color:''}}" class="fa fa-{{$item->icon}}"></i>
                                     @endif
                                 </td>
                                 <td>{{$item->updated_at}}</td>

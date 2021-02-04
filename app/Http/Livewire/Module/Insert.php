@@ -6,7 +6,7 @@ use Livewire\Component;
 
 class Insert extends Component
 {
-    public $name,$prefix_link,$icon;
+    public $name,$prefix_link,$icon,$color;
     public function render()
     {
         return view('livewire.module.insert');
@@ -22,6 +22,7 @@ class Insert extends Component
         $data->name = $this->name;
         $data->prefix_link = $this->prefix_link;
         $data->icon = $this->icon;
+        $data->color = $this->color;
         $data->save();
 
         session()->flash('message-success',__('Data saved successfully'));

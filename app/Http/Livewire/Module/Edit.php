@@ -9,7 +9,7 @@ class Edit extends Component
 {
     public $data;
     public $name;
-    public $prefix_link,$icon;
+    public $prefix_link,$icon,$color;
     public $items;
     public $parent_id;
     protected $listeners = ['toggleModal'];
@@ -29,6 +29,7 @@ class Edit extends Component
         $this->name = $this->data->name;
         $this->icon = $this->data->icon;
         $this->prefix_link = $this->data->prefix_link;
+        $this->color = $this->data->color;
     }
     public function save()
     {
@@ -39,6 +40,7 @@ class Edit extends Component
         $this->data->name = $this->name;
         $this->data->prefix_link = $this->prefix_link;
         $this->data->icon = $this->icon;
+        $this->data->color = $this->color;
         $this->data->save();
         session()->flash('message-success',__('Data saved successfully'));
 

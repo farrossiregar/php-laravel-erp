@@ -41,8 +41,6 @@ class WoNeverAssigned extends Component
             $this->series[$k]['fill'] =  'boundary';
             $this->legendNames[$k] = $item->region;
             $this->series[$k]['data'] = [];
-            // $this->series[$k]['type'] = 'line';
-            // $this->series[$k]['smooth'] = true;
             foreach(\App\Models\WorkFlowManagement::where(function($table){
                 $table->whereYear('date',$this->year);
                 if($this->month) $table->whereMonth('date',$this->month);
@@ -54,7 +52,6 @@ class WoNeverAssigned extends Component
         $this->labels = json_encode($this->labels);
         $this->series = json_encode($this->series);
         $this->legendNames = json_encode($this->legendNames);
-        
         $this->emit('init-chart',['labels'=>$this->labels,'series'=>$this->series,'legendNames'=>$this->legendNames]);   
     }
 }
