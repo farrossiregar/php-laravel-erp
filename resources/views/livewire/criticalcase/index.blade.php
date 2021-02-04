@@ -24,6 +24,7 @@
                         @endforeach
                     </select>
                 </div>
+                
                 <div class="col-md-1">
                     <a href="#" data-toggle="modal" data-target="#modal-criticalcase-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Site Tracking')}}</a>
                 </div>
@@ -84,7 +85,8 @@
                                 </td>
                                 <td>{{ $item->last_update }}</td>
                                 <td>
-                                <a href="#" data-toggle="modal" data-target="#modal-criticalcase-edit" wire:click="$emit('emit-delete',{{$item->id}})" title="Edit" class="btn btn-success"><i class="fa fa-plus"></i> {{__('Edit Critical Case')}}</a>
+                                <!-- <a href="#" data-toggle="modal" data-target="#modal-criticalcase-edit" wire:click="$emit('emit-delete',{{$item->id}})" title="Edit" class="btn btn-success"><i class="fa fa-plus"></i> {{__('Edit Critical Case')}}</a> -->
+                                <a href="#" data-toggle="modal" wire:click="$emit('update-critical',{{$item}})" title="Edit" class="btn btn-success"><i class="fa fa-plus"></i> {{__('Edit Critical Case')}}</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -114,8 +116,8 @@
 </div>
 
 
-<div class="modal fade bd-example-modal-lg" id="modal-criticalcase-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="modal-criticalcase-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <livewire:criticalcase.edit />
 
@@ -129,6 +131,12 @@
 Livewire.on('sitetracking-upload',()=>{
     $("#modal-sitetracking-upload").modal('hide');
 });
+
+@section('page-script')
+Livewire.on('update-critical',(data)=>{
+    $("#modal-criticalcase-edit").modal('show');
+});
+@endsection
 
 @endsection
 

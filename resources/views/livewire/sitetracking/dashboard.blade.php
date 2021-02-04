@@ -103,15 +103,8 @@
                         </select>
                     </div>
                     <div class="col-md-2 px-0">
-                        <select class="form-control" id="region">
-                            <option value=""> --- Region --- </option>
-                            @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $region)
-                            <option value="{{$region->region}}">{{$region->region}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-2 px-0">
-                        <div href="#" class="btn btn-primary" onclick="getsitelisttracking()"><i class="fa fa-search"></i>Submit</div>
+                        <!-- <div href="#" class="btn btn-primary" onclick="getsitelisttracking()"><i class="fa fa-search"></i>Submit</div> -->
+                        <!-- <div href="#" class="btn btn-primary"><i class="fa fa-search"></i>Submit</div> -->
                     </div>
                     
                 </div>
@@ -142,14 +135,65 @@
 
 
 @push('after-scripts')
-<!-- <link rel="stylesheet" href="{{ asset('assets/vendor/chartist/css/chartist.min.css')}}"/>
-<link rel="stylesheet" href="{{ asset('assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css')}}"/>
-<script src="{{ asset('assets/bundles/chartist.bundle.js')}}"></script>
-<script src="{{ asset('assets/vendor/chartist/polar_area_chart.js')}}"></script>
-<script src="{{ asset('assets/js/pages/charts/chartjs.js')}}"></script>
-@endpush -->
 
+<script>
 
+$( document ).ready(function() {
+    init_chart_critical_case();
+});
+Livewire.on('init-chart',(data)=>{
+    labels = JSON.parse(data.labels);
+    series = JSON.parse(data.series);
+    init_chart_critical_case();
+});
+
+function init_chart_critical_case(){
+    var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+    var chBar = document.getElementById("chBar");
+                       
+    if (chBar) {
+        new Chart(chBar, {
+            type: 'bar',
+            data: {
+                
+                // labels: ["S", "M", "T", "W", "T", "F", "S"],
+                labels: labels,
+                datasets: [
+                        // {
+                        //     data: [445, 483],
+                        //     backgroundColor: colors[0],
+                        //     borderColor: colors[0],
+                        //     borderWidth: 4,
+                        //     pointBackgroundColor: colors[0]
+                        // },
+                        {
+                            data: series,
+                            // data: [345, 583],
+                            backgroundColor: colors[1],
+                            borderColor: colors[1],
+                            borderWidth: 4,
+                            pointBackgroundColor: colors[1]
+                        }
+                ],
+            },
+            options: {
+                legend: {
+                display: false
+                },
+                scales: {
+                xAxes: [{
+                    barPercentage: 0.4,
+                    categoryPercentage: 0.5
+                }]
+                }
+            }
+        });
+    }
+}
+</script>
+@endpush
+
+<!-- 
 <script>
     function getsitelisttracking(){
         var year        = $('#year').val();
@@ -249,9 +293,9 @@
 
     
 
-</script>
+</script> -->
 
-<script>
+<!-- <script>
     /* chart.js chart examples */
 
     // chart colors
@@ -276,7 +320,7 @@
    
     
 
-</script>
+</script> -->
 
 @if(check_access('cluster.delete'))
 <div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

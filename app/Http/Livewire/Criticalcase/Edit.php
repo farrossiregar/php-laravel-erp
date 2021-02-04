@@ -3,21 +3,18 @@
 namespace App\Http\Livewire\Criticalcase;
 
 use Livewire\Component;
-use App\Models\SiteListTrackingMaster;
-use App\Models\SiteListTrackingDetail;
+use App\Models\Criticalcase;
 
 
 class Edit extends Component
 {
-    public $data;
-    // // public $id;
-    // public $collection;
-    // public $item_number;
-    // public $date_po_released;
-    // public $pic_rpm;
-    // public $pic_sm;
-    // public $type;
-    public $message;
+    protected $listeners = [
+                            'update-critical'=>'updateCritical',
+                            'refresh-page'=>'$refresh'
+                        ];
+    public $selected_id, $data, $date, $pic, $last_update, $region, $activity_handling;
+    public $action_point;
+    
 
 
     public function render()
@@ -26,33 +23,31 @@ class Edit extends Component
         //     session()->flash('message-error','Access denied.');
         //     $this->redirect('/');
         // }
-        
-        // $data           = $this->data;
-        // $status         = $this->status;
-        // $id_site_master = $this->id;
 
-        // return view('livewire.sitetracking.edit')->with(['data'=>$this->data]);
-        // return view('livewire.criticalcase.edit')->with(compact('data', 'id_site_master', 'status'));
-        return view('livewire.criticalcase.update');
+        
+        return view('livewire.criticalcase.update-critical');
     }
 
-    // public function mount($id)
-    // {
-    //     $this->data      = SiteListTrackingDetail::where('id_site_master',$id)->get();
-    //     $this->status    = SiteListTrackingMaster::select('status')->where('id',$id)->get();
-    //     $this->id        = $id;       
-        
-    // }
 
-    // public function save(){
-    //     $this->validate();
-        
-    //     $this->data->name = $this->name;
-    //     $this->data->region_id = $this->region_id;
-    //     $this->data->save();
+    public function updateCritical($id)
+    {
+        $this->selected_id = $id;
 
-    //     session()->flash('message-success',__('Data saved successfully'));
+        $this->data                 = Criticalcase::where('id', $this->selected_id)->first();
+        $this->pic                  = $this->data->pic;
+        $this->date                 = $this->data->date;
+        $this->last_update          = $this->data->last_update;
+        $this->region               = $this->data->region;
+        $this->action_point         = $this->data->action_point;
+        $this->activity_handling    = $this->data->activity_handling;
+    }
 
-    //     return redirect()->to('cluster');
-    // }
+
+    public function update(){
+        $data = Criticalcase::where('id',$this->selected_id)->first();
+        $data->action_point = $this->action_point;
+        $data->save();
+        $this->emit('refresh-page');
+        return view('livewire.criticalcase.update-critical');
+    }
 }

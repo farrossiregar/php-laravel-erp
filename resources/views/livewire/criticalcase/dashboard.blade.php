@@ -60,23 +60,19 @@
                             </label>
                         </div>
                     </div>
+                   
                 </div>
                 <br>
                 <div class="row my-2">
                     <div class="col-md-3">
-                        <input type="text" id="filter_start" name="filter_start" class="form-control datepicker" id="from" placeholder="Start Date" autocomplete="off" />
+                        <input type="date" id="filter_start" name="filter_start" wire:model="start" class="form-control datepicker" id="from" placeholder="Start Date" autocomplete="off" />
                         
                     </div>
                     <div class="col-md-3">
-                        <input type="text" id="filter_end" name="filter_end" class="form-control datepicker" id="from" placeholder="End Date" autocomplete="off" />
+                        <input type="date" id="filter_end" name="filter_end" wire:model="end" class="form-control datepicker" id="from" placeholder="End Date" autocomplete="off" />
                         
                     </div>
                     
-                </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <div href="#" class="btn btn-primary" onclick="getsitelisttracking()"><i class="fa fa-search"></i>Submit</div>
-                    </div>
                 </div>
                 <div class="row my-2">
                     <div class="col-md-8 py-1">
@@ -103,110 +99,199 @@
 
 
 @push('after-scripts')
-<!-- <link rel="stylesheet" href="{{ asset('assets/vendor/chartist/css/chartist.min.css')}}"/>
-<link rel="stylesheet" href="{{ asset('assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css')}}"/>
-<script src="{{ asset('assets/bundles/chartist.bundle.js')}}"></script>
-<script src="{{ asset('assets/vendor/chartist/polar_area_chart.js')}}"></script>
-<script src="{{ asset('assets/js/pages/charts/chartjs.js')}}"></script>
-@endpush -->
+<script>
+
+$( document ).ready(function() {
+    init_chart_critical_case();
+});
+Livewire.on('init-chart',(data)=>{
+    labels = JSON.parse(data.labels);
+    series = JSON.parse(data.series);
+    init_chart_critical_case();
+});
+
+function init_chart_critical_case(){
+    var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+    var chBar = document.getElementById("chBar");
+                       
+    if (chBar) {
+        new Chart(chBar, {
+            type: 'bar',
+            data: {
+                
+                // labels: ["S", "M", "T", "W", "T", "F", "S"],
+                labels: labels,
+                datasets: [
+                        // {
+                        //     data: [445, 483],
+                        //     backgroundColor: colors[0],
+                        //     borderColor: colors[0],
+                        //     borderWidth: 4,
+                        //     pointBackgroundColor: colors[0]
+                        // },
+                        {
+                            data: series,
+                            // data: [345, 583],
+                            backgroundColor: colors[1],
+                            borderColor: colors[1],
+                            borderWidth: 4,
+                            pointBackgroundColor: colors[1]
+                        }
+                ],
+            },
+            options: {
+                legend: {
+                display: false
+                },
+                scales: {
+                xAxes: [{
+                    barPercentage: 0.4,
+                    categoryPercentage: 0.5
+                }]
+                }
+            }
+        });
+    }
+}
+</script>
+@endpush
 
 
 <script>
-    function getsitelisttracking(){
-        var year        = $('#year').val();
-        var region      = $('#region').val();
-        var mth         = [];
-        $.each($("input[name='cxm']:checked"), function(){
-            mth.push($(this).val());
-        });
-        // console.log(mth);
+    // var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+    // var chBar = document.getElementById("chBar");
+                       
+    // if (chBar) {
+    //     new Chart(chBar, {
+    //         type: 'bar',
+    //         data: {
+                
+    //             labels: ["S", "M", "T", "W", "T", "F", "S"],
+    //             datasets: [{
+    //                         data: [445, 483],
+    //                         backgroundColor: colors[0],
+    //                         borderColor: colors[0],
+    //                         borderWidth: 4,
+    //                         pointBackgroundColor: colors[0]
+    //                     },
+    //                     {
+    //                         data: [345, 583],
+    //                         backgroundColor: colors[1],
+    //                         borderColor: colors[1],
+    //                         borderWidth: 4,
+    //                         pointBackgroundColor: colors[1]
+    //                     }
+    //             ],
+    //         },
+    //         options: {
+    //             legend: {
+    //             display: false
+    //             },
+    //             scales: {
+    //             xAxes: [{
+    //                 barPercentage: 0.4,
+    //                 categoryPercentage: 0.5
+    //             }]
+    //             }
+    //         }
+    //     });
+    // }
+
+    // function getsitelisttracking(){
+    //     var year        = $('#year').val();
+    //     var region      = $('#region').val();
+    //     var mth         = [];
+    //     $.each($("input[name='cxm']:checked"), function(){
+    //         mth.push($(this).val());
+    //     });
+    //     // console.log(mth);
 
         
 
-        $.ajax({
-            url: "{{ route('site-tracking.dashboardsitelist') }}", 
-            type: "POST",
-            data: {'year' : year, 'month' : mth, 'region' : region, '_token' : $("meta[name='csrf-token']").attr('content')},
-            dataType: 'json',
-            success: function(result){
+    //     $.ajax({
+    //         url: "{{ route('site-tracking.dashboardsitelist') }}", 
+    //         type: "POST",
+    //         data: {'year' : year, 'month' : mth, 'region' : region, '_token' : $("meta[name='csrf-token']").attr('content')},
+    //         dataType: 'json',
+    //         success: function(result){
 
-                var chBar = document.getElementById("chBar");
+    //             var chBar = document.getElementById("chBar");
                 
 
-                var dataslt = [];
-                // var datas = [[123, 456], [789, 987], [185, 223]];
-                var bulan = [];
+    //             var dataslt = [];
+    //             // var datas = [[123, 456], [789, 987], [185, 223]];
+    //             var bulan = [];
                 
-                for(var i = 0; i < result.length; i++)  {
-                    console.log(result[i]['QTY']);
-                    dataslt.push({
-                            data: [result[i]['QTY']],
-                            backgroundColor: colors[i],
-                            borderColor: colors[i],
-                            borderWidth: 4,
-                            pointBackgroundColor: colors[0]
-                        });
+    //             for(var i = 0; i < result.length; i++)  {
+    //                 console.log(result[i]['QTY']);
+    //                 dataslt.push({
+    //                         data: [result[i]['QTY']],
+    //                         backgroundColor: colors[i],
+    //                         borderColor: colors[i],
+    //                         borderWidth: 4,
+    //                         pointBackgroundColor: colors[0]
+    //                     });
 
-                    bulan.push(result[i]['period']);
-                    // console.log(datas[i]);
-                }
-                // console.log(dataslt);
-                // console.log({mth});
+    //                 bulan.push(result[i]['period']);
+    //                 // console.log(datas[i]);
+    //             }
+    //             // console.log(dataslt);
+    //             // console.log({mth});
                 
-                if (chBar) {
-                    new Chart(chBar, {
-                        type: 'bar',
-                        data: {
+    //             if (chBar) {
+    //                 new Chart(chBar, {
+    //                     type: 'bar',
+    //                     data: {
                             
-                            labels: bulan,
-                            // datasets: [{
-                            //             data: [445, 483],
-                            //             backgroundColor: colors[0],
-                            //             borderColor: colors[0],
-                            //             borderWidth: 4,
-                            //             pointBackgroundColor: colors[0]
-                            //         },
-                            //         {
-                            //             data: [345, 583],
-                            //             backgroundColor: colors[1],
-                            //             borderColor: colors[1],
-                            //             borderWidth: 4,
-                            //             pointBackgroundColor: colors[1]
-                            //         }
-                            // ],
-                            datasets : dataslt,
-                        },
-                        options: {
-                            legend: {
-                            display: false
-                            },
-                            scales: {
-                            xAxes: [{
-                                barPercentage: 0.4,
-                                categoryPercentage: 0.5
-                            }]
-                            }
-                        }
-                    });
-                }
+    //                         labels: bulan,
+    //                         // datasets: [{
+    //                         //             data: [445, 483],
+    //                         //             backgroundColor: colors[0],
+    //                         //             borderColor: colors[0],
+    //                         //             borderWidth: 4,
+    //                         //             pointBackgroundColor: colors[0]
+    //                         //         },
+    //                         //         {
+    //                         //             data: [345, 583],
+    //                         //             backgroundColor: colors[1],
+    //                         //             borderColor: colors[1],
+    //                         //             borderWidth: 4,
+    //                         //             pointBackgroundColor: colors[1]
+    //                         //         }
+    //                         // ],
+    //                         datasets : dataslt,
+    //                     },
+    //                     options: {
+    //                         legend: {
+    //                         display: false
+    //                         },
+    //                         scales: {
+    //                         xAxes: [{
+    //                             barPercentage: 0.4,
+    //                             categoryPercentage: 0.5
+    //                         }]
+    //                         }
+    //                     }
+    //                 });
+    //             }
 
-            }
-        });
+    //         }
+    //     });
 
         
-    }
+    // }
 
-    $(document).ready(function(){
-        var year        = $('#year').val();
-        var region      = $('#region').val();
-        var mth         = [];
-        $.each($("input[name='cxm']:checked"), function(){
-            mth.push($(this).val());
-        });
+    // $(document).ready(function(){
+    //     var year        = $('#year').val();
+    //     var region      = $('#region').val();
+    //     var mth         = [];
+    //     $.each($("input[name='cxm']:checked"), function(){
+    //         mth.push($(this).val());
+    //     });
         
-        getsitelisttracking();
+    //     getsitelisttracking();
        
-    });
+    // });
 
     
 

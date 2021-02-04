@@ -25,8 +25,6 @@ class Index extends Component
         //     $this->redirect('/');
         // }
 
-       
-
         return view('livewire.criticalcase.index')->with(['data'=>$data->paginate(50)]);
     }
 }
