@@ -36,25 +36,25 @@
                     <div class="col-md-6">
                         <h5>Region</h5>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="cxm" value="04" value="m04">
+                            <input class="form-check-input" type="checkbox" name="cxm" value="Sumatera" wire:model="region">
                             <label class="form-check-label" for="flexCheckDefault">
                                 Sumatera
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="cxm" value="05" value="m05">
+                            <input class="form-check-input" type="checkbox" name="cxm" value="CWJ" wire:model="region">
                             <label class="form-check-label" for="flexCheckDefault">
                                 CWJ
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="cxm" value="06" value="m06">
+                            <input class="form-check-input" type="checkbox" name="cxm" value="Jabo" wire:model="region">
                             <label class="form-check-label" for="flexCheckDefault">
                                 Jabo
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="cxm" value="07" value="m07">
+                            <input class="form-check-input" type="checkbox" name="cxm" value="WJ" wire:model="region">
                             <label class="form-check-label" for="flexCheckDefault">
                                 WJ
                             </label>
@@ -100,7 +100,14 @@
 
 @push('after-scripts')
 <script>
+var labels = {!!json_encode($labels)!!};
+var series = {!!json_encode($series)!!};
 
+
+var region = {!!json_encode($region)!!};
+
+alert(region);
+// console.log(labels);
 $( document ).ready(function() {
     init_chart_critical_case();
 });
