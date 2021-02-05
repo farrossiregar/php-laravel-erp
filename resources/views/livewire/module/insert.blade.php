@@ -20,18 +20,11 @@
                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                         @enderror
                     </div>
-                    <div class="form-group">
-                        <label>{{ __('Prefix Link') }}</label>
-                        <input type="text" class="form-control" wire:model="prefix_link" >
-                        @error('prefix_link')
-                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                        @enderror
-                    </div>
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label>{{ __('icon') }}</label>
-                            <input type="text" class="form-control" wire:model="prefix_link" >
-                            @error('prefix_link')
+                            <input type="text" class="form-control" wire:model="icon" >
+                            @error('icon')
                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                             @enderror
                         </div>
