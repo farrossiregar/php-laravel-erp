@@ -1,45 +1,25 @@
-<div>
-    <div class="header row py-0">
-        <div class="col-md-1">
-            <select class="form-control" wire:model="year">
-                @foreach(\App\Models\WorkFlowManagement::select(\DB::raw('YEAR(date) as tahun'))->groupBy('tahun')->get() as $item)
-                <option>{{$item->tahun}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-2 px-0">
-            <select class="form-control" wire:model="month">
-                <option value=""> --- {{ __('Month') }} --- </option>
-                @foreach(\App\Models\WorkFlowManagement::select(\DB::raw('MONTH(date) as bulan'))->whereYear('date',$year)->groupBy('bulan')->get() as $item)
-                <option value="{{$item->bulan}}">{{date('F', mktime(0, 0, 0, $item->bulan, 10))}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="text-center mt-1 ml-2" wire:loading>
-            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-            <span class="sr-only">{{ __('Loading...') }}</span>
-        </div>
-    </div>
-    <div class="body p-0">
-        <canvas id="chart-3"></canvas>
-    </div>
+
+<div class="body p-0">
+    <canvas id="chart-3" style="height:400px;"></canvas>
 </div>
 @push('after-scripts')
 <script>
 Livewire.on('chart-accept-never-close-wo-manual',(data)=>{
-    var labels = JSON.parse(data.labels);
-    var series = JSON.parse(data.series);
-    init_chart_accept_never_close_wo_manual(labels,series);
+    var labels_2 = JSON.parse(data.labels);
+    var series_2 = JSON.parse(data.series);
+    init_chart_accept_never_close_wo_manual(labels_2,series_2);
 });
-function init_chart_accept_never_close_wo_manual(labels,series){
-    if(chart!=="") chart.destroy();
+var chart_2="";
+function init_chart_accept_never_close_wo_manual(labels_2,series_2){
+    if(chart_2!=="") chart_2.destroy();
     var config = {
         type: 'line',
         data: {
-            labels: labels,
-            datasets: series
+            labels: labels_2,
+            datasets: series_2
         },
         options: {
+            maintainAspectRatio: false,
             elements: {
 				line: {
 					tension: 0.000001
@@ -51,7 +31,7 @@ function init_chart_accept_never_close_wo_manual(labels,series){
             responsive: true,
             title: {
                 display: true,
-                text: ''
+                text: 'Accept Never Close WO Manual'
             },
             tooltips: {
                 mode: 'index',
@@ -80,7 +60,7 @@ function init_chart_accept_never_close_wo_manual(labels,series){
         }
     };
     var ctx = document.getElementById('chart-3').getContext('2d');
-    chart = new Chart(ctx, config);
+    chart_2 = new Chart(ctx, config);
 }
 </script>
 @endpush

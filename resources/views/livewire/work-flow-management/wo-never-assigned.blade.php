@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="body p-0">
-        <canvas id="chart-wo-never-assign"></canvas>
+        <canvas id="chart-wo-never-assign" style="height:400px;"></canvas>
     </div>
 </div>
 @push('after-scripts')
@@ -54,6 +54,7 @@ function init_chart_wo_never_assign(){
             datasets: series
         },
         options: {
+            maintainAspectRatio: false,
             elements: {
 				line: {
 					tension: 0.000001
@@ -65,7 +66,7 @@ function init_chart_wo_never_assign(){
             responsive: true,
             title: {
                 display: true,
-                text: ''
+                text: 'WO Never Assigned'
             },
             tooltips: {
                 mode: 'index',

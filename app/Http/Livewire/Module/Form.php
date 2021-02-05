@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Module;
 
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Form extends Component
 {
@@ -11,6 +12,8 @@ class Form extends Component
     public $type;
     public $data;
     public $icon,$valid_link=0;
+    use WithFileUploads;
+
     public function render()
     {
         return view('livewire.module.form');
@@ -27,7 +30,8 @@ class Form extends Component
             'item_name'=>'required',
             'item_link'=>'required',
             'type'=>'required',
-            'prefix_link'=>'required'
+            'prefix_link'=>'required',
+            'icon' => 'image:max:1024', // 1Mb Max
         ];
         $valid_msg = [];
         if($this->type=='1'){ 
@@ -43,7 +47,11 @@ class Form extends Component
         $data->name = $this->item_name;
         $data->link = $this->item_link;
         $data->type = 1;
-        $data->icon = $this->icon;
+
+        $name = date('dmYHis').'.'.$this->icon->extension();
+        $this->icon->storePubliclyAs('public/icon/',$name);
+
+        $data->icon = '/storage/icon/'.$name;
         $data->prefix_link = $this->prefix_link;
         $data->status = 1;
         $data->save();

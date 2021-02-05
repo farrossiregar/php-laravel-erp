@@ -7,7 +7,10 @@ use Livewire\Component;
 class AssignedNeverAcceptWo extends Component
 {
     public $year,$month,$labels,$series,$region;
-    protected $listeners = ['init-chart-assigned-never-accept-wo'=>'generate_chart'];
+    protected $listeners = [
+            'set-year'=> 'setYear',
+            'set-month'=> 'setMonth',
+            'init-chart-assigned-never-accept-wo'=>'generate_chart'];
     public function render()
     {
         return view('livewire.work-flow-management.assigned-never-accept-wo');
@@ -15,6 +18,17 @@ class AssignedNeverAcceptWo extends Component
     public function mount()
     {
         $this->year = date('Y');
+    }
+    public function setYear($year)
+    {
+        $this->year = $year;
+        $this->month = '';
+        $this->generate_chart();
+    }
+    public function setMonth($month)
+    {
+        $this->month = $month;
+        $this->generate_chart();
     }
     public function updated($componentName){
         if($componentName=='year') $this->month = '';

@@ -15,6 +15,11 @@ class Index extends Component
     
     public function render()
     {
+        if(!check_access('critical-case.index')){
+            session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
+            $this->redirect('/');
+        }
+
         $data = Criticalcase::orderBy('id', 'DESC');
         if($this->keyword) $ata = $data->where('name','LIKE',"{$this->keyword}");
         if($this->pic) $ata = $data->where('pic',$this->pic);

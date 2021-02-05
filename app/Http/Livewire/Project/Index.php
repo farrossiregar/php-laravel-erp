@@ -13,6 +13,10 @@ class Index extends Component
     public $keyword;
     public function render()
     {
+        if(!check_access('project.index')){
+            session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
+            $this->redirect('/');
+        }
         $data = Project::select('projects.*')->orderBy('id','DESC');
 
         return view('livewire.project.index')

@@ -43,7 +43,7 @@
         </div>
         <div class="form-group">
             <label>Icon <span>icon-start, icon-settings, etc<span></label>
-            <input type="text" class="form-control" wire:model="icon" />
+            <input type="file" class="form-control" wire:model="icon" />
             @error('icon')
             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
             @enderror

@@ -21,6 +21,7 @@
                                 <th>Name</th>
                                 <th>Prefix Link</th>
                                 <th>Icon</th>
+                                <th>Status</th>
                                 <th>Updated</th>
                             </tr>
                         </thead>
@@ -33,6 +34,13 @@
                                 <td>
                                     @if($item->icon)
                                         <i style="{{$item->color?'color:'.$item->color:''}}" class="fa fa-{{$item->icon}}"></i>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->status==1)
+                                        <span class="badge badge-success">Active</span>
+                                    @else
+                                        <span class="badge badge-danger">Inactive</span>
                                     @endif
                                 </td>
                                 <td>{{$item->updated_at}}</td>

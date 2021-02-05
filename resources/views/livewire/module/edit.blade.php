@@ -36,6 +36,12 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="fancy-checkbox">
+                            <input type="checkbox" name="checkbox" wire:model="status" value="1" data-parsley-errors-container="#error-checkbox" data-parsley-multiple="checkbox">
+                            <span>Active</span>
+                        </label>
+                    </div>
                     <hr>
                     <a href="{{route('module.index')}}"><i class="fa fa-arrow-left"></i> {{ __('Back') }}</a>
                     <button type="submit" class="btn btn-primary ml-3"><i class="fa fa-save"></i> {{ __('Save') }}</button>

@@ -13,7 +13,7 @@ class Data extends Component
     public function render()
     {
         if(!check_access('work-flow-management.index')){
-            session()->flash('error-message','Access denied !');
+            session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
             $this->redirect('/');
         }
         $data = \App\Models\WorkFlowManagement::orderBy('updated_at','DESC');

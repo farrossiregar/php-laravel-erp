@@ -7,7 +7,7 @@ use Livewire\WithPagination;
 
 class Edit extends Component
 {
-    public $data;
+    public $data,$status;
     public $name;
     public $prefix_link,$icon,$color;
     public $items;
@@ -30,6 +30,7 @@ class Edit extends Component
         $this->icon = $this->data->icon;
         $this->prefix_link = $this->data->prefix_link;
         $this->color = $this->data->color;
+        $this->status = $this->data->status;
     }
     public function save()
     {
@@ -41,10 +42,11 @@ class Edit extends Component
         $this->data->prefix_link = $this->prefix_link;
         $this->data->icon = $this->icon;
         $this->data->color = $this->color;
+        $this->data->status = $this->status;
         $this->data->save();
         session()->flash('message-success',__('Data saved successfully'));
 
-        return redirect()->route('module.edit',['id'=>$this->data->id]);
+        return redirect()->route('module.index');
     }
     public function deleteItem($id)
     {

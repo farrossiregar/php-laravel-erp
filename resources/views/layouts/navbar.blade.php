@@ -4,7 +4,8 @@
             <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
         </div>
         <div class="navbar-brand">    
-            <a href="javascript:void(0);" class="btn-toggle-fullwidth hidden-sm hidden-md"><i class="fa fa-list"></i></a>
+            <a href="javascript:void(0);" class="btn-toggle-fullwidth hidden-sm hidden-md hidden-lg" style="display:none;"><i class="fa fa-list"></i></a>
+            <a href="/" class="hidden-sm hidden-md" style="font-size:25px;margin-right:10px"><i class="fa fa-list"></i></a>
             @if(get_setting('logo'))<a href="/"><img src="{{ get_setting('logo') }}" alt="Lucid Logo" class="img-responsive logo"></a>@endif
         </div>
         <div class="navbar-right">

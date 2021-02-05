@@ -18,7 +18,11 @@ class WoNeverAssigned extends Component
         $this->generate_chart();
     }
     public function updated($componentName){
-        if($componentName=='year') $this->month = '';
+        if($componentName=='year') {
+            $this->month = '';
+            $this->emit('set-year',$this->year);
+        }
+        if($componentName=='month') $this->emit('set-month',$this->month);
         $this->generate_chart();
     }
     public function generate_chart()
