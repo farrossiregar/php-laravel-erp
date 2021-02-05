@@ -48,7 +48,7 @@ class Insert extends Component
                 $criticalcase->shift_number                           = $i[2];
                 $criticalcase->date                                   = date_format(date_create($i[3]), 'Y-m-d');
                 $criticalcase->activity_handling                      = $i[4];
-                $criticalcase->time_occur                             = date_format(date_create($i[5]), 'Y-m-d H:i:s');
+                $criticalcase->time_occur                             = date_format(date_create(str_replace(",", "",$i[5])), 'Y-m-d H:i:s');
                 $criticalcase->severity                               = $i[6];
                 $criticalcase->project                                = $i[7];
                 $criticalcase->region                                 = $i[8];

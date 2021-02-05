@@ -87,9 +87,7 @@
             </div>
 
 
-              
-                
-            </div>
+
         </div>
     </div>
 </div>
@@ -102,12 +100,27 @@
 <script>
 var labels = {!!json_encode($labels)!!};
 var series = {!!json_encode($series)!!};
+var seriess = {!!json_encode($seriess)!!};
 
+console.log(series);
+console.log(seriess);
 
+var datacc = [];
+for(var i = 0; i < series.length; i++)  {
+    datacc.push({
+            data: series[i],
+            backgroundColor: colors[i],
+            borderColor: colors[i],
+            borderWidth: 4,
+            pointBackgroundColor: colors[0]
+        });
+}
+
+console.log(datacc);
 var region = {!!json_encode($region)!!};
 
-alert(region);
-// console.log(labels);
+
+
 $( document ).ready(function() {
     init_chart_critical_case();
 });
@@ -125,26 +138,8 @@ function init_chart_critical_case(){
         new Chart(chBar, {
             type: 'bar',
             data: {
-                
-                // labels: ["S", "M", "T", "W", "T", "F", "S"],
                 labels: labels,
-                datasets: [
-                        // {
-                        //     data: [445, 483],
-                        //     backgroundColor: colors[0],
-                        //     borderColor: colors[0],
-                        //     borderWidth: 4,
-                        //     pointBackgroundColor: colors[0]
-                        // },
-                        {
-                            data: series,
-                            // data: [345, 583],
-                            backgroundColor: colors[1],
-                            borderColor: colors[1],
-                            borderWidth: 4,
-                            pointBackgroundColor: colors[1]
-                        }
-                ],
+                datasets : datacc,
             },
             options: {
                 legend: {

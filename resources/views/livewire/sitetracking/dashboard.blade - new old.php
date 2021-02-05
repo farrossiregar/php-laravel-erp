@@ -137,31 +137,17 @@
 @push('after-scripts')
 
 <script>
-var labels = {!!json_encode($labels)!!};
-var series = {!!json_encode($series)!!};
-var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
-
-var dataslt = [];
-for(var i = 0; i < series.length; i++)  {
-    dataslt.push({
-            data: series[i],
-            backgroundColor: colors[i],
-            borderColor: colors[i],
-            borderWidth: 4,
-            pointBackgroundColor: colors[0]
-        });
-}
 
 $( document ).ready(function() {
-    init_chart_sitelisttracking();
+    init_chart_critical_case();
 });
 Livewire.on('init-chart',(data)=>{
     labels = JSON.parse(data.labels);
     series = JSON.parse(data.series);
-    init_chart_sitelisttracking();
+    init_chart_critical_case();
 });
 
-function init_chart_sitelisttracking(){
+function init_chart_critical_case(){
     var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
     var chBar = document.getElementById("chBar");
                        
@@ -169,8 +155,26 @@ function init_chart_sitelisttracking(){
         new Chart(chBar, {
             type: 'bar',
             data: {
+                
+                // labels: ["S", "M", "T", "W", "T", "F", "S"],
                 labels: labels,
-                datasets: dataslt,
+                datasets: [
+                        // {
+                        //     data: [445, 483],
+                        //     backgroundColor: colors[0],
+                        //     borderColor: colors[0],
+                        //     borderWidth: 4,
+                        //     pointBackgroundColor: colors[0]
+                        // },
+                        {
+                            data: series,
+                            // data: [345, 583],
+                            backgroundColor: colors[1],
+                            borderColor: colors[1],
+                            borderWidth: 4,
+                            pointBackgroundColor: colors[1]
+                        }
+                ],
             },
             options: {
                 legend: {
@@ -189,6 +193,134 @@ function init_chart_sitelisttracking(){
 </script>
 @endpush
 
+<!-- 
+<script>
+    function getsitelisttracking(){
+        var year        = $('#year').val();
+        var region      = $('#region').val();
+        var mth         = [];
+        $.each($("input[name='cxm']:checked"), function(){
+            mth.push($(this).val());
+        });
+        // console.log(mth);
+
+        
+
+        $.ajax({
+            url: "{{ route('site-tracking.dashboardsitelist') }}", 
+            type: "POST",
+            data: {'year' : year, 'month' : mth, 'region' : region, '_token' : $("meta[name='csrf-token']").attr('content')},
+            dataType: 'json',
+            success: function(result){
+
+                var chBar = document.getElementById("chBar");
+                
+
+                var dataslt = [];
+                // var datas = [[123, 456], [789, 987], [185, 223]];
+                var bulan = [];
+                
+                for(var i = 0; i < result.length; i++)  {
+                    console.log(result[i]['QTY']);
+                    dataslt.push({
+                            data: [result[i]['QTY']],
+                            backgroundColor: colors[i],
+                            borderColor: colors[i],
+                            borderWidth: 4,
+                            pointBackgroundColor: colors[0]
+                        });
+
+                    bulan.push(result[i]['period']);
+                    // console.log(datas[i]);
+                }
+                // console.log(dataslt);
+                // console.log({mth});
+                
+                if (chBar) {
+                    new Chart(chBar, {
+                        type: 'bar',
+                        data: {
+                            
+                            labels: bulan,
+                            // datasets: [{
+                            //             data: [445, 483],
+                            //             backgroundColor: colors[0],
+                            //             borderColor: colors[0],
+                            //             borderWidth: 4,
+                            //             pointBackgroundColor: colors[0]
+                            //         },
+                            //         {
+                            //             data: [345, 583],
+                            //             backgroundColor: colors[1],
+                            //             borderColor: colors[1],
+                            //             borderWidth: 4,
+                            //             pointBackgroundColor: colors[1]
+                            //         }
+                            // ],
+                            datasets : dataslt,
+                        },
+                        options: {
+                            legend: {
+                            display: false
+                            },
+                            scales: {
+                            xAxes: [{
+                                barPercentage: 0.4,
+                                categoryPercentage: 0.5
+                            }]
+                            }
+                        }
+                    });
+                }
+
+            }
+        });
+
+        
+    }
+
+    $(document).ready(function(){
+        var year        = $('#year').val();
+        var region      = $('#region').val();
+        var mth         = [];
+        $.each($("input[name='cxm']:checked"), function(){
+            mth.push($(this).val());
+        });
+        
+        getsitelisttracking();
+       
+    });
+
+    
+
+</script> -->
+
+<!-- <script>
+    /* chart.js chart examples */
+
+    // chart colors
+    var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+
+
+    /* bar chart */
+    var dataqty = [];
+    
+    // alert(dataqty1);
+
+    // for(var i = 0; i < 2; i++){
+    //     dataqty.push( {
+    //                     data: [445, 483, 520],
+    //                     backgroundColor: colors[0],
+    //                     borderColor: colors[0],
+    //                     borderWidth: 4,
+    //                     pointBackgroundColor: colors[0]
+    //                 });
+    // }
+
+   
+    
+
+</script> -->
 
 @if(check_access('cluster.delete'))
 <div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
