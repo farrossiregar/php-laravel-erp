@@ -46,9 +46,9 @@ class Insert extends Component
                 }
                 $criticalcase->pic                                    = $i[1];
                 $criticalcase->shift_number                           = $i[2];
-                $criticalcase->date                                   = date_format(date_create($i[3]), 'Y-m-d');
+                $criticalcase->date                                   = @date_format(date_create($i[3]), 'Y-m-d');
                 $criticalcase->activity_handling                      = $i[4];
-                $criticalcase->time_occur                             = date_format(date_create($i[5]), 'Y-m-d H:i:s');
+                $criticalcase->time_occur                             = @date_format(date_create(str_replace(",", "",$i[5])), 'Y-m-d H:i:s');
                 $criticalcase->severity                               = $i[6];
                 $criticalcase->project                                = $i[7];
                 $criticalcase->region                                 = $i[8];
@@ -56,7 +56,7 @@ class Insert extends Component
                 $criticalcase->impact                                 = $i[10];
                 $criticalcase->action                                 = $i[11];
                 $criticalcase->customer_handling                      = $i[12];
-                $criticalcase->time_closed                            = date_format(date_create($i[13]), 'Y-m-d H:i:s');
+                $criticalcase->time_closed                            = @date_format(date_create($i[13]), 'Y-m-d H:i:s');
                 $criticalcase->status                                 = $stat;
                 $criticalcase->last_update                            = $i[15];
                 $criticalcase->created_at                             = date('Y-m-d H:i:s');
