@@ -9,7 +9,7 @@
         <table class="table table-hover table-bordered">
             <tr>
                 <th>Uploaded</th>
-                <td>{{$data->created_at}}</td>
+                <td>{{isset($data->created_at) ? $data->created_at : ''}}</td>
             </tr>
             <tr>
                 <th>Tower Index</th>

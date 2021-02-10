@@ -7,7 +7,7 @@ use Livewire\Component;
 class WoNeverAssigned extends Component
 {
     public $year,$month,$labels,$series,$region;
-    protected $listeners = ['chart'=>'generate_chart'];
+    protected $listeners = ['chart'=>'generate_chart','refresh-page'=>'$refresh'];
     public function render()
     {
         return view('livewire.work-flow-management.wo-never-assigned');

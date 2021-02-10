@@ -18,9 +18,9 @@
         <link rel="stylesheet" href="{{ asset('assets/vendor/jvectormap/jquery-jvectormap-2.0.3.min.css') }}"/>
         <link rel="stylesheet" href="{{ asset('assets/vendor/morrisjs/morris.min.css') }}" />
         <!-- Custom Css -->
-        <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}?v=2">
+        <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}?v=3">
         <link rel="stylesheet" href="{{ asset('assets/css/color_skins.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}?v=2">
+        <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}?v={{env('APP_DEBUG')?date('YmdHis'):''}}">
         @stack('after-styles')
         @if (trim($__env->yieldContent('page-styles')))
             @yield('page-styles')
@@ -32,7 +32,10 @@
         <!-- Page Loader -->
         <div class="page-loader-wrapper">
             <div class="loader">
-                <div class="m-t-30"><img src="{{url('/')}}/assets/img/logo-icon.svg" width="48" height="48" alt="Lucid"></div>
+                <div class="m-t-30">
+                    {{-- <img src="{{url('/')}}/assets/img/logo-icon.svg" width="48" height="48" alt="Lucid"> --}}
+                    <img src="{{get_setting('logo')}}" style="height:48px;" alt="{{get_setting('company')}}">
+                </div>
                 <p>Please wait...</p>        
             </div>
         </div>

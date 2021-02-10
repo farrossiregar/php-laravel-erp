@@ -8,6 +8,7 @@ class TotalFtNeverCloseManual extends Component
 {
     public $year,$month,$labels,$series,$legendNames;
     protected $listeners = [
+        'refresh-page'=>'$refresh',
         'set-year'=> 'setYear',
         'set-month'=> 'setMonth',
         'init-chart-total-ft-never-close-manual'=>'generate_chart'];

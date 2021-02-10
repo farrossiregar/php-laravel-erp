@@ -8,6 +8,7 @@ class AcceptNeverCloseWoManual extends Component
 {
     public $year,$month,$labels,$series,$legendNames;
     protected $listeners = [
+            'refresh-page'=>'$refresh',
             'set-year'=> 'setYear',
             'set-month'=> 'setMonth',
             'init-chart-accept-never-close-wo-manual'=>'generate_chart'];

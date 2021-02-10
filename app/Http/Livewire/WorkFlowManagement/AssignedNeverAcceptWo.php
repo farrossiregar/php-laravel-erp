@@ -8,6 +8,7 @@ class AssignedNeverAcceptWo extends Component
 {
     public $year,$month,$labels,$series,$region;
     protected $listeners = [
+            'refresh-page'=>'$refresh',
             'set-year'=> 'setYear',
             'set-month'=> 'setMonth',
             'init-chart-assigned-never-accept-wo'=>'generate_chart'];

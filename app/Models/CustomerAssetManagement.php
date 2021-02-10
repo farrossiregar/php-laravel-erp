@@ -24,4 +24,8 @@ class CustomerAssetManagement extends Model
     {
         return $this->belongsTo(\App\Models\Cluster::class,'region_cluster_id');
     }
+    public function relokasi_site()
+    {
+        return $this->belongsTo(\App\Models\Site::class,'direlokasi_ke_site_id');
+    }
 }
