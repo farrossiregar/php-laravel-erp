@@ -22,7 +22,7 @@ class Edit extends Component
 
     public function render()
     {
-        // if(check_access_controller('cluster.edit') == false){
+        // if(check_access_controller('site-tracking.edit') == false){
         //     session()->flash('message-error','Access denied.');
         //     $this->redirect('/');
         // }
