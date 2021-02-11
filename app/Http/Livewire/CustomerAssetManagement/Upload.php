@@ -134,7 +134,7 @@ class Upload extends Component
                 $total_success++;
             }
             session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
-            return redirect()->route('customer-asset-management.data');
+            return redirect()->route('customer-asset-management.index');
         }
     }
 }

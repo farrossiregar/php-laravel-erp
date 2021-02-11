@@ -87,7 +87,7 @@ function init_chart(){
             responsive: true,
             title: {
                 display: true,
-                text: 'WO Never Assigned'
+                text: 'BATTERY CAGE INSTALL'
             },
             tooltips: {
                 mode: 'index',
