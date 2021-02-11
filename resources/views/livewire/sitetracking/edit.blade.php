@@ -190,6 +190,15 @@
             
             @endif
             
+            <?php
+
+                $user = \Auth::user();
+                // $access = App\Models\UserAccess::where('id', $user->user_access_id)->first();
+                // print_r($access);
+                // echo $user->user_access_id;
+                // print_r($user);
+                if($user->id == '4'){
+            ?>
             <div class="body pt-0">
                 <div class="row">
                    <div class="col-md-12">
@@ -214,7 +223,10 @@
                         <div href="#" class="btn btn-primary" onclick="approvesitelisttracking()"><i class="fa fa-search"></i>Submit</div>
                     </div>
                 </div>
-            </div>                                        
+            </div>   
+            <?php
+                }
+            ?>                                     
         </div>
     </div>
 </div>

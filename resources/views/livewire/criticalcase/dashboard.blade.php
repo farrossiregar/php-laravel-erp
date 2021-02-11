@@ -5,12 +5,15 @@
         <div class="card">
             <div class="header">
                 <h6>EMERGENCY TREND {{isset($region)? ' - ' .implode(' & ', $region) : ''}}</h6>
+                
+                <a href="#" data-toggle="modal" data-target="#modal-criticalcase-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Site Tracking')}}</a>
+                
             </div>
             <div class="body pt-0">
                 <div class="row my-2">
                     <div class="col-md-1">
                         <select class="form-control" wire:model="year">
-                            @foreach(\App\Models\WorkFlowManagement::select(\DB::raw('YEAR(date) as tahun'))->groupBy('tahun')->get() as $item)
+                            @foreach(\App\Models\CriticalCase::select(\DB::raw('YEAR(date) as tahun'))->groupBy('tahun')->get() as $item)
                             <option>{{$item->tahun}}</option>
                             @endforeach
                         </select>
@@ -57,6 +60,28 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="modal-criticalcase-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:criticalcase.insert />
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section('page-script')
+Livewire.on('sitetracking-upload',()=>{
+    $("#modal-sitetracking-upload").modal('hide');
+});
+@endsection
+
+
 @push('after-scripts')
 <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
 <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>

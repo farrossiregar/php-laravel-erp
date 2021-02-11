@@ -19,7 +19,7 @@ class Index extends Component
     public function render()
     {
         $data = SiteListTrackingMaster::orderBy('id', 'DESC');
-        if(check_access_controller('site-tracking.index') == false){
+        if(check_access_controller('site-tracking.index') == true){
             session()->flash('message-error','Access denied.');
             $this->redirect('/');
         }
