@@ -60,12 +60,14 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('site-tracking/cekdataOri', [App\Http\Controllers\DuplicateSiteListController::class,'cekdataOri'])->name('site-tracking.cekdataOri');
     Route::post('site-tracking/dashboardsitelist', [App\Http\Controllers\DuplicateSiteListController::class,'dashboardsitelist'])->name('site-tracking.dashboardsitelist');
     Route::post('site-tracking/approvesitelisttracking', [App\Http\Controllers\DuplicateSiteListController::class,'approvesitelisttracking'])->name('site-tracking.approvesitelisttracking');
+    Route::get('site-tracking/insert',App\Http\Livewire\Sitetracking\Insert::class)->name('site-tracking.insert');
     
     Route::get('critical-case',App\Http\Livewire\Criticalcase\Index::class)->name('critical-case.index');
     Route::get('critical-case/data',App\Http\Livewire\Criticalcase\Data::class)->name('critical-case.data');
     Route::get('critical-case/dashboard',App\Http\Livewire\Criticalcase\Dashboard::class)->name('critical-case.dashboard');
     
-    Route::get('site-tracking/insert',App\Http\Livewire\Sitetracking\Insert::class)->name('site-tracking.insert');
+    Route::get('po-tracking',App\Http\Livewire\POTracking\Index::class)->name('po-tracking.index');
+    Route::get('po-tracking/data',App\Http\Livewire\POTracking\Data::class)->name('po-tracking.data');
     // Route::get('site-tracking/edit/{id}',App\Http\Livewire\Sitetracking\Edit::class)->name('site-tracking.edit');
     // Route::get('site-tracking/upload',App\Http\Livewire\Sitetracking\Upload::class)->name('site-tracking.upload');
     // Route::get('site-tracking/approval',App\Http\Livewire\Sitetracking\Approval::class)->name('site-tracking.approval');
