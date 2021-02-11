@@ -100,13 +100,17 @@ class Upload extends Component
                     $tower->save();
                 }
                 //
-                $direlokasi_ke_site = \App\Models\Site::where('site_id',$direlokasi_ke_site_id)->first();
-                if(!$direlokasi_ke_site){
-                    $direlokasi_ke_site = new \App\Models\Site();
-                    $direlokasi_ke_site->site_id = $direlokasi_ke_site_id;
-                    $direlokasi_ke_site->name = $direlokasi_ke_site_name;
-                    $direlokasi_ke_site->save();
+                if($direlokasi_ke_site_id){
+                    $direlokasi_ke_site = \App\Models\Site::where('site_id',$direlokasi_ke_site_id)->first();
+                    if(!$direlokasi_ke_site){
+                        $direlokasi_ke_site = new \App\Models\Site();
+                        $direlokasi_ke_site->site_id = $direlokasi_ke_site_id;
+                        $direlokasi_ke_site->name = $direlokasi_ke_site_name;
+                        $direlokasi_ke_site->save();
+                    }
+                    $direlokasi_ke_site_id = $direlokasi_ke_site->id;
                 }
+                if($tanggal_submission) $data->tanggal_submission = date('Y-m-d',strtotime($tanggal_submission));
                 $data->user_id = \Auth::user()->id;
                 $data->tower_id = $tower->id;
                 $data->site_id = $site->id;
@@ -119,7 +123,7 @@ class Upload extends Component
                 $data->kapasitas_baterai = $kapasitas_baterai; 
                 $data->kapan_baterai_dilaporkan_hilang = date('Y-m-d',strtotime($kapan_baterai_dilaporkan_hilang));
                 $data->apakah_baterai_pernah_direlokasi = strtolower($apakah_baterai_pernah_direlokasi) == 'ya'? 1 : 0;
-                $data->direlokasi_ke_site_id = $direlokasi_ke_site->id;
+                $data->direlokasi_ke_site_id = $direlokasi_ke_site_id;
                 $data->apakah_cabinet_baterai_dipasang_gembok = strtolower($apakah_cabinet_baterai_dipasang_gembok)=='yes' ? 1 : 0;
                 $data->apakah_dipasang_baterai_cage = strtolower($apakah_dipasang_baterai_cage)=='yes' ? 1 : 0;
                 $data->apakah_dipasang_cabinet_belting = strtolower($apakah_dipasang_cabinet_belting)=='yes' ? 1 : 0;

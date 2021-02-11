@@ -85,11 +85,6 @@ Livewire.on('sitetracking-upload',()=>{
 @push('after-scripts')
 <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
 <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
-<style>
-    .multiselect{
-        border: 1px solid #ced4da
-    }
-</style>
 <script>
 var labels = {!!$labels!!};
 var datasets = {!!$datasets!!};

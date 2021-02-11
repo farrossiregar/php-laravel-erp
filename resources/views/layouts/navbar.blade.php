@@ -9,6 +9,9 @@
             @if(get_setting('logo'))<a href="/"><img src="{{ get_setting('logo') }}" alt="Lucid Logo" class="img-responsive logo"></a>@endif
         </div>
         <div class="navbar-right">
+            <form id="navbar-search" class="navbar-form search-form">
+                <h5 class="mt-2"> @yield('title')</h5>
+            </form>
             {{-- <form id="navbar-search" class="navbar-form search-form">
                 <input value="" class="form-control" placeholder="Search here..." type="text">
                 <button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
