@@ -12,7 +12,7 @@ class Index extends Component
     public $keyword,$region_id,$pic;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    
+    protected $listeners = ['refresh-page' => '$refresh']; // fungsi untuk menangkap perubahan data di form Edit.php
     public function render()
     {
         if(!check_access('critical-case.index')){

@@ -1,6 +1,3 @@
-
-@section('title', __('Critical Case Data'))
-@section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -12,9 +9,9 @@
                 <div class="col-md-2">
                     <select class="form-control" wire:model="pic">
                         <option value=""> --- PIC --- </option>
-                        <option value="indra">Indra</option>
-                        <option value="budi">Budi</option>
-                        <option value="greg">Greg</option>
+                        @foreach(\App\Models\Criticalcase::groupBy('pic')->get() as $item)
+                        <option>{{$item->pic}}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-md-2">
@@ -86,7 +83,7 @@
                                 </td>
                                 <td>{{ $item->last_update }}</td>
                                 <td>
-                                <a href="#" data-toggle="modal" data-target="#modal-criticalcase-edit" wire:click="$emit('update-critical',{{$item}})" title="Edit" class="btn btn-success"><i class="fa fa-plus"></i> {{__('Edit Critical Case')}}</a>
+                                <a href="#" wire:click="$emit('update-critical',{{$item}})" title="Edit" class="btn btn-success"><i class="fa fa-plus"></i> {{__('Edit Critical Case')}}</a>
                                 <!-- <a href="#" data-toggle="modal" wire:click="$emit('update-critical',{{$item}})" title="Edit" class="btn btn-success"><i class="fa fa-plus"></i> {{__('Edit Critical Case')}}</a> -->
                                 </td>
                             </tr>
@@ -111,17 +108,6 @@
         </div>
     </div>
 </div>
-
-
-
-@section('page-script')
-Livewire.on('update-critical',(data)=>{
-    alert('ok');
-    $("#modal-criticalcase-edit").modal('show');
-});
-
-
-
 <div class="modal fade" id="modal-criticalcase-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -131,15 +117,20 @@ Livewire.on('update-critical',(data)=>{
     </div>
 </div>
 
+@push('after-scripts') 
 
+<script>
+    Livewire.on('update-critical',(data)=>{
+        $("#modal-criticalcase-edit").modal('show');
+    });
 
-
-
-@section('page-script')
-Livewire.on('sitetracking-upload',()=>{
-    $("#modal-sitetracking-upload").modal('hide');
-});
-@endsection
-
-
-@endsection
+    Livewire.on('sitetracking-upload',()=>{
+        $("#modal-sitetracking-upload").modal('hide');
+    });
+    // untuk menangkap Event emit "refresh-page" yang dibuat di Component Edit.php
+    // jika ada event refresh-page maka modal modal-criticalcase-edit kita hide
+    Livewire.on('refresh-page',()=>{
+        $("#modal-criticalcase-edit").modal("hide");
+    });
+</script>
+@endpush

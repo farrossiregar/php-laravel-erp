@@ -48,6 +48,5 @@ class Edit extends Component
         $data->action_point = $this->action_point;
         $data->save();
         $this->emit('refresh-page');
-        return view('livewire.criticalcase.update-critical');
     }
 }
