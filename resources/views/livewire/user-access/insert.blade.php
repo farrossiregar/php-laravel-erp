@@ -1,30 +1,27 @@
-@section('title', 'Insert')
-@section('parentPageTitle', 'User Access')
-
-<div class="row clearfix">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="body">
-                <form id="basic-form" method="post" wire:submit.prevent="save">
-                    <div class="form-group">
-                        <label>{{ __('Name') }}</label>
-                        <input type="text" class="form-control" wire:model="name" >
-                        @error('name')
-                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label>{{ __('Description') }}</label>
-                        <input type="text" class="form-control"  wire:model="description" >
-                        @error('description')
-                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                        @enderror
-                    </div>
-                    <br>
-                    <a href="{{route('user-access.index')}}"><i class="fa fa-arrow-left"></i> {{ __('Back') }}</a>
-                    <button type="submit" class="btn btn-primary ml-3">{{ __('Save') }}</button>
-                </form>
-            </div>
+<form wire:submit.prevent="save">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> {{ __('Position') }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true close-btn">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>{{ __('Name') }}</label>
+            <input type="text" class="form-control" wire:model="name" >
+            @error('name')
+            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label>{{ __('Description') }}</label>
+            <input type="text" class="form-control"  wire:model="description" >
+            @error('description')
+            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+            @enderror
         </div>
     </div>
-</div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-info close-modal"><i class="fa fa-save"></i> Submit</button>
+    </div>
+</form>

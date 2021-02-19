@@ -12,7 +12,6 @@ class Index extends Component
     public $keyword,$region_id,$pic;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['refresh-page' => '$refresh']; // fungsi untuk menangkap perubahan data di form Edit.php
     public function render()
     {
         if(!check_access('critical-case.index')){
@@ -24,8 +23,7 @@ class Index extends Component
         if($this->keyword) $ata = $data->where('name','LIKE',"{$this->keyword}");
         if($this->pic) $ata = $data->where('pic',$this->pic);
         if($this->region_id) $ata = $data->where('region',$this->region_id);
-
-
+        
         return view('livewire.criticalcase.index')->with(['data'=>$data->paginate(50)]);
     }
 }

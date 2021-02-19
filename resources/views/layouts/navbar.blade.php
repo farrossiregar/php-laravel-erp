@@ -15,20 +15,13 @@
             {{-- <form id="navbar-search" class="navbar-form search-form">
                 <input value="" class="form-control" placeholder="Search here..." type="text">
                 <button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
-            </form> --}}
+            </form> --}} 
             <div id="navbar-menu">
                 <ul class="nav navbar-nav">
                     <li class="d-none d-sm-inline-block d-md-none d-lg-inline-block">
-                        <a href="" class="icon-menu"><i class="fa fa-folder-open-o"></i></a>
-                    </li>
-                    <li class="d-none d-sm-inline-block d-md-none d-lg-inline-block">
-                        <a href="" class="icon-menu"><i class="icon-calendar"></i></a>
-                    </li>
-                    <li class="d-none d-sm-inline-block">
-                        <a href="" class="icon-menu"><i class="icon-bubbles"></i></a>
-                    </li>
-                    <li class="d-none d-sm-inline-block">
-                        <a href="" class="icon-menu"><i class="icon-envelope"></i><span class="notification-dot"></span></a>
+                        @if(\Auth::user()->name)
+                            {{\Auth::user()->name}} {{isset(\Auth::user()->access->name) ? ' ( '. \Auth::user()->access->name .' ) ' : ''}}
+                        @endif
                     </li>
                     <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">
@@ -46,7 +39,6 @@
                             <li class="menu-heading">ACCOUNT SETTINGS</li>
                             <li><a href="javascript:void(0);"><i class="icon-note"></i> <span>Profile</span></a></li>
                             <li><a href="javascript:void(0);"><i class="icon-equalizer"></i> <span>Setting</span></a></li>
-
                             <li><a href="{{route('back-to-admin')}}" class="text-danger"><i class="fa fa-arrow-right"></i> <span>Back to Admin</span></a></li>
                         </ul>
                     </li>

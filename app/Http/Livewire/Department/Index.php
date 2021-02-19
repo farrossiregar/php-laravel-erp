@@ -36,7 +36,7 @@ class Index extends Component
         $count = \App\Models\Employee::where('department_id',$id)->count();
         if($count>0){
             session()->flash('message-error',__('Delete data error'));
-            return redirect()->to('users');    
+            return redirect()->to('department');    
         }
         \App\Models\Department::find($id)->delete();
         session()->flash('message-success',__('Data delete successfully'));

@@ -1,53 +1,39 @@
-@section('title', 'Menu')
-@section('parentPageTitle', 'Management Menu')
-
+@section('title', 'Tower')
 <div class="row clearfix">
     <div class="col-lg-6">
         <div class="card">
             <div class="header row">
-                <div class="col-md-6">
+                <div class="col-md-2">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                 </div>
-                <div class="col-md-3">
-                    <a href="{{route('module.insert')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Menu</a>
+                <div class="col-md-1">
+                    <a href="#" class="btn btn-primary"><i class="fa fa-plus"></i> Tower</a>
                 </div>
             </div>
             <div class="body pt-0">
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover m-b-0 c_list">
+                    <table class="table table-striped m-b-0 c_list">
                         <thead>
                             <tr>
-                                <th>No</th>
-                                <th>Name</th>
-                                <th>Prefix Link</th>
-                                <th>Icon</th>
-                                <th>Status</th>
-                                <th>Updated</th>
+                                <th>No</th>                                    
+                                <th>Tower</th>                                    
+                                <th>Site ID</th>                                    
+                                <th>Site Name</th>    
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
+                            @php($num=$data->firstItem())
                             @foreach($data as $k => $item)
                             <tr>
-                                <td style="width: 50px;">{{$k+1}}</td>
-                                <td><a href="{{route('module.edit',['id'=>$item->id])}}">{{$item->name}}</a></td>
-                                <td>{{$item->prefix_link}}</td>
-                                <td>
-                                    @if($item->icon)
-                                        <i style="{{$item->color?'color:'.$item->color:''}}" class="fa fa-{{$item->icon}}"></i>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($item->status==1)
-                                        <span class="badge badge-success">Active</span>
-                                    @else
-                                        <span class="badge badge-danger">Inactive</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    {{$item->updated_at}}
-                                    <a href="javascript:;" class="text-danger" wire:click="delete({{$item->id}})"><i class="fa fa-trash"></i></a>
+                                <td style="width: 50px;">{{$num}}</td>
+                                <td>{{$item->name}}</td> 
+                                <td>{{isset($item->site->site_id)?$item->site->site_id:''}}</td>
+                                <td>{{isset($item->site->name)?$item->site->name:''}}</td>
+                                <td>  
                                 </td>
                             </tr>
+                            @php($num++)
                             @endforeach
                         </tbody>
                     </table>
@@ -58,6 +44,14 @@
         </div>
     </div>
 </div>
+@if(check_access('employee.delete'))
+<div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <livewire:employee.delete />
+    </div>
+</div>
+@endif
+
 
 <div class="modal fade" id="modal_autologin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -102,7 +96,11 @@
         </div>
     </div>
 </div>
+
 @section('page-script')
+Livewire.on('emit-delete-hide',()=>{
+    $("#modal_delete").modal('hide');
+});
 function autologin(action,name){
     $("#modal_autologin form").attr("action",action);
     $("#modal_autologin .modal-body").html('<p>Autologin as '+name+' ?</p>');

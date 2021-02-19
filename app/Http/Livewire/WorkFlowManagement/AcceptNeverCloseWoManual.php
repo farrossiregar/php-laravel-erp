@@ -9,8 +9,9 @@ class AcceptNeverCloseWoManual extends Component
     public $year,$month,$labels,$series,$legendNames;
     protected $listeners = [
             'refresh-page'=>'$refresh',
-            'set-year'=> 'setYear',
-            'set-month'=> 'setMonth',
+            'emit-year' => 'filterYear',
+            'emit-month' => 'filterMonth',
+            'emit-region' => 'filterRegion',
             'init-chart-accept-never-close-wo-manual'=>'generate_chart'];
     public function render()
     {
@@ -20,15 +21,19 @@ class AcceptNeverCloseWoManual extends Component
     {
         $this->year = date('Y');
     }
-    public function setYear($year)
+    public function filterYear($year)
     {
         $this->year = $year;
         $this->month = '';
         $this->generate_chart();
     }
-    public function setMonth($month)
+    public function filterMonth($month)
     {
         $this->month = $month;
+        $this->generate_chart();
+    }
+    public function filterRegion($region){
+        $this->region = $region;
         $this->generate_chart();
     }
     public function generate_chart()

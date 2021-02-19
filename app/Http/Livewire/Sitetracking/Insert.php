@@ -45,7 +45,6 @@ class Insert extends Component
                 $datadetail = new \App\Models\SiteListTrackingDetail();
                 if($i[0]!="") 
                 
-                
                 $datadetail->id_site_master                         = $data->id;
                 $datadetail->collection                             = date_format(date_create($i[4]), 'm');;
                 $datadetail->no_po                                  = $i[2];
@@ -55,7 +54,7 @@ class Insert extends Component
                 $datadetail->pic_sm                                 = $i[6];
                 $datadetail->type                                   = $i[7];
                 $datadetail->item_description                       = $i[8];
-                $datadetail->period                                 = date_format(date_create($i[9]), 'Y-m');
+                if($i[9]) $datadetail->period = date('Y-m-d',strtotime($i[9]));
                 $datadetail->region                                 = $i[10];
                 $datadetail->region1                                = $i[11];
                 $datadetail->project                                = $i[12];

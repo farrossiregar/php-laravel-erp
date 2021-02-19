@@ -37,34 +37,33 @@
                     <table class="table table-striped m-b-0 c_list">
                         <thead>
                             <tr>
-                                <th>No</th>
-                                <th>NIK</th>                                    
+                                <th>No</th>                                    
                                 <th>Name</th>                                    
                                 <th>Phone</th>                                    
                                 <th>Email</th>                                    
                                 <th>Address</th>
                                 <th>Department</th>
-                                <th>Access</th>
+                                <th>Position</th>
                                 <th>Updated</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
+                            @php($num=$data->firstItem())
                             @foreach($data as $k => $item)
                             <tr>
-                                <td style="width: 50px;">{{$k+1}}</td>
+                                <td style="width: 50px;">{{$num}}</td>
                                 <td>
                                     @if(check_access('employee.edit'))
-                                    <a href="{{route('employee.edit',['id'=>$item->id])}}">{{$item->nik}}</a>
+                                    <a href="{{route('employee.edit',['id'=>$item->id])}}">{{$item->name}}</a>
                                     @else
-                                    {{$item->nik}}
+                                    {{$item->name}}
                                     @endif
                                 </td>
-                                <td>{{$item->name}}</td>
                                 <td>{{$item->telepon}}</td> 
                                 <td>{{$item->email}}</td>                                   
                                 <td>{{$item->address}}</td>
-                                <td>{{isset($item->department->name)?$item->department->name:''}}</td>
+                                <td>{{isset($item->department_sub->name)?$item->department->name .' - '.$item->department_sub->name:''}}</td>
                                 <td>{{isset($item->access->name)?$item->access->name:''}}</td>
                                 <td>{{$item->updated_at}}</td>
                                 <td>  
@@ -76,6 +75,7 @@
                                     @endif
                                 </td>
                             </tr>
+                            @php($num++)
                             @endforeach
                         </tbody>
                     </table>

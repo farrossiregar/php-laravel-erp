@@ -7,22 +7,6 @@ var labels = {!!$labels!!};
 var series = {!!$series!!};
 var chart="";
 $( document ).ready(function() {
-    $('.multiselect_month').multiselect({ 
-            nonSelectedText: ' --- All Month --- ',
-            onChange: function (option, checked) {
-                @this.set('month', $('.multiselect_month').val());
-            },
-            buttonWidth: '100%'
-        }
-    );
-    $('.multiselect_region').multiselect({ 
-            nonSelectedText: ' --- All Region --- ',
-            onChange: function (option, checked) {
-                @this.set('region', $('.multiselect_region').val());
-            },
-            buttonWidth: '100%'
-        }
-    );
     init_chart_wo_never_assign();
 });
 Livewire.on('init-chart',(data)=>{

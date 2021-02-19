@@ -36,7 +36,7 @@ class Dashboard extends Component
     }
     // set default ketika pertama kali load halaman
     public function mount(){
-        $this->year = date('Y'); 
+        $this->year = date('Y');
         $this->generate_chart();
     }
 
@@ -70,12 +70,6 @@ class Dashboard extends Component
 
         $this->labels = json_encode($this->labels); 
         $this->datasets = json_encode($this->datasets); 
-        //$this->series = $this->series;
-        //$this->seriess = [[12, 24], [5, 10], [15, 30], [7, 14], [10, 20], [9, 27], [16, 32], [11, 22]];
-        //$this->seriess = $this->seriess;
-        
-        
-        //$this->emit('init-chart',['labels'=>$this->labels,'series'=>$this->series, 'region'=>$this->region, 'seriess'=>$this->seriess]);
         $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets]);
     }
 }

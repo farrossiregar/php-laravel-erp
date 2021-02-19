@@ -23,8 +23,9 @@ class Insert extends Component
         $access->name = $this->name;
         $access->description = $this->description;
         $access->save();
-        session()->flash('message-success',__('Data saved successfully'));
-        return redirect()->to('user-access');
+        $this->reset('name','description');
+        $this->emit('message-success',__('Data saved successfully'));
+        $this->emit('refresh-page');
     }
     
     public function render()

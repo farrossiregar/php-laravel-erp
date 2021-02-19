@@ -22,6 +22,7 @@ class Index extends Component
 
     public function delete($id)
     {
+        \App\Models\ModulesItem::where('module_id',$id)->delete();
         \App\Models\Module::find($id)->delete();
     }
 }
