@@ -7,7 +7,13 @@ use Livewire\Component;
 class WoNeverAssigned extends Component
 {
     public $year,$month,$labels,$series,$region;
-    protected $listeners = ['chart'=>'generate_chart','refresh-page'=>'$refresh'];
+    protected $listeners = [
+            'chart'=>'generate_chart',
+            'refresh-page'=>'$refresh',
+            'emit-year' => 'filterYear',
+            'emit-month' => 'filterMonth',
+            'emit-region' => 'filterRegion'
+        ];
     public function render()
     {
         return view('livewire.work-flow-management.wo-never-assigned');
@@ -17,12 +23,17 @@ class WoNeverAssigned extends Component
         $this->year = date('Y');
         $this->generate_chart();
     }
-    public function updated($componentName){
-        if($componentName=='year') {
-            $this->month = '';
-            $this->emit('set-year',$this->year);
-        }
-        if($componentName=='month') $this->emit('set-month',$this->month);
+    public function filterYear($year){
+        $this->month = '';
+        $this->year = $year;
+        $this->generate_chart();
+    }
+    public function filterMonth($month){
+        $this->month = $month;
+        $this->generate_chart();
+    }
+    public function filterRegion($region){
+        $this->region = $region;
         $this->generate_chart();
     }
     public function generate_chart()

@@ -10,25 +10,14 @@ class Edit extends Component
 {
     protected $listeners = [
                             'update-critical'=>'updateCritical',
-                            'refresh-page'=>'$refresh'
+                            //'refresh-page'=>'$refresh'
                         ];
     public $selected_id, $data, $date, $pic, $last_update, $region, $activity_handling;
-    public $action_point;
-    
-
-
+    public $action_point,$type;
     public function render()
     {
-        // if(check_access_controller('cluster.edit') == false){
-        //     session()->flash('message-error','Access denied.');
-        //     $this->redirect('/');
-        // }
-
-        
         return view('livewire.criticalcase.update-critical');
     }
-
-
     public function updateCritical($id)
     {
         $this->selected_id = $id;
@@ -42,11 +31,24 @@ class Edit extends Component
         $this->activity_handling    = $this->data->activity_handling;
     }
 
-
     public function update(){
+        $this->validate([
+            'action_point' => 'required',
+            'type' =>'required'
+        ]);
         $data = Criticalcase::where('id',$this->selected_id)->first();
         $data->action_point = $this->action_point;
+        $data->type = $this->type;
+        $data->status_submit = 1; 
         $data->save();
+        foreach(get_user_from_access('critical-case.notification-action-point') as $user){
+            $message = "*{$this->data->activity_handling}*\n\n";
+            $message .= $this->type==1?"*Repetitive*" : "*Non Repetitive*";
+            $message .= "\n".$this->action_point;
+
+            send_wa(['phone'=>$user->telepon,'message'=>$message]);   
+        }
+
         $this->emit('refresh-page');
     }
 }

@@ -37,7 +37,10 @@
                                 <td class="text-center">{{\App\Models\Employee::where('department_id',$item->id)->count()}}</td>
                                 <td>
                                     @if(check_access('department.insert-sub-department'))
-                                    <a href="javascript:;" wire:click="$emit('emit-insert-sub',{{$item->id}})" data-toggle="modal" data-target="#modal_insert_sub" title="Add Sub Department"><i class="fa fa-plus"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('emit-insert-sub',{{$item->id}})" class="mr-2" data-toggle="modal" data-target="#modal_insert_sub" title="Add Sub Department"><i class="fa fa-plus"></i></a>
+                                    @endif
+                                    @if(check_access('department.delete'))
+                                    <a href="javascript:;" wire:click="delete({{$item->id}})" class="text-danger"><i class="fa fa-trash"></i></a>
                                     @endif
                                 </td>
                             </tr>

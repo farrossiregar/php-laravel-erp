@@ -1,15 +1,10 @@
-@section('title', 'User Access')
-@section('parentPageTitle', 'Management User')
-
+@section('title', 'Position')
 <div class="row clearfix">
     <div class="col-lg-7">
         <div class="card">
             <div class="header row">
-                <div class="col-md-10">
-                    <h2>Users Access</h2>
-                </div>
-                <div class="col-md-2 text-right">
-                    <a href="{{route('user-access.insert')}}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Access</a>
+                <div class="col-md-2">
+                    <a href="javascript:;" data-toggle="modal" data-target="#modal_insert" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Position</a>
                 </div>
             </div>
             <div class="body">
@@ -18,7 +13,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Access</th>                                    
+                                <th>Position</th>                                    
                                 <th>Description</th>
                                 <th></th>
                             </tr>
@@ -33,6 +28,7 @@
                                     @if(check_access('user-acess.delete'))       
                                     <a href="javascript:void(0)" class="text-danger" wire:click="delete({{$item->id}})"><i class="fa fa-trash-o"></i></a>
                                     @endif
+                                    
                                 </td>
                             </tr>
                             @endforeach
@@ -43,3 +39,18 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="modal_insert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:user-access.insert />
+        </div>
+    </div>
+</div>
+@push('after-scripts')
+<script>
+    Livewire.on('refresh-page',()=>{
+        $(".modal").modal('hide');
+    })
+</script>
+@endpush

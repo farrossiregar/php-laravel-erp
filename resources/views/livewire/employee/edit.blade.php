@@ -97,7 +97,7 @@
                                     </optgroup>
                                     @endforeach
                                 </select>
-                                @error('user_access_id')
+                                @error('department_sub_id')
                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                 @enderror
                             </div>
@@ -167,7 +167,7 @@
                             </div>
                             <div class="form-group">
                                 <select class="form-control" wire:model="user_access_id">
-                                    <option value="">{{__('--- User Access --- ')}} </option>
+                                    <option value="">{{__('--- Position --- ')}} </option>
                                     @foreach(\App\Models\UserAccess::orderBy('name','ASC')->get() as $item)
                                     <option value="{{$item->id}}">{{$item->name}}</option>
                                     @endforeach
@@ -175,6 +175,20 @@
                                 @error('user_access_id')
                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                 @enderror
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <input type="password" class="form-control"  wire:model="password" placeholder="Password">
+                                    @error('password')
+                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="password" class="form-control"  wire:model="confirm" placeholder="Confirm">
+                                    @error('confirm')
+                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                     </div>

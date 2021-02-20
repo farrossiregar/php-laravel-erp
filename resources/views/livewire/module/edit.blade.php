@@ -64,7 +64,7 @@
                             <th style="background:#eee;">
                                 <div class="row">
                                     <div class="col-md-2">
-                                        <h5 class="pb-0 mb-0">{{$item->name}}</h5>
+                                        <h5 class="pb-0 mb-0"><a href="javascript:;" data-toggle="modal" data-target="#modal_edit_items">{{$item->name}}</a></h5>
                                         <small>{{ $item->link }}</small>
                                     </div>
                                     <div class="col-md-6">
@@ -86,6 +86,14 @@
                 <hr />
                 <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#modal_add_items"><i class="fa fa-plus"></i> Add</a>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_edit_items" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:module.form-edit-sub-menu />
         </div>
     </div>
 </div>

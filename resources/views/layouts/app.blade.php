@@ -28,23 +28,18 @@
         @livewireStyles
     </head>
     <body class="theme-blue">
-
         <!-- Page Loader -->
         <div class="page-loader-wrapper">
             <div class="loader">
                 <div class="m-t-30">
-                    {{-- <img src="{{url('/')}}/assets/img/logo-icon.svg" width="48" height="48" alt="Lucid"> --}}
                     <img src="{{get_setting('logo')}}" style="height:48px;" alt="{{get_setting('company')}}">
                 </div>
                 <p>Please wait...</p>        
             </div>
         </div>
-
         <div id="wrapper">
-
             @include('layouts.navbar')
             @include('layouts.sidebar')
-
             <div id="main-content">
                 <div class="container-fluid">
                     <div class="block-header">
@@ -61,6 +56,15 @@
                             <i class="fa fa-times-circle"></i> {!!session('message-error')!!}
                         </div>
                         @endif
+
+                        <div class="alert alert-danger alert-dismissible" role="alert" style="display:none">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <i class="fa fa-times-circle"></i> <span class="message"></span>
+                        </div>
+                        <div class="alert alert-success alert-dismissible" role="alert" style="display:none">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <i class="fa fa-check-circle"></i> <span class="message"></span>
+                        </div>
 
                         {{-- <div class="row">
                             <div class="col-lg-5 col-md-8 col-sm-12">                        
@@ -92,6 +96,16 @@
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
+        <script>
+            Livewire.on('message-success',(msg)=>{
+                $('.alert-success').show();
+                $('.alert-success .message').html(msg);
+            });
+            Livewire.on('message-error',(msg)=>{
+                $('.alert-error').show();
+                $('.alert-error .message').html(msg);
+            });
+        </script>
         <script>
             function confirm_delete(){
                 $("#confirm_delete").modal("show");

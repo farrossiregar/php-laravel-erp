@@ -9,15 +9,22 @@ class Index extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $layout_chart_parent,$layout_chart_parent_id,$layout_chart,$layout_chart_init_refresh;
+    public $year,$region,$month;
     protected $listeners = ['refresh-page'=>'$refresh'];
     public function render()
     {
         if(!check_access('work-flow-management.index')){
-            session()->flash('error-message','Access denied !');
+            session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
             $this->redirect('/');
         }
         $data = \App\Models\WorkFlowManagement::orderBy('updated_at','DESC');
         return view('livewire.work-flow-management.index')->with(['data'=>$data->paginate(100)]);
+    }
+    public function updated($propertyName)
+    {
+        if($propertyName == 'year') $this->emit('emit-year',$this->year);
+        if($propertyName == 'month') $this->emit('emit-month',$this->month);
+        if($propertyName == 'region') $this->emit('emit-region',$this->region);
     }
     public function mount()
     {

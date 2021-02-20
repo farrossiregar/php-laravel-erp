@@ -8,7 +8,7 @@ use Livewire\WithFileUploads;
 class Edit extends Component
 {
     public $data,$name,$nik,$email,$telepon,$address,$place_of_birth,$date_of_birth,$marital_status,$blood_type,$employee_status,$religion,$user_access_id,$department_sub_id;
-    public $foto,$foto_ktp;
+    public $foto,$foto_ktp,$password,$confirm;
     use WithFileUploads;
     public function render()
     {
@@ -65,11 +65,15 @@ class Edit extends Component
         ]);
         $department = \App\Models\DepartmentSub::find($this->department_sub_id);
         $user = \App\Models\User::find($this->data->user_id);
+        if(!$user) $user = new \App\Models\User();
+
+        if($this->password) $user->password = \Illuminate\Support\Facades\Hash::make($this->password);
         $user->user_access_id = $this->user_access_id;
         $user->name = $this->name;
         $user->email = $this->email;
         $user->telepon = $this->telepon;
         $user->save();
+        if(empty($this->data->user_id))$this->data->user_id = $user->id;
 
         $this->data->name = $this->name;
         $this->data->nik = $this->nik;
