@@ -7,10 +7,7 @@
         </button>
     </div>
     <div class="modal-body">
-        <div class="form-group">
-            <label>Action Point (Repetitive / Non Repetitive)</label>
-            <textarea type="text" class="form-control"  wire:model="action_point" ></textarea>
-        </div>
+       
         <table class="table table-hover table-bordered">
             <tr>
                 <th>PIC</th>
@@ -35,7 +32,10 @@
         </table>
         
         
-        
+        <div class="form-group">
+            <label>Action Point (Repetitive / Non Repetitive)</label>
+            <textarea type="text" class="form-control"  wire:model="action_point" ></textarea>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-info close-modal"><i class="fa fa-upload"></i> Update</button>

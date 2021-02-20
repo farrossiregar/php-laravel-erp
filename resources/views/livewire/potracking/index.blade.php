@@ -18,7 +18,7 @@
                         <div class="col-md-2">
                             <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                         </div>
-                        <!-- <div class="col-md-2">
+                        <div class="col-md-2">
                             <select class="form-control" wire:model="pic">
                                 <option value=""> --- PIC --- </option>
                                 <option value="indra">Indra</option>
@@ -33,7 +33,7 @@
                                 <option value="{{$region->region_code}}">{{$region->region}}</option>
                                 @endforeach
                             </select>
-                        </div> -->
+                        </div>
                         
                         <div class="col-md-1">
                             <a href="#" data-toggle="modal" data-target="#modal-potracking-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking')}}</a>
@@ -51,22 +51,12 @@
                                         <th>Project Name</th>    
                                         <th>No Subcontract</th>    
                                         <th>No Contract</th>    
+                                        <th>Last Update</th>    
                                         <th>Action</th>    
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($data as $k => $item)
-                                    <tr>
-                                        <td style="width: 50px;">{{$k+1}}</td>
-                                        <td>{{$item->project_name}}</td>
-                                        <td>{{$item->subcontract_no}}</td>
-                                        <td>{{$item->contract_no}}</td>
-                                        <td>
-                                            <a href="{{route('po-tracking.edit',['id'=>$item->id])}}"><button type="button" class="btn btn-success">Preview</button></a>
-                                            <a href="#" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking ESAR')}}</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                   
                                 </tbody>
                             </table>
                         </div>
@@ -84,21 +74,40 @@
 <div class="modal fade" id="modal-potracking-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            
-            <livewire:po-tracking.insert />
+        <livewire:po-tracking.insert />
+            <!-- <form wire:submit.prevent="save">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Upload Data PO Tracking</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true close-btn">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>File</label>
+                        <input type="file" class="form-control" name="file" wire:model="file" />
+                        @error('file')
+                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                        @enderror
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-upload"></i> Upload</button>
+                </div>
+                <div wire:loading>
+                    <div class="page-loader-wrapper" style="display:block">
+                        <div class="loader" style="display:block">
+                            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                            <p>Please wait...</p>
+                        </div>
+                    </div>
+                </div>
+            </form> -->
         </div>
     </div>
 </div>
 
-
-<div class="modal fade" id="modal-potrackingesar-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            
-            <livewire:po-tracking.importesar />
-        </div>
-    </div>
-</div>
 
 
 
@@ -107,9 +116,6 @@
 Livewire.on('sitetracking-upload',()=>{
     $("#modal-sitetracking-upload").modal('hide');
 });
-
-
-
 @endsection
 
 

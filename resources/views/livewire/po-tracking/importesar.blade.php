@@ -1,7 +1,7 @@
 <form wire:submit.prevent="save">
     @csrf
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Upload Data PO Tracking</h5>
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Upload Data PO Tracking ESAR</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true close-btn">×</span>
         </button>

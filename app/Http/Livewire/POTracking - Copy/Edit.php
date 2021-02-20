@@ -12,28 +12,26 @@ class Edit extends Component
                             'update-critical'=>'updateCritical',
                             'refresh-page'=>'$refresh'
                         ];
-    public $data, $project_name;
+    public $data;
     
 
 
     public function render()
     {
-        // if(check_access_controller('po-tracking.edit') == false){
+        // if(check_access_controller('cluster.edit') == false){
         //     session()->flash('message-error','Access denied.');
         //     $this->redirect('/');
         // }
 
         $data           = $this->data;
-        $project_name   = $this->project_name;
         // return view('livewire.po-tracking.edit');
-        return view('livewire.po-tracking.edit')->with(compact('data', 'project_name'));
+        return view('livewire.po-tracking.edit')->with(compact('data'));
     }
 
 
-    public function mount($id)
+    public function mount()
     {
-        $this->data             = PoTrackingPds::where('id', $id)->first();  
-        $this->project_name     = $this->data->project_name;  
+        $this->data             = PoTrackingPds::where('id','1')->first();  
         
         
     }

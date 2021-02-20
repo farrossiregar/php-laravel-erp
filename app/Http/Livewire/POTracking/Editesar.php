@@ -6,7 +6,7 @@ use Livewire\Component;
 use App\Models\PoTrackingPds;
 
 
-class Edit extends Component
+class Editesar extends Component
 {
     protected $listeners = [
                             'update-critical'=>'updateCritical',
@@ -18,7 +18,7 @@ class Edit extends Component
 
     public function render()
     {
-        // if(check_access_controller('po-tracking.edit') == false){
+        // if(check_access_controller('po-tracking.edit-esar') == false){
         //     session()->flash('message-error','Access denied.');
         //     $this->redirect('/');
         // }
@@ -26,7 +26,7 @@ class Edit extends Component
         $data           = $this->data;
         $project_name   = $this->project_name;
         // return view('livewire.po-tracking.edit');
-        return view('livewire.po-tracking.edit')->with(compact('data', 'project_name'));
+        return view('livewire.po-tracking.edit-esar')->with(compact('data'));
     }
 
 
