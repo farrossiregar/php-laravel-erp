@@ -3,10 +3,10 @@
 namespace App\Http\Livewire\POTracking;
 
 use Livewire\Component;
-use App\Models\PoTrackingEsar;
+use App\Models\PoTrackingReimbursement;
 
 
-class Editesar extends Component
+class Editreimbursement extends Component
 {
     protected $listeners = [
                             'update-critical'=>'updateCritical',
@@ -23,18 +23,18 @@ class Editesar extends Component
         //     $this->redirect('/');
         // }
 
-        $data           = $this->data;
-        $project_name   = $this->project_name;
-        // dd($data);
-        return view('livewire.po-tracking.edit-esar');
+        // $data           = $this->data;
+        // $project_name   = $this->project_name;
+        
+        return view('livewire.po-tracking.edit-reimbursement');
         // return view('livewire.po-tracking.edit-esar')->with(compact('data'));
     }
 
 
     public function mount($id)
     {
-        $this->data             = PoTrackingEsar::where('id', 1)->first();  
-        $this->project_name     = $this->data->project_name;  
+        // $this->data             = PoTrackingReimbursement::where('id', 1)->first();  
+        // $this->project_name     = $this->data->project_name;  
         
         
     }

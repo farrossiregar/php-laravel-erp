@@ -29,10 +29,10 @@ class Importesar extends Component
         $sheetData      = $data->getActiveSheet();
         
         
-        $potrackingesar                           = new \App\Models\PoTrackingEsar();
-        $potrackingesar->po_no                    = $sheetData->getCell('E8')->getValue();
-        $potrackingesar->payment                  = $sheetData->getCell('E9')->getValue();
-        $potrackingesar->acceptance               = $sheetData->getCell('L6')->getValue();
+        // $potrackingesar                           = new \App\Models\PoTrackingEsar();
+        // $potrackingesar->po_no                    = $sheetData->getCell('E8')->getValue();
+        // $potrackingesar->payment                  = $sheetData->getCell('E9')->getValue();
+        // $potrackingesar->acceptance               = $sheetData->getCell('L6')->getValue();
         // $potrackingesar->save();
 
         if(count($sheetDatas) > 0){
@@ -41,19 +41,27 @@ class Importesar extends Component
             $total_success = 0;
             foreach($sheetDatas as $key => $i){
                 if($key<12) continue; // skip header
-                if($key>36) break;
+                if($key>35) break;
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
                 $potrackingesar                           = new \App\Models\PoTrackingEsar();
                 if($i[0]!="") 
                 
-                
+                // $acc = $sheetData->getCell('L6')->getValue();
+                $potrackingesar->po_no                      = $sheetData->getCell('E8')->getValue();
+                $potrackingesar->payment                    = $sheetData->getCell('E9')->getValue();
+                // $potrackingesar->acceptance                 = @date_format(date_create($acc), 'Y-m-d');
+                // $potrackingesar->acceptance                 = $sheetData->getCell('L6')->getValue();
+                $potrackingesar->acceptance                 = '2020-11-17';
                 
                 $potrackingesar->site_id                    = $i[3];
                 $potrackingesar->site_name                  = $i[4];
-                $potrackingesar->description                = $i[5];
+                $potrackingesar->description                = date_format(date_create('17/11/2020'), 'Y-m-d').' - '.$i[5];
                 $potrackingesar->uom                        = $i[6];
-                $potrackingesar->po_qty                     = $i[7];
-                $potrackingesar->actual_qty                 = $i[8];
+                // $potrackingesar->po_qty                     = $i[7];
+                // $potrackingesar->actual_qty                 = $i[8];
+                // $potrackingesar->uom                        = "PCS";
+                $potrackingesar->po_qty                     = "10";
+                $potrackingesar->actual_qty                 = "12";
                 $potrackingesar->start_date_on_po           = $i[11];
                 $potrackingesar->end_date_on_po             = $i[12];
                 $potrackingesar->remarks                    = $i[13];

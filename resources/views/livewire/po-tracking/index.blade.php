@@ -18,12 +18,21 @@
                         <div class="col-md-2">
                             <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                         </div>
-                        <!-- <div class="col-md-2">
-                            <select class="form-control" wire:model="pic">
-                                <option value=""> --- PIC --- </option>
-                                <option value="indra">Indra</option>
-                                <option value="budi">Budi</option>
-                                <option value="greg">Greg</option>
+                        <div class="col-md-2">
+                            <select class="form-control" wire:model="month">
+                                <option value=""> --- Month --- </option>
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="03">April</option>
+                                <option value="03">May</option>
+                                <option value="03">June</option>
+                                <option value="03">July</option>
+                                <option value="03">August</option>
+                                <option value="03">September</option>
+                                <option value="03">October</option>
+                                <option value="03">November</option>
+                                <option value="03">December</option>
                             </select>
                         </div>
                         <div class="col-md-2">
@@ -33,10 +42,16 @@
                                 <option value="{{$region->region_code}}">{{$region->region}}</option>
                                 @endforeach
                             </select>
-                        </div> -->
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-control" wire:model="project">
+                                <option value=""> --- Project --- </option>
+                                <option value="">Project Name</option>
+                            </select>
+                        </div>
                         
                         <div class="col-md-1">
-                            <a href="#" data-toggle="modal" data-target="#modal-potracking-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking')}}</a>
+                            <a href="#" data-toggle="modal" data-target="#modal-potracking-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking Reimbursement')}}</a>
                         </div>
                         
                     </div>
@@ -62,8 +77,9 @@
                                         <td>{{$item->subcontract_no}}</td>
                                         <td>{{$item->contract_no}}</td>
                                         <td>
-                                            <a href="{{route('po-tracking.edit',['id'=>$item->id])}}"><button type="button" class="btn btn-success">Preview</button></a>
-                                            <a href="#" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking ESAR')}}</a>
+                                            <a href="{{route('po-tracking.edit-reimbursement',['id'=>$item->id])}}"><button type="button" class="btn btn-success">Preview Reimbursement</button></a>
+                                            <a href="{{route('po-tracking.edit-esar',['id'=>$item->id])}}"><button type="button" class="btn btn-success">Preview ESAR</button></a>
+                                            <!-- <a href="#" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking ESAR')}}</a> -->
                                         </td>
                                     </tr>
                                 @endforeach
