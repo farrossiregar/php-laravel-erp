@@ -17,7 +17,7 @@
         <div class="col-md-3">
             <input type="text" class="form-control" wire:model="keyword" placeholder="{{ __('Searching...') }}" />
         </div>
-        <div class="col-md-2 px-0">
+        <div class="col-md-2">
             <select class="form-control" wire:model="region">
                 <option value=""> --- {{ __('Region') }} --- </option>
                 @foreach(\App\Models\WorkFlowManagement::groupBy('region')->get() as $item)
@@ -28,8 +28,12 @@
         <div class="col-md-2">
             <input type="text" class="form-control" wire:model="created_at" placeholder="Date Uploaded" onfocus="(this.type='date')" />
         </div>
-        <div class="col-md-1 px-0">
+        <div class="col-md-5">
             <a href="javascript:;" class="btn btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_upload"><i class="fa fa-upload"></i> {{ __('Upload') }}</a>
+            <label wire:loading>
+                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                <span class="sr-only">{{ __('Loading...') }}</span>
+            </label>
         </div>
     </div>
     <div class="body pt-0">
@@ -70,7 +74,6 @@
                         <td style="width: 50px;">{{$k+1}}</td>
                         <td>{{date('d M Y',strtotime($item->created_at))}}</td> 
                         <td>
-                            <a href="javascript:;" class="text-danger" wire:click="$emit('confirm-delete',{{$item->id}})"><i class="fa fa-trash"></i></a>
                             {{$item->tanggal_submission}}
                         </td> 
                         <td>{{isset($item->employee->name)?$item->employee->name : ''}}</td> 

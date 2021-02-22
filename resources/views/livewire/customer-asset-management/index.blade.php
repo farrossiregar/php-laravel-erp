@@ -1,4 +1,4 @@
-@section('title', __('Customer asset Managemnet'))
+@section('title', __('Customer Asset Managemnet'))
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">

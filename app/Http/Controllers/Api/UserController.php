@@ -11,7 +11,6 @@ use Validator;
 class UserController extends Controller
 {
     public $successStatus = 200;
-    
     public function allUser(){
         $response = [
             'success' => true,
@@ -24,14 +23,14 @@ class UserController extends Controller
         
         if(Auth::attempt(['email' => $r->email, 'password' => $r->password])){
             $user = Auth::user();
-            $success['token'] =  $user->createToken('Laravel')->accessToken;
-            return response()->json(['success' => $success], $this->successStatus);
+            $data['token'] =  $user->createToken('Laravel')->accessToken;
+            $data['name'] = $user->name;
+            return response()->json(['status'=>200,'message'=>'success','data'=> $data], $this->successStatus);
         }
         else{
-            return response()->json(['error'=>'Unauthorised'], 401);
+            return response()->json(['status'=>401,'message'=>'Unauthorised'], 401);
         }
     }
-
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [

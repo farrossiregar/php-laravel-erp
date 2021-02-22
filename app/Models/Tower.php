@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Tower extends Model
 {
     use HasFactory;
+
+    public function site()
+    {
+        return $this->belongsTo(\App\Models\Site::class,'site_id');
+    }
 }

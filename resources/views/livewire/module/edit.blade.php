@@ -63,7 +63,7 @@
                         <tr>
                             <th style="background:#eee;">
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-6">
                                         <h5 class="pb-0 mb-0"><a href="javascript:;" data-toggle="modal" data-target="#modal_edit_items">{{$item->name}}</a></h5>
                                         <small>{{ $item->link }}</small>
                                     </div>
