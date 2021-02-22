@@ -12,7 +12,7 @@ class CustomerAssetManagementController extends Controller
 {
     public function data(Request $r){
 
-        $data = \App\Models\CustomerAssetManagement::get();
+        $data = \App\Models\CustomerAssetManagement::paginate(100);
 
         return response()->json(['status'=>200,'data'=>$data], 200);
     }
