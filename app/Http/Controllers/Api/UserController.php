@@ -10,7 +10,6 @@ use Validator;
 
 class UserController extends Controller
 {
-    public $successStatus = 200;
     public function allUser(){
         $response = [
             'success' => true,
@@ -25,10 +24,10 @@ class UserController extends Controller
             $user = Auth::user();
             $data['token'] =  $user->createToken('Laravel')->accessToken;
             $data['name'] = $user->name;
-            return response()->json(['status'=>200,'message'=>'success','data'=> $data], $this->successStatus);
+            return response()->json(['status'=>200,'message'=>'success','data'=> $data], 200);
         }
         else{
-            return response()->json(['status'=>401,'message'=>'Unauthorised'], 401);
+            return response()->json(['status'=>401,'message'=>'Unauthorised'], 200);
         }
     }
     public function register(Request $request)
