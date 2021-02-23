@@ -18,6 +18,10 @@ class UserController extends Controller
         ];
         return response()->json($response, 200);
     }
+    public function getSites()
+    {
+        return response()->json(\App\Models\Site::get(), 200);
+    }
     public function login(Request $r){
         
         if(Auth::attempt(['email' => $r->email, 'password' => $r->password])){

@@ -23,6 +23,7 @@ Route::post('auth-login', [\App\Http\Controllers\Api\UserController::class,'logi
 Route::post('register', [\App\Http\Controllers\Api\UserController::class,'register']);
 Route::get('all-user', [\App\Http\Controllers\Api\UserController::class,'allUser']);
 Route::get('get-customer-asset-management',[\App\Http\Controllers\Api\CustomerAssetManagementController::class,'data']);
+Route::get('get-sites',[\App\Http\Controllers\Api\UserController::class,'getSites']);
 
 Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('details', 'Api\UserController@details');
