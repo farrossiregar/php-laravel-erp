@@ -31,7 +31,7 @@ class UserController extends Controller
             return response()->json(['status'=>200,'message'=>'success','data'=> $data], 200);
         }
         else{
-            return response()->json(['status'=>401,'message'=>'Unauthorised'], 200);
+            return response()->json(['status'=>401,'message'=>'Unauthorised : '. $r->email. ' : '. $r->password], 200);
         }
     }
     public function register(Request $request)
