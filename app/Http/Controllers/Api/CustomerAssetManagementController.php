@@ -12,7 +12,7 @@ class CustomerAssetManagementController extends Controller
 {
     public function data(Request $r){
 
-        $raw = \App\Models\CustomerAssetManagement::paginate(10);
+        $raw = \App\Models\CustomerAssetManagement::paginate(40);
         $data = [];
         foreach($raw as $k => $item)
         {
