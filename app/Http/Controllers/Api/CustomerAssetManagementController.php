@@ -19,7 +19,7 @@ class CustomerAssetManagementController extends Controller
             $var = [];
             if(!isset($item->tower->name) or $item->tower->name=="") continue;
             $var['id'] = $item->id;
-            $var['uploader'] = date('d F Y',strtotime($item->created_at));
+            $var['uploader'] = date('d-M-Y',strtotime($item->created_at));
             $var['tower'] = $item->tower->name;
             $var['site_id'] = isset($item->site->site_id) ? $item->site->site_id : '';
             $var['site'] = isset($item->site->name) ? $item->site->name : '';
