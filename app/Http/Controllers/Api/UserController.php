@@ -20,7 +20,7 @@ class UserController extends Controller
     }
     public function getSites()
     {
-        return response()->json(\App\Models\Site::get(), 200);
+        return response()->json(\App\Models\Site::limit(100)->get(), 200);
     }
     public function login(Request $r){
         
