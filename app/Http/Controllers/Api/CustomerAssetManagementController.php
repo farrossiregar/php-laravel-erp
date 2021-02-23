@@ -23,7 +23,8 @@ class CustomerAssetManagementController extends Controller
             $var['tower'] = $item->tower->name;
             $var['site_id'] = isset($item->site->site_id) ? $item->site->site_id : '';
             $var['site'] = isset($item->site->name) ? $item->site->name : '';
-            $var['region'] = isset($item->region->region) ? $item->region->region : '';
+            $var['region'] = $item->region_name;
+            $var['cluster'] = isset($item->cluster->name) ? $item->cluster->name : '';
             $var['status'] = $item->status;
             $data[] = $var;
         }
