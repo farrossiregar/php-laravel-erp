@@ -16,9 +16,9 @@
                 <div class="tab-pane show active" id="data-po-tracking">
                     <div class="header row">
                         <div class="col-md-2">
-                            <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
+                            <input type="date" class="form-control" wire:model="date" />
                         </div>
-                        <div class="col-md-2">
+                        <!-- <div class="col-md-2">
                             <select class="form-control" wire:model="month">
                                 <option value=""> --- Month --- </option>
                                 <option value="01">January</option>
@@ -48,7 +48,9 @@
                                 <option value=""> --- Project --- </option>
                                 <option value="">Project Name</option>
                             </select>
-                        </div>
+                        </div> -->
+
+                        
                         
                         <div class="col-md-1">
                             <a href="#" data-toggle="modal" data-target="#modal-potracking-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking Reimbursement')}}</a>
@@ -62,23 +64,38 @@
                             <table class="table table-striped m-b-0 c_list">
                                 <thead>
                                     <tr>
-                                        <th>No</th>    
-                                        <th>Project Name</th>    
-                                        <th>No Subcontract</th>    
-                                        <th>No Contract</th>    
-                                        <th>Action</th>    
+                                        <th>No</th>
+                                        <th>PO Tracking Uploaded</th>    
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($data as $k => $item)
                                     <tr>
                                         <td style="width: 50px;">{{$k+1}}</td>
-                                        <td>{{$item->project_name}}</td>
-                                        <td>{{$item->subcontract_no}}</td>
-                                        <td>{{$item->contract_no}}</td>
+                                        <td><?php echo date_format($item->created_at, 'd M Y H:i:s'); ?></td>
+                                        
                                         <td>
                                             <a href="{{route('po-tracking.edit-reimbursement',['id'=>$item->id])}}"><button type="button" class="btn btn-success">Preview Reimbursement</button></a>
-                                            <a href="{{route('po-tracking.edit-esar',['id'=>$item->id])}}"><button type="button" class="btn btn-success">Preview ESAR</button></a>
+                                            
+                                            <!--    Regional     -->
+                                            @if($item->approved_bast_erp_date == null)
+                                                <a href="#" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import BAST / ERP')}}</a>
+                                            @else
+                                                <a href="{{route('po-tracking.edit-esar',['id'=>$item->id])}}"><button type="button" class="btn btn-success">Preview BAST / ERP</button></a>
+                                            @endif
+                                            <!--    End Regional     -->
+
+                                            <!--    E2E     -->
+                                            @if($item->approved_bast_erp_date == null)
+                                                <div type="button" class="btn btn-warning">Waiting BAST / ERP</div>
+                                            @else
+                                                <a href="{{route('po-tracking.edit-esar',['id'=>$item->id])}}"><button type="button" class="btn btn-success">Preview ESAR</button></a>
+                                            @endif
+                                            <!--    End E2E     -->
+
+
+
                                             <!-- <a href="#" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking ESAR')}}</a> -->
                                         </td>
                                     </tr>
@@ -106,12 +123,30 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-potrackingbast-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+            <livewire:po-tracking.importbast />
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="modal-potrackingesar-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             
             <livewire:po-tracking.importesar />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-potracking-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+            <livewire:po-tracking.importacceptancedocs />
         </div>
     </div>
 </div>

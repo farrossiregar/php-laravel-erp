@@ -28,6 +28,11 @@ class Insert extends Component
         $data = $reader->load($path);
         $sheetData = $data->getActiveSheet()->toArray();
 
+        $datamaster = new \App\Models\PoTrackingReimbursementMaster();
+        $datamaster->created_at = date('Y-m-d H:i:s');
+        $datamaster->updated_at = date('Y-m-d H:i:s');
+        $datamaster->save();
+
         if(count($sheetData) > 0){
             $countLimit = 1;
             $total_failed = 0;
@@ -39,6 +44,7 @@ class Insert extends Component
                 $data = new \App\Models\PoTrackingReimbursement();
                 if($i[0]!="") 
                 
+                $data->id_po_tracking_master                   = $datamaster->id;
                 $data->po_reimbursement_id                     = $i[0];
                 $data->change_history                          = $i[1];
                 $data->rep_office                              = $i[2];
@@ -60,10 +66,8 @@ class Insert extends Component
                 $data->unit                                    = $i[18];
                 $data->unit_price                              = $i[19];
                 $data->center_area                             = $i[20];
-                $data->start_date                              = date('Y-m-d');
-                $data->end_date                                = date('Y-m-d');
-                // $data->start_date                              = date_format(date_create($i[22]), 'Y-m-d');
-                // $data->end_date                                = date_format(date_create($i[23]), 'Y-m-d');
+                $data->start_date                              = @date_format(date_create($i[22]), 'Y-m-d');
+                $data->end_date                                = @date_format(date_create($i[22]), 'Y-m-d');
                 $data->billed_qty                              = $i[23];
                 $data->due_qty                                 = $i[24];
                 $data->qty_cancel                              = $i[25];
@@ -76,18 +80,6 @@ class Insert extends Component
                 $data->ship_to                                 = $i[32];
                 $data->engineering_code                        = $i[33];
                 $data->engineering_name                        = $i[34];
-                // $data->payment_terms                           = "payment terms";
-                // $data->category                                = "category";
-                // $data->payment_method                          = "payment_method";
-                // $data->product_category                        = "product_category";
-                // $data->bill_to                                 = "bill_to";
-                // $data->subproject_code                         = "subproject code";
-                // $data->expire_date                             = date('Y-m-d');
-                // $data->publish_date                            = date('Y-m-d H:i:s');
-                // $data->acceptance_date                         = date('Y-m-d');
-                // $data->ff_buyer                                = "ff buyer";
-                // $data->note_to_receiver                        = "note to receiver";
-                // $data->fob_lookup_code                         = "fob lookup code";
                 
                 $data->payment_terms                           = $i[35];
                 $data->category                                = @$i[36];
@@ -109,18 +101,25 @@ class Insert extends Component
                 $total_success++;
             }
 
-            // $params['text']     = 'Request Free Trial Absensi Digital';
+
+
+            // $params['text']     = 'PO Tracking Reimbursement Uploaded on '.date('d M Y H:i:s');
             // $emailto = ['farros.jackson@gmail.com'];
             // $email = ['noreplypmtepl@gmail.com'];
             // \Mail::send([], $params,
-            //     // function($message) use($request, $file, $email, $emailto,$name_excel, $destination) {
             //     function($message) use($emailto, $email) {
             //         $message->from($email);
             //         $message->to($emailto);
-            //         $message->subject('Request Trial');
+            //         $message->subject('PO Tracking Reimbursement Uploaded on '.date("d M Y H:i:s"));
                     
             //     }
             // );
+
+            // foreach(get_user_from_access('critical-case.notification-action-point') as $user){
+                $message = "*PO Tracking Reimbursement Uploaded on ".date('d M Y H:i:s')."*\n\n";
+    
+                send_wa(['phone'=>'087871200923','message'=>$message]);   
+            // }
 
             session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
             

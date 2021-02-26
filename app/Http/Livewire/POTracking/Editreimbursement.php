@@ -12,7 +12,7 @@ class Editreimbursement extends Component
                             'update-critical'=>'updateCritical',
                             'refresh-page'=>'$refresh'
                         ];
-    public $data, $project_name;
+    public $data;
     
 
 
@@ -23,8 +23,8 @@ class Editreimbursement extends Component
         //     $this->redirect('/');
         // }
 
-        // $data           = $this->data;
-        // $project_name   = $this->project_name;
+        // $data           = PoTrackingReimbursement::where('id_po_tracking_master', $id)->get(); 
+        // if($this->date) $ata = $data->whereDate('created_at',$this->date);
         
         return view('livewire.po-tracking.edit-reimbursement');
         // return view('livewire.po-tracking.edit-esar')->with(compact('data'));
@@ -33,31 +33,10 @@ class Editreimbursement extends Component
 
     public function mount($id)
     {
-        // $this->data             = PoTrackingReimbursement::where('id', 1)->first();  
-        // $this->project_name     = $this->data->project_name;  
+        $this->data             = PoTrackingReimbursement::where('id_po_tracking_master', $id)->get();  
         
         
     }
 
-    // public function updateCritical($id)
-    // {
-    //     $this->selected_id = $id;
 
-    //     $this->data                 = Criticalcase::where('id', $this->selected_id)->first();
-    //     $this->pic                  = $this->data->pic;
-    //     $this->date                 = $this->data->date;
-    //     $this->last_update          = $this->data->last_update;
-    //     $this->region               = $this->data->region;
-    //     $this->action_point         = $this->data->action_point;
-    //     $this->activity_handling    = $this->data->activity_handling;
-    // }
-
-
-    // public function update(){
-    //     $data = Criticalcase::where('id',$this->selected_id)->first();
-    //     $data->action_point = $this->action_point;
-    //     $data->save();
-    //     $this->emit('refresh-page');
-    //     return view('livewire.criticalcase.update-critical');
-    // }
 }

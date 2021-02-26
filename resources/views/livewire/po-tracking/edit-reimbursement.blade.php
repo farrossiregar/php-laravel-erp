@@ -8,13 +8,45 @@
             <div class="header row">
                 <div class="col-md-12">
                     <b><h4>PO Tracking Reimbursement</h4></b> 
+                    
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" wire:model="month">
+                        <option value=""> --- Month --- </option>
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="03">April</option>
+                        <option value="03">May</option>
+                        <option value="03">June</option>
+                        <option value="03">July</option>
+                        <option value="03">August</option>
+                        <option value="03">September</option>
+                        <option value="03">October</option>
+                        <option value="03">November</option>
+                        <option value="03">December</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" wire:model="region_id">
+                        <option value=""> --- Region --- </option>
+                        @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $region)
+                        <option value="{{$region->region_code}}">{{$region->region}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" wire:model="project">
+                        <option value=""> --- Project --- </option>
+                        <option value="">Project Name</option>
+                    </select>
                 </div>
             </div>
             <div class="body pt-0">
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="#" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking ESAR')}}</a>
-                        <br><br><br>
+                        <!-- <a href="#" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking ESAR')}}</a> -->
+                        <br>
                         <div class="table-responsive">
                             
                             <table class="table table-striped m-b-0 c_list">
@@ -48,7 +80,6 @@
                                         <th>Due QTY</th>  
                                         <th>QTY Cancel</th>  
                                         <th>Item Code</th>  
-                                        <th>QTY Cancel</th>  
                                         <th>Version NO</th>  
                                         <th>Line Amount</th>  
                                         <th>Bidding Area</th>  
@@ -72,58 +103,58 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($data as $key => $item)
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $item->po_reimbursement_id }}</td>
+                                        <td>{{ $item->change_history }}</td>
+                                        <td>{{ $item->rep_office }}</td>
+                                        <td>{{ $item->customer }}</td>
+                                        <td>{{ $item->project_name }}</td>
+                                        <td>{{ $item->project_code }}</td>
+                                        <td>{{ $item->site_id }}</td>
+                                        <td>{{ $item->sub_contract_no }}</td>
+                                        <td>{{ $item->pr_no }}</td>
+                                        <td>{{ $item->sales_contract_no }}</td>
+                                        <td>{{ $item->po_status }}</td>
+                                        <td>{{ $item->po_no }}</td>
+                                        <td>{{ $item->site_code }}</td>
+                                        <td>{{ $item->site_name }}</td>
+                                        <td>{{ $item->po_line_no }}</td>
+                                        <td>{{ $item->shipment_no }}</td>
+                                        <td>{{ $item->item_description }}</td>
+                                        <td>{{ $item->requested_qty }}</td>
+                                        <td>{{ $item->unit }}</td>
+                                        <td>{{ $item->unit_price }}</td>
+                                        <td>{{ $item->center_area }}</td>
+                                        <td>{{ $item->start_date }}</td>
+                                        <td>{{ $item->end_date }}</td>
+                                        <td>{{ $item->billed_qty }}</td>
+                                        <td>{{ $item->due_qty }}</td>
+                                        <td>{{ $item->qty_cancel }}</td>
+                                        <td>{{ $item->item_code }}</td>
+                                        <td>{{ $item->version_no }}</td>
+                                        <td>{{ $item->line_amount }}</td>
+                                        <td>{{ $item->bidding_area }}</td>
+                                        <td>{{ $item->tax_rate }}</td>
+                                        <td>{{ $item->currency }}</td>
+                                        <td>{{ $item->ship_to }}</td>
+                                        <td>{{ $item->engineering_code }}</td>
+                                        <td>{{ $item->engineering_name }}</td>
+                                        <td>{{ $item->payment_terms }}</td>
+                                        <td>{{ $item->category }}</td>
+                                        <td>{{ $item->payment_method }}</td>
+                                        <td>{{ $item->product_category }}</td>
+                                        <td>{{ $item->bill_to }}</td>
+                                        <td>{{ $item->subproject_code }}</td>
+                                        <td>{{ $item->expire_date }}</td>
+                                        <td>{{ $item->publish_date }}</td>
+                                        <td>{{ $item->acceptance_date }}</td>
+                                        <td>{{ $item->ff_buyer }}</td>
+                                        <td>{{ $item->note_to_receiver }}</td>
+                                        <td>{{ $item->fob_lookup_code }}</td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

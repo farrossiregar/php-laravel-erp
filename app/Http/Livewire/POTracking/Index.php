@@ -5,11 +5,12 @@ namespace App\Http\Livewire\PoTracking;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\PoTrackingPds;
+use App\Models\PoTrackingReimbursementMaster;
 
 
 class Index extends Component
 {
-    public $keyword,$region_id,$pic;
+    public $date;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     
@@ -20,24 +21,21 @@ class Index extends Component
             $this->redirect('/');
         }
 
-        $data = PoTrackingPds::orderBy('id', 'DESC');
-        // if($this->keyword) $ata = $data->where('name','LIKE',"{$this->keyword}");
-        // if($this->pic) $ata = $data->where('pic',$this->pic);
-        // if($this->region_id) $ata = $data->where('region',$this->region_id);
-
+        $data = PoTrackingReimbursementMaster::orderBy('id', 'DESC');
+        if($this->date) $ata = $data->whereDate('created_at',$this->date);
 
         return view('livewire.po-tracking.index')->with(['data'=>$data->paginate(50)]);
         
     }
 
 
-    public function save(){
-        $potrackingpds = new PoTrackingPds();
-        $potrackingpds->project_name                           = 'test';
-        $potrackingpds->created_at                             = date('Y-m-d H:i:s');
-        $potrackingpds->updated_at                             = date('Y-m-d H:i:s');
-        $potrackingpds->save();
-    }
+    // public function save(){
+    //     $potrackingpds = new PoTrackingPds();
+    //     $potrackingpds->project_name                           = 'test';
+    //     $potrackingpds->created_at                             = date('Y-m-d H:i:s');
+    //     $potrackingpds->updated_at                             = date('Y-m-d H:i:s');
+    //     $potrackingpds->save();
+    // }
 }
 
 
