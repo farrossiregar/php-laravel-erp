@@ -165,16 +165,29 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <select class="form-control" wire:model="user_access_id">
-                                    <option value="">{{__('--- Position --- ')}} </option>
-                                    @foreach(\App\Models\UserAccess::orderBy('name','ASC')->get() as $item)
-                                    <option value="{{$item->id}}">{{$item->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('user_access_id')
-                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                @enderror
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <select class="form-control" wire:model="user_access_id">
+                                        <option value="">{{__('--- Position --- ')}} </option>
+                                        @foreach(\App\Models\UserAccess::orderBy('name','ASC')->get() as $item)
+                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('user_access_id')
+                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <select class="form-control" wire:model="region_id">
+                                        <option value="">{{__('--- Region --- ')}} </option>
+                                        @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $item)
+                                        <option value="{{$item->id}}">{{$item->region}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('user_access_id')
+                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                    @enderror
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
