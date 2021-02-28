@@ -11,24 +11,24 @@
                     
                 </div>
                 <div class="col-md-2">
-                    <select class="form-control" wire:model="month">
+                    <select class="form-control" name="month" wire:model="month">
                         <option value=""> --- Month --- </option>
                         <option value="01">January</option>
                         <option value="02">February</option>
                         <option value="03">March</option>
-                        <option value="03">April</option>
-                        <option value="03">May</option>
-                        <option value="03">June</option>
-                        <option value="03">July</option>
-                        <option value="03">August</option>
-                        <option value="03">September</option>
-                        <option value="03">October</option>
-                        <option value="03">November</option>
-                        <option value="03">December</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <select class="form-control" wire:model="region_id">
+                    <select class="form-control" name="region" wire:model="region">
                         <option value=""> --- Region --- </option>
                         @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $region)
                         <option value="{{$region->region_code}}">{{$region->region}}</option>
@@ -36,7 +36,7 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <select class="form-control" wire:model="project">
+                    <select class="form-control" name="project" wire:model="project">
                         <option value=""> --- Project --- </option>
                         <option value="">Project Name</option>
                     </select>

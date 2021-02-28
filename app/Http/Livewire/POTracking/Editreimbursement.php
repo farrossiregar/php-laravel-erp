@@ -4,15 +4,17 @@ namespace App\Http\Livewire\POTracking;
 
 use Livewire\Component;
 use App\Models\PoTrackingReimbursement;
+use Livewire\WithPagination;
+use Auth;
 
 
 class Editreimbursement extends Component
 {
-    protected $listeners = [
-                            'update-critical'=>'updateCritical',
-                            'refresh-page'=>'$refresh'
-                        ];
-    public $data;
+
+    public $month, $region;
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    
     
 
 
@@ -23,17 +25,30 @@ class Editreimbursement extends Component
         //     $this->redirect('/');
         // }
 
-        // $data           = PoTrackingReimbursement::where('id_po_tracking_master', $id)->get(); 
-        // if($this->date) $ata = $data->whereDate('created_at',$this->date);
+        // $data           = PoTrackingReimbursement::where('id_po_tracking_master', $this->id);
+         
+        // if($this->month) $ata = $data->whereMonth('publish_date',$this->month);
+        // if($this->region) $ata = $data->where('bidding_area',$this->region);
+
+        $data = $this->data;
         
-        return view('livewire.po-tracking.edit-reimbursement');
-        // return view('livewire.po-tracking.edit-esar')->with(compact('data'));
+        return view('livewire.po-tracking.edit-reimbursement')->with(['data'=>$data->paginate(50)]);
+        
+        // return view('livewire.po-tracking.edit-reimbursement')->with(compact('data'));
+        // return view('livewire.po-tracking.edit-reimbursement');
     }
 
 
     public function mount($id)
     {
-        $this->data             = PoTrackingReimbursement::where('id_po_tracking_master', $id)->get();  
+        $this->id            = $id;
+        // $this->data             = PoTrackingReimbursement::where('id_po_tracking_master', $id)->get();  
+        
+        $this->data           = PoTrackingReimbursement::where('id_po_tracking_master', $this->id);
+         
+        if($this->month) $ata = $data->whereMonth('publish_date',$this->month);
+        if($this->region) $ata = $data->where('bidding_area',$this->region);
+        
         
         
     }

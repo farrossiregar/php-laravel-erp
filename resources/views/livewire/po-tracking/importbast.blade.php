@@ -14,6 +14,10 @@
             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
             @enderror
         </div>
+        <div class="col-md-12">
+            <!-- <a href="{{ asset('storage/app/public/po_tracking/esar/approved_esar120210228022835.pdf') }}"><i class="fa fa-download"></i> Download Sample Excel</a> -->
+            <a href="{{ asset('po_tracking/esar/approved_esar120210228022835.pdf') }}"><i class="fa fa-download"></i> Download File BAST</a>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-info close-modal"><i class="fa fa-upload"></i> Upload</button>

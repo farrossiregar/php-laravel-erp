@@ -5,6 +5,7 @@ namespace App\Http\Livewire\PoTracking;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Auth;
+use PDF;
 
 class Insert extends Component
 {
@@ -100,6 +101,64 @@ class Insert extends Component
 
                 $total_success++;
             }
+
+
+            // $params['data']       = PayrollHistory::groupBy('user_id')->whereIn('user_id', $dataRequest->user_id)->get();
+            // $params['tahun']      = $dataRequest->year;
+            // $params['nama_npwp']  = PayrollNpwp::where('id',1)->first()->value;
+            // $params['no_npwp']    = PayrollNpwp::where('id',2)->first()->value;
+
+            // $view = view('administrator.payroll.bukti-potong')->with($params);
+            // $pdf = \App::make('dompdf.wrapper');
+            // $pdf->loadHTML($view)->setPaper('Legal');
+            // return $pdf->download('buktiPotong.pdf');
+
+
+            // $data = "PO Tracking ESAR Generate";
+
+            // // share data to view
+            // view()->share('potracking',$data);
+            // $pdf = PDF::loadView('po-tracking.testpdf', $data);
+
+            // // download PDF file with download method
+            // return $pdf->download('pdf_file.pdf');
+
+
+            // $dd = 'OK';
+            // // $view =  view('administrator.request-pay-slip.print-pay-slip')->with($params);
+            // $view =  PDF::loadView('po-tracking.export-po-tracking-esar')->with($dd);
+
+            // $pdf = \App::make('dompdf.wrapper');
+            // $pdf->loadHTML($view);
+
+            // $pdf->stream();
+
+            // $output = $pdf->output();
+            // $destinationPath = public_path('/storage/temp/po-tracking');
+
+            // file_put_contents( $destinationPath .'.pdf', $output);
+
+            // $file = $destinationPath .'.pdf';
+
+            // send email
+            // $objDemo = new \stdClass();
+            // $objDemo->content = view('administrator.request-pay-slip.email-pay-slip'); 
+            
+            // if($data->user->email != "")
+            // { 
+            //     \Mail::send('administrator.request-pay-slip.email-pay-slip', $params,
+            //         function($message) use($file, $data, $bulan) {
+            //             //$message->from('info@system.com');
+            //             $message->to($data->user->email);
+            //             $message->subject('Request Pay-Slip Bulan ('. implode('/', $bulan) .')');
+            //             $message->attach($file, array(
+            //                     'as' => 'Payslip-'. $data->user->nik .'('. implode('/', $bulan) .').pdf', 
+            //                     'mime' => 'application/pdf')
+            //             );
+            //             $message->setBody('');
+            //         }
+            //     );
+            // }
 
 
 

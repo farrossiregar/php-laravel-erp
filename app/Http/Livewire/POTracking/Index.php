@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\PoTrackingPds;
 use App\Models\PoTrackingReimbursementMaster;
+use Auth;
 
 
 class Index extends Component
@@ -16,10 +17,10 @@ class Index extends Component
     
     public function render()
     {
-        if(!check_access('po-tracking.index')){
-            session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
-            $this->redirect('/');
-        }
+        // if(!check_access('po-tracking.index')){
+        //     session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
+        //     $this->redirect('/');
+        // }
 
         $data = PoTrackingReimbursementMaster::orderBy('id', 'DESC');
         if($this->date) $ata = $data->whereDate('created_at',$this->date);
