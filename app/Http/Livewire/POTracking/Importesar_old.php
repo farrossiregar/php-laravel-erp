@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Auth;
 
-class Importesar extends Component
+class Importesar_old extends Component
 {
     use WithFileUploads;
     public $file;

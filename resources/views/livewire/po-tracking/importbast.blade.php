@@ -16,7 +16,7 @@
         </div>
         <div class="col-md-12">
             @if($bast != null)
-            <a href="<?php echo asset('po_tracking/bast/bast'.$selected_id.'.pdf') ?>"><i class="fa fa-download"></i> Download File BAST</a>
+            <a href="<?php echo asset('storage/po_tracking/bast/bast'.$selected_id.'.pdf') ?>"><i class="fa fa-download"></i> Download File BAST</a>
             @endif
         </div>
     </div>
