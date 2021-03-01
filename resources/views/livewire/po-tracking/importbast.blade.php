@@ -15,8 +15,9 @@
             @enderror
         </div>
         <div class="col-md-12">
-            <!-- <a href="{{ asset('storage/app/public/po_tracking/esar/approved_esar120210228022835.pdf') }}"><i class="fa fa-download"></i> Download Sample Excel</a> -->
-            <a href="{{ asset('po_tracking/esar/approved_esar120210228022835.pdf') }}"><i class="fa fa-download"></i> Download File BAST</a>
+            @if($bast != null)
+            <a href="<?php echo asset('po_tracking/bast/bast'.$selected_id.'.pdf') ?>"><i class="fa fa-download"></i> Download File BAST</a>
+            @endif
         </div>
     </div>
     <div class="modal-footer">

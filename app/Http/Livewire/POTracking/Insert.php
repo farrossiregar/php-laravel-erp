@@ -103,11 +103,6 @@ class Insert extends Component
             }
 
 
-            // $params['data']       = PayrollHistory::groupBy('user_id')->whereIn('user_id', $dataRequest->user_id)->get();
-            // $params['tahun']      = $dataRequest->year;
-            // $params['nama_npwp']  = PayrollNpwp::where('id',1)->first()->value;
-            // $params['no_npwp']    = PayrollNpwp::where('id',2)->first()->value;
-
             // $view = view('administrator.payroll.bukti-potong')->with($params);
             // $pdf = \App::make('dompdf.wrapper');
             // $pdf->loadHTML($view)->setPaper('Legal');
