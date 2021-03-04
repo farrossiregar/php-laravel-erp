@@ -51,6 +51,7 @@
                                         <td><?php echo date_format($item->created_at, 'd M Y H:i:s'); ?></td>
                                         
                                         <td>
+                                            <a href="{{route('po-tracking.generate-esar',$item)}}">Generate ESAR</a>
                                             <a href="{{route('po-tracking.edit-reimbursement',['id'=>$item->id])}}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview Reimbursement</button></a>
                                             
                                             <!--    Regional     -->

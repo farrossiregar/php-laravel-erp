@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Criticalcase;
 
 use Livewire\Component;
 use App\Models\Criticalcase;
-
+use App\Mail\CriticalCaseActionPoint;
 
 class Edit extends Component
 {
@@ -46,7 +46,8 @@ class Edit extends Component
             $message .= $this->type==1?"*Repetitive*" : "*Non Repetitive*";
             $message .= "\n".$this->action_point;
 
-            send_wa(['phone'=>$user->telepon,'message'=>$message]);   
+            send_wa(['phone'=>$user->telepon,'message'=>$message]);
+            \Mail::to($user->email)->send(new CriticalCaseActionPoint($data));
         }
 
         $this->emit('refresh-page');
