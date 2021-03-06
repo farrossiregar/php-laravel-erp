@@ -1,21 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Validator;
+use App\Models\CustomerAssetManagement;
+use Illuminate\Http\Request;
 
 class CustomerAssetManagementController extends Controller
 {
-    public function data(Request $r){
-
-        $raw = \App\Models\CustomerAssetManagement::paginate(40);
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $raw = CustomerAssetManagement::paginate(40);
         $data = [];
-        foreach($raw as $k => $item)
-        {
+        foreach($raw as $k => $item){
             $var = [];
             if(!isset($item->tower->name) or $item->tower->name=="") continue;
             $var['id'] = $item->id;
@@ -30,6 +32,52 @@ class CustomerAssetManagementController extends Controller
         }
         $json['current_page'] = 1;
         $json['data'] = $data;
+
         return response()->json(['status'=>200,'data'=>$data], 200);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\CustomerAssetManagement  $customerAssetManagement
+     * @return \Illuminate\Http\Response
+     */
+    public function show(CustomerAssetManagement $customerAssetManagement)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\CustomerAssetManagement  $customerAssetManagement
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, CustomerAssetManagement $customerAssetManagement)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\CustomerAssetManagement  $customerAssetManagement
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(CustomerAssetManagement $customerAssetManagement)
+    {
+        //
     }
 }
