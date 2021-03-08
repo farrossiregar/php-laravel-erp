@@ -55,10 +55,10 @@
                                             <a href="{{route('po-tracking.edit-reimbursement',['id'=>$item->id])}}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview Reimbursement</button></a>
                                             
                                             <!--    Regional     -->
-                                            @if($item->approved_bast_erp_date == null)
+                                            @if($item->approved_bast_erp_date_upload == null)
                                                 <a href="#" wire:click="$emit('modal-bast',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import BAST')}}</a>
                                             @else
-                                                <a href="#" wire:click="$emit('modal-bast',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-eye"></i> {{__('Preview BAST')}}</a>
+                                                <a href="#" wire:click="$emit('modal-bast',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-success"><i class="fa fa-eye"></i> {{__('Preview BAST')}}</a>
                                             @endif
                                             <!--    End Regional     -->
 
@@ -88,6 +88,7 @@
                                                         <a href="#" wire:click="$emit('modal-acceptancedocs',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingacceptance-upload" title="Upload" class="btn btn-success"><i class="fa fa-eye"></i> {{__('Preview Acceptance Docs & Invoice')}}</a>
                                                     @endif
                                                 @endif
+                                                <div type="button" class="btn btn-warning">Reject</div>
                                             @endif
                                             <!--    End Finance     -->
 
@@ -161,6 +162,7 @@
 
 
 
+
 @section('page-script')
 Livewire.on('sitetracking-upload',()=>{
     $("#modal-sitetracking-upload").modal('hide');
@@ -180,6 +182,9 @@ Livewire.on('sitetracking-upload',()=>{
         $("#modal-potrackingacceptance-upload").modal('show');
     });
 </script>
+
+
+
 
 
 @endsection

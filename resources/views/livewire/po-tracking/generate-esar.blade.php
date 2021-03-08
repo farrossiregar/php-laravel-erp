@@ -24,7 +24,7 @@
     <body>
         <table>
             <tr>
-                <td width=70><b><img src="<?php echo asset('storage/po_tracking/logo/logo-huawei.jpg'); ?>"></b></td>
+                <td width=70><b><!-- <img src="<?php echo asset('storage/po_tracking/logo/logo-huawei.jpg'); ?>"> --></b></td>
                 <td width=100><b><h3>PT. HUAWEI TECH INVESTMENT ENGINEERING SERVICE ACCEPTANCE REPORT</h3></b></td>
                 <td width=90></td>
             </tr>
