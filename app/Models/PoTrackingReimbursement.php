@@ -9,4 +9,9 @@ class PoTrackingReimbursement extends Model
 {
     use HasFactory;
     protected $table = 'po_tracking_reimbursement';
+
+    public function region()
+    {
+        return $this->hasOne(\App\Models\Region::class,'region_code','bidding_area');
+    }
 }
