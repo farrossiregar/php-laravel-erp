@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Criticalcase;
+use App\Models\PoTrackingReimbursement;
 
 class PoTrackingReimbursementUpload extends Mailable
 {
@@ -17,7 +17,7 @@ class PoTrackingReimbursementUpload extends Mailable
      *
      * @return void
      */
-    public function __construct(PoTracking $potracking)
+    public function __construct(PoTrackingReimbursement $potracking)
     {
         $this->potracking = $potracking;
     }
@@ -29,7 +29,7 @@ class PoTrackingReimbursementUpload extends Mailable
      */
     public function build()
     {
-        return $this->subject("PO Tracking Reimbursement #{$this->potracking}")
+        return $this->subject("PO Tracking Reimbursement #{$this->potracking->project_code}/{$this->potracking->project_name}")
                     ->from('no-reply@pmt.co.id')
                     ->view('emails.po-tracking-reimbursement')
                     ->with(['data'=>$this->potracking]);
