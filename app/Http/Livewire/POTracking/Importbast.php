@@ -38,8 +38,8 @@ class Importbast extends Component
         ]);
 
         if($this->file){
-            $bast = 'bast'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/po_tracking/bast/',$bast);
+            $bast = 'potracking-bast'.$this->selected_id.'.'.$this->file->extension();
+            $this->file->storePubliclyAs('public/po_tracking/Bast/',$bast);
 
             $data = \App\Models\PoTrackingReimbursementMaster::where('id', $this->selected_id)->first();
             $data->approved_bast_erp_date_upload = date('Y-m-d H:i:s');

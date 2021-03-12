@@ -75,15 +75,15 @@
             <?php $no++; ?>
             <tr>
                 <td>{{ $no }}</td>
-                <td>{{ @$item->site_id }}</td>
+                <td>{{ @$item->site_code }}</td>
                 <td>{{ @$item->site_name }}</td>
                 <td>{{ @$item->item_description }}</td>
-                <td>{{ @$item->uom }}</td>
-                <td>{{ @$item->po_qty }}</td>
-                <td></td>
+                <td>{{ @$item->unit }}</td>
+                <td>{{ @$item->requested_qty }}</td>
+                <td>{{ @$item->due_qty }}</td>
                 <td><?php echo date_format(date_create($item->start_date), 'd-m-Y'); ?></td>
                 <td><?php echo date_format(date_create($item->end_date), 'd-m-Y'); ?></td>
-                <td></td>
+                <td>{{ @$item->note_to_receiver }}</td>
             </tr>
             @endforeach
         </table>
