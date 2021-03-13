@@ -44,7 +44,7 @@ class Importesar extends Component
             $this->file->storePubliclyAs('public/po_tracking/ApprovedEsar/',$esar);
 
             $data                                   = \App\Models\PoTrackingReimbursementEsarupload::where('po_no', $this->selected_id)->first();
-            $data->approved_esar_filename           = 'po-tracking-reimbursement1091188627.pdf';
+            $data->approved_esar_filename           = $esar;
             $data->approved_esar_uploader_userid    = '18';
             $data->approved_esar_date               = date('Y-m-d H:i:s');
             $data->save();
