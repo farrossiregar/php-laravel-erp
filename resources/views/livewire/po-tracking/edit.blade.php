@@ -1,7 +1,6 @@
 @section('title', __('PO Tracking Esar Detail 2'))
 @section('parentPageTitle', 'Home Detail')
 
-
 <div class="row clearfix">
     <div class="col-lg-8">
         <div class="card">
@@ -39,7 +38,7 @@
                                     </th>                               
                                     <th>
                                         @if($item->approved_esar_filename == null)
-                                            <a href="javascript:;" wire:click="$emit('modalesarupload',{{$item->po_no}})" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved ESAR')}}</a>
+                                            <a href="javascript:;" wire:click="$emit('modalesarupload','{{$item->po_no}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved ESAR')}}</a>
                                         @else
                                             <a href="<?php echo asset('storage/po_tracking/ApprovedEsar/'.$item->approved_esar_filename) ?>" target="_blank"><i class="fa fa-download"></i> Download Approved ESAR </a>
                                             <a href="#" wire:click="$emit('modalesarupload',{{$item->po_no}})" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Edit')}}</a>
