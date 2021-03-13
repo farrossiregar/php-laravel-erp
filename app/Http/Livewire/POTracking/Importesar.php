@@ -38,6 +38,9 @@ class Importesar extends Component
             'file'=>'required|mimes:pdf|max:51200' // 50MB maksimal
         ]);
 
+
+        dd($this->selected_id);
+
         if($this->file){
            
             $esar = 'Approved-Esar-'.$this->selected_id.'.'.$this->file->extension();
