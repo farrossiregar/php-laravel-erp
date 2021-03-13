@@ -163,8 +163,8 @@ class Insert extends Component
             $regional = [];
             $regional_code = [];
             // $dataparam = 'Test PO Reimbursement';        
-            $potrackingarea = DB::table('pmt.po_tracking_reimbursement as po_tracking_reimbursement')
-                                    ->join('epl.region as region', 'region.region_code', '=', 'po_tracking_reimbursement.bidding_area'); 
+            $potrackingarea = DB::table(env('DB_DATABASE').'.po_tracking_reimbursement as po_tracking_reimbursement')
+                                    ->join(env('DB_DATABASE_EPL_PMT').'.region as region', 'region.region_code', '=', 'po_tracking_reimbursement.bidding_area'); 
             $potrackingareaget = $potrackingarea->select('region.id', 'region.region_code','po_tracking_reimbursement.project_code','po_tracking_reimbursement.project_name')
                                                     ->where('po_tracking_reimbursement.id_po_tracking_master', $datamaster->id)
                                                     ->groupBy('po_tracking_reimbursement.bidding_area')

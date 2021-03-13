@@ -71,14 +71,14 @@
 
 <!--    END MODAL ESAR      -->
 
-
-
+@push('after-scripts')
 <script>
     Livewire.on('modalesarupload',(data)=>{
         console.log(data);
         $("#modal-potrackingesar-upload").modal('show');
     });
 </script>
+@endpush
 
 
 
