@@ -36,15 +36,27 @@ class CustomerAssetManagementController extends Controller
         return response(['status'=>200,'data'=>$data], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function submit(Request $r)
     {
-        //
+        $param['status'] = 1;
+        $param['tanggal_submission'] = date('Y-m-d');
+        $param['tower_id'] = $r->tower_id;
+        $param['site_id'] = $r->site_id;
+        $param['apakah_di_site_ini_ada_battery'] = $r->apakah_di_site_ini_ada_battery;
+        $param['berapa_unit'] = $r->berapa_unit;
+        $param['merk_baterai'] = $r->merk_baterai;
+        $param['kapasitas_baterai'] = $r->kapasitas_baterai;
+        $param['kapan_baterai_dilaporkan_hilang'] = $r->kapan_baterai_dilaporkan_hilang;
+        $param['apakah_baterai_pernah_direlokasi'] = $r->apakah_baterai_pernah_direlokasi;
+        $param['direlokasi_ke_site_id'] = $r->direlokasi_ke_site_id;
+        $param['apakah_cabinet_baterai_dipasang_gembok'] = $r->apakah_cabinet_baterai_dipasang_gembok;
+        $param['apakah_dipasang_baterai_cage'] = $r->apakah_dipasang_baterai_cage;
+        $param['apakah_dipasang_cabinet_belting'] = $r->apakah_dipasang_cabinet_belting;
+        $param['catatan'] = $r->catatan;
+
+        CustomerAssetManagement::find('id',$r->id)->update($param);
+
+        return response(['status'=>200,'message'=>'success'],200);
     }
 
     /**

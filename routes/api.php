@@ -26,6 +26,7 @@ Route::group(['middleware' => 'cors', 'json.response'], function(){
 
 Route::group(['middleware' => ['auth:api','cors', 'json.response']], function(){
 	Route::get('get-customer-asset-management',[\App\Http\Controllers\Api\CustomerAssetManagementController::class,'index']);
+	Route::post('customer-asset-management/submit',[\App\Http\Controllers\Api\CustomerAssetManagementController::class,'submit']);
 	Route::get('details', 'Api\UserController@details');
 	Route::get('get-sites',[\App\Http\Controllers\Api\SitesController::class,'getAll']);
 });
