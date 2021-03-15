@@ -54,9 +54,9 @@ class CustomerAssetManagementController extends Controller
         $param['apakah_dipasang_cabinet_belting'] = $r->apakah_dipasang_cabinet_belting;
         $param['catatan'] = $r->catatan;
 
-        CustomerAssetManagement::find('id',$r->id)->update($param);
+        CustomerAssetManagement::where('id',$r->id)->update($param);
 
-        return response(['status'=>200,'message'=>'success'],200);
+        return response(['status'=>200,'message'=>'success','user'=>\Auth::user()->id],200);
     }
 
     /**
