@@ -33,7 +33,7 @@ class CustomerAssetManagementController extends Controller
         $json['current_page'] = 1;
         $json['data'] = $data;
 
-        return response()->json(['status'=>200,'data'=>$data], 200);
+        return response(['status'=>200,'data'=>$data], 200);
     }
 
     /**
