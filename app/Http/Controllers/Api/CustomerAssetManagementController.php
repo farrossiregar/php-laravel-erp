@@ -18,12 +18,22 @@ class CustomerAssetManagementController extends Controller
         $raw = CustomerAssetManagement::select('customer_asset_management.*')
                                     ->orderBy('customer_asset_management.id','DESC')
                                     ->leftJoin('towers','towers.id','=','customer_asset_management.tower_id')
+                                    ->leftJoin(env('DB_DATABASE_EPL_PMT').'.region_cluster',env('DB_DATABASE_EPL_PMT').'.region_cluster.id','=','customer_asset_management.region_cluster_id')
                                     ->where('towers.name','<>','0')
                                     ->whereNotNull('customer_asset_management.tower_id')
                                     ->whereNotNull('customer_asset_management.site_id')
-                                    ->paginate(100);
+                                    ->where('employee_id',\Auth::user()->id);
+        
+        $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
+        if($keyword) $raw = $raw->where(function($table) use ($keyword) {
+                                    $table->where('towers.name',"LIKE","%{$keyword}%")
+                                        ->orWhere('customer_asset_management.region_name','LIKE',"%{$keyword}%")
+                                        ->orWhere('region_cluster.name','LIKE',"%{$keyword}%")
+                                        ;
+                                });
+
         $data = [];
-        foreach($raw as $k => $item){
+        foreach($raw->paginate(100) as $k => $item){
             $data[] = [
                 'id' => $item->id,
                 'uploader' => date('d-M-Y',strtotime($item->created_at)),
@@ -36,7 +46,7 @@ class CustomerAssetManagementController extends Controller
             ];
         }
 
-        return response(['status'=>200,'data'=>$data], 200);
+        return response(['keyword'=>$keyword,'status'=>200,'data'=>$data], 200);
     }
 
     public function submit(Request $r)
