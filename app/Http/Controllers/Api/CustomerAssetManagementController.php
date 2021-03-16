@@ -15,7 +15,7 @@ class CustomerAssetManagementController extends Controller
      */
     public function index()
     {
-        $raw = CustomerAssetManagement::orderBy('id','DESC')->paginate(40);
+        $raw = CustomerAssetManagement::orderBy('id','DESC')->whereNotNull('site_id')->whereNotNull('tower_id')->paginate(40);
         $data = [];
         foreach($raw as $k => $item){
             $var = [];
@@ -39,8 +39,6 @@ class CustomerAssetManagementController extends Controller
     {
         $param['status'] = 1;
         $param['tanggal_submission'] = date('Y-m-d');
-        $param['tower_id'] = $r->tower_id;
-        $param['site_id'] = $r->site_id;
         $param['apakah_di_site_ini_ada_battery'] = $r->apakah_di_site_ini_ada_battery;
         $param['berapa_unit'] = $r->berapa_unit;
         $param['merk_baterai'] = $r->merk_baterai;
