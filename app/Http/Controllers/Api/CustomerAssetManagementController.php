@@ -19,7 +19,6 @@ class CustomerAssetManagementController extends Controller
         $data = [];
         foreach($raw as $k => $item){
             $var = [];
-            if(!isset($item->tower->name) or !empty($item->tower->name)) continue;
             $var['id'] = $item->id;
             $var['uploader'] = date('d-M-Y',strtotime($item->created_at));
             $var['tower'] = $item->tower->name;

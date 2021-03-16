@@ -140,18 +140,6 @@
 <!--    END MODAL BAST      -->
 
 
-<!--    MODAL ESAR      -->
-<!-- <div class="modal fade" id="modal-potrackingesar-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            
-            <livewire:po-tracking.importesar />
-        </div>
-    </div>
-</div> -->
-
-
-<!--    END MODAL ESAR      -->
 
 
 <!--    MODAL ESAR      -->
