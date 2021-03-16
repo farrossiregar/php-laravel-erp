@@ -15,21 +15,26 @@ class CustomerAssetManagementController extends Controller
      */
     public function index()
     {
-        $raw = CustomerAssetManagement::orderBy('id','DESC')->whereNotNull('site_id')->whereNotNull('tower_id')->paginate(40);
+        $raw = CustomerAssetManagement::select('customer_asset_management.*')
+                                    ->orderBy('customer_asset_management.id','DESC')
+                                    ->leftJoin('towers','towers.id','=','customer_asset_management.tower_id')
+                                    ->where('towers.name','<>','0')
+                                    ->whereNotNull('customer_asset_management.tower_id')
+                                    ->whereNotNull('customer_asset_management.site_id')
+                                    ->paginate(100);
         $data = [];
         foreach($raw as $k => $item){
-            $var = [];
-            $var['id'] = $item->id;
-            $var['uploader'] = date('d-M-Y',strtotime($item->created_at));
-            $var['tower'] = $item->tower->name;
-            $var['site_id'] = isset($item->site->site_id) ? $item->site->site_id : '';
-            $var['site'] = isset($item->site->name) ? $item->site->name : '';
-            $var['region'] = $item->region_name;
-            $var['cluster'] = isset($item->cluster->name) ? $item->cluster->name : '';
-            $var['status'] = $item->status;
-            $data[] = $var;
+            $data[] = [
+                'id' => $item->id,
+                'uploader' => date('d-M-Y',strtotime($item->created_at)),
+                'tower' => $item->tower->name,
+                'site_id' => isset($item->site->site_id) ? $item->site->site_id : '',
+                'site' => isset($item->site->name) ? $item->site->name : '',
+                'region' => $item->region_name,
+                'cluster' => isset($item->cluster->name) ? $item->cluster->name : '',
+                'status' => $item->status
+            ];
         }
-        $json['data'] = $data;
 
         return response(['status'=>200,'data'=>$data], 200);
     }
@@ -53,39 +58,5 @@ class CustomerAssetManagementController extends Controller
         CustomerAssetManagement::where('id',$r->id)->update($param);
 
         return response(['status'=>200,'message'=>'success','user'=>\Auth::user()->id],200);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\CustomerAssetManagement  $customerAssetManagement
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CustomerAssetManagement $customerAssetManagement)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CustomerAssetManagement  $customerAssetManagement
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, CustomerAssetManagement $customerAssetManagement)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\CustomerAssetManagement  $customerAssetManagement
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(CustomerAssetManagement $customerAssetManagement)
-    {
-        //
     }
 }
