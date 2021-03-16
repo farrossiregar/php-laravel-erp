@@ -15,7 +15,7 @@ class CustomerAssetManagementController extends Controller
      */
     public function index()
     {
-        $raw = CustomerAssetManagement::paginate(40);
+        $raw = CustomerAssetManagement::orderBy('id','DESC')->paginate(40);
         $data = [];
         foreach($raw as $k => $item){
             $var = [];
@@ -30,7 +30,6 @@ class CustomerAssetManagementController extends Controller
             $var['status'] = $item->status;
             $data[] = $var;
         }
-        $json['current_page'] = 1;
         $json['data'] = $data;
 
         return response(['status'=>200,'data'=>$data], 200);
