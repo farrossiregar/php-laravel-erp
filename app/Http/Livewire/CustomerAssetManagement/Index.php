@@ -14,4 +14,9 @@ class Index extends Component
         }
         return view('livewire.customer-asset-management.index');
     }
+
+    public function mount()
+    {
+        \LogActivity::add('Customer Asset Management');
+    }
 }

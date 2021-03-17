@@ -10,4 +10,9 @@ class Home extends Component
     {
         return view('livewire.home');
     }
+    
+    public function mount()
+    {
+        \LogActivity::add('Home');
+    }
 }
