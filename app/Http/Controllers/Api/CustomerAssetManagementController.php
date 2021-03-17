@@ -22,7 +22,8 @@ class CustomerAssetManagementController extends Controller
                                     ->where('towers.name','<>','0')
                                     ->whereNotNull('customer_asset_management.tower_id')
                                     ->whereNotNull('customer_asset_management.site_id')
-                                    ->where('employee_id', \Auth::user()->employee->employee_id);
+                                    //->where('employee_id', \Auth::user()->employee->employee_id)
+                                    ;
         
         $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
         if($keyword) $raw = $raw->where(function($table) use ($keyword) {
