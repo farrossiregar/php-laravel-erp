@@ -20,13 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'cors', 'json.response'], function(){
 	Route::post('auth-login', [\App\Http\Controllers\Api\UserController::class,'login']);
-	Route::post('register', [\App\Http\Controllers\Api\UserController::class,'register']);
-	Route::get('all-user', [\App\Http\Controllers\Api\UserController::class,'allUser']);
 });
 
 Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('get-customer-asset-management',[\App\Http\Controllers\Api\CustomerAssetManagementController::class,'index']);
-	Route::post('customer-asset-management/submit',[\App\Http\Controllers\Api\CustomerAssetManagementController::class,'submit']);
-	Route::get('details', 'Api\UserController@details');
+	Route::post('customer-asset-management/submit',[\App\Http\Controllers\Api\CustomerAssetManagementController::class,'submit'])->name('api.customer-asset.submit-checking');
 	Route::get('get-sites',[\App\Http\Controllers\Api\SitesController::class,'getAll']);
 });

@@ -21,6 +21,7 @@ class CustomerAssetManagementController extends Controller
                                     ->where('towers.name','<>','0')
                                     ->whereNotNull('customer_asset_management.tower_id')
                                     ->whereNotNull('customer_asset_management.site_id')
+                                    ->where('employee_id', \Auth::user()->employee->employee_id)
                                     ->paginate(100);
         $data = [];
         foreach($raw as $k => $item){

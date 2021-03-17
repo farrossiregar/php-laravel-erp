@@ -19,6 +19,11 @@ class CustomerAssetManagement extends Model
         return $this->belongsTo(\App\Models\Tower::class);
     }
 
+    public function site()
+    {
+        return $this->belongsTo(\App\Models\Site::class);
+    }
+
     public function region()
     {
         return $this->belongsTo(\App\Models\Region::class);

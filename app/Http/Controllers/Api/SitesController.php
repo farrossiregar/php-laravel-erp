@@ -10,6 +10,6 @@ class SitesController extends Controller
 {
     public function getAll()
     {
-        return response()->json(Site::limit(100)->get(), 200);
+        return response()->json(Site::whereNotNull('name')->where('name','<>',"")->get(), 200);
     }
 }

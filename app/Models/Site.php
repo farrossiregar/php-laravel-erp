@@ -18,4 +18,9 @@ class Site extends Model
     {
         return $this->belongsTo(\App\Models\Cluster::class,'cluster_id');
     }
+
+    public function cluster_sub()
+    {
+        return $this->belongsTo(\App\Models\RegionClusterSub::class,'sub_cluster_id');
+    }
 }

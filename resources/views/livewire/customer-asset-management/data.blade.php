@@ -44,28 +44,23 @@
                         <th>{{ __('NO') }}</th>
                         <th>{{ __('UPLOADED') }}</th>                                    
                         <th>{{ __('TANGGAL SUBMISSION') }}</th>                                    
-                        <th>{{ __('NAMA') }}</th>                                    
-                        <th>{{ __('NIK') }}</th>                                    
+                        <th><div style="width:200px;">{{ __('NIK / NAMA') }}</div></th>                             
                         <th>{{ __('TOWER INDEX') }}</th>
                         <th>{{ __('SITE ID') }}</th>
                         <th>{{ __('SITE NAME') }}</th>
                         <th>{{ __('CLUSTER') }}</th>
                         <th>{{ __('REGION') }}</th>
-                        <th>{{ __('REGION1') }}</th>
                         <th>{{ __('APAKAH DI SITE INI ADA BATTERY') }}</th>
                         <th>{{ __('BERAPA UNIT') }}</th>
                         <th>{{ __('MEREK BATERAI') }}</th>
                         <th>{{ __('KAPASITAS BATERAI (AH)') }}</th>
                         <th>{{ __('KAPAN BATERAI DILAPORKAN HILANG?') }}</th>
                         <th>{{ __('APAKAH BATERAI PERNAH DI RELOKASI?') }}</th>
-                        <th>{{ __('DI RELOKASI KE SITE ID') }}</th>
-                        <th>{{ __('DI RELOKASI KE SITE NAME') }}</th>
+                        <th>{{ __('DI RELOKASI KE SITE ID / NAME') }}</th>
                         <th>{{ __('APAKAH CABINET BATERAI DIPASANG GEMBOK?') }}</th>
                         <th>{{ __('APAKAH  DIPASANG BATERAI CAGE?') }}</th>
                         <th>{{ __('APAKAH DIPASANG CABINET BELTING?') }}</th>
                         <th>{{ __('CATATAN') }}</th>
-                        <th>{{ __('CHECK') }}</th>
-                        <th>{{ __('SMARTSHEET DONE SUBMIT') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,25 +68,30 @@
                     <tr>
                         <td style="width: 50px;">{{$k+1}}</td>
                         <td>{{date('d M Y',strtotime($item->created_at))}}</td> 
+                        <td>{{$item->tanggal_submission}}</td> 
                         <td>
-                            {{$item->tanggal_submission}}
+                            @if(isset($item->employee->name))
+                                {{$item->employee->name}}
+                            @else
+                                @livewire('customer-asset-management.assign-employee',['data'=>$item,'key'],key($item->id))
+                            @endif
                         </td> 
-                        <td>{{isset($item->employee->name)?$item->employee->name : ''}}</td> 
-                        <td>{{isset($item->employee->nik)?$item->employee->nik : ''}}</td>
                         <td>{{isset($item->tower->name)?$item->tower->name : ''}}</td> 
                         <td>{{isset($item->site->site_id)?$item->site->site_id : ''}}</td> 
                         <td>{{isset($item->site->name)?$item->site->name : ''}}</td> 
                         <td>{{isset($item->cluster->name)?$item->cluster->name : ''}}</td> 
-                        <td>{{isset($item->region->region)?$item->region->region : ''}}</td> 
-                        <td>{{isset($item->region_name)?$item->region_name : ''}}</td> 
-                        <td>{{isset($item->region_name)?$item->region_name : ''}}</td>
+                        <td>{{isset($item->region->region)?$item->region->region : ''}}</td>
                         <td>{{$item->apakah_di_site_ini_ada_battery	==1 ?'YES':'NO'}}</td>
                         <td>{{$item->berapa_unit}}</td> 
                         <td>{{$item->merk_baterai}}</td> 
                         <td>{{$item->kapasitas_baterai}}</td> 
                         <td>{{$item->kapan_baterai_dilaporkan_hilang}}</td> 
                         <td>{{$item->apakah_baterai_pernah_direlokasi	==1 ?'YES':'NO'}}</td>
-                        <td>{{isset($item->relokasi_site->site_id)?$item->relokasi_site->site_id : ''}}</td> 
+                        <td>{{isset($item->relokasi_site->site_id)? $item->relokasi_site->site_id .' / ' .$item->relokasi_site->name : ''}}</td> 
+                        <td>{{$item->apakah_cabinet_baterai_dipasang_gembok}}</td>
+                        <td>{{$item->apakah_dipasang_baterai_cage}}</td>
+                        <td>{{$item->apakah_dipasang_cabinet_belting}}</td>
+                        <td>{{$item->catatan}}</td>
                     @endforeach
                 </tbody>
             </table>
