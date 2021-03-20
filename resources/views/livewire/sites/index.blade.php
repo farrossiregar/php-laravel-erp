@@ -26,9 +26,10 @@
             <div class="body pt-0">
                 <div class="table-responsive">
                     <table class="table table-striped m-b-0 c_list">
-                        <thead>
+                        <thead style="white-space: nowrap;">
                             <tr>
-                                <th>No</th>                                    
+                                <th>No</th>
+                                <th>Field Team</th>                                    
                                 <th>Site ID</th>                                    
                                 <th>Site Name</th>                                    
                                 <th>Site Technology</th>                                    
@@ -47,7 +48,14 @@
                             @foreach($data as $k => $item)
                             <tr>
                                 <td style="width: 50px;">{{$num}}</td>
-                                <td>{{$item->site_id}}</td> 
+                                <td>
+                                    @if(isset($item->employee->name))
+                                        {{$item->employee->name}}
+                                    @else
+                                        @livewire('sites.assign-employee',['data'=>$item,'key'],key($item->id))
+                                    @endif
+                                </td>
+                                <td><a href="{{route('sites.edit',$item->id)}}">{{$item->site_id}}</a></td> 
                                 <td>{{$item->name}}</td>
                                 <td>{{$item->site_technology}}</td>
                                 <td>{{$item->site_owner}}</td>

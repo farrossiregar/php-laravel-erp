@@ -87,6 +87,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('customer-asset-management',App\Http\Livewire\CustomerAssetManagement\Index::class)->name('customer-asset-management.index');
     Route::get('customer-asset-management/data',App\Http\Livewire\CustomerAssetManagement\Data::class)->name('customer-asset-management.data');
     Route::get('sites',App\Http\Livewire\Sites\Index::class)->name('sites.index');
+    Route::get('sites/edit/{id}',App\Http\Livewire\Sites\Edit::class)->name('sites.edit');
     Route::get('tower',App\Http\Livewire\Tower\Index::class)->name('tower.index');
     Route::get('po-tracking-rollout',App\Http\Livewire\PoTrackingRollout\Index::class)->name('po-tracking-rollout.index');
 });

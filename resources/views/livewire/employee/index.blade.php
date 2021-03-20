@@ -8,7 +8,7 @@
                 <div class="col-md-2">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                 </div>
-                <div class="col-md-2 px-0">
+                <div class="col-md-2">
                     <select class="form-control" wire:model="user_access_id">
                         <option value="">--- User Access ---</option>
                         @foreach(\App\Models\UserAccess::all() as $i)
@@ -16,7 +16,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2 pr-0">
+                <div class="col-md-2">
                     <select class="form-control" wire:model="department_sub_id">
                         <option value="">{{__('--- Department --- ')}} </option>
                         @foreach(\App\Models\Department::orderBy('name','ASC')->get() as $item)
@@ -28,8 +28,12 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-6">
                     <a href="{{route('employee.insert')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Employee</a>
+                    <span wire:loading>
+                        <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                        <span class="sr-only">{{ __('Loading...') }}</span>
+                    </span>
                 </div>
             </div>
             <div class="body pt-0">
@@ -55,15 +59,15 @@
                                 <td style="width: 50px;">{{$num}}</td>
                                 <td>
                                     @if(check_access('employee.edit'))
-                                    <a href="{{route('employee.edit',['id'=>$item->id])}}">{{$item->name}}</a>
+                                        <a href="{{route('employee.edit',['id'=>$item->id])}}">{{$item->name}}</a>
                                     @else
-                                    {{$item->name}}
+                                        {{$item->name}}
                                     @endif
                                 </td>
                                 <td>{{$item->telepon}}</td> 
                                 <td>{{$item->email}}</td>                                   
                                 <td>{{$item->address}}</td>
-                                <td>{{isset($item->department_sub->name)?$item->department->name .' - '.$item->department_sub->name:''}}</td>
+                                <td>{{isset($item->department_sub->name)?$item->department_sub->name .' - '.$item->department_sub->name:''}}</td>
                                 <td>{{isset($item->access->name)?$item->access->name:''}}</td>
                                 <td>{{$item->updated_at}}</td>
                                 <td>  
@@ -93,8 +97,6 @@
     </div>
 </div>
 @endif
-
-
 <div class="modal fade" id="modal_autologin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

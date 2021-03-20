@@ -1,4 +1,10 @@
 <?php
+
+function check_yes_no($value)
+{
+    return $value==1?'YES':'NO';
+}
+
 /**
  * Replace first string
  */

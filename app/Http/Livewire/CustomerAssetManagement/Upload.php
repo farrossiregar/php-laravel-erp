@@ -43,7 +43,7 @@ class Upload extends Component
                 $berapa_unit = $i[11];
                 $merk_baterai = $i[12];
                 $kapasitas_baterai = $i[13];    
-                $kapan_baterai_dilaporkan_hilang = $i[14];    
+                $kapan_baterai_dilaporkan_hilang = (int)$i[14]?\PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($i[14]):'';
                 $apakah_baterai_pernah_direlokasi = $i[14];    
                 $direlokasi_ke_site_id = $i[15];    
                 $direlokasi_ke_site_name = $i[16];    
@@ -92,12 +92,14 @@ class Upload extends Component
                     $site->save();
                 }
                 // find Tower
-                $tower = \App\Models\Tower::where('name',$tower_index)->first();
-                if(!$tower){
-                    $tower = new \App\Models\Tower();
-                    $tower->name = $tower_index;
-                    $tower->site_id = $site->id;
-                    $tower->save();
+                if(!empty($tower_index)){
+                    $tower = \App\Models\Tower::where('name',$tower_index)->first();
+                    if(!$tower){
+                        $tower = new \App\Models\Tower();
+                        $tower->name = $tower_index;
+                        $tower->site_id = $site->id;
+                        $tower->save();
+                    }
                 }
                 //
                 if($direlokasi_ke_site_id){
@@ -120,8 +122,10 @@ class Upload extends Component
                 $data->apakah_di_site_ini_ada_battery = strtolower($apakah_di_site_ini_ada_battery) == 'yes'? 1 : 0; 
                 $data->berapa_unit = $berapa_unit; 
                 $data->merk_baterai = $merk_baterai; 
-                $data->kapasitas_baterai = $kapasitas_baterai; 
-                $data->kapan_baterai_dilaporkan_hilang = date('Y-m-d',strtotime($kapan_baterai_dilaporkan_hilang));
+                $data->kapasitas_baterai = $kapasitas_baterai;
+
+                if($kapan_baterai_dilaporkan_hilang) $data->kapan_baterai_dilaporkan_hilang = date('Y-m-d',$kapan_baterai_dilaporkan_hilang);
+                
                 $data->apakah_baterai_pernah_direlokasi = strtolower($apakah_baterai_pernah_direlokasi) == 'ya'? 1 : 0;
                 $data->direlokasi_ke_site_id = $direlokasi_ke_site_id;
                 $data->apakah_cabinet_baterai_dipasang_gembok = strtolower($apakah_cabinet_baterai_dipasang_gembok)=='yes' ? 1 : 0;

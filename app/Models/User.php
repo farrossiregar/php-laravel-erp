@@ -67,6 +67,6 @@ class User extends Authenticatable
     
     public function employee()
     {
-        return $this->hasOne(App\Models\Employee::class,'user_id');
+        return $this->hasOne(\App\Models\Employee::class,'user_id');
     }
 }

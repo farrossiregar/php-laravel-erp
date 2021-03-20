@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Http\Livewire\CustomerAssetManagement;
+namespace App\Http\Livewire\Sites;
 
 use Livewire\Component;
-use App\Models\CustomerAssetManagement;
+use App\Models\Site;
 
 class AssignEmployee extends Component
 {
-    public $data,$selected_id,$assign=false,$employee_id;
+    public $data,$selected_id,$assign=false,$user_id;
+    
     public function render()
     {
-        return view('livewire.customer-asset-management.assign-employee');
+        return view('livewire.sites.assign-employee');
     }
 
-    public function mount(CustomerAssetManagement $data){
+    public function mount(Site $data){
         $this->data = $data;
     }
 
@@ -31,8 +32,8 @@ class AssignEmployee extends Component
 
     public function save()
     {
-        if($this->employee_id){
-            $this->data->employee_id = $this->employee_id;
+        if($this->user_id){
+            $this->data->employee_id = $this->user_id;
             $this->data->save();
         }
         $this->selected_id = '';
