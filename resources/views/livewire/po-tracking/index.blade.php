@@ -56,25 +56,27 @@
                                             
                                             
                                             <!--    Regional     -->
-                                            @if($item->approved_bast_erp_date_upload == null)
+                                            @if($user->user_access_id == 22)
+                                            <a href="{{route('po-tracking.edit-bast',['id'=>$item->id])}}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview Bast</button></a>
+                                            <!-- @if($item->approved_bast_erp_date_upload == null)
                                                 <a href="#" wire:click="$emit('modal-bast',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import BAST')}}</a>
                                             @else
                                                 <a href="#" wire:click="$emit('modal-bast',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-success"><i class="fa fa-eye"></i> {{__('Preview BAST')}}</a>
+                                            @endif -->
                                             @endif
                                             <!--    End Regional     -->
 
                                             <!--    E2E     -->
-                                            @if($user->user_access_id != 20)
+                                            @if($user->user_access_id != 20 && $user->user_access_id == 22)
                                                 @if($item->approved_bast_erp_date_upload == null)
                                                     <div type="button" class="btn btn-warning">Waiting BAST</div>
                                                 @else
-                                                    <a href="{{route('po-tracking.edit',['id'=>$item->id])}}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview Esar Reimbursement</button></a>
-                                                    @if($item->approved_esar_date_upload == null)
+                                                    <a href="{{route('po-tracking.edit-esar',['id'=>$item->id])}}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview Esar Reimbursement</button></a>
+                                                    <!-- @if($item->approved_esar_date_upload == null)
                                                         <a href="#" wire:click="$emit('modal-esar',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved ESAR')}}</a>
                                                     @else
                                                         <a href="#" wire:click="$emit('modal-esar',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-success"><i class="fa fa-eye"></i> {{__('Preview Approved ESAR')}}</a>
-                                                    @endif
-                                                    <!-- <a href="{{route('po-tracking.edit-esar',['id'=>$item->id])}}"><button type="button" class="btn btn-success">Preview ESAR</button></a> -->
+                                                    @endif -->
                                                 @endif
                                             @endif
                                             <!--    End E2E     -->
@@ -90,7 +92,7 @@
                                                         <a href="#" wire:click="$emit('modal-acceptancedocs',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingacceptance-upload" title="Upload" class="btn btn-success"><i class="fa fa-eye"></i> {{__('Preview Acceptance Docs & Invoice')}}</a>
                                                     @endif
                                                 <!-- @endif -->
-                                                <!-- <div type="button" class="btn btn-warning">Reject</div> -->
+                                                
                                                     @if($item->approved_acceptance_docs_date_upload == null)
                                                         <a href="#" wire:click="$emit('modal-acceptancedocs',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingacceptance-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Acceptance Docs & Invoice')}}</a>
                                                     @else
@@ -125,20 +127,6 @@
     </div>
 </div>
 <!--    MODAL REIMBURSEMENT      -->
-
-
-<!--    MODAL BAST      -->
-<div class="modal fade" id="modal-potrackingbast-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            
-            <livewire:po-tracking.importbast />
-        </div>
-    </div>
-</div>
-
-<!--    END MODAL BAST      -->
-
 
 
 

@@ -1,143 +1,110 @@
-@section('title', __('PO Tracking Data Detail'))
-@section('parentPageTitle', 'Home')
+@section('title', __('PO Tracking Esar Detail'))
+@section('parentPageTitle', 'Home Detail')
 
-<br><br><br>
 <div class="row clearfix">
-    <div class="col-lg-8">
+    <div class="col-lg-12">
         <div class="card">
             <div class="header row">
                 <div class="col-md-12">
-                    <b><h4>PT. HUAWEI TECH INVESTMENT</h4></b>
-                    <b><h4>ENGINEERING SERVICE ACCEPTANCE REPORT</h4></b>
+                    <b><h5>Auto Generated Esar</h5></b> 
+                    <!-- <a href="#" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking ESAR')}}</a> -->
+                    <br>
                 </div>
                 <table class="table table-striped m-b-0 c_list">
-                    <tr>
-                        <th>Project Name</th>                               
-                        <th></th>   
-                        <th>Acceptance</th>                               
-                        <th></th>  
-                    </tr>
+                    <div class="col-md-2">
+                        <select class="form-control" name="status" wire:model="status">
+                            <option value=""> --- Status --- </option>
+                            <option value="1">Completed</option>
+                            <option value="">Waiting Approval</option>
+                        </select>
+                    </div>
 
-                    <tr>
-                        <th>Project Code</th>                               
-                        <th></th>   
-                        <th>Subcontractor Name</th>                               
-                        <th></th>  
-                    </tr>
-
-                    <tr>
-                        <th>PO NO</th>                               
-                        <th></th>   
-                        <th>Subcontractor No</th>                               
-                        <th></th>  
-                    </tr>
-                    <tr>
-                        <th>Payment</th>                               
-                        <th></th>   
-                        <th</th>                               
-                        <th></th>  
-                    </tr>
-
-                    
                 </table>
             </div>
             <div class="body pt-0">
                 <div class="row">
-
                     <div class="col-md-12">
-                        <br><br><br>
                         <div class="table-responsive">
-                            <h4>ESAR</h4>
                             <table class="table table-striped m-b-0 c_list">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>                               
-                                        <th>Site ID</th>  
-                                        <th>Site Name</th> 
-                                        <th>Description</th>  
-                                        <th>UOM</th>  
-                                        <th>PO Qty</th>  
-                                        <th>Actual Qty</th>  
-                                        <th>Start Date on PO</th>  
-                                        <th>End Date on PO</th>  
-                                        <th>Remarks</th>  
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                
-                                </tbody>
+                                <tr>
+                                    <th>No</th>                               
+                                    <th>No PO</th>                               
+                                    <th>Project Name</th>                               
+                                    <th>Project Code</th>                               
+                                    <th>Acceptance Date</th>                               
+                                    <th>Subcontractor Name</th>                               
+                                    <th>Subcontractor No</th>                               
+                                    <th colspan=2 class="text-center">Esar</th>           
+                                    <th class="text-center">Esar Status</th>           
+                                </tr>
+                                @foreach($data as $key => $item)
+                                <?php
+                                    $key = $key+1;
+                                ?>
+                                <tr>
+                                    <th>{{ $key }}</th>                               
+                                    <th>{{ $item->po_no }}</th> 
+                                    <th>{{ $item->project_name }}</th>                               
+                                    <th>{{ $item->project_code }}</th>                               
+                                    <th>{{ $item->acceptance_date }}</th>                               
+                                    <th></th>                               
+                                    <th>{{ $item->sub_contract_no }}</th>                               
+                                    <th>
+                                        <a href="<?php echo asset('storage/po_tracking/autogeneratedesar/'.$item->autogenerated_esar_filename) ?>" target="_blank"><i class="fa fa-download"></i> Download ESAR</a>
+                                    </th>                               
+                                    <th>
+                                        @if($item->approved_esar_filename == '')
+                                            <a href="javascript:;" wire:click="$emit('modalesarupload','{{$item->po_no}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved ESAR')}}</a>
+                                        @else
+                                            <a href="<?php echo asset('storage/po_tracking/ApprovedEsar/'.$item->approved_esar_filename) ?>" target="_blank"><i class="fa fa-download"></i> Download Approved ESAR </a>
+                                            <a href="#" wire:click="$emit('modalesarupload','{{$item->po_no}}')" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Edit')}}</a>
+                                        @endif
+                                        
+                                    </th>      
+                                    <th>
+                                        @if($item->approved_esar_filename == '')
+                                            <div class="btn btn-warning"> Waiting Approval </div>
+                                        @else
+                                            <div class="btn btn-success"> Completed </div>
+                                        @endif
+                                    </th>    
+                                </tr>
+                                @endforeach
                             </table>
                         </div>
                     </div>
                 </div>
-                
-                <br />
-                
             </div>
-
-            
-           
-            
-            <div class="body pt-0">
-                <div class="row">
-                   <div class="col-md-12">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1" >
-                            <label class="form-check-label" for="flexRadioDefault1">
-                                Approve
-                            </label>
-                        </div>
-                        <br>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2" >
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                Reject
-                            </label>
-                        </div>
-                        <br>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div href="#" class="btn btn-primary" onclick="approvesitelisttracking()"><i class="fa fa-search"></i>Submit</div>
-                    </div>
-                </div>
-            </div>   
-                                   
+       
         </div>
     </div>
 </div>
 
 
-
-<div class="modal fade bd-example-modal-lg" id="modal-preview-duplicate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+<!--    MODAL ESAR      -->
+<div class="modal fade" id="modal-potrackingesar-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:sitetracking.duplicateupdate />
-
+            <livewire:po-tracking.importesar />
         </div>
     </div>
 </div>
 
 
+<!--    END MODAL ESAR      -->
+
+@push('after-scripts')
+<script>
+    Livewire.on('modalesarupload',(data)=>{
+        console.log(data);
+        $("#modal-potrackingesar-upload").modal('show');
+    });
+</script>
+@endpush
 
 
-@section('page-script')
-Livewire.on('preview-duplicate',()=>{
-    $("#modal-preview-duplicate").modal('hide');
-});
 
-@endsection
+
+
+
+
