@@ -8,8 +8,13 @@ use Livewire\WithPagination;
 class Index extends Component
 {
     use WithPagination;
+    
     protected $paginationTheme = 'bootstrap';
+    
     public $keyword,$region_id;
+
+    protected $listeners = ['refresh-page'=>'$refresh'];
+
     public function render()
     {
         $data = \App\Models\Site::orderBy('id','DESC');

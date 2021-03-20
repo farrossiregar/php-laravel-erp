@@ -12,7 +12,7 @@ class Edit extends Component
     public $prefix_link,$icon,$color;
     public $items;
     public $parent_id;
-    protected $listeners = ['toggleModal'];
+    protected $listeners = ['toggleModal','refresh-page'=>'refresh_page'];
     protected $paginationTheme = 'bootstrap';
 
     use WithPagination;
@@ -22,6 +22,11 @@ class Edit extends Component
         return view('livewire.module.edit')->with(['data'=>$this->data]);
     }
     
+    public function refresh_page()
+    {
+        return redirect()->route('module.edit',$this->data->id);
+    }
+
     public function mount($id)
     {
         $this->data = \App\Models\Module::find($id);

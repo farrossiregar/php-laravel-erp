@@ -23,4 +23,9 @@ class Site extends Model
     {
         return $this->belongsTo(\App\Models\RegionClusterSub::class,'sub_cluster_id');
     }
+
+    public function employee()
+    {
+        return $this->belongsTo(\App\Models\Employee::class,'employee_id');
+    }
 }

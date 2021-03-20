@@ -1,21 +1,15 @@
-<div class="card">
-    <div class="header row">
-        <div class="pl-3">
-            <select class="form-control" wire:model="perpage">
-                <option>100</option>
-                <option>200</option>
-                <option>300</option>
-                <option>400</option>
-                <option>500</option>
-                <option>600</option>
-                <option>700</option>
-                <option>800</option>
-                <option>900</option>
-                <option>1000</option>
-            </select>
-        </div>
-        <div class="col-md-3">
+<div>
+    <div class="header px-0 row">
+        <div class="col-md-2">
             <input type="text" class="form-control" wire:model="keyword" placeholder="{{ __('Searching...') }}" />
+        </div>
+        <div class="col-md-2">
+            <select class="form-control" wire:model="employee_id">
+                <option value=""> --- {{ __('Employee') }} --- </option>
+                @foreach(\App\Models\Employee::whereNotNull('user_id')->groupBy('name')->get() as $item)
+                <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
+            </select>
         </div>
         <div class="col-md-2">
             <select class="form-control" wire:model="region">
@@ -26,7 +20,7 @@
             </select>
         </div>
         <div class="col-md-2">
-            <input type="text" class="form-control" wire:model="created_at" placeholder="Date Uploaded" onfocus="(this.type='date')" />
+            <input type="text" class="form-control" wire:model="created_at" placeholder="Date Uploaded" />
         </div>
         <div class="col-md-4">
             <a href="javascript:;" class="btn btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_upload"><i class="fa fa-upload"></i> {{ __('Upload') }}</a>
@@ -36,14 +30,15 @@
             </label>
         </div>
     </div>
-    <div class="body pt-0">
+    <div class="body px-0 pt-0">
         <div class="table-responsive">
             <table class="table table-striped m-b-0 c_list">
-                <thead>
+                <thead style="white-space: nowrap;">
                     <tr>
                         <th>{{ __('NO') }}</th>
                         <th>{{ __('UPLOADED') }}</th>                                    
-                        <th>{{ __('TANGGAL SUBMISSION') }}</th>                                    
+                        <th>{{ __('STATUS') }}</th>                                    
+                        <th>{{ __('DATE SUBMISSION') }}</th>                                    
                         <th><div style="width:200px;">{{ __('NIK / NAMA') }}</div></th>                             
                         <th>{{ __('TOWER INDEX') }}</th>
                         <th>{{ __('SITE ID') }}</th>
@@ -66,31 +61,63 @@
                 <tbody>
                     @foreach($data as $k => $item)
                     <tr>
-                        <td style="width: 50px;">{{$k+1}}</td>
+                        <td style="width: 50px;">{{$data->firstItem() + $k}}</td>
                         <td>{{date('d M Y',strtotime($item->created_at))}}</td> 
-                        <td>{{$item->tanggal_submission}}</td> 
                         <td>
-                            @if(isset($item->employee->name))
-                                {{$item->employee->name}}
-                            @else
-                                @livewire('customer-asset-management.assign-employee',['data'=>$item,'key'],key($item->id))
+                            @if($item->status==0)
+                                <span class="badge badge-warning">NOT SUBMITED</span>
+                            @endif
+                            @if($item->status==1)
+                                @if($item->site_owner == 'TLP')
+                                    @if(check_access('customer-asset-management.asset-stolen-open-tt-tlp'))
+                                        @livewire('customer-asset-management.status-stolen-tlp',['data'=>$item],key($item->id))
+                                    @else
+                                        <a href="javascript:;" class="badge badge-danger"><i class="fa fa-warning"></i> STOLEN</a>
+                                    @endif
+                                @endif
+                                @if($item->site_owner == 'TMG')
+                                    @if(check_access('customer-asset-management.asset-stolen-verify-and-acknowldge-tmg'))
+                                        @livewire('customer-asset-management.status-stolen-tmg',['data'=>$item],key($item->id))
+                                    @else
+                                        <a href="javascript:;" class="badge badge-danger"><i class="fa fa-warning"></i> STOLEN</a>
+                                    @endif
+                                @endif
+                            @endif
+                            @if($item->status==2)
+                                @if(check_access('customer-asset-management.stolen-submit-email-boq'))
+                                    @livewire('customer-asset-management.status-stolen-boq-tmg',['data'=>$item],key($item->id))
+                                @else
+                                    <span class="badge badge-success"><i class="fa fa-check"></i> Checked</span>
+                                @endif
+                            @endif
+                            @if($item->status==3)
+                                <span class="badge badge-warning"><i class="fa fa-history"></i> Revise</span>
+                            @endif
+                            @if($item->status==4)
+                                <span class="badge badge-success"><i class="fa fa-check"></i> Checked</span>
+                            @endif
+                        </td>
+                        <td>{!!$item->tanggal_submission?date('d-M-Y',strtotime($item->tanggal_submission)):''!!}</td> 
+                        <td>
+                            @if(isset($item->site->employee->name))
+                                {{$item->site->employee->name}}
                             @endif
                         </td> 
                         <td>{{isset($item->tower->name)?$item->tower->name : ''}}</td> 
-                        <td>{{isset($item->site->site_id)?$item->site->site_id : ''}}</td> 
-                        <td>{{isset($item->site->name)?$item->site->name : ''}}</td> 
+                        <td>{!!isset($item->site_code)?"<a href=\"". route('sites.edit',$item->site_id)."\">{$item->site_code}</a>" : ''!!}</td> 
+                        <td>{{isset($item->site_name)?$item->site_name : ''}}</td> 
                         <td>{{isset($item->cluster->name)?$item->cluster->name : ''}}</td> 
                         <td>{{isset($item->region->region)?$item->region->region : ''}}</td>
-                        <td>{{$item->apakah_di_site_ini_ada_battery	==1 ?'YES':'NO'}}</td>
+                        <td class="text-center">{{check_yes_no($item->apakah_di_site_ini_ada_battery)}}</td>
                         <td>{{$item->berapa_unit}}</td> 
                         <td>{{$item->merk_baterai}}</td> 
                         <td>{{$item->kapasitas_baterai}}</td> 
-                        <td>{{$item->kapan_baterai_dilaporkan_hilang}}</td> 
-                        <td>{{$item->apakah_baterai_pernah_direlokasi	==1 ?'YES':'NO'}}</td>
+                        <td>{{$item->kapan_baterai_dilaporkan_hilang?date('d-m-Y',strtotime($item->kapan_baterai_dilaporkan_hilang)) : ''}}</td> 
+                        <td class="text-center">{{check_yes_no($item->apakah_baterai_pernah_direlokasi)}}</td>
                         <td>{{isset($item->relokasi_site->site_id)? $item->relokasi_site->site_id .' / ' .$item->relokasi_site->name : ''}}</td> 
-                        <td>{{$item->apakah_cabinet_baterai_dipasang_gembok}}</td>
-                        <td>{{$item->apakah_dipasang_baterai_cage}}</td>
-                        <td>{{$item->apakah_dipasang_cabinet_belting}}</td>
+                        <td class="text-center">{{check_yes_no($item->apakah_cabinet_baterai_dipasang_gembok)}}</td>
+                        <td class="text-center">{{check_yes_no($item->apakah_dipasang_baterai_cage)}}</td>
+                        <td class="text-center">{{check_yes_no($item->apakah_dipasang_cabinet_belting)}}</td>
                         <td>{{$item->catatan}}</td>
                     @endforeach
                 </tbody>
@@ -117,6 +144,9 @@
     </div>
 </div>
 @section('page-script')
+Livewire.on('refresh-page',(data)=>{
+    $('.modal').modal('hide');
+});
 Livewire.on('confirm-delete',(data)=>{
     $("#modal_confirm_delete").modal("show");
 });
