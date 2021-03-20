@@ -161,11 +161,16 @@ class Insert extends Component
                                 $insertbastupload                               = new \App\Models\PoTrackingReimbursementBastupload();
                                 $insertbastupload->id_po_tracking_master        = $datamaster->id;
                                 $insertbastupload->po_no                        = $pono[$key];
-                                $insertbastupload->region                = "";
+                                $insertbastupload->region                       = "";
                                 $insertbastupload->bast_filename                = "";
                                 $insertbastupload->bast_uploader_userid         = "";
                                 $insertbastupload->bast_date                    = "";
                                 $insertbastupload->save();
+
+                                $insertaccdocupload                               = new \App\Models\PoTrackingReimbursementAccdocupload();
+                                $insertaccdocupload->id_po_tracking_master        = $datamaster->id;
+                                $insertaccdocupload->po_no                        = $pono[$key];
+                                $insertaccdocupload->save();
             }
 
 

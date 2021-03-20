@@ -37,6 +37,7 @@
                                 @foreach($data as $key => $item)
                                 <?php
                                     $key = $key+1;
+                                    $user = \Auth::user();
                                 ?>
                                 <tr>
                                     <th>{{ $key }}</th>                               
@@ -44,28 +45,38 @@
                                     <th>{{ $item->bidding_area }}</th>                                                       
                                     <th>
                                         @if($item->bast_filename == null || $item->bast_filename == '' )
-                                            <a href="javascript:;" wire:click="$emit('modal-bast','{{$item->po_no}}')" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import BAST')}}</a>
+                                            @if($user->user_access_id == '22')
+                                                <a href="javascript:;" wire:click="$emit('modal-bast','{{$item->po_no}}')" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import BAST')}}</a>
+                                            @else
+                                                <div class="btn btn-warning"> Waiting Uploaded Bast </div>
+                                            @endif
+                                            
                                         @else
                                             <a href="<?php echo asset('storage/po_tracking/bast/'.$item->bast_filename) ?>" target="_blank"><i class="fa fa-download"></i> Download Bast </a>
-                                            <a href="javascript:;" wire:click="$emit('modal-bast','{{$item->po_no}}')" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Edit BAST')}}</a>
+                                            @if($user->user_access_id == '22')
+                                                <a href="javascript:;" wire:click="$emit('modal-bast','{{$item->po_no}}')" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Edit BAST')}}</a>
+                                            @endif
                                         @endif
+
+                                        
                                         
                                     </th>
-                                    <th>{{ $item->bast_uploader_userid }}</th>         
+                                    <th>{{ get_username_byid($item->bast_uploader_userid) }}</th>         
                                     <th>
-                                        <?php
-                                            $user = \Auth::user();
-                                        ?>
+                                        
                                         @if($user->user_access_id == '22')
                                             @if($item->status == null)
                                                 <div class="btn btn-warning"> Waiting Approval </div>
-                                            @else
-                                                @if($item->status == '0')
-                                                    <div class="btn btn-danger"> Rejected </div>
-                                                @else
-                                                    <div class="btn btn-success"> Completed </div>
-                                                @endif
                                             @endif
+
+                                            @if($item->status == '0')
+                                                <div class="btn btn-danger"> Rejected </div>
+                                            @endif
+
+                                            @if($item->status == '1')
+                                                <div class="btn btn-success"> Completed </div>
+                                            @endif
+                                                
                                         @endif
 
                                         @if($user->user_access_id != '20')

@@ -8,12 +8,24 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
-        
-            <label>Approve</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="status" value='1' wire:model="status" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    Approve
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="status" value='0' wire:model="status" id="flexRadioDefault2">
+                <label class="form-check-label" for="flexRadioDefault2">
+                    Reject
+                </label>
+            </div>
+            <!-- <label>Approve</label>
             <input type="radio" class="form-control" name="status" value='1' wire:model="status" />
             <label>Reject</label>
-            <input type="radio" class="form-control" name="status" value='0' wire:model="status" />
+            <input type="radio" class="form-control" name="status" value='0' wire:model="status" /> -->
         </div>
+        
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-info close-modal"><i class="fa fa-save"></i> Submit</button>

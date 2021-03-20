@@ -68,21 +68,13 @@
 
                                             <!--    E2E     -->
                                             @if($user->user_access_id != 20 && $user->user_access_id == 22)
-                                                @if($item->approved_bast_erp_date_upload == null)
-                                                    <div type="button" class="btn btn-warning">Waiting BAST</div>
-                                                @else
-                                                    <a href="{{route('po-tracking.edit-esar',['id'=>$item->id])}}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview Esar Reimbursement</button></a>
-                                                    <!-- @if($item->approved_esar_date_upload == null)
-                                                        <a href="#" wire:click="$emit('modal-esar',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved ESAR')}}</a>
-                                                    @else
-                                                        <a href="#" wire:click="$emit('modal-esar',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-success"><i class="fa fa-eye"></i> {{__('Preview Approved ESAR')}}</a>
-                                                    @endif -->
-                                                @endif
+                                                <a href="{{route('po-tracking.edit-esar',['id'=>$item->id])}}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview Esar</button></a>
                                             @endif
                                             <!--    End E2E     -->
 
                                             <!--    Finance     -->
                                             @if($user->user_access_id != 2)
+                                                <a href="{{route('po-tracking.edit-accdoc',['id'=>$item->id])}}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview Acceptance Docs</button></a>
                                                 <!-- @if($item->approved_esar_date_upload == null)
                                                     <div type="button" class="btn btn-warning">Waiting Approved ESAR</div>
                                                 @else -->
@@ -92,12 +84,7 @@
                                                         <a href="#" wire:click="$emit('modal-acceptancedocs',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingacceptance-upload" title="Upload" class="btn btn-success"><i class="fa fa-eye"></i> {{__('Preview Acceptance Docs & Invoice')}}</a>
                                                     @endif
                                                 <!-- @endif -->
-                                                
-                                                    @if($item->approved_acceptance_docs_date_upload == null)
-                                                        <a href="#" wire:click="$emit('modal-acceptancedocs',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingacceptance-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Acceptance Docs & Invoice')}}</a>
-                                                    @else
-                                                        <a href="#" wire:click="$emit('modal-acceptancedocs',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingacceptance-upload" title="Upload" class="btn btn-success"><i class="fa fa-eye"></i> {{__('Preview Acceptance Docs & Invoice')}}</a>
-                                                    @endif
+
                                             @endif
                                             <!--    End Finance     -->
 
