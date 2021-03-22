@@ -14,7 +14,7 @@ class Importbast extends Component
 
     use WithFileUploads;
     public $file;
-    public $selected_id, $bast;
+    public $selected_id;
 
     protected $rules = [
         'file' => 'required',
@@ -27,8 +27,8 @@ class Importbast extends Component
     public function databast($id)
     {
         $this->selected_id = $id;
-        $this->data = \App\Models\PoTrackingReimbursementMaster::where('id', $this->selected_id)->first();
-        $this->bast = $this->data->approved_bast_erp_date_upload;
+        // $this->data = \App\Models\PoTrackingReimbursementMaster::where('id', $this->selected_id)->first();
+        // $this->bast = $this->data->approved_bast_erp_date_upload;
     }
 
     public function save()
@@ -41,12 +41,14 @@ class Importbast extends Component
             $bast = 'potracking-bast'.$this->selected_id.'.'.$this->file->extension();
             $this->file->storePubliclyAs('public/po_tracking/Bast/',$bast);
 
-            $data = \App\Models\PoTrackingReimbursementMaster::where('id', $this->selected_id)->first();
-            $data->approved_bast_erp_date_upload = date('Y-m-d H:i:s');
+            $data = \App\Models\PoTrackingReimbursementBastupload::where('po_no', $this->selected_id)
+                                                                    ->first();
+            $data->bast_filename = $bast;
+            $data->bast_date = date('Y-m-d H:i:s');
             $data->save();
         }
 
-        session()->flash('message-success',"Upload Bast success");
+        session()->flash('message-success',"Upload Bast PO No ".$this->selected_id." success");
         
         return redirect()->route('po-tracking.index');
     }

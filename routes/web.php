@@ -73,6 +73,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('po-tracking/edit/{id}',App\Http\Livewire\POTracking\Edit::class)->name('po-tracking.edit');
     Route::get('po-tracking/edit-reimbursement/{id}',App\Http\Livewire\POTracking\Editreimbursement::class)->name('po-tracking.edit-reimbursement');
     Route::get('po-tracking/edit-esar/{id}',App\Http\Livewire\POTracking\Editesar::class)->name('po-tracking.edit-esar');
+    Route::get('po-tracking/edit-bast/{id}',App\Http\Livewire\POTracking\Editbast::class)->name('po-tracking.edit-bast');
+    Route::get('po-tracking/edit-accdoc/{id}',App\Http\Livewire\POTracking\Editaccdoc::class)->name('po-tracking.edit-accdoc');
     Route::get('po-tracking/generate-esar/{po_tracking}',[App\Http\Controllers\POTrackingGenerateEsarController::class,'index'])->name('po-tracking.generate-esar');
     // Route::get('site-tracking/upload',App\Http\Livewire\Sitetracking\Upload::class)->name('site-tracking.upload');
     // Route::get('site-tracking/approval',App\Http\Livewire\Sitetracking\Approval::class)->name('site-tracking.approval');

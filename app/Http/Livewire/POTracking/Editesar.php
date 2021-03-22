@@ -3,61 +3,78 @@
 namespace App\Http\Livewire\POTracking;
 
 use Livewire\Component;
-use App\Models\PoTrackingEsar;
+use Livewire\WithPagination;
+use App\Models\PoTrackingPds;
+use App\Models\PoTrackingReimbursement;
+use App\Models\PoTrackingReimbursementEsarupload;
+use Auth;
 
 
 class Editesar extends Component
 {
-    protected $listeners = [
-                            'update-critical'=>'updateCritical',
-                            'refresh-page'=>'$refresh'
-                        ];
-    public $data, $project_name;
+
+    // public $data;
+    public $status;
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
     
 
 
     public function render()
     {
-        // if(check_access_controller('po-tracking.edit-esar') == false){
+        // if(check_access_controller('po-tracking.edit') == false){
         //     session()->flash('message-error','Access denied.');
         //     $this->redirect('/');
         // }
+        
+        // $data = PoTrackingReimbursement::select('po_tracking_reimbursement_esarupload.approved_esar_filename as approved_esar_filename', 'po_tracking_reimbursement.po_no as po_no', 'po_tracking_reimbursement.project_name as project_name', 'po_tracking_reimbursement.project_code as project_code', 'po_tracking_reimbursement.acceptance_date as acceptance_date', 'po_tracking_reimbursement.sub_contract_no as sub_contract_no')
+        //                                 ->where('po_tracking_reimbursement.id_po_tracking_master', $this->id)
+        //                                 ->join('po_tracking_reimbursement_esarupload', 'po_tracking_reimbursement_esarupload.po_no', '=', 'po_tracking_reimbursement.po_no');
+                                                    
+            
+        $data = PoTrackingReimbursement::where('po_tracking_reimbursement.id_po_tracking_master', $this->id)
+                                        // ->whereNotNull('po_tracking_reimbursement_esarupload.approved_esar_filename')
+                                        ->join('po_tracking_reimbursement_esarupload', 'po_tracking_reimbursement_esarupload.po_no', '=', 'po_tracking_reimbursement.po_no');
+                                        // ->groupBy('po_tracking_reimbursement.po_no')
+                                        // ->get();  
+                                     
+        if($this->status){
+            if($this->status == '1'){
+                $data = $data->where('po_tracking_reimbursement_esarupload.approved_esar_filename', '<>', '');
+                // $data = $data->whereNotNull('po_tracking_reimbursement_esarupload.approved_esar_filename');
+            }else{
+                $data = $data->whereNull('po_tracking_reimbursement_esarupload.approved_esar_filename');
+                // $ata = $data->where('po_tracking_reimbursement_esarupload.approved_esar_filename', '');
+            }
+        }else{
+            $data = $data;
+        }                                                        
+           
+        $data = $data->groupBy('po_tracking_reimbursement_esarupload.po_no');
 
-        $data           = $this->data;
-        $project_name   = $this->project_name;
-        // dd($data);
-        return view('livewire.po-tracking.edit-esar');
-        // return view('livewire.po-tracking.edit-esar')->with(compact('data'));
+        return view('livewire.po-tracking.edit-esar')->with(['data'=>$data->paginate(50)]);
+        
     }
 
 
     public function mount($id)
     {
-        $this->data             = PoTrackingEsar::where('id', 1)->first();  
-        $this->project_name     = $this->data->project_name;  
+        // $this->data             = PoTrackingReimbursement::where('po_tracking_reimbursement.id_po_tracking_master', $id)
+        //                                                     // ->whereNotNull('po_tracking_reimbursement_esarupload.approved_esar_filename')
+        //                                                     ->join('po_tracking_reimbursement_esarupload', 'po_tracking_reimbursement_esarupload.po_no', '=', 'po_tracking_reimbursement.po_no')
+        //                                                     ->groupBy('po_tracking_reimbursement.po_no')
+        //                                                     ->get();  
+
+        // $this->data             = PoTrackingReimbursementEsarupload::where('po_tracking_reimbursement_esarupload.id_po_tracking_master', $id)
+        //                                                             ->join('po_tracking_reimbursement', 'po_tracking_reimbursement_esarupload.id_po_tracking_master', '=', 'po_tracking_reimbursement.id_po_tracking_master')
+        //                                                             ->groupBy('po_tracking_reimbursement_esarupload.po_no')
+        //                                                             ->get();  
+
+        $this->id = $id;
+        
         
         
     }
 
-    // public function updateCritical($id)
-    // {
-    //     $this->selected_id = $id;
-
-    //     $this->data                 = Criticalcase::where('id', $this->selected_id)->first();
-    //     $this->pic                  = $this->data->pic;
-    //     $this->date                 = $this->data->date;
-    //     $this->last_update          = $this->data->last_update;
-    //     $this->region               = $this->data->region;
-    //     $this->action_point         = $this->data->action_point;
-    //     $this->activity_handling    = $this->data->activity_handling;
-    // }
-
-
-    // public function update(){
-    //     $data = Criticalcase::where('id',$this->selected_id)->first();
-    //     $data->action_point = $this->action_point;
-    //     $data->save();
-    //     $this->emit('refresh-page');
-    //     return view('livewire.criticalcase.update-critical');
-    // }
+    
 }

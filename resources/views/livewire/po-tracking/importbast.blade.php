@@ -14,11 +14,6 @@
             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
             @enderror
         </div>
-        <div class="col-md-12">
-            @if($bast != null)
-            <a href="<?php echo asset('storage/po_tracking/Bast/potracking-bast'.$selected_id.'.pdf') ?>" target="_blank"><i class="fa fa-download"></i> Download File BAST</a>
-            @endif
-        </div>
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-info close-modal"><i class="fa fa-upload"></i> Upload</button>

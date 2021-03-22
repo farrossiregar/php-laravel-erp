@@ -154,3 +154,11 @@ function check_sitelist_temp($id_site_master){
     $data = \App\Models\SiteListTrackingTemp::where('id_site_master', $id_site_master)->get();
     return $data;
 }
+
+
+function get_username_byid($user_id){
+    $data = \App\Models\User::select('name')->where('id', $user_id)->first();
+    $dd = json_encode($data);
+    return $dd;
+    
+}
