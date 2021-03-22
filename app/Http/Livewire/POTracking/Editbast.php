@@ -86,10 +86,18 @@ class Editbast extends Component
             //                                                         ->groupBy('po_tracking_reimbursement.po_no')
             //                                                         ->get();  
         }else{
-            $this->data             = PoTrackingReimbursementBastupload::where('po_tracking_reimbursement_bastupload.id_po_tracking_master', $id)
-                                                                    ->leftjoin('po_tracking_reimbursement', 'po_tracking_reimbursement.id_po_tracking_master', '=', 'po_tracking_reimbursement_bastupload.id_po_tracking_master')
-                                                                    ->groupBy('po_tracking_reimbursement.po_no')
-                                                                    ->get();  
+            // $this->data             = PoTrackingReimbursementBastupload::where('po_tracking_reimbursement_bastupload.id_po_tracking_master', $id)
+            //                                                         ->leftjoin('po_tracking_reimbursement', 'po_tracking_reimbursement.id_po_tracking_master', '=', 'po_tracking_reimbursement_bastupload.id_po_tracking_master')
+            //                                                         ->groupBy('po_tracking_reimbursement.po_no')
+            //                                                         ->get();  
+
+            $this->data             = DB::table('pmt.po_tracking_reimbursement as po_tracking_reimbursement')
+                                                // ->select('po_tracking_reimbursement.po_no', 'po_tracking_reimbursement.bidding_area', 'po_tracking_reimbursement_bastupload.bast_uploader_userid', 'po_tracking_reimbursement_bastupload.bast_filename', 'po_tracking_reimbursement_bastupload.status')
+                                                ->leftjoin('pmt.po_tracking_reimbursement_bastupload as po_tracking_reimbursement_bastupload', 'po_tracking_reimbursement.po_no', '=', 'po_tracking_reimbursement_bastupload.po_no')
+                                                ->where('po_tracking_reimbursement.id_po_tracking_master', $id)
+                                                ->groupBy('po_tracking_reimbursement.po_no')
+                                                ->get(); 
+            
         }
         
 

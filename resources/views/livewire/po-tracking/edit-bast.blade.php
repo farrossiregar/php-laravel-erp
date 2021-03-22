@@ -61,7 +61,8 @@
                                         
                                         
                                     </th>
-                                    <th>{{ get_username_byid($item->bast_uploader_userid) }}</th>         
+                                    <!-- <th>{{ get_username_byid($item->bast_uploader_userid) }}</th>          -->
+                                    <th>{{ $item->bast_uploader_userid }}</th>         
                                     <th>
                                         
                                         @if($user->user_access_id == '22')
@@ -79,7 +80,7 @@
                                                 
                                         @endif
 
-                                        @if($user->user_access_id != '20')
+                                        @if($user->user_access_id == '20')
                                             @if($item->status == null)
                                                 @if($item->bast_filename != null || $item->bast_filename != '')
                                                     <a href="javascript:;" wire:click="$emit('modal-approvebast','{{$item->po_no}}')" data-toggle="modal" data-target="#modal-potrackingapprovebast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Approve BAST')}}</a>

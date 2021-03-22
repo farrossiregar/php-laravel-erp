@@ -28,20 +28,21 @@ class Importacceptancedocs extends Component
     public function save()
     {
         $this->validate([
-            'file'=>'required|mimes:pdf|max:51200' // 50MB maksimal
+            'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
         ]);
 
-
         if($this->file){
-            $acceptancedocs = 'acceptancedocs'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/po_tracking/acceptancedocs/',$acceptancedocs);
+            $accdoc = 'potracking-accdoc'.$this->selected_id.'.'.$this->file->extension();
+            $this->file->storePubliclyAs('public/po_tracking/AcceptanceDocs/',$accdoc);
 
-            $data = \App\Models\PoTrackingReimbursementMaster::where('id', $this->selected_id)->first();
-            $data->approved_acceptance_docs_date_upload = date('Y-m-d H:i:s');
+            $data = \App\Models\PoTrackingReimbursementAccdocupload::where('po_no', $this->selected_id)
+                                                                    ->first();            
+            $data->accdoc_filename = $accdoc;
+            $data->accdoc_date = date('Y-m-d H:i:s');
             $data->save();
         }
 
-        session()->flash('message-success',"Upload Acceptance Docs success");
+        session()->flash('message-success',"Upload Acceptance Docs PO No ".$this->selected_id." success");
 
         return redirect()->route('po-tracking.index');
     }

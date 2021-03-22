@@ -27,8 +27,6 @@ class Importbast extends Component
     public function databast($id)
     {
         $this->selected_id = $id;
-        // $this->data = \App\Models\PoTrackingReimbursementMaster::where('id', $this->selected_id)->first();
-        // $this->bast = $this->data->approved_bast_erp_date_upload;
     }
 
     public function save()
