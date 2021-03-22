@@ -93,17 +93,17 @@ $(document).ready(function() {
 	});
 
 	// navbar search form
-	$('.navbar-form.search-form input[type="text"]')
-	.on('focus', function() {
-		$(this).animate({
-			width: '+=50px'
-		}, 300);
-	})
-	.on('focusout', function() {
-		$(this).animate({
-			width: '-=50px'
-		}, 300);
-	});
+	// $('.navbar-form.search-form input[type="text"]')
+	// .on('focus', function() {
+	// 	$(this).animate({
+	// 		width: '+=50px'
+	// 	}, 300);
+	// })
+	// .on('focusout', function() {
+	// 	$(this).animate({
+	// 		width: '-=50px'
+	// 	}, 300);
+	// });
 
 	// Bootstrap tooltip init
 	if($('[data-toggle="tooltip"]').length > 0) {

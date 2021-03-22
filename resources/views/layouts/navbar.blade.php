@@ -9,13 +9,19 @@
             @if(get_setting('logo'))<a href="/"><img src="{{ get_setting('logo') }}" alt="Lucid Logo" class="img-responsive logo"></a>@endif
         </div>
         <div class="navbar-right">
-            <form id="navbar-search" class="navbar-form search-form">
-                <h5 class="mt-2"> @yield('title')</h5>
+            <form id="navbar-search" class="col-md-6 navbar-form search-form">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6 class="mt-2"> @yield('title')</h6>
+                    </div>
+                    <div class="col-md-7">
+                        <input value="" class="form-control" placeholder="Search here..." type="text">
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
+                    </div>
+                </div>
             </form>
-            {{-- <form id="navbar-search" class="navbar-form search-form">
-                <input value="" class="form-control" placeholder="Search here..." type="text">
-                <button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
-            </form> --}} 
             <div id="navbar-menu">
                 <ul class="nav navbar-nav">
                     <li class="d-none d-sm-inline-block d-md-none d-lg-inline-block">
