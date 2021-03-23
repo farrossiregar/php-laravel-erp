@@ -12,8 +12,10 @@ class DeleteSub extends Component
     public function render()
     {
         return <<<'blade'
-            <a href="javascript:;" wire:click="delete" class="text-danger"><i class="fa fa-trash"></i></a>
-        blade;
+            <div>
+                <a href="javascript:;" wire:click="delete" class="text-danger"><i class="fa fa-trash"></i></a>
+            </div>
+blade;
     }
 
     public function mount(ModulesItem $data)

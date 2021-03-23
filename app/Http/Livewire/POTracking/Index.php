@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\PoTracking;
+namespace App\Http\Livewire\POTracking;
 
 use Livewire\Component;
 use Livewire\WithPagination;
