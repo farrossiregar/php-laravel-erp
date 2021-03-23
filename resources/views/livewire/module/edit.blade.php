@@ -76,7 +76,8 @@
                         </tr>
                             @foreach($item->func as $function)
                             <tr>
-                                <td>@livewire('module.delete-sub', ['data'=>$function],key($function->id)) {{ $function->name }}<br />
+                                <td>@livewire('module.delete-sub', ['data'=>$function],key($function->id)) 
+                                    {{ $function->name }}<br />
                                     <small>{{$function->link}}</small>
                                 </td>
                             </tr>
