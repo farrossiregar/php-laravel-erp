@@ -10,7 +10,7 @@
                     <b><h4>PO Tracking Reimbursement</h4></b> 
                     
                 </div>
-                <div class="col-md-2">
+                <!-- <div class="col-md-2">
                     <select class="form-control" name="month" wire:model="month">
                         <option value=""> --- Month --- </option>
                         <option value="01">January</option>
@@ -40,7 +40,7 @@
                         <option value=""> --- Project --- </option>
                         <option value="">Project Name</option>
                     </select>
-                </div>
+                </div> -->
             </div>
             <div class="body pt-0">
                 <div class="row">

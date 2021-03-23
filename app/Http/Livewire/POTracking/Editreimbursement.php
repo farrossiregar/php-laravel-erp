@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\PoTrackingReimbursement;
 use Livewire\WithPagination;
 use Auth;
+use DB;
 
 
 class Editreimbursement extends Component
@@ -43,8 +44,21 @@ class Editreimbursement extends Component
     {
         $this->id            = $id;
         // $this->data             = PoTrackingReimbursement::where('id_po_tracking_master', $id)->get();  
+        $user = \Auth::user();
+
+        if($user->user_access_id == '22'){
+            $region_user = DB::table('pmt.employees as employees')
+                                ->where('employees.user_access_id', '22')
+                                ->join('epl.region as region', 'region.id', '=', 'employees.region_id')
+                                ->where('employees.user_id', $user->id)->get();
+            $this->data           = PoTrackingReimbursement::where('id_po_tracking_master', $this->id)
+                                                                ->where('bidding_area', $region_user[0]->region_code);
+                                                                    
+        }else{
+            $this->data           = PoTrackingReimbursement::where('id_po_tracking_master', $this->id);
+                                                            
+        }
         
-        $this->data           = PoTrackingReimbursement::where('id_po_tracking_master', $this->id);
          
         if($this->month) $ata = $data->whereMonth('publish_date',$this->month);
         if($this->region) $ata = $data->where('bidding_area',$this->region);
