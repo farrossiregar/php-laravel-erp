@@ -35,17 +35,14 @@
                                     <th>Bast Status</th>           
                                 </tr>
                                 @foreach($data as $key => $item)
-                                <?php
-                                    $key = $key+1;
-                                    $user = \Auth::user();
-                                ?>
                                 <tr>
-                                    <th>{{ $key }}</th>                               
+                                    <th>{{ ($key+1) }}</th>                               
                                     <th>{{ $item->po_no }}</th> 
                                     <th>{{ $item->bidding_area }}</th>                                                       
                                     <th>
                                         @if($item->bast_filename == null || $item->bast_filename == '' )
-                                            @if($user->user_access_id == '22')
+                                            {{-- @if($user->user_access_id == '22') --}}
+                                            @if(check_access('po-tracking.upload-bast'))
                                                 <a href="javascript:;" wire:click="$emit('modal-bast','{{$item->po_no}}')" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import BAST')}}</a>
                                             @else
                                                 <div class="btn btn-warning"> Waiting Uploaded Bast </div>
@@ -53,7 +50,8 @@
                                             
                                         @else
                                             <a href="<?php echo asset('storage/po_tracking/bast/'.$item->bast_filename) ?>" target="_blank"><i class="fa fa-download"></i> Download Bast </a>
-                                            @if($user->user_access_id == '22')
+                                            {{-- @if($user->user_access_id == '22') --}}
+                                            @if(check_access('po-tracking.upload-bast'))
                                                 <a href="javascript:;" wire:click="$emit('modal-bast','{{$item->po_no}}')" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Edit BAST')}}</a>
                                             @endif
                                         @endif
@@ -61,11 +59,11 @@
                                         
                                         
                                     </th>
-                                    <!-- <th>{{ get_username_byid($item->bast_uploader_userid) }}</th>          -->
                                     <th>{{ $item->bast_uploader_userid }}</th>         
                                     <th>
                                         
-                                        @if($user->user_access_id == '22')
+                                        {{-- @if($user->user_access_id == '22') --}}
+                                        @if(check_access('po-tracking.upload-bast'))
                                             @if($item->status == null)
                                                 <div class="btn btn-warning"> Waiting Approval </div>
                                             @endif
@@ -80,7 +78,8 @@
                                                 
                                         @endif
 
-                                        @if($user->user_access_id == '20')
+                                        {{-- @if($user->user_access_id == '20') --}}
+                                        @if(check_access('po-tracking.approved-bast'))
                                             @if($item->status == null)
                                                 @if($item->bast_filename != null || $item->bast_filename != '')
                                                     <a href="javascript:;" wire:click="$emit('modal-approvebast','{{$item->po_no}}')" data-toggle="modal" data-target="#modal-potrackingapprovebast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Approve BAST')}}</a>

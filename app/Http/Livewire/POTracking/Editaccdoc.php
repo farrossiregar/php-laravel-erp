@@ -36,10 +36,10 @@ class Editaccdoc extends Component
     {
         $user = \Auth::user();
 
-        $this->data             = DB::table('pmt.po_tracking_reimbursement as po_tracking_reimbursement')
+        $this->data             = DB::table(env('DB_DATABASE').'.po_tracking_reimbursement as po_tracking_reimbursement')
                                             // ->select('po_tracking_reimbursement.po_no', 'po_tracking_reimbursement.bidding_area', 'po_tracking_reimbursement_bastupload.bast_uploader_userid', 'po_tracking_reimbursement_bastupload.bast_filename', 'po_tracking_reimbursement_bastupload.status')
-                                            ->leftjoin('pmt.po_tracking_reimbursement_accdocupload as po_tracking_reimbursement_accdocupload', 'po_tracking_reimbursement.po_no', '=', 'po_tracking_reimbursement_accdocupload.po_no')
-                                            ->leftjoin('pmt.po_tracking_reimbursement_esarupload as po_tracking_reimbursement_esarupload', 'po_tracking_reimbursement.po_no', '=', 'po_tracking_reimbursement_esarupload.po_no')
+                                            ->leftjoin(env('DB_DATABASE').'.po_tracking_reimbursement_accdocupload as po_tracking_reimbursement_accdocupload', 'po_tracking_reimbursement.po_no', '=', 'po_tracking_reimbursement_accdocupload.po_no')
+                                            ->leftjoin(env('DB_DATABASE').'.po_tracking_reimbursement_esarupload as po_tracking_reimbursement_esarupload', 'po_tracking_reimbursement.po_no', '=', 'po_tracking_reimbursement_esarupload.po_no')
                                             ->where('po_tracking_reimbursement.id_po_tracking_master', $id)
                                             ->groupBy('po_tracking_reimbursement.po_no')
                                             ->get(); 

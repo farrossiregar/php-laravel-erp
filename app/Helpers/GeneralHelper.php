@@ -58,8 +58,10 @@ function get_user_from_access($link)
 }
 
 function check_access($link,$type=1){
+    
     $cek = \App\Models\UserAccessModule::select('modules.*')
-            ->where('user_access_modules.user_access_id',\Auth::user()->user_access_id)->where('modules_items.link',$link)
+            ->where('user_access_modules.user_access_id',\Auth::user()->user_access_id)
+            ->where('modules_items.link',$link)
             ->join('modules_items','modules_items.id','=','user_access_modules.module_id')
             ->join('modules','modules.id','=','modules_items.module_id')
             ->groupBy('modules.id')

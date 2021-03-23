@@ -1,4 +1,4 @@
-@section('title', __('PO Tracking Index'))
+@section('title', __('PO Tracking'))
 @section('parentPageTitle', 'Home')
 
 
@@ -8,12 +8,11 @@
 
 <div class="row clearfix">
     <div class="col-lg-12">
-        <br><br><br>
         <div class="card">
-            <ul class="nav nav-tabs">
+            {{-- <ul class="nav nav-tabs">
                 <!-- <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard-critical-case" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li> -->
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data-po-tracking">{{ __('Data PO Tracking') }}</a></li>
-            </ul>
+            </ul> --}}
             <div class="tab-content">
                 <!-- <div class="tab-pane show active" id="dashboard-critical-case">
                     <livewire:criticalcase.dashboard />
@@ -24,7 +23,7 @@
                             <input type="date" class="form-control" wire:model="date" />
                         </div>
                         
-                        @if($user->user_access_id == '20')
+                        @if(check_access('po-tracking.import'))
                         <div class="col-md-1">
                             <a href="#" data-toggle="modal" data-target="#modal-potracking-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking Reimbursement')}}</a>
                         </div>
@@ -57,7 +56,8 @@
                                             
                                             <!--    Regional     -->
                                             
-                                            @if($user->user_access_id == '20' || $user->user_access_id == '22')
+                                            {{-- @if($user->user_access_id == '20' || $user->user_access_id == '22') --}}
+                                            @if(check_access('po-tracking.edit-bast'))
                                             <a href="{{route('po-tracking.edit-bast',['id'=>$item->id])}}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview Bast</button></a>
                                             <!-- @if($item->approved_bast_erp_date_upload == null)
                                                 <a href="#" wire:click="$emit('modal-bast',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import BAST')}}</a>
@@ -68,14 +68,16 @@
                                             <!--    End Regional     -->
 
                                             <!--    E2E     -->
-                                            @if($user->user_access_id == '20')
+                                            {{-- @if($user->user_access_id == '20') --}}
+                                            @if(check_access('po-tracking.edit-esar'))
                                                 <a href="{{route('po-tracking.edit-esar',['id'=>$item->id])}}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview Esar</button></a>
                                             @endif
                                             <!--    End E2E     -->
 
                                             <!--    Finance     -->
                                             
-                                            @if($user->user_access_id == '2')
+                                            {{-- @if($user->user_access_id == '2') --}}
+                                            @if(check_access('po-tracking.edit-accdoc'))
                                                 <a href="{{route('po-tracking.edit-accdoc',['id'=>$item->id])}}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview Acceptance Docs</button></a>
                                                 <!-- @if($item->approved_esar_date_upload == null)
                                                     <div type="button" class="btn btn-warning">Waiting Approved ESAR</div>
@@ -111,7 +113,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             
-            <livewire:po-tracking.insert />
+            <livewire:p-o-tracking.insert />
         </div>
     </div>
 </div>
