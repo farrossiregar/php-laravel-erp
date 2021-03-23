@@ -13,7 +13,7 @@ class DeleteSub extends Component
     {
         return <<<'blade'
             <div>
-                <a href="javascript:;" wire:click="delete" class="text-danger"><i class="fa fa-trash"></i></a>
+                <a href="javascript:;" wire:click="delete" class="text-danger"><i class="fa fa-trash"></i></a> {{$this->data->name}}
             </div>
 blade;
     }

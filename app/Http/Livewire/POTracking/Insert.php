@@ -199,6 +199,7 @@ class Insert extends Component
                 // $regional_code[$key] = $item->region->region_code;
                 // $regional[$key] = $item->bidding_area;
 
+                //$epluser = UserEpl::select('name', 'phone', 'email')->where('region_cluster_id', $regional[$key])->get();
                 $epluser = UserEpl::select('name', 'phone', 'email')->where('region_cluster_id', $regional[$key])->get();
             
                 $nameuser = [];

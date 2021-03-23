@@ -57,9 +57,9 @@ class Approvebast extends Component
         //                                     ->join('region', 'region.id', '=', 'employee.region_id')
         //                                     ->where('region.region_code', $region_pono[0]->bidding_area)->get();
 
-        $notif_user = DB::table('pmt.employees as employees')
+        $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
                             ->where('employees.user_access_id', '22')
-                            ->join('epl.region as region', 'region.id', '=', 'employees.region_id')
+                            ->join(env('DB_DATABASE_EPL_PMT').'.region as region', 'region.id', '=', 'employees.region_id')
                             ->where('region.region_code', $region_pono[0]->bidding_area)->get();
         
 
