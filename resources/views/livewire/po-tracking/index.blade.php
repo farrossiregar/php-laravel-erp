@@ -24,7 +24,7 @@
                             <input type="date" class="form-control" wire:model="date" />
                         </div>
                         
-                        @if($user->user_access_id != '20s')
+                        @if($user->user_access_id == '20')
                         <div class="col-md-1">
                             <a href="#" data-toggle="modal" data-target="#modal-potracking-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking Reimbursement')}}</a>
                         </div>
