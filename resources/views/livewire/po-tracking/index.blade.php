@@ -111,7 +111,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             
-            <livewire:po-tracking.insert />
+            <livewire:p-o-tracking.insert />
         </div>
     </div>
 </div>
