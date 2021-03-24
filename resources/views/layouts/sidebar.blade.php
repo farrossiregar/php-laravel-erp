@@ -81,7 +81,7 @@
                             </ul>
                         </li>
                         @foreach(get_menu(\Auth::user()->user_access_id) as $menu)
-                        <li class="{{ (in_array(Request::segment(1),@$menu['prefix_all']) || Request::segment(1)==@$menu['prefix_link']) ? 'active' : null }}">
+                        <li class="{{ (isset($menu['prefix_all']) && (in_array(Request::segment(1),$menu['prefix_all']) || Request::segment(1)==@$menu['prefix_link'])) ? 'active' : null }}">
                             <a href="#App" class="has-arrow"><i class="icon-grid"></i> <span>{{ $menu['name'] }}</span></a>
                             @if(isset($menu['sub_menu']))
                             <ul>
