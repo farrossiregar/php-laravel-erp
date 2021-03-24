@@ -9,17 +9,29 @@
             @if(get_setting('logo'))<a href="/"><img src="{{ get_setting('logo') }}" alt="Lucid Logo" class="img-responsive logo"></a>@endif
         </div>
         <div class="navbar-right">
-            <form id="navbar-search" class="col-md-6 navbar-form search-form">
+            <form id="navbar-search" class="col-md-6 navbar-form">
                 <div class="row">
                     <div class="col-md-4">
                         <h6 class="mt-2"> @yield('title')</h6>
                     </div>
                     <div class="col-md-7">
-                        <input value="" class="form-control" placeholder="Search here..." type="text">
+                        {{-- <input value="" class="form-control" placeholder="Search here..." type="text"> --}}
+                        <select class="form-control" name="searching_menu">
+                            <option value="">Searching...</option>
+                            @foreach(\App\Models\ClientProject::get() as $item)
+                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                @foreach(\App\Models\Module::where(['client_project_id'=>$item->id])->get() as $module)
+                                <option value=""> - {{$module->name}}</option>
+                                    @foreach(\App\Models\ModulesItem::where(['module_id'=>$module->id,'type'=>1])->get() as $module_item)
+                                    <option value=""> -- {{$module_item->name}}</option>
+                                    @endforeach
+                                @endforeach
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="col-md-1">
+                    {{-- <div class="col-md-1">
                         <button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
-                    </div>
+                    </div> --}}
                 </div>
             </form>
             <div id="navbar-menu">
@@ -55,3 +67,16 @@
         </div>
     </div>
 </nav>
+@push('after-scripts')
+<link rel="stylesheet" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}"/>
+<script src="{{ asset('assets/vendor/select2/js/select2.min.js') }}"></script>
+<style>
+    .select2-container .select2-selection--single {height:36px;padding-left:10px;}
+    .select2-container .select2-selection--single .select2-selection__rendered{padding-top:3px;}
+    .select2-container--default .select2-selection--single .select2-selection__arrow{top:4px;right:10px;}
+    .select2-container {width: 100% !important;}
+</style>
+<script>
+    $("select[name='searching_menu']").select2();
+</script>
+@endpush

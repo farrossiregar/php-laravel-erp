@@ -91,4 +91,5 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('sites/edit/{id}',App\Http\Livewire\Sites\Edit::class)->name('sites.edit');
     Route::get('tower',App\Http\Livewire\Tower\Index::class)->name('tower.index');
     Route::get('po-tracking-rollout',App\Http\Livewire\PoTrackingRollout\Index::class)->name('po-tracking-rollout.index');
+    Route::get('mobile-apps',App\Http\Livewire\MobileApps\Index::class)->name('mobile-apps.index');
 });
