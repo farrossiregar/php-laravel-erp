@@ -11,13 +11,13 @@
                     <br>
                 </div>
                 <table class="table table-striped m-b-0 c_list">
-                    <div class="col-md-2">
+                    <!-- <div class="col-md-2">
                         <select class="form-control" name="status" wire:model="status">
                             <option value=""> --- Status --- </option>
                             <option value="1">Completed</option>
                             <option value="">Waiting Approval</option>
                         </select>
-                    </div>
+                    </div> -->
 
                 </table>
             </div>
@@ -58,18 +58,16 @@
                                     <th><?php echo $item->accdoc_date; ?></th>
                                     <th><?php echo $item->accdoc_uploader_userid; ?></th>     
                                     <th>
-                                        <?php
-                                            if($item->accdoc_filename == null || $item->accdoc_filename == '' ){
-                                        ?>
-                                        <a href="javascript:;" wire:click="$emit('modal-acceptancedocs','{{$item->po_no}}')" data-toggle="modal" data-target="#modal-potrackingacceptance-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> Import Acceptance Docs</a>
-                                        <?php
-                                            }else{
-                                        ?>
-                                            <a href="<?php echo asset('storage/po_tracking/bast/'.$item->accdoc_filename) ?>" target="_blank"><i class="fa fa-download"></i> Download Acceptance Docs </a>
-                                            <a href="javascript:;" wire:click="$emit('modal-acceptancedocs','{{$item->po_no}}')" data-toggle="modal" data-target="#modal-potrackingacceptance-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> Edit Acceptance Docs</a>
-                                        <?php
-                                            }
-                                        ?>
+                                        
+
+                                        @if($item->approved_esar_filename != null || $item->approved_esar_filename != '' )
+                                            @if($item->accdoc_filename == null || $item->accdoc_filename == '' )
+                                                <a href="javascript:;" wire:click="$emit('modal-acceptancedocs','{{$item->po_no}}')" data-toggle="modal" data-target="#modal-potrackingacceptance-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> Import Acceptance Docs</a>
+                                            @else
+                                                <a href="<?php echo asset('storage/po_tracking/AcceptanceDocs/'.$item->accdoc_filename) ?>" target="_blank"><i class="fa fa-download"></i> Download Acceptance Docs </a>
+                                                <a href="javascript:;" wire:click="$emit('modal-acceptancedocs','{{$item->po_no}}')" data-toggle="modal" data-target="#modal-potrackingacceptance-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> Edit Acceptance Docs</a>
+                                            @endif
+                                        @endif
                                     </th>     
                                 </tr>
                                 <?php                                        
@@ -95,7 +93,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             
-            <!-- <livewire:po-tracking.importacceptancedocs /> -->
+            <livewire:po-tracking.importacceptancedocs />
             <!-- <form wire:submit.prevent="save">
                 @csrf
                 <div class="modal-header">

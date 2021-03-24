@@ -27,7 +27,6 @@ class Editaccdoc extends Component
 
     public function render()
     {
-
         return view('livewire.po-tracking.edit-accdoc');
     }
 
