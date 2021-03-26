@@ -79,6 +79,13 @@ Route::group(['middleware' => ['auth']], function(){
     // Route::get('site-tracking/upload',App\Http\Livewire\Sitetracking\Upload::class)->name('site-tracking.upload');
     // Route::get('site-tracking/approval',App\Http\Livewire\Sitetracking\Approval::class)->name('site-tracking.approval');
 
+
+    Route::get('po-tracking-nonms',App\Http\Livewire\PoTrackingNonMs\Index::class)->name('po-tracking-nonms.index');
+    Route::get('po-tracking-nonms/importboq',App\Http\Livewire\PoTrackingNonMs\Importboq::class)->name('po-tracking-nonms.importboq');
+    Route::get('po-tracking-nonms/importstp',App\Http\Livewire\PoTrackingNonMs\Importstp::class)->name('po-tracking-nonms.importstp');
+    
+
+
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
     Route::get('employee/insert',App\Http\Livewire\Employee\Insert::class)->name('employee.insert');
     Route::get('employee/edit/{id}',App\Http\Livewire\Employee\Edit::class)->name('employee.edit');
