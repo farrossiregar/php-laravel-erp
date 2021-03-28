@@ -11,7 +11,6 @@ use Auth;
 
 class Index extends Component
 {
-    public $data;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     
@@ -22,11 +21,12 @@ class Index extends Component
         //     $this->redirect('/');
         // }
 
-        $data = PoTrackingNonms::orderBy('id', 'DESC')->get();
+        $data = PoTrackingNonms::orderBy('id', 'DESC');
+        // $data = PoTrackingNonms::orderBy('id', 'DESC')->get();
         
         
-        // return view('livewire.po-tracking-nonms.index')->with(['data'=>$data->paginate(50)]);
-        return view('livewire.po-tracking-nonms.index')->with(compact('data'));
+        return view('livewire.po-tracking-nonms.index')->with(['data'=>$data->paginate(50)]);
+        // return view('livewire.po-tracking-nonms.index')->with(compact('data'));
         
     }
 

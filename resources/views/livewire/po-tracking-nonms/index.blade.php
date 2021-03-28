@@ -40,18 +40,30 @@
                                     <tr>
                                         <th>No</th>
                                         <th>PO No</th>    
-                                        <th>Type</th>    
+                                        <th>Region</th>    
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                 
+                                    @foreach($data as $key => $item)
                                     <tr>
-                                        <td>1</td>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>
+                                            <div class="btn btn-warning"> Waiting PO No</div>
+                                        </td>    
                                         <td></td>    
-                                        <td>BOQ</td>    
-                                        <td>Action</td>
+                                        <?php
+                                            if($item->type_doc == 1){
+                                                $type_doc =  "STP";
+                                            }else{
+                                                $type_doc =  "BOQ";
+                                            }
+                                        ?>   
+                                        <td>
+                                            <a href="{{route('po-tracking-nonms.edit-stp',['id'=>$item->id])}}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview PO Non MS <?php echo $type_doc; ?> </button></a>
+                                        </td>
                                     </tr>
+                                    @endforeach
                                     
                                 </tbody>
                             </table>
