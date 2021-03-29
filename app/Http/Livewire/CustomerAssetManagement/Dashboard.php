@@ -27,9 +27,13 @@ class Dashboard extends Component
             $this->datasets[$k]['fill'] =  'boundary';
             $this->datasets[$k]['data'][0] = \App\Models\CustomerAssetManagement::where(['region_name'=>$item->region_name,'apakah_di_site_ini_ada_battery'=>0])->where(function($table){
                                                     if($this->month) $table->whereMonth('tanggal_submission',$this->month);
-                                                })->count();
-            $this->datasets[$k]['data'][1] = \App\Models\CustomerAssetManagement::where(['region_name'=>$item->region_name,'apakah_di_site_ini_ada_battery'=>""])->count();
-            $this->datasets[$k]['data'][2] = \App\Models\CustomerAssetManagement::where(['region_name'=>$item->region_name,'apakah_di_site_ini_ada_battery'=>1])->count();
+                                                })->whereNotNull('tanggal_submission')->count();
+            $this->datasets[$k]['data'][1] = \App\Models\CustomerAssetManagement::where(['region_name'=>$item->region_name,'apakah_di_site_ini_ada_battery'=>""])->where(function($table){
+                if($this->month) $table->whereMonth('tanggal_submission',$this->month);
+            })->whereNotNull('tanggal_submission')->count();
+            $this->datasets[$k]['data'][2] = \App\Models\CustomerAssetManagement::where(['region_name'=>$item->region_name,'apakah_di_site_ini_ada_battery'=>1])->where(function($table){
+                if($this->month) $table->whereMonth('tanggal_submission',$this->month);
+            })->whereNotNull('tanggal_submission')->count();
         }
 
         $this->datasets = json_encode($this->datasets);

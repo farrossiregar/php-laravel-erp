@@ -1,10 +1,10 @@
 @section('title', 'Dashboard')
 @section('parentPageTitle', 'Dashboard')
 <div class="col-md-10 pt-2" style="margin: auto;">
-@foreach(\App\Models\Module::orderBy('name','ASC')->where('status',1)->get() as $menu)
-    <h4>{{$menu->name}}</h4>    
-    <div class="row clearfix mt-3">
-        @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'type'=>1])->get() as $sub)
+    @foreach(get_menu(\Auth::user()->user_access_id) as $menu)
+        <h4>{{$menu['name']}}</h4>
+        <div class="row clearfix mt-3">
+        @foreach($menu['sub_menu'] as $sub)
             <div class="col-lg-2 col-md-2 col-sm-12 px-1" onclick="window.open('{{route($sub->link)}}','_blank')">
                 <div class="card ng-star-inserted" style="height:200px">
                     <div class="body clearfix">
@@ -19,8 +19,8 @@
                 </div>
             </div>
         @endforeach
-    </div>
-@endforeach
+        </div>
+    @endforeach
 </div>
 <style>
     h4 {color:white;}

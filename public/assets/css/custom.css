@@ -12,3 +12,6 @@
 .multiselect{
     border: 1px solid #ced4da !important;
 }
+.nav-tabs-new2>li>a{
+    padding:7px 10px !important;
+}

@@ -4,7 +4,7 @@
         <table>
             <tbody>
                 <tr>
-                    <th>Site ID / Site Name </th>
+                    <th>Site </th>
                     <td> : {{isset($data->site->site_id) ? $data->site->site_id .'/'. $data->site->name : '' }}</td>
                 </tr>
                 <tr>

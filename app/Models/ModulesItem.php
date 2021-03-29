@@ -13,4 +13,9 @@ class ModulesItem extends Model
     {
         return $this->hasMany('\App\Models\ModulesItem','parent_id','id');
     }
+
+    public function client_project()
+    {
+        return $this->belongsTo(\App\Models\ClientProject::class);
+    }
 }

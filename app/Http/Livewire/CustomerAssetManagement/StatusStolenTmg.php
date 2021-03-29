@@ -7,7 +7,9 @@ use App\Models\CustomerAssetManagement;
 
 class StatusStolenTmg extends Component
 {
-    public $data,$confirm_stolen=false;
+    public $data;
+
+    protected $listeners = ['refresh-page'=>'$refresh'];
 
     public function render()
     {
@@ -32,7 +34,10 @@ class StatusStolenTmg extends Component
     {
         \LogActivity::add('Revisi Stolen TMG : '. $this->data->id);
 
-        $this->data->status = 3;
+        $this->data->status = 0;
+        $this->data->is_submit = 0;
+        $this->data->is_revisi = 1;
+        $this->data->is_stolen = 0;
         $this->data->save();
         $this->emit('refresh-page');
     }

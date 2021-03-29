@@ -15,30 +15,24 @@
                         <h6 class="mt-2"> @yield('title')</h6>
                     </div>
                     <div class="col-md-7">
-                        {{-- <input value="" class="form-control" placeholder="Search here..." type="text"> --}}
                         <select class="form-control" name="searching_menu">
                             <option value="">Searching...</option>
-                            @foreach(\App\Models\ClientProject::get() as $item)
-                            <option value="{{$item->id}}">{{$item->name}}</option>
-                                @foreach(\App\Models\Module::where(['client_project_id'=>$item->id])->get() as $module)
-                                <option value=""> - {{$module->name}}</option>
-                                    @foreach(\App\Models\ModulesItem::where(['module_id'=>$module->id,'type'=>1])->get() as $module_item)
-                                    <option value=""> -- {{$module_item->name}}</option>
-                                    @endforeach
+                            @foreach(get_menu(\Auth::user()->user_access_id) as $menu)
+                                <optgroup label="{{$menu['name']}}">
+                                @foreach($menu['sub_menu'] as $sub)
+                                <option value="{{$sub->id}}" data-link="{{Route::has($sub->link) ? route($sub->link) : ''}}">{{$sub->name}}</option>
                                 @endforeach
+                                </optgroup>
                             @endforeach
                         </select>
                     </div>
-                    {{-- <div class="col-md-1">
-                        <button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
-                    </div> --}}
                 </div>
             </form>
             <div id="navbar-menu">
                 <ul class="nav navbar-nav">
                     <li class="d-none d-sm-inline-block d-md-none d-lg-inline-block">
                         @if(\Auth::user()->name)
-                            {{\Auth::user()->name}} {{isset(\Auth::user()->access->name) ? ' ( '. \Auth::user()->access->name .' ) ' : ''}}
+                        {{\Auth::user()->name}} {{isset(\Auth::user()->access->name) ? ' ( '. \Auth::user()->access->name .' ) ' : ''}}
                         @endif
                     </li>
                     <li class="dropdown">
@@ -78,5 +72,12 @@
 </style>
 <script>
     $("select[name='searching_menu']").select2();
+    $("select[name='searching_menu']").on('select2:select', function (e) {
+        var link = $(this).find(':selected').data('link');
+        if(link!=""){
+            window.location.href = link;
+        }    
+    });
+
 </script>
 @endpush

@@ -53,7 +53,9 @@ class CustomerAssetManagementController extends Controller
 
     public function submit(Request $r)
     {
-        $param['status'] = $r->kapan_baterai_dilaporkan_hilang ? 1 : 4;
+        $param['is_stolen'] = $r->kapan_baterai_dilaporkan_hilang ? 1 : 0;
+        $param['is_submit'] = 1;
+        $param['status'] = 1;
         $param['tanggal_submission'] = date('Y-m-d');
         $param['apakah_di_site_ini_ada_battery'] = $r->apakah_di_site_ini_ada_battery;
         $param['berapa_unit'] = $r->berapa_unit;

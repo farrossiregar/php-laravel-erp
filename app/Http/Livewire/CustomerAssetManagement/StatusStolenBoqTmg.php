@@ -34,7 +34,7 @@ class StatusStolenBoqTmg extends Component
             $file = $this->data->id.'.'.$this->file->extension();
             $this->file->storePubliclyAs('public/customer-asset/boq',$file);
             $this->data->file_boq = $file;
-            $this->data->status = 4; // Checklist 
+            $this->data->status = 3; // Checklist 
             $this->data->save();
         }
 
