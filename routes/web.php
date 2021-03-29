@@ -80,10 +80,10 @@ Route::group(['middleware' => ['auth']], function(){
     // Route::get('site-tracking/approval',App\Http\Livewire\Sitetracking\Approval::class)->name('site-tracking.approval');
 
 
-    Route::get('po-tracking-nonms',App\Http\Livewire\PoTrackingNonMs\Index::class)->name('po-tracking-nonms.index');
-    Route::get('po-tracking-nonms/importboq',App\Http\Livewire\PoTrackingNonMs\Importboq::class)->name('po-tracking-nonms.importboq');
-    Route::get('po-tracking-nonms/importstp',App\Http\Livewire\PoTrackingNonMs\Importstp::class)->name('po-tracking-nonms.importstp');
-    Route::get('po-tracking-nonms/edit-stp/{id}',App\Http\Livewire\PoTrackingNonMs\Editstp::class)->name('po-tracking-nonms.edit-stp');
+    Route::get('po-tracking-nonms',App\Http\Livewire\PoTrackingNonms\Index::class)->name('po-tracking-nonms.index');
+    Route::get('po-tracking-nonms/importboq',App\Http\Livewire\PoTrackingNonms\Importboq::class)->name('po-tracking-nonms.importboq');
+    Route::get('po-tracking-nonms/importstp',App\Http\Livewire\PoTrackingNonms\Importstp::class)->name('po-tracking-nonms.importstp');
+    Route::get('po-tracking-nonms/edit-stp/{id}',App\Http\Livewire\PoTrackingNonms\Editstp::class)->name('po-tracking-nonms.edit-stp');
     
 
 
