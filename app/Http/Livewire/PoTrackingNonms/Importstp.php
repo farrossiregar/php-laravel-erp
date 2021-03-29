@@ -5,7 +5,10 @@ namespace App\Http\Livewire\PoTrackingNonms;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Auth;
+use DB;
 use \App\Models\PoTrackingNonms;
+use \App\Models\UserEpl;
+use \App\Models\Employee;
 
 class Importstp extends Component
 {
@@ -62,18 +65,23 @@ class Importstp extends Component
         $datamaster->updated_at     = date('Y-m-d H:i:s');
         $datamaster->save();
 
+        
+
         if(count($sheetDatas) > 0){
             $countLimit = 1;
             $total_failed = 0;
             $total_success = 0;
             foreach($sheetDatas as $key => $i){
+                $datamaster_latest = \App\Models\PoTrackingNonms::select('id')->orderBy('id', 'DESC')->first();
+                // dd($datamaster_latest->id);
                 if($key<11) continue; // skip header
                 if($key>12) break;
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
                 $potrackingstp                          = new \App\Models\PoTrackingNonmsStp();
                 if($i[0]!="") 
                 
-                $potrackingstp->id_po_nonms_master         = $datamaster->id;
+                
+                $potrackingstp->id_po_nonms_master         = $datamaster_latest->id;
                 $potrackingstp->material                   = $i[4];
                 $potrackingstp->item_code                  = $i[8];
                 $potrackingstp->qty                        = $i[9];
@@ -87,10 +95,38 @@ class Importstp extends Component
 
                 $total_success++;
             }
-            session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
-            
-            return redirect()->route('po-tracking-nonms.index');  
+           
         }
+
+        $user = \Auth::user();
+
+        $user = \Auth::user();
+        $region_user = DB::table('pmt.employees as employees')
+                                ->where('employees.user_access_id', '22')
+                                ->join('epl.region as region', 'region.id', '=', 'employees.region_id')
+                                ->where('region.region_code', $datamaster->region)->get();
+
+        // $epluser = UserEpl::select('name', 'phone', 'email')->where('region_cluster_id', $region_user[0]->region_id)->get();
+        $epluser = Employee::select('name', 'telepon', 'email')->where('region_id', $region_user[0]->region_id)->get();
+            
+        $nameuser = [];
+        $emailuser = [];
+        $phoneuser = [];
+        
+        foreach($epluser as $no => $itemuser){
+            $nameuser[$no] = $itemuser->name;
+            $emailuser[$no] = $itemuser->email;
+            $phoneuser[$no] = $itemuser->telepon;
+            $message = "*Dear Operation Region ".$datamaster->region." - ".$nameuser[$no]."*\n\n";
+            $message .= "*PO Tracking Non MS STP Region ".$datamaster->region." Uploaded on ".date('d M Y H:i:s')."*\n\n";
+            send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);   
+
+            // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
+        }
+
+        session()->flash('message-success',"Upload PO Tracking Non MS STP success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
+            
+        return redirect()->route('po-tracking-nonms.index');  
          
     }
 }

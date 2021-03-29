@@ -1,6 +1,11 @@
 @section('title', __('PO Tracking Non MS STP Detail'))
 @section('parentPageTitle', 'Home Detail')
 
+
+<?php
+    $user = \Auth::user();
+?>
+
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -34,31 +39,128 @@
                                     <th>Unit</th>                               
                                     <th>Price</th>                               
                                     <th>Input Price</th>                               
-                                    <th>%</th>                               
-                                    <th>Total Price</th>                               
-                                    <th>Action</th>           
+                                    <th>Profit (%)</th>                               
+                                    <th>Total Price</th>                                     
                                 </tr>
                                 @foreach($data as $key => $item)
                                 <?php
                                     $key = $key+1;
                                 ?>
                                 <tr>
-                                    <td>{{ $key + 1 }}</td>                               
+                                    <td>{{ $key }}</td>                               
                                     <td>{{ $item->material }}</td>                               
                                     <td>{{ $item->item_code }}</td>                               
                                     <td>{{ $item->qty }}</td>                               
                                     <td>{{ $item->unit }}</td>                               
-                                    <td>{{ $item->price }}</td>                               
-                                    <td>{{ $item->input_price }}</td>                               
-                                    <td>%</td>                               
-                                    <td>{{ $item->total_price }}</td>                               
+                                    <td>Rp {{ $item->price }}</td>                               
                                     <td>
-                                        <a href="javascript:;" wire:click="$emit('modalinputstpprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Price')}}</a>
-                                    </td>          
+                                        <?php
+                                            if($item->input_price == null || $item->input_price == ''){
+                                        ?>
+                                            <a href="javascript:;" wire:click="$emit('modalinputstpprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Price')}}</a>
+                                        <?php
+                                            }else{
+                                        ?>
+                                            <a href="javascript:;" wire:click="$emit('modalinputstpprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                        <?php
+                                            }
+                                        ?>
+                                        
+                                        Rp {{ $item->input_price }}
+                                    </td>                               
+                                    <td>
+                                        <?php
+                                            if($item->profit >= 30){
+                                                $color = 'success';
+                                            }else{
+                                                $color = 'danger';
+                                            }
+                                        ?>
+                                        <div class="btn btn-<?php echo $color; ?>">{{ $item->profit }}%</div>
+                                    </td>                               
+                                    <td>{{ $item->total_price }}</td>             
                                 </tr>
                                 @endforeach
                             </table>
                         </div>
+                    </div>
+                </div>
+
+                <!-- TOTAL -->
+                <br><br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped m-b-0 c_list">
+                                <tr>
+                                    <th>Total BOQ / STP Price</th>                               
+                                    <th>Total Price After Input</th>                               
+                                    <th>Total Profit After Input (%)</th>         
+                                </tr>
+
+                                <tr>
+                                    <td>Rp {{ $total_before[0]->price }}</td>                               
+                                    <td>Rp {{ $total_after[0]->input_price }}</td>                               
+                                    <td>{{ $total_profit }} %</td>    
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <?php
+                    if($user->user_access_id != '222'){ // PMG
+                ?>
+                <br><br><br>
+                <div class="row">
+                   <div class="col-md-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1" >
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Approve
+                            </label>
+                        </div>
+                        <br>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2" >
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Revise
+                            </label>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- <div href="#" class="btn btn-primary" onclick="approvesitelisttracking()"><i class="fa fa-search"></i>Submit</div> -->
+                        <div href="#" class="btn btn-primary"><i class="fa fa-search"></i>Submit</div>
+                    </div>
+                </div>
+                <?php
+                    }
+                ?>
+
+                <!--    Submit to Finance or PMG    -->
+                <?php
+                    if($user->user_access_id != '222'){ // Regional
+                ?>
+                <br><br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div href="#" class="btn btn-primary"><i class="fa fa-search"></i>Submit</div>
+                    </div>
+                </div>
+                <?php
+                    }
+                ?>
+                <!--    End Submit to Finance or PMG    -->
+
+
+
+                <br><br><br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div href="#" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Return</div>
                     </div>
                 </div>
             </div>
@@ -73,7 +175,7 @@
 <div class="modal fade" id="modal-pononmsstp-priceinput" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:po-tracking.importesar />
+            <livewire:po-tracking-nonms.inputprice />
         </div>
     </div>
 </div>
