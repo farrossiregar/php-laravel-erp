@@ -58,7 +58,7 @@ class Importstp extends Component
         $datamaster->site_id        = $site_id;
         $datamaster->site_name      = $site_name;
         $datamaster->no_tt          = substr($sheetData->getCell('F6')->getValue(), 2);
-        $datamaster->status         = 'Status';
+        $datamaster->status         = '';
         $datamaster->type_doc       = '1'; //STP
         $datamaster->pekerjaan      = substr($sheetData->getCell('F7')->getValue(), 2);
         $datamaster->created_at     = date('Y-m-d H:i:s');

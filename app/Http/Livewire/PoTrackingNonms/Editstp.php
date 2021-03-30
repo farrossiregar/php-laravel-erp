@@ -11,7 +11,7 @@ use DB;
 
 class Editstp extends Component
 {
-    public $data, $total_before, $total_after, $total_profit;
+    public $data, $total_before, $total_after, $total_profit, $id_master;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     
@@ -30,7 +30,14 @@ class Editstp extends Component
         $total_before = $total_before[0]->price;
         $total_after = json_decode($this->total_after);
         $total_after = $total_after[0]->input_price;
-        $total_profit = 100 - round(($total_before / $total_after) * 100);
+        if($total_before && $total_after){
+            $total_profit = 100 - round(($total_before / $total_after) * 100);
+        }else{
+            $total_profit = '100';
+        }
+
+        $id_master = $this->id;
+        
 
 
         // return view('livewire.po-tracking-nonms.edit-stp')->with(['data'=>$data->paginate(50)]);
@@ -52,6 +59,8 @@ class Editstp extends Component
                                                 ->select(DB::raw("SUM(input_price) as input_price"))    
                                                 ->groupBy('id_po_nonms_master')  
                                                 ->get();  
+        
+        $this->id = $id;
         
     }
 

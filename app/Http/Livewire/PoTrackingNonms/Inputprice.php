@@ -45,8 +45,8 @@ class Inputprice extends Component
         //     $data->save();
         // }
 
-        session()->flash('message-success',"Upload Bast PO No ".$this->selected_id." success");
+        session()->flash('message-success',"Price updated success");
         
-        return redirect()->route('po-tracking-nonms.index');
+        return redirect()->route('po-tracking-nonms.edit-stp',['id'=>$data->id_po_nonms_master]);
     }
 }

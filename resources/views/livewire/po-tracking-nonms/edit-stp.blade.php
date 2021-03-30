@@ -78,7 +78,12 @@
                                         ?>
                                         <div class="btn btn-<?php echo $color; ?>">{{ $item->profit }}%</div>
                                     </td>                               
-                                    <td>{{ $item->total_price }}</td>             
+                                    <!-- <td>{{ $item->total_price }}</td>              -->
+                                    <td>
+                                        <?php
+                                            echo 'Rp '. $item->qty * $item->price;
+                                        ?>
+                                    </td>             
                                 </tr>
                                 @endforeach
                             </table>
@@ -112,28 +117,10 @@
                     if($user->user_access_id != '222'){ // PMG
                 ?>
                 <br><br><br>
-                <div class="row">
-                   <div class="col-md-12">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1" >
-                            <label class="form-check-label" for="flexRadioDefault1">
-                                Approve
-                            </label>
-                        </div>
-                        <br>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2" >
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                Revise
-                            </label>
-                        </div>
-                        <br>
-                    </div>
-                </div>
+
                 <div class="row">
                     <div class="col-md-12">
-                        <!-- <div href="#" class="btn btn-primary" onclick="approvesitelisttracking()"><i class="fa fa-search"></i>Submit</div> -->
-                        <div href="#" class="btn btn-primary"><i class="fa fa-search"></i>Submit</div>
+                        <a href="javascript:;" wire:click="$emit('modalapprovepononms','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-approve" title="Upload" class="btn btn-primary"> {{__('Approve')}}</a>
                     </div>
                 </div>
                 <?php
@@ -147,7 +134,8 @@
                 <br><br>
                 <div class="row">
                     <div class="col-md-12">
-                        <div href="#" class="btn btn-primary"><i class="fa fa-search"></i>Submit</div>
+                        <a href="javascript:;" wire:click="$emit('modalsubmitdocpononms','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-submit" title="Upload" class="btn btn-primary"> {{__('Submit')}}</a>
+                        <!-- <a href="#" data-toggle="modal" data-target="#modal-potrackingnonms-submit" title="Submit" class="btn btn-primary"> {{__('Submit')}}</a> -->
                     </div>
                 </div>
                 <?php
@@ -160,7 +148,9 @@
                 <br><br><br>
                 <div class="row">
                     <div class="col-md-12">
-                        <div href="#" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Return</div>
+                        <a href="{{route('po-tracking-nonms.index')}}">
+                            <div class="btn btn-danger"><i class="fa fa-arrow-left"></i> Return</div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -183,11 +173,45 @@
 
 <!--    END MODAL INPUT PRICE STP        -->
 
+
+<!--    MODAL SUBMIT DOCUMENT      -->
+<div class="modal fade" id="modal-potrackingnonms-submit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-nonms.submitdoc />
+        </div>
+    </div>
+</div>
+
+
+<!--    END MODAL MODAL SUBMIT DOCUMENT        -->
+
+
+<!--    MODAL APPROVE DOCUMENT PMG      -->
+<div class="modal fade" id="modal-potrackingnonms-approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-nonms.approvedocpmg />
+        </div>
+    </div>
+</div>
+
+
+<!--    END MODAL APPROVE DOCUMENT PMG        -->
+
 @push('after-scripts')
 <script>
     Livewire.on('modalinputstpprice',(data)=>{
         console.log(data);
         $("#modal-pononmsstp-priceinput").modal('show');
+    });
+
+    Livewire.on('modalsubmitdocpononms',(data)=>{
+        $("#modal-potrackingnonms-submit").modal('show');
+    });
+
+    Livewire.on('modalapprovepononms',(data)=>{
+        $("#modal-potrackingnonms-approve").modal('show');
     });
 </script>
 @endpush
