@@ -48,6 +48,8 @@
                                         <th>Region</th>    
                                         <th>Status</th>    
                                         <th>Note from PMG</th>    
+                                        <th>Bast Status</th>
+                                        <th>Note Bast from E2E</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -91,8 +93,25 @@
                                             ?>   
                                             <div class="btn btn-<?php echo $statustype; ?>"> <?php echo $status; ?> </div>
                                         </td>    
-                                        <td>{{ $item->region }}</td>    
-                                        
+                                        <td>{{ $item->status_note }}</td>    
+                                        <td>
+                                            <?php
+                                                if($item->bast_status == '' || $item->bast_status == null){
+                                                    $status =  "Waiting Approved Bast E2E";
+                                                    $statustype =  "warning";
+                                                }else{
+                                                    if($item->bast_status == '1'){
+                                                        $status =  "Approved";
+                                                        $statustype =  "success";
+                                                    }else{
+                                                        $status =  "Revise";
+                                                        $statustype =  "danger";
+                                                    }
+                                                }
+                                            ?>   
+                                            <div class="btn btn-<?php echo $statustype; ?>"> <?php echo $status; ?> </div>
+                                        </td>
+                                        <td>{{ $item->bast_status_note }}</td>
                                         <td>
                                             <?php
                                                 if($item->type_doc == 1){
@@ -107,24 +126,26 @@
                                                 if($user->user_access_id == '22' && ($item->po_no != null || $item->po_no != '')){ // Regional user access id 22
                                             ?>
                                             <!--    Start Regional Upload Bast    -->
-                                            <!-- <a href="{{route('po-tracking-nonms.edit-stp',['id'=>$item->id])}}"><button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Import Bast </button></a> -->
                                             <a href="javascript:;" wire:click="$emit('modalimportbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importbast" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Bast')}}</a>
                                             <!--    End Regional Upload Bast    -->
+                                            
                                             <?php
                                                 }
                                             ?>
 
 
                                             <?php
-                                                if($user->user_access_id != '20'){ // E2E
+                                                if($user->user_access_id == '20'){ // E2E
                                             ?>
+                                            <!--    Start E2E Revise Bast to Regional   -->
+                                            <a href="javascript:;" wire:click="$emit('modalrevisebast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-revisebast" title="Upload" class="btn btn-danger"><i class="fa fa-edit"></i> {{__('Revise Bast')}}</a>
+                                            <!--    End E2E Revise Bast to Regional    -->
+
                                             <!--    Start E2E Upload Approved Bast    -->
-                                            <!-- <a href="{{route('po-tracking-nonms.edit-stp',['id'=>$item->id])}}"><button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Import Approved Bast </button></a> -->
                                             <a href="javascript:;" wire:click="$emit('modalimportapprovedbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importapprovedbast" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved Bast')}}</a>
                                             <!--    End E2E Upload Approved Bast    -->
                                            
                                             <!--    Start E2E Upload GR    -->
-                                            <!-- <a href="{{route('po-tracking-nonms.edit-stp',['id'=>$item->id])}}"><button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Import GR Customer </button></a> -->
                                             <a href="javascript:;" wire:click="$emit('modalimportgrcust','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importgrcust" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import GR Customer')}}</a>
                                             <!--    End E2E Upload GR    -->
                                             <?php
@@ -132,10 +153,9 @@
                                             ?>
 
                                             <?php
-                                                if($user->user_access_id != '2'){ // Finance
+                                                if($user->user_access_id == '2'){ // Finance
                                             ?>
                                             <!--    Start Finance Upload Huawei Acceptance Docs    -->
-                                            <!-- <a href="{{route('po-tracking-nonms.edit-stp',['id'=>$item->id])}}"><button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Import Huawei Acceptance Docs </button></a> -->
                                             <a href="javascript:;" wire:click="$emit('modalimportaccdoc','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importaccdoc" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Huawei Acceptance Docs')}}</a>
                                             <!--    End Finance Upload Huawei Acceptance Docs    -->
                                             <?php
@@ -206,6 +226,19 @@
 <!--    MODAL PO NON MS IMPORT BAST      -->
 
 
+<!--    MODAL REVISE BAST TO REGIONAL      -->
+<div class="modal fade" id="modal-potrackingnonms-revisebast" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-nonms.revisebast />
+        </div>
+    </div>
+</div>
+
+
+<!--    END MODAL REVISE BAST TO REGIONAL        -->
+
+
 <!--    MODAL PO NON MS IMPORT APPROVED BAST      -->
 <div class="modal fade" id="modal-potrackingnonms-importapprovedbast" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -267,6 +300,11 @@ Livewire.on('sitetracking-upload',()=>{
     Livewire.on('modalimportbast',(data)=>{
         console.log(data);
         $("#modal-potrackingstp-upload").modal('show');
+    });
+
+    Livewire.on('modalrevisebast',(data)=>{
+        console.log(data);
+        $("#modal-potrackingnonms-revisebast").modal('show');
     });
 
     Livewire.on('modalimportapprovedbast',(data)=>{

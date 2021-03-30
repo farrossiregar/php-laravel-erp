@@ -7,10 +7,10 @@ use Livewire\WithFileUploads;
 use Auth;
 use DB;
 
-class Approvedocpmg extends Component
+class Revisebast extends Component
 {
     protected $listeners = [
-        'modalapprovepononms'=>'dataapprovedocpmg',
+        'modalrevisebast'=>'datarevisebast',
     ];
 
     use WithFileUploads;
@@ -23,10 +23,10 @@ class Approvedocpmg extends Component
 
         
 
-        return view('livewire.po-tracking-nonms.approvedocpmg');
+        return view('livewire.po-tracking-nonms.revisebast');
     }
 
-    public function dataapprovedocpmg($id)
+    public function datarevisebast($id)
     {
         $this->selected_id = $id;
     }
@@ -38,16 +38,11 @@ class Approvedocpmg extends Component
 
         $data = \App\Models\PoTrackingNonms::where('id', $this->selected_id)->first();
 
-        if($status == '1'){
-            $status_text = 'Approved';
-            $status_type = 'success';
-            $data->status = $status;
-        }else{
-            $status_text = 'Rejected';
-            $status_type = 'danger';
-            $data->status = $status;
-        }
-        $data->status_note = $this->note;
+        
+        $data->bast_status = '2';
+        $status_text = 'Revise';
+        $status_type = 'danger';
+        $data->bast_status_note = $this->note;
 
         $data->save();
 
@@ -78,7 +73,7 @@ class Approvedocpmg extends Component
         //     // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
         // }
 
-        session()->flash('message-'.$status_type,"Success!, PO Tracking Non MS is ".$status_text);
+        session()->flash('message-'.$status_type,"Success!, PO Tracking Non MS Uploaded Bast is ".$status_text);
         
         return redirect()->route('po-tracking-nonms.index');
     }

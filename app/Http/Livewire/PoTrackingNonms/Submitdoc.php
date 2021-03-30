@@ -34,10 +34,31 @@ class Submitdoc extends Component
         $status = $this->status;
         $user = \Auth::user();
 
-        $data = \App\Models\PoTrackingNonmsMaster::where('po_no', $this->selected_id)->first();
-        $data->po_no = $this->po_no;
-
+        $data = \App\Models\PoTrackingNonms::where('id_po_nonms_master', $this->selected_id)->get();
+        // $data->po_no = $this->po_no;
         $data->save();
+
+        if($data->type_doc == '1'){
+            $cekprofit = \App\Models\PoTrackingNonmsStp::where('id_po_nonms_master', $this->selected_id)
+                                                        ->where('profit', '<', '30')
+                                                        ->get();
+        }else{
+            $cekprofit = \App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master', $this->selected_id)
+                                                        ->where('profit', '<', '30')
+                                                        ->get();
+        }
+        
+        if(count($cekprofit) > 0){ // submit to PMG
+            $target_user = 'PMG';
+            $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
+                            ->where('employees.user_access_id', '22')->get();
+        }else{ // submit to Finance
+            $target_user = 'Finance';
+            $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
+                            ->where('employees.user_access_id', '2')->get();
+        }
+
+        
 
         // $region_pono = \App\Models\PoTrackingReimbursement::where('po_no', $this->selected_id)->take(1)->get();
 
@@ -47,22 +68,22 @@ class Submitdoc extends Component
         //                     ->where('region.region_code', $region_pono[0]->bidding_area)->get();
         
 
-        // $nameuser = [];
-        // $emailuser = [];
-        // $phoneuser = [];
-        // foreach($notif_user as $no => $itemuser){
-        //     $nameuser[$no] = $itemuser->name;
-        //     $emailuser[$no] = $itemuser->email;
-        //     $phoneuser[$no] = $itemuser->telepon;
+        $nameuser = [];
+        $emailuser = [];
+        $phoneuser = [];
+        foreach($notif_user as $no => $itemuser){
+            $nameuser[$no] = $itemuser->name;
+            $emailuser[$no] = $itemuser->email;
+            $phoneuser[$no] = $itemuser->telepon;
 
-        //     $message = "*Dear Operation Region ".$region_pono[0]->bidding_area." - ".$nameuser[$no]."*\n\n";
-        //     $message .= "*Bast dengan PO No ".$this->selected_id." status = ".$status_text." pada ".date('d M Y H:i:s')."*\n\n";
-        //     send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);   
+            $message = "*Dear ".$target_user." - ".$nameuser[$no]."*\n\n";
+            $message .= "*PO Tracking Non MS status = ".$status_text." pada ".date('d M Y H:i:s')."*\n\n";
+            send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);   
 
-        //     // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
-        // }
+            // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
+        }
 
-        session()->flash('message-success',"PO No updated success");
+        session()->flash('message-success',"Success!, PO Tracking Non MS Submitted to ".$target_user);
         
         return redirect()->route('po-tracking-nonms.index');
     }

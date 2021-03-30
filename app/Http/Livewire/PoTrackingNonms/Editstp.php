@@ -61,6 +61,7 @@ class Editstp extends Component
                                                 ->get();  
         
         $this->id = $id;
+        $this->id_master = $id;
         
     }
 
