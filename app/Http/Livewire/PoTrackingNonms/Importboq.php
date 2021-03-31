@@ -5,6 +5,10 @@ namespace App\Http\Livewire\PoTrackingNonms;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Auth;
+use DB;
+use \App\Models\PoTrackingNonms;
+use \App\Models\UserEpl;
+use \App\Models\Employee;
 
 class Importboq extends Component
 {
@@ -35,60 +39,92 @@ class Importboq extends Component
             'file'=>'required|mimes:xls,xlsx|max:51200' // 50MB maksimal
         ]);
 
-        $path = $this->file->getRealPath();
+        $path           = $this->file->getRealPath();
        
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-        $data = $reader->load($path);
-        $sheetData = $data->getActiveSheet()->toArray();
+        $reader         = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        $data           = $reader->load($path);
+        $sheetDatas     = $data->getActiveSheet()->toArray();
+        $sheetData      = $data->getActiveSheet();
+
+        // $site_exp       = explode(" / ", substr($sheetData->getCell('F3')->getValue(), 2));
+
+        // $site_id        = $sheetData->getCell('F3')->getValue();
+        // $site_name      = $site_exp[1];
 
         $datamaster                 = new \App\Models\PoTrackingNonms();
         $datamaster->po_no          = '';
-        $datamaster->region         = 'Region';
-        $datamaster->site_id        = 'Site ID';
-        $datamaster->site_name      = 'Site Name';
-        $datamaster->no_tt          = 'No TT';
-        $datamaster->status         = 'Status';
-        $datamaster->pekerjaan      = 'Jenis Pekerjaan';
+        $datamaster->region         = $sheetData->getCell('D7')->getValue();
+        $datamaster->site_id        = '';
+        $datamaster->site_name      = '';
+        $datamaster->no_tt          = $sheetData->getCell('D6')->getValue();
+        $datamaster->status         = '';
+        $datamaster->type_doc       = '2'; //BOQ
+        $datamaster->pekerjaan      = $sheetData->getCell('D11')->getValue();
         $datamaster->created_at     = date('Y-m-d H:i:s');
         $datamaster->updated_at     = date('Y-m-d H:i:s');
         $datamaster->save();
 
-        // if(count($sheetData) > 0){
-        //     $countLimit = 1;
-        //     $total_failed = 0;
-        //     $total_success = 0;
-        //     foreach($sheetData as $key => $i){
-        //         if($key<1) continue; // skip header
+        if(count($sheetDatas) > 0){
+            $countLimit = 1;
+            $total_failed = 0;
+            $total_success = 0;
+            foreach($sheetDatas as $key => $i){
+                $datamaster_latest = \App\Models\PoTrackingNonms::select('id')->orderBy('id', 'DESC')->first();
                 
-        //         foreach($i as $k=>$a){ $i[$k] = trim($a); }
-        //         $datapo = new \App\Models\PoTrackingReimbursement();
-        //         if($i[0]!="") 
+                if($key<13) continue; // skip header
+                if($key>14) break;
+                foreach($i as $k=>$a){ $i[$k] = trim($a); }
+                $potrackingboq                          = new \App\Models\PoTrackingNonmsBoq();
+                if($i[0]!="") 
                 
-        //         $datapo->id_po_tracking_master                   = $datamaster->id;
-        //         $datapo->po_reimbursement_id                     = $i[0];
-        //         $datapo->change_history                          = $i[1];
-        //         $datapo->rep_office                              = $i[2];
-        //         $datapo->customer                                = $i[3];
-        //         $datapo->project_name                            = $i[4];
-        //         $datapo->project_code                            = $i[5];
-        //         $datapo->site_id                                 = $i[6];
-      
-        //         $datapo->start_date                              = @date_format(date_create($i[22]), 'Y-m-d');
-        //         $datapo->end_date                                = @date_format(date_create($i[22]), 'Y-m-d');
-           
-        //         $datapo->publish_date                            = @date_format(date_create($i[42]), 'Y-m-d H:i:s');
-        //         $datapo->acceptance_date                         = @date_format(date_create($i[43]), 'Y-m-d');
-     
-        //         $datapo->created_at                              = date('Y-m-d H:i:s');
-        //         $datapo->updated_at                              = date('Y-m-d H:i:s');
-        //         $datapo->save();
-                
+                $potrackingboq->id_po_nonms_master         = $datamaster_latest->id;
+                $potrackingboq->site_id                    = $i[4];
+                $potrackingboq->site_name                  = $i[5];
+                $potrackingboq->item_description           = $i[6];
+                $potrackingboq->uom                        = $i[7];
+                $potrackingboq->qty                        = $i[8];
+                $potrackingboq->supplier                   = $i[9];
+                $potrackingboq->region                     = $i[10];
+                $potrackingboq->remark                     = $i[11];
+                $potrackingboq->reff                       = $i[12];
+                $potrackingboq->price                      = $i[13];
+                $potrackingboq->total_price                = $i[14];
 
-        //         $total_success++;
-        //     }
-        // }
-        // session()->flash('message-success',"Upload PO Tracking Non MS Document STP success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
+                $potrackingboq->created_at                 = date('Y-m-d H:i:s');
+                $potrackingboq->updated_at                 = date('Y-m-d H:i:s');
+                $potrackingboq->save();
+
+                $total_success++;
+            }
+           
+        }
+
+
+        // $user = \Auth::user();
+        // $region_user = DB::table('pmt.employees as employees')
+        //                         ->where('employees.user_access_id', '22')
+        //                         ->join('epl.region as region', 'region.id', '=', 'employees.region_id')
+        //                         ->where('region.region_code', $datamaster->region)->get();
+
+        // $epluser = Employee::select('name', 'telepon', 'email')->where('region_id', $region_user[0]->region_id)->get();
+            
+        // $nameuser = [];
+        // $emailuser = [];
+        // $phoneuser = [];
         
+        // foreach($epluser as $no => $itemuser){
+        //     $nameuser[$no] = $itemuser->name;
+        //     $emailuser[$no] = $itemuser->email;
+        //     $phoneuser[$no] = $itemuser->telepon;
+        //     $message = "*Dear Operation Region ".$datamaster->region." - ".$nameuser[$no]."*\n\n";
+        //     $message .= "*PO Tracking Non MS BOQ Region ".$datamaster->region." Uploaded on ".date('d M Y H:i:s')."*\n\n";
+        //     send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);   
+
+        //     // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
+        // }
+
+        session()->flash('message-success',"Upload PO Tracking Non MS BOQ success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
+         
         return redirect()->route('po-tracking-nonms.index');   
     }
 }

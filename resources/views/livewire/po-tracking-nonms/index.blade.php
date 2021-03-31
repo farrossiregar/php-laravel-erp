@@ -22,7 +22,7 @@
                         </div>
                         
                         <?php
-                            if($user->user_access_id != '20'){ // E2E user access id 20
+                            if($user->user_access_id == '20'){ // E2E user access id 20
                         ?>
                         <div class="col-md-2">
                             <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking BOQ')}}</a>
@@ -116,11 +116,13 @@
                                             <?php
                                                 if($item->type_doc == 1){
                                                     $type_doc =  "STP";
+                                                    $url_doc = route('po-tracking-nonms.edit-stp',['id'=>$item->id]);
                                                 }else{
                                                     $type_doc =  "BOQ";
+                                                    $url_doc = route('po-tracking-nonms.edit-boq',['id'=>$item->id]);
                                                 }
                                             ?>   
-                                            <a href="{{route('po-tracking-nonms.edit-stp',['id'=>$item->id])}}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview PO Non MS <?php echo $type_doc; ?> </button></a>
+                                            <a href="<?php echo $url_doc; ?>"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview PO Non MS <?php echo $type_doc; ?> </button></a>
 
                                             <?php
                                                 if($user->user_access_id == '22' && ($item->po_no != null || $item->po_no != '')){ // Regional user access id 22
@@ -137,16 +139,20 @@
                                             <?php
                                                 if($user->user_access_id == '20'){ // E2E
                                             ?>
+                                            <!--    Start E2E Preview Bast   -->
+                                            <a href="{{ route('po-tracking-nonms.edit-bast',['id'=>$item->id]) }}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview PO Non MS Bast </button></a>
+                                            <!--    End E2E Preview Bast    -->
+                                            
                                             <!--    Start E2E Revise Bast to Regional   -->
-                                            <a href="javascript:;" wire:click="$emit('modalrevisebast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-revisebast" title="Upload" class="btn btn-danger"><i class="fa fa-edit"></i> {{__('Revise Bast')}}</a>
+                                            <!-- <a href="javascript:;" wire:click="$emit('modalrevisebast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-revisebast" title="Upload" class="btn btn-danger"><i class="fa fa-edit"></i> {{__('Revise Bast')}}</a> -->
                                             <!--    End E2E Revise Bast to Regional    -->
 
                                             <!--    Start E2E Upload Approved Bast    -->
-                                            <a href="javascript:;" wire:click="$emit('modalimportapprovedbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importapprovedbast" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved Bast')}}</a>
+                                            <!-- <a href="javascript:;" wire:click="$emit('modalimportapprovedbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importapprovedbast" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved Bast')}}</a> -->
                                             <!--    End E2E Upload Approved Bast    -->
                                            
                                             <!--    Start E2E Upload GR    -->
-                                            <a href="javascript:;" wire:click="$emit('modalimportgrcust','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importgrcust" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import GR Customer')}}</a>
+                                            <!-- <a href="javascript:;" wire:click="$emit('modalimportgrcust','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importgrcust" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import GR Customer')}}</a> -->
                                             <!--    End E2E Upload GR    -->
                                             <?php
                                                 }

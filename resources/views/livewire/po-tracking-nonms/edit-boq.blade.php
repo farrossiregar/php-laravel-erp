@@ -1,4 +1,4 @@
-@section('title', __('PO Tracking Non MS STP Detail'))
+@section('title', __('PO Tracking Non MS BOQ Detail'))
 @section('parentPageTitle', 'Home Detail')
 
 
@@ -11,11 +11,10 @@
         <div class="card">
             <div class="header row">
                 <div class="col-md-12">
-                    <b><h5>PO Tracking Non MS STP</h5></b> 
+                    <b><h5>PO Tracking Non MS BOQ</h5></b> 
                     <!-- <a href="#" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking ESAR')}}</a> -->
                     <br>
                 </div>
-                
             </div>
             <div class="body pt-0">
                 <div class="row">
@@ -24,10 +23,17 @@
                             <table class="table table-striped m-b-0 c_list">
                                 <tr>
                                     <th>No</th>                               
-                                    <th>Material</th>                               
+                                    <th>Project Code</th>                               
                                     <th>Item Code</th>                               
+                                    <th>Site Id</th>                               
+                                    <th>Site Name</th>                               
+                                    <th>Item Description</th>                               
+                                    <th>UOM</th>                               
                                     <th>Quantity</th>                               
-                                    <th>Unit</th>                               
+                                    <th>Supplier</th>                               
+                                    <th>Region</th>                               
+                                    <th>Remark</th>                               
+                                    <th>Reff</th>                                
                                     <th>Price</th>                               
                                     <th>Input Price</th>                               
                                     <th>Profit (%)</th>                               
@@ -39,26 +45,33 @@
                                 ?>
                                 <tr>
                                     <td>{{ $key }}</td>                               
-                                    <td>{{ $item->material }}</td>                               
+                                    <td>{{ $item->project }}</td>                               
                                     <td>{{ $item->item_code }}</td>                               
+                                    <td>{{ $item->site_id }}</td>                               
+                                    <td>{{ $item->site_name }}</td>                               
+                                    <td>{{ $item->item_description }}</td>                               
+                                    <td>{{ $item->uom }}</td>                               
                                     <td>{{ $item->qty }}</td>                               
-                                    <td>{{ $item->unit }}</td>                               
+                                    <td>{{ $item->supplier }}</td>                               
+                                    <td>{{ $item->region }}</td>                               
+                                    <td>{{ $item->remark }}</td>                               
+                                    <td>{{ $item->reff }}</td>                               
                                     <td>Rp {{ $item->price }}</td>                               
                                     <td>
                                         <?php
                                             if($item->input_price == null || $item->input_price == ''){
                                         ?>
-                                            <a href="javascript:;" wire:click="$emit('modalinputstpprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Price')}}</a>
+                                            <a href="javascript:;" wire:click="$emit('modalinputboqprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-inputprice" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Price')}}</a>
                                         <?php
                                             }else{
                                         ?>
-                                            <a href="javascript:;" wire:click="$emit('modalinputstpprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            <a href="javascript:;" wire:click="$emit('modalinputboqprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-inputprice" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         <?php
                                             }
                                         ?>
                                         
                                         Rp {{ $item->input_price }}
-                                    </td>                               
+                                    </td>                                                             
                                     <td>
                                         <?php
                                             if($item->profit >= 30){
@@ -68,7 +81,9 @@
                                             }
                                         ?>
                                         <div class="btn btn-<?php echo $color; ?>">{{ $item->profit }}%</div>
-                                    </td>                               
+                                    </td>                                   
+                                                             
+                                                              
                                     <!-- <td>{{ $item->total_price }}</td>              -->
                                     <td>
                                         <?php
@@ -89,7 +104,7 @@
                         <div class="table-responsive">
                             <table class="table table-striped m-b-0 c_list">
                                 <tr>
-                                    <th>Total STP Price</th>                               
+                                    <th>Total BOQ Price</th>                               
                                     <th>Total Price After Input</th>                               
                                     <th>Total Profit After Input (%)</th>         
                                 </tr>
@@ -105,7 +120,7 @@
                 </div>
                 
                 <br><br><br>
-                <!--    Approve STP by PMG   -->
+                <!--    Approve BOQ by PMG   -->
                 @if($user->user_access_id == '20')
                     @if($status == '3')
                         <div class="row">
@@ -133,10 +148,13 @@
                         <div class="btn btn-warning"> Waiting Approval</div>
                     @endif
                 @endif
-                <!--    End Approve STP by PMG   -->
+                <!--    End Approve BOQ by PMG   -->
+
+                
+                
 
 
-                <!--    Submit to Finance or PMG by E2E    -->
+                <!--    Submit to Finance or PMG by E2E   -->
                 @if($user->user_access_id == '20')
                     @if($status[0]->status == '0' || $status[0]->status == '' || $status[0]->status == null)
                         <br><br>
@@ -148,7 +166,6 @@
                         </div>
                     @endif
                 @endif
-                
                 <!--    End Submit to Finance or PMG    -->
 
 
@@ -169,17 +186,17 @@
 
 
 
-<!--    MODAL INPUT PRICE STP      -->
-<div class="modal fade" id="modal-pononmsstp-priceinput" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--    MODAL INPUT PRICE BOQ      -->
+<div class="modal fade" id="modal-pononmsboq-priceinput" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:po-tracking-nonms.inputpricestp />
+            <livewire:po-tracking-nonms.inputpriceboq />
         </div>
     </div>
 </div>
 
 
-<!--    END MODAL INPUT PRICE STP        -->
+<!--    END MODAL INPUT PRICE BOQ        -->
 
 
 <!--    MODAL SUBMIT DOCUMENT      -->
@@ -209,9 +226,9 @@
 
 @push('after-scripts')
 <script>
-    Livewire.on('modalinputstpprice',(data)=>{
+    Livewire.on('modalinputboqprice',(data)=>{
         console.log(data);
-        $("#modal-pononmsstp-priceinput").modal('show');
+        $("#modal-pononmsboq-priceinput").modal('show');
     });
 
     Livewire.on('modalsubmitdocpononms',(data)=>{

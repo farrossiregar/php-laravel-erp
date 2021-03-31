@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Auth;
 
-class Inputprice extends Component
+class Inputpricestp extends Component
 {
     protected $listeners = [
         'modalinputstpprice'=>'inputPrice',
@@ -19,7 +19,7 @@ class Inputprice extends Component
     
     public function render()
     {
-        return view('livewire.po-tracking-nonms.inputprice');
+        return view('livewire.po-tracking-nonms.inputpricestp');
     }
 
     public function inputPrice($id)

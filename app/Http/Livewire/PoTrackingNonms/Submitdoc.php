@@ -10,7 +10,7 @@ use DB;
 class Submitdoc extends Component
 {
     protected $listeners = [
-        'modalapprovepononms'=>'dataapprovedocpmg',
+        'modalsubmitdocpononms'=>'datasubmitdoc',
     ];
 
     use WithFileUploads;
@@ -24,7 +24,7 @@ class Submitdoc extends Component
         return view('livewire.po-tracking-nonms.submitdoc');
     }
 
-    public function dataapprovedocpmg($id)
+    public function datasubmitdoc($id)
     {
         $this->selected_id = $id;
     }
@@ -34,40 +34,57 @@ class Submitdoc extends Component
         $status = $this->status;
         $user = \Auth::user();
 
-        $data = \App\Models\PoTrackingNonms::where('id_po_nonms_master', $this->selected_id)->get();
-        // $data->po_no = $this->po_no;
-        $data->save();
-
+        $data = \App\Models\PoTrackingNonms::where('id', $this->selected_id)->first();
+        
         if($data->type_doc == '1'){
+            $typedoc = 'STP';
             $cekprofit = \App\Models\PoTrackingNonmsStp::where('id_po_nonms_master', $this->selected_id)
                                                         ->where('profit', '<', '30')
                                                         ->get();
+
+            if(count($cekprofit) > 0){ // submit to PMG
+                $target_user = 'PMG';
+                $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
+                                ->where('employees.user_access_id', '22')->get();
+
+                $data->status = '3';
+                $data->save();
+            }else{ // submit to Finance
+                $target_user = 'Finance';
+                $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
+                                ->where('employees.user_access_id', '2')->get();
+
+                $data->status = '1';
+                $data->save();
+            }
         }else{
+            $typedoc = 'BOQ';
             $cekprofit = \App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master', $this->selected_id)
                                                         ->where('profit', '<', '30')
                                                         ->get();
+
+            if(count($cekprofit) > 0){ // submit to PMG
+                $target_user = 'PMG';
+                $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
+                                ->where('employees.user_access_id', '22')->get();
+
+                $data->status = '3';
+                $data->save();
+            }else{ // submit to Finance
+                $target_user = 'Finance';
+                $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
+                                ->where('employees.user_access_id', '2')->get();
+
+                $data->status = '1';
+                $data->save();
+            }
         }
         
-        if(count($cekprofit) > 0){ // submit to PMG
-            $target_user = 'PMG';
-            $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
-                            ->where('employees.user_access_id', '22')->get();
-        }else{ // submit to Finance
-            $target_user = 'Finance';
-            $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
-                            ->where('employees.user_access_id', '2')->get();
-        }
-
         
-
-        // $region_pono = \App\Models\PoTrackingReimbursement::where('po_no', $this->selected_id)->take(1)->get();
-
-        // $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
-        //                     ->where('employees.user_access_id', '22')
-        //                     ->join(env('DB_DATABASE_EPL_PMT').'.region as region', 'region.id', '=', 'employees.region_id')
-        //                     ->where('region.region_code', $region_pono[0]->bidding_area)->get();
+        $message = "*Dear ".$target_user." - Farros Siregar*\n\n";
+        $message .= "*PO Tracking Non MS ".$typedoc." pada ".date('d M Y H:i:s')."*\n\n";
+        send_wa(['phone'=> '087871200923','message'=>$message]);
         
-
         $nameuser = [];
         $emailuser = [];
         $phoneuser = [];
@@ -77,8 +94,8 @@ class Submitdoc extends Component
             $phoneuser[$no] = $itemuser->telepon;
 
             $message = "*Dear ".$target_user." - ".$nameuser[$no]."*\n\n";
-            $message .= "*PO Tracking Non MS status = ".$status_text." pada ".date('d M Y H:i:s')."*\n\n";
-            send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);   
+            $message .= "*PO Tracking Non MS ".$typedoc." pada ".date('d M Y H:i:s')."*\n\n";
+            send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
 
             // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
         }
