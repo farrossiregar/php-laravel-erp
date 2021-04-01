@@ -28,10 +28,12 @@
                                     <th>Item Code</th>                               
                                     <th>Quantity</th>                               
                                     <th>Unit</th>                               
-                                    <th>Price</th>                               
-                                    <th>Input Price</th>                               
+                                    <th>Price</th>   
+                                    <th>Total Price</th>                              
+                                    <th>Input Price</th>      
+                                    <th>Total After Input</th>                         
                                     <th>Profit (%)</th>                               
-                                    <th>Total Price</th>                                     
+                                                                       
                                 </tr>
                                 @foreach($data as $key => $item)
                                 <?php
@@ -43,22 +45,28 @@
                                     <td>{{ $item->item_code }}</td>                               
                                     <td>{{ $item->qty }}</td>                               
                                     <td>{{ $item->unit }}</td>                               
-                                    <td>Rp {{ $item->price }}</td>                               
+                                    <td>Rp {{ $item->price }}</td> 
                                     <td>
                                         <?php
-                                            if($item->input_price == null || $item->input_price == ''){
+                                            echo 'Rp '. $item->qty * $item->price;
                                         ?>
-                                            <a href="javascript:;" wire:click="$emit('modalinputstpprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Price')}}</a>
-                                        <?php
-                                            }else{
-                                        ?>
-                                            <a href="javascript:;" wire:click="$emit('modalinputstpprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
-                                        <?php
-                                            }
-                                        ?>
+                                    </td>                                
+                                    <td>
+                                        @if($user->user_access_id == '22')
+                                            @if($item->input_price == null || $item->input_price == '')
+                                                <a href="javascript:;" wire:click="$emit('modalinputstpprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Price')}}</a>
+                                            @else
+                                                <a href="javascript:;" wire:click="$emit('modalinputstpprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            @endif
+                                        @endif
                                         
                                         Rp {{ $item->input_price }}
-                                    </td>                               
+                                    </td> 
+                                    <td>
+                                        <?php
+                                            echo 'Rp '. $item->qty * $item->input_price;
+                                        ?>
+                                    </td>                              
                                     <td>
                                         <?php
                                             if($item->profit >= 30){
@@ -69,12 +77,7 @@
                                         ?>
                                         <div class="btn btn-<?php echo $color; ?>">{{ $item->profit }}%</div>
                                     </td>                               
-                                    <!-- <td>{{ $item->total_price }}</td>              -->
-                                    <td>
-                                        <?php
-                                            echo 'Rp '. $item->qty * $item->price;
-                                        ?>
-                                    </td>             
+                                               
                                 </tr>
                                 @endforeach
                             </table>
@@ -91,13 +94,24 @@
                                 <tr>
                                     <th>Total STP Price</th>                               
                                     <th>Total Price After Input</th>                               
+                                    <th>Extra Budget</th>                               
                                     <th>Total Profit After Input (%)</th>         
                                 </tr>
 
                                 <tr>
                                     <td>Rp {{ $total_before[0]->price }}</td>                               
                                     <td>Rp {{ $total_after[0]->input_price }}</td>                               
-                                    <td>{{ $total_profit }} %</td>    
+                                    <td>Rp <?php echo ($total_before[0]->price - $total_after[0]->input_price); ?></td>                               
+                                    <td>
+                                        <?php
+                                            if($total_profit >= 30){
+                                                $color = 'success';
+                                            }else{
+                                                $color = 'danger';
+                                            }
+                                        ?>
+                                        <div class="btn btn-<?php echo $color; ?>">{{ $total_profit }}%</div>
+                                    </td>    
                                 </tr>
                             </table>
                         </div>
@@ -106,8 +120,14 @@
                 
                 <br><br><br>
                 <!--    Approve STP by PMG   -->
-                @if($user->user_access_id == '20')
-                    @if($status == '3')
+                @if($user->user_access_id == '24')
+                @endif
+
+
+                
+                @if($user->user_access_id == '24')
+                
+                    @if($status[0]->status == '3')
                         <div class="row">
                             <div class="col-md-12">
                                 <a href="javascript:;" wire:click="$emit('modalapprovepononms','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-approve" title="Upload" class="btn btn-primary"> {{__('Approve')}}</a>
@@ -116,29 +136,38 @@
                     @else
                         @if($status[0]->status == '1')
                             <div class="btn btn-success"> Approved </div>
-                        @else
-                            <div class="btn btn-danger"> Revise </div>
+                        @endif
+
+                        @if($status[0]->status == '2')
+                            <div class="btn btn-danger"> Revised </div>
+                        @endif
+
+                        @if($status[0]->status == '0')
+                            <div class="btn btn-warning"> Waiting to Submitted </div>
                         @endif
                     @endif
-                @else
+                @endif
+
+                
+                <!--    End Approve STP by PMG   -->
+
+                @if($user->user_access_id == '22')
                     @if($status[0]->status == '1')
                         <div class="btn btn-success"> Approved </div>
                     @endif
 
                     @if($status[0]->status == '2')
-                        <div class="btn btn-danger"> Revise </div>
+                        <div class="btn btn-danger"> Revised </div>
                     @endif
 
                     @if($status[0]->status == '3' || $status[0]->status == '0' || $status[0]->status == '' || $status[0]->status == null)
                         <div class="btn btn-warning"> Waiting Approval</div>
                     @endif
                 @endif
-                <!--    End Approve STP by PMG   -->
-
 
                 <!--    Submit to Finance or PMG by E2E    -->
                 @if($user->user_access_id == '20')
-                    @if($status[0]->status == '0' || $status[0]->status == '' || $status[0]->status == null)
+                    @if($status[0]->status == '0' || $status[0]->status == '' || $status[0]->status == null || $status[0]->status == '3' || $status[0]->status == '2')
                         <br><br>
                         <div class="row">
                             <div class="col-md-12">

@@ -32,7 +32,7 @@ class Importaccdoc extends Component
         ]);
 
         if($this->file){
-            $accdoc = 'potrackingnonms-accdoc'.$this->selected_id.'.'.$this->file->extension();
+            $accdoc = 'pononms-accdoc'.$this->selected_id.'.'.$this->file->extension();
             $this->file->storePubliclyAs('public/po_tracking_nonms/AcceptanceDocs/',$accdoc);
 
             $data = \App\Models\PoTrackingNonms::where('id', $this->selected_id)
@@ -42,7 +42,7 @@ class Importaccdoc extends Component
             $data->save();
         }
 
-        session()->flash('message-success',"Upload Acceptance Docs success");
+        session()->flash('message-success',"Upload Acceptance Docs PO Tracking Non MS success");
 
         return redirect()->route('po-tracking-nonms.index');
     }

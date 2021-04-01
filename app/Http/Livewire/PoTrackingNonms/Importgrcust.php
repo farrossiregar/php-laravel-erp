@@ -9,7 +9,7 @@ use Auth;
 class Importgrcust extends Component
 {
     protected $listeners = [
-        'modal-bast'=>'databast',
+        'modalimportgrcust'=>'datagrcust',
     ];
 
     use WithFileUploads;
@@ -21,10 +21,10 @@ class Importgrcust extends Component
     ];
     public function render()
     {
-        return view('livewire.po-tracking-nonms.importbast');
+        return view('livewire.po-tracking-nonms.importgrcust');
     }
 
-    public function databast($id)
+    public function datagrcust($id)
     {
         $this->selected_id = $id;
     }
@@ -36,18 +36,18 @@ class Importgrcust extends Component
         ]);
 
         if($this->file){
-            $bast = 'potracking-bast'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/po_tracking_nonms/Bast/',$bast);
+            $grcust = 'pononms-grcust'.$this->selected_id.'.'.$this->file->extension();
+            $this->file->storePubliclyAs('public/po_tracking_nonms/GrCust/',$grcust);
 
-            $data = \App\Models\PoTrackingReimbursementBastupload::where('po_no', $this->selected_id)
+            $data = \App\Models\PoTrackingNonms::where('id', $this->selected_id)
                                                                     ->first();
-            $data->bast_filename = $bast;
-            $data->bast_date = date('Y-m-d H:i:s');
+            $data->gr_cust = $grcust;
+            // $data->bast_date = date('Y-m-d H:i:s');
             $data->save();
         }
 
-        session()->flash('message-success',"Upload Bast PO No ".$this->selected_id." success");
+        session()->flash('message-success',"Upload GR Customer PO Tracking Non MS success");
         
-        return redirect()->route('po-tracking-nonms.index');
+        return redirect()->route('po-tracking-nonms.edit-bast',['id'=>$data->id]);
     }
 }

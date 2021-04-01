@@ -66,13 +66,13 @@ class Importstp extends Component
         $datamaster->save();
 
         
-
+        $datamaster_latest = \App\Models\PoTrackingNonms::select('id')->orderBy('id', 'DESC')->first();
         if(count($sheetDatas) > 0){
             $countLimit = 1;
             $total_failed = 0;
             $total_success = 0;
             foreach($sheetDatas as $key => $i){
-                $datamaster_latest = \App\Models\PoTrackingNonms::select('id')->orderBy('id', 'DESC')->first();
+                
                 // dd($datamaster_latest->id);
                 if($key<11) continue; // skip header
                 if($key>12) break;
@@ -81,13 +81,14 @@ class Importstp extends Component
                 if($i[0]!="") 
                 
                 
-                $potrackingstp->id_po_nonms_master         = $datamaster_latest->id;
+                
                 $potrackingstp->material                   = $i[4];
                 $potrackingstp->item_code                  = $i[8];
                 $potrackingstp->qty                        = $i[9];
                 $potrackingstp->unit                       = $i[10];
-                $potrackingstp->price                      = $i[11];
-                $potrackingstp->total_price                = $i[12];
+                $potrackingstp->price                      = str_replace(",", "", str_replace('Rp ', '', $i[11]));
+                $potrackingstp->total_price                = str_replace(",", "", str_replace('Rp ', '', $i[12]));
+                $potrackingstp->id_po_nonms_master         = $datamaster_latest->id + 0;
 
                 $potrackingstp->created_at                 = date('Y-m-d H:i:s');
                 $potrackingstp->updated_at                 = date('Y-m-d H:i:s');

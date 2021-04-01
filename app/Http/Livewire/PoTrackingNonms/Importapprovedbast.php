@@ -9,7 +9,7 @@ use Auth;
 class Importapprovedbast extends Component
 {
     protected $listeners = [
-        'modal-bast'=>'databast',
+        'modalimportapprovedbast'=>'dataapprovedbast',
     ];
 
     use WithFileUploads;
@@ -21,10 +21,10 @@ class Importapprovedbast extends Component
     ];
     public function render()
     {
-        return view('livewire.po-tracking-nonms.importbast');
+        return view('livewire.po-tracking-nonms.importapprovedbast');
     }
 
-    public function databast($id)
+    public function dataapprovedbast($id)
     {
         $this->selected_id = $id;
     }
@@ -36,18 +36,18 @@ class Importapprovedbast extends Component
         ]);
 
         if($this->file){
-            $bast = 'potracking-bast'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/po_tracking_nonms/Bast/',$bast);
+            $approvedbast = 'pononms-approvedbast'.$this->selected_id.'.'.$this->file->extension();
+            $this->file->storePubliclyAs('public/po_tracking_nonms/ApprovedBast/',$approvedbast);
 
-            $data = \App\Models\PoTrackingReimbursementBastupload::where('po_no', $this->selected_id)
+            $data = \App\Models\PoTrackingNonms::where('id', $this->selected_id)
                                                                     ->first();
-            $data->bast_filename = $bast;
-            $data->bast_date = date('Y-m-d H:i:s');
+            $data->approved_bast = $approvedbast;
+            // $data->bast_date = date('Y-m-d H:i:s');
             $data->save();
         }
 
-        session()->flash('message-success',"Upload Bast PO No ".$this->selected_id." success");
+        session()->flash('message-success',"Upload Bast PO Tracking Non MS success");
         
-        return redirect()->route('po-tracking-nonms.index');
+        return redirect()->route('po-tracking-nonms.edit-bast',['id'=>$data->id]);
     }
 }

@@ -36,7 +36,7 @@ class Importbast extends Component
         ]);
 
         if($this->file){
-            $bast = 'potrackingnonms-bast'.$this->selected_id.'.'.$this->file->extension();
+            $bast = 'pononms-bast'.$this->selected_id.'.'.$this->file->extension();
             $this->file->storePubliclyAs('public/po_tracking_nonms/Bast/',$bast);
 
             $data = \App\Models\PoTrackingNonms::where('id', $this->selected_id)
@@ -46,8 +46,8 @@ class Importbast extends Component
             $data->save();
         }
 
-        session()->flash('message-success',"Upload Bast PO Non MS success");
+        session()->flash('message-success',"Upload Bast PO Tracking Non MS success");
         
-        return redirect()->route('po-tracking-nonms.index');
+        return redirect()->route('po-tracking-nonms.edit-bast',['id'=>$data->id]);
     }
 }

@@ -15,16 +15,7 @@
                     <!-- <a href="#" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking ESAR')}}</a> -->
                     <br>
                 </div>
-                <table class="table table-striped m-b-0 c_list">
-                    <div class="col-md-2">
-                        <select class="form-control" name="status" wire:model="status">
-                            <option value=""> --- Status --- </option>
-                            <option value="1">Completed</option>
-                            <option value="">Waiting Approval</option>
-                        </select>
-                    </div>
-
-                </table>
+                
             </div>
             <div class="body pt-0">
                 <div class="row">
@@ -36,6 +27,8 @@
                                     <th>Bast</th>                               
                                     <th>Approved Bast</th>                               
                                     <th>GR Customer</th>                                  
+                                    <th>Extra Budget</th>                                  
+                                    <th>Action</th>                                  
                                 </tr>
                                 @foreach($data as $key => $item)
                                 <?php
@@ -44,52 +37,76 @@
                                 <tr>
                                     <td>{{ $key }}</td>                                          
                                     <td>
-                                        @if($item->bast == null || $item->bast == '')
-                                        <a href="javascript:;" wire:click="$emit('modalimportbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importbast" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Bast')}}</a>
+                                        @if($user->user_access_id == '22')
+                                            @if($item->bast == null || $item->bast == '')
+                                                <a href="javascript:;" wire:click="$emit('modalimportbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importbast" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Bast')}}</a>
+                                            @else
+                                                <a href="javascript:;" wire:click="$emit('modalimportbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importbast" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+
+                                                <a href="<?php echo asset('storage/po_tracking_nonms/Bast/'.$item->bast) ?>" target="_blank"><i class="fa fa-download"></i> Download Bast </a>
+                                            @endif
                                         @else
-                                        <a href="javascript:;" wire:click="$emit('modalimportbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importbast" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
-                                        <a href="">Download Bast</a>
+                                            @if($item->bast != null || $item->bast != '')
+                                                <a href="<?php echo asset('storage/po_tracking_nonms/Bast/'.$item->bast) ?>" target="_blank"><i class="fa fa-download"></i> Download Bast </a>
+                                            @endif
                                         @endif
+
                                     </td>                                                             
                                     <td>
-                                        <!--    Start E2E Revise Bast to Regional   -->
-                                        <a href="javascript:;" wire:click="$emit('modalrevisebast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-revisebast" title="Upload" class="btn btn-danger"><i class="fa fa-edit"></i> {{__('Revise Bast to Regional')}}</a>
-                                        <!--    End E2E Revise Bast to Regional    -->
+                                        @if($user->user_access_id == '20')
+                                            @if($item->approved_bast == null || $item->approved_bast == '')
+                                                @if($item->bast != null || $item->bast != '')
+                                                    <!--    Start E2E Revise Bast to Regional   -->
+                                                    <a href="javascript:;" wire:click="$emit('modalrevisebast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-revisebast" title="Upload" class="btn btn-danger"><i class="fa fa-edit"></i> {{__('Revise Bast to Regional')}}</a>
+                                                    <!--    End E2E Revise Bast to Regional    -->
 
-                                        @if($item->approved_bast == null || $item->approved_bast == '')
-                                        <a href="javascript:;" wire:click="$emit('modalimportapprovedbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importapprovedbast" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved Bast')}}</a>
+                                                    <a href="javascript:;" wire:click="$emit('modalimportapprovedbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importapprovedbast" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved Bast')}}</a>
+                                                @else
+                                                    <div class="btn btn-warning">Waiting Uploaded Bast</div>
+                                                @endif
+                                            @else
+                                                <a href="javascript:;" wire:click="$emit('modalimportapprovedbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importapprovedbast" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                                
+                                                <a href="<?php echo asset('storage/po_tracking_nonms/ApprovedBast/'.$item->approved_bast) ?>" target="_blank"><i class="fa fa-download"></i> Download Approved Bast </a>
+                                            @endif
                                         @else
-                                        <a href="javascript:;" wire:click="$emit('modalimportapprovedbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importapprovedbast" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
-                                        <a href="">Download Approved Bast</a>
+                                            @if($item->approved_bast != null || $item->approved_bast != '')
+                                                <a href="<?php echo asset('storage/po_tracking_nonms/ApprovedBast/'.$item->approved_bast) ?>" target="_blank"><i class="fa fa-download"></i> Download Approved Bast </a>
+                                            @endif
                                         @endif
+                                        
                                         
                                     </td>  
                                     <td>
-                                        @if($item->gr_cust == null || $item->gr_cust == '')
-                                        <a href="javascript:;" wire:click="$emit('modalimportgrcust','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importgrcust" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import GR Customer')}}</a>
+                                        @if($user->user_access_id == '20')
+                                            @if($item->gr_cust == null || $item->gr_cust == '')
+                                                @if($item->bast != null || $item->bast != '')
+                                                    <a href="javascript:;" wire:click="$emit('modalimportgrcust','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importgrcust" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import GR Customer')}}</a>
+                                                @else
+                                                    <div class="btn btn-warning">Waiting Uploaded Bast</div>
+                                                @endif
+                                            @else
+                                                <a href="javascript:;" wire:click="$emit('modalimportgrcust','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importgrcust" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                                
+                                                <a href="<?php echo asset('storage/po_tracking_nonms/GrCust/'.$item->gr_cust) ?>" target="_blank"><i class="fa fa-download"></i> Download GR Customer </a>
+                                            @endif
                                         @else
-                                        <a href="javascript:;" wire:click="$emit('modalimportgrcust','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importgrcust" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
-                                        <a href="">Download GR Customer</a>
+                                            @if($item->gr_cust != null || $item->gr_cust != '')
+                                                <a href="<?php echo asset('storage/po_tracking_nonms/GrCust/'.$item->gr_cust) ?>" target="_blank"><i class="fa fa-download"></i> Download GR Customer </a>
+                                            @endif
                                         @endif
                                     </td>    
-
+                                    <td>
+                                        Rp {{ $extra_budget }}
+                                    </td>
+                                    <td>
+                                        <a href="javascript:;" wire:click="$emit('modalsubmittofin','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-submittofin" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Submit')}}</a>
+                                    </td>
 
                                    
                                     <!--    Start E2E Preview Bast   -->
                                     <!-- <a href="{{ route('po-tracking-nonms.edit-bast',['id'=>$item->id]) }}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview PO Non MS Bast </button></a> -->
                                     <!--    End E2E Preview Bast    -->
-                                    
-                                    
-                                    
-                                    
-
-                                    <!--    Start E2E Upload Approved Bast    -->
-                                    
-                                    <!--    End E2E Upload Approved Bast    -->
-                                    
-                                    <!--    Start E2E Upload GR    -->
-                                    
-                                    <!--    End E2E Upload GR    -->
                                                         
                                                
                                 </tr>
@@ -149,7 +166,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             
-            <livewire:po-tracking-nonms.importboq />
+            <livewire:po-tracking-nonms.importapprovedbast />
         </div>
     </div>
 </div>
@@ -161,11 +178,23 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             
-            <livewire:po-tracking-nonms.importboq />
+            <livewire:po-tracking-nonms.importgrcust />
         </div>
     </div>
 </div>
 <!--    MODAL PO NON MS IMPORT GR CUSTOMER      -->
+
+
+<!--    MODAL PO NON MS SUBMIT TO FINANCE      -->
+<div class="modal fade" id="modal-potrackingnonms-submittofin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+            <livewire:po-tracking-nonms.submittofin />
+        </div>
+    </div>
+</div>
+<!--    MODAL PO NON MS SUBMIT TO FINANCE      -->
 
 
 @push('after-scripts')
@@ -182,12 +211,17 @@
 
     Livewire.on('modalimportapprovedbast',(data)=>{
         console.log(data);
-        $("#modal-potrackingstp-upload").modal('show');
+        $("#modal-potrackingnonms-importapprovedbast").modal('show');
     });
 
     Livewire.on('modalimportgrcust',(data)=>{
         console.log(data);
-        $("#modal-potrackingstp-upload").modal('show');
+        $("#modal-potrackingnonms-importgrcust").modal('show');
+    });
+
+    Livewire.on('modalsubmittofin',(data)=>{
+        console.log(data);
+        $("#modal-potrackingnonms-submittofin").modal('show');
     });
 </script>
 @endpush

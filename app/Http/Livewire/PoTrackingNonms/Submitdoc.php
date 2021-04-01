@@ -45,7 +45,7 @@ class Submitdoc extends Component
             if(count($cekprofit) > 0){ // submit to PMG
                 $target_user = 'PMG';
                 $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
-                                ->where('employees.user_access_id', '22')->get();
+                                ->where('employees.user_access_id', '24')->get();
 
                 $data->status = '3';
                 $data->save();
@@ -66,7 +66,7 @@ class Submitdoc extends Component
             if(count($cekprofit) > 0){ // submit to PMG
                 $target_user = 'PMG';
                 $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
-                                ->where('employees.user_access_id', '22')->get();
+                                ->where('employees.user_access_id', '24')->get();
 
                 $data->status = '3';
                 $data->save();

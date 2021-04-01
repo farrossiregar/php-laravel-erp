@@ -64,12 +64,13 @@ class Importboq extends Component
         $datamaster->updated_at     = date('Y-m-d H:i:s');
         $datamaster->save();
 
+        $datamaster_latest = \App\Models\PoTrackingNonms::select('id')->orderBy('id', 'DESC')->first();
         if(count($sheetDatas) > 0){
             $countLimit = 1;
             $total_failed = 0;
             $total_success = 0;
             foreach($sheetDatas as $key => $i){
-                $datamaster_latest = \App\Models\PoTrackingNonms::select('id')->orderBy('id', 'DESC')->first();
+                
                 
                 if($key<13) continue; // skip header
                 if($key>14) break;
@@ -77,7 +78,7 @@ class Importboq extends Component
                 $potrackingboq                          = new \App\Models\PoTrackingNonmsBoq();
                 if($i[0]!="") 
                 
-                $potrackingboq->id_po_nonms_master         = $datamaster_latest->id;
+                
                 $potrackingboq->site_id                    = $i[4];
                 $potrackingboq->site_name                  = $i[5];
                 $potrackingboq->item_description           = $i[6];
@@ -87,8 +88,9 @@ class Importboq extends Component
                 $potrackingboq->region                     = $i[10];
                 $potrackingboq->remark                     = $i[11];
                 $potrackingboq->reff                       = $i[12];
-                $potrackingboq->price                      = $i[13];
-                $potrackingboq->total_price                = $i[14];
+                $potrackingboq->price                      = str_replace(",", "", str_replace('Rp ', '', $i[13]));
+                $potrackingboq->total_price                = str_replace(",", "", str_replace('Rp ', '', $i[14]));
+                $potrackingboq->id_po_nonms_master         = $datamaster_latest->id + 0;
 
                 $potrackingboq->created_at                 = date('Y-m-d H:i:s');
                 $potrackingboq->updated_at                 = date('Y-m-d H:i:s');

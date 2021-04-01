@@ -27,15 +27,7 @@ class Editstp extends Component
                                                    
            
         $data = $this->data;
-        $total_before = json_decode($this->total_before);
-        $total_before = $total_before[0]->price;
-        $total_after = json_decode($this->total_after);
-        $total_after = $total_after[0]->input_price;
-        if($total_before && $total_after){
-            $total_profit = 100 - round(($total_before / $total_after) * 100);
-        }else{
-            $total_profit = '100';
-        }
+       
 
         $id_master = $this->id;
 
@@ -55,17 +47,27 @@ class Editstp extends Component
         $this->data             = PoTrackingNonmsStp::where('id_po_nonms_master', $id)->get();  
         
         $this->total_before = PoTrackingNonmsStp::where('id_po_nonms_master', $id)
-                                                ->select(DB::raw("SUM(price) as price"))    
+                                                ->select(DB::raw("SUM(qty * price) as price"))    
                                                 ->groupBy('id_po_nonms_master')  
                                                 ->get();  
 
         $this->total_after = PoTrackingNonmsStp::where('id_po_nonms_master', $id)
-                                                ->select(DB::raw("SUM(input_price) as input_price"))    
+                                                ->select(DB::raw("SUM(qty * input_price) as input_price"))    
                                                 ->groupBy('id_po_nonms_master')  
                                                 ->get();  
         
         $this->id = $id;
         $this->id_master = $id;
+
+        $total_before = json_decode($this->total_before);
+        $total_before = $total_before[0]->price;
+        $total_after = json_decode($this->total_after);
+        $total_after = $total_after[0]->input_price;
+        if($total_before && $total_after){
+            $this->total_profit = 100 - round(($total_after / $total_before) * 100);
+        }else{
+            $this->total_profit = '100';
+        }
 
         $this->status = PoTrackingNonms::select('status')->where('id', $id)->get();
         
