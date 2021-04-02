@@ -97,11 +97,24 @@
                                         @endif
                                     </td>    
                                     <td>
-                                        Rp {{ $extra_budget }}
+                                        <b>Rp {{ $extra_budget }}</b> 
                                     </td>
+
+                                    
                                     <td>
-                                        <a href="javascript:;" wire:click="$emit('modalsubmittofin','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-submittofin" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Submit')}}</a>
+                                        @if($user->user_access_id == '20')
+                                            @if($item->gr_cust != '' && $item->approved_bast != '')
+                                                @if($item->e2e_to_fin == '')
+                                                    <a href="javascript:;" wire:click="$emit('modalsubmittofin','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-submittofin" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Submit')}}</a>
+                                                @else
+                                                    <div class="btn btn-success">Submitted to Finance</div>
+                                                @endif
+                                            @else
+                                                <div class="btn btn-warning">Waiting Uploaded Approved Bast and GR Customer</div>
+                                            @endif
+                                        @endif
                                     </td>
+                                       
 
                                    
                                     <!--    Start E2E Preview Bast   -->

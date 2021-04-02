@@ -120,10 +120,7 @@
                 
                 <br><br><br>
                 <!--    Approve STP by PMG   -->
-                @if($user->user_access_id == '24')
-                @endif
-
-
+             
                 
                 @if($user->user_access_id == '24')
                 
@@ -151,6 +148,8 @@
                 
                 <!--    End Approve STP by PMG   -->
 
+
+                <!--    Submit to Finance or PMG by Regional    -->
                 @if($user->user_access_id == '22')
                     @if($status[0]->status == '1')
                         <div class="btn btn-success"> Approved </div>
@@ -160,13 +159,7 @@
                         <div class="btn btn-danger"> Revised </div>
                     @endif
 
-                    @if($status[0]->status == '3' || $status[0]->status == '0' || $status[0]->status == '' || $status[0]->status == null)
-                        <div class="btn btn-warning"> Waiting Approval</div>
-                    @endif
-                @endif
-
-                <!--    Submit to Finance or PMG by E2E    -->
-                @if($user->user_access_id == '20')
+                    
                     @if($status[0]->status == '0' || $status[0]->status == '' || $status[0]->status == null || $status[0]->status == '3' || $status[0]->status == '2')
                         <br><br>
                         <div class="row">
@@ -177,8 +170,16 @@
                         </div>
                     @endif
                 @endif
+                <!--    End Submit to Finance or PMG by Regional    -->
+
                 
-                <!--    End Submit to Finance or PMG    -->
+                @if($user->user_access_id == '20')
+                    @if($status[0]->status == '3' || $status[0]->status == '0' || $status[0]->status == '' || $status[0]->status == null)
+                        <div class="btn btn-warning"> Waiting Approval</div>
+                    @endif
+                @endif
+                
+                
 
 
 

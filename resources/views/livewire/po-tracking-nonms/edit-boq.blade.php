@@ -170,15 +170,6 @@
                         <div class="btn btn-danger"> Revised </div>
                     @endif
 
-                    @if($status[0]->status == '3' || $status[0]->status == '0' || $status[0]->status == '' || $status[0]->status == null)
-                        <div class="btn btn-warning"> Waiting Approval</div>
-                    @endif
-                @endif
-                
-
-
-                <!--    Submit to Finance or PMG by E2E   -->
-                @if($user->user_access_id == '20')
                     @if($status[0]->status == '0' || $status[0]->status == '' || $status[0]->status == null || $status[0]->status == '3' || $status[0]->status == '2')
                         <br><br>
                         <div class="row">
@@ -187,6 +178,15 @@
                                 <!-- <a href="#" data-toggle="modal" data-target="#modal-potrackingnonms-submit" title="Submit" class="btn btn-primary"> {{__('Submit')}}</a> -->
                             </div>
                         </div>
+                    @endif
+                @endif
+                
+
+
+                <!--    Submit to Finance or PMG by E2E   -->
+                @if($user->user_access_id == '20')
+                    @if($status[0]->status == '3' || $status[0]->status == '0' || $status[0]->status == '' || $status[0]->status == null)
+                        <div class="btn btn-warning"> Waiting Approval</div>
                     @endif
                 @endif
                 <!--    End Submit to Finance or PMG    -->

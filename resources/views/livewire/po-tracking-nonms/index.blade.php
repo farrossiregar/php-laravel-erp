@@ -116,7 +116,7 @@
                                             <div class="btn btn-<?php echo $statustype; ?>"> <?php echo $status; ?> </div>
                                         </td>
                                         <td>{{ $item->bast_status_note }}</td>
-                                        <td></td>
+                                        <td><b>{{ get_extra_budget($item->id) }}</b> </td>
                                         <td>
                                             <?php
                                                 if($item->type_doc == 1){
@@ -151,15 +151,20 @@
 
                                             @if($user->user_access_id == '2')
                                             <!--    Start Finance Upload Huawei Acceptance Docs    -->
-                                            @if($item->acc_doc == null || $item->acc_doc == '')
-                                                @if($item->gr_cust == null || $item->gr_cust == '')
-                                                    <div class="btn btn-warning">Waiting Uploaded Approved Bast & GR Customer</div>    
-                                                @else
-                                                    <a href="javascript:;" wire:click="$emit('modalimportaccdoc','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importaccdoc" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Huawei Acceptance Docs')}}</a>
+                                                @if($item->e2e_to_fin == '1')
+                                                    @if($item->acc_doc == null || $item->acc_doc == '')
+                                                        @if($item->gr_cust == null || $item->gr_cust == '')
+                                                            <div class="btn btn-warning">Waiting Uploaded Approved Bast & GR Customer</div>    
+                                                        @else
+                                                            <a href="javascript:;" wire:click="$emit('modalimportaccdoc','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importaccdoc" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Huawei Acceptance Docs')}}</a>
+                                                        @endif
+                                                    @else
+                                                        @if($item->acc_doc != '0')
+                                                        <a href="javascript:;" wire:click="$emit('modalimportaccdoc','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importaccdoc" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                                            <a href="<?php echo asset('storage/po_tracking_nonms/AcceptanceDocs/'.$item->acc_doc) ?>" target="_blank"><i class="fa fa-download"></i>  Download Acceptance Docs </a>
+                                                        @endif
+                                                    @endif
                                                 @endif
-                                            @else
-                                                <a href="<?php echo asset('storage/po_tracking_nonms/AcceptanceDocs/'.$item->acc_doc) ?>" target="_blank"><i class="fa fa-download"></i>  Download Acceptance Docs </a>
-                                            @endif
                                             <!--    End Finance Upload Huawei Acceptance Docs    -->
                                             @endif
                                         </td>
@@ -215,53 +220,6 @@
 <!--    MODAL PO NON MS INPUT PO NO      -->
 
 
-<!--    MODAL PO NON MS IMPORT BAST      -->
-<!-- <div class="modal fade" id="modal-potrackingnonms-importbast" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            
-            <livewire:po-tracking-nonms.importbast />
-        </div>
-    </div>
-</div> -->
-<!--    MODAL PO NON MS IMPORT BAST      -->
-
-
-<!--    MODAL REVISE BAST TO REGIONAL      -->
-<!-- <div class="modal fade" id="modal-potrackingnonms-revisebast" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:po-tracking-nonms.revisebast />
-        </div>
-    </div>
-</div>
- -->
-
-<!--    END MODAL REVISE BAST TO REGIONAL        -->
-
-
-<!--    MODAL PO NON MS IMPORT APPROVED BAST      -->
-<!-- <div class="modal fade" id="modal-potrackingnonms-importapprovedbast" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            
-            <livewire:po-tracking-nonms.importboq />
-        </div>
-    </div>
-</div> -->
-<!--    MODAL PO NON MS IMPORT APPROVED BAST      -->
-
-
-<!--    MODAL PO NON MS IMPORT GR CUSTOMER      -->
-<!-- <div class="modal fade" id="modal-potrackingnonms-importgrcust" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            
-            <livewire:po-tracking-nonms.importboq />
-        </div>
-    </div>
-</div> -->
-<!--    MODAL PO NON MS IMPORT GR CUSTOMER      -->
 
 
 <!--    MODAL PO NON MS IMPORT ACCEPTANCE DOC HUAWEI      -->

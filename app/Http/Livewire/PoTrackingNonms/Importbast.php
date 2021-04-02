@@ -41,7 +41,9 @@ class Importbast extends Component
 
             $data = \App\Models\PoTrackingNonms::where('id', $this->selected_id)
                                                                     ->first();
-            $data->bast = $bast;
+            $data->bast         = $bast;
+            $data->bast_status  = '';
+            $data->bast_status_note  = '';
             // $data->bast_date = date('Y-m-d H:i:s');
             $data->save();
         }

@@ -42,6 +42,7 @@ class Importapprovedbast extends Component
             $data = \App\Models\PoTrackingNonms::where('id', $this->selected_id)
                                                                     ->first();
             $data->approved_bast = $approvedbast;
+            $data->bast_status = '1';
             // $data->bast_date = date('Y-m-d H:i:s');
             $data->save();
         }

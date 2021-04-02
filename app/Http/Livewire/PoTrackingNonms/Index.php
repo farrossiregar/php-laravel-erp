@@ -25,7 +25,7 @@ class Index extends Component
         $user = \Auth::user();
         
 
-        if($user->user_access_id == '22'){ // Regional
+        if($user->user_access_id == '22' || $user->user_access_id == '23'){ // Regional & Finance Regional
             $region_user = DB::table('pmt.employees as employees')
                                 ->where('employees.user_access_id', $user->user_access_id)
                                 ->join('epl.region as region', 'region.id', '=', 'employees.region_id')

@@ -164,3 +164,32 @@ function get_username_byid($user_id){
     return $dd;
     
 }
+
+function get_extra_budget($id){
+    $data             = \App\Models\PoTrackingNonms::where('id', $id)->first();  
+        
+    if($data->type_doc == '1'){
+        $data_detail = \App\Models\PoTrackingNonmsStp::where('id_po_nonms_master', $id);
+    }else{
+        $data_detail = \App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master', $id);
+    }   
+
+    $total_before     = $data_detail->select(DB::raw("SUM(price) as price"))    
+                                    ->groupBy('id_po_nonms_master')  
+                                    ->get();  
+
+    $total_after      = $data_detail->select(DB::raw("SUM(input_price) as input_price"))    
+                                    ->groupBy('id_po_nonms_master')  
+                                    ->get();  
+
+
+    $total_before = json_decode($total_before);
+    $total_before = $total_before[0]->price;
+    $total_after = json_decode($total_after);
+    $total_after = $total_after[0]->input_price;
+
+    $extra_budget = $total_before - $total_after;
+
+    return 'Rp '.$extra_budget;
+
+}
