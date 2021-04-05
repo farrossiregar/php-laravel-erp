@@ -20,6 +20,7 @@
                     <livewire:mobile-apps.employee />
                 </div>
                 <div class="tab-pane" id="commitment-daily">
+                    <livewire:mobile-apps.commitment-daily />
                 </div>
                 <div class="tab-pane" id="health-check">
                 </div>

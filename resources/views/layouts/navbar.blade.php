@@ -12,7 +12,10 @@
             <form id="navbar-search" class="col-md-6 navbar-form">
                 <div class="row">
                     <div class="col-md-4">
-                        <h6 class="mt-2"> @yield('title')</h6>
+                        <h6 class="mt-2 mb-0 pb-0"> @yield('title')</h6>
+                        @if (trim($__env->yieldContent('parentPageTitle')))
+                            <span>@yield('parentPageTitle')</span>
+                        @endif
                     </div>
                     <div class="col-md-7">
                         <select class="form-control" name="searching_menu">

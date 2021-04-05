@@ -37,13 +37,11 @@
                 <tr>
                     <th>No</th>                                    
                     <th>Name</th>                                    
-                    <th>Phone</th>                                    
-                    <th>Email</th>                                    
-                    <th>Address</th>
-                    <th>Department</th>
-                    <th>Position</th>
-                    <th>Updated</th>
-                    <th></th>
+                    <th>Phone</th>
+                    @php($parent = \App\Models\ModulesItem::where('link','mobile-apps.index')->first())       
+                    @foreach(\App\Models\ModulesItem::where('parent_id',$parent->id)->get() as $menu)
+                        <th>{{$menu->name}}</th>
+                    @endforeach
                 </tr>
             </thead>
             <tbody>
@@ -59,19 +57,9 @@
                         @endif
                     </td>
                     <td>{{$item->telepon}}</td> 
-                    <td>{{$item->email}}</td>                                   
-                    <td>{{$item->address}}</td>
-                    <td>{{isset($item->department_sub->name)?$item->department_sub->name .' - '.$item->department_sub->name:''}}</td>
-                    <td>{{isset($item->access->name)?$item->access->name:''}}</td>
-                    <td>{{$item->updated_at}}</td>
-                    <td>  
-                        @if(check_access('employee.autologin') and !empty($item->user_id))
-                        <a href="#" class="text-success pr-2" onclick="autologin('{{ route('users.autologin',['id'=>$item->user_id]) }}','{{$item->name}}')" title="Autologin"><i class="fa fa-sign-in"></i></a>
-                        @endif
-                        @if(check_access('employee.delete'))
-                        <a href="#" class="text-danger" wire:click="$emit('emit-delete',{{$item->id}})" data-toggle="modal" data-target="#modal_delete" title="Delete"><i class="fa fa-trash-o"></i></a>
-                        @endif
-                    </td>
+                    @foreach(\App\Models\ModulesItem::where('parent_id',$parent->id)->get() as $menu)
+                        <th class="text-center"><input type="checkbox" /></th>
+                    @endforeach
                 </tr>
                 @php($num++)
                 @endforeach

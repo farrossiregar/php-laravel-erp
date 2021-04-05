@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class CommitmentDaily extends Model
 {
     use HasFactory;
+
+    protected $table = 'commitment_dailys';
 }

@@ -11,20 +11,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-md-2">
-            <select class="form-control" wire:model="department_sub_id">
-                <option value="">{{__('--- Department --- ')}} </option>
-                @foreach(\App\Models\Department::orderBy('name','ASC')->get() as $item)
-                <optgroup label="{{$item->name}}">
-                    @foreach(\App\Models\DepartmentSub::where('department_id',$item->id)->get() as $sub)
-                    <option value="{{$sub->id}}">{{$sub->name}}</option>
-                    @endforeach
-                </optgroup>
-                @endforeach
-            </select>
-        </div>
         <div class="col-md-6">
-            <a href="javascript:;" data-toggle="modal" data-target="#modal_add" class="btn btn-primary"><i class="fa fa-plus"></i> Employee</a>
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>
@@ -32,15 +19,38 @@
         </div>
     </div>
     <div class="table-responsive">
-        <table class="table table-striped m-b-0 c_list">
+        <table class="table m-b-0 c_list">
             <thead>
                 <tr>
                     <th>No</th>                                    
                     <th>Employee</th>   
-                    <th></th>
+                    <th>Berkomitment Menggunakan PPE/APD</th>
+                    <th>Bagian PPE/APD yang tidak punya</th>
+                    <th>Regulasi sanksi dari management</th>
+                    <th>Regulasi terhadap kecurian</th>
+                    <th>Regulasi terhadap kerusakan nama baik perusahaan</th>
+                    <th>Regulasi terkait minuman keras/obat terlarang</th>
+                    <th>Regulasi terkait pelanggaran peraturan perusahaan</th>
+                    <th>Regulasi terkait protokol kesehatan</th>
+                    <th>Regulasi terkait penggunaan kendaraan</th>
+                    <th>Regulasi BCG</th>
+                    <th>Regulasi terkait cyber security</th>
                 </tr>
             </thead>
             <tbody>
+                @foreach($data as $k => $item)
+                    <tr>
+                        <td>{{$k}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
