@@ -1,5 +1,5 @@
 @section('title', 'Dashboard')
-@section('parentPageTitle', 'Dashboard')
+@section('parentPageTitle', 'Home')
 <div class="col-md-10 pt-2" style="margin: auto;">
     @foreach(get_menu(\Auth::user()->user_access_id) as $menu)
         <h4>{{$menu['name']}}</h4>

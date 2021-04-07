@@ -1,15 +1,7 @@
 <div>
-    <div class="header row">
-        <div class="col-md-2">
+    <div class=" row">
+        <div class="col-md-2 form-group">
             <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
-        </div>
-        <div class="col-md-2">
-            <select class="form-control" wire:model="user_access_id">
-                <option value="">--- User Access ---</option>
-                @foreach(\App\Models\UserAccess::all() as $i)
-                <option value="{{$i->id}}">{{$i->name}}</option>
-                @endforeach
-            </select>
         </div>
         <div class="col-md-6">
             <span wire:loading>
@@ -21,36 +13,47 @@
     <div class="table-responsive">
         <table class="table m-b-0 c_list">
             <thead>
-                <tr>
+                <tr style="background:#eee;">
                     <th>No</th>                                    
                     <th>Employee</th>   
-                    <th>Berkomitment Menggunakan PPE/APD</th>
-                    <th>Bagian PPE/APD yang tidak punya</th>
-                    <th>Regulasi sanksi dari management</th>
-                    <th>Regulasi terhadap kecurian</th>
-                    <th>Regulasi terhadap kerusakan nama baik perusahaan</th>
-                    <th>Regulasi terkait minuman keras/obat terlarang</th>
-                    <th>Regulasi terkait pelanggaran peraturan perusahaan</th>
-                    <th>Regulasi terkait protokol kesehatan</th>
-                    <th>Regulasi terkait penggunaan kendaraan</th>
-                    <th>Regulasi BCG</th>
-                    <th>Regulasi terkait cyber security</th>
+                    <th class="text-center">Berkomitment Menggunakan PPE/APD</th>
+                    <th class="text-center">Bagian PPE/APD yang tidak punya</th>
+                    <th class="text-center">Regulasi sanksi dari management</th>
+                    <th class="text-center">Regulasi terhadap kecurian</th>
+                    <th class="text-center">Regulasi terhadap kerusakan nama baik perusahaan</th>
+                    <th class="text-center">Regulasi terkait minuman keras/obat terlarang</th>
+                    <th class="text-center">Regulasi terkait pelanggaran peraturan perusahaan</th>
+                    <th class="text-center">Regulasi terkait protokol kesehatan</th>
+                    <th class="text-center">Regulasi terkait penggunaan kendaraan</th>
+                    <th class="text-center">Regulasi BCG</th>
+                    <th class="text-center">Regulasi terkait cyber security</th>
+                    <th>Date</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($data as $k => $item)
                     <tr>
-                        <td>{{$k}}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{$k+1}}</td>
+                        <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
+                        <td class="text-center">{!!$item->regulasi_terkait_ppe_apd_menggunakan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                        <td>{{$item->regulasi_terkait_ppe_apd_tidak_punya}}</td>
+                        <td class="text-center">{!!$item->regulasi_terkait_sanksi==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                        <td class="text-center">{!!$item->regulasi_terhadap_kecurian==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                        <td class="text-center">{!!$item->regulasi_terhadap_kerusakan_nama_baik_perusahaan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                        <td class="text-center">{!!$item->regulasi_terkait_minuman_keras_obat_terlarang==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                        <td class="text-center">{!!$item->regulasi_terkait_pelanggaran_peraturan_perusahaan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                        <td class="text-center">{!!$item->regulasi_terkait_protokol_kesehatan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                        <td class="text-center">{!!$item->regulasi_terkait_penggunaan_kendaraan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                        <td class="text-center">{!!$item->regulasi_bcg==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                        <td class="text-center">{!!$item->regulasi_terkait_cyber_security==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                        <td>{{$item->created_at}}</td>
                     </tr>
                 @endforeach
+                @if($data->count() ==0)
+                <tr>
+                    <td colspan="9" class="text-center"><i>empty</i></td>
+                </tr>
+                @endif
             </tbody>
         </table>
     </div>

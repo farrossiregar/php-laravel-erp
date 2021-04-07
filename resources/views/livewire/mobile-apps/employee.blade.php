@@ -40,7 +40,7 @@
                     <th>Phone</th>
                     @php($parent = \App\Models\ModulesItem::where('link','mobile-apps.index')->first())       
                     @foreach(\App\Models\ModulesItem::where('parent_id',$parent->id)->get() as $menu)
-                        <th>{{$menu->name}}</th>
+                        <th class="text-center">{{$menu->name}}</th>
                     @endforeach
                 </tr>
             </thead>

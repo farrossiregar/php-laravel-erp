@@ -31,6 +31,7 @@
                 <div class="tab-pane" id="tools-check">
                 </div>
                 <div class="tab-pane" id="location-of-field-team">
+                    <livewire:mobile-apps.location-of-field-team />
                 </div>
                 <div class="tab-pane" id="speed-warning-alarm">
                 </div>
