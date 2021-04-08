@@ -27,7 +27,7 @@ class LocationOfFieldTeamController extends Controller
     {
         $find = Employee::find(\Auth::user()->employee->id);
 
-        return response()->json(['message'=>'submited','data'=>$find->is_active_location], 200);
+        return response()->json(['message'=>'success','data'=>$find->is_active_location], 200);
     }
 
     public function store(Request $request)
