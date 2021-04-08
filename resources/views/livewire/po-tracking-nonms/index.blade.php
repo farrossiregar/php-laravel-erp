@@ -22,17 +22,21 @@
                         </div>
                         
                         <?php
-                            if($user->user_access_id == '20'){ // E2E user access id 20
+                            // if($user->user_access_id == '20'){ // E2E user access id 20
                         ?>
+                        @if(check_access('po-tracking-nonms.edit-boq'))
                         <div class="col-md-2">
                             <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking BOQ')}}</a>
                         </div>
+                        @endif
 
+                        @if(check_access('po-tracking-nonms.edit-stp'))
                         <div class="col-md-2">
                             <a href="#" data-toggle="modal" data-target="#modal-potrackingstp-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking STP')}}</a>
                         </div>
+                        @endif
                         <?php
-                            }
+                            // }
                         ?>
                     </div>
                     
@@ -59,15 +63,19 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>
-                                            <!--Regional user access id 22 -->
-                                            @if($user->user_access_id == '20')
+                                            
+                                            @if(check_access('po-tracking-nonms.po-no'))
                                                 @if($item->po_no != null || $item->po_no != '')
                                                     {{ $item->po_no }}
                                                 @else
                                                     <a href="javascript:;" wire:click="$emit('modalinputpono','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackinginput-pono" title="Upload" class="btn btn-primary"> {{__('Add PO No')}}</a>
                                                 @endif
                                             @else
-                                                <div class="btn btn-warning"> Waiting PO No</div>
+                                                @if($item->po_no != null || $item->po_no != '')
+                                                    {{ $item->po_no }}
+                                                @else
+                                                    <div class="btn btn-warning"> Waiting PO No</div>
+                                                @endif
                                             @endif
 
 
@@ -118,6 +126,7 @@
                                         <td>{{ $item->bast_status_note }}</td>
                                         <td><b>{{ get_extra_budget($item->id) }}</b> </td>
                                         <td>
+                                            @if(check_access('po-tracking-nonms.preview-doc'))
                                             <?php
                                                 if($item->type_doc == 1){
                                                     $type_doc =  "STP";
@@ -128,12 +137,13 @@
                                                 }
                                             ?>   
                                             <a href="<?php echo $url_doc; ?>"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview PO Non MS <?php echo $type_doc; ?> </button></a>
-
+                                            @endif
+                                            
                                             <?php
                                                 if($user->user_access_id == '22' && ($item->po_no != null || $item->po_no != '')){ // Regional user access id 22
                                             ?>
                                             <!--    Start Regional Upload Bast    -->
-                                            <a href="javascript:;" wire:click="$emit('modalimportbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importbast" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Bast')}}</a>
+                                            <!-- <a href="javascript:;" wire:click="$emit('modalimportbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importbast" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Bast')}}</a> -->
                                             <!--    End Regional Upload Bast    -->
                                             
                                             <?php
@@ -142,14 +152,15 @@
 
 
                                             
-                                            @if($user->user_access_id == '20' || $user->user_access_id == '22')
+                                            
+                                            @if(check_access('po-tracking-nonms.preview-bast'))
                                             <!--    Start E2E Preview Bast   -->
                                             <a href="{{ route('po-tracking-nonms.edit-bast',['id'=>$item->id]) }}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview Bast </button></a>
                                             <!--    End E2E Preview Bast    -->
-                                            
                                             @endif
 
-                                            @if($user->user_access_id == '2')
+                                            
+                                            @if(check_access('po-tracking-nonms.upload-accdoc'))
                                             <!--    Start Finance Upload Huawei Acceptance Docs    -->
                                                 @if($item->e2e_to_fin == '1')
                                                     @if($item->acc_doc == null || $item->acc_doc == '')
