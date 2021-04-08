@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\LocationOfFieldTeam;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LocationOfFieldTeamController extends Controller
 {
@@ -53,7 +54,72 @@ class LocationOfFieldTeamController extends Controller
 
         return response()->json(['message'=>'success','data'=>$data], 200);
     }
-   
+    
+    public function getNearest()
+    {
+        /*
+        "
+        SELECT * FROM (
+            SELECT *, 
+                (
+                    (
+                        (
+                            acos(
+                                sin((-6.292640 * pi() / 180))
+                                *
+                                sin(( `lat` * pi() / 180)) + cos(( -6.292640 * pi() /180 ))
+                                *
+                                cos(( `lat` * pi() / 180)) * cos((( 106.843668 - `long`) * pi()/180)))
+                        ) * 180/pi()
+                    ) * 60 * 1.1515 * 1.609344
+                )
+            as distance FROM `location_of_field_teams`
+        ) location_of_field_teams
+        
+        LIMIT 15
+        ";
+        */
+
+        $find = LocationOfFieldTeam::find(\Auth::user()->employee->id);
+        
+
+        if($find){
+            $employee = Employee::where('is_active_location',1)->pluck('id')->toArray();
+            
+            $locations = DB::select("SELECT * FROM (
+                                                        SELECT *, 
+                                                            (
+                                                                (
+                                                                    (
+                                                                        acos(
+                                                                            sin(({$find->lat} * pi() / 180))
+                                                                            *
+                                                                            sin(( `lat` * pi() / 180)) + cos(( {$find->lat} * pi() /180 ))
+                                                                            *
+                                                                            cos(( `lat` * pi() / 180)) * cos((( {$find->lat} - `long`) * pi()/180)))
+                                                                    ) * 180/pi()
+                                                                ) * 60 * 1.1515 * 1.609344
+                                                            )
+                                                        as distance FROM `location_of_field_teams`
+                                                    ) location_of_field_teams
+                                                    where distance <=10 ".($employee?" and employee_id in(".ltrim(rtrim(json_encode($employee),']',),'[').")" : '')." LIMIT 15");
+        
+            $data = [];
+            foreach($locations as $k => $location){
+                $em = Employee::find($location->employee_id)->first();
+                if($em) {
+                    $data[$k]['id'] = $location->id;
+                    $data[$k]['lat'] = $location->lat;
+                    $data[$k]['long'] = $location->long;
+                    $data[$k]['employee'] = isset($em->name) ? $em->name : '';
+                }
+            }
+        }
+        
+        return response()->json(['message'=>'success','data'=>isset($data)?$data:''], 200);
+
+    }
+
     public function data()
     {
         $employee = Employee::where('is_active_location',1)->get();

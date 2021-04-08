@@ -34,5 +34,6 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('location-of-field-team/check',[\App\Http\Controllers\Api\LocationOfFieldTeamController::class,'check'])->name('api.location-of-field-team.check');
 	Route::get('location-of-field-team/check-active',[\App\Http\Controllers\Api\LocationOfFieldTeamController::class,'checkActive'])->name('api.location-of-field-team.check-active');
 	Route::get('location-of-field-team/data',[\App\Http\Controllers\Api\LocationOfFieldTeamController::class,'data'])->name('api.location-of-field-team.data');
+	Route::get('location-of-field-team/get-nearest',[\App\Http\Controllers\Api\LocationOfFieldTeamController::class,'getNearest'])->name('api.location-of-field-team.get-nearest');
 	Route::get('get-sites',[\App\Http\Controllers\Api\SitesController::class,'getAll']);
 });
