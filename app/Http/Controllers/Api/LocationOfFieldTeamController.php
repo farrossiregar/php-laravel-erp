@@ -86,6 +86,10 @@ class LocationOfFieldTeamController extends Controller
         if($find){
             $employee = Employee::where('is_active_location',1)->pluck('id')->toArray();
             
+            $employee = json_encode($employee);
+            $employee = rtrim($employee,']');
+            $employee = ltrim($employee,'[');
+
             $locations = DB::select("SELECT * FROM (
                                                         SELECT *, 
                                                             (
@@ -102,7 +106,7 @@ class LocationOfFieldTeamController extends Controller
                                                             )
                                                         as distance FROM `location_of_field_teams`
                                                     ) location_of_field_teams
-                                                    where distance <=10 ".($employee?" and employee_id in(".ltrim(rtrim(json_encode($employee),']',),'[').")" : '')." LIMIT 15");
+                                                    where distance <=10 ".($employee?" and employee_id in(".$employee.")" : '')." LIMIT 15");
         
             $data = [];
             foreach($locations as $k => $location){
