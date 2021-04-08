@@ -120,8 +120,7 @@ class LocationOfFieldTeamController extends Controller
             }
         }
         
-        return response()->json(['message'=>'success','data'=>isset($data)?$data:''], 200);
-
+        return response()->json(['message'=>'success','data'=>isset($data)?$data:[]], 200);
     }
 
     public function data()
