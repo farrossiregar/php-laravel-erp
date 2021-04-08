@@ -65,7 +65,7 @@
                                         ?>
                                     </td>                             
                                     <td>
-                                        @if($user->user_access_id == '22')
+                                        @if(check_access('po-tracking-nonms.input-price'))
                                             @if($item->input_price == null || $item->input_price == '')
                                                 <a href="javascript:;" wire:click="$emit('modalinputboqprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-inputprice" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Price')}}</a>
                                             @else
@@ -136,7 +136,8 @@
                 
                 <br><br><br>
                 <!--    Approve BOQ by PMG   -->
-                @if($user->user_access_id == '24')
+                
+                @if(check_access('po-tracking-nonms.approve-pmg'))
                     @if($status == '3')
                         <div class="row">
                             <div class="col-md-12">
@@ -161,7 +162,9 @@
                 <!--    End Approve BOQ by PMG   -->
 
                 
-                @if($user->user_access_id == '22')
+                <!--    Submit to Finance or PMG by E2E   -->
+                
+                @if(check_access('po-tracking-nonms.submit-doc'))
                     @if($status[0]->status == '1')
                         <div class="btn btn-success"> Approved </div>
                     @endif
@@ -180,16 +183,17 @@
                         </div>
                     @endif
                 @endif
+                <!--    End Submit to Finance or PMG    -->
+
+
                 
-
-
-                <!--    Submit to Finance or PMG by E2E   -->
-                @if($user->user_access_id == '20')
+                
+                @if(check_access('po-tracking-nonms.status-doc'))
                     @if($status[0]->status == '3' || $status[0]->status == '0' || $status[0]->status == '' || $status[0]->status == null)
                         <div class="btn btn-warning"> Waiting Approval</div>
                     @endif
                 @endif
-                <!--    End Submit to Finance or PMG    -->
+                
 
 
 

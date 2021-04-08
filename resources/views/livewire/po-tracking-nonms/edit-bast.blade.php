@@ -37,7 +37,7 @@
                                 <tr>
                                     <td>{{ $key }}</td>                                          
                                     <td>
-                                        @if($user->user_access_id == '22')
+                                        @if(check_access('po-tracking-nonms.import-bast'))
                                             @if($item->bast == null || $item->bast == '')
                                                 <a href="javascript:;" wire:click="$emit('modalimportbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importbast" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Bast')}}</a>
                                             @else
@@ -53,7 +53,7 @@
 
                                     </td>                                                             
                                     <td>
-                                        @if($user->user_access_id == '20')
+                                        @if(check_access('po-tracking-nonms.import-approvedbast'))
                                             @if($item->approved_bast == null || $item->approved_bast == '')
                                                 @if($item->bast != null || $item->bast != '')
                                                     <!--    Start E2E Revise Bast to Regional   -->
@@ -78,7 +78,7 @@
                                         
                                     </td>  
                                     <td>
-                                        @if($user->user_access_id == '20')
+                                        @if(check_access('po-tracking-nonms.import-grcust'))
                                             @if($item->gr_cust == null || $item->gr_cust == '')
                                                 @if($item->bast != null || $item->bast != '')
                                                     <a href="javascript:;" wire:click="$emit('modalimportgrcust','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importgrcust" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import GR Customer')}}</a>
@@ -102,7 +102,7 @@
 
                                     
                                     <td>
-                                        @if($user->user_access_id == '20')
+                                        @if(check_access('po-tracking-nonms.submit-to-finance'))
                                             @if($item->gr_cust != '' && $item->approved_bast != '')
                                                 @if($item->e2e_to_fin == '')
                                                     <a href="javascript:;" wire:click="$emit('modalsubmittofin','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-submittofin" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Submit')}}</a>
