@@ -27,8 +27,9 @@ class LocationOfFieldTeamController extends Controller
     public function checkActive()
     {
         $find = Employee::find(\Auth::user()->employee->id);
+        $position = LocationOfFieldTeam::where('employee_id',\Auth::user()->employee->id)->orderBy('id','DESC')->first();
 
-        return response()->json(['message'=>'success','data'=>$find->is_active_location], 200);
+        return response()->json(['message'=>'success','data'=>$find->is_active_location,'lat'=>isset($position->lat)?$position->lat : '','long'=>isset($position->long) ? $position->long:''], 200);
     }
 
     public function store(Request $request)
@@ -37,8 +38,8 @@ class LocationOfFieldTeamController extends Controller
             'lat' => 'required',
             'long' => 'required'
         ]);
-        
-        $data = new LocationOfFieldTeam();
+        $data = LocationOfFieldTeam::where('employee_id',\Auth::user()->employee->id)->first();
+        if(!$data) $data = new LocationOfFieldTeam();
         $data->employee_id = \Auth::user()->employee->id;
         $data->employee = \Auth::user()->employee;
         $data->lat = $request->lat;
@@ -57,35 +58,10 @@ class LocationOfFieldTeamController extends Controller
     
     public function getNearest()
     {
-        /*
-        "
-        SELECT * FROM (
-            SELECT *, 
-                (
-                    (
-                        (
-                            acos(
-                                sin((-6.292640 * pi() / 180))
-                                *
-                                sin(( `lat` * pi() / 180)) + cos(( -6.292640 * pi() /180 ))
-                                *
-                                cos(( `lat` * pi() / 180)) * cos((( 106.843668 - `long`) * pi()/180)))
-                        ) * 180/pi()
-                    ) * 60 * 1.1515 * 1.609344
-                )
-            as distance FROM `location_of_field_teams`
-        ) location_of_field_teams
+        $find = LocationOfFieldTeam::where('employee_id',\Auth::user()->employee->id)->orderBy('id','DESC')->first();
         
-        LIMIT 15
-        ";
-        */
-
-        $find = LocationOfFieldTeam::find(\Auth::user()->employee->id);
-        
-
         if($find){
             $employee = Employee::where('is_active_location',1)->pluck('id')->toArray();
-            
             $employee = json_encode($employee);
             $employee = rtrim($employee,']');
             $employee = ltrim($employee,'[');
@@ -100,27 +76,32 @@ class LocationOfFieldTeamController extends Controller
                                                                             *
                                                                             sin(( `lat` * pi() / 180)) + cos(( {$find->lat} * pi() /180 ))
                                                                             *
-                                                                            cos(( `lat` * pi() / 180)) * cos((( {$find->lat} - `long`) * pi()/180)))
+                                                                            cos(( `lat` * pi() / 180)) * cos((( {$find->long} - `long`) * pi()/180)))
                                                                     ) * 180/pi()
                                                                 ) * 60 * 1.1515 * 1.609344
                                                             )
                                                         as distance FROM `location_of_field_teams`
                                                     ) location_of_field_teams
-                                                    where distance <=10 ".($employee?" and employee_id in(".$employee.")" : '')." LIMIT 15");
-        
+                                                    ".($employee?" WHERE employee_id in(".$employee.")" : '')." GROUP BY employee_id ORDER BY id DESC LIMIT 15"); 
             $data = [];
-            foreach($locations as $k => $location){
-                $em = Employee::find($location->employee_id)->first();
-                if($em) {
-                    $data[$k]['id'] = $location->id;
-                    $data[$k]['lat'] = $location->lat;
-                    $data[$k]['long'] = $location->long;
-                    $data[$k]['employee'] = isset($em->name) ? $em->name : '';
+            $num = 0;
+            foreach($locations as $location){
+                if($location->employee_id == \Auth::user()->employee->id) continue;
+                $em = Employee::find($location->employee_id);
+                if($em){
+                    $data[$num]['id'] = $location->id;
+                    $data[$num]['lat'] = $location->lat;
+                    $data[$num]['long'] = $location->long;
+                    $data[$num]['employee'] = isset($em->name) ? $em->name : '';
+                    $data[$num]['telepon'] = isset($em->telepon) ? replace_phone_id($em->telepon) : '';
+                    $data[$num]['employee_id'] = $location->employee_id;
+                    $data[$num]['distance'] = round($location->distance,2);
+                    $num++;
                 }
             }
-        }
+        } 
         
-        return response()->json(['message'=>'success','data'=>isset($data)?$data:[]], 200);
+        return response()->json(['message'=>'success','data'=>isset($data)?$data:''], 200);
     }
 
     public function data()

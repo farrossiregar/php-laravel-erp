@@ -38,6 +38,7 @@
                     <th>No</th>                                    
                     <th>Name</th>                                    
                     <th>Phone</th>
+                    <th>Email</th>
                     @php($parent = \App\Models\ModulesItem::where('link','mobile-apps.index')->first())       
                     @foreach(\App\Models\ModulesItem::where('parent_id',$parent->id)->get() as $menu)
                         <th class="text-center">{{$menu->name}}</th>
@@ -57,8 +58,9 @@
                         @endif
                     </td>
                     <td>{{$item->telepon}}</td> 
+                    <td>{{$item->email}}</td> 
                     @foreach(\App\Models\ModulesItem::where('parent_id',$parent->id)->get() as $menu)
-                        <th class="text-center"><input type="checkbox" /></th>
+                        <th class="text-center"><input type="checkbox" wire:model="employee_access.{{$menu->id}}" /></th>
                     @endforeach
                 </tr>
                 @php($num++)
