@@ -18,7 +18,7 @@
                     <th>Employee</th>   
                     <th>Latitude</th>
                     <th>Longitude</th>
-                    <th>Date</th>
+                    <th>Last Update</th>
                 </tr>
             </thead>
             <tbody>

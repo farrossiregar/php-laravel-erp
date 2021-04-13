@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\CommitmentDaily;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
@@ -24,6 +25,7 @@ class UserController extends Controller
             $user = Auth::user();
             $data['token'] =  $user->createToken('Laravel')->accessToken;
             $data['name'] = $user->name;
+            $data['is_commitment_daily'] = CommitmentDaily::whereDate('created_at',date('Y-m-d'))->where('employee_id', $user->employee->id)->count();
             return response(['status'=>200,'message'=>'success','data'=> $data], 200);
         }
         else{
