@@ -86,9 +86,18 @@ class LocationOfFieldTeamController extends Controller
             $data = [];
             $num = 0;
             foreach($locations as $location){
-                if($location->employee_id == \Auth::user()->employee->id) continue;
                 $em = Employee::find($location->employee_id);
-                if($em){
+
+                if($location->employee_id == \Auth::user()->employee->id){
+                    $data[$num]['id'] = $location->id;
+                    $data[$num]['lat'] = $location->lat;
+                    $data[$num]['long'] = $location->long;
+                    $data[$num]['employee'] = 'My Location';
+                    $data[$num]['telepon'] = isset($em->telepon) ? replace_phone_id($em->telepon) : '';
+                    $data[$num]['employee_id'] = $location->employee_id;
+                    $data[$num]['distance'] = round($location->distance,2);
+                    $num++;
+                }else{
                     $data[$num]['id'] = $location->id;
                     $data[$num]['lat'] = $location->lat;
                     $data[$num]['long'] = $location->long;
