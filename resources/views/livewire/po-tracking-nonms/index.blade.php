@@ -17,9 +17,13 @@
                             <input type="date" class="form-control" wire:model="date" />
                         </div>
 
-                        <div class="col-md-2">
-                            <input type="date" class="form-control" wire:model="date" />
-                        </div>
+                        <!-- <div class="col-md-2">
+                            <select name="region" class="form-control" id="region" wire:model="date">
+                                @foreach(App\Models\Region::all() as $item)
+                                <option value="{{ $item->id }}">{{ $item->region_code }}</option>
+                                @endforeach
+                            </select>
+                        </div> -->
                         
                         <?php
                             // if($user->user_access_id == '20'){ // E2E user access id 20
@@ -124,7 +128,7 @@
                                             <div class="btn btn-<?php echo $statustype; ?>"> <?php echo $status; ?> </div>
                                         </td>
                                         <td>{{ $item->bast_status_note }}</td>
-                                        <td><b>{{ get_extra_budget($item->id) }}</b> </td>
+                                        <td><b>Rp {{ format_idr(get_extra_budget($item->id)) }}</b> </td>
                                         <td>
                                             @if(check_access('po-tracking-nonms.preview-doc'))
                                             <?php

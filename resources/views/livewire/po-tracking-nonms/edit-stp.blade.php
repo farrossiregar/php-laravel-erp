@@ -45,10 +45,10 @@
                                     <td>{{ $item->item_code }}</td>                               
                                     <td>{{ $item->qty }}</td>                               
                                     <td>{{ $item->unit }}</td>                               
-                                    <td>Rp {{ $item->price }}</td> 
+                                    <td>Rp {{ format_idr($item->price) }}</td> 
                                     <td>
                                         <?php
-                                            echo 'Rp '. $item->qty * $item->price;
+                                            echo 'Rp '. format_idr($item->qty * $item->price);
                                         ?>
                                     </td>                                
                                     <td>
@@ -61,11 +61,11 @@
                                             @endif
                                         @endif
                                         
-                                        Rp {{ $item->input_price }}
+                                        Rp {{ format_idr($item->input_price) }}
                                     </td> 
                                     <td>
                                         <?php
-                                            echo 'Rp '. $item->qty * $item->input_price;
+                                            echo 'Rp '. format_idr($item->qty * $item->input_price);
                                         ?>
                                     </td>                              
                                     <td>
@@ -100,9 +100,9 @@
                                 </tr>
 
                                 <tr>
-                                    <td>Rp {{ $total_before[0]->price }}</td>                               
-                                    <td>Rp {{ $total_after[0]->input_price }}</td>                               
-                                    <td>Rp <?php echo ($total_before[0]->price - $total_after[0]->input_price); ?></td>                               
+                                    <td>Rp {{ format_idr($total_before[0]->price) }}</td>                               
+                                    <td>Rp {{ format_idr($total_after[0]->input_price) }}</td>                               
+                                    <td>Rp <?php echo format_idr(($total_before[0]->price - $total_after[0]->input_price)); ?></td>                               
                                     <td>
                                         <?php
                                             if($total_profit >= 30){

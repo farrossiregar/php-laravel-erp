@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
+
 function check_yes_no($value)
 {
     return $value==1?'YES':'NO';
@@ -76,6 +78,22 @@ function check_access($link,$type=1){
             ->first();
     if($cek) return $cek?true:false;
 }
+
+// function check_access_data($link,$reg_id){
+       
+//     $cek = DB::table('user_access_modules as user_access_modules')
+//                     ->where('modules_items.link',$link)
+//                     ->where('employees.region_id',$reg_id)
+//                     ->join('modules_items','modules_items.id','=','user_access_modules.module_id')
+//                     ->join('modules','modules.id','=','modules_items.module_id')
+//                     ->join('employees','employees.user_access_id','=','user_access_modules.user_access_id')
+//                     ->get();
+//     if($cek){
+//         return $cek;
+//     }else{
+//         return false;
+//     }
+// }
 
 function check_access_controller($link){
     $cek = \App\Models\UserAccessModule::select('modules.*')
@@ -198,6 +216,6 @@ function get_extra_budget($id){
 
     $extra_budget = $total_before - $total_after;
 
-    return 'Rp '.$extra_budget;
+    return $extra_budget;
 
 }
