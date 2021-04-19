@@ -97,7 +97,7 @@
                                         @endif
                                     </td>    
                                     <td>
-                                        <b>Rp {{ $extra_budget }}</b> 
+                                        <b>Rp {{ format_idr($extra_budget) }}</b> 
                                     </td>
 
                                     

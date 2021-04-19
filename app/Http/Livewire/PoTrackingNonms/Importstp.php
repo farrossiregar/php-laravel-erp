@@ -100,14 +100,11 @@ class Importstp extends Component
         }
 
         $user = \Auth::user();
-
-        $user = \Auth::user();
         $region_user = DB::table('pmt.employees as employees')
-                                ->where('employees.user_access_id', '22')
+                                ->where('employees.user_access_id', '29')
                                 ->join('epl.region as region', 'region.id', '=', 'employees.region_id')
                                 ->where('region.region_code', $datamaster->region)->get();
 
-        // $epluser = UserEpl::select('name', 'phone', 'email')->where('region_cluster_id', $region_user[0]->region_id)->get();
         $epluser = Employee::select('name', 'telepon', 'email')->where('region_id', $region_user[0]->region_id)->get();
             
         $nameuser = [];

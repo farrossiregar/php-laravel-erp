@@ -13,6 +13,7 @@ use DB;
 class Index extends Component
 {
     use WithPagination;
+    public $date;
     protected $paginationTheme = 'bootstrap';
     
     public function render()
@@ -37,6 +38,7 @@ class Index extends Component
             $data = PoTrackingNonms::orderBy('id', 'DESC');
         }
         
+        if($this->date) $ata = $data->whereDate('created_at',$this->date);
         
         
         
