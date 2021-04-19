@@ -22,9 +22,11 @@
                             <option value="">Searching...</option>
                             @foreach(get_menu(\Auth::user()->user_access_id) as $menu)
                                 <optgroup label="{{$menu['name']}}">
-                                @foreach($menu['sub_menu'] as $sub)
-                                <option value="{{$sub->id}}" data-link="{{Route::has($sub->link) ? route($sub->link) : ''}}">{{$sub->name}}</option>
-                                @endforeach
+                                @if(isset($menu['sub_menu']))
+                                    @foreach($menu['sub_menu'] as $sub)
+                                    <option value="{{$sub->id}}" data-link="{{Route::has($sub->link) ? route($sub->link) : ''}}">{{$sub->name}}</option>
+                                    @endforeach
+                                @endif
                                 </optgroup>
                             @endforeach
                         </select>
