@@ -65,6 +65,7 @@
                                         ?>
                                     </td>                             
                                     <td>
+                                    
                                         @if(check_access('po-tracking-nonms.input-price'))
                                             @if($item->input_price == null || $item->input_price == '')
                                                 <a href="javascript:;" wire:click="$emit('modalinputboqprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-inputprice" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Price')}}</a>
