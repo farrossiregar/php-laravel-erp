@@ -10,6 +10,8 @@
         <div class="form-group">
             <label>File</label>
             <input type="file" class="form-control" name="file" wire:model="file" />
+            <br>
+            <a href="<?php echo asset('storage/po_tracking_nonms/UploaderSample/Sample_STP.xlsx') ?>" target="_blank"><i class="fa fa-download"></i> Download Sample STP </a>
             @error('file')
             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
             @enderror
