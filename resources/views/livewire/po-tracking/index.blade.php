@@ -9,13 +9,13 @@
     <div class="col-lg-12">
         <div class="card">
             <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
+                {{-- <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li> --}}
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data-po-tracking">{{ __('Data PO Tracking') }}</a></li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane show active" id="dashboard">
+                <div class="tab-pane" id="dashboard">
                 </div>
-                <div class="tab-pane" id="data-po-tracking">
+                <div class="tab-pane show active" id="data-po-tracking">
                     <div class="header row">
                         <div class="col-md-2">
                             <input type="date" class="form-control" wire:model="date" />
@@ -28,7 +28,7 @@
                     </div>
                     
                     <div class="body pt-0">
-                        <div class="table-responsive">
+                        {{-- <div class="table-responsive">
                             <table class="table table-striped m-b-0 c_list">
                                 <thead>
                                     <tr>
@@ -137,7 +137,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                        </div>
+                        </div> --}}
 
                         {{-- <div class="table-responsive">
                             <table class="table table-striped m-b-0 c_list">
@@ -162,11 +162,11 @@
                                             <!--    Regional     -->
                                             @if(check_access('po-tracking.edit-bast'))
                                             <a href="{{route('po-tracking.edit-bast',['id'=>$item->id])}}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview Bast</button></a>
-                                            <!-- @if($item->approved_bast_erp_date_upload == null)
-                                                <a href="#" wire:click="$emit('modal-bast',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import BAST')}}</a>
-                                            @else
-                                                <a href="#" wire:click="$emit('modal-bast',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-success"><i class="fa fa-eye"></i> {{__('Preview BAST')}}</a>
-                                            @endif -->
+                                                <!-- @if($item->approved_bast_erp_date_upload == null)
+                                                    <a href="#" wire:click="$emit('modal-bast',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import BAST')}}</a>
+                                                @else
+                                                    <a href="#" wire:click="$emit('modal-bast',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-success"><i class="fa fa-eye"></i> {{__('Preview BAST')}}</a>
+                                                @endif -->
                                             @endif
                                             <!--    End Regional     -->
 

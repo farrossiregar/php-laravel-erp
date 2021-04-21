@@ -4,10 +4,7 @@ namespace App\Http\Livewire\POTracking;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\PoTrackingPds;
-use App\Models\PoTrackingReimbursementMaster;
-use Auth;
-
+use App\Models\PoTrackingReimbursement;
 
 class Index extends Component
 {
@@ -22,22 +19,11 @@ class Index extends Component
         //     $this->redirect('/');
         // }
 
-        $data = PoTrackingReimbursementMaster::orderBy('id', 'DESC');
-        if($this->date) $ata = $data->whereDate('created_at',$this->date);
+        $data = PoTrackingReimbursement::orderBy('id', 'DESC');
+
+        if($this->date) $data = $data->whereDate('created_at',$this->date);
 
         return view('livewire.po-tracking.index')->with(['data'=>$data->paginate(50)]);
         
     }
-
-
-    // public function save(){
-    //     $potrackingpds = new PoTrackingPds();
-    //     $potrackingpds->project_name                           = 'test';
-    //     $potrackingpds->created_at                             = date('Y-m-d H:i:s');
-    //     $potrackingpds->updated_at                             = date('Y-m-d H:i:s');
-    //     $potrackingpds->save();
-    // }
 }
-
-
-

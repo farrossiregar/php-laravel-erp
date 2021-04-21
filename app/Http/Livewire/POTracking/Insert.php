@@ -50,7 +50,7 @@ class Insert extends Component
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
                 $datapo = new \App\Models\PoTrackingReimbursement();
-                if($i[0]!="") 
+                if($i[0]=="") continue;
                 
                 $datapo->id_po_tracking_master                   = $datamaster->id;
                 $datapo->po_reimbursement_id                     = $i[0];
