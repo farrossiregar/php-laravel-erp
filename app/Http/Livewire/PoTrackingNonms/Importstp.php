@@ -105,21 +105,23 @@ class Importstp extends Component
                                 ->join(env('DB_DATABASE_EPL_PMT').'.region as region', 'region.id', '=', 'employees.region_id')
                                 ->where('region.region_code', $datamaster->region)->get();
 
-        $epluser = Employee::select('name', 'telepon', 'email')->where('region_id', $region_user[0]->region_id)->get();
+        if(count($region_user) > 0){
+            $epluser = Employee::select('name', 'telepon', 'email')->where('region_id', $region_user[0]->region_id)->get();
+                
+            $nameuser = [];
+            $emailuser = [];
+            $phoneuser = [];
             
-        $nameuser = [];
-        $emailuser = [];
-        $phoneuser = [];
-        
-        foreach($epluser as $no => $itemuser){
-            $nameuser[$no] = $itemuser->name;
-            $emailuser[$no] = $itemuser->email;
-            $phoneuser[$no] = $itemuser->telepon;
-            $message = "*Dear Operation Region ".$datamaster->region." - ".$nameuser[$no]."*\n\n";
-            $message .= "*PO Tracking Non MS STP Region ".$datamaster->region." Uploaded on ".date('d M Y H:i:s')."*\n\n";
-            send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);   
+            foreach($epluser as $no => $itemuser){
+                $nameuser[$no] = $itemuser->name;
+                $emailuser[$no] = $itemuser->email;
+                $phoneuser[$no] = $itemuser->telepon;
+                $message = "*Dear Operation Region ".$datamaster->region." - ".$nameuser[$no]."*\n\n";
+                $message .= "*PO Tracking Non MS STP Region ".$datamaster->region." Uploaded on ".date('d M Y H:i:s')."*\n\n";
+                send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);   
 
-            // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
+                // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
+            }
         }
 
         session()->flash('message-success',"Upload PO Tracking Non MS STP success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
