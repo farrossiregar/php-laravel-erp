@@ -1,4 +1,4 @@
-@section('title', __('PO Tracking Non MS BOQ Detail'))
+@section('title', __('PO Tracking Non MS Ericson Detail'))
 @section('parentPageTitle', 'Home Detail')
 
 
@@ -11,7 +11,7 @@
         <div class="card">
             <div class="header row">
                 <div class="col-md-12">
-                    <b><h5>PO Tracking Non MS BOQ</h5></b> 
+                    <b><h5>PO Tracking Non MS Ericson</h5></b> 
                     <!-- <a href="#" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking ESAR')}}</a> -->
                     <br>
                 </div>
@@ -109,7 +109,7 @@
                         <div class="table-responsive">
                             <table class="table table-striped m-b-0 c_list">
                                 <tr>
-                                    <th>Total BOQ Price</th>                               
+                                    <th>Total Ericson Price</th>                               
                                     <th>Total Price After Input</th>                               
                                     <th>Extra Budget</th>                               
                                     <th>Total Profit After Input (%)</th>         

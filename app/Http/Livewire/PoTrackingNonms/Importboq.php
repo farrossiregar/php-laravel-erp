@@ -103,9 +103,9 @@ class Importboq extends Component
 
 
         $user = \Auth::user();
-        $region_user = DB::table('pmt.employees as employees')
+        $region_user = DB::table(env('DB_DATABASE').'.employees as employees')
                                 ->where('employees.user_access_id', '29')
-                                ->join('epl.region as region', 'region.id', '=', 'employees.region_id')
+                                ->join(env('DB_DATABASE_EPL_PMT').'.region as region', 'region.id', '=', 'employees.region_id')
                                 ->where('region.region_code', $datamaster->region)->get();
 
         $epluser = Employee::select('name', 'telepon', 'email')->where('region_id', $region_user[0]->region_id)->get();
@@ -119,13 +119,13 @@ class Importboq extends Component
             $emailuser[$no] = $itemuser->email;
             $phoneuser[$no] = $itemuser->telepon;
             $message = "*Dear Operation Region ".$datamaster->region." - ".$nameuser[$no]."*\n\n";
-            $message .= "*PO Tracking Non MS BOQ Region ".$datamaster->region." Uploaded on ".date('d M Y H:i:s')."*\n\n";
+            $message .= "*PO Tracking Non MS Ericson Region ".$datamaster->region." Uploaded on ".date('d M Y H:i:s')."*\n\n";
             send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);   
 
             // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
         }
 
-        session()->flash('message-success',"Upload PO Tracking Non MS BOQ success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
+        session()->flash('message-success',"Upload PO Tracking Non MS Ericson success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
          
         return redirect()->route('po-tracking-nonms.index');   
     }

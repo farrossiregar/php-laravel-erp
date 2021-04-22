@@ -11,7 +11,7 @@
     <br><br><br>
         <div class="card">
             <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#boq">{{ __('Boq') }}</a></li>
+                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#boq">{{ __('Ericson') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#stp">{{ __('Stp') }}</a></li>
             </ul>
             <div class="tab-content">

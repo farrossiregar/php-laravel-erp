@@ -22,7 +22,7 @@
 
     @if(check_access('po-tracking-nonms.edit-boq'))
     <div class="col-md-2">
-        <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking BOQ')}}</a>
+        <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking Ericson')}}</a>
     </div>
     @endif
 
@@ -122,7 +122,7 @@
                                 $type_doc =  "STP";
                                 $url_doc = route('po-tracking-nonms.edit-stp',['id'=>$item->id]);
                             }else{
-                                $type_doc =  "BOQ";
+                                $type_doc =  "Ericson";
                                 $url_doc = route('po-tracking-nonms.edit-boq',['id'=>$item->id]);
                             }
                         ?>   
