@@ -104,6 +104,7 @@
             $( document ).ready(function() {
                 $(".btn-toggle-fullwidth").trigger('click');
             });
+            $('[data-toggle="tooltip"]').tooltip();
         </script>
     </body>
 </html>

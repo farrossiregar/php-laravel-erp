@@ -4,8 +4,8 @@ namespace App\Http\Livewire\PoTracking;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
-use File;
+use App\Models\PoTrackingReimbursement;
+use App\Models\PoTrackingReimbursementEsarupload;
 
 class Importesar extends Component
 {
@@ -16,20 +16,17 @@ class Importesar extends Component
     use WithFileUploads;
     
     public $file;
-    public $selected_id;
+
+    public $po;
 
     public function render()
     {
         return view('livewire.po-tracking.importesar');
     }
 
-    public function dataesar($id)
+    public function dataesar(PoTrackingReimbursement $po)
     {
-        $this->selected_id = $id;
-
-        // $this->data = \App\Models\PoTrackingReimbursementMaster::where('id', $this->selected_id)->first();
-        // // $this->data_po = \App\Models\PoTrackingReimbursement::select('po_no')->where('id_po_tracking_master', $this->selected_id)->groupBy('po_no')->get();
-        // $this->approvedesar = $this->data->approved_esar_date_upload;
+        $this->po = $po;
     }
 
     public function save()
@@ -37,20 +34,25 @@ class Importesar extends Component
         $this->validate([
             'file'=>'required|mimes:pdf|max:51200' // 50MB maksimal
         ]);
-
+ 
         if($this->file){
-           
-            $esar = 'Approved-Esar-'.$this->selected_id.'.'.$this->file->extension();
+            $esar = 'Approved-Esar-'.$this->po->po_reimbursement_id.'.'.$this->file->extension();
             $this->file->storePubliclyAs('public/po_tracking/ApprovedEsar/',$esar);
 
-            $data                                   = \App\Models\PoTrackingReimbursementEsarupload::where('po_no', $this->selected_id)->first();
+            $data = PoTrackingReimbursementEsarupload::where('po_tracking_reimbursement_id', $this->po->id)->first();
+            if(!$data){
+                $data = new PoTrackingReimbursementEsarupload();
+                $data->po_no = $this->po->po_reimbursement_id;
+            }
+            $data->po_tracking_reimbursement_id = $this->po->id;
             $data->approved_esar_filename           = $esar;
             $data->approved_esar_uploader_userid    = '18';
             $data->approved_esar_date               = date('Y-m-d H:i:s');
             $data->save();
         }
 
-        
+        $this->po->status = 3; // upload approved 
+        $this->po->save();
 
         session()->flash('message-success',"Upload Approved ESAR success");
 

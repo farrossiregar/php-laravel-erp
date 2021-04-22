@@ -60,8 +60,8 @@ class Editreimbursement extends Component
         }
         
          
-        if($this->month) $ata = $data->whereMonth('publish_date',$this->month);
-        if($this->region) $ata = $data->where('bidding_area',$this->region);
+        // if($this->month) $data = $data->whereMonth('publish_date',$this->month);
+        // if($this->region) $data = $data->where('bidding_area',$this->region);
         
         
         

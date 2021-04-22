@@ -1,14 +1,13 @@
 <form wire:submit.prevent="save">
     @csrf
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Upload File BAST</h5>
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Upload File BAST</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true close-btn">×</span>
         </button>
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label>File</label>
             <input type="file" class="form-control" name="file" wire:model="file" />
             @error('file')
             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>

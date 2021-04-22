@@ -19,7 +19,7 @@
                 font-size: 12px;
             }
         </style>
-        <title>Generate ESAR date('d-M-Y',strtotime($po_tracking->created_at))</title>
+        <title>Generate ESAR {{ date('d-M-Y',strtotime($po_tracking->created_at)) }}</title>
     </head>
     <body>
         <table>
@@ -33,21 +33,21 @@
         <table class="tables" border=1>
             <tr>
                 <td width=120><b>Project Name</b></td>
-                <td width=125><b>{{ $potracking_master->project_name }}</b></td>
+                <td width=125><b>{{ $po_tracking->project_name }}</b></td>
                 <td width=125><b>Acceptance</b></td>
-                <td width=125><b><?php echo date_format(date_create($potracking_master->acceptance_date), 'd F Y'); ?></b></td>
+                <td width=125><b><?php echo date_format(date_create($po_tracking->acceptance_date), 'd F Y'); ?></b></td>
             </tr>
             <tr>
                 <td><b>Project Code</b></td>
-                <td><b>{{ $potracking_master->project_code }}</b></td>
+                <td><b>{{ $po_tracking->project_code }}</b></td>
                 <td><b>Subcontractor Name</b></td>
                 <td><b></b></td>
             </tr>
             <tr>
                 <td><b>PO No</b></td>
-                <td><b>{{ $potracking_master->po_no }}</b></td>
+                <td><b>{{ $po_tracking->po_no }}</b></td>
                 <td><b>Subcontractor No</b></td>
-                <td><b>{{ $potracking_master->sub_contract_no }}</b></td>
+                <td><b>{{ $po_tracking->sub_contract_no }}</b></td>
             </tr>
             <tr>
                 <td><b>Payment</b></td>
@@ -71,21 +71,21 @@
                 <td><b>Remarks</b></td>
             </tr>
             <?php $no = 0; ?>
-            @foreach($po_tracking as $key => $item)
+            {{-- @foreach($po_tracking as $key => $item) --}}
             <?php $no++; ?>
             <tr>
                 <td>{{ $no }}</td>
-                <td>{{ @$item->site_code }}</td>
-                <td>{{ @$item->site_name }}</td>
-                <td>{{ @$item->item_description }}</td>
-                <td>{{ @$item->unit }}</td>
-                <td>{{ @$item->requested_qty }}</td>
-                <td>{{ @$item->due_qty }}</td>
-                <td><?php echo date_format(date_create($item->start_date), 'd-m-Y'); ?></td>
-                <td><?php echo date_format(date_create($item->end_date), 'd-m-Y'); ?></td>
-                <td>{{ @$item->note_to_receiver }}</td>
+                <td>{{ @$po_tracking->site_code }}</td>
+                <td>{{ @$po_tracking->site_name }}</td>
+                <td>{{ @$po_tracking->item_description }}</td>
+                <td>{{ @$po_tracking->unit }}</td>
+                <td>{{ @$po_tracking->requested_qty }}</td>
+                <td>{{ @$po_tracking->due_qty }}</td>
+                <td><?php echo date_format(date_create($po_tracking->start_date), 'd-m-Y'); ?></td>
+                <td><?php echo date_format(date_create($po_tracking->end_date), 'd-m-Y'); ?></td>
+                <td>{{ @$po_tracking->note_to_receiver }}</td>
             </tr>
-            @endforeach
+            {{-- @endforeach --}}
         </table>
         <br>
         <div style="border 0.01em solid black;">
@@ -104,7 +104,7 @@
             <tr>
                 <td width=200></td>
                 <td width=200></td>
-                <td width=200><b>Date: <?php echo date_format(date_create($potracking_master->acceptance_date), 'd-m-Y'); ?></b></td>
+                <td width=200><b>Date: <?php echo date_format(date_create($po_tracking->acceptance_date), 'd-m-Y'); ?></b></td>
             </tr>
         </table>
         <table>

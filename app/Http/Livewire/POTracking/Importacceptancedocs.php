@@ -4,7 +4,8 @@ namespace App\Http\Livewire\PoTracking;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
+use App\Models\PoTrackingReimbursement;
+use App\Models\PoTrackingReimbursementAccdocupload;
 
 class Importacceptancedocs extends Component
 {
@@ -13,16 +14,15 @@ class Importacceptancedocs extends Component
     ];
 
     use WithFileUploads;
-    public $file;
-    public $selected_id;
+    public $file,$po;
     public function render()
     {
         return view('livewire.po-tracking.importacceptancedocs');
     }
 
-    public function dataacceptance($id)
+    public function dataacceptance(PoTrackingReimbursement $id)
     {
-        $this->selected_id = $id;
+        $this->po = $id;
     }
 
     public function save()
@@ -32,17 +32,23 @@ class Importacceptancedocs extends Component
         ]);
 
         if($this->file){
-            $accdoc = 'potracking-accdoc'.$this->selected_id.'.'.$this->file->extension();
+            $accdoc = 'potracking-accdoc'.$this->po->po_reimbursement_id.'.'.$this->file->extension();
             $this->file->storePubliclyAs('public/po_tracking/AcceptanceDocs/',$accdoc);
 
-            $data = \App\Models\PoTrackingReimbursementAccdocupload::where('po_no', $this->selected_id)
-                                                                    ->first();            
+            $data = PoTrackingReimbursementAccdocupload::where('po_tracking_reimbursement_id', $this->po->id)->first();           
+            if(!$data){
+                $data = new PoTrackingReimbursementAccdocupload();
+                $data->po_tracking_reimbursement_id = $this->po->id;
+            } 
             $data->accdoc_filename = $accdoc;
             $data->accdoc_date = date('Y-m-d H:i:s');
             $data->save();
+
+            $this->po->status = 4; // Done
+            $this->po->save();
         }
 
-        session()->flash('message-success',"Upload Acceptance Docs PO No ".$this->selected_id." success");
+        session()->flash('message-success',"Upload Acceptance Docs PO No ".$this->po->po_reimbursement_id." success");
 
         return redirect()->route('po-tracking.index');
     }

@@ -41,16 +41,6 @@
                         @endif
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">
-                            <i class="icon-bell"></i>
-                            <span class="notification-dot"></span>
-                        </a>
-                        <ul class="dropdown-menu notifications">
-                            <li class="header"><strong>You have 0 new Notifications</strong></li>
-                            <li class="footer"><a href="javascript:void(0);" class="more">See all notifications</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown"><i class="icon-equalizer"></i></a>
                         <ul class="dropdown-menu user-menu menu-icon">
                             <li class="menu-heading">ACCOUNT SETTINGS</li>

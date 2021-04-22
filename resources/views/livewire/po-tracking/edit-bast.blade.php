@@ -47,7 +47,6 @@
                                             @else
                                                 <div class="btn btn-warning"> Waiting Uploaded Bast </div>
                                             @endif
-                                            
                                         @else
                                             <a href="<?php echo asset('storage/po_tracking/bast/'.$item->bast_filename) ?>" target="_blank"><i class="fa fa-download"></i> Download Bast </a>
                                             {{-- @if($user->user_access_id == '22') --}}
@@ -55,9 +54,6 @@
                                                 <a href="javascript:;" wire:click="$emit('modal-bast','{{$item->po_no}}')" data-toggle="modal" data-target="#modal-potrackingbast-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Edit BAST')}}</a>
                                             @endif
                                         @endif
-
-                                        
-                                        
                                     </th>
                                     <th>{{ $item->bast_uploader_userid }}</th>         
                                     <th>
@@ -105,48 +101,36 @@
     </div>
 </div>
 
-
-
 <!--    MODAL BAST      -->
 <div class="modal fade" id="modal-potrackingbast-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            
             <livewire:po-tracking.importbast />
         </div>
     </div>
 </div>
-
 <!--    END MODAL BAST      -->
-
 
 <!--    MODAL APPROVE BAST      -->
 <div class="modal fade" id="modal-potrackingapprovebast-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            
             <livewire:po-tracking.approvebast />
         </div>
     </div>
 </div>
-
 <!--    END MODAL APPROVE BAST      -->
 
 @section('page-script')
 Livewire.on('sitetracking-upload',()=>{
     $("#modal-sitetracking-upload").modal('hide');
 });
-
 Livewire.on('modal-bast',(data)=>{
     $("#modal-potrackingbast-upload").modal('show');
 });
-
 Livewire.on('modal-approvebast',(data)=>{
     $("#modal-potrackingapprovebast-upload").modal('show');
 });
-
-
-
 @endsection
 
 

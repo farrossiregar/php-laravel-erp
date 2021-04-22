@@ -4,7 +4,8 @@ namespace App\Http\Livewire\PoTracking;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
+use App\Models\PoTrackingReimbursement;
+use App\Models\PoTrackingReimbursementBastupload;
 
 class Importbast extends Component
 {
@@ -14,7 +15,7 @@ class Importbast extends Component
 
     use WithFileUploads;
     public $file;
-    public $selected_id;
+    public $po;
 
     protected $rules = [
         'file' => 'required',
@@ -24,9 +25,9 @@ class Importbast extends Component
         return view('livewire.po-tracking.importbast');
     }
 
-    public function databast($id)
+    public function databast(PoTrackingReimbursement $po)
     {
-        $this->selected_id = $id;
+        $this->po = $po;
     }
 
     public function save()
@@ -36,17 +37,24 @@ class Importbast extends Component
         ]);
 
         if($this->file){
-            $bast = 'potracking-bast'.$this->selected_id.'.'.$this->file->extension();
+            $bast = 'potracking-bast'.$this->po->po_reimbursement_id.'.'.$this->file->extension();
             $this->file->storePubliclyAs('public/po_tracking/Bast/',$bast);
 
-            $data = \App\Models\PoTrackingReimbursementBastupload::where('po_no', $this->selected_id)
-                                                                    ->first();
+            $data = PoTrackingReimbursementBastupload::where('po_no', $this->po->po_reimbursement_id)->first();
+            if(!$data) {
+                $data = new PoTrackingReimbursementBastupload();
+                $data->po_no = $this->po->po_reimbursement_id;
+            }
+            $data->po_tracking_reimbursement_id = $this->po->id;
             $data->bast_filename = $bast;
             $data->bast_date = date('Y-m-d H:i:s');
             $data->save();
+
+            $this->po->status = 1; // change status regional upload BAST
+            $this->po->save();
         }
 
-        session()->flash('message-success',"Upload Bast PO No ".$this->selected_id." success");
+        session()->flash('message-success',"Upload Bast PO No ".$this->po->po_reimbursement_id." success");
         
         return redirect()->route('po-tracking.index');
     }

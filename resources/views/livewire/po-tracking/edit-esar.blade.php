@@ -59,7 +59,6 @@
                                             <a href="<?php echo asset('storage/po_tracking/ApprovedEsar/'.$item->approved_esar_filename) ?>" target="_blank"><i class="fa fa-download"></i> Download Approved ESAR </a>
                                             <a href="#" wire:click="$emit('modalesarupload','{{$item->po_no}}')" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Edit')}}</a>
                                         @endif
-                                        
                                     </th>      
                                     <th>
                                         @if($item->approved_esar_filename == '')
@@ -80,7 +79,6 @@
     </div>
 </div>
 
-
 <!--    MODAL ESAR      -->
 <div class="modal fade" id="modal-potrackingesar-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -89,8 +87,6 @@
         </div>
     </div>
 </div>
-
-
 <!--    END MODAL ESAR      -->
 
 @push('after-scripts')

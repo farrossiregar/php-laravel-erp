@@ -8,8 +8,10 @@ use App\Models\PoTrackingReimbursement;
 
 class Index extends Component
 {
-    public $date;
+    public $date_start,$date_end,$keyword;
+    
     use WithPagination;
+    
     protected $paginationTheme = 'bootstrap';
     
     public function render()
@@ -20,8 +22,14 @@ class Index extends Component
         // }
 
         $data = PoTrackingReimbursement::orderBy('id', 'DESC');
+        
+        if($this->keyword) $data = $data->where(function($table){
+            foreach(\Illuminate\Support\Facades\Schema::getColumnListing('po_tracking_reimbursement') as $column){
+                $table->orWhere($column,'LIKE',"%{$this->keyword}%");
+            }
+        });
 
-        if($this->date) $data = $data->whereDate('created_at',$this->date);
+        if($this->date_start and $this->date_end) $data = $data->whereBetween('created_at',[$this->date_start,$this->date_end]);
 
         return view('livewire.po-tracking.index')->with(['data'=>$data->paginate(50)]);
         

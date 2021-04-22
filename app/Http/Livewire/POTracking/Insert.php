@@ -6,10 +6,11 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\PoTrackingReimbursement;
 use App\Models\UserEpl;
+use App\Models\PoTrackingReimbursementMaster;
 use App\Mail\PoTrackingReimbursementUpload;
-use App\Mail\PoTrackingReimbursementEsarupload;
-use App\Mail\PoTrackingReimbursementBastupload;
-use Auth;
+use App\Models\PoTrackingReimbursementAccdocupload;
+use App\Models\PoTrackingReimbursementEsarupload;
+use App\Models\PoTrackingReimbursementBastupload;
 use PDF;
 use DB;
 
@@ -27,18 +28,13 @@ class Insert extends Component
             'file'=>'required|mimes:xls,xlsx,csv|max:51200' // 50MB maksimal
         ]);
 
-        
-        $users = Auth::user();
-
         $path = $this->file->getRealPath();
        
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $data = $reader->load($path);
         $sheetData = $data->getActiveSheet()->toArray();
 
-        $datamaster = new \App\Models\PoTrackingReimbursementMaster();
-        $datamaster->created_at = date('Y-m-d H:i:s');
-        $datamaster->updated_at = date('Y-m-d H:i:s');
+        $datamaster = new PoTrackingReimbursementMaster();
         $datamaster->save();
 
         if(count($sheetData) > 0){
@@ -49,7 +45,7 @@ class Insert extends Component
                 if($key<1) continue; // skip header
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
-                $datapo = new \App\Models\PoTrackingReimbursement();
+                $datapo = new PoTrackingReimbursement();
                 if($i[0]=="") continue;
                 
                 $datapo->id_po_tracking_master                   = $datamaster->id;
@@ -88,7 +84,6 @@ class Insert extends Component
                 $datapo->ship_to                                 = $i[32];
                 $datapo->engineering_code                        = $i[33];
                 $datapo->engineering_name                        = $i[34];
-                
                 $datapo->payment_terms                           = $i[35];
                 $datapo->category                                = @$i[36];
                 $datapo->payment_method                          = @$i[37];
@@ -101,81 +96,58 @@ class Insert extends Component
                 $datapo->ff_buyer                                = @$i[44];
                 $datapo->note_to_receiver                        = @$i[45];
                 $datapo->fob_lookup_code                         = @$i[46];
-                $datapo->created_at                              = date('Y-m-d H:i:s');
-                $datapo->updated_at                              = date('Y-m-d H:i:s');
                 $datapo->save();
                 
-
                 $total_success++;
             }
 
-
             $pono = [];
             $data_podetail = [];
-            foreach(PoTrackingReimbursement::select('po_no')
-                                                        ->where('id_po_tracking_master', $datamaster->id)
-                                                        ->groupBy('po_no')
-                                                        ->get() as $key => $item){
-                                                            $pono[$key] = $item->po_no;
-                                $data_podetail = PoTrackingReimbursement::
-                                                                            where('id_po_tracking_master', $datamaster->id)
-                                                                            ->where('po_no', $pono[$key])
-                                                                            ->get();
+            foreach(PoTrackingReimbursement::select('po_no')->where('id_po_tracking_master', $datamaster->id)->groupBy('po_no')->get() as $key => $item){
+                $pono[$key] = $item->po_no;
+                // $data_podetail = PoTrackingReimbursement::
+                //                                             where('id_po_tracking_master', $datamaster->id)
+                //                                             ->where('po_no', $pono[$key])
+                //                                             ->get();
 
-                                $data_podetailmaster = PoTrackingReimbursement::
-                                                                            where('id_po_tracking_master', $datamaster->id)
-                                                                            ->first();
+                $data_podetail = PoTrackingReimbursement::
+                                                            where('id_po_tracking_master', $datamaster->id)
+                                                            ->first();
 
+                $pdf = \App::make('dompdf.wrapper');
+                // $pdf->loadView('livewire.po-tracking.generate-esar',['po_tracking'=>$data_podetail,'potracking_master'=>$data_podetailmaster]);
+                $pdf->loadView('livewire.po-tracking.generate-esar',['po_tracking'=>$data_podetail]);
+                $pdf->stream();
 
-                                $pdf = \App::make('dompdf.wrapper');
-                                $pdf->loadView('livewire.po-tracking.generate-esar',['po_tracking'=>$data_podetail, 'potracking_master'=>$data_podetailmaster ]);
-                                $pdf->stream();
-                                // $output = $pdf->output();
-                                // \Storage::put("po_tracking\autogeneratedesar\po-tracking-reimbursement{$pono[$key]}.pdf",$output);
-                                //$destinationPath = public_path('po_tracking\autogeneratedesar\po-tracking-reimbursement'.$pono[$key]);
-                                
-                                
+                $output = $pdf->output();
+                $filename = 'po-reimbursement'.$pono[$key];
+                
+                $destinationPath = public_path('\storage\po_tracking\AutoGeneratedEsar'.$filename);
+                \Storage::put($destinationPath .'.pdf',$output);
 
-                                // $pdf->download('pdf_file_po_tracking.pdf');
-                                
-                                // $folderPath = storage_path('app/public/po_tracking/autogeneratedesar/'.$datamaster->id);
+                $insertesarupload                               = new PoTrackingReimbursementEsarupload();
+                $insertesarupload->id_po_tracking_master        = $datamaster->id;
+                $insertesarupload->po_no                        = $pono[$key];
+                $insertesarupload->autogenerated_esar_filename  = $filename.'.pdf';
+                $insertesarupload->po_tracking_reimbursement_id  = $data_podetail->id;
+                $insertesarupload->save();
 
-                                // if(!file_exists($folderPath)){
-                                //     $response = mkdir($folderPath);
-                                // }
+                $insertbastupload                               = new PoTrackingReimbursementBastupload();
+                $insertbastupload->id_po_tracking_master        = $datamaster->id;
+                $insertbastupload->po_no                        = $pono[$key];
+                $insertbastupload->region                       = "";
+                $insertbastupload->bast_filename                = "";
+                $insertbastupload->bast_uploader_userid         = "";
+                $insertbastupload->bast_date                    = "";
+                $insertbastupload->po_tracking_reimbursement_id = $data_podetail->id;
+                $insertbastupload->save();
 
-                                $output = $pdf->output();
-                                $filename = 'po-reimbursement'.$pono[$key];
-                                // $no_pdf = $key + 1;
-                                // $destinationPath = public_path('\storage\po_tracking\autogeneratedesar\\'.$datamaster->id.'\po-reimbursement-'.$datamaster->id.'-'.$no_pdf.'-'.$pono[$key]);
-                                $destinationPath = public_path('\storage\po_tracking\AutoGeneratedEsar'.$filename);
-                    
-                                //file_put_contents( $destinationPath .'.pdf', $output);
-                                \Storage::put($destinationPath .'.pdf',$output);
-
-
-                                $insertesarupload                               = new \App\Models\PoTrackingReimbursementEsarupload();
-                                $insertesarupload->id_po_tracking_master        = $datamaster->id;
-                                $insertesarupload->po_no                        = $pono[$key];
-                                $insertesarupload->autogenerated_esar_filename  = $filename.'.pdf';
-                                $insertesarupload->save();
-
-                                $insertbastupload                               = new \App\Models\PoTrackingReimbursementBastupload();
-                                $insertbastupload->id_po_tracking_master        = $datamaster->id;
-                                $insertbastupload->po_no                        = $pono[$key];
-                                $insertbastupload->region                       = "";
-                                $insertbastupload->bast_filename                = "";
-                                $insertbastupload->bast_uploader_userid         = "";
-                                $insertbastupload->bast_date                    = "";
-                                $insertbastupload->save();
-
-                                $insertaccdocupload                               = new \App\Models\PoTrackingReimbursementAccdocupload();
-                                $insertaccdocupload->id_po_tracking_master        = $datamaster->id;
-                                $insertaccdocupload->po_no                        = $pono[$key];
-                                $insertaccdocupload->save();
+                $insertaccdocupload                               = new PoTrackingReimbursementAccdocupload();
+                $insertaccdocupload->id_po_tracking_master        = $datamaster->id;
+                $insertaccdocupload->po_no                        = $pono[$key];
+                $insertaccdocupload->po_tracking_reimbursement_id  = $data_podetail->id;
+                $insertaccdocupload->save();
             }
-
-
 
             $regional = [];
             $regional_code = [];
@@ -215,9 +187,9 @@ class Insert extends Component
                     send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);   
 
                     // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
-                }
-                
+                }    
             }
+
             session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
             
             return redirect()->route('po-tracking.index');   
