@@ -1,21 +1,25 @@
 <form wire:submit.prevent="save">
     @csrf
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-edit"></i> Approve Bast</h5>
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-check"></i> Proccess BAST</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true close-btn">×</span>
         </button>
     </div>
     <div class="modal-body">
-        <p>Approve PO <strong>{{isset($po->po_reimbursement_id) ? $po->po_reimbursement_id : ''}}</strong> ?</p>
-        @if(isset($bast))
-        <a href="{{asset("storage/po_tracking/bast/{$bast->bast_filename}")}}" target="_blank"><i class="fa fa-download"></i> File BAST</a>
-        @endif
+        <div class="form-group">
+            <p>Approve PO <strong>{{isset($po->po_reimbursement_id) ? $po->po_reimbursement_id : ''}}</strong> ?</p>
+        </div>
         <div class="form-group">
             <textarea class="form-control" wire:model="note" placeholder="Note"></textarea>
             @error('note')
             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
             @enderror
+        </div>
+        <div class="form-group">
+            @if(isset($bast))
+            <a href="{{asset("storage/po_tracking/bast/{$bast->bast_filename}")}}" target="_blank"><i class="fa fa-download"></i> File BAST</a>
+            @endif
         </div>
     </div>
     <div class="modal-footer">

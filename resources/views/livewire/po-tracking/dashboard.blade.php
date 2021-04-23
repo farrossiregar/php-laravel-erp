@@ -1,5 +1,5 @@
-@section('title', __('Critical Case Dashboard'))
-@section('parentPageTitle', 'Home')
+{{-- @section('title', __('Dashboard')) --}}
+{{-- @section('parentPageTitle', 'Home') --}}
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -61,26 +61,11 @@
     </div>
 </div>
 
-
-<div class="modal fade" id="modal-criticalcase-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:criticalcase.insert />
-
-        </div>
-    </div>
-</div>
-
-
-
-
-
 @section('page-script')
 Livewire.on('sitetracking-upload',()=>{
     $("#modal-sitetracking-upload").modal('hide');
 });
 @endsection
-
 
 @push('after-scripts')
 <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
