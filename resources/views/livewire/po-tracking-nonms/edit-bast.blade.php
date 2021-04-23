@@ -39,7 +39,9 @@
                                     <td>
                                         @if(check_access('po-tracking-nonms.import-bast'))
                                             @if($item->bast == null || $item->bast == '')
-                                                <a href="javascript:;" wire:click="$emit('modalimportbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importbast" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Bast')}}</a>
+                                                @if($item->po_no != '' || $item->po_no != null)
+                                                    <a href="javascript:;" wire:click="$emit('modalimportbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importbast" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Bast')}}</a>
+                                                @endif
                                             @else
                                                 <a href="javascript:;" wire:click="$emit('modalimportbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importbast" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
 
