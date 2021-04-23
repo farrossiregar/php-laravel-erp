@@ -19,6 +19,7 @@ class UserController extends Controller
         ];
         return response($response, 200);
     }
+    
     public function login(Request $r){
         
         if(Auth::attempt(['email' => $r->email, 'password' => $r->password])){

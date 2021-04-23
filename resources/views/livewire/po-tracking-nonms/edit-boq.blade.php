@@ -139,7 +139,7 @@
                 <!--    Approve BOQ by PMG   -->
                 
                 @if(check_access('po-tracking-nonms.approve-pmg'))
-                    @if($status == '3')
+                    @if($status[0]->status == '3')
                         <div class="row">
                             <div class="col-md-12">
                                 <a href="javascript:;" wire:click="$emit('modalapprovepononms','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-approve" title="Upload" class="btn btn-primary"> {{__('Approve')}}</a>
