@@ -37,8 +37,10 @@ class Submittofin extends Component
         $data = \App\Models\PoTrackingNonms::where('id', $this->selected_id)->first();
 
         if($data->type_doc == '1'){
+            $typedoc = 'STP';
             $data_detail = \App\Models\PoTrackingNonmsStp::where('id_po_nonms_master', $this->selected_id);
         }else{
+            $typedoc = 'Ericson';
             $data_detail = \App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master', $this->selected_id);
         }   
 
