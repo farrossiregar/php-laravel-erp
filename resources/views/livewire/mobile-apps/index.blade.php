@@ -34,6 +34,7 @@
                     <livewire:mobile-apps.location-of-field-team />
                 </div>
                 <div class="tab-pane" id="speed-warning-alarm">
+                    <livewire:mobile-apps.speed-warning-alarm />
                 </div>
                 <div class="tab-pane" id="work-order">
                 </div>
