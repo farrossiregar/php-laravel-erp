@@ -47,6 +47,8 @@ class SpeedWarningController extends Controller
         $temp = [];
         foreach($data as $k => $item){
             $temp[$k] = $item;
+            $temp[$k]['date'] = date('d-M-Y',strtotime($item->created_at));
+            $temp[$k]['time'] = date('H:i:s',strtotime($item->created_at));
         }
 
         $result['data'] = $temp;
