@@ -1,10 +1,20 @@
 <div>
     <div class=" row">
-        <div class="col-md-2 form-group">
-            <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
+        <div class="col-md-2">
+            <select class="form-control" wire:model="employee_id">
+                <option value=""> --- Employee --- </option>
+                @foreach(\App\Models\Employee::where('is_use_android',1)->get() as $item)
+                <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
+            </select>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-2 form-group">
+            <input type="text" class="form-control date_created" placeholder="Date" />
+        </div>
+        <div class="col-md-3">
             <h4><small>Speed Warning :</small> {{get_setting('speed_limit')}} km/h <small><a href="javascript:void(0)" data-toggle="modal" data-target="#modal_speed_warning"><i class="fa fa-edit"></i></a></small></h4>
+        </div>
+        <div class="col-md-5">
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>
@@ -72,4 +82,22 @@
             </div>
         </div>
     </div>
+    @push('after-scripts')
+    <script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/daterange/daterangepicker.css') }}" />
+    <script>
+        $('.date_created').daterangepicker({
+            opens: 'left',
+            locale: {
+                cancelLabel: 'Clear'
+            },
+            autoUpdateInput: false,
+        }, function(start, end, label) {
+            @this.set("date_start", start.format('YYYY-MM-DD'));
+            @this.set("date_end", end.format('YYYY-MM-DD'));
+            $('.date_created').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
+        });
+    </script>
+    @endpush
 </div>

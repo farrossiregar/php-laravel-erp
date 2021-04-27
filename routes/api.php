@@ -37,4 +37,5 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('location-of-field-team/get-nearest',[\App\Http\Controllers\Api\LocationOfFieldTeamController::class,'getNearest'])->name('api.location-of-field-team.get-nearest');
 	Route::get('get-sites',[\App\Http\Controllers\Api\SitesController::class,'getAll']);
 	Route::post('speed-warning/store',[\App\Http\Controllers\Api\SpeedWarningController::class,'store'])->name('api.speed-warning.store');
+	Route::get('speed-warning/data',[\App\Http\Controllers\Api\SpeedWarningController::class,'data'])->name('api.speed-warning.data');
 });
