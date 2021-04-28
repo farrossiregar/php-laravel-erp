@@ -34,6 +34,8 @@ class SpeedWarningController extends Controller
         $data->employee_id = isset(\Auth::user()->employee->id) ? \Auth::user()->employee->id : '';
         $data->employee = \Auth::user()->employee;
         $data->speed = $request->speed;
+        $data->lat = $request->lat;
+        $data->long = $request->long;
         $data->save();
 
         return response()->json(['message'=>'submited'], 200);
