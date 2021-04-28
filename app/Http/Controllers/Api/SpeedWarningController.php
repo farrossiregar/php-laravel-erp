@@ -43,7 +43,7 @@ class SpeedWarningController extends Controller
     {
         $result['code'] = 200;
         $result['message'] = 'success';
-        $data = SpeedWarningAlarm::where('employee_id',\Auth::user()->employee->id)->paginate(10);
+        $data = SpeedWarningAlarm::where('employee_id',\Auth::user()->employee->id)->orderBy('id','DESC')->paginate(5);
         $temp = [];
         foreach($data as $k => $item){
             $temp[$k] = $item;
