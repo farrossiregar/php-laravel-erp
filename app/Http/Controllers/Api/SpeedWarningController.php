@@ -52,6 +52,7 @@ class SpeedWarningController extends Controller
         }
 
         $result['data'] = $temp;
+        $result['today_warning'] = SpeedWarningAlarm::where('employee_id',\Auth::user()->employee->id)->whereDate('created_at',date('Y-m-d'))->count();
         
         return response()->json($result, 200);
     }
