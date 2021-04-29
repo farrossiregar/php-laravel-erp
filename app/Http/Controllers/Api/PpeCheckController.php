@@ -42,22 +42,22 @@ class PpeCheckController extends Controller
         $data->save();
         
         if($request->foto_dengan_ppe){
-            $foto_dengan_ppe = Image::make($request->foto_dengan_ppe)->fit(250, 250);
-            $foto_dengan_ppe_name = $foto_dengan_ppe = Image::make($request->foto_dengan_ppe)->fit(250, 250);
+            $foto_dengan_ppe = \Image::make($request->foto_dengan_ppe)->fit(250, 250);
+            $foto_dengan_ppe_name = "storage/ppe-check/{$data->id}/".'foto_dengan_ppe.'.$request->foto_dengan_ppe->extension();
             $foto_dengan_ppe->save($foto_dengan_ppe_name);
             $data->foto_dengan_ppe = $foto_dengan_ppe_name;
         }
         
         if($request->foto_banner){
-            $foto_banner = Image::make($request->foto_banner)->fit(250, 250);
-            $foto_banner_name = $foto_banner = Image::make($request->foto_banner)->fit(250, 250);
+            $foto_banner = \Image::make($request->foto_banner)->fit(250, 250);
+            $foto_banner_name = "storage/ppe-check/{$data->id}/".'foto_banner.'.$request->foto_banner->extension();
             $foto_banner->save($foto_banner_name);
             $data->foto_banner = $foto_banner_name;
         }
 
         if($request->foto_wah){
             $foto_wah = Image::make($request->foto_wah)->fit(250, 250);
-            $foto_wah_name = $foto_wah = Image::make($request->foto_wah)->fit(250, 250);
+            $foto_wah_name = "storage/ppe-check/{$data->id}/".'foto_wah.'.$request->foto_wah->extension();
             $foto_wah->save($foto_wah_name);
             $data->foto_wah = $foto_wah_name;
         }
