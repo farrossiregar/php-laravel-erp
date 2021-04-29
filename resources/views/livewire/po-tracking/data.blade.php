@@ -93,7 +93,9 @@
                         <td>
                             {{ $item->po_reimbursement_id }}
                             <div class="btn-group" role="group">
-                                <a class=" text-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-edit"></i></a>
+                                <a class=" text-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-{{$item->status==4?'download':'edit'}}"></i>
+                                </a>
                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 @if($item->status==0) {{-- Upload Approved BAST --}}
                                     @if(check_access('po-tracking.upload-bast'))
@@ -107,7 +109,7 @@
                                 @endif
                                 @if($item->status==2)  {{-- Esar Upload --}}
                                     @if(check_access('po-tracking.edit-esar'))
-                                        <a href="{{route('po-tracking.generate-esar',$item->id)}}" class="dropdown-item"><i class="fa fa-download"></i> Generate ESAR</a>
+                                        <a href="{{route('po-tracking.generate-esar',$item->id)}}" target="_blank" class="dropdown-item"><i class="fa fa-download"></i> Generate ESAR</a>
                                         <a href="javascript:void(0);" class="dropdown-item text-success" wire:click="$emit('modalesarupload','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload"><i class="fa fa-upload"></i> {{__('Upload Approved ESAR')}}</a>
                                     @endif
                                 @endif
@@ -121,7 +123,8 @@
                                 @endif
                                 
                                 @if(isset($item->esar->approved_esar_filename))
-                                    <a href="{{asset('storage/po_tracking/ApprovedEsar/'.$item->esar->approved_esar_filename)}}" class="dropdown-item" data-toggle="tooltip" title="Download Approved ESAR"><i class="fa fa-download"></i> {{__('Approved ESAR')}}</a>
+                                    <a href="javascript:void(0);" class="dropdown-item" wire:click="$emit('modalesarupload','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" ata-toggle="tooltip" title="Download Approved ESAR"><i class="fa fa-download"></i> {{__('Approved ESAR')}}</a>
+                                    {{-- <a href="{{asset('storage/po_tracking/ApprovedEsar/'.$item->esar->approved_esar_filename)}}" class="dropdown-item" data-toggle="tooltip" title="Download Approved ESAR"><i class="fa fa-download"></i> {{__('Approved ESAR')}}</a> --}}
                                 @endif
                                 @if(isset($item->acceptance->accdoc_filename))
                                     <a href="{{asset('storage/po_tracking/AcceptanceDocs/'.$item->acceptance->accdoc_filename)}}" class="dropdown-item" data-toggle="tooltip" title="Download Acceptance Docs & Invoice"><i class="fa fa-download"></i> {{__('Acceptance Docs & Invoice')}}</a>

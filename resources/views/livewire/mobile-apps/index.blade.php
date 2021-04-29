@@ -25,10 +25,13 @@
                 <div class="tab-pane" id="health-check">
                 </div>
                 <div class="tab-pane" id="vehicle-check">
+                    <livewire:mobile-apps.vehicle-check />
                 </div>
                 <div class="tab-pane" id="ppe-check">
+                    <livewire:mobile-apps.ppe-check />
                 </div>
                 <div class="tab-pane" id="tools-check">
+                    <livewire:mobile-apps.tools-check />
                 </div>
                 <div class="tab-pane" id="location-of-field-team">
                     <livewire:mobile-apps.location-of-field-team />

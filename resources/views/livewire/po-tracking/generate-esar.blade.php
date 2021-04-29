@@ -1,12 +1,17 @@
-<html>
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
     <head>
         <style>
+            @page{
+                margin:10px 15px;;
+            }
             .tables {
                 border-left: 0.01em solid #000;
                 border-right: 0;
                 border-top: 0.01em solid #000;
                 border-bottom: 0;
                 border-collapse: collapse;
+                width: 100%;
             }
             .tables td,
             .tables th {
@@ -14,67 +19,68 @@
                 border-right: 0.01em solid #000;
                 border-top: 0;
                 border-bottom: 0.01em solid #000;
+                padding: 5px;
             }
             body {
                 font-size: 12px;
             }
+            .text-center {
+                text-align: center;
+            }
         </style>
-        <title>Generate ESAR {{ date('d-M-Y',strtotime($po_tracking->created_at)) }}</title>
+        <title>Generate ESAR {{ $po_tracking->po_reimbursement_id }}</title>
     </head>
     <body>
-        <table>
+        <table style="width:100%;">
             <tr>
-                <td width=70><b><!-- <img src="<?php echo asset('storage/po_tracking/logo/logo-huawei.jpg'); ?>"> --></b></td>
-                <td width=100><b><h3>PT. HUAWEI TECH INVESTMENT ENGINEERING SERVICE ACCEPTANCE REPORT</h3></b></td>
-                <td width=90></td>
+                <td style="width: 10%;"><img src="{{ public_path().'/images/huawei.jpeg'}}" style="width:70px;"></td>
+                <td style="width: 90%;text-align:center;">
+                    <h3>PT. HUAWEI TECH INVESTMENT<br />ENGINEERING SERVICE ACCEPTANCE REPORT</h3>
+                </td>
             </tr>
         </table>
-        <br>
-        <table class="tables" border=1>
+        <table class="tables">
             <tr>
-                <td width=120><b>Project Name</b></td>
-                <td width=125><b>{{ $po_tracking->project_name }}</b></td>
-                <td width=125><b>Acceptance</b></td>
-                <td width=125><b><?php echo date_format(date_create($po_tracking->acceptance_date), 'd F Y'); ?></b></td>
+                <td style="width:18%;"><b>Project Name</b></td>
+                <td style="width:32%;" class="text-center"><b>{{ $po_tracking->project_name }}</b></td>
+                <td style="width:17%;"><b>Acceptance</b></td>
+                <td style="width:33%;" class="text-center"><b><?php echo date_format(date_create($po_tracking->acceptance_date), 'd F Y'); ?></b></td>
             </tr>
             <tr>
                 <td><b>Project Code</b></td>
-                <td><b>{{ $po_tracking->project_code }}</b></td>
+                <td class="text-center"><b>{{ $po_tracking->project_code }}</b></td>
                 <td><b>Subcontractor Name</b></td>
-                <td><b></b></td>
+                <td class="text-center"><b></b></td>
             </tr>
             <tr>
                 <td><b>PO No</b></td>
-                <td><b>{{ $po_tracking->po_no }}</b></td>
+                <td class="text-center"><b>{{ $po_tracking->po_no }}</b></td>
                 <td><b>Subcontractor No</b></td>
-                <td><b>{{ $po_tracking->sub_contract_no }}</b></td>
+                <td class="text-center"><b>{{ $po_tracking->sub_contract_no }}</b></td>
             </tr>
             <tr>
-                <td><b>Payment</b></td>
-                <td><b></b></td>
+                <td><b>Payment Milestone</b></td>
+                <td><b>{{$po_tracking->payment_method}}</b></td>
                 <td><b></b></td>
                 <td><b></b></td>
             </tr>
         </table>
         <br>
-        <table  class="tables" border=1>
+        <table class="tables">
             <tr>
-                <td><b>L/No</b></td>
-                <td><b>Site ID</b></td>
-                <td><b>Site Name</b></td>
-                <td><b>Description</b></td>
-                <td><b>UOM</b></td>
-                <td><b>PO Qty</b></td>
-                <td><b>Actual Qty</b></td>
-                <td><b>Start Date on PO</b></td>
-                <td><b>End Date on PO</b></td>
-                <td><b>Remarks</b></td>
+                <th>L/No</th>
+                <th>Site ID</th>
+                <th>Site Name<</th>
+                <th>Description</th>
+                <th>UOM</th>
+                <th>PO Qty</th>
+                <th>Actual Qty</th>
+                <th>Start Date on PO</th>
+                <th>End Date on PO</th>
+                <th>Remarks</th>
             </tr>
-            <?php $no = 0; ?>
-            {{-- @foreach($po_tracking as $key => $item) --}}
-            <?php $no++; ?>
             <tr>
-                <td>{{ $no }}</td>
+                <td>1</td>
                 <td>{{ @$po_tracking->site_code }}</td>
                 <td>{{ @$po_tracking->site_name }}</td>
                 <td>{{ @$po_tracking->item_description }}</td>
@@ -85,41 +91,36 @@
                 <td><?php echo date_format(date_create($po_tracking->end_date), 'd-m-Y'); ?></td>
                 <td>{{ @$po_tracking->note_to_receiver }}</td>
             </tr>
-            {{-- @endforeach --}}
         </table>
         <br>
-        <div style="border 0.01em solid black;">
-            <table>
-                <tr>
-                    <td width=140></td>
-                    <td width=230>[ ] Deduction</td>
-                    <td width=80></td>
-                    <td width=230>[ ] No Deduction</td>
-                </tr>
-            </table>
-        </div>
-        
+        <table class="tables">
+            <tr>
+                <td style="width:80%;border-right:0;border-bottom:0;padding-left:50px;">
+                    [&nbsp;&nbsp;] Deduction
+                </td>
+                <td style="width:30%;border-bottom:0;">[&nbsp;&nbsp;] No Deduction</td>
+            </tr>
+            <tr>
+                <th colspan="2" style="border-top:0 !important;"><strong style="color:red">( If there is a deduction information, please put a mark in above box and attached Payment Deduction Statement Form)</strong></th>
+            </tr>
+        </table>
         <br>
         <table>
             <tr>
-                <td width=200></td>
-                <td width=200></td>
-                <td width=200><b>Date: <?php echo date_format(date_create($po_tracking->acceptance_date), 'd-m-Y'); ?></b></td>
+                <td width=200 style="vertical-align: bottom"><b>Authorized Signature</b></td>
+                <td width=200 style="vertical-align: bottom"><b>Authorized Signature</b></td>
+                <td width=200>
+                    Date: <span style="border-bottom:1px solid;padding-left:25px;padding-right:25px;"><?php echo date_format(date_create($po_tracking->acceptance_date), 'd-M-Y'); ?></span><br />
+                    <b>Authorized Signature</b>
+                </td>
             </tr>
         </table>
-        <table>
-            <tr>
-                <td width=200><b>Authorized Signature</b></td>
-                <td width=200><b>Authorized Signature</b></td>
-                <td width=200><b>Authorized Signature</b></td>
-            </tr>
-        </table>
-        <br><br><br>
+        <br><br><br><br />
         <table >
             <tr>
-                <td width=200><b>Subcontractor Name</b></td>
-                <td width=200><b>PT Huawei Tech Investment</b></td>
-                <td width=200><b>PT Huawei Tech Investment</b></td>
+                <td width=200><b style="border-top:1px solid;">Subcontractor Name</b></td>
+                <td width=200><b style="border-top:1px solid;">PT Huawei Tech Investment</b></td>
+                <td width=200><b style="border-top:1px solid;">PT Huawei Tech Investment</b></td>
             </tr>
             <tr>
                 <td>Name : Lim Hooi Seeh</td>
@@ -132,6 +133,15 @@
                 <td>Title : GH FOP Jabo</td>
             </tr>
         </table>
-       
+        <br />
+        <p><strong>BCG Guarantee</strong><br />
+            Subcontractor:<br />
+            I guarantee all ESAR that I claimed are actual works. No any fake information inside. No any private benefit with Huawei engineer  <br />
+            Should I disobey this rule, I will accept the consequences as stated in the contract with Huawei.  
+        </p>
+        <p><strong>Huawei PM:</strong><br />
+            I guarantee all ESAR that I signed are the actual works. No any fake information inside. No any private benefit with subcontractors  <br />
+            Should I disobey this rule, I will accept the punishment as written BCG which I declared to the company.
+        </p>
     </body>
 </html>
