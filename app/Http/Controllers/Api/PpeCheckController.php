@@ -26,19 +26,38 @@ class PpeCheckController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'speed' => 'required'
-        ]);
+        // $this->validate($request,[
+        //     'speed' => 'required'
+        // ]);
 
         $data = new PpeCheck();
-        $data->foto_dengan_ppe = $request->foto_dengan_ppe;
-        $data->foto_banner = $request->foto_banner;
-        $data->foto_wah = $request->foto_wah;
-        $data->foto_elektrikal = $request->foto_elektrikal;
-        $data->foto_first_aid = $request->foto_first_aid;
+
+        // $data->foto_dengan_ppe = $request->foto_dengan_ppe;
+        // $data->foto_banner = $request->foto_banner;
+        // $data->foto_wah = $request->foto_wah;
+        // $data->foto_elektrikal = $request->foto_elektrikal;
+        // $data->foto_first_aid = $request->foto_first_aid;
+
         $data->employee_id = isset(\Auth::user()->employee->id) ? \Auth::user()->employee->id : '';
+        $data->save();
+
+        $foto_dengan_ppe = Image::make($request->foto_dengan_ppe)->fit(250, 250);
+        $foto_dengan_ppe_name =         $foto_dengan_ppe = Image::make($request->foto_dengan_ppe)->fit(250, 250);
+        $foto_dengan_ppe->save($foto_dengan_ppe_name);
+        $data->foto_dengan_ppe = $foto_dengan_ppe_name;
+
+        $foto_banner = Image::make($request->foto_banner)->fit(250, 250);
+        $foto_banner_name =         $foto_banner = Image::make($request->foto_banner)->fit(250, 250);
+        $foto_banner->save($foto_banner_name);
+        $data->foto_banner = $foto_banner_name;
+
+        $foto_wah = Image::make($request->foto_wah)->fit(250, 250);
+        $foto_wah_name =         $foto_wah = Image::make($request->foto_wah)->fit(250, 250);
+        $foto_wah->save($foto_wah_name);
+        $data->foto_wah = $foto_wah_name;
 
         $data->save();
+        
 
         return response()->json(['message'=>'submited'], 200);
     }
