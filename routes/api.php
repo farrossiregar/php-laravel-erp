@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+date_default_timezone_set("Asia/Bangkok");
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -39,4 +41,6 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('speed-warning/store',[\App\Http\Controllers\Api\SpeedWarningController::class,'store'])->name('api.speed-warning.store');
 	Route::get('speed-warning/data',[\App\Http\Controllers\Api\SpeedWarningController::class,'data'])->name('api.speed-warning.data');
 	Route::post('ppe-check/store',[\App\Http\Controllers\Api\PpeCheckController::class,'store'])->name('api.ppe-check.store');
+	Route::post('tools-check/store',[\App\Http\Controllers\Api\ToolsCheckController::class,'store'])->name('api.tools-check.store');
+	Route::post('tools-check/data',[\App\Http\Controllers\Api\ToolsCheckController::class,'data'])->name('api.tools-check.data');
 });

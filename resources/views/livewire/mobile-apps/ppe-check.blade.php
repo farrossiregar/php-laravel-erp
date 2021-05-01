@@ -22,11 +22,11 @@
                     <th>No</th>                                    
                     <th>Employee</th> 
                     <th>Date</th>
-                    <th>Employee & PPE</th>
-                    <th>Banner</th>
-                    <th>Sertifikasi WAH</th>
-                    <th>Electrical</th>
-                    <th>First Aid</th>
+                    <th class="text-center">Employee & PPE</th>
+                    <th class="text-center">Banner</th>
+                    <th class="text-center">Sertifikasi WAH</th>
+                    <th class="text-center">Electrical</th>
+                    <th class="text-center">First Aid</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,12 +34,32 @@
                 <tr>
                     <td>{{$k+1}}</td>
                     <td>{{isset($item->_employee->name) ? $item->_employee->name : ''}}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{date('d-M-Y',strtotime($item->created_at))}}</td>
+                    <td class="text-center">
+                        @if($item->foto_dengan_ppe)
+                            <a href="{{asset($item->foto_dengan_ppe)}}" target="_blank"><i class="fa fa-image"></i></a>
+                        @endif
+                    </td>
+                    <td class="text-center">
+                        @if($item->foto_banner)
+                            <a href="{{asset($item->foto_banner)}}" target="_blank"><i class="fa fa-image"></i></a>
+                        @endif
+                    </td>
+                    <td class="text-center">
+                        @if($item->foto_wah)
+                            <a href="{{asset($item->foto_wah)}}" target="_blank"><i class="fa fa-image"></i></a>
+                        @endif
+                    </td>
+                    <td class="text-center">
+                        @if($item->foto_elektrikal)
+                            <a href="{{asset($item->foto_elektrikal)}}" target="_blank"><i class="fa fa-image"></i></a>
+                        @endif
+                    </td>
+                    <td class="text-center">
+                        @if($item->foto_first_aid)
+                            <a href="{{asset($item->foto_first_aid)}}" target="_blank"><i class="fa fa-image"></i></a>
+                        @endif
+                    </td>
                 </tr>
             @endforeach
             </tbody>

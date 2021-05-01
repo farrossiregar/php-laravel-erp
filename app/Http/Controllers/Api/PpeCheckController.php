@@ -29,39 +29,40 @@ class PpeCheckController extends Controller
         // $this->validate($request,[
         //     'speed' => 'required'
         // ]);
-
         $data = new PpeCheck();
-
-        // $data->foto_dengan_ppe = $request->foto_dengan_ppe;
-        // $data->foto_banner = $request->foto_banner;
-        // $data->foto_wah = $request->foto_wah;
-        // $data->foto_elektrikal = $request->foto_elektrikal;
-        // $data->foto_first_aid = $request->foto_first_aid;
-
         $data->employee_id = isset(\Auth::user()->employee->id) ? \Auth::user()->employee->id : '';
         $data->save();
-        
-        if($request->foto_dengan_ppe){
-            $foto_dengan_ppe = \Image::make($request->foto_dengan_ppe)->fit(250, 250);
-            $foto_dengan_ppe_name = "storage/ppe-check/{$data->id}/".'foto_dengan_ppe.'.$request->foto_dengan_ppe->extension();
-            $foto_dengan_ppe->save($foto_dengan_ppe_name);
-            $data->foto_dengan_ppe = $foto_dengan_ppe_name;
-        }
-        
-        if($request->foto_banner){
-            $foto_banner = \Image::make($request->foto_banner)->fit(250, 250);
-            $foto_banner_name = "storage/ppe-check/{$data->id}/".'foto_banner.'.$request->foto_banner->extension();
-            $foto_banner->save($foto_banner_name);
-            $data->foto_banner = $foto_banner_name;
+
+        if($request->foto_dengan_ppe) {
+            $name = "foto_dengan_ppe.".$request->foto_dengan_ppe->extension();
+            $request->foto_dengan_ppe->storeAs("public/ppe-check/{$data->id}", $name);
+            $data->foto_dengan_ppe = "storage/ppe-check/{$data->id}/{$name}";
         }
 
-        if($request->foto_wah){
-            $foto_wah = Image::make($request->foto_wah)->fit(250, 250);
-            $foto_wah_name = "storage/ppe-check/{$data->id}/".'foto_wah.'.$request->foto_wah->extension();
-            $foto_wah->save($foto_wah_name);
-            $data->foto_wah = $foto_wah_name;
+        if($request->foto_banner) {
+            $name = "foto_banner.".$request->foto_banner->extension();
+            $request->foto_banner->storeAs("public/ppe-check/{$data->id}", $name);
+            $data->foto_banner = "storage/ppe-check/{$data->id}/{$name}";
         }
 
+        if($request->foto_wah) {
+            $name = "foto_wah.".$request->foto_wah->extension();
+            $request->foto_wah->storeAs("public/ppe-check/{$data->id}", $name);
+            $data->foto_wah = "storage/ppe-check/{$data->id}/{$name}";
+        }
+
+        if($request->foto_elektrikal) {
+            $name = "foto_elektrikal.".$request->foto_wah->extension();
+            $request->foto_elektrikal->storeAs("public/ppe-check/{$data->id}", $name);
+            $data->foto_elektrikal = "storage/ppe-check/{$data->id}/{$name}";
+        }
+
+        if($request->foto_first_aid) {
+            $name = "foto_first_aid.".$request->foto_first_aid->extension();
+            $request->foto_first_aid->storeAs("public/ppe-check/{$data->id}", $name);
+            $data->foto_first_aid = "storage/ppe-check/{$data->id}/{$name}";
+        }
+        
         $data->save();
         
         return response()->json(['message'=>'submited'], 200);

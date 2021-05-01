@@ -34,8 +34,8 @@ class SpeedWarningController extends Controller
         $data->employee_id = isset(\Auth::user()->employee->id) ? \Auth::user()->employee->id : '';
         $data->employee = \Auth::user()->employee;
         $data->speed = $request->speed;
-        $data->lat = $request->lat;
-        $data->long = $request->long;
+        // $data->lat = $request->lat;
+        // $data->long = $request->long;
         $data->save();
 
         return response()->json(['message'=>'submited'], 200);
@@ -55,7 +55,7 @@ class SpeedWarningController extends Controller
 
         $result['data'] = $temp;
         $result['today_warning'] = SpeedWarningAlarm::where('employee_id',\Auth::user()->employee->id)->whereDate('created_at',date('Y-m-d'))->count();
-        
+        $result['max_speed'] = get_setting('speed_limit');
         return response()->json($result, 200);
     }
 }

@@ -30,6 +30,8 @@
                     <th>Speed (km/h)</th>
                     <th>Date</th>
                     <th>Time</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,6 +42,8 @@
                         <td>{{$item->speed}}</td>
                         <td>{{date('d-M-Y',strtotime($item->created_at))}}</td>
                         <td>{{date('H:i',strtotime($item->created_at))}}</td>
+                        <td>{{$item->lat}}</td>
+                        <td>{{$item->long}}</td>
                     </tr>
                 @endforeach
                 @if($data->count() ==0)

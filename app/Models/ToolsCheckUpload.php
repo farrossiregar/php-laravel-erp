@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ToolsCheckUpload extends Model
 {
     use HasFactory;
+
+    protected $table = 'tools_check_upload';
 }

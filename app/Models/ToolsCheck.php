@@ -14,6 +14,6 @@ class ToolsCheck extends Model
 
     public function _employee()
     {
-        return $this->hasOne(Employee::class, 'employee_id');
+        return $this->hasOne(Employee::class, 'id','employee_id');
     }
 }

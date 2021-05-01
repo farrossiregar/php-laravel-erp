@@ -40,7 +40,7 @@
                     <th>Year</th>
                     <th>Month</th>
                     @foreach(\App\Models\ToolsCheckItem::get() as $tools)
-                    <th>{{$tools->name}}</th>
+                    <th class="text-center">{{$tools->name}}</th>
                     @endforeach
                 </tr>
             </thead>
@@ -49,10 +49,14 @@
                     <tr>
                         <td>{{$k+1}}</td>
                         <td>{{isset($item->_employee->name) ? $item->_employee->name : ''}}</td>
-                        <td>{{$item->year}}</td>
-                        <td>{{$item->month}}</td>
+                        <td>{{$item->tahun}}</td>
+                        <td>{{$item->bulan}}</td>
                         @foreach(\App\Models\ToolsCheckItem::get() as $tools)
-                        <th></th>
+                            <th class="text-center">
+                            @foreach(\App\Models\ToolsCheckUpload::where(['tools_check_item_id'=>$tools->id,'tools_check_id'=>$item->id])->get() as $upload)
+                                <a href="{{asset($upload->image)}}" target="_blank"><i class="fa fa-image"></i></a>
+                            @endforeach
+                            </th>
                         @endforeach
                     </tr>
                 @endforeach
