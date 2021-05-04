@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\ToolsCheck;
-use App\Models\ToolsCheckUpload;
+use App\Models\VechicleCheck;
 use Illuminate\Http\Request;
  
-class ToolsCheckController extends Controller
+class VehicleCheckController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,36 +26,22 @@ class ToolsCheckController extends Controller
      */
     public function store(Request $request)
     {
-        $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id,'tahun'=>date('Y'),'bulan'=>date('m')])->first();
-        if(!$find){
-            $find = new ToolsCheck();
-            $find->tahun = date('Y');
-            $find->bulan = date('m');
-            $find->employee_id = \Auth::user()->employee->id;
-            $find->save();
+        $data = VechicleCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
+        if(!$data){
+            $data = new VechicleCheck();
+            $data->employee_id = \Auth::user()->employee->id;
         }
+        $data->save();
 
-        $upload = new ToolsCheckUpload();
-        $upload->tools_check_id = $find->id;
-        $upload->tools_check_item_id = $request->tools_check_item_id;
-        $upload->save();
-
-        if($request->image) {
-            $name = $upload->id.".".$request->image->extension();
-            $request->image->storeAs("public/tools-check/{$find->id}", $name);
-            $upload->image = "storage/tools-check/{$find->id}/{$name}";
+        if($request->file_vehicle) {
+            $name = $data->id.".".$request->file_vehicle->extension();
+            $request->file_vehicle->storeAs("public/tools-check/{$find->id}", $name);
+            $data->file_vehicle = "storage/tools-check/{$find->id}/{$name}";
         }
         
-        $upload->save();
+        $data->save();
         
-        $data = ToolsCheckUpload::orderBy('id','DESC')->where(['tools_check_item_id'=>$request->tools_check_item_id])->get();
-        $result = [];
-        foreach($data as $k => $item){
-            $result[$k] = $item;
-            $result[$k]['image'] = asset($item->image);
-        }
-        
-        return response()->json(['message'=>'submited','data'=>$data], 200);
+        return response()->json(['message'=>'submited'], 200);
     }
 
     public function data(Request $request)

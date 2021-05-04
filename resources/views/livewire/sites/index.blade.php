@@ -41,6 +41,8 @@
                                 <th>Service Manager Area</th>
                                 <th>Cluster Area</th>
                                 <th>Subcluster Area</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,6 +68,12 @@
                                 <td>{{isset($item->region->region)?$item->region->region:''}}</td>
                                 <td>{{isset($item->cluster->name)?$item->cluster->name:''}}</td>
                                 <td>{{isset($item->cluster_sub->name) ? $item->cluster_sub->name : ''}}</td>
+                                <td>
+                                    {{$item->lat}}
+                                </td>
+                                <td>
+                                    {{$item->long}}
+                                </td>
                             </tr>
                             @php($num++)
                             @endforeach

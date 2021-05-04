@@ -43,4 +43,8 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('ppe-check/store',[\App\Http\Controllers\Api\PpeCheckController::class,'store'])->name('api.ppe-check.store');
 	Route::post('tools-check/store',[\App\Http\Controllers\Api\ToolsCheckController::class,'store'])->name('api.tools-check.store');
 	Route::post('tools-check/data',[\App\Http\Controllers\Api\ToolsCheckController::class,'data'])->name('api.tools-check.data');
+	Route::post('tools-check/delete-image',[\App\Http\Controllers\Api\ToolsCheckController::class,'deleteImage'])->name('api.tools-check.delete-image');
+	Route::post('vehicle-check/store',[\App\Http\Controllers\Api\VehicleCheckController::class,'store'])->name('api.vehicle-check.store');
+	Route::get('menu',[\App\Http\Controllers\Api\HomeController::class,'menu'])->name('menu');
+	Route::get('site-by-field-team',[\App\Http\Controllers\Api\SitesController::class,'getByFieldTeam'])->name('api.sites-by-field-team');
 });

@@ -12,4 +12,18 @@ class SitesController extends Controller
     {
         return response()->json(Site::whereNotNull('name')->where('name','<>',"")->get(), 200);
     }
+
+    public function getByFieldTeam()
+    {
+        $temp = Site::where('employee_id',\Auth::user()->employee->id)->paginate(20);
+        $data = [];
+        foreach($temp as $k => $item){
+            $data[$k] = $item;
+            $data[$k]['region_name'] = isset($item->region->region) ? $item->region->region : '';
+            $data[$k]['cluster_name'] = isset($item->cluster->name) ? $item->cluster->name : '';   
+            $data[$k]['cluster_sub_name'] = isset($item->cluster_sub->name) ? $item->cluster_sub->name : '';   
+        }
+
+        return response()->json(["message"=>"success","data"=>$data], 200);
+    }
 }

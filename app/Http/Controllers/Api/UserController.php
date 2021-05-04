@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\CommitmentDaily;
+use App\Models\PpeCheck;
+use App\Models\VehicleCheck;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
@@ -27,6 +29,9 @@ class UserController extends Controller
             $data['token'] =  $user->createToken('Laravel')->accessToken;
             $data['name'] = $user->name;
             $data['is_commitment_daily'] = CommitmentDaily::whereDate('created_at',date('Y-m-d'))->where('employee_id', $user->employee->id)->count();
+            $data['is_ppe_check'] = PpeCheck::whereDate('created_at',date('Y-m-d'))->where('employee_id', $user->employee->id)->count();
+            $data['is_vehicle_check'] = VehicleCheck::whereDate('created_at',date('Y-m-d'))->where('employee_id', $user->employee->id)->count();
+
             return response(['status'=>200,'message'=>'success','data'=> $data], 200);
         }
         else{
