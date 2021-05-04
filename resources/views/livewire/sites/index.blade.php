@@ -68,12 +68,8 @@
                                 <td>{{isset($item->region->region)?$item->region->region:''}}</td>
                                 <td>{{isset($item->cluster->name)?$item->cluster->name:''}}</td>
                                 <td>{{isset($item->cluster_sub->name) ? $item->cluster_sub->name : ''}}</td>
-                                <td>
-                                    {{$item->lat}}
-                                </td>
-                                <td>
-                                    {{$item->long}}
-                                </td>
+                                <td>@livewire('sites.set-lat',['id'=>$item->id],key($item->id))</td>
+                                <td>@livewire('sites.set-long',['id'=>$item->id],key($item->id))</td>
                             </tr>
                             @php($num++)
                             @endforeach
