@@ -39,9 +39,10 @@
                     <th>PO No</th>    
                     <th>WO Number</th>    
                     <th>Region</th>    
+                    <!-- <th>Status</th>     -->
                     <th>Status</th>    
                     <th>Note from PMG</th>    
-                    <th>Bast Status</th>
+                    <!-- <th>Bast Status</th> -->
                     <th>Note Bast from E2E</th>
                     <th>Extra Budget</th>
                     <th>Action</th>
@@ -71,7 +72,7 @@
                     </td>    
                     <td>{{ $item->no_tt }}</td>    
                     <td>{{ $item->region }}</td>    
-                    <td>
+                    <!-- <td>
                         <?php
                             if($item->status == '' || $item->status == null || $item->status == '0'){
                                 $status =  "Waiting Approval"; // BOQ / STP belum disubmit
@@ -88,15 +89,44 @@
                                 }
 
                                 if($item->status == '3'){
-                                    $status =  "Waiting PMG Review"; // Submit ke PMG dan proses Review jika profit per item < 30%
+                                    $status =  "Waiting PMG Review under 30%"; // Submit ke PMG dan proses Review jika profit per item < 30%
                                     $statustype =  "warning";
                                 }
                             }
                         ?>   
                         <div class="btn btn-<?php echo $statustype; ?>"> <?php echo $status; ?> </div>
-                    </td>    
+                    </td>     -->
+                    <td class="text-center">
+                        
+                        @if($item->status==0 || $item->status == null || $item->status == '0')
+                            <label class="badge badge-info" data-toggle="tooltip" title="Regional - Waiting to Submit">Waiting to Submit</label>
+                        @endif
+                        @if($item->status==1)
+                            <!-- <label class="badge badge-warning" data-toggle="tooltip" title="Finance - Approved">Finance - Profit >= 30% </label> -->
+                            <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%">Finance - Approved</label>
+                        @endif
+                        @if($item->status==2)
+                            <!-- <label class="badge badge-primary" data-toggle="tooltip" title="E2E - Generate ESAR, Upload ESAR and Verification Docs">E2E Upload</label> -->
+                            <label class="badge badge-danger" data-toggle="tooltip" title="PMG - Revise Request, Profit < 30%">Revise</label>
+                        @endif
+                        @if($item->status==3)
+                            <label class="badge badge-warning" data-toggle="tooltip" title="PMG - Waiting PMG Review under 30%">PMG Review </label>
+                        @endif
+
+                        @if($item->status==1 && ($item->bast_status == '' || $item->bast_status == null))
+                            <label class="badge badge-warning" data-toggle="tooltip" title="E2E - Waiting Approved Bast by E2E">Waiting Approval </label>
+                        @endif
+
+                        @if($item->status==1 && ($item->bast_status == '1'))
+                            <label class="badge badge-success" data-toggle="tooltip" title="E2E - Bast Approved">Bast Approved </label>
+                        @endif
+
+                        @if($item->status==1 && ($item->bast_status == '2'))
+                            <label class="badge badge-danger" data-toggle="tooltip" title="Regional - Revise Bast">Bast Declined</label>
+                        @endif
+                    </td>
                     <td>{{ $item->status_note }}</td>    
-                    <td>
+                    <!-- <td>
                         <?php
                             if($item->bast_status == '' || $item->bast_status == null){
                                 $status =  "Waiting Approved Bast E2E";
@@ -112,7 +142,7 @@
                             }
                         ?>   
                         <div class="btn btn-<?php echo $statustype; ?>"> <?php echo $status; ?> </div>
-                    </td>
+                    </td> -->
                     <td>{{ $item->bast_status_note }}</td>
                     <td><b>Rp {{ format_idr(get_extra_budget($item->id)) }}</b> </td>
                     <td>

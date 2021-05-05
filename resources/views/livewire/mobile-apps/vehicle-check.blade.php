@@ -36,12 +36,22 @@
                     <td>{{$k+1}}</td>
                     <td>{{isset($item->_employee->name) ? $item->_employee->name : ''}}</td>
                     <td>{{date('d-M-Y',strtotime($item->created_at))}}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{$item->plat_nomor}}</td>
+                    <td>
+                        @if($item->foto_mobil_plat_nomor)
+                            <a href="{{asset($item->foto_mobil_plat_nomor)}}"><i class="fa fa-image"></i></a>
+                        @endif
+                    </td>
+                    <td>
+                        @if($item->stiker_safety_driving)
+                            <a href="{{asset($item->stiker_safety_driving)}}"><i class="fa fa-image"></i></a>
+                        @endif
+                    </td>
+                    <td>
+                        @if($item->foto_stiker_safety_driving)
+                            <a href="{{asset($item->foto_stiker_safety_driving)}}"><i class="fa fa-image"></i></a>
+                        @endif
+                    </td>
                 </tr>
             @endforeach
             </tbody>

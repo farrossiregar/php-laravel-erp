@@ -14,7 +14,7 @@
         <table class="table m-b-0 c_list">
             <thead>
                 <tr style="background:#eee;">
-                    <th>No</th>                                    
+                    <th style="width:50">No</th>                                    
                     <th>Employee</th>   
                     <th>Latitude</th>
                     <th>Longitude</th>
