@@ -31,6 +31,7 @@ class UserController extends Controller
             $data['is_commitment_daily'] = CommitmentDaily::whereDate('created_at',date('Y-m-d'))->where('employee_id', $user->employee->id)->count();
             $data['is_ppe_check'] = PpeCheck::whereDate('created_at',date('Y-m-d'))->where('employee_id', $user->employee->id)->count();
             $data['is_vehicle_check'] = VehicleCheck::whereDate('created_at',date('Y-m-d'))->where('employee_id', $user->employee->id)->count();
+            $data['commitment_daily'] = CommitmentDaily::select('commitment_dailys.*',\DB::raw("DATE_FORMAT(created_at, \"%d %M %Y\") as tanggal"))->whereDate('created_at',date('Y-m-d'))->where('employee_id',$user->employee->id)->first();
 
             return response(['status'=>200,'message'=>'success','data'=> $data], 200);
         }

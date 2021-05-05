@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\VechicleCheck;
+use App\Models\VechicleCheckCleanliness;
+use App\Models\VechicleCheckAccidentReport;
 use Illuminate\Http\Request;
  
 class VehicleCheckController extends Controller
@@ -35,8 +37,34 @@ class VehicleCheckController extends Controller
 
         if($request->file_vehicle) {
             $name = $data->id.".".$request->file_vehicle->extension();
-            $request->file_vehicle->storeAs("public/tools-check/{$find->id}", $name);
-            $data->file_vehicle = "storage/tools-check/{$find->id}/{$name}";
+            $request->file_vehicle->storeAs("public/vechile-check/{$data->id}", $name);
+            $data->file_vehicle = "storage/vehicle-check/{$data->id}/{$name}";
+        }
+
+        if($request->file_vehicle_cleanliness){
+            foreach($request->file_vehicle_cleanliness as $file){
+                $cleanliness = new VechicleCheckCleanliness();
+                $cleanliness->vehicle_check_id = $data->id;
+                $cleanliness->save();
+
+                $name = $cleanliness->id.".".$file->extension();
+                $file->storeAs("public/vechile-check/{$data->id}/{$cleanliness->id}", $name);
+                $cleanliness->image = "storage/vehicle-check/{$data->id}/{$cleanliness->id}/{$name}";
+                $cleanliness->save();
+            }
+        }
+
+        if($request->file_vehicle_accident){
+            foreach($request->file_vehicle_accident as $file){
+                $accident = new VechicleCheckAccidentReport();
+                $accident->vehicle_check_id = $data->id;
+                $accident->save();
+
+                $name = $accident->id.".".$file->extension();
+                $file->storeAs("public/vechile-check/{$data->id}/{$accident->id}", $name);
+                $accident->image = "storage/vehicle-check/{$data->id}/{$accident->id}/{$name}";
+                $accident->save();
+            }
         }
         
         $data->save();

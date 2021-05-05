@@ -59,7 +59,9 @@ class CommitmentDailyController extends Controller
         $data->regulasi_terkait_cyber_security = $request->regulasi_terkait_cyber_security;
         $data->save();
 
-        return response()->json(['message'=>'submited'], 200);
+        $commitment_daily = CommitmentDaily::select('commitment_dailys.*',\DB::raw("DATE_FORMAT(created_at, \"%d %M %Y\") as tanggal"))->whereDate('created_at',date('Y-m-d'))->where('id',$data->id)->first();
+        
+        return response()->json(['message'=>'submited','data'=>$commitment_daily], 200);
     }
 
     /**
@@ -73,8 +75,13 @@ class CommitmentDailyController extends Controller
         $result['code'] = 200;
         $result['message'] = 'success';
 
-        $result['data'] = CommitmentDaily::where('employee_id',\Auth::user()->employee->id)->get();
-
+        $params = CommitmentDaily::where('employee_id',\Auth::user()->employee->id)->orderBy('id','DESC')->paginate(10);
+        $data = [];
+        foreach($params as $key => $item){
+            $data[$key] = $item;
+            $data[$key]['tanggal'] = date('d M Y',strtotime($item->created_at));
+        }
+        $result['data'] = $data;
         return response()->json($result, 200);
     }
 
