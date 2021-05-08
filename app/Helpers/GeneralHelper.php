@@ -79,21 +79,32 @@ function check_access($link,$type=1){
     if($cek) return $cek?true:false;
 }
 
-// function check_access_data($link,$reg_id){
-       
-//     $cek = DB::table('user_access_modules as user_access_modules')
-//                     ->where('modules_items.link',$link)
-//                     ->where('employees.region_id',$reg_id)
-//                     ->join('modules_items','modules_items.id','=','user_access_modules.module_id')
-//                     ->join('modules','modules.id','=','modules_items.module_id')
-//                     ->join('employees','employees.user_access_id','=','user_access_modules.user_access_id')
-//                     ->get();
-//     if($cek){
-//         return $cek;
-//     }else{
-//         return false;
-//     }
-// }
+
+function check_access_data($link, $reg = ''){
+    $reg_id = \App\Models\Region::where('region_code', $reg)->first();
+    if($reg){
+        $cek = DB::table('user_access_modules as user_access_modules')
+                    ->where('modules_items.link',$link)
+                    ->where('employees.region_id',$reg_id->id)
+                    ->join('modules_items','modules_items.id','=','user_access_modules.module_id')
+                    ->join('modules','modules.id','=','modules_items.module_id')
+                    ->join('employees','employees.user_access_id','=','user_access_modules.user_access_id')
+                    ->get();
+    }else{
+        $cek = DB::table('user_access_modules as user_access_modules')
+                    ->where('modules_items.link',$link)
+                    ->join('modules_items','modules_items.id','=','user_access_modules.module_id')
+                    ->join('modules','modules.id','=','modules_items.module_id')
+                    ->join('employees','employees.user_access_id','=','user_access_modules.user_access_id')
+                    ->get();
+    }
+    
+    if($cek){
+        return $cek;
+    }else{
+        return false;
+    }
+}
 
 function check_access_controller($link){
     $cek = \App\Models\UserAccessModule::select('modules.*')
@@ -217,5 +228,48 @@ function get_extra_budget($id){
     $extra_budget = $total_before - $total_after;
 
     return $extra_budget;
+
+}
+
+
+function get_total_price($id){
+    $data             = \App\Models\PoTrackingNonms::where('id', $id)->first();  
+        
+    if($data->type_doc == '1'){
+        $data_detail = \App\Models\PoTrackingNonmsStp::where('id_po_nonms_master', $id);
+    }else{
+        $data_detail = \App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master', $id);
+    }   
+
+    $total_after      = $data_detail->select(DB::raw("SUM(input_price) as input_price"))    
+                                    ->groupBy('id_po_nonms_master')  
+                                    ->get();  
+
+
+    $total_after = json_decode($total_after);
+    $total_after = $total_after[0]->input_price;
+
+    return $total_after;
+
+}
+
+
+function get_total_actual_price($id){
+    $data             = \App\Models\PoTrackingNonms::where('id', $id)->first();  
+        
+    if($data->type_doc == '1'){
+        $data_detail = \App\Models\PoTrackingNonmsStp::where('id_po_nonms_master', $id);
+    }else{
+        $data_detail = \App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master', $id);
+    }   
+
+    $total_before     = $data_detail->select(DB::raw("SUM(price) as price"))    
+                                    ->groupBy('id_po_nonms_master')  
+                                    ->get();  
+
+    $total_before = json_decode($total_before);
+    $total_before = $total_before[0]->price;
+
+    return $total_before;
 
 }

@@ -76,8 +76,14 @@ class Submitdoc extends Component
             }
         }
 
-        $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
-                                ->where('employees.user_access_id', $target_user_access_id)->get();
+        // $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
+        //                         ->where('employees.user_access_id', $target_user_access_id)->get();
+
+        if($target_user == 'PMG'){
+            $notif_user = check_access_data('po-tracking-nonms.notif-pmg', '');
+        }else{
+            $notif_user = check_access_data('po-tracking-nonms.notif-finance', '');
+        }
         
         $nameuser = [];
         $emailuser = [];
@@ -95,8 +101,10 @@ class Submitdoc extends Component
         }
 
 
-        $notif_user_e2e = DB::table(env('DB_DATABASE').'.employees as employees')
-                                ->where('employees.user_access_id', '20')->get();
+        // $notif_user_e2e = DB::table(env('DB_DATABASE').'.employees as employees')
+        //                         ->where('employees.user_access_id', '20')->get();
+
+        $notif_user_e2e = check_access_data('po-tracking-nonms.notif-e2e', '');
         
         $nameusere2e = [];
         $emailusere2e = [];
@@ -115,11 +123,13 @@ class Submitdoc extends Component
 
 
         if($target_user == 'Finance'){
-            $notif_user_finance_regional = DB::table('pmt.employees as employees')
-                                                ->where('employees.user_access_id', '23') // Finance Regional
-                                                ->join('epl.region as region', 'region.id', '=', 'employees.region_id')
-                                                ->get();
+            // $notif_user_finance_regional = DB::table('pmt.employees as employees')
+            //                                     ->where('employees.user_access_id', '23') // Finance Regional
+            //                                     ->join('epl.region as region', 'region.id', '=', 'employees.region_id')
+            //                                     ->get();
 
+            $notif_user_finance_regional = check_access_data('po-tracking-nonms.notif-finance-regional', $data->region);
+            
             $nameuser = [];
             $emailuser = [];
             $phoneuser = [];
@@ -128,7 +138,7 @@ class Submitdoc extends Component
                 $emailuser[$no] = $itemuserfinance->email;
                 $phoneuser[$no] = $itemuserfinance->telepon;
     
-                $message = "*Dear ".$target_user." - ".$nameuser[$no]."*\n\n";
+                $message = "*Dear ".$target_user." Regional ".$data->region." - ".$nameuser[$no]."*\n\n";
                 $message .= "*PO Tracking Non MS ".$typedoc." pada ".date('d M Y H:i:s')."*\n\n";
                 send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
     
