@@ -43,6 +43,9 @@
                     <th>Note from PMG</th>    
                     <!-- <th>Bast Status</th> -->
                     <th>Note Bast from E2E</th>
+                    <th>Total Price</th>
+                    <th>Total Actual Price</th>
+                    <th>Total Profit Margin</th>
                     <th>Extra Budget</th>
                     <th>Field Team</th>
                     <th>Action</th>
@@ -92,6 +95,11 @@
                                     $status =  "Waiting PMG Review under 30%"; // Submit ke PMG dan proses Review jika profit per item < 30%
                                     $statustype =  "warning";
                                 }
+                                
+                                if($item->status == '4'){
+                                    $status =  "Waiting PMG Review under 30%"; // Submit ke PMG dan proses Review jika profit per item < 30%
+                                    $statustype =  "success";
+                                }
                             }
                         ?>   
                         <div class="btn btn-<?php echo $statustype; ?>"> <?php echo $status; ?> </div>
@@ -103,7 +111,7 @@
                         @endif
                         @if($item->status==1)
                             <!-- <label class="badge badge-warning" data-toggle="tooltip" title="Finance - Approved">Finance - Profit >= 30% </label> -->
-                            <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%">Finance - Approved</label>
+                            <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%, Waiting to Transfer Budget">Finance - Approved</label>
                         @endif
                         @if($item->status==2)
                             <!-- <label class="badge badge-primary" data-toggle="tooltip" title="E2E - Generate ESAR, Upload ESAR and Verification Docs">E2E Upload</label> -->
@@ -112,16 +120,19 @@
                         @if($item->status==3)
                             <label class="badge badge-warning" data-toggle="tooltip" title="PMG - Waiting PMG Review under 30%">PMG Review </label>
                         @endif
+                        @if($item->status==4)
+                        <label class="badge badge-success" data-toggle="tooltip" title="Finance - Budget Successfully Transfered">Finance - Approved</label>
+                        @endif
 
-                        @if($item->status==1 && ($item->bast_status == '' || $item->bast_status == null))
+                        @if($item->status==4 && ($item->bast_status == '' || $item->bast_status == null))
                             <label class="badge badge-warning" data-toggle="tooltip" title="E2E - Waiting Approved Bast by E2E">Waiting Approval </label>
                         @endif
 
-                        @if($item->status==1 && ($item->bast_status == '1'))
+                        @if($item->status==4 && ($item->bast_status == '1'))
                             <label class="badge badge-success" data-toggle="tooltip" title="E2E - Bast Approved">Bast Approved </label>
                         @endif
 
-                        @if($item->status==1 && ($item->bast_status == '2'))
+                        @if($item->status==4 && ($item->bast_status == '2'))
                             <label class="badge badge-danger" data-toggle="tooltip" title="Regional - Revise Bast">Bast Declined</label>
                         @endif
                     </td>
@@ -144,6 +155,24 @@
                         <div class="btn btn-<?php echo $statustype; ?>"> <?php echo $status; ?> </div>
                     </td> -->
                     <td>{{ $item->bast_status_note }}</td>
+                    <td><b>Rp {{ format_idr(get_total_price($item->id)) }}</b></td> 
+                    <td><b>Rp {{ format_idr(get_total_actual_price($item->id)) }}</b></td>  
+                    <td>
+                        <?php
+                            if(get_total_price($item->id) && get_total_actual_price($item->id)){
+                                $total_profit = 100 - round((get_total_price($item->id) / get_total_actual_price($item->id)) * 100);
+                            }else{
+                                $total_profit = '100';
+                            }
+
+                            if($total_profit >= 30){
+                                $color = 'success';
+                            }else{
+                                $color = 'danger';
+                            }
+                        ?>
+                        <div class="btn btn-<?php echo $color; ?>">{{ $total_profit }}%</div>
+                    </td>
                     <td><b>Rp {{ format_idr(get_extra_budget($item->id)) }}</b> </td>
                     <td>@livewire('po-tracking-nonms.select-field-team-stp',['data'=>$item->id],key($item->id))</td>
                     <td>
@@ -153,7 +182,7 @@
                                 $type_doc =  "STP";
                                 $url_doc = route('po-tracking-nonms.edit-stp',['id'=>$item->id]);
                             }else{
-                                $type_doc =  "BOQ";
+                                $type_doc =  "Ericson";
                                 $url_doc = route('po-tracking-nonms.edit-boq',['id'=>$item->id]);
                             }
                         ?>   

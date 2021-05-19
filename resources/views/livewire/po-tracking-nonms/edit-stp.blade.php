@@ -11,11 +11,45 @@
         <div class="card">
             <div class="header row">
                 <div class="col-md-12">
-                    <b><h5>PO Tracking Non MS STP</h5></b> 
-                    <!-- <a href="#" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking ESAR')}}</a> -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <b><h5>PO Tracking Non MS STP</h5></b> 
+                            <!-- <a href="#" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking ESAR')}}</a> -->
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped m-b-0 c_list">
+                                            <tr>
+                                                <th>Total Ericson Price</th>                               
+                                                <th>Total Price After Input</th>                                                          
+                                                <th>Total Profit After Input (%)</th>         
+                                            </tr>
+
+                                            <tr>
+                                                <td>Rp {{ format_idr($total_before[0]->price) }}</td>                               
+                                                <td>Rp {{ format_idr($total_after[0]->input_price) }}</td>    
+                                                <td>
+                                                    <?php
+                                                        if($total_profit >= 30){
+                                                            $color = 'success';
+                                                        }else{
+                                                            $color = 'danger';
+                                                        }
+                                                    ?>
+                                                    <div class="btn btn-<?php echo $color; ?>">{{ $total_profit }}%</div>
+                                                </td>       
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <br>
                 </div>
-                
             </div>
             <div class="body pt-0">
                 <div class="row">
@@ -88,7 +122,7 @@
 
                 <!-- TOTAL -->
                 <br><br>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">
                             <table class="table table-striped m-b-0 c_list">
@@ -117,7 +151,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 
                 <br><br><br>
                 <!--    Approve STP by PMG   -->
@@ -146,6 +180,8 @@
                     @endif
                 @endif
 
+
+                
                 
                 <!--    End Approve STP by PMG   -->
 
@@ -154,7 +190,15 @@
                 
                 @if(check_access('po-tracking-nonms.submit-doc'))
                     @if($status[0]->status == '1')
-                        <div class="btn btn-success"> Approved </div>
+                        
+                        <div class="row">
+                            <div class="col-md-1">
+                                <div class="btn btn-success"> Approved </div>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="javascript:;" wire:click="$emit('modalsubmitfinreg','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-submitfinreg" title="Upload" class="btn btn-primary"> {{__('Submit To Finance Regional')}}</a>
+                            </div>
+                        </div>
                     @endif
 
                     @if($status[0]->status == '2')
@@ -229,6 +273,18 @@
 <!--    END MODAL MODAL SUBMIT DOCUMENT        -->
 
 
+<!--    MODAL SUBMIT TO FINANCE REGIONAL      -->
+<div class="modal fade" id="modal-potrackingnonms-submitfinreg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-nonms.submitfinreg />
+        </div>
+    </div>
+</div>
+
+<!--    END MODAL SUBMIT TO FINANCE REGIONAL        -->
+
+
 <!--    MODAL APPROVE DOCUMENT PMG      -->
 <div class="modal fade" id="modal-potrackingnonms-approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -250,6 +306,11 @@
 
     Livewire.on('modalsubmitdocpononms',(data)=>{
         $("#modal-potrackingnonms-submit").modal('show');
+    });
+
+
+    Livewire.on('modalsubmitfinreg',(data)=>{
+        $("#modal-potrackingnonms-submitfinreg").modal('show');
     });
 
     Livewire.on('modalapprovepononms',(data)=>{
