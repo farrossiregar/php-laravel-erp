@@ -23,6 +23,7 @@
                     <livewire:mobile-apps.commitment-daily />
                 </div>
                 <div class="tab-pane" id="health-check">
+                    <livewire:mobile-apps.health-check />
                 </div>
                 <div class="tab-pane" id="vehicle-check">
                     <livewire:mobile-apps.vehicle-check />

@@ -203,6 +203,29 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <select class="form-control" wire:model="company_id">
+                                        <option value=""> --- Company --- </option>
+                                        @foreach(\App\Models\Company::get() as $company)
+                                        <option value="{{$company->id}}">{{$company->name}}</option>   
+                                        @endforeach
+                                    </select>
+                                    @error('company_id')
+                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <select class="form-control" wire:model="lokasi_kantor">
+                                        <option value=""> --- Lokasi Kantor --- </option>
+                                        <option>Kantor Pusat (Duren Tiga,Jakarta)</option>
+                                        <option>Kantor Cabang / Homebase</option>
+                                    </select>
+                                    @error('company_id')
+                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <hr>

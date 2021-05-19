@@ -57,11 +57,12 @@ function send_wa($param)
 
 function get_user_from_access($link)
 {
-    $cek = \App\Models\UserAccessModule::select('users.*')
+    $cek = \App\Models\UserAccessModule::select('users.*',\DB::raw('employees.id as employee_id'))
             ->where('modules_items.link',$link)
             ->join('modules_items','modules_items.id','=','user_access_modules.module_id')
             ->join('modules','modules.id','=','modules_items.module_id')
             ->join('users','users.user_access_id','=','user_access_modules.user_access_id')
+            ->join('employees','employees.user_id','=','users.id')
             ->groupBy('users.id')
             ->get();
     return $cek;

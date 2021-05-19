@@ -10,22 +10,11 @@
     <div class="col-md-2">
         <input type="date" class="form-control" wire:model="date" />
     </div>
-
-    <!-- <div class="col-md-2">
-        <select name="region" class="form-control" id="region" wire:model="date">
-            @foreach(App\Models\Region::all() as $item)
-            <option value="{{ $item->id }}">{{ $item->region_code }}</option>
-            @endforeach
-        </select>
-    </div> -->
-    
-
     @if(check_access('po-tracking-nonms.edit-boq'))
     <div class="col-md-2">
         <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking Ericson')}}</a>
     </div>
     @endif
-
 </div>
 
 <div class="body pt-0">
@@ -45,6 +34,7 @@
                     <!-- <th>Bast Status</th> -->
                     <th>Note Bast from E2E</th>
                     <th>Extra Budget</th>
+                    <th>Field Team</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -106,14 +96,13 @@
                             <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%">Finance - Approved</label>
                         @endif
                         @if($item->status==2)
-                            <!-- <label class="badge badge-primary" data-toggle="tooltip" title="E2E - Generate ESAR, Upload ESAR and Verification Docs">E2E Upload</label> -->
                             <label class="badge badge-danger" data-toggle="tooltip" title="PMG - Revise Request, Profit < 30%">Revise</label>
                         @endif
                         @if($item->status==3)
                             <label class="badge badge-warning" data-toggle="tooltip" title="PMG - Waiting PMG Review under 30%">PMG Review </label>
                         @endif
 
-                        @if($item->status==1 && ($item->bast_status == '' || $item->bast_status == null))
+                        @if($item->status==4 && ($item->bast_status == '' || $item->bast_status == null))
                             <label class="badge badge-warning" data-toggle="tooltip" title="E2E - Waiting Approved Bast by E2E">Waiting Approval </label>
                         @endif
 
@@ -126,25 +115,9 @@
                         @endif
                     </td>
                     <td>{{ $item->status_note }}</td>    
-                    <!-- <td>
-                        <?php
-                            if($item->bast_status == '' || $item->bast_status == null){
-                                $status =  "Waiting Approved Bast E2E";
-                                $statustype =  "warning";
-                            }else{
-                                if($item->bast_status == '1'){
-                                    $status =  "Approved";
-                                    $statustype =  "success";
-                                }else{
-                                    $status =  "Revise";
-                                    $statustype =  "danger";
-                                }
-                            }
-                        ?>   
-                        <div class="btn btn-<?php echo $statustype; ?>"> <?php echo $status; ?> </div>
-                    </td> -->
                     <td>{{ $item->bast_status_note }}</td>
                     <td><b>Rp {{ format_idr(get_extra_budget($item->id)) }}</b> </td>
+                    <td>@livewire('po-tracking-nonms.select-field-team-ericson',['data'=>$item->id],key($item->id))</td>
                     <td>
                         @if(check_access('po-tracking-nonms.preview-doc'))
                         <?php
@@ -169,10 +142,6 @@
                         <?php
                             }
                         ?>
-
-
-                        
-                        
                         @if(check_access('po-tracking-nonms.preview-bast'))
                         <!--    Start E2E Preview Bast   -->
                         <a href="{{ route('po-tracking-nonms.edit-bast',['id'=>$item->id]) }}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview Bast </button></a>

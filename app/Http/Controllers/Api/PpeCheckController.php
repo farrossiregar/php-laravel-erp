@@ -13,9 +13,21 @@ class PpeCheckController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function history()
     {
-        //
+        $data = [];
+        $params = PpeCheck::where('employee_id',\Auth::user()->employee->id)->orderBy('id','DESC')->paginate(20);
+        foreach($params as $k => $item){
+            $data[$k] = $item;
+            $data[$k]['date'] = date('d F Y',strtotime($item->created_at));
+            $data[$k]['foto_dengan_ppe'] = $item->foto_dengan_ppe ? asset($item->foto_dengan_ppe) :null;
+            $data[$k]['foto_banner'] = $item->foto_banner ? asset($item->foto_banner) : null;
+            $data[$k]['foto_wah'] = $item->foto_wah ? asset($item->foto_wah) : null;
+            $data[$k]['foto_elektrikal'] = $item->foto_elektrikal ? asset($item->foto_elektrikal) : null;
+            $data[$k]['foto_first_aid'] = $item->foto_first_aid ? asset($item->foto_first_aid) : null;
+        }
+
+        return response()->json(['message'=>'success','data'=>$data], 200);    
     }
 
     /**
@@ -26,24 +38,40 @@ class PpeCheckController extends Controller
      */
     public function store(Request $request)
     {
-        // $this->validate($request,[
-        //     'speed' => 'required'
-        // ]);
         $data = new PpeCheck();
         $data->employee_id = isset(\Auth::user()->employee->id) ? \Auth::user()->employee->id : '';
         $data->save();
 
-        if($request->foto_dengan_ppe) {
-            $name = "foto_dengan_ppe.".$request->foto_dengan_ppe->extension();
-            $request->foto_dengan_ppe->storeAs("public/ppe-check/{$data->id}", $name);
-            $data->foto_dengan_ppe = "storage/ppe-check/{$data->id}/{$name}";
+        return response()->json(['message'=>'submited'], 200);
+    }
+
+    public function upload(Request $r)
+    {
+        $find = PpeCheck::where('employee_id',\Auth::user()->employee->id)->whereDate('created_at',date('Y-m-d'))->first();
+        if(!$find){
+            $find = new PpeCheck();
+            $find->employee_id = \Auth::user()->employee->id;
+            $find->save();
+        }   
+
+        if($r->type==1){
+            if($r->file){
+                $name = "foto_dengan_ppe.".$r->foto_dengan_ppe->extension();
+                $r->foto_dengan_ppe->storeAs("public/ppe-check/{$find->id}", $name);
+                $find->foto_dengan_ppe = "storage/ppe-check/{$find->id}/{$name}";
+                $find->save();
+            }
         }
 
-        if($request->foto_banner) {
-            $name = "foto_banner.".$request->foto_banner->extension();
-            $request->foto_banner->storeAs("public/ppe-check/{$data->id}", $name);
-            $data->foto_banner = "storage/ppe-check/{$data->id}/{$name}";
+        if($r->type==2){
+            if($r->file){
+                $name = "foto_banner.".$r->foto_banner->extension();
+                $r->foto_banner->storeAs("public/ppe-check/{$find->id}", $name);
+                $find->foto_banner = "storage/ppe-check/{$find->id}/{$name}";
+                $find->save();
+            }
         }
+
 
         if($request->foto_wah) {
             $name = "foto_wah.".$request->foto_wah->extension();
@@ -62,27 +90,18 @@ class PpeCheckController extends Controller
             $request->foto_first_aid->storeAs("public/ppe-check/{$data->id}", $name);
             $data->foto_first_aid = "storage/ppe-check/{$data->id}/{$name}";
         }
-        
-        $data->save();
-        
         return response()->json(['message'=>'submited'], 200);
     }
 
-    public function data()
+    public function getDetail()
     {
-        $result['code'] = 200;
-        $result['message'] = 'success';
-        $data = SpeedWarningAlarm::where('employee_id',\Auth::user()->employee->id)->orderBy('id','DESC')->paginate(5);
-        $temp = [];
-        foreach($data as $k => $item){
-            $temp[$k] = $item;
-            $temp[$k]['date'] = date('d-M-Y',strtotime($item->created_at));
-            $temp[$k]['time'] = date('H:i:s',strtotime($item->created_at));
-        }
+        $data = PpeCheck::where('employee_id',\Auth::user()->employee->id)->whereDate('created_at',date('Y-m-d'))->first();
+        $data->foto_dengan_ppe = $data->foto_dengan_ppe ? asset($data->foto_dengan_ppe) : '';
+        $data->foto_banner = $data->foto_banner ? asset($data->foto_banner) : '';
+        $data->foto_wah = $data->foto_wah ? asset($data->foto_wah) : '';
+        $data->foto_elektrikal = $data->foto_elektrikal ? asset($data->foto_elektrikal) : '';
+        $data->foto_first_aid = $data->foto_first_aid ? asset($data->foto_first_aid) : '';
 
-        $result['data'] = $temp;
-        $result['today_warning'] = SpeedWarningAlarm::where('employee_id',\Auth::user()->employee->id)->whereDate('created_at',date('Y-m-d'))->count();
-        
-        return response()->json($result, 200);
+        return response()->json(['message'=>'success','data'=>$data], 200);
     }
 }

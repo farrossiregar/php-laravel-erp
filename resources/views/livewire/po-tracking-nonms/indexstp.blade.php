@@ -44,6 +44,7 @@
                     <!-- <th>Bast Status</th> -->
                     <th>Note Bast from E2E</th>
                     <th>Extra Budget</th>
+                    <th>Field Team</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -144,6 +145,7 @@
                     </td> -->
                     <td>{{ $item->bast_status_note }}</td>
                     <td><b>Rp {{ format_idr(get_extra_budget($item->id)) }}</b> </td>
+                    <td>@livewire('po-tracking-nonms.select-field-team-stp',['data'=>$item->id],key($item->id))</td>
                     <td>
                         @if(check_access('po-tracking-nonms.preview-doc'))
                         <?php
