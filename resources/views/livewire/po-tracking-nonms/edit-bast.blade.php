@@ -1,21 +1,12 @@
 @section('title', __('PO Tracking Non MS BOQ Detail'))
-@section('parentPageTitle', 'Home Detail')
-
-
-<?php
-    $user = \Auth::user();
-?>
-
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
             <div class="header row">
                 <div class="col-md-12">
                     <b><h5>PO Tracking Non MS Bast</h5></b> 
-                    <!-- <a href="#" data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking ESAR')}}</a> -->
                     <br>
                 </div>
-                
             </div>
             <div class="body pt-0">
                 <div class="row">
@@ -138,9 +129,7 @@
                 <br><br><br>
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="{{route('po-tracking-nonms.index')}}">
-                            <div class="btn btn-danger"><i class="fa fa-arrow-left"></i> Return</div>
-                        </a>
+                        <a href="{{route('po-tracking-nonms.index')}}"><i class="fa fa-arrow-left"></i> Back</a>
                     </div>
                 </div>
             </div>

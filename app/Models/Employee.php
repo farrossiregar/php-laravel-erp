@@ -5,12 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Company;
+use App\Models\Region;
 
 class Employee extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
+
+    public function region()
+    {
+        return $this->hasOne(Region::class,'id','region_id');
+    }
 
     public function department()
     {

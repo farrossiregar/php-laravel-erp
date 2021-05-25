@@ -32,6 +32,7 @@ class UserController extends Controller
             $data['token'] =  $user->createToken('Laravel')->accessToken;
             $data['name'] = $user->name;
             $data['email'] = isset($user->employee->email) ? $user->employee->email : '';
+            $data['photo'] = isset($user->employee->foto) ? asset($user->employee->foto) : null;
             $data['telepon'] = isset($user->employee->telepon) ? $user->employee->telepon : '';
             $data['address'] = isset($user->employee->address) ? $user->employee->address : '';
             $data['nik'] = isset($user->employee->nik) ? $user->employee->nik : '';
@@ -71,5 +72,22 @@ class UserController extends Controller
             $employee->save();
         }
         return response()->json(['message' =>'success'], 200);
+    }
+    
+    public function uploadPhoto(Request $r)
+    {
+        $data = Employee::find(\Auth::user()->employee->id);
+        if($data){
+            if($r->file){
+                $this->validate($r, ['file' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048']); // validate image
+                
+                $name = "photo.".$r->file->extension();
+                $r->file->storeAs("public/photo/{$data->id}", $name);
+                $data->foto = "storage/photo/{$data->id}/{$name}";
+                $data->save();
+            }
+        }
+
+        return response()->json(['message'=>'submited','photo'=>asset($data->foto)], 200);
     }
 }

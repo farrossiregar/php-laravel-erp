@@ -29,8 +29,6 @@
 </div>
 
 <div class="body pt-0">
-
-    
     <div class="table-responsive">
         <table class="table table-striped m-b-0 c_list">
             <thead>
@@ -41,7 +39,6 @@
                     <th>Region</th>    
                     <th>Status</th>    
                     <th>Note from PMG</th>    
-                    <!-- <th>Bast Status</th> -->
                     <th>Note Bast from E2E</th>
                     <th>Total Price</th>
                     <th>Total Actual Price</th>
@@ -61,60 +58,28 @@
                             @if($item->po_no != null || $item->po_no != '')
                                 {{ $item->po_no }}
                             @else
-                                <a href="javascript:;" wire:click="$emit('modalinputpono','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackinginput-pono" title="Upload" class="btn btn-primary"> {{__('Add PO No')}}</a>
+                                <a href="javascript:;" wire:click="$emit('modalinputpono','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackinginput-pono" title="Set No PO"> {{__('Add PO No')}}</a>
                             @endif
                         @else
                             @if($item->po_no != null || $item->po_no != '')
                                 {{ $item->po_no }}
                             @else
-                                <div class="btn btn-warning"> Waiting PO No</div>
+                                <span class="badge badge-danger"> Waiting PO No</span>
                             @endif
                         @endif
-
-
                     </td>    
-                    <td>{{ $item->no_tt }}</td>    
+                    <td>
+                        <a href="{{route('po-tracking-nonms.edit-stp',['id'=>$item->id]) }}">{{ $item->no_tt }}</a>
+                    </td>    
                     <td>{{ $item->region }}</td>    
-                    <!-- <td>
-                        <?php
-                            if($item->status == '' || $item->status == null || $item->status == '0'){
-                                $status =  "Waiting Approval"; // BOQ / STP belum disubmit
-                                $statustype =  "warning";
-                            }else{
-                                if($item->status == '1'){
-                                    $status =  "Approved"; // Submit ke Finance jika profit >= 30%
-                                    $statustype =  "success";
-                                }
-                                
-                                if($item->status == '2'){
-                                    $status =  "Revise"; // Permintaan Revisi dari PMG
-                                    $statustype =  "danger";
-                                }
-
-                                if($item->status == '3'){
-                                    $status =  "Waiting PMG Review under 30%"; // Submit ke PMG dan proses Review jika profit per item < 30%
-                                    $statustype =  "warning";
-                                }
-                                
-                                if($item->status == '4'){
-                                    $status =  "Waiting PMG Review under 30%"; // Submit ke PMG dan proses Review jika profit per item < 30%
-                                    $statustype =  "success";
-                                }
-                            }
-                        ?>   
-                        <div class="btn btn-<?php echo $statustype; ?>"> <?php echo $status; ?> </div>
-                    </td>     -->
                     <td class="text-center">
-                        
                         @if($item->status==0 || $item->status == null || $item->status == '0')
                             <label class="badge badge-info" data-toggle="tooltip" title="Regional - Waiting to Submit">Waiting to Submit</label>
                         @endif
                         @if($item->status==1)
-                            <!-- <label class="badge badge-warning" data-toggle="tooltip" title="Finance - Approved">Finance - Profit >= 30% </label> -->
                             <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%, Waiting to Transfer Budget">Finance - Approved</label>
                         @endif
                         @if($item->status==2)
-                            <!-- <label class="badge badge-primary" data-toggle="tooltip" title="E2E - Generate ESAR, Upload ESAR and Verification Docs">E2E Upload</label> -->
                             <label class="badge badge-danger" data-toggle="tooltip" title="PMG - Revise Request, Profit < 30%">Revise</label>
                         @endif
                         @if($item->status==3)
@@ -124,39 +89,20 @@
                         <label class="badge badge-success" data-toggle="tooltip" title="Finance - Budget Successfully Transfered">Finance - Approved</label>
                         @endif
 
-                        @if($item->status==4 && ($item->bast_status == '' || $item->bast_status == null))
+                        @if($item->status==5 && $item->bast_status == 1)
                             <label class="badge badge-warning" data-toggle="tooltip" title="E2E - Waiting Approved Bast by E2E">Waiting Approval </label>
                         @endif
-
-                        @if($item->status==4 && ($item->bast_status == '1'))
+                        @if($item->status==5 && $item->bast_status == 2)
                             <label class="badge badge-success" data-toggle="tooltip" title="E2E - Bast Approved">Bast Approved </label>
                         @endif
-
-                        @if($item->status==4 && ($item->bast_status == '2'))
-                            <label class="badge badge-danger" data-toggle="tooltip" title="Regional - Revise Bast">Bast Declined</label>
+                        @if($item->status==5 && $item->bast_status == 3)
+                            <label class="badge badge-danger" data-toggle="tooltip" title="Regional - Revise Bast">Bast Revisi</label>
                         @endif
                     </td>
                     <td>{{ $item->status_note }}</td>    
-                    <!-- <td>
-                        <?php
-                            if($item->bast_status == '' || $item->bast_status == null){
-                                $status =  "Waiting Approved Bast E2E";
-                                $statustype =  "warning";
-                            }else{
-                                if($item->bast_status == '1'){
-                                    $status =  "Approved";
-                                    $statustype =  "success";
-                                }else{
-                                    $status =  "Revise";
-                                    $statustype =  "danger";
-                                }
-                            }
-                        ?>   
-                        <div class="btn btn-<?php echo $statustype; ?>"> <?php echo $status; ?> </div>
-                    </td> -->
                     <td>{{ $item->bast_status_note }}</td>
-                    <td><b>Rp {{ format_idr(get_total_price($item->id)) }}</b></td> 
-                    <td><b>Rp {{ format_idr(get_total_actual_price($item->id)) }}</b></td>  
+                    <td>Rp {{ format_idr(get_total_price($item->id)) }}</td> 
+                    <td>Rp {{ format_idr(get_total_actual_price($item->id)) }}</td>  
                     <td>
                         <?php
                             if(get_total_price($item->id) && get_total_actual_price($item->id)){
@@ -171,44 +117,19 @@
                                 $color = 'danger';
                             }
                         ?>
-                        <div class="btn btn-<?php echo $color; ?>">{{ $total_profit }}%</div>
+                        <span class="text-<?php echo $color; ?>">{{ $total_profit }}%</span>
                     </td>
-                    <td><b>Rp {{ format_idr(get_extra_budget($item->id)) }}</b> </td>
+                    <td>Rp {{ format_idr(get_extra_budget($item->id)) }}</td>
                     <td>@livewire('po-tracking-nonms.select-field-team-stp',['data'=>$item->id],key($item->id))</td>
-                    <td>
-                        @if(check_access('po-tracking-nonms.preview-doc'))
-                        <?php
-                            if($item->type_doc == 1){
-                                $type_doc =  "STP";
-                                $url_doc = route('po-tracking-nonms.edit-stp',['id'=>$item->id]);
-                            }else{
-                                $type_doc =  "Ericson";
-                                $url_doc = route('po-tracking-nonms.edit-boq',['id'=>$item->id]);
-                            }
-                        ?>   
-                        <a href="<?php echo $url_doc; ?>"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview PO Non MS <?php echo $type_doc; ?> </button></a>
-                        @endif
-                        
-                        <?php
-                            if($user->user_access_id == '22' && ($item->po_no != null || $item->po_no != '')){ // Regional user access id 22
-                        ?>
-                        <!--    Start Regional Upload Bast    -->
-                        <!-- <a href="javascript:;" wire:click="$emit('modalimportbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importbast" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Bast')}}</a> -->
-                        <!--    End Regional Upload Bast    -->
-                        
-                        <?php
-                            }
-                        ?>
-
-
-                        
-                        
+                    <td> 
                         @if(check_access('po-tracking-nonms.preview-bast'))
-                        <!--    Start E2E Preview Bast   -->
-                        <a href="{{ route('po-tracking-nonms.edit-bast',['id'=>$item->id]) }}"><button type="button" class="btn btn-success"><i class="fa fa-eye"></i> Preview Bast </button></a>
-                        <!--    End E2E Preview Bast    -->
+                            @if($item->bast_status>=1)
+                            <!--    Start E2E Preview Bast   -->
+                            <!-- <a href="{{ route('po-tracking-nonms.edit-bast',['id'=>$item->id]) }}"><i class="fa fa-eye"></i> BAST </a> -->
+                            <a href="javascript:;" data-toggle="modal" data-target="#modal_bast" wire:click="$emit('listen-bast',{{$item->id}})"><i class="fa fa-eye"></i> BAST</a>
+                            <!--    End E2E Preview Bast    -->
+                            @endif
                         @endif
-
                         
                         @if(check_access('po-tracking-nonms.upload-accdoc'))
                         <!--    Start Finance Upload Huawei Acceptance Docs    -->

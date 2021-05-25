@@ -44,7 +44,8 @@ class WorkOrderController extends Controller
     public function submitBast(Request $r)
     {
         $data = PoTrackingNonms::find($r->id);
-        $data->
+        $data->status = 5;
+        $data->bast_status = 1;
         $data->save();
 
         return response()->json(['message'=>'submited'], 200);

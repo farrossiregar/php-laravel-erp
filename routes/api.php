@@ -73,4 +73,15 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('work-order/upload-bast-image',[\App\Http\Controllers\Api\WorkOrderController::class,'uploadBastImage'])->name('api.work-order.upload-bast-image');
 	Route::get('work-order/get-bast/{id}',[\App\Http\Controllers\Api\WorkOrderController::class,'getBast'])->name('api.work-order.get-bast');
 	Route::post('work-order/submit-bast',[\App\Http\Controllers\Api\WorkOrderController::class,'submitBast'])->name('api.work-order.submit-bast');
-});
+	Route::get('drug-test/history',[\App\Http\Controllers\Api\DrugTestController::class,'history'])->name('api.drug-test.history');
+	Route::post('drug-test/upload-image',[\App\Http\Controllers\Api\DrugTestController::class,'uploadImage'])->name('api.drug-test.upload-image');
+	Route::get('drug-test/get-image/{id}',[\App\Http\Controllers\Api\DrugTestController::class,'getImage'])->name('api.drug-test.get-image');
+	Route::get('preventive-maintenance/history',[\App\Http\Controllers\Api\PreventiveMaintenanceController::class,'history'])->name('api.preventive-maintenance.history');
+	Route::get('preventive-maintenance/get-image/{id}',[\App\Http\Controllers\Api\PreventiveMaintenanceController::class,'getImage'])->name('api.preventive-maintenance.get-image');
+	Route::post('preventive-maintenance/upload-image',[\App\Http\Controllers\Api\PreventiveMaintenanceController::class,'uploadImage'])->name('api.preventive-maintenance.upload-image');
+	Route::post('preventive-maintenance/submit',[\App\Http\Controllers\Api\PreventiveMaintenanceController::class,'submit'])->name('api.preventive-maintenance.submit');
+	Route::get('training-material/history',[\App\Http\Controllers\Api\TrainingMaterialController::class,'history'])->name('api.training-material.history');
+	Route::post('training-material/upload-image',[\App\Http\Controllers\Api\TrainingMaterialController::class,'uploadImage'])->name('api.training-material.upload-image');
+	Route::get('training-material/get-image/{id}',[\App\Http\Controllers\Api\TrainingMaterialController::class,'getImage'])->name('api.training-material.get-image');
+	Route::post('user/upload-photo',[\App\Http\Controllers\Api\UserController::class,'uploadPhoto'])->name('api.user.upload-photo');
+}); 

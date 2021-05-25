@@ -12,6 +12,7 @@
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#location-of-field-team">{{ __('Location of Field Team') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#speed-warning-alarm">{{ __('Speed Warning Alarm') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#work-order">{{ __('Work Order') }}</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#preventive-maintenance">{{ __('Preventive Maintenance') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#drug-test">{{ __('Drug Test') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#training-material-and-exam">{{ __('Training Material & Exam') }}</a></li>
             </ul>
@@ -42,9 +43,14 @@
                 </div>
                 <div class="tab-pane" id="work-order">
                 </div>
+                <div class="tab-pane" id="preventive-maintenance">
+                    <livewire:mobile-apps.preventive-maintenance />
+                </div>
                 <div class="tab-pane" id="drug-test">
+                    <livewire:mobile-apps.drug-test />
                 </div>
                 <div class="tab-pane" id="training-material-and-exam">
+                    <livewire:mobile-apps.training-material />
                 </div>
             </div>
         </div>

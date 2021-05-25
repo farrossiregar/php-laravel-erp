@@ -10,7 +10,13 @@ class SitesController extends Controller
 {
     public function getAll()
     {
-        return response()->json(Site::whereNotNull('name')->where('name','<>',"")->get(), 200);
+        $temp = Site::whereNotNull('name')->where('name','<>',"")->paginate(30);
+        $data = [];
+        foreach($temp as $k => $item){
+            $data[$k] = $item;
+        }
+
+        return response()->json($data, 200);
     }
 
     public function getByFieldTeam()
