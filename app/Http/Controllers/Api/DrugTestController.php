@@ -12,10 +12,11 @@ class DrugTestController extends Controller
     public function history()
     {
         $data = [];
-        $param = DrugTest::orderBy('id','DESC')->get();
+        $param = DrugTest::where('employee_id',\Auth::user()->employee->id)->orderBy('id','DESC')->get();
         
         foreach($param as $k => $item){
             $data[$k]['id'] = $item->id;
+            $data[$k]['sertifikat_number'] = $item->sertifikat_number;
             $data[$k]['status_drug'] = $item->status_drug;
             $data[$k]['name'] = isset($item->employee->name) ? $item->employee->name : '';
             $data[$k]['telepon'] = isset($item->employee->telepon) ? $item->employee->telepon : '';
@@ -24,7 +25,7 @@ class DrugTestController extends Controller
             $data[$k]['department'] = isset($item->employee->department_sub->name)?$item->employee->department_sub->name:'';
         }
 
-        return response()->json(['message'=>'success','data'=>$data], 200);
+        return response()->json(['message'=>'success','data'=>$data,'total'=>count($data)], 200);
     }
 
     public function uploadImage(Request $r)
