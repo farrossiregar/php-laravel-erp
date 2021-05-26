@@ -28,6 +28,8 @@ class UserController extends Controller
     public function login(Request $r){
         
         if(Auth::attempt(['email' => $r->email, 'password' => $r->password])){
+            Employee::find(\Auth::user()->employee->id)->update(['device_token'=>$r->device_token]);
+            
             $user = Auth::user();
             $data['token'] =  $user->createToken('Laravel')->accessToken;
             $data['name'] = $user->name;

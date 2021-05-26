@@ -12,7 +12,7 @@
             <input type="text" class="form-control date_created" placeholder="Date" />
         </div>
         <div class="col-md-3">
-            <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_add_drug_test"><i class="fa fa-plus"></i> Employee</a>
+            <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_add_drug_test"><i class="fa fa-plus"></i> Drug Test</a>
         </div>
         <div class="col-md-5">
             <span wire:loading>
@@ -25,11 +25,11 @@
         <table class="table m-b-0 c_list">
             <thead>
                 <tr style="background:#eee;">
-                    <th style="width:50px;">No</th>                                    
-                    <th>Head</th>   
+                    <th style="width:50px;">No</th>         
                     <th>Employee</th>   
+                    <th>Sertifikat Number</th>   
                     <th class="text-center">Status</th>
-                    <th>File</th>
+                    <th class="text-center">File</th>
                     <th>Date Submited</th>
                 </tr>
             </thead>
@@ -37,8 +37,8 @@
                 @foreach($data as $k => $item)
                     <tr>
                         <td>{{$k+1}}</td>
-                        <td>{{isset($item->head->name) ? $item->head->name : ''}}</td>
                         <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
+                        <td>{{isset($item->sertifikat_number) ? $item->sertifikat_number : ''}}</td>
                         <td class="text-center">
                             @if($item->status_drug==0)
                                 <span class="badge badge-warning">Not Submited</span>
@@ -50,7 +50,11 @@
                                 <span class="badge badge-success">Negatif</span>
                             @endif
                         </td>
-                        <td></td>
+                        <td class="text-center">
+                            @foreach(\App\Models\DrugTestUpload::where('drug_test_id',$item->id)->get() as $img)
+                                <a href="{{ $img->image }}" target="_blank"><i class="fa fa-file"></i></a>
+                            @endforeach
+                        </td>
                         <td>
                             @if($item->date_submited)
                                 {{date('d-M-Y',strtotime($item->date_submited))}}
@@ -77,7 +81,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Head</label>
                             <select class="form-control" wire:model="employee_pic_id">
                                 <option value=""> --- Select --- </option>
@@ -85,7 +89,7 @@
                                 <option value="{{$item->id}}">{{$item->name}}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label>Employee</label>
                             <select class="form-control" wire:model="employee_id">
@@ -98,11 +102,15 @@
                         <div class="form-group">
                             <label>File</label>
                             <input type="file" class="form-control" wire:model="file" />
+                            <textarea class="form-control mt-2" wire:model="description" placeholder="Description"></textarea>
+                            @error('file')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success"><i class="fa fa-minus"></i> Negatif</button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-plus"></i> Positif</button>
+                        <button type="button" class="btn btn-success" wire:click="positif"><i class="fa fa-minus"></i> Negatif</button>
+                        <button type="button" class="btn btn-danger" wire:click="negatif"><i class="fa fa-plus"></i> Positif</button>
                     </div>
                 </form>
             </div>

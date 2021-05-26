@@ -11,7 +11,6 @@
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tools-check">{{ __('Tools Check') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#location-of-field-team">{{ __('Location of Field Team') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#speed-warning-alarm">{{ __('Speed Warning Alarm') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#work-order">{{ __('Work Order') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#preventive-maintenance">{{ __('Preventive Maintenance') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#drug-test">{{ __('Drug Test') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#training-material-and-exam">{{ __('Training Material & Exam') }}</a></li>
@@ -40,8 +39,6 @@
                 </div>
                 <div class="tab-pane" id="speed-warning-alarm">
                     <livewire:mobile-apps.speed-warning-alarm />
-                </div>
-                <div class="tab-pane" id="work-order">
                 </div>
                 <div class="tab-pane" id="preventive-maintenance">
                     <livewire:mobile-apps.preventive-maintenance />

@@ -15,6 +15,11 @@ date_default_timezone_set("Asia/Bangkok");
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('test-push',function(){
+    $device_id = 'fSSFG4eiRkmXkVxxKTgNEa:APA91bFIMJ2GKUk6YBPFib2l0Ozmci4EuSeD4fh72JSExsozwnozBdcOs1IKbF-Vk8ZiLiKJG8LILctYe73fsG4oVRz9m9bPv4MZ-EfPVyTZKm7-NdQal31XG0VwJWCQotMCLXPkQu6n';
+    return push_notification_android($device_id, "Hallo this pmt application");
+});
 Route::get('/', Home::class)->name('home')->middleware('auth');
 Route::get('login', App\Http\Livewire\Login::class)->name('login');
 // All login
