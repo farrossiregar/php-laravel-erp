@@ -4,10 +4,15 @@ namespace App\Http\Livewire\MobileApps;
 
 use Livewire\Component;
 use App\Models\TrainingMaterial as TrainingMaterialModel;
+use App\Models\TrainingMaterialFile;
+use Livewire\WithFileUploads;
 
 class TrainingMaterial extends Component
 {
-    public $name,$start_date,$end_date,$day,$place;
+    use WithFileUploads;
+
+    public $name;
+    public $file,$description;
 
     protected $listeners = ['refresh-page'=>'$refresh'];
 
@@ -18,23 +23,33 @@ class TrainingMaterial extends Component
         return view('livewire.mobile-apps.training-material')->with(['data'=>$data->paginate(100)]);
     }
 
+    public function mount(){}
+
     public function store()
     {
         $this->validate([
             'name' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'day' => 'required',
-            'place' => 'required'
+            'description' => 'required',
+            'file.*' => 'required|mimes:doc,docx,pdf,jpg,png,jpeg,xls,xlsx'
         ]);
             
         $data = new TrainingMaterialModel();
         $data->name = $this->name;
-        $data->from_date = $this->start_date;
-        $data->end_date = $this->end_date;
-        $data->days = $this->day;
-        $data->place = $this->place;
+        $data->description = $this->description;
         $data->save();
+        
+        if(!empty($this->file)){
+            foreach($this->file as $file){
+                $new_file = new TrainingMaterialFile();
+                $new_file->training_material_id = $data->id;
+                $name = $file->getClientOriginalName() .".".$file->extension();
+                $file->storeAs("public/training-material/{$data->id}", $name);
+                $new_file->file = "public/training-material/{$data->id}/{$name}";
+                $new_file->name = $file->getClientOriginalName();
+                $new_file->file_ext = $file->extension();
+                $new_file->save();
+            }
+        }
 
         $this->reset();
         $this->emit('message-success','Training Material & Exam Added');

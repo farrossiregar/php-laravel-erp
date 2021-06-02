@@ -12,7 +12,7 @@
             <input type="text" class="form-control date_created" placeholder="Date" />
         </div>
         <div class="col-md-3">
-            <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_add_training"><i class="fa fa-plus"></i> Training Material & Exam</a>
+            <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_add_training"><i class="fa fa-plus"></i> Training Material</a>
         </div>
         <div class="col-md-5">
             <span wire:loading>
@@ -27,10 +27,9 @@
                 <tr style="background:#eee;">
                     <th style="width:50px;">No</th>                                    
                     <th>Training</th>   
-                    <th>Start / End Date</th>   
-                    <th class="text-center">Day</th>   
-                    <th>Place</th>   
-                    <th>Employee</th>
+                    <th>Description</th>          
+                    <th>File</th>   
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -38,10 +37,15 @@
                     <tr>
                         <td>{{$k+1}}</td>
                         <td>{{$item->name}}</td>
-                        <td>{{$item->from_date}} / {{$item->end_date}}</td>
-                        <td class="text-center">{{$item->days}}</td>
-                        <td>{{$item->place}}</td>
-                        <td></td>
+                        <td style="white-space: break-spaces !important;">{{$item->description}}</td>
+                        <td>
+                        @foreach(\App\Models\TrainingMaterialFile::where('training_material_id',$item->id)->get() as $file)
+                            <a href="{{asset($file->file)}}">{{$file->name}}</a><br />
+                        @endforeach
+                        </td>
+                        <td>
+                            <a href="{{ route('mobile-apps.insert-exam',$item->id) }}" class="badge badge-info" data-toggle="tooltip" title="Exam"><i class="fa fa-plus"></i> Exam</a>
+                        </td>
                     </tr>
                 @endforeach
                 @if($data->count() ==0)
@@ -55,9 +59,9 @@
     <div wire:ignore.self class="modal fade" id="modal_add_training" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form wire:submit.prevent="store">
+                <form wire:submit.prevent="store" enctype="multipart/form-data">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Training Material & Exam</h5>
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Training Material</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true close-btn">×</span>
                         </button>
@@ -68,26 +72,16 @@
                             <input type="text" class="form-control" wire:model="name" />
                         </div>
                         <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Start Date</label>
-                                    <input type="date" class="form-control" wire:model="start_date" />
-                                </div>
-                                <div class="col-md-6">
-                                    <label>End Date</label>
-                                    <input type="date" class="form-control" wire:model="end_date" />
-                                </div><br />
-                                <div class="col-md-4">
-                                    <label>Days</label>
-                                    <input type="text" class="form-control" wire:model="day" />
-                                </div>
-                            </div>
+                            <label>Description</label>
+                            <textarea class="form-control" wire:model="description"></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Place</label>
-                            <textarea class="form-control" wire:model="place"></textarea>
+                            <label>Materi(pdf,docs)</label>
+                            <input type="file" wire:model="file" multiple />
+                            @error('file.*')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
-                        
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light close-btn" data-dismiss="modal">Cancel</button>
