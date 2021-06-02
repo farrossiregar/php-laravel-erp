@@ -44,7 +44,7 @@ class DrugTest extends Component
         $this->validate([
             // 'employee_pic_id' => 'required',
             'employee_id' => 'required',
-            // 'file' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'file' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         $data = new DrugTestModel();
