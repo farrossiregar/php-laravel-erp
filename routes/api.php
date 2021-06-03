@@ -83,5 +83,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('training-material/history',[\App\Http\Controllers\Api\TrainingMaterialController::class,'history'])->name('api.training-material.history');
 	Route::post('training-material/upload-image',[\App\Http\Controllers\Api\TrainingMaterialController::class,'uploadImage'])->name('api.training-material.upload-image');
 	Route::get('training-material/get-image/{id}',[\App\Http\Controllers\Api\TrainingMaterialController::class,'getImage'])->name('api.training-material.get-image');
+	Route::get('training-material/get-file/{id}',[\App\Http\Controllers\Api\TrainingMaterialController::class,'getFile'])->name('api.training-material.get-file');
+	Route::get('training-material/exam/{id}',[\App\Http\Controllers\Api\TrainingMaterialController::class,'getExam'])->name('api.training-material.get-exam');
 	Route::post('user/upload-photo',[\App\Http\Controllers\Api\UserController::class,'uploadPhoto'])->name('api.user.upload-photo');
 }); 

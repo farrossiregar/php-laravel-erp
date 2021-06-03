@@ -9,7 +9,7 @@ function push_notification_android($device_id,$message){
 
     /*api_key available in:
     Firebase Console -> Project Settings -> CLOUD MESSAGING -> Server key*/    
-    $api_key = 'AAAA4LyBl1Y:APA91bGLHVGaQyS8sHtbxRcHRemcDt21yrdBW7LogFm78yTG00IpDoonVcWNAYuQWFEjQPQKGDnpGySU9Tn5q350TcyGBQabjyNVIM7pKFeDGK-UJR-ceXl-4JCcAgd17qWCvLYSbOSn';
+    $api_key = 'AAAA4LyBl1Y:APA91bFLf-2oSt9e2GMNIsoOiBBHH3tER5vk45_f6xwZESuZzl1s_6F0ZLkDO8QVOlzPHWto-kkCLl0dctRpjvt30IN7AMvxrGV-keRxn8TBG-DyROqzvGSN8YQN1l7qVVBW9T4BN2_g';
                 
     $fields = array (
         'registration_ids' => array (
