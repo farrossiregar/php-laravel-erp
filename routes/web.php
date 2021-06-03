@@ -15,6 +15,11 @@ date_default_timezone_set("Asia/Bangkok");
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// Route::get('test-push',function(){
+//     $device_id = 'fSSFG4eiRkmXkVxxKTgNEa:APA91bFIMJ2GKUk6YBPFib2l0Ozmci4EuSeD4fh72JSExsozwnozBdcOs1IKbF-Vk8ZiLiKJG8LILctYe73fsG4oVRz9m9bPv4MZ-EfPVyTZKm7-NdQal31XG0VwJWCQotMCLXPkQu6n';
+//     return push_notification_android($device_id, "Hallo this pmt application");
+// });
 Route::get('/', Home::class)->name('home')->middleware('auth');
 Route::get('login', App\Http\Livewire\Login::class)->name('login');
 // All login
@@ -78,10 +83,6 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('po-tracking/edit-bast/{id}',App\Http\Livewire\POTracking\Editbast::class)->name('po-tracking.edit-bast');
     Route::get('po-tracking/edit-accdoc/{id}',App\Http\Livewire\POTracking\Editaccdoc::class)->name('po-tracking.edit-accdoc');
     Route::get('po-tracking/generate-esar/{po_tracking}',[App\Http\Controllers\POTrackingGenerateEsarController::class,'index'])->name('po-tracking.generate-esar');
-    // Route::get('site-tracking/upload',App\Http\Livewire\Sitetracking\Upload::class)->name('site-tracking.upload');
-    // Route::get('site-tracking/approval',App\Http\Livewire\Sitetracking\Approval::class)->name('site-tracking.approval');
-
-
     Route::get('po-tracking-nonms',App\Http\Livewire\PoTrackingNonms\Index::class)->name('po-tracking-nonms.index');
     Route::get('po-tracking-nonms/indexboq',App\Http\Livewire\PoTrackingNonms\Indexboq::class)->name('po-tracking-nonms.indexboq');
     Route::get('po-tracking-nonms/indexstp',App\Http\Livewire\PoTrackingNonms\Indexstp::class)->name('po-tracking-nonms.indexstp');
@@ -90,6 +91,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('po-tracking-nonms/edit-stp/{id}',App\Http\Livewire\PoTrackingNonms\Editstp::class)->name('po-tracking-nonms.edit-stp');
     Route::get('po-tracking-nonms/edit-boq/{id}',App\Http\Livewire\PoTrackingNonms\Editboq::class)->name('po-tracking-nonms.edit-boq');
     Route::get('po-tracking-nonms/edit-bast/{id}',App\Http\Livewire\PoTrackingNonms\Editbast::class)->name('po-tracking-nonms.edit-bast');
+<<<<<<< HEAD
 
 
     Route::get('po-tracking-tesynergy',App\Http\Livewire\PoTrackingTesynergy\Index::class)->name('po-tracking-tesynergy.index');
@@ -102,6 +104,10 @@ Route::group(['middleware' => ['auth']], function(){
     // Route::get('po-tracking-nonms/edit-bast/{id}',App\Http\Livewire\PoTrackingNonms\Editbast::class)->name('po-tracking-nonms.edit-bast');
     
     
+=======
+    Route::get('po-tracking-nonms/generate-bast/{data}',[App\Http\Controllers\PoTrackingNonmsController::class,'generateBast'])->name('po-tracking-nonms.generate-bast');
+
+>>>>>>> 7bb26f0ecc75c95ca910f80bbc6c717044879d14
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
     Route::get('employee/insert',App\Http\Livewire\Employee\Insert::class)->name('employee.insert');
     Route::get('employee/edit/{id}',App\Http\Livewire\Employee\Edit::class)->name('employee.edit');
@@ -115,4 +121,5 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('tower',App\Http\Livewire\Tower\Index::class)->name('tower.index');
     Route::get('po-tracking-rollout',App\Http\Livewire\PoTrackingRollout\Index::class)->name('po-tracking-rollout.index');
     Route::get('mobile-apps',App\Http\Livewire\MobileApps\Index::class)->name('mobile-apps.index');
+    Route::get('mobile-apps/insert-exam/{id}',App\Http\Livewire\MobileApps\TrainingMaterialInsertExam::class)->name('mobile-apps.insert-exam');
 });

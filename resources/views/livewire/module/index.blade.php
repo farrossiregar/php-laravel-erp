@@ -18,6 +18,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Project</th>
                                 <th>Name</th>
                                 <th>Prefix Link</th>
                                 <th>Icon</th>
@@ -29,6 +30,7 @@
                             @foreach($data as $k => $item)
                             <tr>
                                 <td style="width: 50px;">{{$k+1}}</td>
+                                <td>{{isset($item->client_project->name) ? $item->client_project->name : ''}}</td>
                                 <td><a href="{{route('module.edit',['id'=>$item->id])}}">{{$item->name}}</a></td>
                                 <td>{{$item->prefix_link}}</td>
                                 <td>

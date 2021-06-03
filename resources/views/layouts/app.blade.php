@@ -96,6 +96,11 @@
                 $('.alert-error').show();
                 $('.alert-error .message').html(msg);
             });
+
+            Livewire.on('refresh-form',()=>{
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+
         </script>
         <script>
             function confirm_delete(){

@@ -8,7 +8,7 @@ use Livewire\WithFileUploads;
 class Edit extends Component
 {
     public $data,$name,$nik,$email,$telepon,$address,$place_of_birth,$date_of_birth,$marital_status,$blood_type,$employee_status,$religion,$user_access_id,$department_sub_id;
-    public $foto,$foto_ktp,$password,$confirm,$region_id;
+    public $foto,$foto_ktp,$password,$confirm,$region_id,$company_id,$lokasi_kantor;
     use WithFileUploads;
     public function render()
     {
@@ -31,6 +31,8 @@ class Edit extends Component
         $this->user_access_id = $this->data->user_access_id;
         $this->department_sub_id = $this->data->department_sub_id;
         $this->region_id = $this->data->region_id;
+        $this->company_id = $this->data->company_id;
+        $this->lokasi_kantor = $this->data->lokasi_kantor;
     }
 
     public function updatedFoto()
@@ -92,6 +94,8 @@ class Edit extends Component
         $this->data->user_access_id = $this->user_access_id;
         $this->data->user_id = $user->id;
         $this->data->region_id = $this->region_id;
+        $this->data->company_id = $this->company_id;
+        $this->data->lokasi_kantor = $this->lokasi_kantor;
         if($this->foto!=""){
             $foto = 'foto'.date('Ymdhis').'.'.$this->foto->extension();
             $this->foto->storePubliclyAs('public/foto/'.$user->id,$foto);

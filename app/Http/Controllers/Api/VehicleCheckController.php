@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\VechicleCheck;
-use App\Models\VechicleCheckCleanliness;
-use App\Models\VechicleCheckAccidentReport;
+use App\Models\VehicleCheck;
+use App\Models\VehicleCheckCleanliness;
+use App\Models\VehicleCheckAccidentReport;
 use Illuminate\Http\Request;
  
 class VehicleCheckController extends Controller
@@ -28,72 +28,200 @@ class VehicleCheckController extends Controller
      */
     public function store(Request $request)
     {
-        $data = VechicleCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
+        $data = VehicleCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
         if(!$data){
-            $data = new VechicleCheck();
+            $data = new VehicleCheck();
             $data->employee_id = \Auth::user()->employee->id;
         }
-        $data->save();
-
-        if($request->file_vehicle) {
-            $name = $data->id.".".$request->file_vehicle->extension();
-            $request->file_vehicle->storeAs("public/vechile-check/{$data->id}", $name);
-            $data->file_vehicle = "storage/vehicle-check/{$data->id}/{$name}";
-        }
-
-        if($request->file_vehicle_cleanliness){
-            foreach($request->file_vehicle_cleanliness as $file){
-                $cleanliness = new VechicleCheckCleanliness();
-                $cleanliness->vehicle_check_id = $data->id;
-                $cleanliness->save();
-
-                $name = $cleanliness->id.".".$file->extension();
-                $file->storeAs("public/vechile-check/{$data->id}/{$cleanliness->id}", $name);
-                $cleanliness->image = "storage/vehicle-check/{$data->id}/{$cleanliness->id}/{$name}";
-                $cleanliness->save();
-            }
-        }
-
-        if($request->file_vehicle_accident){
-            foreach($request->file_vehicle_accident as $file){
-                $accident = new VechicleCheckAccidentReport();
-                $accident->vehicle_check_id = $data->id;
-                $accident->save();
-
-                $name = $accident->id.".".$file->extension();
-                $file->storeAs("public/vechile-check/{$data->id}/{$accident->id}", $name);
-                $accident->image = "storage/vehicle-check/{$data->id}/{$accident->id}/{$name}";
-                $accident->save();
-            }
-        }
-        
+        $data->plat_nomor = $request->plat_nomor;
+        $data->stiker_safety_driving = $request->sticker_dipasang;
+        $data->accident_report = $request->description_accident_report;
         $data->save();
         
         return response()->json(['message'=>'submited'], 200);
     }
 
-    public function data(Request $request)
+    public function uploadVehicle(Request $r)
     {
-        $data = ToolsCheckUpload::orderBy('id','DESC')->where(['tools_check_item_id'=>$request->tools_check_item_id])->get();
-
-        if($request->year and $request->month){
-            $find = ToolsCheck::where(['tahun'=>$request->year,'bulan'=>$request->month])->first();
-            if($find) 
-            $data = ToolsCheckUpload::orderBy('id','DESC')->where(['tools_check_item_id'=>$request->tools_check_item_id,'tools_check_id' => $find->id])->get();
+        $find = VehicleCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
+        if(!$find){
+            $find = new VehicleCheck();
+            $find->employee_id = \Auth::user()->employee->id;
+            $find->save();
         }
 
-        $result = [];
-        foreach($data as $k => $item){
-            $result[$k] = $item;
-            $result[$k]['image'] = asset($item->image);
+        if($r->file) {
+            $name = "vehicle.".$r->file->extension();
+            $r->file->storeAs("public/vehicle-check/{$find->id}", $name);
+            $find->foto_mobil_plat_nomor = "storage/vehicle-check/{$find->id}/{$name}";
+            $find->save();
+        }
+
+        return response()->json(['message'=>'submited'], 200);
+    }
+
+    public function uploadSticker(Request $r)
+    {
+        $find = VehicleCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
+        if(!$find){
+            $find = new VehicleCheck();
+            $find->employee_id = \Auth::user()->employee->id;
+            $find->save();
+        }
+
+        if($r->file) {
+            $name = "sticker.".$r->file->extension();
+            $r->file->storeAs("public/vehicle-check/{$find->id}", $name);
+            $find->foto_stiker_safety_driving = "storage/vehicle-check/{$find->id}/{$name}";
+            $find->save();
+        }
+
+        return response()->json(['message'=>'submited'], 200);
+    }
+
+    public function getLast()
+    {
+        $data = VehicleCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
+        
+        if($data){
+            $data->foto_stiker_safety_driving = asset($data->foto_stiker_safety_driving);
+            $data->foto_mobil_plat_nomor = asset($data->foto_mobil_plat_nomor);
+        }
+
+        return response()->json(['message'=>'success','data'=>$data], 200);
+    }
+
+    public function history()
+    {
+        $param = VehicleCheck::where(['employee_id'=>\Auth::user()->employee->id])->orderBy('id','desc')->get();
+        $data = [];
+        foreach($param as $k => $item){
+            $data[$k] = $item;
+            $data[$k]['foto_mobil_plat_nomor'] = asset($item->foto_mobil_plat_nomor);
+            $data[$k]['foto_stiker_safety_driving'] = asset($item->foto_stiker_safety_driving);
+            $data[$k]['date'] = date('d F Y',strtotime($item->created_at));
+        }
+
+        return response()->json(['message'=>'success','data'=>$data], 200);
+    }
+
+    public function uploadVehicleCleanliness(Request $r)
+    {
+        $find = VehicleCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
+        if(!$find){
+            $find = new VehicleCheck();
+            $find->employee_id = \Auth::user()->employee->id;
+            $find->save();
+        }
+
+        $data = new VehicleCheckCleanliness();
+        $data->vehicle_check_id = $find->id;
+        $data->save();
+
+        if($r->file){
+            $name = $data->id.".".$r->file->extension();
+            $r->file->storeAs("public/vehicle-check/{$find->id}/cleanliness/{$data->id}", $name);
+            $data->image = "storage/vehicle-check/{$find->id}/cleanliness/{$data->id}/{$name}";
+            $data->save();
+        }
+
+        return response()->json(['message'=>'submited'], 200);
+    }
+
+    public function uploadVehicleAccidentReport(Request $r)
+    {
+        $find = VehicleCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
+        if(!$find){
+            $find = new VehicleCheck();
+            $find->employee_id = \Auth::user()->employee->id;
+            $find->save();
+        }
+
+        $data = new VehicleCheckAccidentReport();
+        $data->vehicle_check_id = $find->id;
+        $data->save();
+
+        if($r->file){
+            $name = $data->id.".".$r->file->extension();
+            $r->file->storeAs("public/vehicle-check/{$find->id}/accident-report/{$data->id}", $name);
+            $data->image = "storage/vehicle-check/{$find->id}/accident-report/{$data->id}/{$name}";
+            $data->save();
+        }
+
+        return response()->json(['message'=>'submited'], 200);
+    }
+
+    public function getVehicleAccidentReportById($id)
+    {
+        $data = [];
+        foreach(VehicleCheckAccidentReport::where('vehicle_check_id',$id)->get() as $k => $item){
+            $data[$k] = $item;
+            $data[$k]['image'] = asset($item['image']);
         }
         
-        return response()->json(['message'=>'submited','data'=>$data], 200);
+        return response()->json(['message'=>'success','data'=>$data], 200);
+    }
+
+    public function getVehicleCleanlinessById($id)
+    {
+        $data = [];
+        foreach(VehicleCheckCleanliness::where('vehicle_check_id',$id)->get() as $k => $item){
+            $data[$k] = $item;
+            $data[$k]['image'] = asset($item['image']);
+        }
+           
+        return response()->json(['message'=>'success','data'=>$data], 200);
+    }
+
+    public function getVehicleAccidentReport()
+    {
+        $find = VehicleCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
+        $data = [];
+        if($find){
+            foreach(VehicleCheckAccidentReport::where('vehicle_check_id',$find->id)->get() as $k => $item){
+                $data[$k] = $item;
+                $data[$k]['image'] = asset($item['image']);
+            }
+        }
+        
+        return response()->json(['message'=>'success','data'=>$data], 200);
+    }
+
+    public function getVehicleCleanliness()
+    {
+        $find = VehicleCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
+        $data = [];
+        if($find){
+            foreach(VehicleCheckCleanliness::where('vehicle_check_id',$find->id)->get() as $k => $item){
+                $data[$k] = $item;
+                $data[$k]['image'] = asset($item['image']);
+            }
+        }
+        
+            
+        return response()->json(['message'=>'success','data'=>$data], 200);
     }
     
     public function deleteImage(Request $r)
     {
-        ToolsCheckUpload::find($r->id)->delete();
+        $find = VehicleCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
+        if($r->type==1){
+            $find->foto_mobil_plat_nomor = null;
+            $find->save();
+        }
+
+        if($r->type==2){
+            $find->foto_stiker_safety_driving = null;
+            $find->save();
+        }
+
+        if($r->type==3){
+            VehicleCheckCleanliness::find($r->id)->delete();
+        }
+
+        if($r->type==4){
+            VehicleCheckAccidentReport::find($r->id)->delete();
+        }
 
         return response()->json(['message'=>'submited'], 200);
     }
