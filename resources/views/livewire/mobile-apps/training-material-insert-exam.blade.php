@@ -42,20 +42,35 @@
                                     <option value=""> --- Jenis Soal --- </option>
                                     <option value="1">Uraian</option>
                                     <option value="2">Pilihan Tunggal</option>
+                                    <option value="3">Pilihan Ganda</option>
                                 </select>
                                 <input type="number" wire:model="nilai_soal.{{$k}}" data-toggle="tooltip" title="Nilai Soal" placeholder="Nilai Soal" class="form-control ml-3" style="width:200px;"  />
                             </div>
+                            {{-- Pilihan Tunggal --}}
                             @if($jenis_soal[$k]==2)
-                            <div class="form-group">
-                                @foreach($list_jawaban[$k] as $jk => $j)
-                                    <div class="row mb-2" wire:key="{{$k+$jk}}">
-                                        <input type="radio" wire:model="kunci_jawaban.{{$k}}" value="{{$jk}}" data-toggle="tooltip" title="Set Kunci Jawaban" class="ml-2 mt-2">
-                                        <input type="text" class="form-control ml-2" style="width:90%;" placeholder="Jawaban" wire:model="list_jawaban.{{$k}}.{{$jk}}" />
-                                        <a href="javascript:void(0)" wire:click="delete_({{$k}},{{$jk}})" class="mt-2 ml-2"><i class="fa fa-times"></i></a>
-                                    </div>
-                                @endforeach
-                                <a href="javascript:void(0)" wire:click="add_jawaban({{$k}})"><i class="fa fa-plus"></i> Jawaban</a>
-                            </div>
+                                <div class="form-group">
+                                    @foreach($list_jawaban[$k] as $jk => $j)
+                                        <div class="row mb-2" wire:key="{{$k+$jk}}">
+                                            <input type="radio" wire:model="kunci_jawaban.{{$k}}" value="{{$jk}}" data-toggle="tooltip" title="Set Kunci Jawaban" class="ml-2 mt-2">
+                                            <input type="text" class="form-control ml-2" style="width:90%;" placeholder="Jawaban" wire:model="list_jawaban.{{$k}}.{{$jk}}" />
+                                            <a href="javascript:void(0)" wire:click="delete_({{$k}},{{$jk}})" class="mt-2 ml-2"><i class="fa fa-times"></i></a>
+                                        </div>
+                                    @endforeach
+                                    <a href="javascript:void(0)" wire:click="add_jawaban({{$k}})"><i class="fa fa-plus"></i> Jawaban</a>
+                                </div>
+                            @endif
+                            {{-- Pilihan Ganda --}}
+                            @if($jenis_soal[$k]==3)
+                                <div class="form-group">
+                                    @foreach($list_jawaban[$k] as $jk => $j)
+                                        <div class="row mb-2" wire:key="{{$k+$jk}}">
+                                            <input type="checkbox" wire:model="kunci_jawaban.{{$k}}" value="{{$jk}}" data-toggle="tooltip" title="Set Kunci Jawaban" class="ml-2 mt-2">
+                                            <input type="text" class="form-control ml-2" style="width:90%;" placeholder="Jawaban" wire:model="list_jawaban.{{$k}}.{{$jk}}" />
+                                            <a href="javascript:void(0)" wire:click="delete_({{$k}},{{$jk}})" class="mt-2 ml-2"><i class="fa fa-times"></i></a>
+                                        </div>
+                                    @endforeach
+                                    <a href="javascript:void(0)" wire:click="add_jawaban({{$k}})"><i class="fa fa-plus"></i> Jawaban</a>
+                                </div>
                             @endif
                             <hr />
                         @endforeach
