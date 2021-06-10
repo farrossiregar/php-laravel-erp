@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Employee;
 
-class VehicleCheck extends Model
+class TrainingExamResult extends Model
 {
     use HasFactory;
 
-    protected $table = 'vehicle_check';
+    protected $table = 'training_exam_result';
 
     public function employee()
     {

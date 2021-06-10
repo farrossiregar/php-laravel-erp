@@ -17,6 +17,9 @@ class DrugTestController extends Controller
         foreach($param as $k => $item){
             $data[$k]['id'] = $item->id;
             $data[$k]['sertifikat_number'] = $item->sertifikat_number;
+            $data[$k]['title'] = $item->title;
+            $data[$k]['date'] = date('d F Y',strtotime($item->created_at));
+            $data[$k]['remark'] = $item->remark;
             $data[$k]['status_drug'] = $item->status_drug;
             $data[$k]['name'] = isset($item->employee->name) ? $item->employee->name : '';
             $data[$k]['telepon'] = isset($item->employee->telepon) ? $item->employee->telepon : '';

@@ -27,7 +27,8 @@
                 <tr style="background:#eee;">
                     <th style="width:50px;">No</th>         
                     <th>Employee</th>   
-                    <th>Sertifikat Number</th>   
+                    <th>Title</th>   
+                    <th>Remark</th>   
                     <th class="text-center">Status</th>
                     <th class="text-center">File</th>
                     <th>Date Submited</th>
@@ -38,7 +39,8 @@
                     <tr>
                         <td>{{$k+1}}</td>
                         <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
-                        <td>{{isset($item->sertifikat_number) ? $item->sertifikat_number : ''}}</td>
+                        <td>{{isset($item->title) ? $item->title : ''}}</td>
+                        <td>{{isset($item->remark) ? $item->remark : ''}}</td>
                         <td class="text-center">
                             @if($item->status_drug==0)
                                 <span class="badge badge-warning">Not Submited</span>
@@ -91,6 +93,14 @@
                             </select>
                         </div> --}}
                         <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" class="form-control" wire:model="title" />
+                        </div>
+                        <div class="form-group">
+                            <label>Remark</label>
+                            <textarea class="form-control mt-2" wire:model="remark" placeholder="Remark"></textarea>
+                        </div>
+                        <div class="form-group">
                             <label>Employee</label>
                             <select class="form-control" wire:model="employee_id">
                                 <option value=""> --- Select --- </option>
@@ -102,7 +112,6 @@
                         <div class="form-group">
                             <label>File</label>
                             <input type="file" class="form-control" wire:model="file" />
-                            <textarea class="form-control mt-2" wire:model="description" placeholder="Description"></textarea>
                             @error('file')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror

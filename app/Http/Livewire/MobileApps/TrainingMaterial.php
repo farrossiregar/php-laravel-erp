@@ -29,7 +29,7 @@ class TrainingMaterial extends Component
     {
         $this->validate([
             'name' => 'required',
-            'description' => 'required',
+            //'description' => 'required',
             'file.*' => 'required|mimes:doc,docx,pdf,jpg,png,jpeg,xls,xlsx'
         ]);
             
@@ -37,14 +37,14 @@ class TrainingMaterial extends Component
         $data->name = $this->name;
         $data->description = $this->description;
         $data->save();
-        
+
         if(!empty($this->file)){
             foreach($this->file as $file){
                 $new_file = new TrainingMaterialFile();
                 $new_file->training_material_id = $data->id;
-                $name = $file->getClientOriginalName() .".".$file->extension();
+                $name = $file->getClientOriginalName();
                 $file->storeAs("public/training-material/{$data->id}", $name);
-                $new_file->file = "public/training-material/{$data->id}/{$name}";
+                $new_file->file = "storage/training-material/{$data->id}/{$name}";
                 $new_file->name = $file->getClientOriginalName();
                 $new_file->file_ext = $file->extension();
                 $new_file->save();
