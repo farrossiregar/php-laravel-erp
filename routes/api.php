@@ -86,4 +86,6 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('training-material/get-file/{id}',[\App\Http\Controllers\Api\TrainingMaterialController::class,'getFile'])->name('api.training-material.get-file');
 	Route::get('training-material/exam/{id}',[\App\Http\Controllers\Api\TrainingMaterialController::class,'getExam'])->name('api.training-material.get-exam');
 	Route::post('user/upload-photo',[\App\Http\Controllers\Api\UserController::class,'uploadPhoto'])->name('api.user.upload-photo');
+	Route::post('user/change-password',[\App\Http\Controllers\Api\UserController::class,'changePassword'])->name('api.user.change-password');
+	Route::post('user/check-token',[\App\Http\Controllers\Api\UserController::class,'checkToken'])->name('api.user.check-token');
 }); 
