@@ -62,6 +62,25 @@ class UserController extends Controller
         return response()->json(['success' => $user], $this->successStatus);
     }
 
+    public function changePassword(Request $r)
+    {
+        $result = ['message'=>'success'];
+        if(!\Hash::check($r->old_password, \Auth::user()->password)){
+            $result['mesage'] = 'error';
+            $result['data'] = 'Password yang anda masukan salah, silahkan dicoba kembali !';
+        }elseif($r->new_password!=$r->confirm_new_password){
+            $result['mesage'] = 'error';
+            $result['data'] = 'Konfirmasi password salah silahkan dicoba kembali !';
+        }else{
+            $user = \Auth::user();
+            $user->password = Hash::make($r->new_password);
+            $user->save();
+            $result['data'] = 'Password berhasil dirubah !';
+        }
+        
+        return response()->json($result, 200);
+    }
+
     public function update(Request $r)
     {
         $employee = Employee::find(\Auth::user()->employee->id);

@@ -88,4 +88,6 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('training-material/store-jawaban',[\App\Http\Controllers\Api\TrainingMaterialController::class,'storeJawaban'])->name('api.training-material.store-jawaban');
 	Route::post('training-material/submit-jawaban',[\App\Http\Controllers\Api\TrainingMaterialController::class,'SubmitJawaban'])->name('api.training-material.submit-jawaban');
 	Route::post('user/upload-photo',[\App\Http\Controllers\Api\UserController::class,'uploadPhoto'])->name('api.user.upload-photo');
+	Route::post('user/change-password',[\App\Http\Controllers\Api\UserController::class,'changePassword'])->name('api.user.change-password');
+	Route::post('user/check-token',[\App\Http\Controllers\Api\UserController::class,'checkToken'])->name('api.user.check-token');
 }); 
