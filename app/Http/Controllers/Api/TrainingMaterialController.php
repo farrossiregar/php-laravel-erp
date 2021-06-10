@@ -25,6 +25,7 @@ class TrainingMaterialController extends Controller
             $data[$k]['days'] = $item->days;
             $data[$k]['place'] = $item->place;
             $data[$k]['status'] = $item->status;
+            $data[$k]['description'] = $item->description;
         }
 
         return response()->json(['message'=>'success','data'=>$data], 200);
