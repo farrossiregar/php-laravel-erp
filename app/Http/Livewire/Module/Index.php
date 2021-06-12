@@ -13,7 +13,7 @@ class Index extends Component
     public $keyword;
     public function render()
     {
-        $data = \App\Models\Module::orderBy('name','ASC');
+        $data = \App\Models\Module::orderBy('id','DESC');
         
         if($data) $data = $data->where("name","LIKE","%{$this->keyword}%");
 

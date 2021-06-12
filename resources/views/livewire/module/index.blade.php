@@ -2,14 +2,14 @@
 @section('parentPageTitle', 'Management Menu')
 
 <div class="row clearfix">
-    <div class="col-lg-6">
+    <div class="col-lg-8">
         <div class="card">
             <div class="header row">
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
-                </div>
+                </div> --}}
                 <div class="col-md-3">
-                    <a href="{{route('module.insert')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Menu</a>
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_insert_module" class="btn btn-primary"><i class="fa fa-plus"></i> Menu</a>
                 </div>
             </div>
             <div class="body pt-0">
@@ -17,7 +17,8 @@
                     <table class="table table-striped table-hover m-b-0 c_list">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <th>Department</th>
+                                <th>Company</th>
                                 <th>Project</th>
                                 <th>Name</th>
                                 <th>Prefix Link</th>
@@ -29,7 +30,8 @@
                         <tbody>
                             @foreach($data as $k => $item)
                             <tr>
-                                <td style="width: 50px;">{{$k+1}}</td>
+                                <td>{{isset($item->department->name) ? $item->department->name : ''}}</td>
+                                <td>{{isset($item->client_project->company->code) ? $item->client_project->company->code : ''}}</td>
                                 <td>{{isset($item->client_project->name) ? $item->client_project->name : ''}}</td>
                                 <td><a href="{{route('module.edit',['id'=>$item->id])}}">{{$item->name}}</a></td>
                                 <td>{{$item->prefix_link}}</td>
@@ -59,7 +61,15 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_insert_module" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                @livewire('module.insert')
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <div class="modal fade" id="modal_autologin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

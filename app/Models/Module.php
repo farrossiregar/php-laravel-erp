@@ -19,4 +19,9 @@ class Module extends Model
     {
         return $this->hasOne(ClientProject::class,'id','client_project_id');
     }
+
+    public function department()
+    {
+        return $this->belongsTo(\App\Models\DepartmentSub::class,'department_id');
+    }
 }
