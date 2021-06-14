@@ -66,14 +66,14 @@ class UserController extends Controller
     {
         $result = ['message'=>'success'];
         if(!\Hash::check($r->old_password, \Auth::user()->password)){
-            $result['mesage'] = 'error';
+            $result['message'] = 'error';
             $result['data'] = 'Password yang anda masukan salah, silahkan dicoba kembali !';
         }elseif($r->new_password!=$r->confirm_new_password){
-            $result['mesage'] = 'error';
+            $result['message'] = 'error';
             $result['data'] = 'Konfirmasi password salah silahkan dicoba kembali !';
         }else{
             $user = \Auth::user();
-            $user->password = Hash::make($r->new_password);
+            $user->password = \Hash::make($r->new_password);
             $user->save();
             $result['data'] = 'Password berhasil dirubah !';
         }
@@ -110,5 +110,10 @@ class UserController extends Controller
         }
 
         return response()->json(['message'=>'submited','photo'=>asset($data->foto)], 200);
+    }
+
+    public function checkToken()
+    {
+        return response()->json(['message'=>'success'], 200);
     }
 }
