@@ -197,8 +197,9 @@
                 // print_r($access);
                 // echo $user->user_access_id;
                 // print_r($user);
-                if($user->id == '4'){
+                // if($user->id == '4'){
             ?>
+            @if(check_access('site-tracking.approval'))
             <div class="body pt-0">
                 <div class="row">
                    <div class="col-md-12">
@@ -223,10 +224,8 @@
                         <div href="#" class="btn btn-primary" onclick="approvesitelisttracking()"><i class="fa fa-search"></i>Submit</div>
                     </div>
                 </div>
-            </div>   
-            <?php
-                }
-            ?>                                     
+            </div> 
+            @endif                                  
         </div>
     </div>
 </div>
