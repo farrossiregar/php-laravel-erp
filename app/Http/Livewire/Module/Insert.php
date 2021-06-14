@@ -30,6 +30,6 @@ class Insert extends Component
 
         session()->flash('message-success',__('Data saved successfully'));
 
-        return redirect()->route('module.edit',['id'=>$data->id]);
+        return redirect()->route('module.index');
     }
 }

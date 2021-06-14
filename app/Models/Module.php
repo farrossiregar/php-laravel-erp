@@ -22,6 +22,6 @@ class Module extends Model
 
     public function department()
     {
-        return $this->belongsTo(\App\Models\DepartmentSub::class,'department_id');
+        return $this->belongsTo(\App\Models\Department::class,'department_id');
     }
 }

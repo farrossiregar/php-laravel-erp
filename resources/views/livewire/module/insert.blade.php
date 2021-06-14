@@ -1,6 +1,6 @@
 <form id="basic-form" method="post" wire:submit.prevent="save">
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Iuran</h5>
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Menu</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true close-btn">×</span>
         </button>
@@ -11,11 +11,7 @@
             <select class="form-control" wire:model="department_id">
                 <option value=""> --- Select Department --- </option>
                 @foreach(\App\Models\Department::get() as $dep)
-                <optgroup label="{{$dep->name}}">
-                    @foreach(\App\Models\DepartmentSub::where('department_id',$dep->id)->get() as $sub)
-                        <option value="{{$sub->id}}">{{$sub->name}}</option>
-                    @endforeach
-                </optgroup>
+                    <option value="{{$dep->id}}">{{$dep->name}}</option>
                 @endforeach
             </select>
             @error('client_project_id')
@@ -76,7 +72,6 @@
         </div>
     </div>
     <div class="modal-footer">
-        <a href="javascript:void(0)" onclick="history.back()"><i class="fa fa-arrow-left"></i> {{ __('Back') }}</a>
         <button type="submit" class="btn btn-primary ml-3"><i class="fa fa-save"></i> {{ __('Save') }}</button>
     </div>
 </form>

@@ -18,4 +18,9 @@ class ModulesItem extends Model
     {
         return $this->belongsTo(\App\Models\ClientProject::class);
     }
+
+    public function group()
+    {
+        return $this->belongsTo(\App\Models\ModuleGroup::class,'module_group_id','id');
+    }
 }
