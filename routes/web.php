@@ -109,4 +109,5 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('mobile-apps/insert-exam/{id}',App\Http\Livewire\MobileApps\TrainingMaterialInsertExam::class)->name('mobile-apps.insert-exam');
     Route::get('pm-report-tmg-monthly/{id}',[App\Http\Controllers\PmReportController::class,'tmgMonthly'])->name('pm-report-tmg-monthly');
     Route::get('training-material',App\Http\Livewire\TrainingMaterial\Index::class)->name('training-material.index');
+    Route::get('preventive-maintenance',App\Http\Livewire\PreventiveMaintenance\Index::class)->name('preventive-maintenance.index');
 });
