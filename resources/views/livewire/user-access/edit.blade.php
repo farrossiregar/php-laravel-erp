@@ -34,7 +34,15 @@
                     @foreach(\App\Models\Module::all() as $key_module => $module)
                     <tr style="background: #eee;">
                         <th style="width:20px;">{{ $key_module+1 }}.</th>
-                        <td><strong>{{ $module->name }}</strong></td>
+                        <td>
+                            <strong>
+                            @if(isset($module->client_project->name))
+                                {{ $module->client_project->name }}
+                            @else
+                                {{ $module->name }}
+                            @endif
+                            </strong>
+                        </td>
                         <td></td>
                     </tr>
                     @if($module->menu)

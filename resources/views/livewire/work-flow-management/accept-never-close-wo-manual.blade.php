@@ -4,6 +4,9 @@
 </div>
 @push('after-scripts')
 <script>
+Livewire.on('chart',()=>{
+    
+});
 Livewire.on('chart-accept-never-close-wo-manual',(data)=>{
     var labels_2 = JSON.parse(data.labels);
     var series_2 = JSON.parse(data.series);

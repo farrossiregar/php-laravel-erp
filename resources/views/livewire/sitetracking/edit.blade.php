@@ -1,20 +1,12 @@
-@section('title', __('Site Tracking Data Detail'))
+@section('title', __('Site Tracking'))
 @section('parentPageTitle', 'Home')
-
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
-            <div class="header row">
-                
-                
+            <div class="header">
+                <h5>Original</h5> 
             </div>
             <div class="body pt-0">
-
-                <div class="row">
-                    <div class="col-md-2">
-                        <b><h4>Original</h4></b> 
-                    </div>
-                </div>
                 <div class="table-responsive">
                     <table class="table table-striped m-b-0 c_list">
                         <thead>
@@ -22,7 +14,6 @@
                                 <th>No</th>                               
                                 <th>Collection</th>  
                                 <th>{{__('NO PO')}}</th>  
-                                <!-- <th>NO PO</th> -->
                                 <th>Item Number</th>  
                                 <th>DATE PO RELEASED</th>  
                                 <th>Pic RPM</th>  
@@ -87,25 +78,17 @@
                                 <td>{{ $item->no_invoice }}</td>
                                 <td>{{ $item->inv_date }}</td>
                                 <td>{{ $item->payment_date }}</td>
-
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-                <br />
-                
+                </div>                
             </div>
 
-            
-            @if(check_sitelist_temp($id_site_master))
-                                                  
+            @if(check_sitelist_temp($id_site_master))     
             <div class="body pt-0">
-
-                <div class="row">
-                    <div class="col-md-2">
-                        <b><h4>Duplicate </h4></b> 
-                    </div>
+                <div class="header">
+                    <h5>Duplicate</h5> 
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped m-b-0 c_list">
@@ -178,59 +161,23 @@
                                 <td>{{ $item->no_invoice }}</td>
                                 <td>{{ $item->inv_date }}</td>
                                 <td>{{ $item->payment_date }}</td>
-                                
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
                 <br />
-                
             </div>
-            
             @endif
-            
-            <?php
-
-                $user = \Auth::user();
-                // $access = App\Models\UserAccess::where('id', $user->user_access_id)->first();
-                // print_r($access);
-                // echo $user->user_access_id;
-                // print_r($user);
-                // if($user->id == '4'){
-            ?>
-            @if(check_access('site-tracking.approval'))
-            <div class="body pt-0">
-                <div class="row">
-                   <div class="col-md-12">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1" <?php if($status[0]['status'] == '1'){ echo "checked";} ?>>
-                            <label class="form-check-label" for="flexRadioDefault1">
-                                Approve
-                            </label>
-                        </div>
-                        <br>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2" <?php if($status[0]['status'] == '2'){ echo "checked";} ?>>
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                Reject
-                            </label>
-                        </div>
-                        <br>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div href="#" class="btn btn-primary" onclick="approvesitelisttracking()"><i class="fa fa-search"></i>Submit</div>
-                    </div>
-                </div>
-            </div> 
+            @if(check_access('site-tracking.approval') and $master->status==0)
+                <div class="body pt-0">
+                    <button type="button" wire:click="$emit('confirm-reject')" class="btn btn-danger">Reject</button>
+                    <button type="button" wire:click="$emit('confirm-approve')" class="btn btn-success">Approve</button>
+                </div> 
             @endif                                  
         </div>
     </div>
 </div>
-
-
 
 <div class="modal fade bd-example-modal-lg" id="modal-preview-duplicate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -240,9 +187,19 @@
         </div>
     </div>
 </div>
-
-
+@push('after-scripts')
 <script>
+    Livewire.on('confirm-approve',()=>{
+        if(confirm("Are you want approve this site list ?")){
+            Livewire.emit('proses',1);
+        }
+    });
+    Livewire.on('confirm-reject',()=>{
+        if(confirm("Are you want reject this site list ")){
+            Livewire.emit('proses',2);
+        }
+    });
+
     function modalduplicate($nopo){
         
         $("#modal-preview-duplicate").modal('show');
@@ -319,25 +276,8 @@
         });
 
     }
-
-
-    function approvesitelisttracking(){
-        var status = $("input[name='flexRadioDefault']:checked").val();
-        // alert(status);
-        var id = '<?php echo $id_site_master;?>';
-        $.ajax({
-            url: "{{ route('site-tracking.approvesitelisttracking') }}", 
-            type: "POST",
-            data: {'id' : id, 'status' : status, '_token' : $("meta[name='csrf-token']").attr('content')},
-            dataType: 'json',
-            success: function(result){
-                // console.log(result);
-                location.reload();
-            }
-        });
-    }
 </script>
-
+@endpush
 @section('page-script')
 Livewire.on('preview-duplicate',()=>{
     $("#modal-preview-duplicate").modal('hide');

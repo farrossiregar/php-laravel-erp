@@ -28,7 +28,6 @@
                                     @if(check_access('user-acess.delete'))       
                                     <a href="javascript:void(0)" class="text-danger" wire:click="delete({{$item->id}})"><i class="fa fa-trash-o"></i></a>
                                     @endif
-                                    
                                 </td>
                             </tr>
                             @endforeach

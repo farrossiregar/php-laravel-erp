@@ -70,6 +70,6 @@ class Dashboard extends Component
 
         $this->labels = json_encode($this->labels); 
         $this->datasets = json_encode($this->datasets); 
-        $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets]);
+        $this->emit('init-chart-critical-case',['labels'=>$this->labels,'datasets'=>$this->datasets]);
     }
 }

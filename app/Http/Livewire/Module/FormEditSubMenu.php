@@ -28,7 +28,7 @@ class FormEditSubMenu extends Component
         $this->validate([
             'name' => 'required',
             'link' => 'required',
-            'client_project_id' => 'required'
+            // 'client_project_id' => 'required'
         ]);
 
         $this->data->name = $this->name;
