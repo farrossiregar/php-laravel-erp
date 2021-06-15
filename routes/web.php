@@ -92,9 +92,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('po-tracking-nonms/edit-boq/{id}',App\Http\Livewire\PoTrackingNonms\Editboq::class)->name('po-tracking-nonms.edit-boq');
     Route::get('po-tracking-nonms/edit-bast/{id}',App\Http\Livewire\PoTrackingNonms\Editbast::class)->name('po-tracking-nonms.edit-bast');
 
-    Route::get('po-tracking-tesynergy',App\Http\Livewire\PoTrackingTesynergy\Index::class)->name('po-tracking-tesynergy.index');
+    // Route::get('po-tracking-tesynergy',App\Http\Livewire\PoTrackingTesynergy\Index::class)->name('po-tracking-tesynergy.index');
 
     Route::get('po-tracking-nonms/generate-bast/{data}',[App\Http\Controllers\PoTrackingNonmsController::class,'generateBast'])->name('po-tracking-nonms.generate-bast');
+    Route::get('po-tracking-nonms/detailfoto/{id}',App\Http\Livewire\PoTrackingNonms\Detailfoto::class)->name('po-tracking-nonms.detailfoto');
 
 
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
