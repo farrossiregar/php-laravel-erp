@@ -189,16 +189,6 @@
             </div>
             
             @endif
-            
-            <?php
-
-                $user = \Auth::user();
-                // $access = App\Models\UserAccess::where('id', $user->user_access_id)->first();
-                // print_r($access);
-                // echo $user->user_access_id;
-                // print_r($user);
-                // if($user->id == '4'){
-            ?>
             @if(check_access('site-tracking.approval'))
             <div class="body pt-0">
                 <div class="row">
