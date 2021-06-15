@@ -11,7 +11,8 @@ use App\Models\TrainingExamSubmit;
 class TrainingMaterialInsertExam extends Component
 {
     public $data,$list_soal=[],$data_soal;
-    public $soal=[],$jenis_soal=[],$list_jawaban=[],$kunci_jawaban=[],$nilai_soal=[],$alphabet,$duration;
+    public $soal=[],$jenis_soal=[],$list_jawaban=[],$kunci_jawaban=[],$nilai_soal=[],$alphabet,$duration,$start_exam,$end_exam;
+
     public function render()
     {
         return view('livewire.mobile-apps.training-material-insert-exam');
@@ -58,6 +59,11 @@ class TrainingMaterialInsertExam extends Component
         $this->validate([
             'soal.*' =>'required'
         ]);
+
+        $this->data->duration = $this->duration;
+        $this->data->start_exam = $this->start_exam;
+        $this->data->end_exam = $this->end_exam;
+        $this->data->save();
 
         foreach($this->list_soal as $k => $i){
             $data = new TrainingExam();

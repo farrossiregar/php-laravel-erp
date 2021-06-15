@@ -13,7 +13,7 @@ class Index extends Component
     public $keyword;
     public function render()
     {
-        if(!check_access('project.index')){
+        if(!check_access('project')){
             session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
             $this->redirect('/');
         }

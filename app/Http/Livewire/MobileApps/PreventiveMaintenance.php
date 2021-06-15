@@ -7,7 +7,7 @@ use App\Models\PreventiveMaintenance as PreventiveMaintenanceModel;
 
 class PreventiveMaintenance extends Component
 {
-    public $site_id,$description,$due_date,$project_id;
+    public $site_id,$description,$due_date,$project_id,$site_report,$site_owner;
     
     protected $listeners = ['refresh-page'=>'$refresh'];
     
@@ -16,6 +16,12 @@ class PreventiveMaintenance extends Component
         $data = PreventiveMaintenanceModel::orderBy('id','DESC');
 
         return view('livewire.mobile-apps.preventive-maintenance')->with(['data'=>$data->paginate(100)]);
+    }
+
+    public function set_report(PreventiveMaintenanceModel $id,$site_owner)
+    {
+        $this->site_report = $id;
+        $this->site_owner = $site_owner;
     }
 
     public function store()

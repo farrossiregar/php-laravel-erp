@@ -10,10 +10,10 @@ class Index extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
-    public $keyword;
+    public $keyword,$company_id;
     public function render()
     {
-        $data = \App\Models\Module::orderBy('name','ASC');
+        $data = \App\Models\Module::orderBy('id','DESC')->groupBy('department_id');
         
         if($data) $data = $data->where("name","LIKE","%{$this->keyword}%");
 

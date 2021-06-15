@@ -84,6 +84,12 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('training-material/upload-image',[\App\Http\Controllers\Api\TrainingMaterialController::class,'uploadImage'])->name('api.training-material.upload-image');
 	Route::get('training-material/get-image/{id}',[\App\Http\Controllers\Api\TrainingMaterialController::class,'getImage'])->name('api.training-material.get-image');
 	Route::get('training-material/get-file/{id}',[\App\Http\Controllers\Api\TrainingMaterialController::class,'getFile'])->name('api.training-material.get-file');
-	Route::get('training-material/exam/{id}',[\App\Http\Controllers\Api\TrainingMaterialController::class,'getExam'])->name('api.training-material.get-exam');
+	Route::get('training-material/get-exam/{id}',[\App\Http\Controllers\Api\TrainingMaterialController::class,'getExam'])->name('api.training-material.get-exam');
+	Route::post('training-material/store-jawaban',[\App\Http\Controllers\Api\TrainingMaterialController::class,'storeJawaban'])->name('api.training-material.store-jawaban');
+	Route::post('training-material/submit-jawaban',[\App\Http\Controllers\Api\TrainingMaterialController::class,'SubmitJawaban'])->name('api.training-material.submit-jawaban');
 	Route::post('user/upload-photo',[\App\Http\Controllers\Api\UserController::class,'uploadPhoto'])->name('api.user.upload-photo');
+	Route::post('user/change-password',[\App\Http\Controllers\Api\UserController::class,'changePassword'])->name('api.user.change-password');
+	Route::get('user/check-token',function(){
+		return ['error'=>'false'];
+	});
 }); 

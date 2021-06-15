@@ -43,7 +43,7 @@ class Insert extends Component
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
                 $datadetail = new \App\Models\SiteListTrackingDetail();
-                if($i[0]!="") 
+                if($i[2]=="") continue; 
                 
                 $datadetail->id_site_master                         = $data->id;
                 $datadetail->collection                             = date_format(date_create($i[4]), 'm');;

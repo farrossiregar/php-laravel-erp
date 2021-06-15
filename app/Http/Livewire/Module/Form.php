@@ -7,12 +7,14 @@ use Livewire\WithFileUploads;
 
 class Form extends Component
 {
-    public $item_name,$prefix_link;
+    public $item_name,$prefix_link,$module_group_id;
     public $item_link;
     public $type;
     public $data;
     public $icon,$valid_link=0;
     use WithFileUploads;
+
+    protected $listeners = ['set_module_group'];
 
     public function render()
     {
@@ -22,6 +24,11 @@ class Form extends Component
     public function mount($data)
     {
         $this->data = $data;
+    }
+
+    public function set_module_group($id)
+    {
+        $this->module_group_id = $id;
     }
 
     public function saveItems()
@@ -47,6 +54,7 @@ class Form extends Component
         $data->name = $this->item_name;
         $data->link = $this->item_link;
         $data->type = 1;
+        $data->module_group_id = $this->module_group_id;
 
         $name = date('dmYHis').'.'.$this->icon->extension();
         $this->icon->storePubliclyAs('public/icon/',$name);

@@ -40,7 +40,7 @@
                         <td style="white-space: break-spaces !important;">{{$item->description}}</td>
                         <td>
                         @foreach(\App\Models\TrainingMaterialFile::where('training_material_id',$item->id)->get() as $file)
-                            <a href="{{asset($file->file)}}">{{$file->name}}</a><br />
+                            <a href="{{asset($file->file)}}" target="_blank">{{$file->name}}</a><br />
                         @endforeach
                         </td>
                         <td>
@@ -84,8 +84,12 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <span wire:loading>
+                            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                            <span class="sr-only">{{ __('Loading...') }}</span>
+                        </span>
                         <button type="button" class="btn btn-light close-btn" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                        <button wire:loading.remove type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
                     </div>
                 </form>
             </div>

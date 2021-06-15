@@ -18,12 +18,14 @@ class PreventiveMaintenanceController extends Controller
             $data[$k]['id'] = $item->id;
             $data[$k]['status'] = $item->status;
             $data[$k]['site'] = isset($item->site->name) ? $item->site->name : '';
+            $data[$k]['site_id'] = isset($item->site->site_id) ? $item->site->site_id : '';
             $data[$k]['region'] = isset($item->site->region->region) ? $item->site->region->region : '';
             $data[$k]['project'] = isset($item->project->name) ? $item->project->name : '';
             $data[$k]['description'] = $item->description;
             $data[$k]['due_date'] = date('d F Y',strtotime($item->due_date));
             $data[$k]['start_date'] = date('d/M/Y',strtotime($item->start_date));
-            $data[$k]['end_date'] = date('d/M/Y',strtotime($item->end_date));
+            $data[$k]['end_date'] = date('d/M/Y',strtotime($item->end_date)); 
+            $data[$k]['site_owner'] = isset($item->site->site_owner) ? $item->site->site_owner : '-';
         }
 
         return response()->json(['message'=>'success','data'=>$data], 200);

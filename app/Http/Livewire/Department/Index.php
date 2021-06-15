@@ -24,12 +24,14 @@ class Index extends Component
         $count = \App\Models\Employee::where('department_sub_id',$id)->count();
         if($count>0){
             session()->flash('message-error',__('Delete data error'));
-            return redirect()->to('users');    
+            return redirect()->to('department');    
         }
+        
         \App\Models\DepartmentSub::find($id)->delete();
+
         session()->flash('message-success',__('Data delete successfully'));
 
-        return redirect()->to('department');
+        // return redirect()->to('department');
     }
     public function delete($id)
     {

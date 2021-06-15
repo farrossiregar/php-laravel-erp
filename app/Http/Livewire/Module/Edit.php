@@ -4,14 +4,15 @@ namespace App\Http\Livewire\Module;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\ModuleGroup;
 
 class Edit extends Component
 {
-    public $data,$status;
+    public $data,$status,$client_project_id,$department_id;
     public $name;
     public $prefix_link,$icon,$color;
     public $items;
-    public $parent_id;
+    public $parent_id,$name_group;
     protected $listeners = ['toggleModal','refresh-page'=>'refresh_page'];
     protected $paginationTheme = 'bootstrap';
 
@@ -36,7 +37,23 @@ class Edit extends Component
         $this->prefix_link = $this->data->prefix_link;
         $this->color = $this->data->color;
         $this->status = $this->data->status;
+        $this->department_id = $this->data->department_id;
+        $this->client_project_id = $this->data->client_project_id;
     }
+    
+    public function save_group()
+    {
+        $this->validate([
+            'name_group'=>'required'
+        ]);
+        $new = new ModuleGroup();
+        $new->name = $this->name_group;
+        $new->module_id = $this->data->id;
+        $new->save();
+
+        $this->emit('refresh-page');
+    }
+
     public function save()
     {
         $this->validate([

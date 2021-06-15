@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Livewire\MobileApps;
+namespace App\Http\Livewire\TrainingMaterial;
 
 use Livewire\Component;
 use App\Models\TrainingMaterial as TrainingMaterialModel;
 use App\Models\TrainingMaterialFile;
 use Livewire\WithFileUploads;
 
-class TrainingMaterial extends Component
+class Index extends Component
 {
     use WithFileUploads;
 
@@ -20,7 +20,7 @@ class TrainingMaterial extends Component
     {
         $data = TrainingMaterialModel::orderBy('id','DESC');
 
-        return view('livewire.mobile-apps.training-material')->with(['data'=>$data->paginate(100)]);
+        return view('livewire.training-material.index')->with(['data'=>$data->paginate(100)]);
     }
 
     public function mount(){}

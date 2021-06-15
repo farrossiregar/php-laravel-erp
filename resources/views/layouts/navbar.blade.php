@@ -9,16 +9,36 @@
             @if(get_setting('logo'))<a href="/"><img src="{{ get_setting('logo') }}" alt="Lucid Logo" class="img-responsive logo"></a>@endif
         </div>
         <div class="navbar-right">
-            <form id="navbar-search" class="col-md-6 navbar-form">
+            <form id="navbar-search" class="col-md-9 navbar-form px-0">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <h6 class="mt-2 mb-0 pb-0"> @yield('title')</h6>
                         @if (trim($__env->yieldContent('parentPageTitle')))
                             <span>@yield('parentPageTitle')</span>
                         @endif
                     </div>
-                    <div class="col-md-7">
-                        <select class="form-control" name="searching_menu">
+                    <div class="col-md-10 px-0">
+                        <ul class="nav navbar-nav">
+                            @foreach(\App\Models\Department::get() as $dep)
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle icon-menu text-info px-1" data-toggle="dropdown">{{$dep->name}}</a>
+                                <ul class="dropdown-menu user-menu menu-icon">
+                                    @foreach(\App\Models\Module::where(['department_id'=>$dep->id])->groupBy('client_project_id')->get() as $menu)
+                                        <li><a href="{{route('home',['menu'=>$menu->id])}}">{{isset($menu->client_project->name) ? $menu->client_project->name : ''}}</a></li>
+                                        @php($sub_menu = \App\Models\Module::where(['department_id'=>$dep->id,'client_project_id'=>$menu->client_project_id])->get())
+                                        @if($sub_menu->count() > 1 )
+                                            <ul>
+                                                @foreach($sub_menu as $sub)
+                                                    <li class="py-1"><a href="{{route('home',['menu'=>$sub->id])}}" style="color:white;">{{isset($sub->name) ? $sub->name : ''}}</a></li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </li>
+                            @endforeach
+                        </ul>
+                        {{-- <select class="form-control" name="searching_menu">
                             <option value="">Searching...</option>
                             @foreach(get_menu(\Auth::user()->user_access_id) as $menu)
                                 <optgroup label="{{$menu['name']}}">
@@ -29,7 +49,7 @@
                                 @endif
                                 </optgroup>
                             @endforeach
-                        </select>
+                        </select> --}}
                     </div>
                 </div>
             </form>

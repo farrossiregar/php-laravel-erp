@@ -56,6 +56,16 @@
                         <th>{{ __('APAKAH  DIPASANG BATERAI CAGE?') }}</th>
                         <th>{{ __('APAKAH DIPASANG CABINET BELTING?') }}</th>
                         <th>{{ __('CATATAN') }}</th>
+                        <th>{{ __('RECTIFIER 1 QTY MODULE') }}</th>
+                        <th>{{ __('RECTIFIER 1 BATTERY BRAND') }}</th>
+                        <th>{{ __('RECTIFIER 1 BATTERY QTY (PCS)') }}</th>
+                        <th>{{ __('RECTIFIER 2 QTY MODULE') }}</th>
+                        <th>{{ __('RECTIFIER 2 BATTERY BRAND') }}</th>
+                        <th>{{ __('RECTIFIER 2 BATTERY QTY (PCS)') }}</th>
+                        <th>{{ __('RECTIFIER 3 QTY MODULE') }}</th>
+                        <th>{{ __('RECTIFIER 3 BATTERY BRAND') }}</th>
+                        <th>{{ __('RECTIFIER 3 BATTERY QTY (PCS)') }}</th>
+                        <th>{{ __('PHOTO') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -96,6 +106,20 @@
                         <td class="text-center">{{check_yes_no($item->apakah_dipasang_baterai_cage)}}</td>
                         <td class="text-center">{{check_yes_no($item->apakah_dipasang_cabinet_belting)}}</td>
                         <td>{{$item->catatan}}</td>
+                        <td>{{$item->qty_module_1}}</td>
+                        <td>{{$item->battery_brand_1}}</td>
+                        <td>{{$item->battery_qty_1}}</td>
+                        <td>{{$item->qty_module_2}}</td>
+                        <td>{{$item->battery_brand_2}}</td>
+                        <td>{{$item->battery_qty_2}}</td>
+                        <td>{{$item->qty_module_3}}</td>
+                        <td>{{$item->battery_brand_3}}</td>
+                        <td>{{$item->battery_qty_3}}</td>
+                        <td>
+                            @if($item->photo_kondisition)
+                                <a href="{{asset($item->photo_kondisition)}}"><i class="fa fa-image"></i></a>
+                            @endif
+                        </td>
                     @endforeach
                 </tbody>
             </table>

@@ -2,22 +2,28 @@
 @section('parentPageTitle', 'Management Menu')
 
 <div class="row clearfix">
-    <div class="col-lg-6">
+    <div class="col-lg-8">
         <div class="card">
             <div class="header row">
-                <div class="col-md-6">
-                    <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
+                <div class="col-md-3">
+                    <select class="form-control" wire:model="company_id">
+                        <option value=""> -- Company -- </option>
+                        @foreach(\App\Models\Company::get() as $company)
+                        <option value="{{$company->id}}">{{$company->name}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="col-md-3">
-                    <a href="{{route('module.insert')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Menu</a>
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_insert_module" class="btn btn-primary"><i class="fa fa-plus"></i> Menu</a>
                 </div>
             </div>
             <div class="body pt-0">
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover m-b-0 c_list">
-                        <thead>
+                    <table class="table table-striped m-b-0 c_list">
+                        {{-- <thead>
                             <tr>
-                                <th>No</th>
+                                <th>Department</th>
+                                <th>Company</th>
                                 <th>Project</th>
                                 <th>Name</th>
                                 <th>Prefix Link</th>
@@ -25,11 +31,31 @@
                                 <th>Status</th>
                                 <th>Updated</th>
                             </tr>
-                        </thead>
+                        </thead> --}}
                         <tbody>
                             @foreach($data as $k => $item)
                             <tr>
-                                <td style="width: 50px;">{{$k+1}}</td>
+                                <th>{{isset($item->department->name) ? $item->department->name : ''}}</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            @php($menus = \App\Models\Module::select('modules.id','modules.name',\DB::raw('client_projects.name as client_projects_name'))->join('client_projects','client_projects.id','=','modules.client_project_id')
+                            ->where(['department_id'=>$item->department_id])->get())
+                            @if($menus->count()==0)
+                            <tr><td colspan="3"></td></tr>
+                            @else
+                                @foreach($menus as $menu)
+                                    <tr>
+                                        <td>&nbsp;&nbsp;&nbsp;<a href="{{route('module.edit',$menu->id)}}">{{isset($menu->client_projects_name) ? $menu->client_projects_name : ''}}</a></td>
+                                        <td>{{$menu->name}}</td>
+                                        <td>
+                                            <a href="javascript:;" class="text-danger" wire:click="delete({{$menu->id}})"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+{{--                                 
+                                <td>{{isset($item->client_project->company->code) ? $item->client_project->company->code : ''}}</td>
                                 <td>{{isset($item->client_project->name) ? $item->client_project->name : ''}}</td>
                                 <td><a href="{{route('module.edit',['id'=>$item->id])}}">{{$item->name}}</a></td>
                                 <td>{{$item->prefix_link}}</td>
@@ -48,8 +74,8 @@
                                 <td>
                                     {{$item->updated_at}}
                                     <a href="javascript:;" class="text-danger" wire:click="delete({{$item->id}})"><i class="fa fa-trash"></i></a>
-                                </td>
-                            </tr>
+                                </td> --}}
+                            
                             @endforeach
                         </tbody>
                     </table>
@@ -59,7 +85,15 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_insert_module" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                @livewire('module.insert')
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <div class="modal fade" id="modal_autologin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
