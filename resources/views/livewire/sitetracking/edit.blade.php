@@ -169,6 +169,7 @@
                 <br />
             </div>
             @endif
+
             @if(check_access('site-tracking.approval') and $master->status==0)
                 <div class="body pt-0">
                     <button type="button" wire:click="$emit('confirm-reject')" class="btn btn-danger">Reject</button>
