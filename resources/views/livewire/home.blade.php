@@ -48,11 +48,12 @@
     @endif
 </div>
 <style>
-    h4 {color:white;}
+    /* h4 {color:white;}*/
     body{
-        background: rgb(110,204,223);
-        background: linear-gradient(90deg, rgba(110,204,223,1) 0%, rgba(44,109,175,1) 100%);
-    }
+        background:white;
+        /* background: rgb(110,204,223); */
+        /* background: linear-gradient(90deg, rgba(110,204,223,1) 0%, rgba(44,109,175,1) 100%); */
+    } 
     .card {
         border-radius:0;
     }
