@@ -44,6 +44,7 @@
                     <th>Total Actual Price</th>
                     <th>Total Profit Margin</th>
                     <th>Extra Budget</th>
+                    <th>Coordinator</th>
                     <th>Field Team</th>
                     <th>Action</th>
                 </tr>
@@ -120,6 +121,7 @@
                         <span class="text-<?php echo $color; ?>">{{ $total_profit }}%</span>
                     </td>
                     <td>Rp {{ format_idr(get_extra_budget($item->id)) }}</td>
+                    <td>@livewire('po-tracking-nonms.select-coordinator-stp',['data'=>$item->id],key($item->id))</td>
                     <td>@livewire('po-tracking-nonms.select-field-team-stp',['data'=>$item->id],key($item->id))</td>
                     <td> 
                         @if(check_access('po-tracking-nonms.preview-bast'))

@@ -46,6 +46,8 @@
                     <th>Total Actual Price</th>
                     <th>Total Profit Margin</th>
                     <th>Extra Budget</th>
+                    <th>Coordinator</th>
+                    <th>Field Team</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -120,9 +122,15 @@
                         <div class="text-<?php echo $color; ?>">{{ $total_profit }}%</div>
                     </td>
                     <td>Rp {{ format_idr(get_extra_budget($item->id)) }}</td>
+                    <td>@livewire('po-tracking-nonms.select-coordinator-stp',['data'=>$item->id],key($item->id))</td>
+                    <td>@livewire('po-tracking-nonms.select-field-team-stp',['data'=>$item->id],key($item->id))</td>
                     <td> 
+                        @if($item->bast_status == '')
+                            <a href="{{route('po-tracking-nonms.detailfoto',['id'=>$item->id]) }}" ><i class="fa fa-eye"></i> Detail Foto</a>
+                        @endif
+                        
                         @if(check_access('po-tracking-nonms.preview-bast'))
-                            @if($item->bast_status>=1)
+                            @if($item->bast_status == 1)
                                 <!--    Start E2E Preview Bast   -->
                                 <a href="javascript:;" data-toggle="modal" data-target="#modal_bast" wire:click="$emit('listen-bast',{{$item->id}})"><i class="fa fa-eye"></i> BAST</a>
                                 <!--    End E2E Preview Bast    -->
