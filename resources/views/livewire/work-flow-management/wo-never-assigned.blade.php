@@ -6,9 +6,16 @@
 var labels = {!!$labels!!};
 var series = {!!$series!!};
 var chart="";
-$( document ).ready(function() {
-    init_chart_wo_never_assign();
+// $( document ).ready(function() {
+//     init_chart_wo_never_assign();
+// });
+
+Livewire.on('chart-wfm',()=>{
+    setTimeout(function(){
+        init_chart_wo_never_assign();
+    },1000);
 });
+
 Livewire.on('init-chart',(data)=>{
     labels = JSON.parse(data.labels);
     series = JSON.parse(data.series);

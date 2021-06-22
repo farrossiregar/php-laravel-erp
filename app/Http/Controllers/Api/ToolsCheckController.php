@@ -82,6 +82,9 @@ class ToolsCheckController extends Controller
         $upload = new ToolsCheckUpload();
         $upload->tools_check_id = $find->id;
         $upload->tools_check_item_id = $request->tools_check_item_id;
+        $upload->lat = $request->lat;
+        $upload->lng = $request->lng;
+        $upload->note = $request->note;
         $upload->save();
 
         if($request->image) {

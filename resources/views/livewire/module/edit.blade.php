@@ -85,7 +85,7 @@
             </div>
             <div class="body pt-0">
                 @foreach(\App\Models\ModuleGroup::where('module_id',$data->id)->get() as $group)
-                    <div class="table-responsive" wire:key="{{$group->id.date('YmdHis')}}">
+                    <div class="table-responsive">
                         <h5>{{$group->name}}</h5>
                         <table class="table">
                             @foreach(\App\Models\ModulesItem::where(['module_id'=>$data->id,'module_group_id'=>$group->id])->whereNull('parent_id')->get() as $k => $item)
@@ -106,7 +106,7 @@
                                 @foreach($item->func as $function)
                                 <tr>
                                     <td>
-                                        @livewire('module.delete-sub', ['data'=>$function],key($function->id))
+                                        @livewire('module.delete-sub', ['data'=>$function],key($function->id+$group->id))
                                         <small>{{$function->link}}</small>
                                     </td>
                                 </tr>

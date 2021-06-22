@@ -109,5 +109,15 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('mobile-apps/insert-exam/{id}',App\Http\Livewire\MobileApps\TrainingMaterialInsertExam::class)->name('mobile-apps.insert-exam');
     Route::get('pm-report-tmg-monthly/{id}',[App\Http\Controllers\PmReportController::class,'tmgMonthly'])->name('pm-report-tmg-monthly');
     Route::get('training-material',App\Http\Livewire\TrainingMaterial\Index::class)->name('training-material.index');
+    Route::get('training-material/detail-exam/{id}',App\Http\Livewire\TrainingMaterial\DetailExam::class)->name('training-material.detail-exam');
+    Route::get('training-material/detail-exam-employee/{id}/{employee_id}',App\Http\Livewire\TrainingMaterial\DetailExamEmployee::class)->name('training-material.detail-exam-employee');
     Route::get('preventive-maintenance',App\Http\Livewire\PreventiveMaintenance\Index::class)->name('preventive-maintenance.index');
+    Route::get('main-kpi',App\Http\Livewire\MainKpi\Index::class)->name('main-kpi.index');
+    Route::get('location-of-field-team',App\Http\Livewire\Locationoffieldteam\Index::class)->name('location-of-field-team.index');
+    Route::get('drug-test',App\Http\Livewire\Drugtest\Index::class)->name('drug-test.index');
+    Route::get('it-support',App\Http\Livewire\Itsupport\Index::class)->name('it-support.index');
+    Route::get('po-management',App\Http\Livewire\Pomanagement\Index::class)->name('po-management.index');
+    Route::get('lightning-strike-tracking',App\Http\Livewire\LightningStrikeTracking\Index::class)->name('lightning-strike-tracking.index');
+    Route::get('duty-roster',App\Http\Livewire\DutyRoster\Index::class)->name('duty-roster.index');
+    Route::get('performance-kpi',App\Http\Livewire\PerformanceKpi\Index::class)->name('performance-kpi.index');
 });

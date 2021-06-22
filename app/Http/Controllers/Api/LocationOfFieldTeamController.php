@@ -56,12 +56,15 @@ class LocationOfFieldTeamController extends Controller
         return response()->json(['message'=>'success','data'=>$data], 200);
     }
     
-    public function getNearest()
+    public function getNearest(Request $r)
     {
         $find = LocationOfFieldTeam::where('employee_id',\Auth::user()->employee->id)->orderBy('id','DESC')->first();
         
         if($find){
-            $employee = Employee::where('is_active_location',1)->pluck('id')->toArray();
+            $employee = Employee::where('is_active_location',1)->where(function($table) use ($r){
+                if($r->find_team) $table->where('name',"LIKE","%{$r->find_team}%");
+            })->pluck('id')->toArray();
+            
             $employee = json_encode($employee);
             $employee = rtrim($employee,']');
             $employee = ltrim($employee,'[');

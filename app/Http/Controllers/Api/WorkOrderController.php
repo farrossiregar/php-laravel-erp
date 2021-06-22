@@ -6,9 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PoTrackingNonms;
 use App\Models\PoTrackingNonmsBast;
+use App\Models\Notification;
 
 class WorkOrderController extends Controller
 {
+    public function notification()
+    {
+        $general_notification = Notification::where(['is_read'=>0,'employee_id'=>\Auth::user()->employee->id])->count();
+        $open_work_order = 0;
+        $accepted_work_order = 0;
+        $closed_work_order = 0;
+
+        return response()->json(['message'=>'success','general_notification'=>$general_notification,'open_work_order'=>$open_work_order,'accepted_work_order'=>$accepted_work_order,'closed_work_order'=>$closed_work_order], 200);
+    }
+
     public function data()
     {
         $data = [];

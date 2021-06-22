@@ -7,7 +7,7 @@
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
                 @endif
                 @if(check_access('site-tracking.data'))
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data">{{ __('Data') }}</a></li>
+                <li class="nav-item"><a class="nav-link {{!check_access('site-tracking.dashboard') ? 'active show' : ''}}" data-toggle="tab" href="#data">{{ __('Data') }}</a></li>
                 @endif
             </ul>
             <div class="tab-content">
@@ -17,7 +17,7 @@
                 </div>
                 @endif
                 @if(check_access('site-tracking.data'))
-                <div class="tab-pane" id="data">
+                <div class="tab-pane {{!check_access('site-tracking.dashboard') ? 'active' : ''}}" id="data">
                     <livewire:sitetracking.data />
                 </div>
                 @endif

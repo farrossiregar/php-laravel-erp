@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('location-of-field-team/check',[\App\Http\Controllers\Api\LocationOfFieldTeamController::class,'check'])->name('api.location-of-field-team.check');
 	Route::get('location-of-field-team/check-active',[\App\Http\Controllers\Api\LocationOfFieldTeamController::class,'checkActive'])->name('api.location-of-field-team.check-active');
 	Route::get('location-of-field-team/data',[\App\Http\Controllers\Api\LocationOfFieldTeamController::class,'data'])->name('api.location-of-field-team.data');
-	Route::get('location-of-field-team/get-nearest',[\App\Http\Controllers\Api\LocationOfFieldTeamController::class,'getNearest'])->name('api.location-of-field-team.get-nearest');
+	Route::post('location-of-field-team/get-nearest',[\App\Http\Controllers\Api\LocationOfFieldTeamController::class,'getNearest'])->name('api.location-of-field-team.get-nearest');
 	Route::get('get-sites',[\App\Http\Controllers\Api\SitesController::class,'getAll']);
 	Route::post('speed-warning/store',[\App\Http\Controllers\Api\SpeedWarningController::class,'store'])->name('api.speed-warning.store');
 	Route::get('speed-warning/data',[\App\Http\Controllers\Api\SpeedWarningController::class,'data'])->name('api.speed-warning.data');
@@ -70,6 +70,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('health-check/store',[\App\Http\Controllers\Api\HealthCheckController::class,'store'])->name('api.health-check.store');
 	Route::post('user/update',[\App\Http\Controllers\Api\UserController::class,'update'])->name('api.user.update');
 	Route::get('work-order',[\App\Http\Controllers\Api\WorkOrderController::class,'data'])->name('api.work-order.data');
+	Route::get('work-order/notification',[\App\Http\Controllers\Api\WorkOrderController::class,'notification'])->name('api.work-order.notification');
 	Route::post('work-order/upload-bast-image',[\App\Http\Controllers\Api\WorkOrderController::class,'uploadBastImage'])->name('api.work-order.upload-bast-image');
 	Route::get('work-order/get-bast/{id}',[\App\Http\Controllers\Api\WorkOrderController::class,'getBast'])->name('api.work-order.get-bast');
 	Route::post('work-order/submit-bast',[\App\Http\Controllers\Api\WorkOrderController::class,'submitBast'])->name('api.work-order.submit-bast');

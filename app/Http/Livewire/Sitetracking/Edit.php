@@ -17,8 +17,9 @@ class Edit extends Component
     public $pic_rpm;
     public $pic_sm;
     public $type;
-    public $message;
+    public $message,$master;
 
+    protected $listeners = ['proses'];
 
     public function render()
     {
@@ -39,19 +40,20 @@ class Edit extends Component
     {
         $this->data      = SiteListTrackingDetail::where('id_site_master',$id)->get();
         $this->status    = SiteListTrackingMaster::select('status')->where('id',$id)->get();
-        $this->id        = $id;       
+        $this->id        = $id;     
+        $this->master = SiteListTrackingMaster::find($id);
         
     }
 
-    // public function save(){
-    //     $this->validate();
-        
-    //     $this->data->name = $this->name;
-    //     $this->data->region_id = $this->region_id;
-    //     $this->data->save();
+    public function proses($id)
+    {
+        $this->master->status = $id;
+        $this->master->approved_id = \Auth::user()->employee->id;
+        $this->master->approved_date  = date('Y-m-d');
+        $this->master->save();
 
-    //     session()->flash('message-success',__('Data saved successfully'));
-
-    //     return redirect()->to('cluster');
-    // }
+        session()->flash('message-success',"Data processed successfully");
+            
+        return redirect()->route('site-tracking.index');
+    }
 }

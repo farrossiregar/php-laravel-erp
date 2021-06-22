@@ -18,6 +18,9 @@
                     <div class="col-md-3">
                         <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_add_training"><i class="fa fa-plus"></i> Training Material</a>
                     </div>
+                    <div class="col-md-3">
+                        <a href="javascript:void(0)" class="btn btn-success" data-toggle="modal" data-target="#modal_group_training"><i class="fa fa-users"></i> Group Training</a>
+                    </div>
                     <div class="col-md-5">
                         <span wire:loading>
                             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -48,7 +51,11 @@
                                     @endforeach
                                     </td>
                                     <td>
-                                        <a href="{{ route('mobile-apps.insert-exam',$item->id) }}" class="badge badge-info" data-toggle="tooltip" title="Exam"><i class="fa fa-plus"></i> Exam</a>
+                                        @if(\App\Models\TrainingExam::where('training_material_id',$item->id)->count() > 0)
+                                            <a href="{{ route('training-material.detail-exam',$item->id) }}" class="badge badge-success" data-toggle="tooltip" title="Result Exam"><i class="fa fa-table"></i> Result</a>
+                                        @else
+                                            <a href="{{ route('mobile-apps.insert-exam',$item->id) }}" class="badge badge-info" data-toggle="tooltip" title="Create Exam"><i class="fa fa-plus"></i> Exam</a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -59,6 +66,46 @@
                             @endif
                         </tbody>
                     </table>
+                </div>
+
+                <div wire:ignore.self class="modal fade" id="modal_group_training" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form wire:submit.prevent="store" enctype="multipart/form-data">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Training Material</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true close-btn">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label>Name Training</label>
+                                        <input type="text" class="form-control" wire:model="name" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea class="form-control" wire:model="description"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Materi(pdf,docs)</label>
+                                        <input type="file" wire:model="file" multiple />
+                                        @error('file.*')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <span wire:loading>
+                                        <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                                        <span class="sr-only">{{ __('Loading...') }}</span>
+                                    </span>
+                                    <button type="button" class="btn btn-light close-btn" data-dismiss="modal">Cancel</button>
+                                    <button wire:loading.remove type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div wire:ignore.self class="modal fade" id="modal_add_training" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
