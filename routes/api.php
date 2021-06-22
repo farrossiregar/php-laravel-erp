@@ -70,6 +70,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('health-check/store',[\App\Http\Controllers\Api\HealthCheckController::class,'store'])->name('api.health-check.store');
 	Route::post('user/update',[\App\Http\Controllers\Api\UserController::class,'update'])->name('api.user.update');
 	Route::get('work-order',[\App\Http\Controllers\Api\WorkOrderController::class,'data'])->name('api.work-order.data');
+	Route::get('work-order/notification',[\App\Http\Controllers\Api\WorkOrderController::class,'notification'])->name('api.work-order.notification');
 	Route::post('work-order/upload-bast-image',[\App\Http\Controllers\Api\WorkOrderController::class,'uploadBastImage'])->name('api.work-order.upload-bast-image');
 	Route::get('work-order/get-bast/{id}',[\App\Http\Controllers\Api\WorkOrderController::class,'getBast'])->name('api.work-order.get-bast');
 	Route::post('work-order/submit-bast',[\App\Http\Controllers\Api\WorkOrderController::class,'submitBast'])->name('api.work-order.submit-bast');
