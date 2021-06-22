@@ -6,6 +6,7 @@
             <h4>{{$group->group->name}}</h4>
             <div class="row clearfix mt-3">
                 @foreach(\App\Models\ModulesItem::where(['module_id'=>$_GET['menu'],'module_group_id'=>$group->module_group_id])->get() as $action)
+                    @if(check_access($action->link))
                     <div class="col-lg-2 col-md-2 col-sm-12 px-1" onclick="window.open('{{route($action->link)}}','_blank')">
                         <div class="card ng-star-inserted" style="height:200px">
                             <div class="body clearfix">
@@ -19,10 +20,12 @@
                             @endif
                         </div>
                     </div>
+                    @endif
                 @endforeach
             </div>
         @endforeach
-    @else
+        
+    {{-- @else
         @foreach(get_menu(\Auth::user()->user_access_id) as $menu)
             <h4>{{$menu['name']}}</h4>
             <div class="row clearfix mt-3">
@@ -44,7 +47,8 @@
             @endforeach
             @endif
             </div>
-        @endforeach
+        @endforeach --}}
+        
     @endif
 </div>
 <style>

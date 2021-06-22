@@ -92,6 +92,7 @@
                 $('.alert-success').show();
                 $('.alert-success .message').html(msg);
             });
+
             Livewire.on('message-error',(msg)=>{
                 $('.alert-error').show();
                 $('.alert-error .message').html(msg);
@@ -100,7 +101,11 @@
             Livewire.on('refresh-form',()=>{
                 $('[data-toggle="tooltip"]').tooltip();
             });
-
+            function set_company_active(el)
+            {
+                var company_id = $(el).val();
+                window.location = '{{$_SERVER['PHP_SELF']}}?company_id='+company_id;
+            }
         </script>
         <script>
             function confirm_delete(){

@@ -21,39 +21,25 @@
                                 <th>Date Upload</th>          
                                 <th>Approved By</th>          
                                 <th>Date Approve</th>          
-                                <th>Action</th>  
+                                <th></th>  
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($data as $k => $item)
                             <tr>
                                 <td style="width: 50px;">{{$k+1}}</td>
-                                <td>
-                                    {{ $item->upload_by }}
-                                </td>
+                                <td><a href="{{route('site-tracking.edit',['id'=>$item->id])}}">{{ $item->upload_by }}</a></td>
                                 <td>{{ date_format($item->created_at, 'd-m-Y') }}</td>
-                                <td></td>
-                                <td></td>
-                                
-                                
-                                <!-- <td><?php if($item->status == '1'){echo '<div class="btn btn-success">Approved</div>'; }else{ echo '<div class="btn btn-warning">Progress</div>'; } ?></td> -->
+                                <td>{{isset($item->approved->name) ? $item->approved->name : ''}}</td>
+                                <td>{{$item->approved_date ? date('d-M-Y',strtotime($item->approved_date)) : '' }}</td>
                                 <td>
-                                    <?php 
-                                        if($item->status == '0'){
-                                    ?>
-                                        <a href="{{route('site-tracking.edit',['id'=>$item->id])}}"><button type="button" class="btn btn-warning">Waiting Approval</button></a>
-                                    <?php 
-                                        }elseif($item->status == '1'){
-                                    ?>
-                                        <a href="{{route('site-tracking.edit',['id'=>$item->id])}}"><button type="button" class="btn btn-success">Approved</button></a>
-                                    <?php 
-                                        }else{
-                                    ?>
-                                        <a href=""><button type="button" class="btn btn-danger">Revisi</button></a>
-                                    <?php                                            
-                                        }
-                                    ?>
-                                    
+                                    @if($item->status == 0)
+                                        <a href="{{route('site-tracking.edit',['id'=>$item->id])}}" class="badge badge-warning">Waiting Approval</a>
+                                    @elseif($item->status == 1)
+                                        <a href="{{route('site-tracking.edit',['id'=>$item->id])}}" class="badge badge-success">Approved</a>
+                                    @elseif($item->status == 2)
+                                        <a href="{{route('site-tracking.edit',['id'=>$item->id])}}" class="badge badge-danger">Rejected</a>
+                                    @endif                                    
                                 </td>
                                 
                             </tr>

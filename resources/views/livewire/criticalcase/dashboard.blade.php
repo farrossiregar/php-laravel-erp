@@ -42,7 +42,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <canvas id="chBar" style="height:300px;"></canvas>
+                        <canvas id="chBarCriticalcase" style="height:300px;"></canvas>
                     </div>
                 </div>
             </div>
@@ -61,9 +61,9 @@ Livewire.on('sitetracking-upload',()=>{
 var labels = {!!$labels!!};
 var datasets = {!!$datasets!!};
 var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
-var chBar="";
+var chBarCriticalcase="";
 $( document ).ready(function() {
-    init_chart_critical_case();
+    // init_chart_critical_case();
     $('.multiselect_project').multiselect({ 
             nonSelectedText: ' --- All Project --- ',
             onChange: function (option, checked) {
@@ -89,17 +89,27 @@ $( document ).ready(function() {
         }
     );
 });
-Livewire.on('init-chart',(data)=>{
+
+Livewire.on('init-chart-critical-case',(data)=>{
     labels = JSON.parse(data.labels);
     datasets = JSON.parse(data.datasets);
-    init_chart_critical_case();
+    setTimeout(function(){
+        init_chart_critical_case();
+    },1000)
 });
+
+Livewire.on('chart-critical-case',()=>{
+    setTimeout(function(){
+        init_chart_critical_case();
+    },1000);
+});
+
 function init_chart_critical_case(){
-    if(chBar!=="") chBar.destroy();
+    if(chBarCriticalcase!=="") chBarCriticalcase.destroy();
     var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
-    chBar = document.getElementById("chBar");
+    chBarCriticalcase = document.getElementById("chBarCriticalcase");
                        
-    chBar = new Chart(chBar, {
+    chBarCriticalcase = new Chart(chBarCriticalcase, {
             type: 'bar',
             data: {
                 labels: labels,

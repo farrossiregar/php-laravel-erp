@@ -61,6 +61,11 @@ $( document ).ready(function() {
         }
     );
 });
+Livewire.on('chart-customer-asset',()=>{
+    setTimeout(function(){
+        init_chart();
+    },1000);
+});
 Livewire.on('init-chart',(data)=>{
     labels = JSON.parse(data.labels);
     datasets = JSON.parse(data.datasets);

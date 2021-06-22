@@ -1,5 +1,5 @@
 <div>
-    <h5 class="pb-0 mb-0"><a href="javascript:;" data-toggle="modal" data-target="#modal_edit_items_{{$data->id}}">{{$data->name}}</a></h5>
+    <h6 class="pb-0 mb-0"><a href="javascript:;" data-toggle="modal" data-target="#modal_edit_items_{{$data->id}}">{{$data->name}}</a></h6>
     @if(isset($data->client_project->name))
     <label>{{$data->client_project->name}}</label>
     @endif

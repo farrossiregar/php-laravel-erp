@@ -64,6 +64,7 @@ class CustomerAssetManagementController extends Controller
     public function submit(Request $r)
     {
         //$param['is_stolen'] = $r->kapan_baterai_dilaporkan_hilang ? 1 : 0;
+        $param['is_stolen'] = $r->is_stolen=='Ya' ? 1 : 0;
         $param['is_submit'] = 1;
         $param['status'] = 1;
         $param['tanggal_submission'] = date('Y-m-d');
@@ -102,7 +103,7 @@ class CustomerAssetManagementController extends Controller
         //$param['apakah_cabinet_baterai_dipasang_gembok'] = $r->apakah_cabinet_baterai_dipasang_gembok=='YES'? 1  : 0;
         //$param['apakah_dipasang_baterai_cage'] = $r->apakah_dipasang_baterai_cage=='YES' ? 1 : 0;
         //$param['apakah_dipasang_cabinet_belting'] = $r->apakah_dipasang_cabinet_belting=='YES' ? 1 : 0;
-        //$param['catatan'] = $r->catatan;
+        // $param['catatan'] = $r->catatan;
         //$param['device'] = $r->device;
         //$param['long'] = $r->long;
         //$param['lat'] = $r->lat;
