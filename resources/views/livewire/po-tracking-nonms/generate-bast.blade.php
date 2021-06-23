@@ -21,10 +21,10 @@
         <table>
             <tr>
                 <td style="width:100px;">Works</td>
-                <td>: Rectification Lamp</td>
+                <td>: {{ $data->pekerjaan }}</td>
             </tr>
             <tr>
-                <td>Region</td><td>: Central Java</td>
+                <td>Region</td><td>:{{ $data->region }} </td>
             </tr>
             <tr>
                 <td>Project</td><td>: Indosat Managed Services-Field Maintenance Service</td>
@@ -69,7 +69,7 @@
         <p>By virtue of:</p>
         <ol>
             <li>Supply Agreement No : MA-2020-01996 dated 23 June 2020</li>
-            <li>PO No : 4524068135 dated 23 December 2020 </li>
+            <li>PO No : <?php echo $data->po_no; ?> dated <?php echo date_format( $data->created_at, 'd M Y'); ?> </li>
         </ol>
         <p>Harapan Utama Prima and Ericsson hereby stated the followings:</p>
         <ol>
@@ -116,10 +116,10 @@
         <table>
             <tr>
                 <td style="width:100px;">Works</td>
-                <td>: Rectification Lamp</td>
+                <td>: {{ $data->pekerjaan }}</td>
             </tr>
             <tr>
-                <td>Region</td><td>: Central Java</td>
+                <td>Region</td><td>: {{ $data->region }}</td>
             </tr>
             <tr>
                 <td>Project</td><td>: Indosat Managed Services-Field Maintenance Service</td>
@@ -193,7 +193,7 @@
             </tr>
             <tr>
                 <td>PO Number</td>
-                <td> : </td>
+                <td> : {{ $data->po_no }}</td>
             </tr>
             <tr>
                 <td>Cluster Area</td>

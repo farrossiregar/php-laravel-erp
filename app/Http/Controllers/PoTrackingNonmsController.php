@@ -13,4 +13,12 @@ class PoTrackingNonmsController extends Controller
         
         return $pdf->stream();
     }
+
+    public function generateesar(PoTrackingNonms $data)
+    {
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('livewire.po-tracking-nonms.generate-esar',['data'=>$data]);
+        
+        return $pdf->stream();
+    }
 }
