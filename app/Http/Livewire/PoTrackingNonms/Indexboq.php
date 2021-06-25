@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\PoTrackingPds;
 use App\Models\PoTrackingNonms;
+use App\Models\Employee;
 use Auth;
 use DB;
 
@@ -18,8 +19,10 @@ class Indexboq extends Component
     
     public function render()
     {
-    
 
+        // dd(check_access('po-tracking-nonms.select-coordinator'));
+        // dd(get_user_from_access('po-tracking-nonms.coordinator-list'));
+        // dd(check_access_data('po-tracking-nonms.field-team-list'));
         $user = \Auth::user();
         
         if(check_access('po-tracking-nonms.index-regional')){

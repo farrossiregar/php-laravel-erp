@@ -42,12 +42,12 @@
                                             <tr>
                                                 <th>Coordinator</th> 
                                                 <th>:</th>   
-                                                <th>{{$datadoc->coordinator_id}}</th>    
+                                                <th>{{$datadoc->coordinator->name}}</th>    
                                             </tr>
                                             <tr>
                                                 <th>Field Team</th>    
                                                 <th>:</th>
-                                                <th>{{$datadoc->field_team_id}}</th>    
+                                                <th>{{$datadoc->field_team->name}}</th>    
                                             </tr>
                     
                                         </thead>
