@@ -26,6 +26,15 @@ class SelectFieldTeamEricson extends Component
         $this->data->save();
         $this->edit = false;
 
+        $notif = Employee::where('id', $this->field_team_id)->first();
+        $nameuser = $notif->name;
+        $emailuser = $notif->email;
+        $phoneuser = $notif->telepon;
+
+        $message = "*Dear Field Team - ".$nameuser."*\n\n";
+        $message .= "*You are assigned to Captured Field Data ".$this->data->no_tt." pada ".date('d M Y H:i:s')."*\n\n";
+        send_wa(['phone'=> $phoneuser,'message'=>$message]);  
+
         $this->emit('refresh-page');
     }
 }

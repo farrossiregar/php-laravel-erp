@@ -134,6 +134,7 @@ function check_access_data($link, $reg = ''){
                     ->get();
     }else{
         $cek = DB::table('user_access_modules as user_access_modules')
+                    ->select('*', \DB::raw('employees.id as employee_id'))
                     ->where('modules_items.link',$link)
                     ->join('modules_items','modules_items.id','=','user_access_modules.module_id')
                     ->join('modules','modules.id','=','modules_items.module_id')

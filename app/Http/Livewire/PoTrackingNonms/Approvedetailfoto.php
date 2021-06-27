@@ -36,13 +36,6 @@ class Approvedetailfoto extends Component
 
         $data = \App\Models\PoTrackingNonms::where('id', $this->selected_id)->first();
         
-        // if($data->type_doc == '1'){
-        //     $typedoc = 'STP';
-          
-        // }else{
-        //     $typedoc = 'BOQ';
-            
-        // }
         $data->bast_status = 1;
         $data->save();
 

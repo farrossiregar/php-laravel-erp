@@ -89,7 +89,15 @@
         <br />
         <table style="width:100%;">
             <tr>
+                
+                @if($data->type_doc == 1)
+                <th style="text-align:left;width:60%;">PT Solusi Tunas Pratama</th>
+                @endif
+
+                @if($data->type_doc == 2)
                 <th style="text-align:left;width:60%;">PT Ericsson Indonesia</th>
+                @endif
+
                 <th style="text-align:left;width:40%;">PT Harapan Utama Prima</th>
             </tr>
         </table>
@@ -140,9 +148,9 @@
             @if($data->type_doc==1)
                 @foreach(\App\Models\PoTrackingNonmsStp::where('id_po_nonms_master',$data->id)->get() as $item)
                 <tr>
-                    <td>{{$item->site_id}}</td>
+                    <td>{{$data->site_id}}</td>
                     <td>{{$item->site_name}}</td>
-                    <td></td>
+                    <td>{{$item->item_description}}</td>
                     <td style="text-align:center">{{$item->qty}}</td>
                     <td></td>
                     <td></td>
@@ -166,7 +174,14 @@
         <p>Note: This attachment is to be completed prior to signing/approval of ‘First Hand-Over Certificate (BAST)’. Necessary administrative supporting documentation is to be completed and included as well. For change of Purchase Order (PO) value detailed calculations based on SoW/BoQ changes are to be attached (and listed under “Reference”).</p>
         <table style="width:100%;">
             <tr>
+                @if($data->type_doc == 1)
+                <th style="text-align:left;width:60%;">PT Solusi Tunas Pratama</th>
+                @endif
+
+                @if($data->type_doc == 2)
                 <th style="text-align:left;width:60%;">PT Ericsson Indonesia</th>
+                @endif
+
                 <th style="text-align:left;width:40%;">PT Harapan Utama Prima</th>
             </tr>
         </table>

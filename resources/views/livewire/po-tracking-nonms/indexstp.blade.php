@@ -44,8 +44,12 @@
                     <th>Total Actual Price</th>
                     <th>Total Profit Margin</th>
                     <th>Extra Budget</th>
+                    @if(check_access('po-tracking-nonms.select-coordinator'))
                     <th>Coordinator</th>
+                    @endif
+                    @if(check_access('po-tracking-nonms.select-field-team'))
                     <th>Field Team</th>
+                    @endif
                     <th>Action</th>
                 </tr>
             </thead>
@@ -121,9 +125,28 @@
                         <span class="text-<?php echo $color; ?>">{{ $total_profit }}%</span>
                     </td>
                     <td>Rp {{ format_idr(get_extra_budget($item->id)) }}</td>
+                    @if(check_access('po-tracking-nonms.select-coordinator'))
                     <td>@livewire('po-tracking-nonms.select-coordinator-stp',['data'=>$item->id],key($item->id))</td>
-                    <td>@livewire('po-tracking-nonms.select-field-team-stp',['data'=>$item->id],key($item->id))</td>
+                    @endif
+                    @if(check_access('po-tracking-nonms.select-field-team'))
+                        @if($item->coordinator_id == $user->id)
+                            <td>@livewire('po-tracking-nonms.select-field-team-stp',['data'=>$item->id],key($item->id))</td>
+                        @else
+                            @if($item->coordinator_id != '')
+                                <td>@livewire('po-tracking-nonms.select-field-team-stp',['data'=>$item->id],key($item->id))</td>
+                            @else
+                                <td>{{ $item->field_team_id }}</td>
+                            @endif
+                        @endif
+                    @endif
                     <td> 
+                        
+                        @if(check_access('po-tracking-nonms.detail-photo'))
+                            @if($item->bast_status == '')
+                                <a href="{{route('po-tracking-nonms.detailfoto',['id'=>$item->id]) }}" ><i class="fa fa-eye"></i> Detail Foto</a>
+                            @endif
+                        @endif
+
                         @if(check_access('po-tracking-nonms.preview-bast'))
                             @if($item->bast_status>=1)
                             <!--    Start E2E Preview Bast   -->

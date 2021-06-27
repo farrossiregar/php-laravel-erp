@@ -25,22 +25,7 @@ class Detailfoto extends Component
         // }
 
         // $user = \Auth::user();
-        
-        // if(check_access('po-tracking-nonms.index-regional')){
-        // // if($user->user_access_id == '22' || $user->user_access_id == '23'){ // Regional & Finance Regional
-        //     $region_user = DB::table('pmt.employees as employees')
-        //                         ->where('employees.user_access_id', $user->user_access_id)
-        //                         ->join('epl.region as region', 'region.id', '=', 'employees.region_id')
-        //                         ->where('employees.user_id', $user->id)->get();
-
-        //     $data = PoTrackingNonms::where('region', $region_user[0]->region_code)
-                                    
-        //                             ->orderBy('id', 'DESC'); 
-        // }else{
-        //     $data = PoTrackingNonms::orderBy('id', 'DESC');
-        // }
-        
-        // if($this->date) $ata = $data->whereDate('created_at',$this->date);
+       
         
         // $data = json_encode($data);
         $data = $this->data;
