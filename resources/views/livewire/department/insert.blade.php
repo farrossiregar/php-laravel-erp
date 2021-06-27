@@ -10,6 +10,10 @@
             <div class="form-group">
                 <input type="text" class="form-control" wire:model="name" />
             </div>
+            <div class="form-group">
+                <label>Icon</label>
+                <input type="file" wire:model="icon" />
+            </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary btn-sm close-btn" data-dismiss="modal">Cancel</button>

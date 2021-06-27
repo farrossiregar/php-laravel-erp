@@ -3,10 +3,13 @@
 namespace App\Http\Livewire\Department;
 
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    public $department_id,$data,$name;
+    use WithFileUploads;
+
+    public $department_id,$data,$name,$icon;
     protected $listeners = ['emit-edit'=>'emitEdit'];
     public function render()
     {
@@ -23,6 +26,13 @@ class Edit extends Component
         $this->validate([
             'name' => 'required'
         ]);
+
+        if($this->icon){
+            $name = date('Ymdhis') .".".$this->icon->extension();
+            $this->icon->storeAs("public/department/{$this->data->id}", $name);
+            $this->data->icon = "storage/department/{$this->data->id}/{$name}";
+        }
+
         $this->data->name = $this->name;
         $this->data->save();
         $this->emit('emitEditHide');

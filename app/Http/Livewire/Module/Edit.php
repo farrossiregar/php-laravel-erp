@@ -5,9 +5,12 @@ namespace App\Http\Livewire\Module;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\ModuleGroup;
+use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
+    use WithFileUploads;
+    
     public $data,$status,$client_project_id,$department_id;
     public $name;
     public $prefix_link,$icon,$color;
@@ -62,10 +65,18 @@ class Edit extends Component
         ]);   
         $this->data->name = $this->name;
         $this->data->prefix_link = $this->prefix_link;
-        $this->data->icon = $this->icon;
+        // $this->data->icon = $this->icon;
         $this->data->color = $this->color;
         $this->data->status = $this->status;
+        
+        if($this->icon){
+            $name = date('Ymdhis') .".".$this->icon->extension();
+            $this->icon->storeAs("public/department/{$this->data->id}", $name);
+            $this->data->icon = "storage/department/{$this->data->id}/{$name}";
+        }
+
         $this->data->save();
+
         session()->flash('message-success',__('Data saved successfully'));
 
         return redirect()->route('module.index');

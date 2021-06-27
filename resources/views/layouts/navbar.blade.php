@@ -70,7 +70,7 @@
                 <ul class="nav navbar-nav">
                     <li class="d-none d-sm-inline-block d-md-none d-lg-inline-block">
                         @if(\Auth::user()->name)
-                        {{\Auth::user()->name}} {{isset(\Auth::user()->access->name) ? ' ( '. \Auth::user()->access->name .' ) ' : ''}}
+                        {{\Auth::user()->name}} {!!isset(\Auth::user()->access->name) ? ' <small>( '. \Auth::user()->access->name .' )</small>' : ''!!}
                         @endif
                     </li>
                     <li class="dropdown">
