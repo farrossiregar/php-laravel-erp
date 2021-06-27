@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\DB;
 
-function push_notification_android($device_id,$message){
+function push_notification_android($device_id,$title,$message){
 
     //API URL of FCM
     $url = 'https://fcm.googleapis.com/fcm/send';
@@ -16,7 +16,7 @@ function push_notification_android($device_id,$message){
                 $device_id
         ),
         'data' => array (
-            "title" => "PMT Application",
+            "title" => $title,
             "message" => $message
         )
     );

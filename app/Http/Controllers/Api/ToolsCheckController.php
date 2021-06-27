@@ -53,7 +53,8 @@ class ToolsCheckController extends Controller
      */
     public function store(Request $request)
     {
-        $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id,'tahun'=>date('Y'),'bulan'=>date('m')])->first();
+        // $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id,'tahun'=>date('Y'),'bulan'=>date('m')])->first();
+        $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
         if(!$find){
             $find = new ToolsCheck();
             $find->tahun = date('Y');
@@ -70,7 +71,8 @@ class ToolsCheckController extends Controller
 
     public function storeImage(Request $request)
     {
-        $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id,'tahun'=>date('Y'),'bulan'=>date('m')])->first();
+        // $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id,'tahun'=>date('Y'),'bulan'=>date('m')])->first();
+        $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
         if(!$find){
             $find = new ToolsCheck();
             $find->tahun = date('Y');
@@ -101,7 +103,8 @@ class ToolsCheckController extends Controller
     public function getImage($id)
     {
         $data = [];
-        $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id,'tahun'=>date('Y'),'bulan'=>date('m')])->first();
+        // $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id,'tahun'=>date('Y'),'bulan'=>date('m')])->first();
+        $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
         if($find){  
             $param = ToolsCheckUpload::where(['tools_check_id'=>$find->id,'tools_check_item_id'=>$id])->get();
             foreach($param as $k => $item){

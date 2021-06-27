@@ -13,15 +13,52 @@ class WorkOrderController extends Controller
     public function notification()
     {
         $general_notification = Notification::where(['is_read'=>0,'employee_id'=>\Auth::user()->employee->id])->count();
-        $open_work_order = 0;
-        $accepted_work_order = 0;
-        $closed_work_order = 0;
+        $open_work_order = PoTrackingNonms::whereNull('bast_status')->count();
+        $accepted_work_order = PoTrackingNonms::where('bast_status',1)->orWhere('bast_status',3)->count();
+        $closed_work_order = PoTrackingNonms::where('bast_status',2)->count();
 
         return response()->json(['message'=>'success','general_notification'=>$general_notification,'open_work_order'=>$open_work_order,'accepted_work_order'=>$accepted_work_order,'closed_work_order'=>$closed_work_order], 200);
     }
 
-    public function data()
+    public function workOrderOpen()
     {
+        $data = [];
+        $param = PoTrackingNonms::whereNull('bast_status')->get();
+        
+        foreach($param as $k => $item){
+            $data[$k] = $item;
+            $data[$k]['type_doc_name'] = $item->type_doc==1?'STP' : 'Ericson';
+        }
+
+        return response()->json(['message'=>'success','data'=>$data], 200);
+    }
+    public function workOrderAccepted()
+    {
+        $data = [];
+        $param = PoTrackingNonms::where('bast_status',1)->orWhere('bast_status',3)->get();
+        
+        foreach($param as $k => $item){
+            $data[$k] = $item;
+            $data[$k]['type_doc_name'] = $item->type_doc==1?'STP' : 'Ericson';
+        }
+
+        return response()->json(['message'=>'success','data'=>$data], 200);
+    }
+    public function workOrderClosed()
+    {
+        $data = [];
+        $param = PoTrackingNonms::where('bast_status',2)->get();
+        
+        foreach($param as $k => $item){
+            $data[$k] = $item;
+            $data[$k]['type_doc_name'] = $item->type_doc==1?'STP' : 'Ericson';
+        }
+
+        return response()->json(['message'=>'success','data'=>$data], 200);
+    }
+
+    public function data()
+    {   
         $data = [];
         $param = PoTrackingNonms::get();
         
