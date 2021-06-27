@@ -74,6 +74,10 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('work-order/upload-bast-image',[\App\Http\Controllers\Api\WorkOrderController::class,'uploadBastImage'])->name('api.work-order.upload-bast-image');
 	Route::get('work-order/get-bast/{id}',[\App\Http\Controllers\Api\WorkOrderController::class,'getBast'])->name('api.work-order.get-bast');
 	Route::post('work-order/submit-bast',[\App\Http\Controllers\Api\WorkOrderController::class,'submitBast'])->name('api.work-order.submit-bast');
+	Route::get('work-order/open',[\App\Http\Controllers\Api\WorkOrderController::class,'workOrderOpen'])->name('api.work-order.open');
+	Route::get('work-order/closed',[\App\Http\Controllers\Api\WorkOrderController::class,'workOrderClosed'])->name('api.work-order.closed');
+	Route::get('work-order/accepted',[\App\Http\Controllers\Api\WorkOrderController::class,'workOrderAccepted'])->name('api.work-order.accepted');
+	
 	Route::get('drug-test/history',[\App\Http\Controllers\Api\DrugTestController::class,'history'])->name('api.drug-test.history');
 	Route::post('drug-test/upload-image',[\App\Http\Controllers\Api\DrugTestController::class,'uploadImage'])->name('api.drug-test.upload-image');
 	Route::get('drug-test/get-image/{id}',[\App\Http\Controllers\Api\DrugTestController::class,'getImage'])->name('api.drug-test.get-image');
