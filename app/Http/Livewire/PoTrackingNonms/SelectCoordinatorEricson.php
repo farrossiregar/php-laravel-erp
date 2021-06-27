@@ -4,15 +4,16 @@ namespace App\Http\Livewire\PoTrackingNonms;
 
 use Livewire\Component;
 use App\Models\PoTrackingNonms;
+use App\Models\Employee;
 
-class SelectFieldTeamEricson extends Component
+class SelectCoordinatorEricson extends Component
 {
     public $data,$edit=false,$field_team_id;
     protected $listeners = ['refresh-page'=>'$refresh'];
 
     public function render()
     {
-        return view('livewire.po-tracking-nonms.select-field-team-ericson');
+        return view('livewire.po-tracking-nonms.select-coordinator-ericson');
     }
 
     public function mount(PoTrackingNonms $data)
@@ -31,8 +32,8 @@ class SelectFieldTeamEricson extends Component
         $emailuser = $notif->email;
         $phoneuser = $notif->telepon;
 
-        $message = "*Dear Field Team - ".$nameuser."*\n\n";
-        $message .= "*You are assigned to Captured Field Data ".$this->data->no_tt." pada ".date('d M Y H:i:s')."*\n\n";
+        $message = "*Dear Coordinator - ".$nameuser."*\n\n";
+        $message .= "*You are assigned to select Field Team ".$this->data->no_tt." pada ".date('d M Y H:i:s')."*\n\n";
         send_wa(['phone'=> $phoneuser,'message'=>$message]);  
 
         $this->emit('refresh-page');

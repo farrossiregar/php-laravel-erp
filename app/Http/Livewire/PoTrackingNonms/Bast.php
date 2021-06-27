@@ -7,7 +7,7 @@ use App\Models\PoTrackingNonms;
 
 class Bast extends Component
 {
-    public $data,$url_generate_bast,$file_bast,$file_gr,$note;
+    public $data,$url_generate_bast,$url_generate_esar,$file_bast,$file_gr,$note;
     protected $listeners = [
         'listen-bast'=>'listen_bast',
     ];
@@ -20,7 +20,9 @@ class Bast extends Component
     {
         $this->data = $id;
         $this->url_generate_bast = route('po-tracking-nonms.generate-bast',$this->data->id); 
+        $this->url_generate_esar = route('po-tracking-nonms.generate-esar',$this->data->id); 
     }
+
 
     public function approve()
     {

@@ -21,10 +21,10 @@
         <table>
             <tr>
                 <td style="width:100px;">Works</td>
-                <td>: Rectification Lamp</td>
+                <td>: {{ $data->pekerjaan }}</td>
             </tr>
             <tr>
-                <td>Region</td><td>: Central Java</td>
+                <td>Region</td><td>:{{ $data->region }} </td>
             </tr>
             <tr>
                 <td>Project</td><td>: Indosat Managed Services-Field Maintenance Service</td>
@@ -69,7 +69,7 @@
         <p>By virtue of:</p>
         <ol>
             <li>Supply Agreement No : MA-2020-01996 dated 23 June 2020</li>
-            <li>PO No : 4524068135 dated 23 December 2020 </li>
+            <li>PO No : <?php echo $data->po_no; ?> dated <?php echo date_format( $data->created_at, 'd M Y'); ?> </li>
         </ol>
         <p>Harapan Utama Prima and Ericsson hereby stated the followings:</p>
         <ol>
@@ -89,7 +89,15 @@
         <br />
         <table style="width:100%;">
             <tr>
+                
+                @if($data->type_doc == 1)
+                <th style="text-align:left;width:60%;">PT Solusi Tunas Pratama</th>
+                @endif
+
+                @if($data->type_doc == 2)
                 <th style="text-align:left;width:60%;">PT Ericsson Indonesia</th>
+                @endif
+
                 <th style="text-align:left;width:40%;">PT Harapan Utama Prima</th>
             </tr>
         </table>
@@ -116,10 +124,10 @@
         <table>
             <tr>
                 <td style="width:100px;">Works</td>
-                <td>: Rectification Lamp</td>
+                <td>: {{ $data->pekerjaan }}</td>
             </tr>
             <tr>
-                <td>Region</td><td>: Central Java</td>
+                <td>Region</td><td>: {{ $data->region }}</td>
             </tr>
             <tr>
                 <td>Project</td><td>: Indosat Managed Services-Field Maintenance Service</td>
@@ -140,9 +148,9 @@
             @if($data->type_doc==1)
                 @foreach(\App\Models\PoTrackingNonmsStp::where('id_po_nonms_master',$data->id)->get() as $item)
                 <tr>
-                    <td>{{$item->site_id}}</td>
+                    <td>{{$data->site_id}}</td>
                     <td>{{$item->site_name}}</td>
-                    <td></td>
+                    <td>{{$item->item_description}}</td>
                     <td style="text-align:center">{{$item->qty}}</td>
                     <td></td>
                     <td></td>
@@ -166,7 +174,14 @@
         <p>Note: This attachment is to be completed prior to signing/approval of ‘First Hand-Over Certificate (BAST)’. Necessary administrative supporting documentation is to be completed and included as well. For change of Purchase Order (PO) value detailed calculations based on SoW/BoQ changes are to be attached (and listed under “Reference”).</p>
         <table style="width:100%;">
             <tr>
+                @if($data->type_doc == 1)
+                <th style="text-align:left;width:60%;">PT Solusi Tunas Pratama</th>
+                @endif
+
+                @if($data->type_doc == 2)
                 <th style="text-align:left;width:60%;">PT Ericsson Indonesia</th>
+                @endif
+
                 <th style="text-align:left;width:40%;">PT Harapan Utama Prima</th>
             </tr>
         </table>
@@ -193,7 +208,7 @@
             </tr>
             <tr>
                 <td>PO Number</td>
-                <td> : </td>
+                <td> : {{ $data->po_no }}</td>
             </tr>
             <tr>
                 <td>Cluster Area</td>

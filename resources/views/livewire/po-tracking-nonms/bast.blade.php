@@ -9,7 +9,20 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <a href="{{$url_generate_bast}}" target="_blank"><i class="fa fa-download"></i> BAST</a>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="{{$url_generate_esar}}" target="_blank"><i class="fa fa-download"></i> ESAR</a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{$url_generate_bast}}" target="_blank"><i class="fa fa-download"></i> BAST</a>
+                        </div>
+                        <!-- <div class="col-md-4">
+                            <a href="{{route('po-tracking-nonms.detailfoto',['id'=>'34']) }}" target="_blank"><i class="fa fa-eye"></i> Detail Foto BAST</a>
+                        </div> -->
+                        
+                    </div>
+                    <br><br>
+                    
                     @if(isset($data->bast_status) and $data->bast_status==1)
                         <div class="form-group">
                             <label>Upload BAST</label>

@@ -14,4 +14,9 @@ class PoTrackingNonms extends Model
     {
         return $this->hasOne(Employee::class,'id','field_team_id');
     }
+
+    public function coordinator()
+    {
+        return $this->hasOne(Employee::class,'id','coordinator_id');
+    }
 }

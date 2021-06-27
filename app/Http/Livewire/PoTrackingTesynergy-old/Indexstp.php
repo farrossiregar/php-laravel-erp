@@ -6,12 +6,11 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\PoTrackingPds;
 use App\Models\PoTrackingNonms;
-use App\Models\Employee;
 use Auth;
 use DB;
 
 
-class Indexboq extends Component
+class Indexstp extends Component
 {
     use WithPagination;
     public $date;
@@ -19,10 +18,8 @@ class Indexboq extends Component
     
     public function render()
     {
+       
 
-        // dd(check_access('po-tracking-nonms.select-coordinator'));
-        // dd(get_user_from_access('po-tracking-nonms.coordinator-list'));
-        // dd(check_access_data('po-tracking-nonms.field-team-list'));
         $user = \Auth::user();
         
         if(check_access('po-tracking-nonms.index-regional')){
@@ -33,17 +30,16 @@ class Indexboq extends Component
                                 ->where('employees.user_id', $user->id)->get();
 
             $data = PoTrackingNonms::where('region', $region_user[0]->region_code)
-                                    ->where('type_doc', '2')
+                                    ->where('type_doc', '1')
                                     ->orderBy('id', 'DESC'); 
         }else{
-            $data = PoTrackingNonms::where('type_doc', '2')->orderBy('id', 'DESC');
+            $data = PoTrackingNonms::where('type_doc', '1')->orderBy('id', 'DESC');
         }
         
         if($this->date) $ata = $data->whereDate('created_at',$this->date);
         
         
-        
-        return view('livewire.po-tracking-nonms.indexboq')->with(['data'=>$data->paginate(50)]);
+        return view('livewire.po-tracking-nonms.indexstp')->with(['data'=>$data->paginate(50)]);
         
     }
 
