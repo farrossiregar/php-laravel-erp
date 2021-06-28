@@ -32,10 +32,19 @@ class TrainingMaterialController extends Controller
             $data[$k]['start_exam'] = $item->start_exam ? date('d M Y',strtotime($item->start_exam)) : '-';
             $data[$k]['end_exam'] = $item->end_exam ? date('d M Y',strtotime($item->end_exam)) : '-';
             $data[$k]['duration'] = $item->duration?$item->duration : 0;
+            $data[$k]['duration_second'] = $item->duration?$item->duration*60 : 0;
             $data[$k]['total_soal'] = TrainingExam::where('training_material_id',$item->id)->count();
             $data[$k]['total_soal_uraian'] = TrainingExam::where(['training_material_id'=>$item->id,'jenis_soal'=> 1])->count();
             $data[$k]['total_soal_tunggal'] = TrainingExam::where(['training_material_id'=>$item->id,'jenis_soal'=> 2])->count();
             $data[$k]['total_soal_ganda'] = TrainingExam::where(['training_material_id'=>$item->id,'jenis_soal'=> 3])->count();
+            $data[$k]['is_exam'] = 0;
+
+            $result = TrainingExamResult::where(['training_material_id'=>$item->id,'employee_id'=>\Auth::user()->employee->id])->first();
+            if($result){
+                $data[$k]['is_exam'] = 1;
+                $data[$k]['exam_nilai'] = $result->nilai;
+                $data[$k]['exam_total_soal'] = $result->total_soal;
+            }
         }
 
         return response()->json(['message'=>'success','data'=>$data], 200);
@@ -130,11 +139,12 @@ class TrainingMaterialController extends Controller
     {
         $nilai = 0;
         $exam = TrainingExam::where(['training_material_id'=>$r->training_material_id])->get();
-        foreach($exam as $key => $item){
-            if($item->jenis_soal ==2)
+        foreach($exam as $k => $item){
+            if($item->jenis_soal ==2){
                 if($item->jawaban == $r->jawaban[$k][0]){
-                    $nilai++;
+                    $nilai +=$item->nilai_soal;
                 }
+            }
         }
 
         $data = new TrainingExamResult();

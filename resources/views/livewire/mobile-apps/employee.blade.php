@@ -60,7 +60,7 @@
                     <td>{{$item->telepon}}</td> 
                     <td>{{$item->email}}</td> 
                     @foreach(\App\Models\ModulesItem::where('parent_id',$parent->id)->get() as $menu)
-                        <th class="text-center"><input type="checkbox" value="1" wire:click="update_employee_access({{$item->id}},{{$menu->id}})" wire:model="employee_access.{{$item->id.$menu->id}}" /></th>
+                        <th class="text-center"><input type="checkbox" value="1" wire:click="update_employee_access({{$menu->id}})" wire:model="employee_access.{{$menu->id}}" /></th>
                     @endforeach
                 </tr>
                 @php($num++)

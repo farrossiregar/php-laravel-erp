@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\CommitmentDaily;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class CommitmentDailyController extends Controller
@@ -61,6 +62,13 @@ class CommitmentDailyController extends Controller
 
         $commitment_daily = CommitmentDaily::select('commitment_dailys.*',\DB::raw("DATE_FORMAT(created_at, \"%d %M %Y\") as tanggal"))->whereDate('created_at',date('Y-m-d'))->where('id',$data->id)->first();
         
+        // find notification
+        $notification = Notification::whereDate('created_at',date('Y-m-d'))->where(['employee_id'=>\Auth::user()->employee->id,'type'=>1])->first();
+        if($notification){
+            $notification->is_read = 1;
+            $notification->save();
+        }
+
         return response()->json(['message'=>'submited','data'=>$commitment_daily], 200);
     }
 

@@ -77,6 +77,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('work-order/open',[\App\Http\Controllers\Api\WorkOrderController::class,'workOrderOpen'])->name('api.work-order.open');
 	Route::get('work-order/closed',[\App\Http\Controllers\Api\WorkOrderController::class,'workOrderClosed'])->name('api.work-order.closed');
 	Route::get('work-order/accepted',[\App\Http\Controllers\Api\WorkOrderController::class,'workOrderAccepted'])->name('api.work-order.accepted');
+	Route::get('work-order/general',[\App\Http\Controllers\Api\WorkOrderController::class,'workOrderGeneral'])->name('api.work-order.general');
 	
 	Route::get('drug-test/history',[\App\Http\Controllers\Api\DrugTestController::class,'history'])->name('api.drug-test.history');
 	Route::post('drug-test/upload-image',[\App\Http\Controllers\Api\DrugTestController::class,'uploadImage'])->name('api.drug-test.upload-image');
@@ -91,7 +92,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('training-material/get-file/{id}',[\App\Http\Controllers\Api\TrainingMaterialController::class,'getFile'])->name('api.training-material.get-file');
 	Route::get('training-material/get-exam/{id}',[\App\Http\Controllers\Api\TrainingMaterialController::class,'getExam'])->name('api.training-material.get-exam');
 	Route::post('training-material/store-jawaban',[\App\Http\Controllers\Api\TrainingMaterialController::class,'storeJawaban'])->name('api.training-material.store-jawaban');
-	Route::post('training-material/submit-jawaban',[\App\Http\Controllers\Api\TrainingMaterialController::class,'SubmitJawaban'])->name('api.training-material.submit-jawaban');
+	Route::post('training-material/submit-jawaban',[\App\Http\Controllers\Api\TrainingMaterialController::class,'submitJawaban'])->name('api.training-material.submit-jawaban');
 	Route::post('user/upload-photo',[\App\Http\Controllers\Api\UserController::class,'uploadPhoto'])->name('api.user.upload-photo');
 	Route::post('user/change-password',[\App\Http\Controllers\Api\UserController::class,'changePassword'])->name('api.user.change-password');
 	Route::get('user/check-token',function(){

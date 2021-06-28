@@ -38,8 +38,9 @@ class LocationOfFieldTeamController extends Controller
             'lat' => 'required',
             'long' => 'required'
         ]);
-        $data = LocationOfFieldTeam::where('employee_id',\Auth::user()->employee->id)->first();
-        if(!$data) $data = new LocationOfFieldTeam();
+        //$data = LocationOfFieldTeam::where('employee_id',\Auth::user()->employee->id)->first();
+        //if(!$data) 
+        $data = new LocationOfFieldTeam();
         $data->employee_id = \Auth::user()->employee->id;
         $data->employee = \Auth::user()->employee;
         $data->lat = $request->lat;
@@ -61,7 +62,7 @@ class LocationOfFieldTeamController extends Controller
         $find = LocationOfFieldTeam::where('employee_id',\Auth::user()->employee->id)->orderBy('id','DESC')->first();
         
         if($find){
-            $employee = Employee::where('is_active_location',1)->where(function($table) use ($r){
+            $employee = Employee::where(function($table) use ($r){
                 if($r->find_team) $table->where('name',"LIKE","%{$r->find_team}%");
             })->pluck('id')->toArray();
             

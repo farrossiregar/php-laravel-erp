@@ -54,7 +54,8 @@ class CustomerAssetManagementController extends Controller
                 'qty_module_3' => $item->qty_module_3,
                 'battery_brand_3' => $item->battery_brand_3,
                 'battery_qty_3' => $item->battery_qty_3,
-                'photo_kondition' => $item->photo_kondition ? asset($item->photo_kondition) : null
+                'photo_kondition' => $item->photo_kondition ? asset($item->photo_kondition) : null,
+                'last_update' => date('d-M-Y',strtotime($item->updated_at))
             ];
         }
 
@@ -108,31 +109,31 @@ class CustomerAssetManagementController extends Controller
         //$param['long'] = $r->long;
         //$param['lat'] = $r->lat;
 
-        // $find = CustomerAssetManagement::find($r->id);
-        // if($find and $param['kapan_baterai_dilaporkan_hilang']){
-        //     if(isset($find->site->site_id)){
-        //         $message = "Customer Asset Stolen : *".(isset($find->tower->name)?$find->tower->name : '')."*\n\n";
-        //         $message .= "Site : ".(isset($find->site->name) ? $find->site->name : '')."\n";
-        //         $message .= "Region : ".(isset($find->region->region) ? $find->region->region : '')."\n";
-        //         $message .= "Cluster : ".(isset($find->cluster->name) ? $find->cluster->name : '')."\n";
-        //         $message .= "Date : {$param['kapan_baterai_dilaporkan_hilang']}\n";
+        $find = CustomerAssetManagement::find($r->id);
+        if($find and $r->is_stolen=='Ya'){
+            if(isset($find->site->site_id)){
+                $message = "Customer Asset Stolen : *".(isset($find->tower->name)?$find->tower->name : '')."*\n\n";
+                $message .= "Site : ".(isset($find->site->name) ? $find->site->name : '')."\n";
+                $message .= "Region : ".(isset($find->region->region) ? $find->region->region : '')."\n";
+                $message .= "Cluster : ".(isset($find->cluster->name) ? $find->cluster->name : '')."\n";
+                $message .= "Date : {$param['kapan_baterai_dilaporkan_hilang']}\n";
                 
-        //         if($find->site->site_owner =='TMG'){
-        //             foreach(get_user_from_access('customer-asset-management.asset-stolen-verify-and-acknowldge-tmg') as $user){
-        //                 send_wa(['phone'=>$user->telepon,'message'=>"*[TMG]* ".$message]);
-        //                 \Mail::to($user->email)->send(new CustomerAssetStolenEmail($find));
-        //             }
-        //         }
+                if($find->site->site_owner =='TMG'){
+                    foreach(get_user_from_access('customer-asset-management.asset-stolen-verify-and-acknowldge-tmg') as $user){
+                        send_wa(['phone'=>$user->telepon,'message'=>"*[TMG]* ".$message]);
+                        \Mail::to($user->email)->send(new CustomerAssetStolenEmail($find));
+                    }
+                }
 
-        //         if($find->site->site_owner =='TLP'){
-        //             foreach(get_user_from_access('customer-asset-management.asset-stolen-acknowledge-tlp') as $user){
-        //                 send_wa(['phone'=>$user->telepon,'message'=>"*[TLP]* ".$message]);
-        //                 \Mail::to($user->email)->send(new CustomerAssetStolenEmail($find));
-        //             }
-        //         }
+                if($find->site->site_owner =='TLP'){
+                    foreach(get_user_from_access('customer-asset-management.asset-stolen-acknowledge-tlp') as $user){
+                        send_wa(['phone'=>$user->telepon,'message'=>"*[TLP]* ".$message]);
+                        \Mail::to($user->email)->send(new CustomerAssetStolenEmail($find));
+                    }
+                }
 
-        //     }
-        // }
+            }
+        }
 
 
         return response(['status'=>200,'message'=>'success'],200);

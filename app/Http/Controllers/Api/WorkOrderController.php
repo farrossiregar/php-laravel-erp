@@ -12,12 +12,36 @@ class WorkOrderController extends Controller
 {
     public function notification()
     {
-        $general_notification = Notification::where(['is_read'=>0,'employee_id'=>\Auth::user()->employee->id])->count();
+        $general_notification = Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereIn('type',[1,2,3])->whereDate('created_at',date('Y-m-d'))->count();
+        $general_notification += Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereNotIn('type',[1,2,3])->count();
+
         $open_work_order = PoTrackingNonms::whereNull('bast_status')->count();
         $accepted_work_order = PoTrackingNonms::where('bast_status',1)->orWhere('bast_status',3)->count();
         $closed_work_order = PoTrackingNonms::where('bast_status',2)->count();
 
         return response()->json(['message'=>'success','general_notification'=>$general_notification,'open_work_order'=>$open_work_order,'accepted_work_order'=>$accepted_work_order,'closed_work_order'=>$closed_work_order], 200);
+    }
+
+    public function workOrderGeneral()
+    {
+        $data = [];
+        $key = 0;
+
+        foreach(Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereIn('type',[1,2,3])->whereDate('created_at',date('Y-m-d'))->get() as $k => $item){
+            $data[$key] = $item;
+            $data[$key]['date'] = date('d-M-Y',strtotime($item->created_at));
+            $key++;
+        }
+
+        $key++;
+        
+        foreach(Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereNotIn('type',[1,2,3])->get() as $k => $item){
+            $data[$key] = $item;
+            $data[$key]['date'] = date('d-M-Y',strtotime($item->created_at));
+            $key++;
+        }
+
+        return response()->json(['message'=>'success','data'=>$data], 200);
     }
 
     public function workOrderOpen()
@@ -32,6 +56,7 @@ class WorkOrderController extends Controller
 
         return response()->json(['message'=>'success','data'=>$data], 200);
     }
+
     public function workOrderAccepted()
     {
         $data = [];
@@ -44,6 +69,7 @@ class WorkOrderController extends Controller
 
         return response()->json(['message'=>'success','data'=>$data], 200);
     }
+
     public function workOrderClosed()
     {
         $data = [];

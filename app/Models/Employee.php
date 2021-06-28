@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Company;
 use App\Models\Region;
+use App\Models\Employee as EmployeeModel;
 
 class Employee extends Model
 {
@@ -36,5 +37,10 @@ class Employee extends Model
     public function company()
     {
         return $this->belongsTo(Company::class,'company_id');
+    }
+
+    public function pic_speed()
+    {
+        return $this->belongsTo(EmployeeModel::class,'speed_warning_pic_id');
     }
 }

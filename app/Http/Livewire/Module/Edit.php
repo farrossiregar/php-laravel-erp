@@ -36,7 +36,7 @@ class Edit extends Component
         $this->data = \App\Models\Module::find($id);
         $this->items = \App\Models\ModulesItem::where('module_id',$id)->whereNull('parent_id')->get();
         $this->name = $this->data->name;
-        $this->icon = $this->data->icon;
+        // $this->icon = $this->data->icon;
         $this->prefix_link = $this->data->prefix_link;
         $this->color = $this->data->color;
         $this->status = $this->data->status;
@@ -61,7 +61,7 @@ class Edit extends Component
     {
         $this->validate([
             'name'=>'required',
-            'icon'=>'required'
+            // 'icon'=>'required'
         ]);   
         $this->data->name = $this->name;
         $this->data->prefix_link = $this->prefix_link;

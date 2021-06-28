@@ -17,7 +17,11 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary btn-sm close-btn" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-info btn-sm close-modal"><i class="fa fa-save"></i> Save</button>
+            <span wire:loading>
+                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                <span class="sr-only">{{ __('Loading...') }}</span>
+            </span>
+            <button type="submit" wire:loading.remove class="btn btn-info btn-sm close-modal"><i class="fa fa-save"></i> Save</button>
         </div>
     </form>
 </div>

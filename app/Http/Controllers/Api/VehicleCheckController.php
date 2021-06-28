@@ -7,6 +7,7 @@ use App\Models\VehicleCheck;
 use App\Models\VehicleCheckCleanliness;
 use App\Models\VehicleCheckAccidentReport;
 use Illuminate\Http\Request;
+use App\Models\Notification;
  
 class VehicleCheckController extends Controller
 {
@@ -38,6 +39,13 @@ class VehicleCheckController extends Controller
         $data->accident_report = $request->description_accident_report;
         $data->save();
         
+        // find notification
+        $notification = Notification::whereDate('created_at',date('Y-m-d'))->where(['employee_id'=>\Auth::user()->employee->id,'type'=>3])->first();
+        if($notification){
+            $notification->is_read = 1;
+            $notification->save();
+        } 
+
         return response()->json(['message'=>'submited'], 200);
     }
 

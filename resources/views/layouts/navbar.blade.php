@@ -37,12 +37,12 @@
                                         ->where(['department_id'=>$dep->id])->groupBy('client_project_id')->where(function($table){
                                         if(session()->get('company_id')) $table->where('client_projects.company_id',session()->get('company_id'));
                                     })->get() as $menu)
-                                        <li><a href="{{route('home',['menu'=>$menu->id])}}">{{isset($menu->client_project->name) ? $menu->client_project->name : ''}}</a></li>
+                                        <li><a href="{{route('home',['menu'=>$menu->id,'department_id'=>$dep->id])}}">{{isset($menu->client_project->name) ? $menu->client_project->name : ''}}</a></li>
                                         @php($sub_menu = \App\Models\Module::where(['department_id'=>$dep->id,'client_project_id'=>$menu->client_project_id])->get())
                                         @if($sub_menu->count() > 1 )
                                             <ul>
                                                 @foreach($sub_menu as $sub)
-                                                    <li class="py-1"><a href="{{route('home',['menu'=>$sub->id])}}" style="color:white;">{{isset($sub->name) ? $sub->name : ''}}</a></li>
+                                                    <li class="py-1"><a href="{{route('home',['menu'=>$sub->id,'department_id'=>$dep->id])}}" style="color:white;">{{isset($sub->name) ? $sub->name : ''}}</a></li>
                                                 @endforeach
                                             </ul>
                                         @endif

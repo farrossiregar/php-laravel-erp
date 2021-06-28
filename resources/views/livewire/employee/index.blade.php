@@ -48,6 +48,7 @@
                                 <th>Address</th>
                                 <th>Department</th>
                                 <th>Position</th>
+                                <th>Android</th>
                                 <th>Updated</th>
                                 <th></th>
                             </tr>
@@ -69,6 +70,13 @@
                                 <td>{{$item->address}}</td>
                                 <td>{{isset($item->department_sub->name)?$item->department_sub->name .' - '.$item->department_sub->name:''}}</td>
                                 <td>{{isset($item->access->name)?$item->access->name:''}}</td>
+                                <td>
+                                    @if($item->is_use_android==1)
+                                        <span class="badge badge-success">Active</span>
+                                    @else
+                                        <span class="badge badge-warning">Inactive</span>
+                                    @endif
+                                </td>
                                 <td>{{$item->updated_at}}</td>
                                 <td>  
                                     @if(check_access('employee.autologin') and !empty($item->user_id))

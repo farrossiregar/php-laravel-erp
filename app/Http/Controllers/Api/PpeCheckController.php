@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\PpeCheck;
+use App\Models\Notification;
 use Illuminate\Http\Request;
  
 class PpeCheckController extends Controller
@@ -41,6 +42,45 @@ class PpeCheckController extends Controller
         $data = new PpeCheck();
         $data->employee_id = isset(\Auth::user()->employee->id) ? \Auth::user()->employee->id : '';
         $data->save();
+
+        if($request->foto_dengan_ppe){
+            $name = "foto_dengan_ppe.".$request->foto_dengan_ppe->extension();
+            $request->foto_dengan_ppe->storeAs("public/ppe-check/{$data->id}", $name);
+            $data->foto_dengan_ppe = "storage/ppe-check/{$data->id}/{$name}";
+        }
+
+        if($request->foto_banner){
+            $name = "foto_banner.".$request->foto_banner->extension();
+            $request->foto_banner->storeAs("public/ppe-check/{$data->id}", $name);
+            $data->foto_banner = "storage/ppe-check/{$data->id}/{$name}";
+        }
+        
+        if($request->foto_wah) {
+            $name = "foto_wah.".$request->foto_wah->extension();
+            $request->foto_wah->storeAs("public/ppe-check/{$data->id}", $name);
+            $data->foto_wah = "storage/ppe-check/{$data->id}/{$name}";
+        }
+
+        if($request->foto_elektrikal) {
+            $name = "foto_elektrikal.".$request->foto_wah->extension();
+            $request->foto_elektrikal->storeAs("public/ppe-check/{$data->id}", $name);
+            $data->foto_elektrikal = "storage/ppe-check/{$data->id}/{$name}";
+        }
+
+        if($request->foto_first_aid) {
+            $name = "foto_first_aid.".$request->foto_first_aid->extension();
+            $request->foto_first_aid->storeAs("public/ppe-check/{$data->id}", $name);
+            $data->foto_first_aid = "storage/ppe-check/{$data->id}/{$name}";
+        }
+
+        $data->save();
+
+        // find notification
+        $notification = Notification::whereDate('created_at',date('Y-m-d'))->where(['employee_id'=>\Auth::user()->employee->id,'type'=>2])->first();
+        if($notification){
+            $notification->is_read = 1;
+            $notification->save();
+        }      
 
         return response()->json(['message'=>'submited'], 200);
     }
