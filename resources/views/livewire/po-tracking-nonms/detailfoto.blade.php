@@ -109,6 +109,15 @@
 
 
 
+<script>
+    function hidenote(){
+        $('#note').css('display', 'none');
+    }   
+
+    function shownote(){
+        $('#note').css('display', 'block');
+    }   
+</script>
 
 
 

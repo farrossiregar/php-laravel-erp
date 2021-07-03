@@ -31,14 +31,11 @@ class Approvedetailfoto extends Component
 
     public function save()
     {
-        $status = $this->status;
-        $user = \Auth::user();
+        // $user = \Auth::user();
 
         $data = \App\Models\PoTrackingNonms::where('id', $this->selected_id)->first();
-        
-        $data->bast_status = 1;
+        $data->status_fielddata = 1;
         $data->save();
-
       
 
         // $notif_user_e2e = check_access_data('po-tracking-nonms.notif-e2e', '');
@@ -63,7 +60,8 @@ class Approvedetailfoto extends Component
 
         session()->flash('message-success',"Success!, Photo by Field Team is Approved");
         
-        return redirect()->route('po-tracking-nonms.approvedetailfoto');
+        return redirect()->route('po-tracking-nonms.index');
+
         
     }
 }
