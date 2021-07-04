@@ -54,7 +54,7 @@
             </tr>
             <tr>
                 <td><b>PO No</b></td>
-                <td class="text-center"><b>po_tracking->po_no</b></td>
+                <td class="text-center"><b>{{ $data->po_no }}</b></td>
                 <td><b>Subcontractor No</b></td>
                 <td class="text-center"><b>po_tracking->sub_contract_no</b></td>
             </tr>
@@ -79,20 +79,42 @@
                 <th>End Date on PO</th>
                 <th>Remarks</th>
             </tr>
-            <tr>
-                
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                
-            </tr>
+            @if($data->type_doc == 1)
+                @foreach(\App\Models\PoTrackingNonmsStp::where('id_po_nonms_master',$data->id)->get() as $key => $item)
+                <tr>
+                    
+                    <td>{{ $key + 1}}</td>
+                    <td>{{ $data->site_id }}</td>
+                    <td>{{ $data->site_id }}</td>
+                    <td>{{ $item->pekerjaan }}</td>
+                    <td>XXX</td>
+                    <td>{{ $item->qty }}</td>
+                    <td>XXX</td>
+                    <td>XXX</td>
+                    <td>XXX</td>
+                    <td>XXX</td>
+                    
+                </tr>
+                @endforeach
+            @else
+                @foreach(\App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master',$data->id)->get() as $key => $item)
+               
+                <tr>
+                    
+                    <td>{{ $key + 1}}</td>
+                    <td>{{ $data->site_id }}</td>
+                    <td>{{ $data->site_id }}</td>
+                    <td>{{ $item->item_description }}</td>
+                    <td>{{ $item->uom }}</td>
+                    <td>{{ $item->qty }}</td>
+                    <td>XXX</td>
+                    <td>XXX</td>
+                    <td>XXX</td>
+                    <td>{{ $item->remark }}</td>
+                    
+                </tr>
+                @endforeach
+            @endif
         </table>
         <br>
         <table class="tables">

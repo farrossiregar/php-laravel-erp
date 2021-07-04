@@ -9,11 +9,19 @@
     <div class="modal-body">
         <div class="form-group">
             <label>Approve Detail Foto ?</label>
+            <input class="form-check-input" type="hidden" wire:model="status">
         </div>
+      
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-success" wire:click="approve"><i class="fa fa-check"></i> Submit</button>
-        <!-- <button type="button" class="btn btn-success" wire:click="approve"><i class="fa fa-check"></i> Approve</button>
-        <button type="button" class="btn btn-danger" wire:click="revisi"><i class="fa fa-times"></i> Revisi</button> -->
+        <button type="button" class="btn btn-success  close-modal"  wire:click="save"><i class="fa fa-check"></i> Submit</button>
+    </div>
+     <div wire:loading>
+        <div class="page-loader-wrapper" style="display:block">
+            <div class="loader" style="display:block">
+                <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                <p>Please wait...</p>
+            </div>
+        </div>
     </div>
 </form>

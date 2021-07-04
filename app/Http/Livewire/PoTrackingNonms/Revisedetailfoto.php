@@ -26,6 +26,7 @@ class Revisedetailfoto extends Component
     public function revisedetailfoto($id)
     {
         $this->selected_id = $id;
+        
     }
 
     public function save()
@@ -34,17 +35,11 @@ class Revisedetailfoto extends Component
         $user = \Auth::user();
 
         $data = \App\Models\PoTrackingNonms::where('id', $this->selected_id)->first();
-        
-        // if($data->type_doc == '1'){
-        //     $typedoc = 'STP';
-          
-        // }else{
-        //     $typedoc = 'BOQ';
-            
-        // }
-        $data->bast_status = 0;
-        $data->bast_status_note = 'Fotonya kurang lengkap';
+
+        $data->status_fielddata = 0;
+        $data->note_status_fielddata = $this->note;
         $data->save();
+        // dd($this->note);
 
       
 

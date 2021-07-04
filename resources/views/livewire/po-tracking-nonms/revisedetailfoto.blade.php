@@ -17,8 +17,6 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-success" wire:click="approve"><i class="fa fa-check"></i> Submit</button>
-        <!-- <button type="button" class="btn btn-success" wire:click="approve"><i class="fa fa-check"></i> Approve</button>
-        <button type="button" class="btn btn-danger" wire:click="revisi"><i class="fa fa-times"></i> Revisi</button> -->
+        <button type="button" class="btn btn-success" wire:click="save"><i class="fa fa-check"></i> Submit</button>
     </div>
 </form>

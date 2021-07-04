@@ -100,6 +100,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('po-tracking-nonms/generate-bast/{data}',[App\Http\Controllers\PoTrackingNonmsController::class,'generateBast'])->name('po-tracking-nonms.generate-bast');
     Route::get('po-tracking-nonms/generate-esar/{data}',[App\Http\Controllers\PoTrackingNonmsController::class,'generateEsar'])->name('po-tracking-nonms.generate-esar');
     Route::get('po-tracking-nonms/detailfoto/{id}',App\Http\Livewire\PoTrackingNonms\Detailfoto::class)->name('po-tracking-nonms.detailfoto');
+    Route::get('po-tracking-nonms/approvedetailfoto',App\Http\Livewire\PoTrackingNonms\Approvedetailfoto::class)->name('po-tracking-nonms.approvedetailfoto');
 
 
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
