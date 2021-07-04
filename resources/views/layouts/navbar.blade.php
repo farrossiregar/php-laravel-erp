@@ -77,12 +77,14 @@
                         <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown"><i class="icon-equalizer"></i></a>
                         <ul class="dropdown-menu user-menu menu-icon">
                             <li class="menu-heading">ACCOUNT SETTINGS</li>
-                            <li><a href="javascript:void(0);"><i class="icon-note"></i> <span>Profile</span></a></li>
-                            <li><a href="javascript:void(0);"><i class="icon-equalizer"></i> <span>Setting</span></a></li>
+                            <li><a href="javascript:void(0);" title="Profile, Name, Picture, Telepon, etc"><i class="icon-note"></i> <span>Profile</span></a></li>
+                            <li><a href="{{route('setting')}}" title="Setting Application"><i class="fa fa-gear"></i> <span>Setting</span></a></li>
+                            @if(\Auth::user()->user_access_id !=1 and \Session::get('is_login_administrator')==true)
                             <li><a href="{{route('back-to-admin')}}" class="text-danger"><i class="fa fa-arrow-right"></i> <span>Back to Admin</span></a></li>
+                            @endif
                         </ul>
                     </li>
-                    <li><a href="" onclick="event.preventDefault();
+                    <li><a href="" data-toggle="tooltip" title="Logout" onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();" class="icon-menu"><i class="icon-login"></i></a></li>
                 </ul>
             </div>

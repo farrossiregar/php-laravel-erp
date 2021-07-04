@@ -5,6 +5,10 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Employee;
 use App\Models\Notification;
+use App\Models\CommitmentDaily;
+use App\Models\PpeCheck;
+use App\Models\VehicleCheck;
+use App\Models\HealthCheck;
 
 class GeneralNotification extends Command
 {
@@ -55,29 +59,67 @@ class GeneralNotification extends Command
                 $daily->description = "Sudahkah anda melakukan daily commitment hari ini";
                 $daily->save();
 
+                $commitemnt_daily  = new CommitmentDaily();
+                $commitemnt_daily->employee_id = $em->id;
+                $commitemnt_daily->save();
+
                 if($em->device_token){
-                    push_notification_android($em->device_token,$daily->title,$daily->description);
+                    push_notification_android($em->device_token,$daily->title,$daily->description,1);
                 }
             }
 
             $ppe = Notification::where(['employee_id'=>$em->id,'type'=>2])->whereDate('created_at',date('Y-m-d'))->first();
             if(!$ppe){
-                $notif = new Notification();
-                $notif->employee_id = $em->id;
-                $notif->type = 2; // PPE Check
-                $notif->title = 'PPE Check';
-                $notif->description = "Sudahkah anda melakukan PPE Check hari ini";
-                $notif->save();
+                $ppe = new Notification();
+                $ppe->employee_id = $em->id;
+                $ppe->type = 2; // PPE Check
+                $ppe->title = 'PPE Check';
+                $ppe->description = "Sudahkah anda melakukan PPE Check hari ini";
+                $ppe->save();
+
+                $data = new PpeCheck();
+                $data->employee_id = $em->id;
+                $data->save();
+
+                if($em->device_token){
+                    push_notification_android($em->device_token,$ppe->title,$ppe->description,2);
+                }
             }
 
             $vehicle = Notification::where(['employee_id'=>$em->id,'type'=>3])->whereDate('created_at',date('Y-m-d'))->first();
             if(!$vehicle){
-                $notif = new Notification();
-                $notif->employee_id = $em->id;
-                $notif->type = 3; // Vechicle Check
-                $notif->title = 'Vehicle Check';
-                $notif->description = "Sudahkah anda melakukan Vehicle Check hari ini";
-                $notif->save();
+                $vehicle = new Notification();
+                $vehicle->employee_id = $em->id;
+                $vehicle->type = 3; // Vechicle Check
+                $vehicle->title = 'Vehicle Check';
+                $vehicle->description = "Sudahkah anda melakukan Vehicle Check hari ini";
+                $vehicle->save();
+
+                $data = new VehicleCheck();
+                $data->employee_id = $em->id;
+                $data->save();
+
+                if($em->device_token){
+                    push_notification_android($em->device_token,$vehicle->title,$vehicle->description,3);
+                }
+            }
+
+            $health = Notification::where(['employee_id'=>$em->id,'type'=>4])->whereDate('created_at',date('Y-m-d'))->first();
+            if(!$health){
+                $health = new Notification();
+                $health->employee_id = $em->id;
+                $health->type = 4; // Health Check
+                $health->title = 'Healt Check';
+                $health->description = "Lakukan Health Check hari ini";
+                $health->save();
+
+                $data = new HealthCheck();
+                $data->employee_id = $em->id;
+                $data->save();
+
+                if($em->device_token){
+                    push_notification_android($em->device_token,$vehicle->title,$vehicle->description,4);
+                }
             }
         }
 

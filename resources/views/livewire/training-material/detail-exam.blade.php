@@ -1,8 +1,10 @@
 @section('title', $data->name)
-@section('parentPageTitle', 'Insert Exam')
 <div class="row clearfix">
     <div class="col-md-6">
         <div class="card">
+            <div class="py-2 px-2">
+                <a href="javascript:void(0)" onclick="history.back()"><i class="fa fa-arrow-left"></i> Back</a>
+            </div>
             <div class="body">
                 <form id="basic-form" method="post" class="pl-3" wire:submit.prevent="save">
                     @foreach($data_soal as $k_soal => $item)

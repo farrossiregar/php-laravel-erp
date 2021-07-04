@@ -2,74 +2,49 @@
 
 use Illuminate\Support\Facades\DB;
 
-function push_notification_android($device_id,$title,$message){
-
-    //API URL of FCM
-    $url = 'https://fcm.googleapis.com/fcm/send';
-
+function push_notification_android($device_id,$title,$message,$type){
     /*api_key available in:
     Firebase Console -> Project Settings -> CLOUD MESSAGING -> Server key*/    
     $api_key = 'AAAA4LyBl1Y:APA91bFLf-2oSt9e2GMNIsoOiBBHH3tER5vk45_f6xwZESuZzl1s_6F0ZLkDO8QVOlzPHWto-kkCLl0dctRpjvt30IN7AMvxrGV-keRxn8TBG-DyROqzvGSN8YQN1l7qVVBW9T4BN2_g';
+   
+    //API URL of FCM
+    $url = 'https://fcm.googleapis.com/fcm/send';
+    $fields = array (
+        'registration_ids' => array (
+                $device_id
+        ),
+        'notification' => array (
+            "title" => $title,
+            "body" => $message,
+            'vibrate'	=> 1,
+	        'sound'		=> 1,
+        ),
+        'data' => array(
+            'type' => $type 
+        )
+    );
+
+    //header includes Content type and api key
+    $headers = array(
+        'Content-Type:application/json',
+        'Authorization:key='.$api_key
+    );
                 
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+    $result = curl_exec($ch);
+    if ($result === FALSE) {
+        die('FCM Send Error: ' . curl_error($ch));
+    }
+    curl_close($ch);
 
-        $url = 'https://fcm.googleapis.com/fcm/send';
-        $fields = array (
-                'registration_ids' => array (
-                    $device_id
-                ),
-                'data' => array (
-                    "title" =>  $title,
-                    "body" =>  $message,
-                )
-        );
-        $fields = json_encode ( $fields );
-        $headers = array (
-            'Authorization: key=' .$api_key,
-            'Content-Type: application/json'
-        );
-        $ch = curl_init ();
-        curl_setopt ( $ch, CURLOPT_URL, $url );
-        curl_setopt ( $ch, CURLOPT_POST, true );
-        curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
-        curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
-        curl_setopt ( $ch, CURLOPT_POSTFIELDS, $fields );
-        $result = curl_exec ( $ch );
-        #echo $result;
-
-        curl_close ($ch);
-        
-        return $result;
-
-    // $fields = array (
-    //     'registration_ids' => array (
-    //             $device_id
-    //     ),
-    //     'data' => array (
-    //         "title" => $title,
-    //         "message" => $message
-    //     )
-    // );
-
-    // //header includes Content type and api key
-    // $headers = array(
-    //     'Content-Type:application/json',
-    //     'Authorization:key='.$api_key
-    // );
-                
-    // $ch = curl_init();
-    // curl_setopt($ch, CURLOPT_URL, $url);
-    // curl_setopt($ch, CURLOPT_POST, true);
-    // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-    // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-    // $result = curl_exec($ch);
-    // if ($result === FALSE) {
-    //     die('FCM Send Error: ' . curl_error($ch));
-    // }
-    // curl_close($ch);
-    // return $result;
+    return $result;
 }
 
 function check_yes_no($value)

@@ -66,6 +66,7 @@
         </div>
     </div>
 </div>
+{{!--
 @if(check_access('work-flow-management.dashboard'))
     <div class="row">
         @foreach($layout_chart as $id => $layout)
@@ -77,6 +78,8 @@
         @endforeach
     </div>
 @endif
+--}}
+
 @push('after-scripts')
 <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
 <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>

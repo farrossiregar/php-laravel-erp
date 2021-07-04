@@ -6,25 +6,24 @@
         <div class="col-md-2">
             <select class="form-control" wire:model="employee_id">
                 <option value=""> --- {{ __('Employee') }} --- </option>
-                @foreach(\App\Models\CustomerAssetManagementHistory::groupBy('employee_id')->whereNotNull('employee_id')->get() as $item)
-                    @if(isset($item->employee->name))
-                        <option value="{{$item->employee_id}}">{{$item->employee->name}}</option>
-                    @endif
+                @foreach(\App\Models\Employee::whereNotNull('user_id')->groupBy('name')->get() as $item)
+                <option value="{{$item->id}}">{{$item->name}}</option>
                 @endforeach
             </select>
         </div>
         <div class="col-md-2">
             <select class="form-control" wire:model="region">
                 <option value=""> --- {{ __('Region') }} --- </option>
-                @foreach(\App\Models\CustomerAssetManagementHistory::whereNotNull('region_name')->groupBy('region_name')->get() as $item)
-                <option value="{{$item->region_name}}">{{$item->region_name}}</option>
+                @foreach(\App\Models\CustomerAssetManagement::whereNotNull('region_name')->groupBy('region_name')->get() as $item)
+                <option>{{$item->region_name}}</option>
                 @endforeach
             </select>
         </div>
         <div class="col-md-2">
-            <input type="date" class="form-control" wire:model="created_at" title="Date Submited" />
+            <input type="date" class="form-control" wire:model="created_at" placeholder="Date Uploaded" title="Date Uploaded" />
         </div>
         <div class="col-md-4">
+            <a href="javascript:;" class="btn btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_upload"><i class="fa fa-upload"></i> {{ __('Upload') }}</a>
             <label wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>
@@ -36,7 +35,8 @@
             <table class="table table-striped m-b-0 c_list">
                 <thead style="white-space: nowrap;">
                     <tr>
-                        <th>{{ __('NO') }}</th>                     
+                        <th>{{ __('NO') }}</th>
+                        <th>{{ __('UPLOADED') }}</th>                                  
                         <th>{{ __('DATE SUBMISSION') }}</th>                                    
                         <th><div style="width:200px;">{{ __('NIK / NAMA') }}</div></th>                             
                         <th>{{ __('TOWER INDEX') }}</th>
@@ -62,9 +62,10 @@
                     <tr>
                         <td style="width: 50px;">{{$data->firstItem() + $k}}</td>
                         <td>{{date('d M Y',strtotime($item->created_at))}}</td> 
+                        <td>{!!$item->tanggal_submission?date('d-M-Y',strtotime($item->tanggal_submission)):''!!}</td> 
                         <td>
-                            @if(isset($item->employee->name))
-                                {{$item->employee->name}}
+                            @if(isset($item->site->employee->name))
+                                {{$item->site->employee->name}}
                             @endif
                         </td> 
                         <td>{{isset($item->tower->name)?$item->tower->name : ''}}</td> 
@@ -72,43 +73,21 @@
                         <td>{{isset($item->site_name)?$item->site_name : ''}}</td> 
                         <td>{{isset($item->cluster->name)?$item->cluster->name : ''}}</td> 
                         <td>{{isset($item->region->region)?$item->region->region : ''}}</td>
-                        
-                        <td>{{$item->catatan}}</td>
+                        <td>{{$item->qty_module_1}}</td>
+                        <td>{{$item->battery_brand_1}}</td>
+                        <td>{{$item->battery_qty_1}}</td>
+                        <td>{{$item->qty_module_2}}</td>
+                        <td>{{$item->battery_brand_2}}</td>
+                        <td>{{$item->battery_qty_2}}</td>
+                        <td>{{$item->qty_module_3}}</td>
+                        <td>{{$item->battery_brand_3}}</td>
+                        <td>{{$item->battery_qty_3}}</td>
                         <td>
-                        {{--
-                            @if($item->site_owner == 'TLP')
-                                @if($item->status==1)
-                                    @if(check_access('customer-asset-management.asset-stolen-open-tt-tlp'))
-                                        @livewire('customer-asset-management.status-stolen-tlp',['data'=>$item],key($item->id+$item->status))
-                                    @else
-                                        <a href="javascript:;" class="badge badge-danger"><i class="fa fa-warning"></i> Not Verify</a>
-                                    @endif
-                                @endif
-                                @if($item->status==3)
-                                    <a href="javascript:;" class="badge badge-success"><i class="fa fa-check"></i> Verify</a>
-                                @endif
+                            @if($item->photo_kondisition)
+                                <a href="{{asset($item->photo_kondisition)}}"><i class="fa fa-image"></i></a>
                             @endif
-                            @if($item->site_owner == 'TMG')
-                                @if($item->status==1)
-                                    @if(check_access('customer-asset-management.asset-stolen-verify-and-acknowldge-tmg'))
-                                        @livewire('customer-asset-management.status-stolen-tmg',['data'=>$item],key($item->id+$item->status))
-                                    @else
-                                        <a href="javascript:;" class="badge badge-danger"><i class="fa fa-warning"></i> Not Verify</a>
-                                    @endif
-                                @endif
-                                @if($item->status==2)
-                                    @if(check_access('customer-asset-management.stolen-submit-email-boq'))
-                                        @livewire('customer-asset-management.status-stolen-boq-tmg',['data'=>$item],key($item->id+$item->status))
-                                    @else
-                                        <span class="badge badge-warning"><i class="fa fa-times"></i> Not Uploaded</span>
-                                    @endif
-                                @endif
-                                @if($item->status==3)
-                                    <a href="{{asset("storage/customer-asset/boq/{$item->file_boq}")}}" target="_blank" class="badge badge-success"><i class="fa fa-download"></i> Uploaded</a>
-                                @endif
-                            @endif
-                            --}}
                         </td>
+                        <td>{{$item->catatan}}</td>
                     @endforeach
                 </tbody>
             </table>

@@ -1,11 +1,15 @@
 <div>
     <ul class="nav nav-tabs">
-        <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#complete">{{ __('Complete') }}</a></li>
+        <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#raw-data">{{ __('Raw Data') }}</a></li>
         <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#stolen">{{ __('Stolen') }}</a></li>
+        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#not-stolen">{{ __('Not Stolen') }}</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane show active" id="complete">
-           <livewire:customer-asset-management.data-complete />
+        <div class="tab-pane show active" id="raw-data">
+           <livewire:customer-asset-management.raw-data />
+        </div>
+        <div class="tab-pane" id="not-stolen">
+           <livewire:customer-asset-management.data-not-stolen />
         </div>
         <div class="tab-pane" id="stolen">
            <livewire:customer-asset-management.data-stolen />

@@ -39,8 +39,12 @@ class PpeCheckController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new PpeCheck();
+        
+        $data = PpeCheck::where('employee_id',\Auth::user()->employee->id)->first();
+        if(!$data) $data = new PpeCheck(); 
+
         $data->employee_id = isset(\Auth::user()->employee->id) ? \Auth::user()->employee->id : '';
+        $data->is_submit = 1;
         $data->save();
 
         if($request->foto_dengan_ppe){
@@ -111,7 +115,6 @@ class PpeCheckController extends Controller
                 $find->save();
             }
         }
-
 
         if($request->foto_wah) {
             $name = "foto_wah.".$request->foto_wah->extension();

@@ -52,6 +52,7 @@ class Dashboard extends Component
         })->groupBy('date')->get() as $item){
             $this->labels[] = $item->date;
         }
+        
         foreach(Criticalcase::groupBy('region')->where(function($table){
             if($this->region) $table->whereIn('region',$this->region);    
             if($this->project) $table->whereIn('project',$this->project);    

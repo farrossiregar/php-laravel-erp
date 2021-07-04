@@ -21,6 +21,7 @@ class HealthCheckController extends Controller
         $data->kondisi_badan = $request->kondisi_badan;
         $data->tinggal_serumah_covid = $request->tinggal_serumah_covid;
         $data->bepergian_keluar_kota = $request->bepergian_keluar_kota;
+        $data->is_submit = 1;
         $data->save();
 
         $data = HealthCheck::select('health_check.*',\DB::raw("DATE_FORMAT(created_at, \"%d %M %Y\") as tanggal"))->where('id',$data->id)->first();

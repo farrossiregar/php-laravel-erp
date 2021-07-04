@@ -3,7 +3,10 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="body">
-                <div class=" row">
+                <div class="row">
+                    <div class="py-2 px-2">
+                        <a href="javascript:void(0)" onclick="history.back()"><i class="fa fa-arrow-left"></i> Back</a>
+                    </div>
                     <div class="col-md-2">
                         <select class="form-control" wire:model="employee_id">
                             <option value=""> --- Employee --- </option>
@@ -17,8 +20,6 @@
                     </div>
                     <div class="col-md-3">
                         <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_add_training"><i class="fa fa-plus"></i> Training Material</a>
-                    </div>
-                    <div class="col-md-3">
                         <a href="javascript:void(0)" class="btn btn-success" data-toggle="modal" data-target="#modal_group_training"><i class="fa fa-users"></i> Group Training</a>
                     </div>
                     <div class="col-md-5">

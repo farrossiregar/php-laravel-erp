@@ -14,12 +14,14 @@ use App\Models\TrainingExamResult;
 
 class TrainingMaterialController extends Controller
 {
-    public function history()
+    public function history(Request $r)
     {
         $data = [];
-        $param = TrainingMaterial::orderBy('id','DESC')->get();
+        $param = TrainingMaterial::orderBy('id','DESC');
         
-        foreach($param as $k => $item){
+        if(!empty($r->keyword)) $param = $param->where('name','LIKE',"%{$r->keyword}%");
+
+        foreach($param->paginate(10) as $k => $item){
             $data[$k]['id'] = $item->id;
             $data[$k]['date'] = date('d M Y',strtotime($item->created_at));
             $data[$k]['name'] = $item->name;

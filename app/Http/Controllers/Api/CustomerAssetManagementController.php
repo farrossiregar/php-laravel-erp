@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\CustomerAssetManagement;
+use App\Models\CustomerAssetManagementHistory;
 use App\Mail\CustomerAssetStolenEmail;
 use Illuminate\Http\Request;
 
@@ -64,35 +65,37 @@ class CustomerAssetManagementController extends Controller
 
     public function submit(Request $r)
     {
-        //$param['is_stolen'] = $r->kapan_baterai_dilaporkan_hilang ? 1 : 0;
-        $param['is_stolen'] = $r->is_stolen=='Ya' ? 1 : 0;
-        $param['is_submit'] = 1;
-        $param['status'] = 1;
-        $param['tanggal_submission'] = date('Y-m-d');
-
-        $param['qty_module_1'] = $r->qty_module_1;
-        $param['battery_brand_1'] = $r->battery_brand_1;
-        $param['battery_qty_1'] = $r->battery_qty_1;
-        $param['qty_module_2'] = $r->qty_module_2;
-        $param['battery_brand_2'] = $r->battery_brand_2;
-        $param['battery_qty_2'] = $r->battery_qty_2;
-        $param['qty_module_3'] = $r->qty_module_3;
-        $param['battery_brand_3'] = $r->battery_brand_3;
-        $param['battery_qty_3'] = $r->battery_qty_3;
-
-        if($r->photo){
+        $parent = CustomerAssetManagement::find($r->id);
+        $data = new CustomerAssetManagementHistory();
+        $data->employee_id = \Auth::user()->employee->id;
+        $data->region_name = $parent->region_name;
+        $data->tower_id = $parent->tower_id;
+        $data->region_cluster_id = $parent->region_cluster_id;
+        $data->customer_asset_management_id = $r->id;
+        $data->site_id = $r->site_id;
+        $data->status = $r->is_stolen=='Ya' ? 1 : 2;
+        $data->qty_module_1 = $r->qty_module_1;
+        $data->battery_brand_1 = $r->battery_brand_1;
+        $data->battery_qty_1 = $r->battery_qty_1;
+        $data->qty_module_2 = $r->qty_module_2;
+        $data->battery_brand_2 = $r->battery_brand_2;
+        $data->battery_qty_2 = $r->battery_qty_2;
+        $data->qty_module_3 = $r->qty_module_3;
+        $data->battery_brand_3 = $r->battery_brand_3;
+        $data->battery_qty_3 = $r->battery_qty_3;
+        $data->catatan = $r->catatan;   
+        if(isset($r->photo)){
             $name = "photo.".$r->photo->extension();
-            //$r->photo->storeAs("public/customer-asset-management/{$r->id}", $name);
+            
+            // $r->photo->storeAs("public/customer-asset-management/{$r->id}", $name);
             //$waterMarkUrl = public_path("storage/customer-asset-management/{$r->id}/{$name}");
             //$image = Image::make(public_path("storage/customer-asset-management/{$r->id}/{$name}"));
             //$image->insert($waterMarkUrl, 'bottom-left', 5, 5);
             
             $r->photo->storeAs("public/customer-asset-management/{$r->id}", $name);
-
-            $param['photo_kondition'] = "storage/customer-asset-management/{$r->id}/{$name}";
+            $data->photo_kondition = "storage/customer-asset-management/{$r->id}/{$name}";
         }
-
-        CustomerAssetManagement::where('id',$r->id)->update($param);
+        $data->save();
 
         //$param['apakah_di_site_ini_ada_battery'] = $r->apakah_di_site_ini_ada_battery;
         //$param['berapa_unit'] = $r->berapa_unit;
@@ -110,13 +113,14 @@ class CustomerAssetManagementController extends Controller
         //$param['lat'] = $r->lat;
 
         $find = CustomerAssetManagement::find($r->id);
+        
         if($find and $r->is_stolen=='Ya'){
             if(isset($find->site->site_id)){
                 $message = "Customer Asset Stolen : *".(isset($find->tower->name)?$find->tower->name : '')."*\n\n";
                 $message .= "Site : ".(isset($find->site->name) ? $find->site->name : '')."\n";
                 $message .= "Region : ".(isset($find->region->region) ? $find->region->region : '')."\n";
                 $message .= "Cluster : ".(isset($find->cluster->name) ? $find->cluster->name : '')."\n";
-                $message .= "Date : {$param['kapan_baterai_dilaporkan_hilang']}\n";
+                // $message .= "Date : {$param['kapan_baterai_dilaporkan_hilang']}\n";
                 
                 if($find->site->site_owner =='TMG'){
                     foreach(get_user_from_access('customer-asset-management.asset-stolen-verify-and-acknowldge-tmg') as $user){
@@ -134,7 +138,6 @@ class CustomerAssetManagementController extends Controller
 
             }
         }
-
 
         return response(['status'=>200,'message'=>'success'],200);
     }

@@ -24,6 +24,7 @@
                 <tr style="background:#eee;">
                     <th style="width:50px;">No</th>                                    
                     <th>Employee</th> 
+                    <th>Date</th> 
                     <th>Perusahaan</th> 
                     <th>Lokasi Kantor</th> 
                     <th>Department</th> 
@@ -38,6 +39,7 @@
                     <tr>
                         <td>{{$k+1}}</td>
                         <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
+                        <td>{{date('d-F-Y',strtotime($item->created_at))}}</td>
                         <td>{{isset($item->company) ? $item->company : ''}}</td>
                         <td>{{isset($item->lokasi_kantor) ? $item->lokasi_kantor : ''}}</td>
                         <td>{{isset($item->department) ? $item->department : ''}}</td>

@@ -43,9 +43,11 @@ class CommitmentDailyController extends Controller
 
         // check exist
         $find = CommitmentDaily::whereDate('created_at',date('Y-m-d'))->where('employee_id',\Auth::user()->employee->id)->first();
-        if($find) return response()->json(['message'=>'exist'], 200);
-        
-        $data = new CommitmentDaily();
+        if($find){
+            $data = new CommitmentDaily();
+            // return response()->json(['message'=>'exist'], 200);
+        } 
+
         $data->employee_id = isset(\Auth::user()->employee->id) ? \Auth::user()->employee->id : '';
         $data->regulasi_terkait_ppe_apd_menggunakan = $request->regulasi_terkait_ppe_apd_menggunakan;
         $data->regulasi_terkait_ppe_apd_tidak_punya = $request->regulasi_terkait_ppe_apd_tidak_punya;
@@ -58,6 +60,7 @@ class CommitmentDailyController extends Controller
         $data->regulasi_terkait_penggunaan_kendaraan = $request->regulasi_terkait_penggunaan_kendaraan;
         $data->regulasi_bcg = $request->regulasi_bcg;
         $data->regulasi_terkait_cyber_security = $request->regulasi_terkait_cyber_security;
+        $data->is_submit = 1;
         $data->save();
 
         $commitment_daily = CommitmentDaily::select('commitment_dailys.*',\DB::raw("DATE_FORMAT(created_at, \"%d %M %Y\") as tanggal"))->whereDate('created_at',date('Y-m-d'))->where('id',$data->id)->first();
@@ -105,7 +108,7 @@ class CommitmentDailyController extends Controller
         $result['code'] = 200;
         $result['message'] = 'success';
 
-        $find = CommitmentDaily::whereDate('create_at',date('Y-m-d'))->where('employee_id',\Auth::user()->employee->id)->first();
+        $find = CommitmentDaily::whereDate('create_at',date('Y-m-d'))->where(['employee_id'=>\Auth::user()->employee->id,'is_submit'=>1])->first();
 
         if($find) $result['message'] = 'empty';
 

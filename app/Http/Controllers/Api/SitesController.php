@@ -10,7 +10,7 @@ class SitesController extends Controller
 {
     public function getAll()
     {
-        $temp = Site::whereNotNull('name')->where('name','<>',"")->paginate(30);
+        $temp = Site::whereNotNull('name')->where('employee_id',\Auth::user()->employee->id)->where('name','<>',"")->paginate(30);
         $data = [];
         foreach($temp as $k => $item){
             $data[$k] = $item;

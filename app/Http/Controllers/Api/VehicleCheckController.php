@@ -34,6 +34,7 @@ class VehicleCheckController extends Controller
             $data = new VehicleCheck();
             $data->employee_id = \Auth::user()->employee->id;
         }
+        $data->is_submit = 1;
         $data->plat_nomor = $request->plat_nomor;
         $data->stiker_safety_driving = $request->sticker_dipasang;
         $data->accident_report = $request->description_accident_report;
