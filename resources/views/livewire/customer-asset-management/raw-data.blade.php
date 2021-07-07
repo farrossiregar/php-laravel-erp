@@ -38,7 +38,7 @@
                         <th>{{ __('NO') }}</th>
                         <th>{{ __('UPLOADED') }}</th>                                  
                         <th>{{ __('DATE SUBMISSION') }}</th>                                    
-                        <th><div style="width:200px;">{{ __('NIK / NAMA') }}</div></th>                             
+                        <th>{{ __('NIK / NAMA') }}</th>                             
                         <th>{{ __('TOWER INDEX') }}</th>
                         <th>{{ __('SITE ID') }}</th>
                         <th>{{ __('SITE NAME') }}</th>

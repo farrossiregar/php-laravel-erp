@@ -29,8 +29,8 @@ class Index extends Component
     public function mount()
     {
         $this->layout_chart_parent_id = 1;
-        $this->layout_chart_parent = 'wo-never-assigned';
-        $this->layout_chart =[2=>'assigned-never-accept-wo',3=>'accept-never-close-wo-manual',4=>'total-ft-never-close-manual'];
+        $this->layout_chart_parent = 'total-ft-never-close-manual';
+        $this->layout_chart =[2=>'assigned-never-accept-wo',3=>'accept-never-close-wo-manual',4=>'wo-never-assigned'];
         $this->layout_chart_init_refresh =['wo-never-assigned'=>'chart','assigned-never-accept-wo'=>'init-chart-assigned-never-accept-wo','accept-never-close-wo-manual'=>'init-chart-accept-never-close-wo-manual','total-ft-never-close-manual'=>'init-chart-total-ft-never-close-manual'];
     }
     public function set_layout($view,$id)

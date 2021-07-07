@@ -36,34 +36,43 @@
                     <td>{{$k+1}}</td>
                     <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
                     <td>{{date('d-M-Y',strtotime($item->created_at))}}</td>
-                    <td>{{$item->plat_nomor}}</td>
-                    <td>
-                        @if($item->foto_mobil_plat_nomor)
-                            <a href="{{asset($item->foto_mobil_plat_nomor)}}" target="_blank"><i class="fa fa-image"></i></a>
-                        @endif
-                    </td>
-                    <td>
-                        @if($item->stiker_safety_driving==1)
-                            Ya
-                        @else
-                            Tidak
-                        @endif
-                    </td>
-                    <td>
-                        @if($item->stiker_safety_driving)
-                            <a href="{{asset($item->stiker_safety_driving)}}" target="_blank"><i class="fa fa-image"></i></a>
-                        @endif
-                    </td>
-                    <td>
-                        @foreach(\App\Models\VehicleCheckCleanliness::where('vehicle_check_id',$item->id)->get() as $img)
-                            <a href="{{asset($img->image)}}" target="_blank"><i class="fa fa-image"></i></a>
-                        @endforeach
-                    </td>
-                    <td>
-                        @foreach(\App\Models\VehicleCheckAccidentReport::where('vehicle_check_id',$item->id)->get() as $img)
-                            <a href="{{asset($img->image)}}" target="_blank"><i class="fa fa-image"></i></a>
-                        @endforeach
-                    </td>
+                    @if($item->is_submite==1)
+                        <td>{{$item->plat_nomor}}</td>
+                        <td>
+                            @if($item->foto_mobil_plat_nomor)
+                                <a href="{{asset($item->foto_mobil_plat_nomor)}}" target="_blank"><i class="fa fa-image"></i></a>
+                            @endif
+                        </td>
+                        <td>
+                            @if($item->stiker_safety_driving==1)
+                                Ya
+                            @else
+                                Tidak
+                            @endif
+                        </td>
+                        <td>
+                            @if($item->stiker_safety_driving)
+                                <a href="{{asset($item->stiker_safety_driving)}}" target="_blank"><i class="fa fa-image"></i></a>
+                            @endif
+                        </td>
+                        <td>
+                            @foreach(\App\Models\VehicleCheckCleanliness::where('vehicle_check_id',$item->id)->get() as $img)
+                                <a href="{{asset($img->image)}}" target="_blank"><i class="fa fa-image"></i></a>
+                            @endforeach
+                        </td>
+                        <td>
+                            @foreach(\App\Models\VehicleCheckAccidentReport::where('vehicle_check_id',$item->id)->get() as $img)
+                                <a href="{{asset($img->image)}}" target="_blank"><i class="fa fa-image"></i></a>
+                            @endforeach
+                        </td>
+                    @else
+                        <td class="text-center">-</td>
+                        <td class="text-center">-</td>
+                        <td class="text-center">-</td>
+                        <td class="text-center">-</td>
+                        <td class="text-center">-</td>
+                        <td class="text-center">-</td>
+                    @endif
                 </tr>
             @endforeach
             </tbody>

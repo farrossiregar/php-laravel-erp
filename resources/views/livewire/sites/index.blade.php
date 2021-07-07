@@ -50,13 +50,7 @@
                             @foreach($data as $k => $item)
                             <tr>
                                 <td style="width: 50px;">{{$num}}</td>
-                                <td>
-                                    @if(isset($item->employee->name))
-                                        {{$item->employee->name}}
-                                    @else
-                                        @livewire('sites.assign-employee',['data'=>$item,'key'],key($item->id))
-                                    @endif
-                                </td>
+                                <td>@livewire('sites.assign-employee',['data'=>$item,'key'],key($item->id))</td>
                                 <td><a href="{{route('sites.edit',$item->id)}}">{{$item->site_id}}</a></td> 
                                 <td>{{$item->name}}</td>
                                 <td>{{$item->site_technology}}</td>

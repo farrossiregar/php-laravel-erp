@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\LocationOfFieldTeam;
 use Illuminate\Http\Request;
+use App\Models\LocationOfFieldTeamHistory;
 use Illuminate\Support\Facades\DB;
 
 class LocationOfFieldTeamController extends Controller
@@ -38,11 +39,18 @@ class LocationOfFieldTeamController extends Controller
             'lat' => 'required',
             'long' => 'required'
         ]);
-        //$data = LocationOfFieldTeam::where('employee_id',\Auth::user()->employee->id)->first();
-        //if(!$data) 
-        $data = new LocationOfFieldTeam();
+        $data = LocationOfFieldTeam::where('employee_id',\Auth::user()->employee->id)->first();
+        if(!$data)  $data = new LocationOfFieldTeam();
         $data->employee_id = \Auth::user()->employee->id;
         $data->employee = \Auth::user()->employee;
+        $data->lat = $request->lat;
+        $data->long = $request->long;
+        $data->save();
+
+        $data = LocationOfFieldTeamHistory::where('employee_id',\Auth::user()->employee->id)->first();
+        $data = new LocationOfFieldTeamHistory();
+        $data->employee_id = \Auth::user()->employee->id;
+        $data->employee_raw = \Auth::user()->employee;
         $data->lat = $request->lat;
         $data->long = $request->long;
         $data->save();

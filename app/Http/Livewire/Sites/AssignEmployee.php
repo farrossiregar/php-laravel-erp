@@ -8,13 +8,16 @@ use App\Models\Site;
 class AssignEmployee extends Component
 {
     public $data,$selected_id,$assign=false,$user_id;
+
+    protected $listeners = ['refresh-assign'=>'$refresh'];
     
     public function render()
     {
         return view('livewire.sites.assign-employee');
     }
 
-    public function mount(Site $data){
+    public function mount(Site $data)
+    {
         $this->data = $data;
     }
 
@@ -38,6 +41,6 @@ class AssignEmployee extends Component
         }
         $this->selected_id = '';
         $this->assign = false;
-        $this->emit('refresh-page');
+        $this->emitSelf('refresh-assign');
     }
 }

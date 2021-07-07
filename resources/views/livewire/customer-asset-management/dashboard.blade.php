@@ -69,6 +69,7 @@ var datasets_pie = {!!$datasets_pie!!};
 var chartStolen = "";
 var pieStolen = "";
 var chart="";
+
 $( document ).ready(function() {
     //init_chart();
     init_chart_stolen();
@@ -90,11 +91,13 @@ $( document ).ready(function() {
         }
     );
 });
+
 Livewire.on('chart-customer-asset',()=>{
     setTimeout(function(){
         init_chart();
     },1000);
 });
+
 // Livewire.on('init-chart',(data)=>{
 //     labels = JSON.parse(data.labels);
 //     datasets = JSON.parse(data.datasets);
@@ -113,6 +116,45 @@ Livewire.on('init-chart-stolen',(data)=>{
 
 function init_pie_chart()
 {
+    var pieOptions = {
+            events: false,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 500,
+                easing: "easeOutQuart",
+                onComplete: function () {
+                var ctx = this.chart.ctx;
+                ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+
+                this.data.datasets.forEach(function (dataset) {
+
+                    for (var i = 0; i < dataset.data.length; i++) {
+                    var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                        total = dataset._meta[Object.keys(dataset._meta)[0]].total,
+                        mid_radius = model.innerRadius + (model.outerRadius - model.innerRadius)/2,
+                        start_angle = model.startAngle,
+                        end_angle = model.endAngle,
+                        mid_angle = start_angle + (end_angle - start_angle)/2;
+
+                    var x = mid_radius * Math.cos(mid_angle);
+                    var y = mid_radius * Math.sin(mid_angle);
+
+                    ctx.fillStyle = '#fff';
+                    if (i == 3){ // Darker text color for lighter background
+                        ctx.fillStyle = '#444';
+                    }
+                    var percent = String(Math.round(dataset.data[i]/total*100)) + "%";
+                   // ctx.fillText(dataset.data[i], model.x + x, model.y + y);
+                    // Display percent in another line, line break doesn't work for fillText
+                    ctx.fillText(percent, model.x + x, model.y + y + 15);
+                    }
+                });               
+                }
+            }
+        };
+
     if(pieStolen!=="") pieStolen.destroy();
     var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
     pieStolen = document.getElementById("stolen-pie");
@@ -123,26 +165,44 @@ function init_pie_chart()
                 labels: labels_pie,
                 datasets: datasets_pie,
             },
-            options: {
-                title: {
-                    display:true,
-                    text : "STOLEN & NOT STOLEN"
-                },
-                maintainAspectRatio: false,
-                legend: {
-                    position: 'bottom',
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    },
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
+            options : pieOptions 
+            // options: {
+            //     title: {
+            //         display:true,
+            //         text : "STOLEN & NOT STOLEN"
+            //     },
+            //     maintainAspectRatio: false,
+            //     legend: {
+            //         position: 'bottom',
+            //     },
+            //     scales: {
+                  
+            //     },
+                
+            //     tooltips: {
+            //         callbacks: {
+            //         label: function (tooltipItem, data) {
+            //             try {
+            //             let label = ' ' + data.labels[tooltipItem.index] || '';
+
+            //             if (label) {
+            //                 label += ': ';
+            //             }
+
+            //             const sum = data.datasets[0].data.reduce((accumulator, curValue) => {
+            //                 return accumulator + curValue;
+            //             });
+            //             const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+
+            //             label += Number((value / sum) * 100).toFixed(0) + '%';
+            //             return label;
+            //             } catch (error) {
+            //             console.log(error);
+            //             }
+            //         }
+            //         }
+            //     }
+            // }
         });
 }
 
@@ -226,7 +286,8 @@ function init_chart(){
                         labelString: 'Value'
                     }
                 }]
-            }
+            },
+            
         }
     };
     var ctx = document.getElementById('battery-cage-chart').getContext('2d');

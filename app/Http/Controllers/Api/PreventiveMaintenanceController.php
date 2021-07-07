@@ -17,8 +17,16 @@ class PreventiveMaintenanceController extends Controller
         foreach($param as $k => $item){
             $data[$k]['id'] = $item->id;
             $data[$k]['status'] = $item->status;
+            $data[$k]['user_signum'] = isset($item->employee->employee_code) ? $item->employee->employee_code : '';
+            $data[$k]['user_name'] = \Auth::user()->employee->name;
+            $data[$k]['resource_id'] = '-';
+            $data[$k]['vendor_code'] = '-';
+            $data[$k]['user_circle'] = isset($item->site->region->region) ? $item->site->region->region : '-';;
+            $data[$k]['site_id'] = isset($item->site->site_id) ? $item->site->site_id : '-';
+            $data[$k]['site_lat_lng'] = isset($item->site->lat) ? $item->site->lat .'/'. $item->site->long : '-';
+            
+
             $data[$k]['site'] = isset($item->site->name) ? $item->site->name : '';
-            $data[$k]['site_id'] = isset($item->site->site_id) ? $item->site->site_id : '';
             $data[$k]['region'] = isset($item->site->region->region) ? $item->site->region->region : '';
             $data[$k]['project'] = isset($item->project->name) ? $item->project->name : '';
             $data[$k]['description'] = $item->description;

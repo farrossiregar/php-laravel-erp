@@ -21,9 +21,18 @@ class SitesController extends Controller
 
     public function getByFieldTeam()
     {
-        $temp = Site::where('employee_id',\Auth::user()->employee->id)->paginate(20);
+        $temp = Site::where('employee_id',\Auth::user()->employee->id);
+
+        $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
+        
+        if($keyword) $temp->where(function($table) use ($keyword){
+            foreach(\Illuminate\Support\Facades\Schema::getColumnListing('sites') as $column){
+                $table->orWhere($column,'LIKE',"%{$keyword}%");
+            }
+        });
+
         $data = [];
-        foreach($temp as $k => $item){
+        foreach($temp->paginate(20) as $k => $item){
             $data[$k] = $item;
             $data[$k]['region_name'] = isset($item->region->region) ? $item->region->region : '';
             $data[$k]['cluster_name'] = isset($item->cluster->name) ? $item->cluster->name : '';   

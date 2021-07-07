@@ -39,7 +39,10 @@
                         <tbody>
                             @foreach($data as $k => $item)
                                 <tr>
-                                    <td>{{$k+1}}</td>
+                                    <td>
+                                        {{$k+1}}
+                                        {{$item->id}}
+                                    </td>
                                     <td><a href="javascript:void(0)" class="text-danger" style="font-size:18px;"><i class="fa fa-map-marker"></i></a> {{isset($item->_employee->name) ? $item->_employee->name : ''}}</td>
                                     <td>
                                         @if(isset($item->_employee->region->region))

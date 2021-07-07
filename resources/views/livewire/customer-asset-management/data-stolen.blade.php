@@ -38,7 +38,7 @@
                     <tr>
                         <th>{{ __('NO') }}</th>                     
                         <th>{{ __('DATE SUBMISSION') }}</th>                                    
-                        <th><div style="width:200px;">{{ __('NIK / NAMA') }}</div></th>                             
+                        <th>{{ __('NIK / NAMA') }}</th>                             
                         <th>{{ __('TOWER INDEX') }}</th>
                         <th>{{ __('SITE ID') }}</th>
                         <th>{{ __('SITE NAME') }}</th>
@@ -72,7 +72,20 @@
                         <td>{{isset($item->site_name)?$item->site_name : ''}}</td> 
                         <td>{{isset($item->cluster->name)?$item->cluster->name : ''}}</td> 
                         <td>{{isset($item->region->region)?$item->region->region : ''}}</td>
-                        
+                        <td>{{$item->qty_module_1}}</td>
+                        <td>{{$item->battery_brand_1}}</td>
+                        <td>{{$item->battery_qty_1}}</td>
+                        <td>{{$item->qty_module_2}}</td>
+                        <td>{{$item->battery_brand_2}}</td>
+                        <td>{{$item->battery_qty_2}}</td>
+                        <td>{{$item->qty_module_3}}</td>
+                        <td>{{$item->battery_brand_3}}</td>
+                        <td>{{$item->battery_qty_3}}</td>
+                        <td>
+                            @if($item->photo_kondisition)
+                                <a href="{{asset($item->photo_kondisition)}}"><i class="fa fa-image"></i></a>
+                            @endif
+                        </td>
                         <td>{{$item->catatan}}</td>
                         <td>
                         {{--

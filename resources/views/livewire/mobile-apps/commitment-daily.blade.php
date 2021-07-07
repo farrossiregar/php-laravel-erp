@@ -35,18 +35,33 @@
                     <tr>
                         <td>{{$k+1}}</td>
                         <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
-                        <td class="text-center">{!!$item->regulasi_terkait_ppe_apd_menggunakan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
-                        <td>{{$item->regulasi_terkait_ppe_apd_tidak_punya}}</td>
-                        <td class="text-center">{!!$item->regulasi_terkait_sanksi==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
-                        <td class="text-center">{!!$item->regulasi_terhadap_kecurian==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
-                        <td class="text-center">{!!$item->regulasi_terhadap_kerusakan_nama_baik_perusahaan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
-                        <td class="text-center">{!!$item->regulasi_terkait_minuman_keras_obat_terlarang==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
-                        <td class="text-center">{!!$item->regulasi_terkait_pelanggaran_peraturan_perusahaan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
-                        <td class="text-center">{!!$item->regulasi_terkait_protokol_kesehatan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
-                        <td class="text-center">{!!$item->regulasi_terkait_penggunaan_kendaraan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
-                        <td class="text-center">{!!$item->regulasi_bcg==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
-                        <td class="text-center">{!!$item->regulasi_terkait_cyber_security==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
-                        <td>{{$item->created_at}}</td>
+                        @if($item->is_submit ==1)
+                            <td class="text-center">{!!$item->regulasi_terkait_ppe_apd_menggunakan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                            <td>{{$item->regulasi_terkait_ppe_apd_tidak_punya}}</td>
+                            <td class="text-center">{!!$item->regulasi_terkait_sanksi==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                            <td class="text-center">{!!$item->regulasi_terhadap_kecurian==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                            <td class="text-center">{!!$item->regulasi_terhadap_kerusakan_nama_baik_perusahaan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                            <td class="text-center">{!!$item->regulasi_terkait_minuman_keras_obat_terlarang==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                            <td class="text-center">{!!$item->regulasi_terkait_pelanggaran_peraturan_perusahaan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                            <td class="text-center">{!!$item->regulasi_terkait_protokol_kesehatan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                            <td class="text-center">{!!$item->regulasi_terkait_penggunaan_kendaraan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                            <td class="text-center">{!!$item->regulasi_bcg==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                            <td class="text-center">{!!$item->regulasi_terkait_cyber_security==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
+                            <td>{{$item->created_at}}</td>
+                        @else
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                        @endif 
                     </tr>
                 @endforeach
                 @if($data->count() ==0)

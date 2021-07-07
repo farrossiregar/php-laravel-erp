@@ -32,6 +32,7 @@ class CustomerAssetManagementController extends Controller
                                     $table->where('towers.name',"LIKE","%{$keyword}%")
                                         ->orWhere('customer_asset_management.region_name','LIKE',"%{$keyword}%")
                                         ->orWhere('region_cluster.name','LIKE',"%{$keyword}%")
+                                        ->orWhere('sites.site_id','LIKE',"%{$keyword}%")
                                         ;
                                 });
 

@@ -59,7 +59,7 @@ class Dashboard extends Component
         foreach(CustomerAssetManagementHistory::select("*",\DB::raw('month(created_at) as bulan'))->whereYear('created_at',$this->year)->groupBy('bulan')->where(function($table){
             if($this->region) $table->whereIn('region_name',$this->region);
             if($this->month) $table->whereIn(\DB::raw('month(created_at)'),$this->month);
-            if($this->region_cluster_id) $table->where('region_cluster_id',$this->region_cluster_id);
+            // if($this->region_cluster_id) $table->where('region_cluster_id',$this->region_cluster_id);
         })->get() as $k => $item){
             $this->labels_stolen[] = date('F', mktime(0, 0, 0, $item->bulan, 10));;
         }
@@ -74,7 +74,7 @@ class Dashboard extends Component
             foreach(CustomerAssetManagementHistory::select("*",\DB::raw('month(created_at) as bulan'))->whereYear('created_at',$this->year)->where(function($table){
                 if($this->region) $table->whereIn('region_name',$this->region);
                 if($this->month) $table->whereIn(\DB::raw('month(created_at)'),$this->month);
-                if($this->region_cluster_id) $table->where('region_cluster_id',$this->region_cluster_id);
+                // if($this->region_cluster_id) $table->where('region_cluster_id',$this->region_cluster_id);
             })->groupBy('bulan')->get() as $k => $item){
                 
                 $this->datasets_stolen[$key]['data'][] = CustomerAssetManagementHistory::where(['status'=>$status])->whereMonth('created_at',$item->bulan)->whereYear('created_at',$this->year)->where(function($table){
@@ -95,6 +95,7 @@ class Dashboard extends Component
             $this->datasets_pie[0]['data'][] = CustomerAssetManagementHistory::select("*",\DB::raw('month(created_at) as bulan'))->where('status',$status)->whereYear('created_at',$this->year)->where(function($table){
                 if($this->region) $table->whereIn('region_name',$this->region);
                 if($this->month) $table->whereIn(\DB::raw('month(created_at)'),$this->month);
+                if($this->region_cluster_id) $table->where('region_cluster_id',$this->region_cluster_id);
             })->count();
         }
 

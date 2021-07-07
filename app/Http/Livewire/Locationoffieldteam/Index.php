@@ -12,9 +12,10 @@ class Index extends Component
     public function render()
     {
         $data = modelLocation::select('location_of_field_teams.*','employees.name')
-                                    ->orderBy('location_of_field_teams.id','desc')
                                     ->join('employees','employees.id','=','location_of_field_teams.employee_id')
-                                    ->groupBy('employee_id');
+                                    ->groupBy('employee_id')
+                                    ->reorder()
+                                    ->orderBy('location_of_field_teams.id','DESC');
 
         if($this->region_id) $data->where('employees.region_id',$this->region_id);
         if($this->keyword) $data->where('employees.name',"LIKE","%{$this->keyword}%");
@@ -24,7 +25,11 @@ class Index extends Component
 
     public function updated()
     {
-        $data = modelLocation::select('location_of_field_teams.id','location_of_field_teams.lat','location_of_field_teams.long','employees.name')->orderBy('location_of_field_teams.id','desc')->join('employees','employees.id','=','location_of_field_teams.employee_id')->groupBy('employee_id');
+        $data = modelLocation::select('location_of_field_teams.*','employees.name')
+                                    ->join('employees','employees.id','=','location_of_field_teams.employee_id')
+                                    ->groupBy('employee_id')
+                                    ->reorder()
+                                    ->orderBy('location_of_field_teams.id','DESC');
 
         if($this->region_id) $data->where('employees.region_id',$this->region_id);
         if($this->keyword) $data->where('employees.name',"LIKE","%{$this->keyword}%");

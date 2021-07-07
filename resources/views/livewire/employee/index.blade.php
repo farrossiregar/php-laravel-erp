@@ -42,6 +42,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>                                    
+                                <th>Code / Alias</th>                                    
                                 <th>Name</th>                                    
                                 <th>Phone</th>                                    
                                 <th>Email</th>                                    
@@ -58,6 +59,7 @@
                             @foreach($data as $k => $item)
                             <tr>
                                 <td style="width: 50px;">{{$num}}</td>
+                                <td>{{$item->employee_code}}</td>
                                 <td>
                                     @if(check_access('employee.edit'))
                                         <a href="{{route('employee.edit',['id'=>$item->id])}}">{{$item->name}}</a>

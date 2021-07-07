@@ -32,21 +32,36 @@
                     <th>Kondisi Badan</th> 
                     <th>Tinggal Dengan Keluarga Terkonfirmasi Covid 19</th> 
                     <th>Apakah anda bepergian keluar kota</th> 
+                    <th>Apakah anda ada mengunjungi keluarga yang sedang dirawat di rumah sakit dalam 3 hari terakhir</th> 
                 </tr>
             </thead>
             <tbody>
                 @foreach($data as $k => $item)
                     <tr>
                         <td>{{$k+1}}</td>
-                        <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
+                        <td>
+                            {{isset($item->employee->name) ? $item->employee->name : ''}}
+                        </td>
                         <td>{{date('d-F-Y',strtotime($item->created_at))}}</td>
-                        <td>{{isset($item->company) ? $item->company : ''}}</td>
-                        <td>{{isset($item->lokasi_kantor) ? $item->lokasi_kantor : ''}}</td>
-                        <td>{{isset($item->department) ? $item->department : ''}}</td>
-                        <td class="text-center">{{$item->status_bekerja}}</td>
-                        <td class="text-center">{{$item->kondisi_badan==1?"Sehat" : "Sakit"}}</td>
-                        <td class="text-center">{{$item->tinggal_serumah_covid==1?"Ya":"Tidak"}}</td>
-                        <td class="text-center">{{$item->bepergian_keluar_kota==1?"Ya":"Tidak"}}</td>
+                        @if($item->is_submit==1)
+                            <td>{{isset($item->company) ? $item->company : ''}}</td>
+                            <td>{{isset($item->lokasi_kantor) ? $item->lokasi_kantor : ''}}</td>
+                            <td>{{isset($item->department) ? $item->department : ''}}</td>
+                            <td class="text-center">{{$item->status_bekerja}}</td>
+                            <td class="text-center">{{$item->kondisi_badan==1?"Sehat" : "Sakit"}}</td>
+                            <td class="text-center">{{$item->tinggal_serumah_covid==1?"Ya":"Tidak"}}</td>
+                            <td class="text-center">{{$item->bepergian_keluar_kota==1?"Ya":"Tidak"}}</td>
+                            <td class="text-center">{{$item->mengunjungi_keluarga==1?"Ya":"Tidak"}}</td>
+                        @else
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                            <td class="text-center">-</td>
+                        @endif
                     </tr>
                 @endforeach
                 @if($data->count() ==0)
