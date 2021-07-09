@@ -24,8 +24,11 @@ class PreventiveMaintenanceController extends Controller
             $data[$k]['user_circle'] = isset($item->site->region->region) ? $item->site->region->region : '-';;
             $data[$k]['site_id'] = isset($item->site->site_id) ? $item->site->site_id : '-';
             $data[$k]['site_lat_lng'] = isset($item->site->lat) ? $item->site->lat .'/'. $item->site->long : '-';
-            
-
+            $data[$k]['user_lat_lng'] = isset($item->employee->lat) ? $item->employee->lat .'/'. $item->employee->lng : '-';
+            $data[$k]['site_distance'] = '-';
+            $data[$k]['approver_signum'] = '-';
+            $data[$k]['date'] = '-';
+            $data[$k]['work_order_number'] = $item->work_order_number; 
             $data[$k]['site'] = isset($item->site->name) ? $item->site->name : '';
             $data[$k]['region'] = isset($item->site->region->region) ? $item->site->region->region : '';
             $data[$k]['project'] = isset($item->project->name) ? $item->project->name : '';

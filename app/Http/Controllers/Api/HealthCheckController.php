@@ -22,6 +22,7 @@ class HealthCheckController extends Controller
         $data->tinggal_serumah_covid = $request->tinggal_serumah_covid;
         $data->bepergian_keluar_kota = $request->bepergian_keluar_kota;
         $data->mengunjungi_keluarga = $request->mengunjungi_keluarga;
+        
         $data->is_submit = 1;
         $data->save();
 

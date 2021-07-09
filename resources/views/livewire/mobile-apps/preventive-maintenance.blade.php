@@ -26,6 +26,7 @@
             <thead>
                 <tr style="background:#eee;">
                     <th style="width:50px;">No</th>    
+                    <th>Work Order Number</th>   
                     <th>Description</th>   
                     <th>Site ID / Name</th>   
                     <th>Site Owner</th>   
@@ -42,6 +43,7 @@
                 @foreach($data as $k => $item)
                     <tr>
                         <td>{{$k+1}}</td>
+                        <td>{{$item->work_order_number}}</td>
                         <td>{{$item->description}}</td>
                         <td>{{isset($item->site->name) ? $item->site->site_id .' / '.$item->site->name : ''}}</td>
                         <td>{{isset($item->site->site_owner) ? $item->site->site_owner : ''}}</td>
@@ -146,6 +148,10 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <div class="form-group">
+                            <label>Work Order Number</label>
+                            <input type="text" class="form-control" wire:model="work_order_number" />
+                        </div>
                         <div class="form-group">
                             <label>Site ID / Site Name</label>
                             <select class="form-control" wire:model="site_id">
