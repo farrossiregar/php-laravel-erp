@@ -63,11 +63,19 @@
                             <hr />
                             <div class="row">
                                 <div class="col-md-4">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" wire:model="name" placeholder="{{ __('Name') }}" >
-                                        @error('name')
-                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                        @enderror
+                                    <div class="row">
+                                    <div class="form-group col-md-6">
+                                            <input type="text" class="form-control" wire:model="employee_code" placeholder="{{ __('Code / Alias') }}" >
+                                            @error('employee_code')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <input type="text" class="form-control" wire:model="name" placeholder="{{ __('Name') }}" >
+                                            @error('name')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <input type="text" class="form-control"  wire:model="nik" placeholder="{{ __('NIK') }}" >

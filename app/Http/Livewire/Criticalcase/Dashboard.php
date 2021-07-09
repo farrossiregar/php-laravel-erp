@@ -11,7 +11,7 @@ use DB;
 
 class Dashboard extends Component
 {
-    public $start,$end,$year,$datasets,$month;
+    public $start,$end,$year,$datasets,$month,$datasets_pie=[],$labels_pie=[];
     public $labels;
     //public $series;
     //public $seriess;
@@ -19,13 +19,6 @@ class Dashboard extends Component
     public $region;
     public function render()
     { 
-       
-
-        // $labels = $this->labels;
-        // $series = $this->series;
-        
-        //$this->generate_chart();
-        // return view('livewire.criticalcase.dashboard')->with(compact('labels', 'series'));   
         return view('livewire.criticalcase.dashboard');
     }
 
@@ -40,7 +33,8 @@ class Dashboard extends Component
         $this->generate_chart();
     }
 
-    public function generate_chart(){
+    public function generate_chart()
+    {
         $this->labels = [];
         //$this->series = [];
         $this->datasets = [];
@@ -52,6 +46,7 @@ class Dashboard extends Component
         })->groupBy('date')->get() as $item){
             $this->labels[] = $item->date;
         }
+        
         foreach(Criticalcase::groupBy('region')->where(function($table){
             if($this->region) $table->whereIn('region',$this->region);    
             if($this->project) $table->whereIn('project',$this->project);    
@@ -67,6 +62,15 @@ class Dashboard extends Component
                 })->count();
             }
         }
+        
+
+        $labels = ['Repetitive','Non Repetitive'];
+        foreach($labels as $k => $label){
+            
+        }
+
+        $this->labels_pie = json_encode($this->labels_pie); 
+        $this->datasets_pie = json_encode($this->datasets_pie); 
 
         $this->labels = json_encode($this->labels); 
         $this->datasets = json_encode($this->datasets); 

@@ -4,11 +4,13 @@ namespace App\Http\Livewire\Employee;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use App\Models\DepartmentSub;
+use App\Models\User;
 
 class Edit extends Component
 {
     public $data,$name,$nik,$email,$telepon,$address,$place_of_birth,$date_of_birth,$marital_status,$blood_type,$employee_status,$religion,$user_access_id,$department_sub_id;
-    public $foto,$foto_ktp,$password,$confirm,$region_id,$company_id,$lokasi_kantor,$is_use_android;
+    public $foto,$foto_ktp,$password,$confirm,$region_id,$company_id,$lokasi_kantor,$is_use_android,$employee_code;
     use WithFileUploads;
     public function render()
     {
@@ -34,6 +36,7 @@ class Edit extends Component
         $this->company_id = $this->data->company_id;
         $this->lokasi_kantor = $this->data->lokasi_kantor;
         $this->is_use_android = $this->data->is_use_android;
+        $this->employee_code = $this->data->employee_code;
     }
 
     public function updatedFoto()
@@ -65,11 +68,12 @@ class Edit extends Component
             'religion' => 'required',
             'address' => 'required',
             'department_sub_id' => 'required',
-            'user_access_id' => 'required'
+            'user_access_id' => 'required',
+            'employee_code' => 'required|unique:employees,employee_code,'.$this->data->id
         ]);
-        $department = \App\Models\DepartmentSub::find($this->department_sub_id);
-        $user = \App\Models\User::find($this->data->user_id);
-        if(!$user) $user = new \App\Models\User();
+        $department = DepartmentSub::find($this->department_sub_id);
+        $user = User::find($this->data->user_id);
+        if(!$user) $user = new User();
 
         if($this->password) $user->password = \Illuminate\Support\Facades\Hash::make($this->password);
         $user->user_access_id = $this->user_access_id;
@@ -98,16 +102,20 @@ class Edit extends Component
         $this->data->region_id = $this->region_id;
         $this->data->company_id = $this->company_id;
         $this->data->lokasi_kantor = $this->lokasi_kantor;
+        $this->data->employee_code = $this->employee_code;
+
         if($this->foto!=""){
             $foto = 'foto'.date('Ymdhis').'.'.$this->foto->extension();
             $this->foto->storePubliclyAs('public/foto/'.$user->id,$foto);
             $this->data->foto = $foto;
         }
+        
         if($this->foto_ktp!=""){
             $foto_ktp = 'foto_ktp'.date('Ymdhis').'.'.$this->foto_ktp->extension();
             $this->foto_ktp->storePubliclyAs('public/foto/'.$user->id,$foto_ktp);
             $this->data->foto_ktp = $foto_ktp;
         }
+
         $this->data->save();
         
         session()->flash('message-success',__('Data saved successfully'));

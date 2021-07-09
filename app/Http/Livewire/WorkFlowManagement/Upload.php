@@ -4,6 +4,7 @@ namespace App\Http\Livewire\WorkFlowManagement;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use App\Models\WorkFlowManagement;
 
 class Upload extends Component
 {
@@ -30,11 +31,12 @@ class Upload extends Component
             $total_success = 0;
             $data_notification = [];
             foreach($sheetData as $key => $i){
-                if($key<1) continue; // skip header
+                if($key<2) continue; // skip header
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
-                $data = new \App\Models\WorkFlowManagement();
-                if($i[0]!="") $data->date = $i[0];
+                $data = new WorkFlowManagement();
+                
+                if($i[0]!="") $data->date = date('Y-m-d',strtotime($i[0]));
                 $data->name = $i[1];
                 $data->id_ = $i[2];
                 $data->servicearea4 = $i[3];
@@ -48,17 +50,23 @@ class Upload extends Component
                 $data->wo_accept = $i[11];
                 $data->wo_close_manual = $i[12];
                 $data->wo_close_auto = $i[13];
+                $data->wo_close_auto = $i[13];
+
                 if($i[14]) $data->mttr = round($i[14] * 100,2);
+                
                 $data->remark_wo_assign = $i[15];
                 $data->remark_wo_accept = $i[16];
                 $data->remark_wo_close_manual = $i[17];
-                $data->final_remark = $i[18];
+                $data->threshold = $i[18];
+                $data->final_remark = $i[19];
                 $data->user_id = \Auth::user()->id;
                 $data->save();
-                if((int)$data->mttr >=5) $data_notification[] = $data;
+                if($data->threshold >=5) $data_notification[] = $data;
                 $total_success++;
             }
+            
             session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
+            
             return redirect()->route('work-flow-management.data');
         }
     }

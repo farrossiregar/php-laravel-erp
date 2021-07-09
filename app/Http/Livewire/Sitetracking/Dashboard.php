@@ -48,7 +48,7 @@ class Dashboard extends Component
                 $this->datasets[$k]['label'] = $item->region1;
                 // $this->datasets[$k]['borderColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
                 $this->datasets[$k]['backgroundColor']= @$color[$k];//sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-                $this->datasets[$k]['fill'] =  'boundary';
+                $this->datasets[$k]['fill'] = 'boundary';
                 $this->datasets[$k]['data'] = [];
                 foreach(SiteListTrackingDetail::select(\DB::raw("MONTH(period) as month"),'region1')->where('region1',$item->region1)->where(function($table){
                     if($this->year) $table->whereYear('period',$this->year); 

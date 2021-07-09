@@ -38,10 +38,12 @@
             </div>
             <div class="body pt-0">
                 <div class="table-responsive">
-                    <table class="table table-striped m-b-0 c_list">
+                    <table class="table table-striped m-b-0 c_list table-nowrap-th">
                         <thead>
                             <tr>
                                 <th>No</th>                                    
+                                <th>Company</th>                                    
+                                <th>Code / Alias</th>                                    
                                 <th>Name</th>                                    
                                 <th>Phone</th>                                    
                                 <th>Email</th>                                    
@@ -58,6 +60,8 @@
                             @foreach($data as $k => $item)
                             <tr>
                                 <td style="width: 50px;">{{$num}}</td>
+                                <td>{{isset($item->company->name) ? $item->company->name : '-' }}</td>
+                                <td>{{$item->employee_code}}</td>
                                 <td>
                                     @if(check_access('employee.edit'))
                                         <a href="{{route('employee.edit',['id'=>$item->id])}}">{{$item->name}}</a>

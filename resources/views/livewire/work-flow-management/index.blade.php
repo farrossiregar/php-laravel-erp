@@ -1,5 +1,4 @@
 @section('title', __('Work Flow Management'))
-@section('parentPageTitle', __('Work Flow Management'))
 <div>
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -8,9 +7,9 @@
                 @if(check_access('work-flow-management.dashboard'))
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#wo-never-assigned" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
                 @endif
-                @if(check_access('work-flow-management.internal-review'))
+                <!-- @if(check_access('work-flow-management.internal-review'))
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#wfm-internal-review">{{ __('WFM Internal Review') }}</a></li>
-                @endif
+                @endif -->
                 @if(check_access('work-flow-management.data'))
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data">{{ __('Data') }}</a></li>
                 @endif
@@ -52,11 +51,11 @@
                     @livewire("work-flow-management.{$layout_chart_parent}", key($layout_chart_parent_id))
                 </div>
                 @endif
-                @if(check_access('work-flow-management.internal-review'))
+                {{--@if(check_access('work-flow-management.internal-review'))
                 <div class="tab-pane" id="wfm-internal-review">
                     <livewire:work-flow-management.wfm-internal-review />
                 </div>
-                @endif
+                @endif --}}
                 @if(check_access('work-flow-management.data'))
                 <div class="tab-pane" id="data">
                     <livewire:work-flow-management.data />
@@ -66,6 +65,7 @@
         </div>
     </div>
 </div>
+{{--
 @if(check_access('work-flow-management.dashboard'))
     <div class="row">
         @foreach($layout_chart as $id => $layout)
@@ -77,6 +77,8 @@
         @endforeach
     </div>
 @endif
+--}}
+
 @push('after-scripts')
 <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
 <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
@@ -99,9 +101,9 @@ $( document ).ready(function() {
         }
     );
     
-    Livewire.emit('init-chart-accept-never-close-wo-manual');
-    Livewire.emit('init-chart-assigned-never-accept-wo');
-    Livewire.emit('init-chart-total-ft-never-close-manual');
+    // Livewire.emit('init-chart-accept-never-close-wo-manual');
+    // Livewire.emit('init-chart-assigned-never-accept-wo');
+    // Livewire.emit('init-chart-total-ft-never-close-manual');
 });
 </script>
 @endpush

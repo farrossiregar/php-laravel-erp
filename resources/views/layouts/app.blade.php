@@ -21,6 +21,8 @@
         <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}?v=3">
         <link rel="stylesheet" href="{{ asset('assets/css/color_skins.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}?v={{env('APP_DEBUG')?date('YmdHis'):''}}">
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+    
         @stack('after-styles')
         @if (trim($__env->yieldContent('page-styles')))
             @yield('page-styles')
@@ -115,6 +117,7 @@
                 $(".btn-toggle-fullwidth").trigger('click');
             });
             $('[data-toggle="tooltip"]').tooltip();
+            $('*').tooltip();
         </script>
     </body>
 </html>

@@ -7,7 +7,7 @@ use App\Models\PreventiveMaintenance as PreventiveMaintenanceModel;
 
 class PreventiveMaintenance extends Component
 {
-    public $site_id,$description,$due_date,$project_id,$site_report,$site_owner;
+    public $site_id,$description,$due_date,$project_id,$site_report,$site_owner,$work_order_number;
     
     protected $listeners = ['refresh-page'=>'$refresh'];
     
@@ -28,6 +28,7 @@ class PreventiveMaintenance extends Component
     {
         $this->validate([
             'site_id' => 'required',
+            'work_order_number' => 'required',
             'description' => 'required'
         ]);
 
@@ -36,6 +37,7 @@ class PreventiveMaintenance extends Component
         $data->description  = $this->description;
         $data->due_date = $this->due_date;
         $data->project_id = $this->project_id;
+        $data->work_order_number = $this->work_order_number;
         $data->save();
 
         $this->reset(['site_id','description','due_date','project_id']);

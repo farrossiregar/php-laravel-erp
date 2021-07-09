@@ -4,7 +4,7 @@ namespace App\Http\Livewire\CustomerAssetManagement;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\CustomerAssetManagement;
+use App\Models\CustomerAssetManagementHistory;
 
 class DataStolen extends Component
 {
@@ -18,13 +18,13 @@ class DataStolen extends Component
 
     public function render()
     {
-        $data = CustomerAssetManagement::select('customer_asset_management.*','sites.site_owner',\DB::raw('sites.site_id as site_code'),\DB::raw('sites.name as site_name'))->orderBy('customer_asset_management.id','desc')
-                    ->leftJoin('sites','sites.id','=','customer_asset_management.site_id')
-                    ->where(['is_stolen'=>1,'is_submit'=>1]);
+        $data = CustomerAssetManagementHistory::select('customer_asset_management_history.*','sites.site_owner',\DB::raw('sites.site_id as site_code'),\DB::raw('sites.name as site_name'))->orderBy('customer_asset_management_history.id','desc')
+                    ->leftJoin('sites','sites.id','=','customer_asset_management_history.site_id')
+                    ->where(['status'=>1]);
 
         if($this->keyword) $data = $data->where(function($table){
-            foreach(\Illuminate\Support\Facades\Schema::getColumnListing('customer_asset_management') as $column){
-                $table->orWhere('customer_asset_management.'.$column,'LIKE',"%{$this->keyword}%");
+            foreach(\Illuminate\Support\Facades\Schema::getColumnListing('customer_asset_management_history') as $column){
+                $table->orWhere('customer_asset_management_history.'.$column,'LIKE',"%{$this->keyword}%");
             }
         });
         

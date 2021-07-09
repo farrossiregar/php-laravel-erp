@@ -86,7 +86,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('preventive-maintenance/get-image/{id}',[\App\Http\Controllers\Api\PreventiveMaintenanceController::class,'getImage'])->name('api.preventive-maintenance.get-image');
 	Route::post('preventive-maintenance/upload-image',[\App\Http\Controllers\Api\PreventiveMaintenanceController::class,'uploadImage'])->name('api.preventive-maintenance.upload-image');
 	Route::post('preventive-maintenance/submit',[\App\Http\Controllers\Api\PreventiveMaintenanceController::class,'submit'])->name('api.preventive-maintenance.submit');
-	Route::get('training-material/history',[\App\Http\Controllers\Api\TrainingMaterialController::class,'history'])->name('api.training-material.history');
+	Route::post('training-material/history',[\App\Http\Controllers\Api\TrainingMaterialController::class,'history'])->name('api.training-material.history');
 	Route::post('training-material/upload-image',[\App\Http\Controllers\Api\TrainingMaterialController::class,'uploadImage'])->name('api.training-material.upload-image');
 	Route::get('training-material/get-image/{id}',[\App\Http\Controllers\Api\TrainingMaterialController::class,'getImage'])->name('api.training-material.get-image');
 	Route::get('training-material/get-file/{id}',[\App\Http\Controllers\Api\TrainingMaterialController::class,'getFile'])->name('api.training-material.get-file');
@@ -95,7 +95,5 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('training-material/submit-jawaban',[\App\Http\Controllers\Api\TrainingMaterialController::class,'submitJawaban'])->name('api.training-material.submit-jawaban');
 	Route::post('user/upload-photo',[\App\Http\Controllers\Api\UserController::class,'uploadPhoto'])->name('api.user.upload-photo');
 	Route::post('user/change-password',[\App\Http\Controllers\Api\UserController::class,'changePassword'])->name('api.user.change-password');
-	Route::get('user/check-token',function(){
-		return ['error'=>'false'];
-	});
+	Route::get('user/check-token',[\App\Http\Controllers\Api\UserController::class,'checkToken']);
 }); 

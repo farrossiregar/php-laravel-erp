@@ -3,19 +3,21 @@
 </div>
 @push('after-scripts')
 <script>
-Livewire.on('chart-total-ft-never-close-manual',(data)=>{
-    var labels_4 = JSON.parse(data.labels);
-    var series_4 = JSON.parse(data.series);
-    init_chart_total_ft_never_close_manual(labels_4,series_4);
+$( document ).ready(function() {
+    setTimeout(function(){
+        var label = {{$labels}}
+        var series = {{$series}}
+        init_chart_total_ft_never_close_manual(labels,series);
+    },1000);
 });
 var chart_4="";
-function init_chart_total_ft_never_close_manual(labels_4,series_4){
+function init_chart_total_ft_never_close_manual(labels,series){
     if(chart_4!=="") chart_4.destroy();
     var config = {
         type: 'line',
         data: {
-            labels: labels_4,
-            datasets: series_4
+            labels: labels,
+            datasets: series
         },
         options: {
             maintainAspectRatio: false,
