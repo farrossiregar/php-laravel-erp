@@ -1,7 +1,7 @@
 <form wire:submit.prevent="save">
     @csrf
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Input Dana STPL</h5>
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-edit"></i> Revisi Dana STPL</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true close-btn">×</span>
         </button>
@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <label>Project</label>
-                    <select wire:click="$emit('getproject')"  class="form-control" name="project" id="project" >
+                    <select wire:click="$emit('getprojectedit')" class="form-control" name="projectedit" id="projectedit" >
                         <option value=""> -- Project --</option>
                         <?php
                             $data = \App\Models\Project::select('projects.*', 'region_code as region_name', 'employees.name as sm_name', 'employees.id as smid')
@@ -25,19 +25,22 @@
                     </select>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control projectcode" name="projectcode" wire:model="projectcode" />
+                    <input type="hidden" class="form-control projectcodeedit" name="projectcodeedit" wire:model="projectcodeedit" />
+                </div>
+                <div class="col-md-12">
+                    <input type="text" class="form-control" name="currentproject" id="currentproject" wire:model="project_name" readonly/>
                 </div>
                 <div class="col-md-12">
                     <label>Region</label>
-                    <input type="text" class="form-control" name="region" id="region" readonly/>
+                    <input type="text" class="form-control" name="regionedit" id="regionedit" wire:model="region_code" readonly/>
                 </div>
                 <div class="col-md-12">
                     <label>Project Manager</label>
-                    <input type="text" class="form-control" name="sm" id="sm" readonly/>
+                    <input type="text" class="form-control" name="smedit" id="smedit" wire:model="sm" readonly/>
                 </div>
                 <div class="col-md-12">
                     <label>Project Name</label>
-                    <select onclick="" class="form-control" name="project_name" id="project_name" wire:model="project_name">
+                    <select onclick="" class="form-control" name="project_name_edit" id="project_name_edit" wire:model="project_id">
                         <option value=""> -- Project Name --</option>
                         <option  value="1">CMI</option>
                         <option  value="2">H3I</option>
@@ -49,7 +52,7 @@
                 </div>
                 <div class="col-md-12">
                     <label>Value</label>
-                    <input type="text" class="form-control" name="danastpl" wire:model="danastpl" />
+                    <input type="text" class="form-control" name="danastpledit" wire:model="danastpl" />
                 </div>
             </div>
         </div>
@@ -70,39 +73,7 @@
 
 @section('page-script')
 
-    Livewire.on('getproject',()=>{
-        var project = $('#project').val();
-        project = project.split(" | ");
-        $('.projectcode').val(project[0]);
-        $('#sm').val(project[1]);
-        $('#region').val(project[3]);
-        console.log(project);
-    });
-
-    Livewire.on('getprojectedit',()=>{
-        var project = $('#projectedit').val();
-        project = project.split(" | ");
-        $('.projectcode').val(project[0]);
-        $('#smedit').val(project[1]);
-        $('#regionedit').val(project[3]);
-        console.log(project);
-    });
-
-    Livewire.on('modalrevisidana',(data)=>{
-        $("#modal-datastpl-revisidana").modal('show');
-    });
-
-    Livewire.on('modalapprovedana',(data)=>{
-        $("#modal-datastpl-approved").modal('show');
-    });
- 
-    Livewire.on('modaldeclinedana',(data)=>{
-        $("#modal-datastpl-decline").modal('show');
-    });
-
-    Livewire.on('modaluploadir',(data)=>{
-        $("#modal-datastpl-uploadir").modal('show');
-    });
+   
 @endsection
 
 <script>
