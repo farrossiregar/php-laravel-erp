@@ -13,16 +13,20 @@ class HealthCheckController extends Controller
         $data = HealthCheck::where('employee_id',\Auth::user()->employee->id)->whereDate('created_at',date('Y-md-'))->first();
         if(!$data) $data = new HealthCheck();
         
-        $data->company = isset(\Auth::user()->employee->company->name) ? \Auth::user()->employee->company->name : '';
+        $data->company = $request->perusahaan == 1 ? 'PT. Putra Mulia Telecommunication' : 'PT. Harapan Utama Prima';
         $data->department = isset(\Auth::user()->employee->department->name) ? \Auth::user()->employee->department->name : '';
-        $data->lokasi_kantor = isset(\Auth::user()->employee->lokasi_kantor) ? \Auth::user()->employee->lokasi_kantor : '';
+        $data->lokasi_kantor = $request->lokasi_kantor;
         $data->employee_id = \Auth::user()->employee->id;
         $data->status_bekerja = $request->status_bekerja;
+        $data->status_bekerja_others = $request->status_bekerja_others;
         $data->kondisi_badan = $request->kondisi_badan;
+        $data->kondisi_badan_sakit = $request->kondisi_badan_sakit;
         $data->tinggal_serumah_covid = $request->tinggal_serumah_covid;
+        $data->tinggal_serumah_covid_ya = $request->tinggal_serumah_covid_ya;
         $data->bepergian_keluar_kota = $request->bepergian_keluar_kota;
+        $data->bepergian_keluar_kota_ya = $request->bepergian_keluar_kota_ya;
         $data->mengunjungi_keluarga = $request->mengunjungi_keluarga;
-        
+        $data->mengunjungi_keluarga_ya = $request->mengunjungi_keluarga_ya;
         $data->is_submit = 1;
         $data->save();
 
