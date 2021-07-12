@@ -14,7 +14,7 @@
                     </div>
                     @endif
                     <div class="col-md-2">
-                        <a href="#" data-toggle="modal" data-target="#modal-datastpl-downloadreport" title="Download" class="btn btn-primary"><i class="fa fa-download"></i> {{__('Download Report')}}</a>
+                        <a data-toggle="modal" data-target="#modal-datastpl-downloadreport" title="Download" class="btn btn-primary"><i class="fa fa-download"></i> {{__('Download Report')}}</a>
                     </div>
                 </div>
 

@@ -62,6 +62,27 @@ class Revisidana extends Component
         $edit->company            = '';
         $edit->project_name       = $data->name;
         $edit->project_id         = $this->project_id;
+
+        // if($this->project_name == '1'){
+        //     $datamaster->cmi = $this->danastpl;
+        // }
+
+        // if($this->project_name == '2'){
+        //     $datamaster->h3i = $this->danastpl;
+        // }
+
+        // if($this->project_name == '3'){
+        //     $datamaster->isat = $this->danastpl;
+        // }
+
+        // if($this->project_name == '4'){
+        //     $datamaster->stp = $this->danastpl;
+        // }
+
+        // if($this->project_name == '5'){
+        //     $datamaster->xl = $this->danastpl;
+        // }
+
         $edit->danastpl           = $this->danastpl;
         $edit->note            = '';
         $edit->save();
