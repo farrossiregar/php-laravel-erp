@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Http\Livewire\DanaStpl;
+
+use Livewire\Component;
+use Livewire\WithFileUploads;
+use Auth;
+use DB;
+
+class Revisidana extends Component
+{
+
+    protected $listeners = [
+        'modalrevisidana'=>'revisidana',
+    ];
+
+    use WithFileUploads;
+    public $detaildana;
+    public $danastpl;
+    public $project_id;
+    public $project_name;
+    public $region_code;
+    public $sm;
+    public $selected_id;
+
+    
+    public function render()
+    {
+        
+        return view('livewire.dana-stpl.revisidana');
+    }
+
+    public function revisidana($id)
+    {
+        $this->selected_id = $id;
+        $this->detaildana = \App\Models\DanaStpl::select('dana_stpl_master.*', 'region.region_code', 'employees.name')
+                                                ->join('epl.region as region', 'region.id', 'dana_stpl_master.region_id')
+                                                ->leftjoin('pmt.employees as employees', 'employees.id', 'dana_stpl_master.sm_id')
+                                                ->where('dana_stpl_master.id', $this->selected_id)
+                                                ->first();
+        $this->danastpl = $this->detaildana->danastpl;
+        $this->project_id = $this->detaildana->project_id;
+        $this->project_name = $this->detaildana->project_name;
+        $this->region_code = $this->detaildana->region_code;
+        $this->sm = $this->detaildana->name;
+    }
+  
+    public function save()
+    {
+        // dd($this->projectcode);
+        $edit = \App\Models\DanaStpl::where('id', $this->selected_id)->first();
+
+        $data = \App\Models\Project::select('projects.*', 'region_code as region_name', 'employees.name as sm_name', 'employees.id as smid')
+                ->join('epl.region as region', 'region.id', 'projects.region_id')
+                ->leftjoin('pmt.employees as employees', 'employees.id', 'projects.project_manager_id')
+                ->where('projects.id', '9')
+                ->first();
+
+        $edit->region_id          = $data->region_id;
+        $edit->sm_id              = $data->project_manager_id;
+        $edit->status             = null;
+        $edit->company            = '';
+        $edit->project_name       = $data->name;
+        $edit->project_id         = $this->project_id;
+        $edit->danastpl           = $this->danastpl;
+        $edit->note            = '';
+        $edit->save();
+
+        session()->flash('message-success',"Dana Berhasil direvisi");
+        
+        return redirect()->route('dana-stpl.index');
+    }
+}
