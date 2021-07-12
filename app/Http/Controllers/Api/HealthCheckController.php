@@ -15,7 +15,10 @@ class HealthCheckController extends Controller
         
         $data->company = $request->perusahaan == 1 ? 'PT. Putra Mulia Telecommunication' : 'PT. Harapan Utama Prima';
         $data->department = isset(\Auth::user()->employee->department->name) ? \Auth::user()->employee->department->name : '';
-        $data->lokasi_kantor = $request->lokasi_kantor;
+        
+        if($request->lokasi_kantor==1) $data->lokasi_kantor = "Kantor Pusat (Duren Tiga, Jakarta)";
+        if($request->lokasi_kantor==2) $data->lokasi_kantor = "Kantor Cabang / Homebase";
+        
         $data->employee_id = \Auth::user()->employee->id;
         $data->status_bekerja = $request->status_bekerja;
         $data->status_bekerja_others = $request->status_bekerja_others;
@@ -33,6 +36,13 @@ class HealthCheckController extends Controller
         $data = HealthCheck::select('health_check.*',\DB::raw("DATE_FORMAT(created_at, \"%d %M %Y\") as tanggal"))->where('id',$data->id)->first();
 
         return response()->json(['message'=>'submited','data'=>$data], 200);
+    }
+
+    public function getToday()
+    {
+        $data = HealthCheck::select('health_check.*',\DB::raw("DATE_FORMAT(created_at, \"%d %M %Y\") as tanggal"))->where(['employee_id'=>\Auth::user()->employee->id,'is_submit'=>1])->whereDate('created_at',date('Y-m-d'))->first();
+        
+        return response()->json(['message'=>'success','data'=>$data], 200);
     }
 
     public function data()

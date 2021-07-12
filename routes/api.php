@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('menu',[\App\Http\Controllers\Api\HomeController::class,'menu'])->name('menu');
 	Route::get('site-by-field-team',[\App\Http\Controllers\Api\SitesController::class,'getByFieldTeam'])->name('api.sites-by-field-team');
 	Route::post('health-check/store',[\App\Http\Controllers\Api\HealthCheckController::class,'store'])->name('api.health-check.store');
+	Route::get('health-check/get-today',[\App\Http\Controllers\Api\HealthCheckController::class,'getToday'])->name('api.health-check.get-today');
 	Route::post('user/update',[\App\Http\Controllers\Api\UserController::class,'update'])->name('api.user.update');
 	Route::get('work-order',[\App\Http\Controllers\Api\WorkOrderController::class,'data'])->name('api.work-order.data');
 	Route::get('work-order/notification',[\App\Http\Controllers\Api\WorkOrderController::class,'notification'])->name('api.work-order.notification');
