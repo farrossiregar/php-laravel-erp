@@ -26,8 +26,8 @@ class Index extends Component
 
         
         $data = \App\Models\DanaStpl::select('dana_stpl_master.*', 'region.region_code', 'employees.name')
-                                    ->join('epl.region as region', 'region.id', 'dana_stpl_master.region_id')
-                                    ->leftjoin('pmt.employees as employees', 'employees.id', 'dana_stpl_master.sm_id')
+                                    ->join(env('DB_DATABASE_EPL_PMT').'.region as region', 'region.id', 'dana_stpl_master.region_id')
+                                    ->leftjoin(env('DB_DATABASE').'.employees as employees', 'employees.id', 'dana_stpl_master.sm_id')
                                     ->orderBy('dana_stpl_master.id', 'desc');
         if($this->date) $ata = $data->whereDate('created_at',$this->date);
                         

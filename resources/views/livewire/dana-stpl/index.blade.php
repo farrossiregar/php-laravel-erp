@@ -8,11 +8,11 @@
                     <div class="col-md-2">
                         <input type="date" class="form-control" wire:model="date" />
                     </div>
-                    @if(check_access('input-dana-stpl'))
+                    {{-- @if(check_access('input-dana-stpl')) --}}
                     <div class="col-md-2">
                         <a href="#" data-toggle="modal" data-target="#modal-datastpl-inputdana" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Dana STPL')}}</a>
                     </div>
-                    @endif
+                    {{-- @endif --}}
                     <div class="col-md-2">
                         <a href="#" data-toggle="modal" data-target="#modal-datastpl-downloadreport" title="Download" class="btn btn-primary"><i class="fa fa-download"></i> {{__('Download Report')}}</a>
                     </div>

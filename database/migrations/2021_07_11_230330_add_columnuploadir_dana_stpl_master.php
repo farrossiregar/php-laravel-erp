@@ -14,7 +14,7 @@ class AddColumnuploadirDanaStplMaster extends Migration
     public function up()
     {
         Schema::table('dana_stpl_master', function($table) {
-            $table->string('uploadir')->nullable()->after('note_psm');
+            $table->string('uploadir')->nullable();
         });
     }
 

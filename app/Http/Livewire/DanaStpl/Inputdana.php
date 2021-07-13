@@ -13,7 +13,7 @@ class Inputdana extends Component
     use WithFileUploads;
     public $project_name;
     public $projectcode;
-    public $danastpl;
+    public $danastpl,$sm,$region;
 
     
     public function render()
