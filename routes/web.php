@@ -103,7 +103,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('po-tracking-nonms/approvedetailfoto',App\Http\Livewire\PoTrackingNonms\Approvedetailfoto::class)->name('po-tracking-nonms.approvedetailfoto');
 
     Route::get('dana-stpl',App\Http\Livewire\DanaStpl\Index::class)->name('dana-stpl.index');
-    Route::get('dana-stpl/downloadreport/{data}',[App\Http\Controllers\DanaStplReportController::class,'downloadreport'])->name('dana-stpl.download-report');
+    Route::get('dana-stpl/download-report',[App\Http\Controllers\DanaStplReportController::class,'downloadreport'])->name('dana-stpl.download-report');    
     Route::get('dana-stpl/insert',App\Http\Livewire\DanaStpl\Inputdanastpl::class)->name('dana-stpl.insert');
 
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
