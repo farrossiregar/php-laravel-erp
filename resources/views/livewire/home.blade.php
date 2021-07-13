@@ -54,7 +54,7 @@
         @endif
 
         @if(isset($_GET['company_id']) and !isset($_GET['department_id']))
-            <h4 class="text-info"><a href="javascript:void();" class="text-info mr-1" style="font-size:20px;" onclick="history.back()"><i class="fa fa-arrow-left mr-1" title="Back"></i></a> {{isset($_GET['company_name']) ? $_GET['company_name'] : ''}}</h4>
+            <h5 class="text-info"><a href="javascript:void();" class="text-info mr-1" style="font-size:20px;" onclick="history.back()"><i class="fa fa-arrow-left mr-1" title="Back"></i></a> {{isset($_GET['company_name']) ? $_GET['company_name'] : ''}}</h5>
             <div class="row clearfix mt-3">
                 @foreach(\App\Models\Department::get() as $dep)
                     <div class="col-lg-2 col-md-2 col-sm-12 px-1">
@@ -76,7 +76,7 @@
         @endif
 
         @if(isset($_GET['company_id']) and isset($_GET['department_id']) and !isset($_GET['menu']))
-            <h4 class="text-info"><a href="javascript:void();" class="text-info" style="font-size:20px;" onclick="history.back()"><i class="fa fa-arrow-left mr-2" title="Back"></i></a> {{isset($_GET['department_name']) ? $_GET['department_name'] : ''}}</h4>
+            <h5 class="text-info"><a href="javascript:void();" class="text-info" style="font-size:20px;" onclick="history.back()"><i class="fa fa-arrow-left mr-2" title="Back"></i></a> {{isset($_GET['department_name']) ? $_GET['department_name'] : ''}}</h5>
             <div class="row clearfix mt-3">
                 @foreach(\App\Models\Module::select('modules.*')->join('client_projects','client_projects.id','=','modules.client_project_id')
                 ->where(['department_id'=>$_GET['department_id']])->groupBy('client_project_id')->where(function($table){
@@ -122,7 +122,7 @@
     
         @if(isset($_GET['menu']))
             @foreach(\App\Models\ModulesItem::where('module_id',$_GET['menu'])->whereNotNull('module_group_id')->groupBy('module_group_id')->get() as $group)
-                <h4 class="text-info"><a href="javascript:void();" class="text-info" style="font-size:20px;" onclick="history.back()"><i class="fa fa-arrow-left" title="Back"></i></a> {{$group->group->name}}</h4>
+                <h5 class="text-info"><a href="javascript:void();" class="text-info" style="font-size:20px;" onclick="history.back()"><i class="fa fa-arrow-left" title="Back"></i></a> {{$group->group->name}}</h5>
                 <div class="row clearfix mt-3">
                     @foreach(\App\Models\ModulesItem::where(['module_id'=>$_GET['menu'],'module_group_id'=>$group->module_group_id])->get() as $action)
                         <div class="col-lg-2 col-md-2 col-sm-12 px-1" onclick="window.open('{{route($action->link)}}','_blank')">
