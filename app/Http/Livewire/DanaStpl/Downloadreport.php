@@ -10,6 +10,11 @@ use DB;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+// use Maatwebsite\Excel\Concerns\Exportable;
+// use Illuminate\Contracts\View\View;
+// use Maatwebsite\Excel\Concerns\FromView;
+
+
 class Downloadreport extends Component
 {
 
@@ -65,14 +70,29 @@ class Downloadreport extends Component
         // require 'vendor/autoload.php';
 
 
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A1', 'Hello World !');
+        // $spreadsheet = new Spreadsheet();
+        // $sheet = $spreadsheet->getActiveSheet();
+        // $sheet->setCellValue('A1', 'Hello World !');
 
-        $writer = new Xlsx($spreadsheet);
-        $writer->save('hello world.xlsx');
+        // $writer = new Xlsx($spreadsheet);
+        // $writer->save('hello world.xlsx');
 
-        return redirect()->route('dana-stpl.index');
+
+        // $filename = 'export.xlsx';
+        // // here is generated a "normal" file download response of Laravel
+        // return Excel::download(new CustomExcelExport(), $filename);
+        // // return redirect()->route('dana-stpl.index');
+        // // dd('download');
+
+        // return Storage::disk('exports')->download('export.csv');
+
+        // Excel::create('Filename', function($excel) {
+
+        // })->download('xls');
+
+        // return response()->download('export.csv');
+
+        return (new \App\Models\DanaStplReport($download))->download('EPL.DanaStplReport.xlsx');
     }
 
 }

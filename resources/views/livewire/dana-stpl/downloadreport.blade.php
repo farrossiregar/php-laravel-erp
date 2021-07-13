@@ -1,4 +1,5 @@
-<form wire:submit.prevent="download">
+
+<form>
     @csrf
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-download"></i> Download Report Dana STPL</h5>
@@ -78,7 +79,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
+        <div href="{{ route('dana-stpl.download-report') }}" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</div>
     </div>
     <!-- <div wire:loading>
         <div class="page-loader-wrapper" style="display:block">

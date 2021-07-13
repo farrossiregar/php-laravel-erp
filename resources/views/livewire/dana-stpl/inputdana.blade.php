@@ -15,8 +15,8 @@
                         <option value=""> -- Project --</option>
                         <?php
                             $data = \App\Models\Project::select('projects.*', 'region_code as region_name', 'employees.name as sm_name', 'employees.id as smid')
-                                    ->join('epl.region as region', 'region.id', 'projects.region_id')
-                                    ->leftjoin('pmt.employees as employees', 'employees.id', 'projects.project_manager_id')
+                                    ->join(env('DB_DATABASE_EPL_PMT').'.region as region', 'region.id', 'projects.region_id')
+                                    ->leftjoin(env('DB_DATABASE').'.employees as employees', 'employees.id', 'projects.project_manager_id')
                                     ->get();
                         ?>
                         @foreach($data as $item)
@@ -25,15 +25,15 @@
                     </select>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control projectcode" name="projectcode" wire:model="projectcode" />
+                    <input type="text" class="form-control" wire:model="projectcode" />
                 </div>
                 <div class="col-md-12">
                     <label>Region</label>
-                    <input type="text" class="form-control" name="region" id="region" readonly/>
+                    <input type="text" class="form-control" wire:model="region" readonly/>
                 </div>
                 <div class="col-md-12">
                     <label>Project Manager</label>
-                    <input type="text" class="form-control" name="sm" id="sm" readonly/>
+                    <input type="text" class="form-control" wire:model="sm" readonly/>
                 </div>
                 <div class="col-md-12">
                     <label>Project Name</label>
@@ -73,9 +73,15 @@
     Livewire.on('getproject',()=>{
         var project = $('#project').val();
         project = project.split(" | ");
-        $('.projectcode').val(project[0]);
-        $('#sm').val(project[1]);
-        $('#region').val(project[3]);
+        
+        //$('.projectcode').val(project[0]);
+        //$('#sm').val(project[1]);
+        //$('#region').val(project[3]);
+
+        @this.set('projectcode',project[0]);
+        @this.set('sm',project[1]);
+        @this.set('region',project[3]);
+        
         console.log(project);
     });
 
