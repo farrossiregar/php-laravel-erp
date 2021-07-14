@@ -1,5 +1,5 @@
 
-<form>
+<form wire:submit.prevent="save">
     @csrf
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-download"></i> Download Report Dana STPL</h5>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-md-6">
                     <label>Year From</label>
-                    <select onclick="" class="form-control" name="year_from" id="year_from" >
+                    <select onclick="" class="form-control" name="year_from" id="year_from" wire:model="year_from">
                         <option value=""> -- Year From --</option>
                         <?php
                             for($i = date('Y'); $i >= 2010; $i--){
@@ -64,7 +64,7 @@
                 </div>
                 <div class="col-md-6">
                     <label>Year To</label>
-                    <select onclick="" class="form-control" name="year_to" id="year_to" >
+                    <select onclick="" class="form-control" name="year_to" id="year_to" wire:model="year_to">
                         <option value=""> -- Year To --</option>
                         <?php
                             for($i = date('Y'); $i >= 2010; $i--){
@@ -79,7 +79,9 @@
         </div>
     </div>
     <div class="modal-footer">
-        <div href="{{ route('dana-stpl.download-report') }}" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</div>
+        <!-- <div href="{{ route('dana-stpl.download-report') }}" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</div> -->
+        
+        <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
     </div>
     <!-- <div wire:loading>
         <div class="page-loader-wrapper" style="display:block">
