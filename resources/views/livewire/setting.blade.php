@@ -7,10 +7,14 @@
             <ul class="nav nav-tabs">                                
                 <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Settings">General</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-android">Android</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-tools">Tools</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane" id="tab-android">
                     @livewire('setting-android')
+                </div>
+                <div class="tab-pane" id="tab-tools">
+                    @livewire('setting.tools')
                 </div>
                 <div class="tab-pane active" id="Settings">
                     <div class="body">
