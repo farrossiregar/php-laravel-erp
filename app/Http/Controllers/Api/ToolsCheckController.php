@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Toolbox;
 use App\Models\ToolsCheck;
 use App\Models\ToolsCheckUpload;
 use Illuminate\Http\Request;
@@ -25,6 +26,13 @@ class ToolsCheckController extends Controller
         }
         
         return response()->json(['message'=>'submited','data'=>$find], 200);
+    }
+
+    public function get_toolbox()
+    {
+        $data = Toolbox::get();
+        
+        return response()->json(['message'=>'success','data'=>$data], 200);
     }
 
 
