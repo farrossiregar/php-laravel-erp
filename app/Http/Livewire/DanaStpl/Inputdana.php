@@ -69,6 +69,19 @@ class Inputdana extends Component
         $datamaster->updated_at         = date('Y-m-d H:i:s');
         $datamaster->save();
 
+        $notifuser = \App\Models\Employee::where('id', $data->project_manager_id)->get();        
+        
+        foreach($notifuser as $no => $itemuser){
+            $nameuser = $itemuser->name;
+            $emailuser = $itemuser->email;
+            $phoneuser = $itemuser->telepon;
+            $message = "*Dear SM - ".$nameuser."*\n\n";
+            $message .= "*Dana Stpl baru telah diajukan pada ".date('d M Y H:i:s')."*\n\n";
+            send_wa(['phone'=> $phoneuser,'message'=>$message]);   
+
+            // \Mail::to($emailuser)->send(new PoTrackingReimbursementUpload($item));
+        }
+
         session()->flash('message-success',"Dana Berhasil diajukan");
         
         return redirect()->route('dana-stpl.index');

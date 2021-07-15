@@ -17,10 +17,11 @@ class Revisidana extends Component
     use WithFileUploads;
     public $detaildana;
     public $danastpl;
-    public $project_id;
-    public $project_name;
-    public $region_code;
-    public $sm;
+    public $project_id_edit;
+    public $project_name_edit;
+    public $projectcode_edit;
+    public $region_edit;
+    public $sm_edit;
     public $selected_id;
 
     
@@ -40,9 +41,9 @@ class Revisidana extends Component
                                                 ->first();
         $this->danastpl = $this->detaildana->danastpl;
         $this->project_id = $this->detaildana->project_id;
-        $this->project_name = $this->detaildana->project_name;
-        $this->region_code = $this->detaildana->region_code;
-        $this->sm = $this->detaildana->name;
+        $this->project_name_edit = $this->detaildana->project_name;
+        $this->region_edit = $this->detaildana->region_code;
+        $this->sm_edit = $this->detaildana->name;
     }
   
     public function save()
@@ -82,6 +83,8 @@ class Revisidana extends Component
         // if($this->project_name == '5'){
         //     $datamaster->xl = $this->danastpl;
         // }
+
+        
 
         $edit->danastpl           = $this->danastpl;
         $edit->note            = '';

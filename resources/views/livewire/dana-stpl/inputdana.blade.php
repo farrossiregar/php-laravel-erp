@@ -25,7 +25,7 @@
                     </select>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control" wire:model="projectcode" />
+                    <input type="hidden" class="form-control" wire:model="projectcode" />
                 </div>
                 <div class="col-md-12">
                     <label>Region</label>
@@ -88,9 +88,15 @@
     Livewire.on('getprojectedit',()=>{
         var project = $('#projectedit').val();
         project = project.split(" | ");
-        $('.projectcode').val(project[0]);
-        $('#smedit').val(project[1]);
-        $('#regionedit').val(project[3]);
+        //$('.projectcodeedit').val(project[0]);
+        //$('#sm').val(project[1]);
+        //$('#region').val(project[3]);
+        //$('#currentproject').val(project[4]);
+
+        @this.set('projectcode_edit',project[0]);
+        @this.set('project_name_edit',project[4]);
+        @this.set('sm_edit',project[1]);
+        @this.set('region_edit',project[3]);
         console.log(project);
     });
 
