@@ -10,11 +10,6 @@ use Illuminate\Http\Request;
  
 class ToolsCheckController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function storeStolen(Request $r)
     {
         $find  = ToolsCheckUpload::find($r->id);
@@ -35,12 +30,6 @@ class ToolsCheckController extends Controller
         return response()->json(['message'=>'success','data'=>$data], 200);
     }
 
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function storeBroken(Request $r)
     {
         $find  = ToolsCheckUpload::find($r->id);
