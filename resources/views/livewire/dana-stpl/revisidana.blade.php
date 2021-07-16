@@ -14,33 +14,33 @@
                     <select wire:click="$emit('getprojectedit')" class="form-control" name="projectedit" id="projectedit" >
                         <option value=""> -- Project --</option>
                         <?php
-                            $data = \App\Models\Project::select('projects.*', 'region_code as region_name', 'employees.name as sm_name', 'employees.id as smid')
+                            $data = \App\Models\Project::select('projects.*', 'projects.name as proj', 'region_code as region_name', 'employees.name as sm_name', 'employees.id as smid')
                                     ->join(env('DB_DATABASE_EPL_PMT').'.region as region', 'region.id', 'projects.region_id')
                                     ->leftjoin(env('DB_DATABASE').'.employees as employees', 'employees.id', 'projects.project_manager_id')
                                     ->get();
                         ?>
                         @foreach($data as $item)
-                        <option  value="<?php echo $item->id.' | '.$item->sm_name.' | '.$item->smid.' | '.$item->region_name; ?> ">{{ $item->name }} - {{ $item->region_name }}</option>
+                        <option  value="<?php echo $item->id.' | '.$item->sm_name.' | '.$item->smid.' | '.$item->region_name.' | '.$item->proj; ?> ">{{ $item->name }} - {{ $item->region_name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-md-12">
-                    <input type="hidden" class="form-control projectcodeedit" name="projectcodeedit" wire:model="projectcodeedit" />
+                    <input type="text" class="form-control" wire:model="projectcode_edit" />
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control" name="currentproject" id="currentproject" wire:model="project_name" readonly/>
+                    <input type="text" class="form-control" name="currentproject" id="currentproject" wire:model="project_name_edit" readonly/>
                 </div>
                 <div class="col-md-12">
                     <label>Region</label>
-                    <input type="text" class="form-control" name="regionedit" id="regionedit" wire:model="region_code" readonly/>
+                    <input type="text" class="form-control"  id="region" wire:model="region_edit" readonly/>
                 </div>
                 <div class="col-md-12">
                     <label>Project Manager</label>
-                    <input type="text" class="form-control" name="smedit" id="smedit" wire:model="sm" readonly/>
+                    <input type="text" class="form-control"  id="sm" wire:model="sm_edit" readonly/>
                 </div>
                 <div class="col-md-12">
                     <label>Project Name</label>
-                    <select onclick="" class="form-control" name="project_name_edit" id="project_name_edit" wire:model="project_id">
+                    <select onclick="" class="form-control" name="project_name_edit" id="project_name_edit" wire:model="project_id_edit">
                         <option value=""> -- Project Name --</option>
                         <option  value="1">CMI</option>
                         <option  value="2">H3I</option>

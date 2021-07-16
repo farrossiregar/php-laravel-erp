@@ -9,20 +9,7 @@
     <div class="modal-body">
         <div class="form-group">
             <label>Approve Dana STPL ?</label>
-            <?php
-                 if(check_access('dana-stpl.approve-sm')){
-                    $usertype = 'sm';
-                 }
-
-                 if(check_access('dana-stpl.approve-ms')){
-                    $usertype = 'ms';
-                 }
-
-                 if(check_access('dana-stpl.approve-psm')){
-                    $usertype = 'psm';
-                 }
-            ?>
-            <input class="form-control" type="hidden" value="<?php echo $usertype; ?>" placeholder="<?php echo $usertype; ?>" wire:model="usertype">
+           
         </div>
       
     </div>
