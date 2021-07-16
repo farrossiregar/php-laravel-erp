@@ -9,9 +9,9 @@
     <div class="modal-body">
         <div class="form-group">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 form-group">
                     <label>Project</label>
-                    <select wire:click="$emit('getproject')"  class="form-control" name="project" id="project" >
+                    <select wire:change="$emit('getproject')" class="form-control" name="project" id="project" >
                         <option value=""> -- Project --</option>
                         <?php
                             $data = \App\Models\Project::select('projects.*', 'region_code as region_name', 'employees.name as sm_name', 'employees.id as smid')
@@ -24,18 +24,15 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-12">
-                    <input type="hidden" class="form-control" wire:model="projectcode" />
-                </div>
-                <div class="col-md-12">
+                <div class="col-md-12 form-group">
                     <label>Region</label>
                     <input type="text" class="form-control" wire:model="region" readonly/>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12 form-group">
                     <label>Project Manager</label>
                     <input type="text" class="form-control" wire:model="sm" readonly/>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12 form-group">
                     <label>Project Name</label>
                     <select onclick="" class="form-control" name="project_name" id="project_name" wire:model="project_name">
                         <option value=""> -- Project Name --</option>
@@ -47,8 +44,8 @@
                         
                     </select>
                 </div>
-                <div class="col-md-12">
-                    <label>Value</label>
+                <div class="col-md-12 form-group">
+                    <label>Amount</label>
                     <input type="text" class="form-control" name="danastpl" wire:model="danastpl" />
                 </div>
             </div>

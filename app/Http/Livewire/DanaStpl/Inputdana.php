@@ -27,8 +27,8 @@ class Inputdana extends Component
     {
         // dd($this->projectcode);
         $data = \App\Models\Project::select('projects.*', 'region_code as region_name', 'employees.name as sm_name', 'employees.id as smid')
-                ->join('epl.region as region', 'region.id', 'projects.region_id')
-                ->leftjoin('pmt.employees as employees', 'employees.id', 'projects.project_manager_id')
+                ->join(env('DB_DATABASE_EPL_PMT') .'.region as region', 'region.id', 'projects.region_id')
+                ->leftjoin(env('DB_DATABASE') .'.employees as employees', 'employees.id', 'projects.project_manager_id')
                 ->where('projects.id', $this->projectcode)
                 ->first();
         

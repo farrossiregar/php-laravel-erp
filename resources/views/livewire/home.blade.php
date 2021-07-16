@@ -57,7 +57,7 @@
             <h5 class="text-info"><a href="javascript:void();" class="text-info mr-1" style="font-size:20px;" onclick="history.back()"><i class="fa fa-arrow-left mr-1" title="Back"></i></a> {{isset($_GET['company_name']) ? $_GET['company_name'] : ''}}</h5>
             <div class="row clearfix mt-3">
                 @foreach(\App\Models\Department::get() as $dep)
-                    <div class="col-lg-2 col-md-2 col-sm-12 px-1">
+                    <div class="col-lg-2 col-md-2 col-sm-12 px-1" onclick="window.open('{{route('home',['company_id'=>$_GET['company_id'], 'department_name'=>$dep->name,'department_id'=>$dep->id])}}','_self')">
                         <div class="card ng-star-inserted text-center" style="height:200px;border:1px solid #eee">
                             <div class="body clearfix">
                                 <div class="content3">
