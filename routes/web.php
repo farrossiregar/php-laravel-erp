@@ -16,13 +16,6 @@ date_default_timezone_set("Asia/Bangkok");
 |
 */
 
-Route::get('test-push',function(){
-    // foreach(\App\Models\Employee::whereNotNull('device_token')->get() as $e){
-        // var_dump(push_notification_android($e->device_token, "Daily Commitment", "Hallo {$e->name}, Apakah kamu sudah melakukan Daily Commitment hari ini."));
-    // }
-
-    return (push_notification_android('c57VoXifQQ2toZuKtBo01d:APA91bHUQW1rNfbf2roWU6Z6TBfMEvsraPXX8DrkC0x_dyOrz5l7q1FdmbtqYazIURMj9Mr9Eegp1iedqn942WQ1FXscEutqo6PB63WLHA_sjvsU8FV3Oe1uAuuOSJrtZZrRWA0fs76o',"Daily Commitment","Hallo, Apakah kamu sudah melakukan Daily Commitment hari ini."));
-});
 Route::get('/', Home::class)->name('home')->middleware('auth');
 Route::get('login', App\Http\Livewire\Login::class)->name('login');
 // All login
