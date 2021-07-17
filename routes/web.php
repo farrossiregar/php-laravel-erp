@@ -126,4 +126,5 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('lightning-strike-tracking',App\Http\Livewire\LightningStrikeTracking\Index::class)->name('lightning-strike-tracking.index');
     Route::get('duty-roster',App\Http\Livewire\DutyRoster\Index::class)->name('duty-roster.index');
     Route::get('performance-kpi',App\Http\Livewire\PerformanceKpi\Index::class)->name('performance-kpi.index');
+    Route::get('commercial-e2e',App\Http\Livewire\Commerciale2e\Index::class)->name('commercial-e2e.index');
 });
