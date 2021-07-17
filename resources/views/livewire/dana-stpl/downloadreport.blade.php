@@ -1,4 +1,3 @@
-
 <form wire:submit.prevent="save">
     @csrf
     <div class="modal-header">
@@ -10,7 +9,7 @@
     <div class="modal-body">
         <div class="form-group">
             <div class="row">
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <label>Month From</label>
                     <select onclick="" class="form-control" name="month_from" id="month_from" wire:model="month_from" >
                         <option value=""> -- Month From --</option>
@@ -27,24 +26,32 @@
                         <option  value="11">November</option>
                         <option  value="12">December</option>
                     </select>
-                </div>
+                </div> -->
+            
                 <div class="col-md-6">
                     <label>Year From</label>
                     <select onclick="" class="form-control" name="year_from" id="year_from" wire:model="year_from">
                         <option value=""> -- Year From --</option>
-                        <?php
-                            for($i = date('Y'); $i >= 2010; $i--){
-                        ?>
-                        <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                        <?php
-                            }
-                        ?>
+       
+                        @foreach($year as $item)
+                        <option value="<?php echo $item->year; ?>"><?php echo $item->year; ?></option>
+                        @endforeach
+         
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label>Year To</label>
+                    <select onclick="" class="form-control" name="year_to" id="year_to" wire:model="year_to">
+                        <option value=""> -- Year To --</option>
+                        @foreach($year as $item)
+                        <option value="<?php echo $item->year; ?>"><?php echo $item->year; ?></option>
+                        @endforeach
                     </select>
                 </div>
             </div>
             <br>
             <div class="row">
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <label>Month To</label>
                     <select onclick="" class="form-control"  name="month_to" id="month_to" wire:model="month_to" >
                         <option value=""> -- Month To --</option>
@@ -61,8 +68,8 @@
                         <option  value="11">November</option>
                         <option  value="12">December</option>
                     </select>
-                </div>
-                <div class="col-md-6">
+                </div> -->
+                <!-- <div class="col-md-6">
                     <label>Year To</label>
                     <select onclick="" class="form-control" name="year_to" id="year_to" wire:model="year_to">
                         <option value=""> -- Year To --</option>
@@ -74,7 +81,7 @@
                             }
                         ?>
                     </select>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

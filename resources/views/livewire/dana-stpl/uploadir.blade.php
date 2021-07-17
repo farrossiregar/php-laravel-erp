@@ -7,6 +7,11 @@
         </button>
     </div>
     <div class="modal-body">
+        @if($data)
+        <div class="form-group">
+            <a href="<?php echo asset('storage/Dana_Stpl/insiden_report/'.$data[0]['uploadir']) ?>" target="_blank"><i class="fa fa-download"></i> Download Insiden Report </a>
+        </div>
+        @endif
         <div class="form-group">
             <label>File</label>
             <input type="file" class="form-control" name="file" wire:model="file" />

@@ -102,8 +102,8 @@
                                         @if(check_access('dana-stpl.approve-sm'))
                                             
                                             @if($item->status == null && $item->status != '0')
-                                                <div id="" title="submit" class="btn btn-success"><i class="fa fa-check"></i> Approve</div>
-                                                <div id="" title="submit" class="btn btn-danger"><i class="fa fa-close"></i> Decline</div>
+                                                <div wire:click="$emit('modalapprovedana','{{ $item->id }}')" id="" title="submit" class="btn btn-success"><i class="fa fa-check"></i> Approve</div>
+                                                <div wire:click="$emit('modaldeclinedana','{{ $item->id }}')" id="" title="submit" class="btn btn-danger"><i class="fa fa-close"></i> Decline</div>
                                             @endif
 
                                             @if($item->status == '1')
