@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Toolbox;
+use App\Models\ToolboxCheck;
 use App\Models\ToolsCheck;
 use App\Models\ToolsCheckUpload;
 use Illuminate\Http\Request;
@@ -60,6 +61,16 @@ class ToolsCheckController extends Controller
             $find->save();
         }
         
+        if(isset($request->condition)){
+            $toolBox = Toolbox::get();
+            foreach($toolBox as $item){
+                $new = new ToolboxCheck();
+                if(isset($request->condition["condition_{$item->id}"])){
+                    
+                }
+            }
+        }
+
         $find->is_submit  = 1;
         $find->save();
 

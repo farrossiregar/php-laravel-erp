@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ToolboxCheck extends Model
 {
     use HasFactory;
+
+    protected $table = 'toolbox_check';
 }

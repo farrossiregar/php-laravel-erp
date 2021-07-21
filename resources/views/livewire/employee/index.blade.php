@@ -38,7 +38,7 @@
             </div>
             <div class="body pt-0">
                 <div class="table-responsive">
-                    <table class="table table-striped m-b-0 c_list table-nowrap-th">
+                    <table class="table table-striped m-b-0 c_list table-nowrap-th table-hover">
                         <thead>
                             <tr>
                                 <th>No</th>                                    
@@ -63,6 +63,9 @@
                                 <td>{{isset($item->company->name) ? $item->company->name : '-' }}</td>
                                 <td>{{$item->employee_code}}</td>
                                 <td>
+                                    @if(check_access('employee.autologin') and !empty($item->user_id))
+                                        <a href="#" class="text-success pr-2" onclick="autologin('{{ route('users.autologin',['id'=>$item->user_id]) }}','{{$item->name}}')" title="Autologin"><i class="fa fa-sign-in"></i></a>
+                                    @endif
                                     @if(check_access('employee.edit'))
                                         <a href="{{route('employee.edit',['id'=>$item->id])}}">{{$item->name}}</a>
                                     @else
