@@ -23,35 +23,27 @@ class Downloadreport extends Component
     public $month_to;
     public $year_from;
     public $year_to;
+    // public $year;
     
 
     
     public function render()
     {
-        // dd(env('DB_DATABASE_EPL_PMT'));
-        // $data = \App\Models\Project::select('env("DB_DATABASE_EPL_PMT").projects.*', 'region.region_code as region_name')
-        //                             ->join('region', 'region.id', 'projects.region_id')
-        //                             ->get();
+
+                       
+        $year = \App\Models\DanaStpl::select(DB::Raw('year(created_at) as year'))
+                                    ->groupby(DB::Raw('year(created_at)'))
+                                    ->orderBy(DB::Raw('year(created_at)'), 'desc')
+                                    ->get();
+                                  
         
-        // $data = \App\Models\Project::select('projects.*', 'region_code as region_name', 'employees.name as sm_name')
-        //                 ->join('epl.region as region', 'region.id', 'projects.region_id')
-        //                 ->leftjoin('pmt.employees as employees', 'employees.id', 'projects.project_manager_id')
-        //                 // ->where('projects.id', '24')
-        //                 ->get();
-                                
-        // dd($data);
-        
-        return view('livewire.dana-stpl.downloadreport');
+        return view('livewire.dana-stpl.downloadreport')->with('year', $year);
     }
 
     public function downloadreport($id)
     {
         $this->selected_id = $id;
-        // $this->detaildana = \App\Models\DanaStpl::select('dana_stpl_master.*', 'region.region_code', 'employees.name')
-        //                                         ->join('epl.region as region', 'region.id', 'dana_stpl_master.region_id')
-        //                                         ->leftjoin('pmt.employees as employees', 'employees.id', 'dana_stpl_master.sm_id')
-        //                                         ->where('dana_stpl_master.id', $this->selected_id)
-        //                                         ->first();
+
         
     }
   
@@ -257,7 +249,7 @@ class Downloadreport extends Component
 
         // Redirect output to a client’s web browser (Excel5)
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="member-' .date('d-M-Y') .'.xlsx"');
+        header('Content-Disposition: attachment;filename="Report-DanaSTPL-' .$year_from.'sd'.$year_to .'.xlsx"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         //header('Cache-Control: max-age=1');
@@ -269,7 +261,7 @@ class Downloadreport extends Component
         header ('Pragma: public'); // HTTP/1.0
         return response()->streamDownload(function() use($writer){
             $writer->save('php://output');
-        },'member-' .date('d-M-Y') .'.xlsx');
+        },'Report-DanaSTPL-' .$year_from.'sd'.$year_to .'.xlsx');
 
 
 
