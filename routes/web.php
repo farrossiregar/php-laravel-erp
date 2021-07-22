@@ -99,6 +99,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('dana-stpl/download-report',[App\Http\Controllers\DanaStplReportController::class,'downloadreport'])->name('dana-stpl.download-report');    
     Route::get('dana-stpl/insert',App\Http\Livewire\DanaStpl\Inputdanastpl::class)->name('dana-stpl.insert');
 
+    Route::get('accident-report',App\Http\Livewire\AccidentReport\Index::class)->name('accident-report.index');
+    Route::get('accident-report/insert',App\Http\Livewire\AccidentReport\Inputaccident::class)->name('accident-report.insert');
+
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
     Route::get('employee/insert',App\Http\Livewire\Employee\Insert::class)->name('employee.insert');
     Route::get('employee/edit/{id}',App\Http\Livewire\Employee\Edit::class)->name('employee.edit');
