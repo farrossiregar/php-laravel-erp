@@ -25,7 +25,11 @@ class Inputdana extends Component
   
     public function save()
     {
-        // dd($this->projectcode);
+        $this->validate([
+            'projectcode' => 'required',
+            'danastpl' => 'required'
+        ]);
+        
         $data = \App\Models\Project::select('projects.*', 'region_code as region_name', 'employees.name as sm_name', 'employees.id as smid')
                 ->join(env('DB_DATABASE_EPL_PMT') .'.region as region', 'region.id', 'projects.region_id')
                 ->leftjoin(env('DB_DATABASE') .'.employees as employees', 'employees.id', 'projects.project_manager_id')
@@ -39,7 +43,7 @@ class Inputdana extends Component
         $datamaster->status             = null;
         $datamaster->company            = '';
         $datamaster->project_name       = $data->name;
-        $datamaster->project_id         = $this->project_name;
+        $datamaster->project_id         = $this->projectcode;
 
         if($this->project_name == '1'){
             $datamaster->cmi = $this->danastpl;

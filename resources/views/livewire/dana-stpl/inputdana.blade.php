@@ -9,7 +9,7 @@
     <div class="modal-body">
         <div class="form-group">
             <div class="row">
-                <div class="col-md-12 form-group">
+                <div class="col-md-12 form-group" wire:ignore>
                     <label>Project</label>
                     <select wire:change="$emit('getproject')" class="form-control" name="project" id="project" >
                         <option value=""> -- Project --</option>
@@ -24,6 +24,11 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="col-md-12">
+                    @error('projectcode')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
                 <div class="col-md-12 form-group">
                     <label>Region</label>
                     <input type="text" class="form-control" wire:model="region" readonly/>
@@ -32,7 +37,7 @@
                     <label>Project Manager</label>
                     <input type="text" class="form-control" wire:model="sm" readonly/>
                 </div>
-                <div class="col-md-12 form-group">
+                <!-- <div class="col-md-12 form-group">
                     <label>Project Name</label>
                     <select onclick="" class="form-control" name="project_name" id="project_name" wire:model="project_name">
                         <option value=""> -- Project Name --</option>
@@ -43,10 +48,13 @@
                         <option  value="5">XL</option>
                         
                     </select>
-                </div>
+                </div> -->
                 <div class="col-md-12 form-group">
                     <label>Amount</label>
                     <input type="text" class="form-control" name="danastpl" wire:model="danastpl" />
+                    @error('danastpl')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
         </div>
@@ -66,15 +74,10 @@
 
 
 @section('page-script')
-
     Livewire.on('getproject',()=>{
         var project = $('#project').val();
         project = project.split(" | ");
-        
-        //$('.projectcode').val(project[0]);
-        //$('#sm').val(project[1]);
-        //$('#region').val(project[3]);
-
+    
         @this.set('projectcode',project[0]);
         @this.set('sm',project[1]);
         @this.set('region',project[3]);

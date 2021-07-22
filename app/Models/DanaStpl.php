@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Project;
 
 class DanaStpl extends Model
 {
@@ -15,4 +16,8 @@ class DanaStpl extends Model
         return $this->hasOne(Employee::class,'id','project_manager_id');
     }
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }
