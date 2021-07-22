@@ -90,20 +90,20 @@
                                     <td>
                                         
                                         @if(check_access('dana-stpl.upload-ir') && $item->status == '3')
-                                            <div wire:click="$emit('modaluploadir','{{ $item->id }}')"  id="" title="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Upload IR</div>
+                                            <a href="javascript:;" wire:click="$emit('modaluploadir','{{ $item->id }}')" class="btn btn-primary"><i class="fa fa-plus"></i> Upload IR</a>
                                         @endif
 
 
                                         @if(check_access('dana-stpl.revisi') && $item->status == '0')
-                                            <div wire:click="$emit('modalrevisidana','{{ $item->id }}')"  title="Revisi" class="btn btn-danger"><i class="fa fa-edit"></i> Revisi</div>
+                                            <a href="javascript:;" wire:click="$emit('modalrevisidana','{{ $item->id }}')"  title="Revisi" class="btn btn-danger"><i class="fa fa-edit"></i> Revisi</a>
                                         @endif
 
                                         
                                         @if(check_access('dana-stpl.approve-sm'))
                                             
                                             @if($item->status == null && $item->status != '0')
-                                                <div wire:click="$emit('modalapprovedana','{{ $item->id }}')" id="" title="submit" class="btn btn-success"><i class="fa fa-check"></i> Approve</div>
-                                                <div wire:click="$emit('modaldeclinedana','{{ $item->id }}')" id="" title="submit" class="btn btn-danger"><i class="fa fa-close"></i> Decline</div>
+                                                <a href="javascript:;" wire:click="$emit('modalapprovedana','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                                <a href="javascript:;" wire:click="$emit('modaldeclinedana','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
                                             @endif
 
                                             @if($item->status == '1')
@@ -115,8 +115,8 @@
                                         @if(check_access('dana-stpl.approve-ms'))
                                         
                                             @if($item->status == '1')
-                                                <div wire:click="$emit('modalapprovedana','{{ $item->id }}')" id="" title="Approve" class="btn btn-success"><i class="fa fa-check"></i> Approve</div>
-                                                <div wire:click="$emit('modaldeclinedana','{{ $item->id }}')" id="" title="Decline" class="btn btn-danger"><i class="fa fa-close"></i> Decline</div>
+                                                <a href="javascript:;" wire:click="$emit('modalapprovedana','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                                <a href="javascript:;" wire:click="$emit('modaldeclinedana','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
                                             @endif
 
                                             @if($item->status == '2')
@@ -126,8 +126,8 @@
 
                                         @if(check_access('dana-stpl.approve-psm'))
                                             @if($item->status == '2')
-                                                <div wire:click="$emit('modalapprovedana','{{ $item->id }}')" id="" title="submit" class="btn btn-success"><i class="fa fa-check"></i> Approve</div>
-                                                <div wire:click="$emit('modaldeclinedana','{{ $item->id }}')" id="" title="submit" class="btn btn-danger"><i class="fa fa-close"></i> Decline</div>
+                                                <a href="javascript:;" wire:click="$emit('modalapprovedana','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                                <a href="javascript:;" wire:click="$emit('modaldeclinedana','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
                                             @endif
 
                                             

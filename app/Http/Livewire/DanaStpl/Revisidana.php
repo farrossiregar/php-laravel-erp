@@ -35,8 +35,8 @@ class Revisidana extends Component
     {
         $this->selected_id = $id;
         $this->detaildana = \App\Models\DanaStpl::select('dana_stpl_master.*', 'region.region_code', 'employees.name')
-                                                ->join('epl.region as region', 'region.id', 'dana_stpl_master.region_id')
-                                                ->leftjoin('pmt.employees as employees', 'employees.id', 'dana_stpl_master.sm_id')
+                                                ->join(env('DB_DATABASE_EPL_PMT').'.region as region', 'region.id', 'dana_stpl_master.region_id')
+                                                ->leftjoin(env('DB_DATABASE').'.employees as employees', 'employees.id', 'dana_stpl_master.sm_id')
                                                 ->where('dana_stpl_master.id', $this->selected_id)
                                                 ->first();
         $this->danastpl = $this->detaildana->danastpl;
@@ -52,8 +52,8 @@ class Revisidana extends Component
         $edit = \App\Models\DanaStpl::where('id', $this->selected_id)->first();
 
         $data = \App\Models\Project::select('projects.*', 'region_code as region_name', 'employees.name as sm_name', 'employees.id as smid')
-                ->join('epl.region as region', 'region.id', 'projects.region_id')
-                ->leftjoin('pmt.employees as employees', 'employees.id', 'projects.project_manager_id')
+                ->join(env('DB_DATABASE_EPL_PMT').'.region as region', 'region.id', 'projects.region_id')
+                ->leftjoin(env('DB_DATABASE').'.employees as employees', 'employees.id', 'projects.project_manager_id')
                 ->where('projects.id', '9')
                 ->first();
 
