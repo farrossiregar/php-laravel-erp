@@ -11,7 +11,7 @@ class Inputaccident extends Component
 {
 
     use WithFileUploads;
-    public $site_id, $date, $klasifikasi_insiden, $jenis_insiden, $nikdannama, $rincian;
+    public $site_id, $date, $employee_id, $klasifikasi_insiden, $jenis_insiden, $nikdannama, $rincian;
     public $photo1, $photo2, $photo3, $photo4, $photo5, $photo6, $photo7, $photo8;
 
     
@@ -31,10 +31,8 @@ class Inputaccident extends Component
         // ]);
         
         
-        $data                       = new \App\Models\AccidentReport();
-
-        
-        $data->employee_id              = '';
+        $data                           = new \App\Models\AccidentReport();
+        $data->employee_id              = $this->employee_id;
         $data->site_id                  = $this->site_id;
         $data->date                     = $this->date;
         $data->klasifikasi_insiden      = $this->klasifikasi_insiden;

@@ -25,7 +25,7 @@ class Index extends Component
     //     }
         
         $data = \App\Models\AccidentReport::orderBy('id', 'desc');
-        if($this->date) $ata = $data->whereDate('created_at',$this->date);
+        if($this->date) $ata = $data->whereDate('date',$this->date);
                         
         
         return view('livewire.accident-report.index')->with(['data'=>$data->paginate(50)]);

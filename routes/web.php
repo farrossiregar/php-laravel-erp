@@ -101,6 +101,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::get('accident-report',App\Http\Livewire\AccidentReport\Index::class)->name('accident-report.index');
     Route::get('accident-report/insert',App\Http\Livewire\AccidentReport\Inputaccident::class)->name('accident-report.insert');
+    // Route::get('accident-report/preview/{id}',App\Http\Livewire\AccidentReport\Previewaccident::class)->name('accident-report.preview');
 
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
     Route::get('employee/insert',App\Http\Livewire\Employee\Insert::class)->name('employee.insert');
