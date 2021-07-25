@@ -11,14 +11,20 @@ class Inputaccident extends Component
 {
 
     use WithFileUploads;
-    public $site_id, $date, $employee_id, $klasifikasi_insiden, $jenis_insiden, $nikdannama, $rincian;
+    public $site_id, $date, $employee_id, $klasifikasi_insiden, $jenis_insiden, $jenis_insiden2, $nikdannama, $rincian;
     public $photo1, $photo2, $photo3, $photo4, $photo5, $photo6, $photo7, $photo8;
 
     
     public function render()
     {
-       
+        
+        if(!check_access('accident-report.index')){
+            session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
+            $this->redirect('/');
+        }
+        
         return view('livewire.accident-report.inputaccidentreport');
+        
     }
 
   
@@ -36,7 +42,12 @@ class Inputaccident extends Component
         $data->site_id                  = $this->site_id;
         $data->date                     = $this->date;
         $data->klasifikasi_insiden      = $this->klasifikasi_insiden;
-        $data->jenis_insiden            = $this->jenis_insiden;
+        
+        if($this->jenis_insiden == 'Jenis Insiden lain yang tidak disebutkan diatas:  *Free Text*'){
+            $data->jenis_insiden            = $this->jenis_insiden2;
+        }else{
+            $data->jenis_insiden            = $this->jenis_insiden;
+        }
         $data->rincian_kronologis       = $this->rincian;
         $data->nik_and_nama             = $this->nikdannama;
         $data->created_at               = date('Y-m-d H:i:s');

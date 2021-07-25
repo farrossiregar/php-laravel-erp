@@ -12,9 +12,11 @@
                     <!-- <div class="col-md-2">
                         <a href="#" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Dana STPL')}}</a>
                     </div> -->
+                    @if(check_access('accident-report.input'))
                     <div class="col-md-2">
                         <a href="{{ route('accident-report.insert') }}" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Accident Report')}}</a>
                     </div>
+                    @endif
                    
                 </div>
 

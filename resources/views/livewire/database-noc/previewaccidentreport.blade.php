@@ -20,25 +20,24 @@
                                     <div class="row">
                                         <div class="col-md-12 form-group">
                                             <label>Site ID</label>
-                                            <input type="text" class="form-control" required wire:model="site_id"/>
+                                            <input type="text" class="form-control" wire:model="site_id"/>
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>Employee ID</label>
-                                            <select onclick="" class="form-control" required wire:model="employee_id">
+                                            <select onclick="" class="form-control" wire:model="employee_id">
                                                 <option value=""> --- Field Team --- </option>
-                                                <!-- foreach(check_access_data('po-tracking-nonms.field-team-list') as $user) -->
-                                                @foreach(\App\Models\Employee::orderBy('id', 'asc')->get() as $user)
+                                                @foreach(check_access_data('po-tracking-nonms.field-team-list') as $user)
                                                 <option value="{{$user->employee_id}}">{{$user->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>Tanggal Kejadian</label>
-                                            <input type="date" class="form-control" required wire:model="date"/>
+                                            <input type="date" class="form-control" wire:model="date"/>
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>Klasifikasi Insiden</label>
-                                            <select onclick="" class="form-control" required wire:model="klasifikasi_insiden">
+                                            <select onclick="" class="form-control" wire:model="klasifikasi_insiden">
                                                 <option value=""> -- Klasifikasi Insiden --</option>
                                                 <option value="Cedera / Injury">Cedera / Injury</option>
                                                 <option value="Kerusakan Property">Kerusakan Property</option>
@@ -49,7 +48,7 @@
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>Jenis Insiden</label>
-                                            <select wire:change="$emit('showrincian')" id="jenis_insiden" class="form-control" >
+                                            <select onchange="showrincian()" id="jenis_insiden" class="form-control"  wire:model="jenis_insiden">
                                                 <option value=""> -- Jenis Insiden --</option>
                                                 <option value="Menabrak / Ditabrak sesuatu">Menabrak / Ditabrak sesuatu</option>
                                                 <option value="Jatuh / Kejatuhan">Jatuh / Kejatuhan</option>
@@ -67,18 +66,14 @@
                                                 <option value="Jenis Insiden lain yang tidak disebutkan diatas:  *Free Text*">Jenis Insiden lain yang tidak disebutkan diatas:  *Free Text*</option>
                                                 
                                             </select>
-                                            <div id="rincian_text">
-                                                <input type="text" style="display:none;" id="jenis_insiden2" class="form-control" required  wire:model="jenis_insiden">
-                                            </div>
-                                            
                                         </div>
                                         <div id="div_rincian" class="col-md-12 form-group">
                                             <label>Rincian Kejadian</label>
-                                            <textarea class="form-control" id="rincian" required wire:model="rincian"></textarea>
+                                            <textarea class="form-control" id="rincian" wire:model="rincian"></textarea>
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>Nik dan Nama</label>
-                                            <input type="text" class="form-control" required wire:model="nikdannama" >
+                                            <input type="text" class="form-control" wire:model="nikdannama" >
                                         </div>
                                     </div>
                                 </div>
@@ -92,8 +87,8 @@
 
                                                 ?>
                                                 <div class="col-md-6 form-group">
-                                                    <label>Foto insiden <?php echo $i; ?></label>
-                                                    <input type="file" class="form-control" name="photo<?php echo $i; ?>" required wire:model="photo<?php echo $i; ?>" />
+                                                    <label>File <?php echo $i; ?></label>
+                                                    <input type="file" class="form-control" name="photo<?php echo $i; ?>" wire:model="photo<?php echo $i; ?>" />
                                                     @error('file')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                     @enderror
@@ -120,19 +115,14 @@
     </div>
 </div>
 
+<script>
 
-@section('page-script')
-    Livewire.on('showrincian',()=>{
-        var jenis_insiden = $('#jenis_insiden').val();
-        if(jenis_insiden != 'Jenis Insiden lain yang tidak disebutkan diatas:  *Free Text*'){
-            @this.set('jenis_insiden', jenis_insiden);
-        }else{
-            
-            var input_rincian = '<input type="text" style="display:block;" id="jenis_insiden2" class="form-control" required wire:model="jenis_insiden2">';
-            $('#rincian_text').html(input_rincian);
-            
-        }
-
-    });
-@endsection
-
+    // function showrincian(){
+    //     var insiden = $('#jenis_insiden').val();
+    //     if(insiden == 'Jenis Insiden lain yang tidak disebutkan diatas:  *Free Text*'){
+    //         $('#div_rincian').css('display', 'block');
+    //     }else{
+    //         $('#div_rincian').css('display', 'none');
+    //     }
+    // }
+</script>
