@@ -51,7 +51,6 @@ class ToolsCheckController extends Controller
      */
     public function store(Request $request)
     {
-        // $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id,'tahun'=>date('Y'),'bulan'=>date('m')])->first();
         $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
         if(!$find){
             $find = new ToolsCheck();
@@ -61,16 +60,28 @@ class ToolsCheckController extends Controller
             $find->save();
         }
         
-        if(isset($request->condition)){
-            $toolBox = Toolbox::get();
-            foreach($toolBox as $item){
-                $new = new ToolboxCheck();
-                if(isset($request->condition["condition_{$item->id}"])){
-                    
-                }
-            }
-        }
+        $toolBox = Toolbox::get();
+        foreach($toolBox as $item){
+            $new = new ToolboxCheck();
 
+            $note = "note_{$item->id}";
+            if(isset($request->$note)) $new->note = $request->$note;
+
+            $condition = "condition_{$item->id}";
+            if(isset($request->$condition)) $new->status = $request->$condition;
+
+            $img = "image_{$item->id}";
+            if(isset($request->$img)){
+                $name = $item->id.".".$request->$img->extension();
+                $request->$img->storeAs("public/tools-check/{$find->id}/{$item->id}", $name);
+                $new->image = "storage/tools-check/{$find->id}/{$item->id}/{$name}";
+            }
+
+            $new->tools_check_id = $find->id;
+            $new->toolbox_id = $item->id;
+            $new->save();
+        }
+        
         $find->is_submit  = 1;
         $find->save();
 
@@ -79,7 +90,6 @@ class ToolsCheckController extends Controller
 
     public function storeImage(Request $request)
     {
-        // $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id,'tahun'=>date('Y'),'bulan'=>date('m')])->first();
         $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
         if(!$find){
             $find = new ToolsCheck();
@@ -111,7 +121,6 @@ class ToolsCheckController extends Controller
     public function getImage($id)
     {
         $data = [];
-        // $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id,'tahun'=>date('Y'),'bulan'=>date('m')])->first();
         $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
         if($find){  
             $param = ToolsCheckUpload::where(['tools_check_id'=>$find->id,'tools_check_item_id'=>$id])->get();

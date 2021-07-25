@@ -12,16 +12,6 @@ use App\Models\Notification;
 class VehicleCheckController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -93,8 +83,8 @@ class VehicleCheckController extends Controller
         $data = VehicleCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
         
         if($data){
-            $data->foto_stiker_safety_driving = asset($data->foto_stiker_safety_driving);
-            $data->foto_mobil_plat_nomor = asset($data->foto_mobil_plat_nomor);
+            $data->foto_stiker_safety_driving = $data->foto_stiker_safety_driving ? asset($data->foto_stiker_safety_driving) : null;
+            $data->foto_mobil_plat_nomor = $data->foto_mobil_plat_nomor ? asset($data->foto_mobil_plat_nomor) : null;
         }
 
         return response()->json(['message'=>'success','data'=>$data], 200);
