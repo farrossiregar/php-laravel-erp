@@ -12,7 +12,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>User ID</th> 
+                        <th>Position</th> 
                         <th>NIK</th> 
                         <th>Contract Start</th> 
                         <th>Contract End</th> 
@@ -21,16 +21,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
+                    <?php
+                        $monthyear = explode('-', $selected_id);
+                        $data = \App\Models\Employee::whereYear('resign_date', '2021')->whereMonth('resign_date', '07')->get();
+
+
+                        for($i = 0; $i < count($data); $i++){
+                            $position = \App\Models\UserAccess::where('id', $data[$i]->user_access_id)->first();
+                    ?>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td><?php echo $i+1; ?></td>
+                        <td><?php echo @$position->name; ?></td>
+                        <td><?php echo $data[$i]->nik; ?></td>
+                        <td><label class="badge badge-success" data-toggle="tooltip"><?php echo date_format(date_create($data[$i]->join_date), 'd M Y'); ?></label></td>
+                        <td><label class="badge badge-danger" data-toggle="tooltip"><?php echo date_format(date_create($data[$i]->contract_end), 'd M Y'); ?></label></td>
+                        <td><label class="badge badge-danger" data-toggle="tooltip"><?php echo date_format(date_create($data[$i]->resign_date), 'd M Y'); ?></label></td>
+                        <td><?php echo $data[$i]->resignation_reason; ?></td>
                     </tr>
+                    <?php
+                        }
+                    ?>
                 </tbody>
             </table>
         </div>

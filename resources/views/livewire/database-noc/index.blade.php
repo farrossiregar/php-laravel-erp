@@ -9,7 +9,7 @@
                         <input type="date" class="form-control" wire:model="date" />
                     </div>
 
-                    @if(check_access('accident-report.input'))
+                    @if(check_access('database-noc.import-revise'))
                     <div class="col-md-2">
                         <a href="#" data-toggle="modal" data-target="#modal-databasenoc-importnoc" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Database Noc')}}</a>
                     </div>
@@ -35,9 +35,18 @@
                                 @foreach($data as $key => $item)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
-                                    <td>{{ $item->month.' '.$item->year }}</td>
-                                    <td>{{ $item->jumlah_active }}</td>
-                                    <td><a href="javascript:;" wire:click="$emit('modalpreviewnoc','{{ $item->id }}')" >{{ $item->jumlah_resign }}</a></td>
+                                    <?php
+                                        $date = date_format(date_create($item->year.'-'.$item->month.'-01'), 'M Y');
+                                    ?>
+                                    <td>{{ $date }}</td>
+                                    <td><label class="badge badge-success" data-toggle="tooltip"><b>{{ $item->jumlah_active }}</b> </label></td>
+                                    <td>
+                                        <?php
+                                            $monthyear = $item->month.'-'.$item->year;
+                                        ?>
+                                        
+                                        <label class="badge badge-danger" data-toggle="tooltip"><b>{{ $item->jumlah_resign }}</b> </label>
+                                    </td>
                                     <td>
                                         @if($item->status == '1')
                                             <label class="badge badge-success" data-toggle="tooltip" title="Approved">Approved</label>
@@ -52,14 +61,21 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if($item->status == '' || $item->status == null)
-                                            <a href="javascript:;" wire:click="$emit('modalapprovedatabasenoc','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                            <a href="javascript:;" wire:click="$emit('modaldeclinedatabasenoc','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                        @if(check_access('database-noc.approval'))
+                                            @if($item->status == '' || $item->status == null)
+                                                <a href="javascript:;" wire:click="$emit('modalapprovedatabasenoc','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                                <a href="javascript:;" wire:click="$emit('modaldeclinedatabasenoc','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                            @endif
+                                        @endif
+                                        
+
+                                        @if(check_access('database-noc.import-revise'))
+                                            @if($item->status == '0')
+                                                <a href="javascript:;" wire:click="$emit('modalrevisenoc','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-edit"></i> Revisi</a>
+                                            @endif
                                         @endif
 
-                                        @if($item->status == '0')
-                                            <a href="javascript:;" wire:click="$emit('modalimportnoc','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Revisi</a>
-                                        @endif
+                                        <a href="javascript:;" wire:click="$emit('modalpreviewnoc','{{ $monthyear }}')" class="btn btn-info"><i class="fa fa-eye"></i> Preview</a>
                                     </td>
                                     
                                 </tr>
@@ -77,6 +93,14 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <livewire:database-noc.importnoc />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-databasenoc-revisenoc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:database-noc.revisenoc />
         </div>
     </div>
 </div>
@@ -111,6 +135,10 @@
 
     Livewire.on('modalimportnoc',(data)=>{
         $("#modal-databasenoc-importnoc").modal('show');
+    });
+
+    Livewire.on('modalrevisenoc',(data)=>{
+        $("#modal-databasenoc-revisenoc").modal('show');
     });
 
     Livewire.on('modaldeclinedatabasenoc',(data)=>{
