@@ -8,6 +8,7 @@ use App\Models\VehicleCheckCleanliness;
 use App\Models\VehicleCheckAccidentReport;
 use Illuminate\Http\Request;
 use App\Models\Notification;
+use App\Models\AccidentReport;
  
 class VehicleCheckController extends Controller
 {
@@ -24,12 +25,25 @@ class VehicleCheckController extends Controller
             $data = new VehicleCheck();
             $data->employee_id = \Auth::user()->employee->id;
         }
+
         $data->is_submit = 1;
         $data->plat_nomor = $request->plat_nomor;
         $data->stiker_safety_driving = $request->sticker_dipasang;
-        $data->accident_report = $request->description_accident_report;
         $data->save();
         
+        if($request->is_accident_report == 1){
+            $accident = new AccidentReport();
+            $accident->employee_id = \Auth::user()->employee->id;
+            $accident->site_id = $request->site_id;
+            $accident->date = date('Y-m-d',strtotime($request->date));
+            $accident->jenis_insiden = $request->jenis_insiden;
+            $accident->klasifikasi_insiden = $request->klasifikasi_insiden;
+            $accident->rincian_kejadian = $request->rincian_kejadian;
+            $accident->nik_nama_kejadian = $request->nik_nama_kejadian;
+            $accident->type = 2; // vehicle
+            $accident->save();
+        }
+
         // find notification
         $notification = Notification::whereDate('created_at',date('Y-m-d'))->where(['employee_id'=>\Auth::user()->employee->id,'type'=>3])->first();
         if($notification){
