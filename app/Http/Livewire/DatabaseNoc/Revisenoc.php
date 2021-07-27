@@ -7,12 +7,14 @@ use Livewire\WithFileUploads;
 use Auth;
 use DB;
 
-class Importnoc extends Component
+class Revisenoc extends Component
 {
+    protected $listeners = [
+        'modalrevisenoc'=>'datarevise',
+    ];
 
     use WithFileUploads;
-    public $file;
-
+    public $selected_id, $data, $file;
     
     public function render()
     {
@@ -23,16 +25,21 @@ class Importnoc extends Component
         // }
         
         
-        return view('livewire.database-noc.importnoc');
+        return view('livewire.database-noc.revisenoc');
         
     }
 
+    public function datarevise($id){
+        $this->selected_id = $id;
+    }
   
     public function save()
     {
         $this->validate([
             'file'=>'required|mimes:xls,xlsx|max:51200' // 50MB maksimal
         ]);
+
+        // dd($this->selected_id);
         
         $users = Auth::user();
 
@@ -49,29 +56,19 @@ class Importnoc extends Component
             $total_resign = 0;
             $total_resign_thismonth = 0;
 
-            $checkmaster                 = \App\Models\EmployeeNoc::where('month', date('m'))->where('year', date('Y'))->first();
-            if(!$checkmaster){
-                $datamaster                 = new \App\Models\EmployeeNoc();
-                $datamaster->month          = date('m');
-                $datamaster->year           = date('Y');
-                $datamaster->created_at     = date('Y-m-d H:i:s');
-                $datamaster->updated_at     = date('Y-m-d H:i:s');
-                $datamaster->save();
-            }else{
-                $datamaster                 = \App\Models\EmployeeNoc::where('month', date('m'))->where('year', date('Y'))->first();
-                $datamaster->month          = date('m');
-                $datamaster->year           = date('Y');
-                $datamaster->created_at     = date('Y-m-d H:i:s');
-                $datamaster->updated_at     = date('Y-m-d H:i:s');
-                $datamaster->save();
-            }
+            $datamaster                 = \App\Models\EmployeeNoc::where('id', $this->selected_id)->first();
+            // $datamaster->status         = '';
+            // $datamaster->note         = '';
+            $datamaster->created_at     = date('Y-m-d H:i:s');
+            $datamaster->updated_at     = date('Y-m-d H:i:s');
+            $datamaster->save();
 
 
             foreach($sheetData as $key => $i){
                 if($key<1) continue; // skip header
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
-                    
+                   
                 $check = \App\Models\Employee::where('nik', $i[0])->first();
                 if($check){
                     $data = \App\Models\Employee::where('nik', $i[0])->first();
@@ -104,7 +101,6 @@ class Importnoc extends Component
                     // $data->foto_ktp          = $i[0];
                     $data->region_id            = @\App\Models\Region::where('region', $i[3])->first()->id;
                     // $data->company_id        = $i[0];
-                    // $data->company_id        = $i[0];
                     // $data->lokasi_kantor     = $i[0];
                     $data->cluster              = $i[4];
                     $data->project              = $i[5];
@@ -124,7 +120,7 @@ class Importnoc extends Component
                     if($i[13] != ''){
                         $total_resign++;
                     }
-                    
+
                     if($i[13] != '' && ('20'.substr($i[13], 6, 2) == date('Y') && substr($i[13], 3, 2) == date('m'))){
                         $total_resign_thismonth++;
                     }
@@ -180,7 +176,7 @@ class Importnoc extends Component
                     if($i[13] != ''){
                         $total_resign++;
                     }
-                    
+
                     if($i[13] != '' && ('20'.substr($i[13], 6, 2) == date('Y') && substr($i[13], 3, 2) == date('m'))){
                         $total_resign_thismonth++;
                     }
@@ -199,13 +195,13 @@ class Importnoc extends Component
         
             
 
-             // dd($total_success .' - '. $total_resign .' - '. $total_resign_thismonth);
+            // dd($total_success .' - '. $total_resign .' - '. $total_resign_thismonth);
             session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
             
             return redirect()->route('database-noc.index');   
         }
     }
-    
+
 
     public function yearborn($year){
         if($year > substr(date('Y'), 2, 2)){
