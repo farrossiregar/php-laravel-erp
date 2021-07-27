@@ -40,11 +40,16 @@ class PpeCheckController extends Controller
     public function store(Request $request)
     {
         
-        $data = PpeCheck::where('employee_id',\Auth::user()->employee->id)->first();
+        $data = PpeCheck::where('employee_id',\Auth::user()->employee->id)->orderBy('id','DESC')->first();
         if(!$data) $data = new PpeCheck(); 
 
         $data->employee_id = isset(\Auth::user()->employee->id) ? \Auth::user()->employee->id : '';
         $data->is_submit = 1;
+        $data->ppe_lengkap = $request->ppe_lengkap;
+        $data->ppe_alasan_tidak_lengkap = $request->ppe_alasan_tidak_lengkap;
+        $data->banner_lengkap = $request->banner_lengkap;
+        $data->banner_alasan_tidak_lengkap = $request->banner_alasan_tidak_lengkap;
+        $data->sertifikasi_alasan_tidak_lengkap = $request->sertifikasi_alasan_tidak_lengkap;
         $data->save();
 
         if($request->foto_dengan_ppe){
@@ -59,19 +64,19 @@ class PpeCheckController extends Controller
             $data->foto_banner = "storage/ppe-check/{$data->id}/{$name}";
         }
         
-        if($request->foto_wah) {
+        if(isset($request->foto_wah)) {
             $name = "foto_wah.".$request->foto_wah->extension();
             $request->foto_wah->storeAs("public/ppe-check/{$data->id}", $name);
             $data->foto_wah = "storage/ppe-check/{$data->id}/{$name}";
         }
 
-        if($request->foto_elektrikal) {
+        if(isset($request->foto_elektrikal)) {
             $name = "foto_elektrikal.".$request->foto_wah->extension();
             $request->foto_elektrikal->storeAs("public/ppe-check/{$data->id}", $name);
             $data->foto_elektrikal = "storage/ppe-check/{$data->id}/{$name}";
         }
 
-        if($request->foto_first_aid) {
+        if(isset($request->foto_first_aid)) {
             $name = "foto_first_aid.".$request->foto_first_aid->extension();
             $request->foto_first_aid->storeAs("public/ppe-check/{$data->id}", $name);
             $data->foto_first_aid = "storage/ppe-check/{$data->id}/{$name}";

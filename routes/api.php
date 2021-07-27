@@ -51,6 +51,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('tools-check/store-stolen',[\App\Http\Controllers\Api\ToolsCheckController::class,'storeStolen'])->name('api.tools-check.store-stolen');
 	Route::post('tools-check/store-broken',[\App\Http\Controllers\Api\ToolsCheckController::class,'storeBroken'])->name('api.tools-check.store-broken');
 	Route::get('tools-check/get-toolbox',[\App\Http\Controllers\Api\ToolsCheckController::class,'get_toolbox'])->name('api.tools-check.get-toolbox');
+	Route::get('tools-check/get-toolbox-check/{id}',[\App\Http\Controllers\Api\ToolsCheckController::class,'get_toolbox_check'])->name('api.tools-check.get-toolbox-check');
 	Route::get('tools-check/get-image/{id}',[\App\Http\Controllers\Api\ToolsCheckController::class,'getImage'])->name('api.tools-check.get-image');
 	Route::post('tools-check/get-image-by-parent',[\App\Http\Controllers\Api\ToolsCheckController::class,'getImageByParent'])->name('api.tools-check.get-image-by-parent');
 	Route::get('tools-check/history',[\App\Http\Controllers\Api\ToolsCheckController::class,'history'])->name('api.tools-check.history');

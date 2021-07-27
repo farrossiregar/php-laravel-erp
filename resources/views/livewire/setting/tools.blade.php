@@ -27,9 +27,10 @@
                     <div class="form-group" x-show="insert" @click.away="insert = false">
                         <input type="text" placeholder="Name Toolbox..." class="form-control" wire:keydown.enter="save_toolbox" x-on:keydown.enter="insert = false" x- wire:model="name_toolbox" />
                     </div>
-                    <a href="#" @click="insert = true"><i class="fa fa-plus"></i></a>
+                    <a href="javascript:;" @click="insert = true"><i class="fa fa-plus"></i></a>
                 </div>
             </div>
         </div>
+        @livewire('setting.tools-laptop')
     </div>
 </div>

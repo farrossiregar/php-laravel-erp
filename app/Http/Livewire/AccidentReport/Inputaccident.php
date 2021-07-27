@@ -11,7 +11,7 @@ class Inputaccident extends Component
 {
 
     use WithFileUploads;
-    public $site_id, $date, $employee_id, $klasifikasi_insiden, $jenis_insiden, $jenis_insiden2, $nikdannama, $rincian;
+    public $site_id, $date, $employee_id, $klasifikasi_insiden, $jenis_insiden, $jenis_insiden2, $nikdannama, $rincian,$show_jenis_insiden2=false;
     public $photo1, $photo2, $photo3, $photo4, $photo5, $photo6, $photo7, $photo8;
 
     
@@ -27,6 +27,10 @@ class Inputaccident extends Component
         
     }
 
+    public function updated($propertyName)
+    {
+        if($propertyName=='jenis_insiden')  $this->show_jenis_insiden2 = $this->$propertyName=='Jenis Insiden lain yang tidak disebutkan diatas:  *Free Text*' ? true : false;
+    }
   
     public function save()
     {

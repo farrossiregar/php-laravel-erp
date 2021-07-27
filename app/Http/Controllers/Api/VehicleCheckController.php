@@ -9,7 +9,8 @@ use App\Models\VehicleCheckAccidentReport;
 use Illuminate\Http\Request;
 use App\Models\Notification;
 use App\Models\AccidentReport;
- 
+use App\Models\AccidentReportImage;
+
 class VehicleCheckController extends Controller
 {
     /**
@@ -29,6 +30,7 @@ class VehicleCheckController extends Controller
         $data->is_submit = 1;
         $data->plat_nomor = $request->plat_nomor;
         $data->stiker_safety_driving = $request->sticker_dipasang;
+        $data->sticker_note = $request->sticker_note;
         $data->save();
         
         if($request->is_accident_report == 1){
@@ -38,10 +40,25 @@ class VehicleCheckController extends Controller
             $accident->date = date('Y-m-d',strtotime($request->date));
             $accident->jenis_insiden = $request->jenis_insiden;
             $accident->klasifikasi_insiden = $request->klasifikasi_insiden;
-            $accident->rincian_kejadian = $request->rincian_kejadian;
-            $accident->nik_nama_kejadian = $request->nik_nama_kejadian;
+            $accident->rincian_kronologis = $request->rincian_kejadian;
+            $accident->nik_and_nama = $request->nik_nama_kejadian;
             $accident->type = 2; // vehicle
             $accident->save();
+
+            for($num=1;$num<=10;$num++){
+                $img = "image_{$num}";
+                if(isset($request->$img)){
+                    $dataimage = new AccidentReportImage();
+                    $dataimage->accident_report_id = $accident->id;
+                    $ar = 'accident-report'.$accident->id.'-1.'.$request->$img->extension();
+                    $request->$img->storeAs('public/Accident_Report/web/',$ar);
+                    $dataimage->image = 'storage/Accident_Report/web/'.$ar;
+                    $dataimage->save();
+                }
+            }
+            
+            $data->accident_report_id = $accident->id;
+            $data->save();
         }
 
         // find notification
@@ -106,12 +123,12 @@ class VehicleCheckController extends Controller
 
     public function history()
     {
-        $param = VehicleCheck::where(['employee_id'=>\Auth::user()->employee->id])->orderBy('id','desc')->get();
+        $param = VehicleCheck::where(['employee_id'=>\Auth::user()->employee->id,'is_submit'=>1])->orderBy('id','desc')->get();
         $data = [];
         foreach($param as $k => $item){
             $data[$k] = $item;
-            $data[$k]['foto_mobil_plat_nomor'] = asset($item->foto_mobil_plat_nomor);
-            $data[$k]['foto_stiker_safety_driving'] = asset($item->foto_stiker_safety_driving);
+            $data[$k]['foto_mobil_plat_nomor'] = $item->foto_mobil_plat_nomor ? asset($item->foto_mobil_plat_nomor) : null;
+            $data[$k]['foto_stiker_safety_driving'] = $item->foto_stiker_safety_driving ? asset($item->foto_stiker_safety_driving) : null;
             $data[$k]['date'] = date('d F Y',strtotime($item->created_at));
         }
 
@@ -164,15 +181,20 @@ class VehicleCheckController extends Controller
         return response()->json(['message'=>'submited'], 200);
     }
 
-    public function getVehicleAccidentReportById($id)
+    public function getVehicleAccidentReportById(VehicleCheck $id)
     {
         $data = [];
-        foreach(VehicleCheckAccidentReport::where('vehicle_check_id',$id)->get() as $k => $item){
+        foreach(VehicleCheckAccidentReport::where('vehicle_check_id',$id->id)->get() as $k => $item){
             $data[$k] = $item;
             $data[$k]['image'] = asset($item['image']);
         }
+        $accidentReport = AccidentReport::find($id->accident_report_id);
+        $accidentReportImage = [];
+        foreach(AccidentReportImage::where('accident_report_id',$accidentReport->id)->get() as $k => $item){
+            $accidentReportImage[$k]['image'] = asset($item->image);
+        }
         
-        return response()->json(['message'=>'success','data'=>$data], 200);
+        return response()->json(['message'=>'success','data'=>$data,'accident_report'=>$accidentReport,'accident_report_image'=>$accidentReportImage], 200);
     }
 
     public function getVehicleCleanlinessById($id)
@@ -196,7 +218,9 @@ class VehicleCheckController extends Controller
                 $data[$k]['image'] = asset($item['image']);
             }
         }
-        
+
+       
+
         return response()->json(['message'=>'success','data'=>$data], 200);
     }
 

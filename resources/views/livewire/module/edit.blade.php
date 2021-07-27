@@ -93,7 +93,7 @@
                                     <th style="background:#eee;">
                                         <div class="row mx-0">
                                             <div class="col-md-6 mx-0">
-                                                @livewire('module.form-edit-sub-menu', ['data'=>$item], key($item->id))
+                                                @livewire('module.form-edit-sub-menu', ['data'=>$item], key($group->id+$item->id))
                                                 <small>{{ $item->link }}</small>
                                             </div>
                                             <div class="col-md-6 mx-0">
@@ -106,7 +106,7 @@
                                 @foreach($item->func as $function)
                                 <tr>
                                     <td>
-                                        @livewire('module.delete-sub', ['data'=>$function],key($function->id+$group->id))
+                                        @livewire('module.delete-sub', ['data'=>$function],key($function->id+$group->id+$item->id))
                                         <small>{{$function->link}}</small>
                                     </td>
                                 </tr>

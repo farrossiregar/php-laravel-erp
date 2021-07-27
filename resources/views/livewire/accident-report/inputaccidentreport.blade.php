@@ -28,7 +28,7 @@
                                                 <option value=""> --- Field Team --- </option>
                                                 <!-- foreach(check_access_data('po-tracking-nonms.field-team-list') as $user) -->
                                                 @foreach(\App\Models\Employee::orderBy('id', 'asc')->get() as $user)
-                                                <option value="{{$user->employee_id}}">{{$user->name}}</option>
+                                                <option value="{{$user->id}}">{{$user->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -47,9 +47,9 @@
                                                 
                                             </select>
                                         </div>
-                                        <div class="col-md-12 form-group">
+                                        <div class="col-md-12 form-group" x-data>
                                             <label>Jenis Insiden</label>
-                                            <select wire:change="$emit('showrincian')" id="jenis_insiden" class="form-control" >
+                                            <select class="form-control" wire:model="jenis_insiden" >
                                                 <option value=""> -- Jenis Insiden --</option>
                                                 <option value="Menabrak / Ditabrak sesuatu">Menabrak / Ditabrak sesuatu</option>
                                                 <option value="Jatuh / Kejatuhan">Jatuh / Kejatuhan</option>
@@ -65,12 +65,10 @@
                                                 <option value="Disengat oleh / digigit oleh sesuatu">Disengat oleh / digigit oleh sesuatu</option>
                                                 <option value="Faktor biologis (Bakteri, Virus, Mikroba, Jamur)">Faktor biologis (Bakteri, Virus, Mikroba, Jamur)</option>
                                                 <option value="Jenis Insiden lain yang tidak disebutkan diatas:  *Free Text*">Jenis Insiden lain yang tidak disebutkan diatas:  *Free Text*</option>
-                                                
                                             </select>
-                                            <div id="rincian_text">
-                                                <input type="text" style="display:none;" id="jenis_insiden2" class="form-control" required  wire:model="jenis_insiden">
+                                            <div x-show="$wire.show_jenis_insiden2" class="mt-2">
+                                                <input type="text" class="form-control" placeholder="Jenis Insiden lain yang tidak disebutkan diatas:  *Free Text*" wire:model="jenis_insiden2">
                                             </div>
-                                            
                                         </div>
                                         <div id="div_rincian" class="col-md-12 form-group">
                                             <label>Rincian Kejadian</label>
@@ -106,8 +104,6 @@
                                         </div>
                                     </div>
                                 </div>
-
- 
                                 <div class="col-md-12 form-group">
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                 </div>
@@ -119,20 +115,3 @@
         </div>
     </div>
 </div>
-
-
-@section('page-script')
-    Livewire.on('showrincian',()=>{
-        var jenis_insiden = $('#jenis_insiden').val();
-        if(jenis_insiden != 'Jenis Insiden lain yang tidak disebutkan diatas:  *Free Text*'){
-            @this.set('jenis_insiden', jenis_insiden);
-        }else{
-            
-            var input_rincian = '<input type="text" style="display:block;" id="jenis_insiden2" class="form-control" required wire:model="jenis_insiden2">';
-            $('#rincian_text').html(input_rincian);
-            
-        }
-
-    });
-@endsection
-

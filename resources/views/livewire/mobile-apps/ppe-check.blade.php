@@ -27,6 +27,7 @@
                     <th class="text-center">Sertifikasi WAH</th>
                     <th class="text-center">Electrical</th>
                     <th class="text-center">First Aid</th>
+                    <th class="text-center">Alasan Sertifikat Tidak Lengkap</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,11 +37,25 @@
                     <td>{{isset($item->_employee->name) ? $item->_employee->name : ''}}</td>
                     <td>{{date('d-M-Y',strtotime($item->created_at))}}</td>
                     <td class="text-center">
+                        @if($item->ppe_lengkap ==2)
+                            <span class="badge badge-warning">Tidak Lengkap</span>
+                            <p>{{$item->ppe_alasan_tidak_lengkap}}</p>
+                        @endif
+                        @if($item->ppe_lengkap ==1)
+                            <span class="badge badge-success">Lengkap</span>
+                        @endif
                         @if($item->foto_dengan_ppe)
                             <a href="{{asset($item->foto_dengan_ppe)}}" target="_blank"><i class="fa fa-image"></i></a>
                         @endif
                     </td>
                     <td class="text-center">
+                        @if($item->banner_lengkap == 2)
+                            <span class="badge badge-warning">Tidak Lengkap</span>
+                            <p>{{$item->banner_alasan_tidak_lengkap}}</p>
+                        @endif
+                        @if($item->banner_lengkap == 1)
+                            <span class="badge badge-success">Lengkap</span>
+                        @endif
                         @if($item->foto_banner)
                             <a href="{{asset($item->foto_banner)}}" target="_blank"><i class="fa fa-image"></i></a>
                         @endif
@@ -59,6 +74,9 @@
                         @if($item->foto_first_aid)
                             <a href="{{asset($item->foto_first_aid)}}" target="_blank"><i class="fa fa-image"></i></a>
                         @endif
+                    </td>
+                    <td>
+                        {{$item->sertifikasi_alasan_tidak_lengkap}}
                     </td>
                 </tr>
             @endforeach

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Toolbox;
+use App\Models\ToolboxLaptop;
 use App\Models\ToolboxCheck;
+use App\Models\ToolboxCheckLaptop;
 use App\Models\ToolsCheck;
 use App\Models\ToolsCheckUpload;
 use Illuminate\Http\Request;
@@ -27,8 +29,26 @@ class ToolsCheckController extends Controller
     public function get_toolbox()
     {
         $data = Toolbox::get();
+        $laptopType = ToolboxLaptop::get();
         
-        return response()->json(['message'=>'success','data'=>$data], 200);
+        return response()->json(['message'=>'success','data'=>$data,'laptop_type'=> $laptopType], 200);
+    }
+
+    public function get_toolbox_check(ToolsCheck $id)
+    {
+        $data = ToolboxCheck::where(['tools_check_id'=>$id->id])->get();
+        $toolbox = [];
+        foreach($data as $k => $item){
+            $toolbox[$k]['id'] = $item->id;
+            $toolbox[$k]['name'] = isset($item->toolbox->name) ? $item->toolbox->name : '';
+            $toolbox[$k]['qty'] = $item->qty;
+            $toolbox[$k]['status'] = $item->status;
+            $toolbox[$k]['image'] = $item->image ? asset($item->image) : null;
+            $toolbox[$k]['note'] = $item->note;
+        }
+
+        $laptopType = ToolboxLaptop::get();
+        return response()->json(['message'=>'success','data'=>$toolbox,'laptop_type'=> $laptopType], 200);
     }
 
     public function storeBroken(Request $r)
@@ -64,6 +84,9 @@ class ToolsCheckController extends Controller
         foreach($toolBox as $item){
             $new = new ToolboxCheck();
 
+            $qty = "qty_{$item->id}";
+            if(isset($request->$qty)) $new->qty = $request->$qty;
+            
             $note = "note_{$item->id}";
             if(isset($request->$note)) $new->note = $request->$note;
 
@@ -76,12 +99,26 @@ class ToolsCheckController extends Controller
                 $request->$img->storeAs("public/tools-check/{$find->id}/{$item->id}", $name);
                 $new->image = "storage/tools-check/{$find->id}/{$item->id}/{$name}";
             }
-
+            
             $new->tools_check_id = $find->id;
             $new->toolbox_id = $item->id;
             $new->save();
         }
-        
+
+        $laptop = new ToolboxCheckLaptop();
+        $laptop->tools_check_id = $find->id;
+        $laptop->status = $request->laptop_condition;
+        if(isset($request->laptop_image)){
+            $name = "laptop.".$request->laptop_image->extension();
+            $request->laptop_image->storeAs("public/tools-check/{$find->id}", $name);
+            $laptop->image = "storage/tools-check/{$find->id}/{$name}";
+        }
+        $laptop->note = $request->laptop_condition_note;
+        $laptop->serial_number = $request->laptop_serial_number;
+        $laptop->qty = $request->laptop_qty;
+        $laptop->toolbox_laptop_id = $request->laptop_type;
+        $laptop->save();
+
         $find->is_submit  = 1;
         $find->save();
 
