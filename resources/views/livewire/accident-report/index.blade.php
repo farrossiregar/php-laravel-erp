@@ -8,6 +8,17 @@
                     <div class="col-md-2">
                         <input type="date" class="form-control" wire:model="date" />
                     </div>
+                    <div class="col-md-2">
+                        <select onclick="" class="form-control" required wire:model="employee_id">
+                            <option value=""> --- Field Team --- </option>
+                            @foreach(\App\Models\Employee::orderBy('id', 'asc')->get() as $user)
+                            <option value="{{$user->id}}">{{$user->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control" wire:model="site_id" />
+                    </div>
                     
                     <!-- <div class="col-md-2">
                         <a href="#" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Dana STPL')}}</a>

@@ -18,7 +18,7 @@ class Inputaccident extends Component
     public function render()
     {
         
-        if(!check_access('accident-report.index')){
+        if(!check_access('accident-report.input')){
             session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
             $this->redirect('/');
         }
@@ -34,11 +34,17 @@ class Inputaccident extends Component
   
     public function save()
     {
-        // $this->validate([
+        $this->validate([
             
-        //     'photo1'=>'required|mimes:jpg,jpeg,png|max:51200', // 50MB maksimal
-        //     'photo2'=>'required|mimes:jpg,jpeg,png|max:51200', // 50MB maksimal
-        // ]);
+            'photo1'=>'required|mimes:jpg,jpeg,png|max:5120', // 5MB maksimal
+            'photo2'=>'required|mimes:jpg,jpeg,png|max:5120', // 5MB maksimal
+            'photo3'=>'required|mimes:jpg,jpeg,png|max:5120', // 5MB maksimal
+            'photo4'=>'required|mimes:jpg,jpeg,png|max:5120', // 5MB maksimal
+            'photo5'=>'required|mimes:jpg,jpeg,png|max:5120', // 5MB maksimal
+            'photo6'=>'required|mimes:jpg,jpeg,png|max:5120', // 5MB maksimal
+            'photo7'=>'required|mimes:jpg,jpeg,png|max:5120', // 5MB maksimal
+            'photo8'=>'required|mimes:jpg,jpeg,png|max:5120', // 5MB maksimal
+        ]);
         
         
         $data                           = new \App\Models\AccidentReport();

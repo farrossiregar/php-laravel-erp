@@ -105,6 +105,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 form-group">
+                                    <a href="{{route('accident-report.index')}}"><i class="fa fa-arrow-left"></i> {{ __('Back') }}</a>
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                 </div>
                             </div>

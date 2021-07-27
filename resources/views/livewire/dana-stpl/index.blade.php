@@ -8,8 +8,24 @@
                     <div class="col-md-2">
                         <input type="date" class="form-control" wire:model="date" />
                     </div>
-                    @if(check_access('input-dana-stpl'))
                     <div class="col-md-2">
+                        <select class="form-control" wire:model="project" >
+                            <option value=""> -- Project --</option>
+                            @foreach(\App\Models\Project::get() as $item)
+                            <option  value="<?php echo $item->name; ?> ">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select onclick="" class="form-control" required wire:model="region">
+                            <option value=""> --- Region --- </option>
+                            @foreach(\App\Models\Region::orderBy('id', 'asc')->get() as $user)
+                            <option value="{{$user->id}}">{{$user->region_code}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @if(check_access('input-dana-stpl'))
+                    <div class="col-md-1" style="margin-right: 25px;">
                         <a href="#" data-toggle="modal" data-target="#modal-datastpl-inputdana" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Dana STPL')}}</a>
                     </div>
                     @endif
