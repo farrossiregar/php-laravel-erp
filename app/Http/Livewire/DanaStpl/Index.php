@@ -13,15 +13,15 @@ use DB;
 class Index extends Component
 {
     use WithPagination;
-    public $date;
+    public $date, $region, $project;
     protected $paginationTheme = 'bootstrap';
     
     public function render()
     {
-    //     if(!check_access('po-tracking-nonms.index')){
-    //         session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
-    //         $this->redirect('/');
-    //     }
+        if(!check_access('dana-stpl.index')){
+            session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
+            $this->redirect('/');
+        }
         // dd(check_access_data('dana-stpl.approve-ms'));
 
         
@@ -29,7 +29,9 @@ class Index extends Component
                                     ->join(env('DB_DATABASE_EPL_PMT').'.region as region', 'region.id', 'dana_stpl_master.region_id')
                                     ->leftjoin(env('DB_DATABASE').'.employees as employees', 'employees.id', 'dana_stpl_master.sm_id')
                                     ->orderBy('dana_stpl_master.id', 'desc');
-        if($this->date) $ata = $data->whereDate('created_at',$this->date);
+        if($this->date) $ata = $data->whereDate('dana_stpl_master.created_at',$this->date);
+        if($this->region) $ata = $data->where('dana_stpl_master.region_id',$this->region);
+        if($this->project) $ata = $data->where('dana_stpl_master.project_name',$this->project);
                         
         // dd($data->get());
         return view('livewire.dana-stpl.index')->with(['data'=>$data->paginate(50)]);
