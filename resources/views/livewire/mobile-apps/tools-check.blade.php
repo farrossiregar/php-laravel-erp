@@ -39,7 +39,7 @@
                     <th>Employee</th> 
                     <th>Year</th>
                     <th>Month</th>
-                    @foreach(\App\Models\ToolsCheckItem::get() as $tools)
+                    @foreach(\App\Models\Toolbox::get() as $tools)
                     <th class="text-center">{{$tools->name}}</th>
                     @endforeach
                 </tr>
@@ -51,12 +51,15 @@
                         <td>{{isset($item->_employee->name) ? $item->_employee->name : ''}}</td>
                         <td>{{$item->tahun}}</td>
                         <td>{{$item->bulan}}</td>
-                        @foreach(\App\Models\ToolsCheckItem::get() as $tools)
-                            <th class="text-center">
-                            @foreach(\App\Models\ToolsCheckUpload::where(['tools_check_item_id'=>$tools->id,'tools_check_id'=>$item->id])->get() as $upload)
+                        @foreach(\App\Models\Toolbox::get() as $tool)
+                            <td class="text-center">
+                            @foreach(\App\Models\ToolboxCheck::where(['toolbox_id'=>$tool->id,'tools_check_id'=>$item->id])->get() as $upload)
+                                
+                                @if($upload->status==1) <span class="badge badge-success" title="QTY : {{$upload->qty}}">Kondisi Baik</span> @endif
+                                @if($upload->status==2) <span class="badge badge-warning" title="QTY : {{$upload->qty}}, Note: {{$upload->note}}">Kondisi Rusak</span> @endif 
                                 <a href="{{asset($upload->image)}}" target="_blank"><i class="fa fa-image"></i></a>
                             @endforeach
-                            </th>
+                            </td>
                         @endforeach
                     </tr>
                 @endforeach

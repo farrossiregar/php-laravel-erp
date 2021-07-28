@@ -47,7 +47,7 @@
                                                 
                                             </select>
                                         </div>
-                                        <div class="col-md-12 form-group" x-data>
+                                        <div class="col-md-12 form-group" x-data="">
                                             <label>Jenis Insiden</label>
                                             <select class="form-control" wire:model="jenis_insiden" >
                                                 <option value=""> -- Jenis Insiden --</option>
