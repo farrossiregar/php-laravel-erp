@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Setting;
 
 use Livewire\Component;
-use App\Models\ToolboxLaptop;
+use App\Models\ToolboxType;
 
 class ToolsLaptop extends Component
 {
@@ -13,7 +13,7 @@ class ToolsLaptop extends Component
 
     public function render()
     {
-        $laptop = ToolboxLaptop::get();
+        $laptop = ToolboxType::get();
 
         return view('livewire.setting.tools-laptop')->with(['laptop'=>$laptop]);
     }
@@ -24,7 +24,7 @@ class ToolsLaptop extends Component
             'name' => 'required'
         ]);
         
-        $data = new ToolboxLaptop();
+        $data = new ToolboxType();
         $data->name = $this->name;
         $data->save();
 
