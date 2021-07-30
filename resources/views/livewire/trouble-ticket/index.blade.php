@@ -20,20 +20,20 @@
                                 <th>No</th>                               
                                 <th>Ticket Number</th>          
                                 <th>Employee</th>          
-                                <th>Subject</th>          
-                                <th>Description</th>          
+                                <th>Category</th>          
+                                <th>Description</th>
+                                <th>File</th> 
                                 <th>Status</th>          
-                                <th>Website</th> 
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($data as $k => $item)
                             <tr>
                                 <td style="width: 50px;">{{$k+1}}</td>
-                                <td>{{$item->telepon}}</td>
-                                <td>{{$item->address}}</td>
-                                <td>{{$item->code}}</td>
-                                <td>{{$item->website}}</td>
+                                <td>{{$item->trouble_ticket_number}}</td>
+                                <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
+                                <td>{{isset($item->category->name) ? $item->category->name : ''}}</td>
+                                <td>{{$item->decription}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -46,9 +46,9 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" wire:ignore.self id="modal_insert_trouble_ticket" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" x-data="" wire:ignore.self id="modal_insert_trouble_ticket" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form>
+            <form wire:submit.prevent="save">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Trouble Ticket</h5>
@@ -69,6 +69,9 @@
                                     <option value="{{$item->id}}">{{$item->name}}</option>
                                 @endforeach
                             </select>                            
+                            @error('employee_id')
+                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                            @enderror
                         </div>
                         <div class="form-group" x-data="">
                             <label>Category </label>
@@ -82,10 +85,16 @@
                             <div x-show="$wire.show_category_others" class="mt-2">
                                 <input type="text" class="form-control" wire:model="trouble_ticket_category_others" placeholder="Free Text">
                             </div>
+                            @error('trouble_ticket_category_id')
+                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label>Description</label>
                             <textarea class="form-control" wire:model="description" style="height: 80px;"></textarea>
+                            @error('description')
+                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label>Attachment (pdf,docs,image)</label>
@@ -94,7 +103,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">No</button>
-                        <button type="submit"class="btn btn-danger">Submit</button>
+                        <button type="submit" x-on:click="$('#modal_insert_trouble_ticket').modal('hide')" class="btn btn-danger">Submit</button>
                     </div>
                 </div>
             </form>

@@ -41,13 +41,14 @@ class Index extends Component
         if($this->show_category_others){
             $new_category = new TroubleTicketCategory();
             $new_category->name = $this->trouble_ticket_category_others;
-            $new_category->name = isset(\Auth::user()->employee->id) ? \Auth::user()->employee->id : '';
+            $new_category->employee_id = isset(\Auth::user()->employee->id) ? \Auth::user()->employee->id : '';
             $new_category->save();
 
             $this->trouble_ticket_category_id = $new_category->id;
         }
 
         $data = new TroubleTicket();
+        $data->trouble_ticket_number = $this->trouble_ticket_number;
         $data->employee_id = $this->employee_id;
         $data->trouble_ticket_category_id = $this->trouble_ticket_category_id;
         $data->description = $this->description;
