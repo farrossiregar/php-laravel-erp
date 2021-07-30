@@ -33,7 +33,7 @@ class WorkOrderController extends Controller
             $key++;
         }
 
-        $key++;
+        // $key++;
         
         foreach(Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereNotIn('type',[1,2,3])->get() as $k => $item){
             $data[$key] = $item;
