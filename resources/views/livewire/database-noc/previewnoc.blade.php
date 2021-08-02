@@ -1,7 +1,13 @@
 <form wire:submit.prevent="save">
     @csrf
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-eye"></i> Preview Database NOC</h5>
+        <?php
+            
+            $monthyear = explode('-', $selected_id);
+            
+            $data = \App\Models\Employee::whereYear('resign_date', $year)->whereMonth('resign_date', $month)->get();
+        ?>
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-eye"></i> Preview Database NOC <?php echo date('F', mktime(0, 0, 0, $month, 10)).' '.$year; ?></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true close-btn">×</span>
         </button>
@@ -22,9 +28,6 @@
                 </thead>
                 <tbody>
                     <?php
-                        $monthyear = explode('-', $selected_id);
-                        $data = \App\Models\Employee::whereYear('resign_date', '2021')->whereMonth('resign_date', '07')->get();
-
 
                         for($i = 0; $i < count($data); $i++){
                             $position = \App\Models\UserAccess::where('id', $data[$i]->user_access_id)->first();

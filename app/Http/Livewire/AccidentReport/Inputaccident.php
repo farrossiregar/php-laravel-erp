@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Auth;
 use DB;
+use DateTime;
 
 class Inputaccident extends Component
 {
@@ -51,6 +52,10 @@ class Inputaccident extends Component
         $data->employee_id              = $this->employee_id;
         $data->site_id                  = $this->site_id;
         $data->date                     = $this->date;
+
+        $pubdate                        = date_format(date_create($this->date), 'Y-m-d');
+        $data->week                     = $this->weekOfMonth3($pubdate);
+
         $data->klasifikasi_insiden      = $this->klasifikasi_insiden;
         
         if($this->jenis_insiden == 'Jenis Insiden lain yang tidak disebutkan diatas:  *Free Text*'){
@@ -167,4 +172,11 @@ class Inputaccident extends Component
         
         return redirect()->route('accident-report.index');
     }
+
+    public function weekOfMonth3($strDate) {
+		$dateArray = explode("-", $strDate);
+		$date = new DateTime();
+		$date->setDate($dateArray[0], $dateArray[1], $dateArray[2]);
+		return floor((date_format($date, 'j') - 1) / 7) + 1;  
+	  }
 }

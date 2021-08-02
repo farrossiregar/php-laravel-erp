@@ -13,12 +13,14 @@ class Previewnoc extends Component
         'modalpreviewnoc'=>'datapreview',
     ];
     use WithFileUploads;
-    public $selected_id, $data;
+    public $selected_id, $data, $year, $month;
 
     
     public function render()
     {
-        
+        $selected_id = $this->selected_id;
+        $month = $this->month;
+        $year = $this->year;
         return view('livewire.database-noc.previewnoc');
     }
 
@@ -26,7 +28,10 @@ class Previewnoc extends Component
     {
 
         $this->selected_id              = $id;
-        // // dd($id);
+        $monthyear = explode('-', $this->selected_id);
+        $this->month = $monthyear[0];
+        $this->year = $monthyear[1];
+        
         // $monthyear = explode('-', $id);
         // // dd($monthyear[0]);
         // $this->data                     = \App\Models\Employee::whereYear('resign_date', $monthyear[1])->whereMonth('resign_date', $monthyear[0])->get();
