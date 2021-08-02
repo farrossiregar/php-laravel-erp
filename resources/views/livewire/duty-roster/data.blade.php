@@ -22,7 +22,7 @@
 
     @if(check_access('database-noc.import-revise'))
     <div class="col-md-2">
-        <a href="#" data-toggle="modal" data-target="#modal-databasenoc-importnoc" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Duty roster')}}</a>
+        <a href="#" data-toggle="modal" data-target="#modal-dutyroster-importdutyroster" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Duty roster')}}</a>
     </div>
     
     @endif
@@ -35,9 +35,6 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Month</th> 
-                        <th>Active Personel</th> 
-                        <th>Resign Personel</th> 
                         <th>Status</th> 
                         <th>Action</th> 
                     </tr>
@@ -45,9 +42,6 @@
                 <tbody>
                     <tr>
                         <td>No</td>
-                        <td>Montd</td> 
-                        <td>Active Personel</td> 
-                        <td>Resign Personel</td> 
                         <td>Status</td> 
                         <td>Action</td> 
                     </tr>

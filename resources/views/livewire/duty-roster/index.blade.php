@@ -20,68 +20,22 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-databasenoc-importnoc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-dutyroster-importdutyroster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:database-noc.importnoc />
+            <livewire:duty-roster.importdutyroster />
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal-databasenoc-revisenoc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:database-noc.revisenoc />
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-databasenoc-approvenoc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:database-noc.approvenoc />
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-databasenoc-declinenoc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:database-noc.declinenoc />
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-databasenoc-previewnoc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:database-noc.previewnoc />
-        </div>
-    </div>
-</div>
 
 
 @section('page-script')
 
 
     Livewire.on('modalimportnoc',(data)=>{
-        $("#modal-databasenoc-importnoc").modal('show');
+        $("#modal-dutyroster-importdutyroster").modal('show');
     });
 
-    Livewire.on('modalrevisenoc',(data)=>{
-        $("#modal-databasenoc-revisenoc").modal('show');
-    });
-
-    Livewire.on('modaldeclinedatabasenoc',(data)=>{
-        $("#modal-databasenoc-declinenoc").modal('show');
-    });
-
-    Livewire.on('modalapprovedatabasenoc',(data)=>{
-        $("#modal-databasenoc-approvenoc").modal('show');
-    });
-
-    Livewire.on('modalpreviewnoc',(data)=>{
-        $("#modal-databasenoc-previewnoc").modal('show');
-    });
 
 @endsection

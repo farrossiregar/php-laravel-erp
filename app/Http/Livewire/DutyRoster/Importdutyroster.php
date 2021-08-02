@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\DatabaseNoc;
+namespace App\Http\Livewire\DutyRoster;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -46,163 +46,109 @@ class Importdutyroster extends Component
             $countLimit = 1;
             $total_failed = 0;
             $total_success = 0;
-            $total_resign = 0;
-            $total_resign_thismonth = 0;
 
-            $checkmaster                 = \App\Models\EmployeeNoc::where('month', date('m'))->where('year', date('Y'))->first();
-            if(!$checkmaster){
-                $datamaster                 = new \App\Models\EmployeeNoc();
-                $datamaster->month          = date('m');
-                $datamaster->year           = date('Y');
-                $datamaster->created_at     = date('Y-m-d H:i:s');
-                $datamaster->updated_at     = date('Y-m-d H:i:s');
-                $datamaster->save();
-            }else{
-                $datamaster                 = \App\Models\EmployeeNoc::where('month', date('m'))->where('year', date('Y'))->first();
-                $datamaster->month          = date('m');
-                $datamaster->year           = date('Y');
-                $datamaster->created_at     = date('Y-m-d H:i:s');
-                $datamaster->updated_at     = date('Y-m-d H:i:s');
-                $datamaster->save();
-            }
+            $datamaster                 = new \App\Models\DutyrosterSitelistMaster();
+            $datamaster->created_at     = date('Y-m-d H:i:s');
+            $datamaster->updated_at     = date('Y-m-d H:i:s');
+            $datamaster->save();
 
 
             foreach($sheetData as $key => $i){
-                if($key<1) continue; // skip header
+                if($key<2) continue; // skip header
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
                     
-                $check = \App\Models\Employee::where('nik', $i[0])->first();
-                if($check){
-                    $data = \App\Models\Employee::where('nik', $i[0])->first();
-                    $data->name                 = $i[1];
-                    $data->place_of_birth       = $i[22];
-                    $data->date_of_birth        = $this->yearborn(substr($i[23], 6, 2)).'-'.substr($i[23], 3, 2).'-'.substr($i[23], 0, 2);
-                    $data->marital_status       = $i[25];
-                    // $data->blood_type           = $i[0];
-                    $data->email                = 'farrosashiddiq@gmail.com';//$i[28];
-                    $data->join_date            = '20'.substr($i[11], 6, 2).'-'.substr($i[11], 3, 2).'-'.substr($i[11], 0, 2);
-                    $data->resign_date          = isset($i[13]) ? '20'.substr($i[13], 6, 2).'-'.substr($i[13], 3, 2).'-'.substr($i[13], 0, 2) : '';
-                    // $data->employee_status      = $i[0];
-                    $data->telepon              = $i[6];
-                    $data->telepon2             = $i[7];
-                    $data->telepon3             = $i[8];
-                    $data->npwp_number          = $i[33];
-                    $data->bpjs_number          = $i[32];
-                    $data->bpjs_pensiun         = $i[31];
-                    $data->bpjs_jht             = $i[30];
-                    
-                    $data->religion             = $i[29];
-                    $data->address              = $i[19];
-                    $data->domisili             = $i[20];
-                    $data->postcode             = $i[21];
-                    // $data->foto              = $i[0];
-                    // $data->user_id              = $i[0];
-                    // $data->department_id        = $i[0];
-                    // $data->department_sub_id    = $i[0];
-                    $data->user_access_id       = @\App\Models\UserAccess::where('name', $i[2])->first()->name;
-                    // $data->foto_ktp          = $i[0];
-                    $data->region_id            = @\App\Models\Region::where('region', $i[3])->first()->id;
-                    // $data->company_id        = $i[0];
-                    // $data->company_id        = $i[0];
-                    // $data->lokasi_kantor     = $i[0];
-                    $data->cluster              = $i[4];
-                    $data->project              = $i[5];
-                    $data->emergency_contact    = $i[9];
-                    $data->emergency_number     = $i[10];
-                    $data->contract_end         = $i[12];
-                    $data->resignation_reason   = $i[14];
-                    $data->account_name         = $i[15];
-                    $data->bank_name            = $i[16];
-                    $data->account_number       = $i[17];
-                    $data->tax_status           = $i[26];
-                    $data->mothers_name         = $i[27];
-                    $data->education_level      = $i[34];
-                    $data->updated_at           = date('Y-m-d H:i:s');
-                    $data->save();
+                    $data                           = new \App\Models\DutyrosterSitelistDetail();
 
-                    if($i[13] != ''){
-                        $total_resign++;
-                    }
+                    $data->id_master_dutyroster     = $datamaster->id;
+                    $data->project                  = $i[0];
+                    $data->tower_index              = $i[1];
+                    $data->site_id                  = $i[2];
+                    $data->site_name                = $i[3];
+                    $data->ne_system                = $i[4];
+                    $data->site_address             = $i[5];
+                    $data->cluster                  = $i[6];
+                    $data->sub_cluster              = $i[7];
+                    $data->region                   = $i[8];
+                    $data->sub_region               = $i[9];
+                    $data->idpel_pln                = $i[10];
+
+                    $data->lat                      = $i[11];
+                    $data->long                     = $i[12];
+                    $data->category_site            = $i[13];
+                    $data->depedency                = $i[14];
+                    $data->pm_category              = $i[15];
+                    $data->macro_ibc_mcp_repeater   = $i[16];
+                    $data->site_type                = $i[17];
+                    $data->permanent_genset         = $i[18];
+                    $data->tower_owner              = $i[19];
+                    // $data->id_toco                       = $i[20];
                     
-                    if($i[13] != '' && ('20'.substr($i[13], 6, 2) == date('Y') && substr($i[13], 3, 2) == date('m'))){
-                        $total_resign_thismonth++;
-                    }
-                }else{
-                    $data = new \App\Models\Employee();
-                    $data->nik                  = $i[0];
-                    $data->name                 = $i[1];
-                    $data->place_of_birth       = $i[22];
-                    $data->date_of_birth        = $this->yearborn(substr($i[23], 6, 2)).'-'.substr($i[23], 3, 2).'-'.substr($i[23], 0, 2);
-                    $data->marital_status       = $i[25];
-                    // $data->blood_type           = $i[0];
-                    $data->email                = 'farrosashiddiq@gmail.com';//$i[28];
-                    $data->join_date            = '20'.substr($i[11], 6, 2).'-'.substr($i[11], 3, 2).'-'.substr($i[11], 0, 2);
-                    $data->resign_date          = isset($i[13]) ? '20'.substr($i[13], 6, 2).'-'.substr($i[13], 3, 2).'-'.substr($i[13], 0, 2) : '';
-                    // $data->employee_status      = $i[0];
-                    $data->telepon              = $i[6];
-                    $data->telepon2             = $i[7];
-                    $data->telepon3             = $i[8];
-                    $data->npwp_number          = $i[33];
-                    $data->bpjs_number          = $i[32];
-                    $data->bpjs_pensiun         = $i[31];
-                    $data->bpjs_jht             = $i[30];
-                    
-                    $data->religion             = $i[29];
-                    $data->address              = $i[19];
-                    $data->domisili             = $i[20];
-                    $data->postcode             = $i[21];
-                    // $data->foto              = $i[0];
-                    // $data->user_id              = $i[0];
-                    // $data->department_id        = $i[0];
-                    // $data->department_sub_id    = $i[0];
-                    $data->user_access_id       = @\App\Models\UserAccess::where('name', $i[2])->first()->id;
-                    // $data->foto_ktp          = $i[0];
-                    $data->region_id            = @\App\Models\Region::where('region', $i[3])->first()->id;
-                    // $data->company_id        = $i[0];
-                    // $data->lokasi_kantor     = $i[0];
-                    $data->cluster              = $i[4];
-                    $data->project              = $i[5];
-                    $data->emergency_contact    = $i[9];
-                    $data->emergency_number     = $i[10];
-                    $data->contract_end         = $i[12];
-                    $data->resignation_reason   = $i[14];
-                    $data->account_name         = $i[15];
-                    $data->bank_name            = $i[16];
-                    $data->account_number       = $i[17];
-                    $data->tax_status           = $i[26];
-                    $data->mothers_name         = $i[27];
-                    $data->education_level      = $i[34];
+                    $data->sm                       = $i[21];
+                    $data->sm_no1                   = $i[22];
+                    $data->sm_no2                   = $i[23];
+                    $data->coordinator              = $i[24];
+                    $data->coordinator_no1          = $i[25];
+                    $data->coordinator_no2          = $i[26];
+                    $data->te                       = $i[27];
+                    $data->te_no1                   = $i[28];
+                    $data->te_no2                   = $i[29];
+                    $data->cme                      = $i[30];
+
+                    $data->cme_no1                  = $i[31];
+                    $data->cme_no2                  = $i[32];
+                    $data->collo_type               = $i[33];
+                    $data->rectifikasi1             = $i[34];
+                    $data->rectifikasi1_no1         = $i[35];
+                    $data->rectifikasi1_no2         = $i[36];
+                    $data->rectifikasi2             = $i[37];
+                    $data->rectifikasi2_no1         = $i[38];
+                    $data->rectifikasi2_no2         = $i[39];
+                    $data->rainy_session1           = $i[40];
+
+                    $data->rainy_session1_no1       = $i[41];
+                    $data->rainy_session1_no2       = $i[42];
+                    $data->rainy_session2           = $i[43];
+                    $data->rainy_session2_no1       = $i[44];
+                    $data->rainy_session2_no2       = $i[45];
+                    $data->digger                   = $i[46];
+                    $data->digger_no1               = $i[47];
+                    $data->digger_no2               = $i[48];
+                    $data->waspan                   = $i[49];
+                    $data->waspan_no1               = $i[50];
+
+                    $data->waspan_no2               = $i[51];
+                    $data->vehicle                  = $i[52];
+                    $data->splicer                  = $i[53];
+                    $data->otdr                     = $i[54];
+                    $data->opm                      = $i[55];
+                    $data->fo_cable_single72        = $i[56];
+                    $data->fo_cable_single36        = $i[57];
+                    $data->cable_fig8               = $i[58];
+                    $data->cable_72ribbon           = $i[59];
+                    $data->closure                  = $i[60];
+
+                    $data->hdpe                     = $i[61];
+                    $data->protection_sleeve        = $i[62];
+                    $data->bamboo                   = $i[63];
+                    $data->po_in_out                = $i[64];
+                    $data->entity                   = $i[65];
+                    $data->project_code             = $i[66];
+                    $data->remarks                  = '';
+
+
                     $data->created_at           = date('Y-m-d H:i:s');
                     $data->updated_at           = date('Y-m-d H:i:s');
                     $data->save();
-
-                    if($i[13] != ''){
-                        $total_resign++;
-                    }
-                    
-                    if($i[13] != '' && ('20'.substr($i[13], 6, 2) == date('Y') && substr($i[13], 3, 2) == date('m'))){
-                        $total_resign_thismonth++;
-                    }
-                }
                     
                
 
                 $total_success++;
             }
 
-            
-            $datamasterupdate                 = \App\Models\EmployeeNoc::where('id', $datamaster->id)->first();
-            $datamasterupdate->jumlah_active  = $total_success - $total_resign;
-            $datamasterupdate->jumlah_resign  = $total_resign_thismonth;
-            $datamasterupdate->save();
-        
-            
-
-             // dd($total_success .' - '. $total_resign .' - '. $total_resign_thismonth);
             session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
             
-            return redirect()->route('database-noc.index');   
+            return redirect()->route('duty-roster.index');   
         }
     }
     
