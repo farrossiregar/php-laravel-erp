@@ -24,13 +24,15 @@ class Index extends Component
             $this->redirect('/');
         }
         
-        $data = \App\Models\AccidentReport::orderBy('id', 'desc');
-        if($this->date) $ata = $data->whereDate('date',$this->date);
-        if($this->employee_id) $ata = $data->where('employee_id',$this->employee_id);
-        if($this->site_id) $ata = $data->where('site_id',$this->site_id);
+        // $data = \App\Models\AccidentReport::orderBy('id', 'desc');
+        // if($this->date) $ata = $data->whereDate('date',$this->date);
+        // if($this->employee_id) $ata = $data->where('employee_id',$this->employee_id);
+        // if($this->site_id) $ata = $data->where('site_id',$this->site_id);
                         
         
-        return view('livewire.accident-report.index')->with(['data'=>$data->paginate(50)]);
+        // return view('livewire.accident-report.index')->with(['data'=>$data->paginate(50)]);
+
+        return view('livewire.accident-report.index');
 
         
     }
