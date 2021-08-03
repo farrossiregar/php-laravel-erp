@@ -11,20 +11,8 @@
                 <div class="col-md-2">
                     <select class="form-control" wire:model="user_access_id">
                         <option value="">--- User Access ---</option>
-                        @foreach(\App\Models\UserAccess::all() as $i)
+                        @foreach(\App\Models\UserAccess::orderBy('name')->get() as $i)
                         <option value="{{$i->id}}">{{$i->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <select class="form-control" wire:model="department_sub_id">
-                        <option value="">{{__('--- Department --- ')}} </option>
-                        @foreach(\App\Models\Department::orderBy('name','ASC')->get() as $item)
-                        <optgroup label="{{$item->name}}">
-                            @foreach(\App\Models\DepartmentSub::where('department_id',$item->id)->get() as $sub)
-                            <option value="{{$sub->id}}">{{$sub->name}}</option>
-                            @endforeach
-                        </optgroup>
                         @endforeach
                     </select>
                 </div>

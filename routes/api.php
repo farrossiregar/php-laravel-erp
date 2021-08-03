@@ -99,4 +99,5 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('user/upload-photo',[\App\Http\Controllers\Api\UserController::class,'uploadPhoto'])->name('api.user.upload-photo');
 	Route::post('user/change-password',[\App\Http\Controllers\Api\UserController::class,'changePassword'])->name('api.user.change-password');
 	Route::get('user/check-token',[\App\Http\Controllers\Api\UserController::class,'checkToken']);
+	Route::post('it-support/store',[\App\Http\Controllers\Api\ItSupportController::class,'api.it-support.store']);
 }); 

@@ -25,8 +25,7 @@ class Index extends Component
             }
         });
 
-        if($this->user_access_id) $data = $data->where('user_access_id',"%{$this->keyword}%");
-        if($this->department_sub_id) $data = $data->where('department_sub_id',"%{$this->keyword}%");
+        if($this->user_access_id) $data = $data->where('user_access_id',$this->user_access_id);
 
         return view('livewire.employee.index')->with(['data'=>$data->paginate(100)]);
     }
