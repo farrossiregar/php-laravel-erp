@@ -1,8 +1,9 @@
 <div class="row">
-    <!-- <div class="col-md-2">
+    <div class="col-md-2">
         <input type="date" class="form-control" wire:model="date" />
-    </div> -->
+    </div>
 
+    
     <div class="col-md-1">                
         <select class="form-control" wire:model="year">
             <option value=""> --- Year --- </option>
@@ -11,14 +12,7 @@
             @endforeach 
         </select>
     </div>
-    <!-- <div class="col-md-2" wire:ignore>
-        <select class="form-control" style="width:100%;" wire:model="month">
-            <option value=""> --- Month --- </option>
-            @foreach(\App\Models\EmployeeNoc::select('month')->groupBy('month')->orderBy('month','ASC')->get() as $item)
-            <option value="{{$item->month}}">{{date('F', mktime(0, 0, 0, $item->month, 10))}}</option>
-            @endforeach
-        </select>
-    </div> -->
+
 
     @if(check_access('database-noc.import-revise'))
     <div class="col-md-2">
@@ -35,16 +29,40 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Data Problem</th> 
                         <th>Status</th> 
+                        <th>Date Upload</th> 
                         <th>Action</th> 
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($data as $key => $item)
                     <tr>
-                        <td>No</td>
-                        <td>Status</td> 
-                        <td>Action</td> 
+                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $key + 1 }}</td>
+                        <td>
+                            @if($item->status == '1')
+                                <label class="badge badge-success" data-toggle="tooltip" title="Approved">Approved</label>
+                            @endif
+
+                            @if($item->status == '0')
+                                <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Decline</label>
+                            @endif
+
+                            @if($item->status == '' || $item->status == null)
+                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
+                            @endif
+                        </td> 
+                        <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
+                        <td>
+                            <a href="{{route('duty-roster.preview',['id'=>$item->id]) }}" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> {{__('Preview')}}</a>
+                            @if($item->status == '')
+                                <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                            @endif
+                        </td> 
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
