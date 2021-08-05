@@ -15,6 +15,11 @@ class TroubleTicket extends Model
         return $this->belongsTo(Employee::class,'employee_id');
     }
 
+    public function pic()
+    {
+        return $this->belongsTo(Employee::class,'employee_pic_id');
+    }
+
     public function category()
     {
         return $this->belongsTo(TroubleTicketCategory::class, 'trouble_ticket_category_id');

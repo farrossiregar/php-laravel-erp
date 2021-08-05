@@ -125,20 +125,44 @@
                 <h5 class="text-info"><a href="javascript:void();" class="text-info" style="font-size:20px;" onclick="history.back()"><i class="fa fa-arrow-left" title="Back"></i></a> {{$group->group->name}}</h5>
                 <div class="row clearfix mt-3">
                     @foreach(\App\Models\ModulesItem::where(['module_id'=>$_GET['menu'],'module_group_id'=>$group->module_group_id])->get() as $action)
-                        <div class="col-lg-2 col-md-2 col-sm-12 px-1" onclick="window.open('{{route($action->link)}}','_blank')">
-                            <div class="card ng-star-inserted  text-center" style="height:200px;border:1px solid #eee">
-                                <div class="body clearfix" style="min-height: 78px;">
-                                    <div class="content3">
-                                        <h6>{{$action->name}}</h6>
+                        @if($action->is_have_sub_menu==1)
+                            <div class="col-lg-2 col-md-2 col-sm-12 px-1" x-data="{show_sub_menu:false}">
+                                <div class="card ng-star-inserted text-center" style="height:200px;border:1px solid #eee">
+                                    <div class="body clearfix" x-on:click="show_sub_menu = ! show_sub_menu" style="min-height: 78px;">
+                                        <div class="content3">
+                                            <h6>{{$action->name}}</h6>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="clearfix">
-                                    @if($action->icon)
-                                        <img src="{{$action->icon}}" class="ml-3" style="width: 45%;" />
-                                    @endif
+                                    <div class="clearfix" x-on:click="show_sub_menu = ! show_sub_menu">
+                                        @if($action->icon)
+                                            <template x-if="!show_sub_menu">
+                                                <img src="{{$action->icon}}" class="ml-3" style="width: 45%;" />
+                                            </template>
+                                        @endif
+                                    </div>
+                                    <ul x-show="show_sub_menu" class="list-unstyled feeds_widget text-left">
+                                        @foreach(\App\Models\ModulesItem::where(['parent_id'=>$action->id])->get() as $sub)
+                                            <li><i class="fa {{$sub->icon}}"></i> <a href="{{route($sub->link)}}">{{$sub->name}}</a></li>
+                                        @endforeach
+                                        </ul>
                                 </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="col-lg-2 col-md-2 col-sm-12 px-1" onclick="window.open('{{route($action->link)}}','_blank')">
+                                <div class="card ng-star-inserted text-center" style="height:200px;border:1px solid #eee">
+                                    <div class="body clearfix" style="min-height: 78px;">
+                                        <div class="content3">
+                                            <h6>{{$action->name}}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        @if($action->icon)
+                                            <img src="{{$action->icon}}" class="ml-3" style="width: 45%;" />
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     @endforeach
                 </div>
             @endforeach
