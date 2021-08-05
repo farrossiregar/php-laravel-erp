@@ -47,7 +47,7 @@
                         </div> -->
         
                         <div class="col-md-2">
-                            <a href="#" data-toggle="modal" data-target="#modal-dutyroster-importdutyroster" title="Add" class="btn btn-primary"><i class="fa fa-download"></i> {{__('Export Duty roster')}}</a>
+                            <a wire:click="save" href="" title="Add" class="btn btn-primary"><i class="fa fa-download"></i> {{__('Export Duty roster')}}</a>
                         </div>
                         <!-- <div class="col-md-2" wire:ignore>
                             <select class="form-control" style="width:100%;" wire:model="month">
@@ -149,7 +149,9 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>
+                                            @if(check_access('duty-roster.audit'))
                                             <input type="checkbox"  wire:click="checkdata({{ $item->id }})" wire:model="data_id.{{ $item->id }}" />
+                                            @endif
                                         </td>
                                         <td>{{ $item->project }}</td>
                                         <td>{{ $item->tower_index }}</td>
@@ -229,9 +231,17 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="{{route('duty-roster.index')}}"><i class="fa fa-arrow-left"></i> {{ __('Back') }}</a>
+                            </div>
+                        </div>
+                        <br>
+                        
                     </div>
                 </div>
-               
             </div>
         </div>
     </div>
