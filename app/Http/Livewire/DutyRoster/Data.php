@@ -13,21 +13,17 @@ use DB;
 class Data extends Component
 {
     use WithPagination;
-    public $date, $month, $year;
+    public $date;
     protected $paginationTheme = 'bootstrap';
     
     public function render()
     {
 
        
-        $data = \App\Models\EmployeeNoc::orderBy('month')->orderBy('year');
+        $data = \App\Models\DutyrosterSitelistMaster::orderBy('created_at', 'desc');
                                     
-        
-        // if($this->date) $ata = $data->where('month',date_format(date_create($this->date), 'm'))
-        //                             ->where('year',date_format(date_create($this->date), 'Y'));
 
-        if($this->date) $ata = $data->where('month',$this->month)
-                                    ->where('year',$this->year);
+        if($this->date) $ata = $data->whereDate('created_at',$this->date);
                         
         
         return view('livewire.duty-roster.data')->with(['data'=>$data->paginate(50)]);
