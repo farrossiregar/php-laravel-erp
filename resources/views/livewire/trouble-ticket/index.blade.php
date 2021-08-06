@@ -6,11 +6,11 @@
                 <div class="col-md-2">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                 </div>
-                {{-- @if(check_access('trouble-ticket.insert')) --}}
+                {{-- @if(check_access('trouble-ticket.insert'))
                 <div class="col-md-1">
                     <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_insert_trouble_ticket" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Trouble Ticket')}}</a>
                 </div>
-                {{-- @endif --}}
+                @endif --}}
             </div>
             <div class="body">
                 <div class="table-responsive">
@@ -18,11 +18,18 @@
                         <thead>
                             <tr>
                                 <th>No</th>                               
-                                <th>Ticket Number</th>          
+                                <th>Ticket Number</th>    
+                                <th>Employee ID / NIK</th>          
                                 <th>Employee</th>          
+                                <th>Department</th>          
+                                <th>Lokasi</th>          
+                                <th>Pickup By</th>     
                                 <th>Category</th>          
                                 <th>Description</th>
                                 <th>File</th> 
+                                <th>Pickup Date</th> 
+                                <th>Resolved Date</th> 
+                                <th>Closed Date</th> 
                                 <th>Status</th>          
                             </tr>
                         </thead>
@@ -31,9 +38,55 @@
                             <tr>
                                 <td style="width: 50px;">{{$k+1}}</td>
                                 <td>{{$item->trouble_ticket_number}}</td>
+                                <td>{{isset($item->employee->nik) ? $item->employee->nik : ''}}</td>
                                 <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
-                                <td>{{isset($item->category->name) ? $item->category->name : ''}}</td>
-                                <td>{{$item->decription}}</td>
+                                <td>{{isset($item->employee->department->name) ? $item->employee->department->name : ''}}</td>
+                                <td>{{isset($item->employee->lokasi_kantor) ? $item->employee->lokasi_kantor : ''}}</td>
+                                <td>{{isset($item->pic->name) ? $item->pic->name : ''}}</td>
+                                <td>{{$item->trouble_ticket_category}}</td>
+                                <td>{{$item->description}}</td>
+                                <td>
+                                    @if($item->file)
+                                    <div x-data="{show:false}">
+                                        <template x-if="!show">
+                                            <a href="javascript:void(0)" x-on:click="show = ! show"><i class="fa fa-image"></i></a>
+                                        </template>
+                                        <div x-show="show">
+                                            <img src="{{asset($item->file)}}" style="width:150px;" /><br />
+                                            <a href="javascript:void(0)" x-on:click="show = ! show"><i class="fa fa-times"></i></a>
+                                        </div>
+                                    </div>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->start_date)
+                                        {{date('d-M-Y H:i',strtotime($item->start_date))}}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->end_date)
+                                        {{date('d-M-Y H:i',strtotime($item->end_date))}}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->approve_date)
+                                        {{date('d-M-Y H:i',strtotime($item->approve_date))}}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->status==1)
+                                        <span class="badge badge-info">Open</span>
+                                    @endif
+                                    @if($item->status==2)
+                                        <span class="badge badge-warning">Progress</span>
+                                    @endif
+                                    @if($item->status==3)
+                                        <span class="badge badge-success">Resolved</span>
+                                    @endif
+                                    @if($item->status==4)
+                                        <span class="badge badge-primary">Close</span>
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -28,6 +28,31 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-dutyroster-revisidutyroster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:duty-roster.revisidutyroster />
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal-dutyroster-approvedutyroster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:duty-roster.approvedutyroster />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-dutyroster-declinedutyroster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:duty-roster.declinedutyroster />
+        </div>
+    </div>
+</div>
+
 
 
 @section('page-script')
@@ -37,5 +62,16 @@
         $("#modal-dutyroster-importdutyroster").modal('show');
     });
 
+    Livewire.on('modalrevisidutyroster',(data)=>{
+        $("#modal-dutyroster-revisidutyroster").modal('show');
+    });
+
+    Livewire.on('modalapprovedutyroster',(data)=>{
+        $("#modal-dutyroster-approvedutyroster").modal('show');
+    });
+
+    Livewire.on('modaldeclinedutyroster',(data)=>{
+        $("#modal-dutyroster-declinedutyroster").modal('show');
+    });
 
 @endsection

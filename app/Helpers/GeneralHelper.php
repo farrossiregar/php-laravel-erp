@@ -102,7 +102,7 @@ function send_wa($param)
 
 function get_user_from_access($link)
 {
-    $cek = \App\Models\UserAccessModule::select('users.*',\DB::raw('employees.id as employee_id'))
+    $cek = \App\Models\UserAccessModule::select('users.*',\DB::raw('employees.id as employee_id'),'employees.device_token')
             ->where('modules_items.link',$link)
             ->join('modules_items','modules_items.id','=','user_access_modules.module_id')
             ->join('modules','modules.id','=','modules_items.module_id')
