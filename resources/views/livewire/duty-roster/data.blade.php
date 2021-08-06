@@ -3,7 +3,7 @@
         <input type="date" class="form-control" wire:model="date" />
     </div>
 
-    
+<!--     
     <div class="col-md-1">                
         <select class="form-control" wire:model="year">
             <option value=""> --- Year --- </option>
@@ -11,7 +11,7 @@
             <option>{{$item->year}}</option>
             @endforeach 
         </select>
-    </div>
+    </div> -->
 
 
     @if(check_access('duty-roster.import'))
@@ -39,7 +39,13 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td>{{ $key + 1 }}</td>
+                        <td>
+                            <?php
+                                $dataproblem = \App\Models\DutyrosterSitelistDetail::where('id_master_dutyroster', $item->id)->where('remarks', '1')->get();
+                                echo count($dataproblem); 
+                            ?>
+                            
+                        </td>
                         <td>
                             @if($item->status == '1')
                                 <label class="badge badge-success" data-toggle="tooltip" title="Approved">Approved</label>

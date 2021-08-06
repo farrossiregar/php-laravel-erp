@@ -58,10 +58,10 @@ class Preview extends Component
         
     }
 
-    public function save()
+    public function save($id)
     {
         // dd("download");
-        $id = $this->selected_id;
+        // $id = $this->selected_id;
        
 
         $objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
@@ -179,7 +179,7 @@ class Preview extends Component
         $objPHPExcel->getActiveSheet()->setAutoFilter('A2:BO2');
         $num=3;
 
-        $data = \App\Models\DutyrosterSitelistDetail::where('id_master_dutyroster', '4')
+        $data = \App\Models\DutyrosterSitelistDetail::where('id_master_dutyroster', $id)
                                         ->orderBy('id', 'asc')
                                         ->get();
 
