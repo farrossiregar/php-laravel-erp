@@ -159,8 +159,9 @@ class Revisidutyroster extends Component
             }
 
             $dataupdate                 = \App\Models\DutyrosterSitelistMaster::where('id', $this->selected_id)->first();
-            $dataupdate->status = '';
-            $dataupdate->note = '';
+ 
+            $dataupdate->status         = '';
+            $dataupdate->note           = '';
             $dataupdate->save();
 
             session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");

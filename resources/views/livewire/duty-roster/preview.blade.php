@@ -47,7 +47,7 @@
                         </div> -->
         
                         <div class="col-md-2">
-                            <a wire:click="save" href="" title="Add" class="btn btn-primary"><i class="fa fa-download"></i> {{__('Export Duty roster')}}</a>
+                            <a wire:click="save({{ $selected_id }})" href="" title="Add" class="btn btn-primary"><i class="fa fa-download"></i> {{__('Export Duty roster')}}</a>
                         </div>
                         <!-- <div class="col-md-2" wire:ignore>
                             <select class="form-control" style="width:100%;" wire:model="month">
@@ -151,6 +151,12 @@
                                         <td>
                                             @if(check_access('duty-roster.audit'))
                                             <input type="checkbox"  wire:click="checkdata({{ $item->id }})" wire:model="data_id.{{ $item->id }}" />
+                                            @else
+                                                @if($item->remarks == '1')
+                                                    <a href="javascript:;" class="btn btn-danger"><i class="fa fa-close"></i></a>
+                                                @else
+                                                    <a href="javascript:;" class="btn btn-success"><i class="fa fa-check"></i></a>
+                                                @endif
                                             @endif
                                         </td>
                                         <td>{{ $item->project }}</td>
