@@ -14,13 +14,30 @@ class ItSupportController extends Controller
     {
         $is_pic = false;
         if(check_access('trouble-ticket.pickup')){
-            $data = TroubleTicket::where('employee_pic_id',\Auth::user()->employee->id)->orWhere('status',1);
+            $data = TroubleTicket::join('employees','employees.id','=','trouble_tickets.employee_id')->where(function($table){
+                $table->where('employee_pic_id',\Auth::user()->employee->id)->orWhere('trouble_tickets.status',1);
+            });
             $is_pic = true;   
-        }else
-            $data = TroubleTicket::where('employee_id',\Auth::user()->employee->id);
+        }else 
+            $data = TroubleTicket::join('employees','employees.id','=','trouble_tickets.employee_id')->where('employee_id',\Auth::user()->employee->id);
+
+        if(isset($_GET['keyword'])) $data->where(function($table){
+                                                $table->where('employees.name','LIKE',"%{$_GET['keyword']}%")
+                                                        ->orWhere('trouble_tickets.trouble_ticket_number','LIKE',"%{$_GET['keyword']}%")
+                                                        ->orWhere('trouble_tickets.description','LIKE',"%{$_GET['keyword']}%")
+                                                        ->orWhere('trouble_tickets.trouble_ticket_category','LIKE',"%{$_GET['keyword']}%")
+                                                        ->orWhere('trouble_tickets.note','LIKE',"%{$_GET['keyword']}%")
+                                                ;
+                                            });
+        if(isset($_GET['status'])){
+            if($_GET['status']=='Open') $data->where('trouble_tickets.status',1);
+            if($_GET['status']=='Progress') $data->where('trouble_tickets.status',2);
+            if($_GET['status']=='Resolved') $data->where('trouble_tickets.status',3);
+            if($_GET['status']=='Closed') $data->where('trouble_tickets.status',4);
+        }
 
         $param = [];
-        foreach($data->orderBy('id','DESC')->paginate(10) as $k => $item){
+        foreach($data->select('trouble_tickets.*')->orderBy('trouble_tickets.id','DESC')->paginate(10) as $k => $item){
             $param[$k]['id'] = $item->id;
             $param[$k]['description'] = $item->description;
             $param[$k]['created_at'] = date('d-M-Y H:i',strtotime($item->created_at));
