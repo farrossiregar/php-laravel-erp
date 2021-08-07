@@ -28,6 +28,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-dutyroster-revisidutyroster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:duty-roster.revisidutyroster />
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="modal-dutyroster-approvedutyroster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -52,6 +60,10 @@
 
     Livewire.on('modalimportnoc',(data)=>{
         $("#modal-dutyroster-importdutyroster").modal('show');
+    });
+
+    Livewire.on('modalrevisidutyroster',(data)=>{
+        $("#modal-dutyroster-revisidutyroster").modal('show');
     });
 
     Livewire.on('modalapprovedutyroster',(data)=>{

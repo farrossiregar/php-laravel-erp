@@ -28,7 +28,31 @@
         @endforeach
     @else
         @if(!isset($_GET['company_id']) and !isset($_GET['menu']))
-            <div class="row clearfix mt-3 text-center">
+            <div class="home row">
+                <div class="item col-md-3 is_hover {{$company_id==2 ? 'active_hover' : ''}}">
+                    <a href="javascript:void(0)" title="PT Putra Mulia Telecommunication" wire:click="$set('company_id',2)">
+                        <img class="pmt" src="{{asset('images/pmt-logo.png')}}">
+                    </a>
+                </div>
+                <div class="item col-md-3 is_hover {{$company_id==1 ? 'active_hover' : ''}}">
+                    <a href="javascript:void(0)" title="Harapan Utama Prima" wire:click="$set('company_id',1)">
+                        <img class="hup" src="{{asset('images/hup.png')}}">
+                    </a>
+                </div>
+                <div class="col-md-6 item item-department">
+                    @foreach(\App\Models\Department::get() as $dep)
+                        <div class="sub-item" title="{{$dep->name}}" onclick="window.open('{{route('home',['company_id'=>$company_id, 'department_name'=>$dep->name,'department_id'=>$dep->id])}}','_self')">
+                            {{-- <a href="javascript:void0()">{{$dep->name}}</a>
+                             --}}
+                             @if($dep->icon)
+                            <img src="{{$dep->icon}}" class="ml-3" style="width: 30%;margin-top:20px;" />
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            {{-- <div class="row clearfix mt-3 text-center">
                 <div class="col-12 mb-5 mt-5">
                     <h1 class="animate__animated animate__delay-2s animate__fadeInDown">Welcome, {{\Auth::user()->name}}</h1>
                 </div>
@@ -50,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         @endif
 
         @if(isset($_GET['company_id']) and !isset($_GET['department_id']))
@@ -194,8 +218,61 @@
         @endif
     @endif
 </div>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/> --}}
 <style>
+
+    .home {
+        display: flex;
+        flex-wrap: wrap;
+        text-align: center;
+        margin-top:20%;
+    }
+    .home .item{
+        cursor:pointer;
+        border-radius: 5px;
+    }
+    .home .is_hover:hover {
+        border:1px solid#91da91;
+    }
+    .home .active_hover {
+        border:3px solid#91da91 !important;
+    }
+    .home .item {
+        border: 1px solid #eee;
+        height: 250px;
+        width: 280px;
+        /* margin-right: 10px; */
+    }
+    .home .item img.hup {
+        height: 80px;
+        margin-top: 30%;
+    }
+    .home .item img.pmt {
+        margin-top: 35%;
+    }
+    .home .item-department {
+        display: flex;
+        flex-wrap: wrap;
+        border:0px;
+    }
+    .home .item-department .sub-item:hover{
+        border:2px solid#91da91 !important;
+        cursor:pointer;
+    }
+    .home .item-department .sub-item {
+        border: 1px solid #eee;
+        height: 121px;
+        /* width: 160px; */ 
+        /* margin-right: 5px; */
+        flex: 1 0 33%; /* explanation below */
+    }
+
+    /* If the screen size is 600px or less, set the font-size of <div> to 30px */
+    @media only screen and (max-width: 600px) {
+        .home {
+            margin-top:0;
+        }
+    }
     /* h4 {color:white;}*/
     body{
         /* background-image: linear-gradient(white, rgba(110,204,223,1)); */
