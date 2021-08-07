@@ -110,6 +110,7 @@ class ItSupportController extends Controller
         $data->description = $r->description;
         $data->trouble_ticket_category = $r->problem_category;
         $data->trouble_ticket_category_others = $r->problem_category_others;
+        $data->lokasi = $r->lokasi;
         $data->status = 1;
         $data->save();
         
