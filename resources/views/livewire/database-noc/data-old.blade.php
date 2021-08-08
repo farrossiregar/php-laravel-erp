@@ -1,4 +1,8 @@
 <div class="row">
+    <!-- <div class="col-md-2">
+        <input type="date" class="form-control" wire:model="date" />
+    </div> -->
+
     <div class="col-md-1">                
         <select class="form-control" wire:model="year">
             <option value=""> --- Year --- </option>
@@ -6,7 +10,24 @@
             <option>{{$item->year}}</option>
             @endforeach 
         </select>
-    </div>    
+    </div>
+    <!-- <div class="col-md-2" wire:ignore>
+        <select class="form-control" style="width:100%;" wire:model="month">
+            <option value=""> --- Month --- </option>
+            @foreach(\App\Models\EmployeeNoc::select('month')->groupBy('month')->orderBy('month','ASC')->get() as $item)
+            <option value="{{$item->month}}">{{date('F', mktime(0, 0, 0, $item->month, 10))}}</option>
+            @endforeach
+        </select>
+    </div> -->
+
+    @if(check_access('database-noc.import-revise'))
+    <div class="col-md-2">
+        <a href="#" data-toggle="modal" data-target="#modal-databasenoc-importnoc" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Database Noc')}}</a>
+    </div>
+    
+    @endif
+    
+    
     <div class="col-md-12">
         <br><br>
         <div class="table-responsive">

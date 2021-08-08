@@ -29,13 +29,13 @@
     @else
         @if(!isset($_GET['company_id']) and !isset($_GET['menu']))
             <div class="home row">
-                <div class="item col-md-3 is_hover {{$company_id==2 ? 'active_hover' : ''}}">
-                    <a href="javascript:void(0)" title="PT Putra Mulia Telecommunication" wire:click="$set('company_id',2)">
+                <div class="item col-md-3 is_hover {{$company_id==2 ? 'active_hover' : ''}}" wire:click="$set('company_id',2)">
+                    <a href="javascript:void(0)" title="PT Putra Mulia Telecommunication">
                         <img class="pmt" src="{{asset('images/pmt-logo.png')}}">
                     </a>
                 </div>
-                <div class="item col-md-3 is_hover {{$company_id==1 ? 'active_hover' : ''}}">
-                    <a href="javascript:void(0)" title="Harapan Utama Prima" wire:click="$set('company_id',1)">
+                <div class="item col-md-3 is_hover {{$company_id==1 ? 'active_hover' : ''}}" wire:click="$set('company_id',1)">
+                    <a href="javascript:void(0)" title="Harapan Utama Prima">
                         <img class="hup" src="{{asset('images/hup.png')}}">
                     </a>
                 </div>
@@ -232,7 +232,7 @@
         border-radius: 5px;
     }
     .home .is_hover:hover {
-        border:1px solid#91da91;
+        border:3px solid#91da91;
     }
     .home .active_hover {
         border:3px solid#91da91 !important;
