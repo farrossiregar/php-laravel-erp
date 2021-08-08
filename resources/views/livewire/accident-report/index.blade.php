@@ -1,4 +1,4 @@
-@section('title', __('Accident Report - Index'))
+@section('title', __('Accident Report'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">

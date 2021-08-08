@@ -39,10 +39,12 @@ class ItSupportController extends Controller
         $param = [];
         foreach($data->select('trouble_tickets.*')->orderBy('trouble_tickets.id','DESC')->paginate(10) as $k => $item){
             $param[$k]['id'] = $item->id;
-            $param[$k]['lokasi'] = $item->lokasi;
+            $param[$k]['lokasi'] = $item->lokasi ? $item->lokasi : '-';
             $param[$k]['employee'] = isset($item->employee->name) ? $item->employee->name : '';
-            $param[$k]['nik'] = isset($item->employee->nik) ? $item->employee->nik : '';
-            $param[$k]['telepon'] = isset($item->employee->telepon) ? $item->employee->telepon : '';
+            $param[$k]['nik'] = isset($item->employee->nik) ? $item->employee->nik : '-';
+            $param[$k]['telepon'] = isset($item->employee->telepon) ? $item->employee->telepon : '-';
+            $param[$k]['department'] = isset($item->employee->department->name) ? $item->employee->department->name : '-';
+            $param[$k]['email'] = isset($item->employee->email) ? $item->employee->email : '-';
             $param[$k]['tanggal_kejadian'] = date('d-M-Y',strtotime($item->tanggal_kejadian));
             $param[$k]['description'] = $item->description;
             $param[$k]['created_at'] = date('d-M-Y H:i',strtotime($item->created_at));

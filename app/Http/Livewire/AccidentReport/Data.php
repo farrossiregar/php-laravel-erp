@@ -4,42 +4,39 @@ namespace App\Http\Livewire\AccidentReport;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\PoTrackingPds;
-use App\Models\PoTrackingNonms;
-use Auth;
-use DB;
-
+use App\Models\AccidentReport;
 
 class Data extends Component
 {
     use WithPagination;
-    public $date, $employee_id, $site_id, $klasifikasi_insiden, $jenis_insiden, $kronologis, $nik_and_nama;
+    public $date, $employee_id, $keyword,$employees;
     protected $paginationTheme = 'bootstrap';
     
     public function render()
     {
-
         // if(!check_access('accident-report.index')){
         //     session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
         //     $this->redirect('/');
         // }
         
-        $data = \App\Models\AccidentReport::orderBy('id', 'desc');
+        $data = AccidentReport::orderBy('id', 'desc');
         if($this->date) $ata = $data->whereDate('date',$this->date);
         if($this->employee_id) $ata = $data->where('employee_id',$this->employee_id);
-        if($this->site_id) $ata = $data->where('site_id', 'like', '%' . $this->site_id . '%');
-        if($this->klasifikasi_insiden) $ata = $data->where('klasifikasi_insiden', 'like', '%' . $this->klasifikasi_insiden . '%');
-        if($this->jenis_insiden) $ata = $data->where('jenis_insiden', 'like', '%' . $this->jenis_insiden . '%');
-        if($this->kronologis) $ata = $data->where('rincian_kronologis', 'like', '%' . $this->kronologis . '%');
-        if($this->nik_and_nama) $ata = $data->where('nik_and_nama', 'like', '%' . $this->nik_and_nama . '%');
+        if($this->keyword) $data->where(function($table){
+            $table->where("site_id","LIKE","%{$this->keyword}%")
+                    ->orWhere('klasifikasi_insiden',"LIKE","%{$this->keyword}%")
+                    ->orWhere('jenis_insiden',"LIKE","%{$this->keyword}%")
+                    ->orWhere('rincian_kronologis',"LIKE","%{$this->keyword}%")
+                    ->orWhere('nik_and_nama',"LIKE","%{$this->keyword}%");
+        });
                         
-        
         return view('livewire.accident-report.data')->with(['data'=>$data->paginate(50)]);
-
-        
     }
 
-
+    public function mount()
+    {
+        $this->employees = AccidentReport::select(['employees.id','employees.name'])->join('employees','employees.id','=','accident_report.employee_id')->whereNotNull('employee_id')->groupBy('employee_id')->get();
+    }
 }
 
 
