@@ -128,6 +128,7 @@ class ItSupportController extends Controller
         $data->trouble_ticket_category = $r->problem_category;
         $data->trouble_ticket_category_others = $r->problem_category_others;
         $data->status = 1;
+        $data->tanggal_kejadian = date('Y-m-d',strtotime($r->tanggal_kejadian));
         $data->save();
         
         if(isset($r->image)) {
