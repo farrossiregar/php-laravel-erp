@@ -39,6 +39,11 @@ class ItSupportController extends Controller
         $param = [];
         foreach($data->select('trouble_tickets.*')->orderBy('trouble_tickets.id','DESC')->paginate(10) as $k => $item){
             $param[$k]['id'] = $item->id;
+            $param[$k]['lokasi'] = $item->lokasi;
+            $param[$k]['employee'] = isset($item->employee->name) ? $item->employee->name : '';
+            $param[$k]['nik'] = isset($item->employee->nik) ? $item->employee->nik : '';
+            $param[$k]['telepon'] = isset($item->employee->telepon) ? $item->employee->telepon : '';
+            $param[$k]['tanggal_kejadian'] = date('d-M-Y',strtotime($item->tanggal_kejadian));
             $param[$k]['description'] = $item->description;
             $param[$k]['created_at'] = date('d-M-Y H:i',strtotime($item->created_at));
             $param[$k]['start_date'] = date('d-M-Y H:i',strtotime($item->start_date));
@@ -127,9 +132,9 @@ class ItSupportController extends Controller
         $data->description = $r->description;
         $data->trouble_ticket_category = $r->problem_category;
         $data->trouble_ticket_category_others = $r->problem_category_others;
-        $data->lokasi = $r->lokasi;
         $data->status = 1;
         $data->tanggal_kejadian = date('Y-m-d',strtotime($r->tanggal_kejadian));
+        $data->lokasi = $r->lokasi_kejadian;
         $data->save();
         
         if(isset($r->image)) {

@@ -22,6 +22,7 @@
                                 <th>Employee ID / NIK</th>          
                                 <th>Employee</th>          
                                 <th>Department</th>          
+                                <th>Tanggal Kejadian</th>          
                                 <th>Lokasi</th>          
                                 <th>Pickup By</th>     
                                 <th>Category</th>          
@@ -41,7 +42,8 @@
                                 <td>{{isset($item->employee->nik) ? $item->employee->nik : ''}}</td>
                                 <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
                                 <td>{{isset($item->employee->department->name) ? $item->employee->department->name : ''}}</td>
-                                <td>{{isset($item->employee->lokasi_kantor) ? $item->employee->lokasi_kantor : ''}}</td>
+                                <td>{{isset($item->tanggal_kejadian) ? date('d-M-Y',strtotime($item->tanggal_kejadian)) : ''}}</td>
+                                <td>{{isset($item->lokasi) ? $item->lokasi : ''}}</td>
                                 <td>{{isset($item->pic->name) ? $item->pic->name : ''}}</td>
                                 <td>{{$item->trouble_ticket_category}}</td>
                                 <td>{{$item->description}}</td>

@@ -23,10 +23,10 @@ class DeletestatusDutyrosterSitelistMaster extends Migration
      */
     public function down()
     {
-        Schema::create('dutyroster_sitelist_master', function (Blueprint $table) {
+        // Schema::create('dutyroster_sitelist_master', function (Blueprint $table) {
             
-            $table->integer('status')->nullable();
+        //     $table->integer('status')->nullable();
             
-        });
+        // });
     }
 }

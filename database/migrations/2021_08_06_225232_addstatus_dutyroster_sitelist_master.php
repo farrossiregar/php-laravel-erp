@@ -13,11 +13,11 @@ class AddstatusDutyrosterSitelistMaster extends Migration
      */
     public function up()
     {
-        Schema::table('dutyroster_sitelist_master', function (Blueprint $table) {
+        // Schema::table('dutyroster_sitelist_master', function (Blueprint $table) {
             
-            $table->string('status', 10)->nullable();
+        //     $table->string('status', 10)->nullable();
             
-        });
+        // });
     }
 
     /**

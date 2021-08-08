@@ -14,7 +14,7 @@ class AddFieldTanggalKejadianToTroubleTickets extends Migration
     public function up()
     {
         Schema::table('trouble_tickets', function (Blueprint $table) {
-            //
+            $table->date('tanggal_kejadian')->nullable();
         });
     }
 
