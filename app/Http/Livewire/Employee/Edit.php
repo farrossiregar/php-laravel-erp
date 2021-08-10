@@ -10,7 +10,7 @@ use App\Models\User;
 class Edit extends Component
 {
     public $data,$name,$nik,$email,$telepon,$address,$place_of_birth,$date_of_birth,$marital_status,$blood_type,$employee_status,$religion,$user_access_id,$department_sub_id;
-    public $foto,$foto_ktp,$password,$confirm,$region_id,$company_id,$lokasi_kantor,$is_use_android,$employee_code;
+    public $foto,$foto_ktp,$password,$confirm,$region_id,$company_id,$lokasi_kantor,$is_use_android,$employee_code,$is_noc,$ktp,$domisili;
     use WithFileUploads;
     public function render()
     {
@@ -37,6 +37,10 @@ class Edit extends Component
         $this->lokasi_kantor = $this->data->lokasi_kantor;
         $this->is_use_android = $this->data->is_use_android;
         $this->employee_code = $this->data->employee_code;
+        $this->is_noc = $this->data->is_noc;
+        $this->ktp = $this->data->ktp;
+        $this->domisili = $this->data->domisili;
+        $this->postcode = $this->data->postcode;
     }
 
     public function updatedFoto()
@@ -103,6 +107,10 @@ class Edit extends Component
         $this->data->company_id = $this->company_id;
         $this->data->lokasi_kantor = $this->lokasi_kantor;
         $this->data->employee_code = $this->employee_code;
+        $this->data->is_noc = $this->is_noc;
+        $this->data->ktp = $this->ktp;
+        $this->data->domisili = $this->domisili;
+        $this->data->postcode = $this->postcode;
 
         if($this->foto!=""){
             $foto = 'foto'.date('Ymdhis').'.'.$this->foto->extension();

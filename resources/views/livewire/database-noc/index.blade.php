@@ -1,4 +1,4 @@
-@section('title', __('Database NOC - Index'))
+@section('title', __('Database NOC'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -59,11 +59,7 @@
         </div>
     </div>
 </div>
-
-
 @section('page-script')
-
-
     Livewire.on('modalimportnoc',(data)=>{
         $("#modal-databasenoc-importnoc").modal('show');
     });

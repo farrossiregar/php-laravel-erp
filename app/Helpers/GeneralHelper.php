@@ -2,6 +2,13 @@
 
 use Illuminate\Support\Facades\DB;
 
+function marital_status($status){
+    foreach(config('vars.marital_status') as $k => $i) 
+        if($k==$status) return $i;
+
+    return '';
+}
+
 function push_notification_android($device_id,$title,$message,$type){
     /*api_key available in:
     Firebase Console -> Project Settings -> CLOUD MESSAGING -> Server key*/    

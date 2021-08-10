@@ -64,46 +64,79 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="row">
-                                    <div class="form-group col-md-6">
+                                        <div class="form-group col-md-6">
+                                            <label>Code / Alias</label>
                                             <input type="text" class="form-control" wire:model="employee_code" placeholder="{{ __('Code / Alias') }}" >
                                             @error('employee_code')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                         <div class="form-group col-md-6">
+                                            <label>Name</label>
                                             <input type="text" class="form-control" wire:model="name" placeholder="{{ __('Name') }}" >
                                             @error('name')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control"  wire:model="nik" placeholder="{{ __('NIK') }}" >
-                                        @error('nik')
-                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                        @enderror
-                                    </div>
                                     <div class="row">
                                         <div class="form-group col-md-6">
+                                            <label>NIK</label>
+                                            <input type="text" class="form-control"  wire:model="nik" placeholder="{{ __('NIK') }}" >
+                                            @error('nik')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>KTP</label>
+                                            <input type="text" class="form-control"  wire:model="ktp" placeholder="{{ __('KTP') }}" >
+                                            @error('ktp')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label>Email</label>
                                             <input type="email" class="form-control"  wire:model="email" placeholder="{{ __('Email') }}" />
                                             @error('email')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        <div class="form-group col-md-6 pl-0">
+                                        <div class="form-group col-md-6">
+                                            <label>Telepon</label>
                                             <input type="text" class="form-control"  wire:model="telepon" placeholder="{{ __('Telepon') }}" />
                                             @error('telepon')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label>Postcode</label>
+                                            <input type="text" class="form-control"  wire:model="postcode" placeholder="{{ __('Postcode') }}" />
+                                            @error('postcode')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                    </div>
                                     <div class="form-group">
+                                        <label>Address KTP</label>
                                         <textarea class="form-control" wire:model="address" placeholder="{{ __('Address') }}""></textarea>
                                         @error('address')
                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                         @enderror
                                     </div>
                                     <div class="form-group">
+                                        <label>Domisili</label>
+                                        <textarea class="form-control" wire:model="domisili" placeholder="{{ __('Domisili') }}""></textarea>
+                                        @error('domisili')
+                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Department</label>
                                         <select class="form-control" wire:model="department_sub_id">
                                             <option value="">{{__('--- Department --- ')}} </option>
                                             @foreach(\App\Models\Department::orderBy('name','ASC')->get() as $item)
@@ -117,12 +150,6 @@
                                         @error('department_sub_id')
                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                         @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="fancy-checkbox">
-                                            <input type="checkbox" value="1" wire:model="is_use_android">
-                                            <span>Active Android</span>
-                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-md-5">
@@ -248,6 +275,18 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="fancy-checkbox">
+                                            <input type="checkbox" value="1" wire:model="is_use_android">
+                                            <span>Active Android</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="fancy-checkbox">
+                                            <input type="checkbox" value="1" wire:model="is_noc">
+                                            <span>NOC Database</span>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
