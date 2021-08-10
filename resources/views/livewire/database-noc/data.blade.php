@@ -110,13 +110,17 @@
                                 <span class="badge badge-danger"><i class="fa fa-times"></i> Resign</span>
                             @endif
                         </td>
-                        <td x-data="{open:false}" class="text-center">
-                            @if($item->is_approve_admin_noc==0)
+                        <td>
+                            @if($item->is_approve_admin_noc===0)
                                 @if(check_access('database-noc.approval'))
-                                    <a href="javascript:void(0)" x-on:click="open = ! open" class="badge badge-warning" @click.away="open = false" title="Waiting Approval Admin NOC"><i class="fa fa-history"></i> Admin NOC</a>
-                                    <div x-show="open" class="mt-2">
-                                        <a href="javascript:void(0)" class="badge badge-success" wire:click="approve({{$item->id}})"><i class="fa fa-check"></i> Approve</a>
-                                        <a href="javascript:void(0)" class="badge badge-danger" wire:click="reject({{$item->id}})"><i class="fa fa-times"></i> Reject</a>
+                                    <div x-data="{open:false}" class="text-center" @click.away="open = false">
+                                        <template x-if="open==false">
+                                            <a href="javascript:void(0)" x-on:click="open = ! open" class="badge badge-warning" title="Waiting Approval Admin NOC"><i class="fa fa-history"></i> Admin NOC</a>
+                                        </template>
+                                        <div x-show="open" class="mt-2">
+                                            <a href="javascript:void(0)" class="badge badge-success" wire:click="approve({{$item->id}})"><i class="fa fa-check"></i> Approve</a>
+                                            <a href="javascript:void(0)" class="badge badge-danger" wire:click="reject({{$item->id}})"><i class="fa fa-times"></i> Reject</a>
+                                        </div>
                                     </div>
                                 @else
                                     <span class="badge badge-warning" title="Waiting Approval Admin NOC"><i class="fa fa-history"></i> Admin NOC</span>

@@ -3,19 +3,11 @@
         <div class="col-md-1">                
             <select class="form-control" wire:model="year">
                 <option value=""> --- Year --- </option>
-                @foreach(\App\Models\EmployeeNoc::select('year')->groupBy('year')->get() as $item) 
+                @foreach(\App\Models\EmployeeNoc::select('year')->groupBy('year')->whereNotNull('year')->get() as $item) 
                 <option>{{$item->year}}</option>
                 @endforeach 
             </select>
         </div>
-        <!-- <div class="col-md-2" wire:ignore>
-            <select class="form-control" style="width:100%;" wire:model="month">
-                <option value=""> --- Month --- </option>
-                @foreach(\App\Models\EmployeeNoc::select('month')->groupBy('month')->orderBy('month','ASC')->get() as $item)
-                <option value="{{$item->month}}">{{date('F', mktime(0, 0, 0, $item->month, 10))}}</option>
-                @endforeach
-            </select>
-        </div> -->
         <div class="col-md-7">
             <label wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>

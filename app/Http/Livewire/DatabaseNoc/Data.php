@@ -23,7 +23,7 @@ class Data extends Component
             }
         });
         
-        if($this->is_resign) $data->where('is_resign',$this->is_resign);
+        if($this->is_resign !="") $data->where('is_resign',$this->is_resign);
 
         return view('livewire.database-noc.data')->with(['data'=>$data->paginate(50)]);   
     }
@@ -33,10 +33,12 @@ class Data extends Component
         $noc = new EmployeeNoc();
         $noc->employee_id = $id->id;
         $noc->is_resign = 1;
+        $noc->month = date('m');
+        $noc->year = date('Y');
         $noc->save();
 
         $id->is_resign_temp  = 1;
-        $id->is_approve_admin_noc = 1;
+        $id->is_approve_admin_noc = 0;
         $id->employee_noc_id = $noc->id;
         $id->save();
     }
@@ -46,6 +48,8 @@ class Data extends Component
         $noc = new EmployeeNoc();
         $noc->employee_id = $id->id;
         $noc->is_resign = 0;
+        $noc->month = date('m');
+        $noc->year = date('Y');
         $noc->save();
 
         $id->is_resign_temp  = 0;
@@ -64,6 +68,20 @@ class Data extends Component
         $id->is_resign_temp  = null;
         $id->is_approve_admin_noc = null;
         $id->save();
+
+        $notif_user_psm = check_access_data('database-noc.notif-psm', '');
+        foreach($notif_user_psm as $no => $itemuser){
+            $message = "*Dear PSM *\n\n";
+            $message .= "*Database NOC ".date('M')."-".date('Y')." telah diapprove oleh Admin NOC *\n\n";
+            send_wa(['phone'=> $itemuser->telepon,'message'=>$message]);    
+        }
+
+        $notif_user_hr = check_access_data('database-noc.notif-hr', '');
+        foreach($notif_user_hr as $no => $itemuser){
+            $message = "*Dear HRD *\n\n";
+            $message .= "*Database NOC ".date('M')."-".date('Y')." telah diapprove oleh Admin NOC *\n\n";
+            send_wa(['phone'=> $itemuser->telepon,'message'=>$message]);    
+        }
     }
 
     public function reject(Employee  $id)
