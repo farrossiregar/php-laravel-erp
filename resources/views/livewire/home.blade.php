@@ -42,11 +42,10 @@
                 <div class="col-md-6 item item-department">
                     @foreach(\App\Models\Department::get() as $dep)
                         <div class="sub-item" title="{{$dep->name}}" onclick="window.open('{{route('home',['company_id'=>$company_id, 'department_name'=>$dep->name,'department_id'=>$dep->id])}}','_self')">
-                            {{-- <a href="javascript:void0()">{{$dep->name}}</a>
-                             --}}
-                             @if($dep->icon)
-                            <img src="{{$dep->icon}}" class="ml-3" style="width: 30%;margin-top:20px;" />
+                            @if($dep->icon)
+                                <img src="{{$dep->icon}}" class="ml-3 mb-2" style="width: 30%;margin-top:20px;" />
                             @endif
+                            <p>{{$dep->name}}</p>
                         </div>
                     @endforeach
                 </div>

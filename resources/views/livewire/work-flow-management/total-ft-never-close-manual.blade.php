@@ -5,8 +5,8 @@
 <script>
 $( document ).ready(function() {
     setTimeout(function(){
-        var labels = {{$labels}};
-        var series = {{$series}};
+        var labels = {!!$labels!!};
+        var series = {!!$series!!};
         init_chart_total_ft_never_close_manual(labels,series);
     },1000);
 });
