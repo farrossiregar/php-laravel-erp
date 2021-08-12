@@ -219,6 +219,11 @@
 </div>
 {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/> --}}
 <style>
+    body {
+        background: url('{{asset('images/bg-home.jpg')}}') !important;
+        background-size: 300% !important;
+        background-repeat: no-repeat !important;
+    }
 
     .home {
         display: flex;
@@ -237,8 +242,8 @@
         border:3px solid#91da91 !important;
     }
     .home .item {
-        border: 1px solid #eee;
-        height: 250px;
+        border: 1px solid #d6d0d0;
+        height: 280px;
         width: 280px;
         /* margin-right: 10px; */
     }
@@ -259,8 +264,8 @@
         cursor:pointer;
     }
     .home .item-department .sub-item {
-        border: 1px solid #eee;
-        height: 121px;
+        border: 1px solid #d6d0d0;
+        height: 140px;
         /* width: 160px; */ 
         /* margin-right: 5px; */
         flex: 1 0 33%; /* explanation below */
