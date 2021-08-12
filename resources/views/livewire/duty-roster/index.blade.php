@@ -9,7 +9,7 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active show " id="dashboard">
-                    <livewire:duty-roster.data />
+                    <livewire:duty-roster.dashboard />
                 </div>
                 <div class="tab-pane" id="data">
                     <livewire:duty-roster.data />
