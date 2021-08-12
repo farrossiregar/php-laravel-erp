@@ -146,21 +146,19 @@
             </div>
         </div>
     </div>
-
-</div>
-
-<div wire:ignore.self class="modal fade" id="modal_add_items" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:module.form :data="$data">
+    <div wire:ignore.self class="modal fade" id="modal_add_items" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <livewire:module.form :data="$data">
+            </div>
         </div>
     </div>
-</div>
 
-<div wire:ignore.self class="modal fade" id="modal_add_function" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            @livewire('module.form-function', ['data' => $data])
+    <div wire:ignore.self class="modal fade" id="modal_add_function" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                @livewire('module.form-function', ['data' => $data])
+            </div>
         </div>
     </div>
 </div>

@@ -31,10 +31,8 @@ class Approvedutyroster extends Component
   
     public function save()
     {
-        
         $data = \App\Models\DutyrosterSitelistMaster::where('id', $this->selected_id)->first();
         $data->status = '1';
-        
         $data->save();
 
     

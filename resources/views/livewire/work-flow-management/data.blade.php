@@ -60,6 +60,7 @@
                         <th>{{ __('REMARK_WO_ACCEPT') }}</th>
                         <th>{{ __('REMARK_WO_CLOSE MANUAL') }}</th>
                         <th>{{ __('FINAL REMARK') }}</th>
+                        <th>{{ __('THRESHOLD') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,6 +87,7 @@
                         <td>{{$item->remark_wo_accept}}</td> 
                         <td>{{$item->remark_wo_close_manual}}</td> 
                         <td>{{$item->final_remark}}</td>
+                        <td>{{$item->threshold}}</td>
                     </tr>
                     @endforeach
                 </tbody>

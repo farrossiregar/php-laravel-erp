@@ -21,8 +21,8 @@ class TotalFtNeverCloseManual extends Component
     }
     public function mount()
     {
-        $this->generate_chart();
         $this->year = date('Y');
+        $this->generate_chart();
     }
     public function filterYear($year)
     {
@@ -47,7 +47,13 @@ class TotalFtNeverCloseManual extends Component
     {
         $this->labels = [];$this->series=[];
 
-        if($this->month) foreach($this->month as $k => $m) if($m!=false) $this->month[$k] = $m; else unset($this->month[$k]);
+        if($this->month) 
+            foreach($this->month as $k => $m) 
+                if($m!=false) 
+                    $this->month[$k] = $m; 
+                else 
+                    unset($this->month[$k]);
+
         foreach(WorkFlowManagement::where(function($table){
                         $table->whereYear('date',$this->year);
                         if($this->month) $table->whereIn(\DB::raw('MONTH(date)'),$this->month);
@@ -58,8 +64,8 @@ class TotalFtNeverCloseManual extends Component
         foreach(WorkFlowManagement::where(function($table){
             $table->whereYear('date',$this->year);
             if($this->month) $table->whereIn(\DB::raw('MONTH(date)'),$this->month);
-        })->groupBy('region_dan_asp_info','skills')->get() as $k => $item){
-            $this->series[$k]['label'] = $item->region_dan_asp_info .' - '. $item->skills;
+        })->groupBy('region')->get() as $k => $item){
+            $this->series[$k]['label'] = $item->region;
             $this->series[$k]['borderColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
             $this->series[$k]['fill'] =  'boundary';
             $this->series[$k]['data'] = [];
@@ -67,8 +73,8 @@ class TotalFtNeverCloseManual extends Component
             foreach(WorkFlowManagement::where(function($table){
                 $table->whereYear('date',$this->year);
                 if($this->month) $table->whereIn(\DB::raw('MONTH(date)'),$this->month);
-            })->where(['region_dan_asp_info'=>$item->region_dan_asp_info,'skills'=>$item->skills])->groupBy('date')->get() as $key_data => $data){
-                $this->series[$k]['data'][$key_data] = WorkFlowManagement::where(['date'=>$data->date,'region_dan_asp_info'=>$data->region_dan_asp_info,'skills'=>$data->skills,'wo_close_manual'=>0])->count();
+            })->where('region',$item->region)->groupBy('date')->get() as $key_data => $data){
+                $this->series[$k]['data'][$key_data] = WorkFlowManagement::where(['date'=>$data->date,'region'=>$data->region])->count();
             }
         }
 
@@ -79,24 +85,25 @@ class TotalFtNeverCloseManual extends Component
             $base_line = [];
             $base_line['type'] = 'line';
             $base_line['label'] = 'Threshold - '.$item->region;
-            $base_line['borderWidth'] = 1;
+            $base_line['borderWidth'] = 0.5;
             $base_line['data'] = [];
             $base_line['fill'] = false;
             $base_line['borderColor']= '#FF0000';
             $base_line['data'] = [];
             
-            foreach(WorkFlowManagement::whereYear(['date'=>$this->year,'region'=>$this->region])->where(function($table){
+            foreach(WorkFlowManagement::where(function($table){
+                $table->whereYear('date',$this->year);
                 if($this->month) $table->whereIn(\DB::raw('MONTH(date)'),$this->month);
-            })->groupBy('region')->get() as $k => $sub){
-                $base_line['data'][$k] = $sub->threshold;
+            })->where('region',$item->region)->groupBy('date')->get() as $key_data => $data){
+                $base_line['data'][$key_data] = $data->threshold;
             }
-
             $this->series[] =  $base_line;
         }
 
         $this->labels = json_encode($this->labels);
         $this->series = json_encode($this->series);
         $this->legendNames = json_encode($this->legendNames);
+
         $this->emit('chart-total-ft-never-close-manual',['labels'=>$this->labels,'series'=>$this->series,'legendNames'=>$this->legendNames]);   
     }
 }

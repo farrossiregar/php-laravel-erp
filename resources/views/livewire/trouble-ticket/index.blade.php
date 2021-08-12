@@ -19,15 +19,17 @@
                             <tr>
                                 <th>No</th>                               
                                 <th>Ticket Number</th>    
-                                <th>Employee ID / NIK</th>          
-                                <th>Employee</th>          
-                                <th>Department</th>          
+                                <th>Nama Pelapor / Requester</th>          
+                                <th>NIK</th>          
+                                <th>Nomor HP(WA)</th>          
+                                <th>Email</th>          
                                 <th>Tanggal Kejadian</th>          
-                                <th>Lokasi</th>          
-                                <th>Pickup By</th>     
-                                <th>Category</th>          
-                                <th>Description</th>
+                                <th>Departmen</th>          
+                                <th>Lokasi Kejadian</th>    
+                                <th>Kategori Masalah</th>          
+                                <th>Uraian Masalah</th>          
                                 <th>File</th> 
+                                <th>Pickup By</th>     
                                 <th>Pickup Date</th> 
                                 <th>Resolved Date</th> 
                                 <th>Closed Date</th> 
@@ -39,12 +41,13 @@
                             <tr>
                                 <td style="width: 50px;">{{$k+1}}</td>
                                 <td>{{$item->trouble_ticket_number}}</td>
-                                <td>{{isset($item->employee->nik) ? $item->employee->nik : ''}}</td>
                                 <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
-                                <td>{{isset($item->employee->department->name) ? $item->employee->department->name : ''}}</td>
+                                <td>{{isset($item->employee->nik) ? $item->employee->nik : ''}}</td>
+                                <td>{{isset($item->employee->telepon) ? $item->employee->telepon : ''}}</td>
+                                <td>{{isset($item->employee->email) ? $item->employee->email : ''}}</td>
                                 <td>{{isset($item->tanggal_kejadian) ? date('d-M-Y',strtotime($item->tanggal_kejadian)) : ''}}</td>
+                                <td>{{isset($item->employee->department->name) ? $item->employee->department->name : ''}}</td>
                                 <td>{{isset($item->lokasi) ? $item->lokasi : ''}}</td>
-                                <td>{{isset($item->pic->name) ? $item->pic->name : ''}}</td>
                                 <td>{{$item->trouble_ticket_category}}</td>
                                 <td>{{$item->description}}</td>
                                 <td>
@@ -60,6 +63,7 @@
                                     </div>
                                     @endif
                                 </td>
+                                <td>{{isset($item->pic->name) ? $item->pic->name : ''}}</td>
                                 <td>
                                     @if($item->start_date)
                                         {{date('d-M-Y H:i',strtotime($item->start_date))}}

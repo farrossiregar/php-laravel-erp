@@ -119,7 +119,7 @@ class Upload extends Component
             
             session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
             
-            return redirect()->route('work-flow-management.data');
+            return redirect()->route('work-flow-management.index');
         }
     }
 }
