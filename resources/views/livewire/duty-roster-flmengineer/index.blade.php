@@ -1,4 +1,4 @@
-@section('title', __('Duty Roster - Index'))
+@section('title', __('Duty Roster FLM Engineer- Index'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">

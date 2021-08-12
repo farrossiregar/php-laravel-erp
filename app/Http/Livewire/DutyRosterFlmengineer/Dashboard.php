@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\DutyRoster;
+namespace App\Http\Livewire\DutyRosterFlmengineer;
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -21,7 +21,7 @@ class Dashboard extends Component
     public function render()
     {
         $this->generate_chart();
-        return view('livewire.duty-roster.dashboard');
+        return view('livewire.duty-roster-flmengineer.dashboard');
     }
     
     // public function updated($propertyName)
