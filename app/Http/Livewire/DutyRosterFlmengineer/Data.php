@@ -13,20 +13,26 @@ use DB;
 class Data extends Component
 {
     use WithPagination;
-    public $date;
+    public $date, $data;
     protected $paginationTheme = 'bootstrap';
     
     public function render()
     {
 
        
-        $data = \App\Models\DutyrosterSitelistMaster::orderBy('created_at', 'desc');
-                                    
+        $data = check_access_data('duty-roster-flmengineer.flmengineer-list', '');
+        // dd($data);
+        // foreach($data as $k => $item){
+        //     dd($item[$k]);
+        // }
+        // $data1 = \App\Models\EmployeeNoc::get();
+        // dd($data, $data1);
 
-        if($this->date) $ata = $data->whereDate('created_at',$this->date);
+        // if($this->date) $ata = $data->whereDate('created_at',$this->date);
                         
         
-        return view('livewire.duty-roster-flmengineer.data')->with(['data'=>$data->paginate(50)]);
+        // return view('livewire.duty-roster-flmengineer.data')->with(['data'=>$data->paginate(50)]);
+        return view('livewire.duty-roster-flmengineer.data');
 
         
     }

@@ -327,3 +327,13 @@ function get_total_actual_price($id){
     return $total_before;
 
 }
+
+function get_position($id){
+    $pos = \App\Models\UserAccess::where('id', $id)->first();
+    return $pos->name;
+}
+
+function get_data_flmengineer($id, $type){
+    $data = \App\Models\Employee::where('id', $id)->first();
+    return $data->$type;
+}

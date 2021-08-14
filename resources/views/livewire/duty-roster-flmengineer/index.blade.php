@@ -9,10 +9,10 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active show " id="dashboard">
-                    <livewire:duty-roster.dashboard />
+                    <livewire:duty-roster-flmengineer.data />
                 </div>
                 <div class="tab-pane" id="data">
-                    <livewire:duty-roster.data />
+                    <livewire:duty-roster-flmengineer.data />
                 </div>
             </div>
         </div>
@@ -20,10 +20,10 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-dutyroster-importdutyroster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-dutyrosterflm-editdata" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:duty-roster.importdutyroster />
+            <livewire:duty-roster-flmengineer.editdata />
         </div>
     </div>
 </div>
@@ -58,8 +58,8 @@
 @section('page-script')
 
 
-    Livewire.on('modalimportnoc',(data)=>{
-        $("#modal-dutyroster-importdutyroster").modal('show');
+    Livewire.on('modaleditdutyrosterflm',(data)=>{
+        $("#modal-dutyrosterflm-editdata").modal('show');
     });
 
     Livewire.on('modalrevisidutyroster',(data)=>{
