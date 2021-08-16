@@ -129,4 +129,5 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('homebase',function(){ })->name('homebase.index');
     Route::get('flm-tools',function(){ })->name('flm-tools.index');
     Route::get('region-tools',function(){ })->name('region-tools.index');
+    Route::get('monitoring',App\Http\Livewire\Monitoring\Index::class)->name('monitoring.index');
 });
