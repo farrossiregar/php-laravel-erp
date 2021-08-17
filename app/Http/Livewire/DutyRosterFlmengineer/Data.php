@@ -13,26 +13,24 @@ use DB;
 class Data extends Component
 {
     use WithPagination;
-    public $date, $data;
+    public $month, $year, $yr;
     protected $paginationTheme = 'bootstrap';
     
     public function render()
     {
 
-       
-        $data = check_access_data('duty-roster-flmengineer.flmengineer-list', '');
-        // dd($data);
-        // foreach($data as $k => $item){
-        //     dd($item[$k]);
-        // }
-        // $data1 = \App\Models\EmployeeNoc::get();
-        // dd($data, $data1);
-
-        // if($this->date) $ata = $data->whereDate('created_at',$this->date);
-                        
+        $this->yr = \App\Models\DutyrosterFlmengineerMaster::select(DB::Raw('year(created_at) as yr'))->groupBy(DB::Raw('year(created_at)'))->get();
+        // $data = check_access_data('duty-roster-flmengineer.flmengineer-list', '');
+        $data = \App\Models\DutyrosterFlmengineerMaster::orderBy('dutyroster_flmengineer_master.id', 'Desc')
+                                                        ->leftjoin('employees', 'employees.id', 'dutyroster_flmengineer_master.user_id');
+        if($this->month) $ata = $data->where(DB::Raw('month(dutyroster_flmengineer_master.created_at)'),$this->month);
+        if($this->year) $ata = $data->where(DB::Raw('year(dutyroster_flmengineer_master.created_at)'),$this->year);
+        // dd($data->get());                                                        
         
-        // return view('livewire.duty-roster-flmengineer.data')->with(['data'=>$data->paginate(50)]);
-        return view('livewire.duty-roster-flmengineer.data');
+        
+        
+        return view('livewire.duty-roster-flmengineer.data')->with(['data'=>$data->paginate(50)]);
+        // return view('livewire.duty-roster-flmengineer.data');
 
         
     }

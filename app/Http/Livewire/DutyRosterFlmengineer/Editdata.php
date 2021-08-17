@@ -48,6 +48,13 @@ class Editdata extends Component
         $data->total_site = $this->total_site;
 
         $data->save();
+        
+        $datainsert = new \App\Models\DutyrosterFlmengineerMaster();
+        $datainsert->user_id = $data->id;
+        $datainsert->status = '';
+        $datainsert->note = '';
+        $datainsert->save();
+
 
         session()->flash('message-success',"Data FLM Engineer Berhasil direvisi");
         

@@ -9,7 +9,7 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active show " id="dashboard">
-                    <livewire:duty-roster-flmengineer.data />
+                    <livewire:duty-roster-flmengineer.dashboard />
                 </div>
                 <div class="tab-pane" id="data">
                     <livewire:duty-roster-flmengineer.data />
@@ -19,14 +19,14 @@
         
     </div>
 </div>
-
+<!-- 
 <div class="modal fade" id="modal-dutyrosterflm-editdata" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <livewire:duty-roster-flmengineer.editdata />
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="modal fade" id="modal-dutyroster-revisidutyroster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
