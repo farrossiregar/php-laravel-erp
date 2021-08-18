@@ -16,15 +16,29 @@
             <option value="CME Engineer">CME Engineer</option>
         </select>
     </div> -->
-<!--     
+    
     <div class="col-md-1">                
         <select class="form-control" wire:model="year">
             <option value=""> --- Year --- </option>
-            @foreach(\App\Models\EmployeeNoc::select('year')->groupBy('year')->get() as $item) 
-            <option>{{$item->year}}</option>
+            @foreach($yr as $item) 
+            <option>{{$item->yr}}</option>
             @endforeach 
         </select>
-    </div> -->
+    </div>
+
+    <div class="col-md-1">                
+        <select class="form-control" wire:model="month">
+            <option value=""> --- Month --- </option>
+            
+            <?php
+                for($m = 1; $m <= 12; $m++){
+            ?>
+            <option value="{{$m}}">{{date('F', mktime(0, 0, 0, $m, 10))}}</option>
+            <?php
+                }
+            ?>
+        </select>
+    </div>
 
 
     @if(!check_access('duty-roster.import'))
@@ -57,27 +71,27 @@
                 </thead>
                 <tbody>
                     <?php
-                        $data = check_access_data('duty-roster-flmengineer.flmengineer-list', '');
+                        // $data = check_access_data('duty-roster-flmengineer.flmengineer-list', '');
                     ?>
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $item->name }}</td>
-                        <td>{{ get_position($item->user_access_id) }}</td>
+                        <td>{{ @get_position($item->user_access_id) }}</td>
                         <td>{{ isset($item->resign_date) ? date_format(date_create(@$item->join_date), 'd M Y') : '' }}</td>
                         <td>{{ isset($item->resign_date) ? date_format(date_create(@$item->resign_date), 'd M Y') : '' }}</td>
                         
-                        <td>{{ get_data_flmengineer($item->id, 'account_mateline') }}</td>
-                        <td>{{ get_data_flmengineer($item->id, 'no_pass_id') }}</td>
+                        <td>{{ $item->account_mateline }}</td>
+                        <td>{{ $item->no_pass_id }}</td>
                         <td>
-                            @if(get_data_flmengineer($item->id, 'training_k3') == 'Done')
-                                <label class="badge badge-success" data-toggle="tooltip" title="Done">{{ get_data_flmengineer($item->id, 'training_k3') }}</label>
+                            @if($item->training_k3 == 'Done')
+                                <label class="badge badge-success" data-toggle="tooltip" title="Done">{{ $item->training_k3 }}</label>
                             @else
-                                <label class="badge badge-danger" data-toggle="tooltip" title="Not Yet">{{ get_data_flmengineer($item->id, 'training_k3') }}</label>
+                                <label class="badge badge-danger" data-toggle="tooltip" title="Not Yet">{{ $item->training_k3 }}</label>
                             @endif
                             
                         </td>
-                        <td>{{ get_data_flmengineer($item->id, 'total_site') }}</td>
+                        <td>{{ $item->total_site }}</td>
                         
                         
                         <td>
@@ -93,10 +107,10 @@
 
                         </td> 
                         <td>
-                            <!-- <a href="{{route('duty-roster.preview',['id'=>$item->id]) }}" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> {{__('Preview')}}</a>
-                            <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a> -->
                             
-                            <a href="javascript:;" wire:click="$emit('modaleditdutyrosterflm','{{ $item->name }}')" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                            <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                            <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                            
                         </td> 
                     </tr>
                     @endforeach
