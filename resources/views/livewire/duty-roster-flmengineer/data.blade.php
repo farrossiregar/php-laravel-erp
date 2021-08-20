@@ -41,9 +41,18 @@
     </div>
 
 
-    @if(!check_access('duty-roster.import'))
+    @if(check_access('duty-roster.import'))
+    <div class="col-md-1" style="margin-right: 60px;">
+        <a href="{{ route('duty-roster-flmengineer.updateemployee') }}"  class="btn btn-info"><i class="fa fa-edit"></i> Update Employee</a>
+    </div>
+
     <div class="col-md-2">
-        <a href="#" data-toggle="modal" data-target="#modal-dutyroster-importdutyroster" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Duty roster')}}</a>
+        <?php
+            $monthyear = $month.$year;
+        ?>
+        <a href="javascript:;" wire:click="$emit('modalexportdutyrosterflm','{{ $monthyear }}')" class="btn btn-info"><i class="fa fa-download"></i> Export</a>
+        <!-- <a wire:click="export({{ $monthyear }})" href="" title="Add" class="btn btn-primary"><i class="fa fa-download"></i> {{__('Export')}}</a> -->
+        <!-- <a href="{{ route('duty-roster-flmengineer.export',['id'=>$monthyear]) }}}" href="" title="Add" class="btn btn-primary"><i class="fa fa-download"></i> {{__('Export')}}</a> -->
     </div>
     
     @endif
@@ -58,14 +67,15 @@
                         <th>No</th>
                         <th>Name</th> 
                         <th>Position</th> 
-                        <th>Date Join</th> 
-                        <th>Date Resign</th> 
-                        <th>Account Mateline</th> 
+                        <!-- <th>Date Join</th> 
+                        <th>Date Resign</th>  -->
+                        <th>Date Update</th> 
+                        <!-- <th>Account Mateline</th> 
                         <th>No Pass ID</th> 
                         <th>Training K3</th> 
                         <th>Total Site</th> 
-                        <th>Status Synergy</th> 
-                        <!-- <th>Status Employee</th>  -->
+                        <th>Status Synergy</th>  -->
+                        <th>Status Approval</th> 
                         <th>Action</th> 
                     </tr>
                 </thead>
@@ -78,10 +88,11 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $item->name }}</td>
                         <td>{{ @get_position($item->user_access_id) }}</td>
-                        <td>{{ isset($item->resign_date) ? date_format(date_create(@$item->join_date), 'd M Y') : '' }}</td>
-                        <td>{{ isset($item->resign_date) ? date_format(date_create(@$item->resign_date), 'd M Y') : '' }}</td>
+                        <!-- <td>{{ isset($item->join_date) ? date_format(date_create(@$item->join_date), 'd M Y') : '' }}</td>
+                        <td>{{ isset($item->resign_date) ? date_format(date_create(@$item->resign_date), 'd M Y') : '' }}</td> -->
+                        <td>{{ isset($item->created_at) ? date_format(date_create(@$item->created_at), 'd M Y') : '' }}</td>
                         
-                        <td>{{ $item->account_mateline }}</td>
+                        <!-- <td>{{ $item->account_mateline }}</td>
                         <td>{{ $item->no_pass_id }}</td>
                         <td>
                             @if($item->training_k3 == 'Done')
@@ -95,21 +106,38 @@
                         
                         
                         <td>
-                            <!-- if($item->resign_date == '') -->
+
                             @if($item->status_synergy == 'Synergy')
                                 <label class="badge badge-success" data-toggle="tooltip" title="Approved">Synergy</label>
                             @endif
 
-                            <!-- if($item->resign_date != '') -->
                             @if($item->status_synergy == 'Tidak')
                                 <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Tidak</label>
+                            @endif
+
+                        </td>  -->
+                        <td>
+                            
+                            @if($item->status == '1')
+                                <label class="badge badge-success" data-toggle="tooltip" title="Approved">Approved</label>
+                            @endif
+
+                            
+                            @if($item->status == '0')
+                                <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Decline</label>
+                            @endif
+
+
+                            @if($item->status == '' && $item->status == 'null')
+                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting Approval">Waiting Approval</label>
                             @endif
 
                         </td> 
                         <td>
                             
+                            <a href="javascript:;" wire:click="$emit('modalpreviewdutyrosterflm','{{ $item->id }}')" class="btn btn-info"><i class="fa fa-eye"></i> Preview</a>
                             <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                            <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                            <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
                             
                         </td> 
                     </tr>

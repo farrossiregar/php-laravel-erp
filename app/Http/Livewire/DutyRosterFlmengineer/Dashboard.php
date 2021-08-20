@@ -75,7 +75,7 @@ class Dashboard extends Component
             foreach($detail_dutyroster_flmengineer as $l => $items){    
                 
                 $this->datasets[$l]['label'] = $item->level;
-                $this->datasets[$l]['backgroundColor'] = $color[$l];
+                $this->datasets[$l]['backgroundColor'] = $color[$k];
                 $this->datasets[$l]['fill'] = 'boundary';
                 $this->datasets[$l]['data'][] = $items->jumlah_resign;
      
@@ -113,12 +113,11 @@ class Dashboard extends Component
                                                             ->whereNull('employees.resign_date')
                                                             ->get();
             foreach($jumlah_employee_active_flm as $l => $items){    
-                
-                $this->datasetsorgflm[$k]['label'] = $item->name;
-                $this->datasetsorgflm[$k]['backgroundColor'] = $color[0];
+
+                $this->datasetsorgflm[$k]['label'] = $items->position;
+                $this->datasetsorgflm[$k]['backgroundColor'] = $color[$k];
                 $this->datasetsorgflm[$k]['fill'] = 'boundary';
-                // $this->datasetsorg[$k]['data'][] = $items->jumlah.' - '.$items->position;
-                $this->datasetsorgflm[$k]['data'][] = $items->jumlah;
+                $this->datasetsorgflm[$l]['data'][] = $items->jumlah;
      
             }
 
@@ -153,12 +152,16 @@ class Dashboard extends Component
                                                             ->whereNull('employees.resign_date')
                                                             ->get();
             foreach($jumlah_employee_active_management as $l => $items){    
-                
-                $this->datasetsorgmanagement[$k]['label'] = $item->name;
-                $this->datasetsorgmanagement[$k]['backgroundColor'] = $color[0];
+                if($k > 9){
+                    $j = 0;
+                }else{
+                    $j = $k;
+                }
+                $this->datasetsorgmanagement[$k]['label'] = $items->position;
+                $this->datasetsorgmanagement[$k]['backgroundColor'] = $color[$j];
                 $this->datasetsorgmanagement[$k]['fill'] = 'boundary';
                 // $this->datasetsorg[$k]['data'][] = $items->jumlah.' - '.$items->position;
-                $this->datasetsorgmanagement[$k]['data'][] = $items->jumlah;
+                $this->datasetsorgmanagement[$l]['data'][] = $items->jumlah;
      
             }
 
