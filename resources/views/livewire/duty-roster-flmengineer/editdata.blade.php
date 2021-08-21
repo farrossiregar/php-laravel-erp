@@ -34,6 +34,7 @@
                 <div class="col-md-12 form-group">
                     <label>Training K3</label>
                     <select class="form-control" wire:model="training_k3">
+                        <option value="">-- Training K3 --</option>
                         <option value="Done">Done</option>
                         <option value="Not yet">Not yet</option>
                     </select>
@@ -41,6 +42,7 @@
                 <div class="col-md-12 form-group">
                     <label>Status Synergy</label>
                     <select class="form-control" wire:model="status_synergy">
+                        <option value="">-- Status Synergy --</option>    
                         <option value="Synergy">Synergy</option>
                         <option value="Tidak">Tidak</option>
                     </select>

@@ -46,6 +46,7 @@
 
 <script>
 var labels = {!!$labels!!};
+// var labels = [];
 var datasets = {!!$datasets!!};
 
 var labelsorgflm = {!!$labelsorgflm!!};

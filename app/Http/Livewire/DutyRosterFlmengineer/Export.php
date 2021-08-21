@@ -23,17 +23,6 @@ class Export extends Component
         
     }
 
-    public function mount(){
-        
-        // $this->data       = \App\Models\DutyrosterSitelistDetail::where('id_master_dutyroster', $id);  
-        // $this->selected_id = $id;
-        
-
-        // foreach(\App\Models\DutyrosterSitelistDetail::where('id_master_dutyroster', $id)->where('remarks', '1')->get() as $item){
-        //     $this->data_id[$item->id] = $item->id;
-        // }
-        
-    }
 
     public function save()
     {
@@ -82,7 +71,7 @@ class Export extends Component
         //$objPHPExcel->getActiveSheet()->freezePane('A4');
         
         $objPHPExcel->getActiveSheet()->setAutoFilter('A2:G2');
-        $num=4;
+        $num=3;
 
         $data = \App\Models\DutyrosterFlmengineerMaster::where(DB::Raw('month(dutyroster_flmengineer_master.created_at)'), '08')
                                                         ->where(DB::Raw('year(dutyroster_flmengineer_master.created_at)'), '2021')
@@ -103,7 +92,7 @@ class Export extends Component
                             ->setCellValue('G'.$num, $item->total_site);
 
                         if($item->remarks == '1'){
-                            $objPHPExcel->getActiveSheet()->getStyle('AB'.$num.':AG'.$num)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('ffcccc');
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':G'.$num)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('ffcccc');
                         }
           
                 $num++;
