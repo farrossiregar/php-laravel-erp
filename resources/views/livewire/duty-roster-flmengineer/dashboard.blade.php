@@ -46,6 +46,7 @@
 
 <script>
 var labels = {!!$labels!!};
+// var labels = [];
 var datasets = {!!$datasets!!};
 
 var labelsorgflm = {!!$labelsorgflm!!};
@@ -171,8 +172,8 @@ function init_chart_databasenoc(){
                 },
                 scales: {
                     xAxes: [{
-                        barPercentage: 0.5,
-                        categoryPercentage: 0.5
+                        barPercentage: 1.0,
+                        categoryPercentage: 0.9
                     }]
                 }
             }
