@@ -2,20 +2,24 @@
 
 namespace App\Http\Livewire\Employee;
 
+use App\Models\ClientProject;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\DepartmentSub;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class Edit extends Component
 {
     public $data,$name,$nik,$email,$telepon,$address,$place_of_birth,$date_of_birth,$marital_status,$blood_type,$employee_status,$religion,$user_access_id,$department_sub_id;
     public $foto,$foto_ktp,$password,$confirm,$region_id,$company_id,$lokasi_kantor,$is_use_android,$employee_code,$is_noc,$ktp,$domisili,$postcode;
+    public $showEditPassword=false,$department_id,$showProject=false,$projects=[],$project_id=[];
     use WithFileUploads;
     public function render()
     {
         return view('livewire.employee.edit');
     }
+
     public function mount($id)
     {
         $this->data = \App\Models\Employee::find($id);
@@ -43,6 +47,16 @@ class Edit extends Component
         $this->postcode = $this->data->postcode;
     }
 
+    public function updated($propertyName)
+    {
+        if($this->department_id == 4 and $this->company_id){
+            $this->showProject = true;
+            $this->projects = ClientProject::where('company_id',$this->company_id)->orderBy('name','ASC')->get();
+            $this->emit('load-project');
+        }
+        if($this->department_id != 4) $this->showProject = false;
+    }
+
     public function updatedFoto()
     {
         $this->validate(
@@ -50,6 +64,7 @@ class Edit extends Component
                 'foto' => 'image|max:1024'
             ]);
     }
+
     public function updatedFoto_ktp()
     {
         $this->validate(
@@ -57,6 +72,24 @@ class Edit extends Component
                 'foto_ktp' => 'image|max:1024'
             ]);
     }
+
+    public function update_password()
+    {
+        $this->validate([
+            'password' => 'required',
+            'confirm'=>'required|same:password'
+        ]);
+
+        $user = User::find($this->data->user_id);
+        if($user) {
+            $user->password = Hash::make($this->password);
+            $user->save();
+        }
+
+        $this->emit('message-success','Password saved');
+        $this->showEditPassword = false;
+    }
+
     public function save()
     {   
         $this->validate([
@@ -85,6 +118,7 @@ class Edit extends Component
         $user->email = $this->email;
         $user->telepon = $this->telepon;
         $user->save();
+
         if(empty($this->data->user_id))$this->data->user_id = $user->id;
 
         $this->data->is_use_android = $this->is_use_android;
@@ -99,7 +133,7 @@ class Edit extends Component
         $this->data->telepon = $this->telepon;
         $this->data->religion = $this->religion;
         $this->data->address = $this->address;
-        $this->data->department_id = $department->department_id;
+        $this->data->department_id = $this->department_id;
         $this->data->department_sub_id = $this->department_sub_id;
         $this->data->user_access_id = $this->user_access_id;
         $this->data->user_id = $user->id;

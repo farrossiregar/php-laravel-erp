@@ -48,7 +48,7 @@
                             @foreach($data as $k => $item)
                             <tr>
                                 <td style="width: 50px;">{{$num}}</td>
-                                <td>{{isset($item->company->name) ? $item->company->name : '-' }}</td>
+                                <td>{{isset($item->company->code) ? $item->company->code : '-' }}</td>
                                 <td>{{$item->employee_code}}</td>
                                 <td>
                                     @if(check_access('employee.autologin') and !empty($item->user_id))

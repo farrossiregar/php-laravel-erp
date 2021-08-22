@@ -1,17 +1,16 @@
 <div class="row">
-    <div class="col-md-2 p-4">
+    <div class="col-md-12 p-4 border mb-3">
         @php($parent = \App\Models\ModulesItem::where('link','mobile-apps.index')->first())       
-            @foreach(\App\Models\ModulesItem::where('parent_id',$parent->id)->get() as $menu)
-                <p>
-                    <label class="fancy-checkbox">
-                        <input type="checkbox" value="1" wire:click="update_employee_access({{$menu->id}},{{$menu->id}})" wire:model="employee_access.{{$menu->id}}" />
-                        <span>{{$menu->name}}</span>
-                    </label>
-                </p>
-            @endforeach
-        </ul>
+        @foreach(\App\Models\ModulesItem::where('parent_id',$parent->id)->get() as $menu)
+            <p>
+                <label class="fancy-checkbox">
+                    <input type="checkbox" value="1" wire:click="update_employee_access({{$menu->id}},{{$menu->id}})" wire:model="employee_access.{{$menu->id}}" />
+                    <span>{{$menu->name}}</span>
+                </label>
+            </p>
+        @endforeach
     </div>
-    <div class="col-md-3">
+    <div class="col-md-12">
         <div class="form-group">
             <label>PIC Speed Warning Alarm</label>
             <select class="form-control" wire:model="speed_warning_pic_id">
@@ -22,8 +21,8 @@
             </select>
         </div>
     </div>
-    <div class="col-md-12 text-danger">
-        <span wire:loading.delay>
+    <div class="col-md-12 text-success">
+        <span wire:loading>
             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
             <span class="sr-only">{{ __('Loading...') }}</span> Auto save
         </span>

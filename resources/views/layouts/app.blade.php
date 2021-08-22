@@ -29,7 +29,7 @@
         @endif
         @livewireStyles
     </head>
-    <body class="theme-blue">
+    <body class="theme-blue layout-fullwidth">
         <!-- Page Loader -->
         <div class="page-loader-wrapper">
             <div class="loader">
@@ -39,6 +39,33 @@
                 <p>Please wait...</p>        
             </div>
         </div>
+
+        @foreach(\App\Models\Department::get() as $dep)
+            <div class="left-sub-menu pt-5 item_{{$dep->id}}">
+                <div class="sidebar-scroll">
+                    <h6 class="px-3"><a href="javascript:void(0)" style="font-size: 17px;margin-right:10px;" onclick="hide_left_menu()"><i class="fa fa-arrow-left"></i></a> {{$dep->name}}</h6>
+                    <nav id="lef t-sidebar-nav" class="sidebar-nav">
+                        <ul class="metismenu main-menu">
+                            @foreach(\App\Models\Module::select('modules.*')->join('client_projects','client_projects.id','=','modules.client_project_id')->where(['department_id'=>$dep->id])->groupBy('client_project_id')->where(
+                                        function($table){
+                                            if(session()->get('company_id')) $table->where('client_projects.company_id',session()->get('company_id')); 
+                                        })->get() as $menu)
+                                <li class="">
+                                    <a href="#menu_{{$menu->id}}" class="has-arrow"><i class="icon-home"></i> <span>{{isset($menu->client_project->name) ? $menu->client_project->name : ''}}</span></a>
+                                    <ul>
+                                        @foreach(\App\Models\ModulesItem::where('module_id',$menu->id)->whereNotNull('module_group_id')->groupBy('module_group_id')->get() as $group)
+                                            @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id])->get() as $action)    
+                                                <li class=""><a href="">{{$action->name}}</a></li> 
+                                            @endforeach
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </nav>        
+                </div>
+            </div>
+        @endforeach
         <div id="wrapper">
             @include('layouts.navbar')
             @include('layouts.sidebar')
@@ -79,6 +106,28 @@
         <script src="{{ asset('assets/bundles/jvectormap.bundle.js') }}"></script> <!-- JVectorMap Plugin Js -->
         <script src="{{ asset('assets/bundles/knob.bundle.js') }}"></script>
         <script src="{{ asset('assets/bundles/mainscripts.bundle.js') }}?v=1"></script>
+        <style>
+            .left-sub-menu {
+                -webkit-transition: all 0.3s ease-in-out;
+                -moz-transition: all 0.3s ease-in-out;
+                -ms-transition: all 0.3s ease-in-out;
+                -o-transition: all 0.3s ease-in-out;
+                transition: all 0.3s ease-in-out;
+                background:white;
+                height: calc(100% - 65px);
+                width:300px;
+                position:fixed;
+                margin-top: 60px;
+                z-index:99;
+                display: none;
+            }
+            .left-sub-menu.active{
+                display: block !important;
+            }
+            .left-sub-menu #left-sidebar-nav {
+                margin-top:50px;
+            }
+        </style>
         @livewireScripts
         @stack('after-scripts')
         @if (trim($__env->yieldContent('page-script')))
@@ -90,14 +139,27 @@
             {{ csrf_field() }}
         </form>
         <script>
+            function hide_left_menu(){
+                $(".left-sub-menu").hide();
+            }
+
+            $('.metismenu').metisMenu();
+
+            function show_left_menu(id){
+                $(".left-sub-menu").hide();
+                $(".item_"+id).show();
+            }
+
             Livewire.on('message-success',(msg)=>{
                 $('.alert-success').show();
                 $('.alert-success .message').html(msg);
+                $("html, body").animate({ scrollTop: 0 }, "slow");
             });
 
             Livewire.on('message-error',(msg)=>{
                 $('.alert-error').show();
                 $('.alert-error .message').html(msg);
+                $("html, body").animate({ scrollTop: 0 }, "slow");
             });
 
             Livewire.on('refresh-form',()=>{
@@ -113,9 +175,9 @@
             function confirm_delete(){
                 $("#confirm_delete").modal("show");
             }
-            $( document ).ready(function() {
-                $(".btn-toggle-fullwidth").trigger('click');
-            });
+            // $( document ).ready(function() {
+            //     $(".btn-toggle-fullwidth").trigger('click');
+            // });
             $('[data-toggle="tooltip"]').tooltip();
             $('*').tooltip();
         </script>
