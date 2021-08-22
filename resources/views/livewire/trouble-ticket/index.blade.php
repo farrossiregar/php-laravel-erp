@@ -26,7 +26,8 @@
                                 <th>Tanggal Kejadian</th>          
                                 <th>Departmen</th>          
                                 <th>Lokasi Kejadian</th>    
-                                <th>Kategori Masalah</th>          
+                                <th>Kategori Masalah</th>   
+                                <th>Risk</th>       
                                 <th>Uraian Masalah</th>          
                                 <th>File</th> 
                                 <th>Pickup By</th>     
@@ -49,6 +50,7 @@
                                 <td>{{isset($item->employee->department->name) ? $item->employee->department->name : ''}}</td>
                                 <td>{{isset($item->lokasi) ? $item->lokasi : ''}}</td>
                                 <td>{{$item->trouble_ticket_category}}</td>
+                                <td>{{$item->type_risk}}</td>
                                 <td>{{$item->description}}</td>
                                 <td>
                                     @if($item->file)

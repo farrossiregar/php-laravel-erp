@@ -29,7 +29,7 @@
     @else
         @if(!isset($_GET['company_id']) and !isset($_GET['menu']))
             <div class="home row">
-                <div class="item col-md-3 is_hover {{$company_id==2 ? 'active_hover' : ''}}" wire:click="$set('company_id',2)">
+                <div class="item col-md-3 is_hover {{$company_id==2 ? 'active_hover' : ''}}" style="margin-right:5px;" wire:click="$set('company_id',2)">
                     <a href="javascript:void(0)" title="PT Putra Mulia Telecommunication">
                         <img class="pmt" src="{{asset('images/pmt-logo.png')}}">
                     </a>
@@ -39,7 +39,7 @@
                         <img class="hup" src="{{asset('images/hup.png')}}">
                     </a>
                 </div>
-                <div class="col-md-6 item item-department">
+                <div class="col-md-6 item item-department" style="margin-right:-5px;">
                     @foreach(\App\Models\Department::get() as $dep)
                         <div class="sub-item" title="{{$dep->name}}" onclick="window.open('{{route('home',['company_id'=>$company_id, 'department_name'=>$dep->name,'department_id'=>$dep->id])}}','_self')">
                             @if($dep->icon)
@@ -224,12 +224,11 @@
         background-size: 300% !important;
         background-repeat: no-repeat !important;
     }
-
     .home {
         display: flex;
         flex-wrap: wrap;
         text-align: center;
-        margin-top:20%;
+        margin-top:10%;
     }
     .home .item{
         cursor:pointer;
@@ -243,16 +242,16 @@
     }
     .home .item {
         border: 1px solid #d6d0d0;
-        height: 280px;
-        width: 280px;
+        height: 330px;
+        width: 310px;
         /* margin-right: 10px; */
     }
     .home .item img.hup {
         height: 80px;
-        margin-top: 30%;
+        margin-top: 33%;
     }
     .home .item img.pmt {
-        margin-top: 35%;
+        margin-top: 36%;
     }
     .home .item-department {
         display: flex;
@@ -265,7 +264,7 @@
     }
     .home .item-department .sub-item {
         border: 1px solid #d6d0d0;
-        height: 140px;
+        height: 160px;
         /* width: 160px; */ 
         /* margin-right: 5px; */
         flex: 1 0 33%; /* explanation below */
