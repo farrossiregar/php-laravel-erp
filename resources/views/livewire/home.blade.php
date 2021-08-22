@@ -27,6 +27,7 @@
             </div>
         @endforeach
     @else
+
         @if(!isset($_GET['company_id']) and !isset($_GET['menu']))
             <div class="home row">
                 <div class="item col-md-3 is_hover {{$company_id==2 ? 'active_hover' : ''}}" style="margin-right:5px;" wire:click="$set('company_id',2)">
@@ -39,6 +40,7 @@
                         <img class="hup" src="{{asset('images/hup.png')}}">
                     </a>
                 </div>
+<<<<<<< HEAD
                 <div class="col-md-6 item item-department" style="margin-right:-5px;">
                     @foreach(\App\Models\Department::get() as $dep)
                         <div class="sub-item" title="{{$dep->name}}" onclick="window.open('{{route('home',['company_id'=>$company_id, 'department_name'=>$dep->name,'department_id'=>$dep->id])}}','_self')">
@@ -69,11 +71,22 @@
                         <div class="body clearfix">
                             <div class="content3">
                                 <a href="{{route('home',['company_id'=>1,'company_name'=>'Harapan Utama Prima'])}}"><img src="{{asset('images/hup.png')}}" style="height:80px;margin-top:32px"></a>
+=======
+                <div class="col-md-6 item item-department">
+                    <div class="row">
+                        @foreach(\App\Models\Department::get() as $dep)
+                            {{-- <div class="sub-item col-md-4" title="{{$dep->name}}" onclick="window.open('{{route('home',['company_id'=>$company_id, 'department_name'=>$dep->name,'department_id'=>$dep->id])}}','_self')"> --}}
+                            <div class="sub-item col-md-4" title="{{$dep->name}}" onclick="show_left_menu({{$dep->id}})">
+                                @if($dep->icon)
+                                    <img src="{{$dep->icon}}" class="ml-3 mb-2" style="width: 30%;margin-top:20px;" />
+                                @endif
+                                <p>{{$dep->name}}</p>
+>>>>>>> 3c7d6c7f23c1393179c2b106b68c590198eebb28
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
-            </div> --}}
+            </div>
         @endif
 
         @if(isset($_GET['company_id']) and !isset($_GET['department_id']))
@@ -189,35 +202,9 @@
                     @endforeach
                 </div>
             @endforeach
-            
-        {{-- @else
-            @foreach(get_menu(\Auth::user()->user_access_id) as $menu)
-                <h4>{{$menu['name']}}</h4>
-                <div class="row clearfix mt-3">
-                @if(isset($menu['sub_menu']))
-                @foreach($menu['sub_menu'] as $sub)
-                    <div class="col-lg-2 col-md-2 col-sm-12 px-1" onclick="window.open('{{route($sub->link)}}','_blank')">
-                        <div class="card ng-star-inserted" style="height:200px">
-                            <div class="body clearfix">
-                                <div class="content3">
-                                    <h5>{{$sub->name}}</h5>
-                                    <p class="ng-star-inserted">{{$sub->id}}</p>
-                                </div>
-                            </div>
-                            @if($sub->icon)
-                            <img src="{{$sub->icon}}" class="ml-3" style="height: 50px;position:absolute;bottom:40px;" />
-                            @endif
-                        </div>
-                    </div>
-                @endforeach
-                @endif
-                </div>
-            @endforeach --}}
-        
         @endif
     @endif
 </div>
-{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/> --}}
 <style>
     body {
         background: url('{{asset('images/bg-home.jpg')}}') !important;

@@ -2,16 +2,12 @@
 @section('parentPageTitle', 'Management Menu')
 
 <div class="row clearfix">
-    <div class="col-lg-8">
+
+    <div class="col-lg-6">
         <div class="card">
             <div class="header row">
-                <div class="col-md-3">
-                    <select class="form-control" wire:model="company_id">
-                        <option value=""> -- Company -- </option>
-                        @foreach(\App\Models\Company::get() as $company)
-                        <option value="{{$company->id}}">{{$company->name}}</option>
-                        @endforeach
-                    </select>
+                <div class="col-md-2">
+                    <h6>Project</h6>
                 </div>
                 <div class="col-md-3">
                     <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_insert_module" class="btn btn-primary"><i class="fa fa-plus"></i> Menu</a>
@@ -20,68 +16,51 @@
             <div class="body pt-0">
                 <div class="table-responsive">
                     <table class="table table-striped m-b-0 c_list">
-                        {{-- <thead>
-                            <tr>
-                                <th>Department</th>
-                                <th>Company</th>
-                                <th>Project</th>
-                                <th>Name</th>
-                                <th>Prefix Link</th>
-                                <th>Icon</th>
-                                <th>Status</th>
-                                <th>Updated</th>
-                            </tr>
-                        </thead> --}}
                         <tbody>
                             @foreach($data as $k => $item)
-                            <tr>
-                                <th>{{isset($item->department->name) ? $item->department->name : ''}}</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            @php($menus = \App\Models\Module::select('modules.id','modules.name',\DB::raw('client_projects.name as client_projects_name'))->join('client_projects','client_projects.id','=','modules.client_project_id')
-                            ->where(['department_id'=>$item->department_id])->get())
-                            @if($menus->count()==0)
-                            <tr><td colspan="3"></td></tr>
-                            @else
-                                @foreach($menus as $menu)
-                                    <tr>
-                                        <td>&nbsp;&nbsp;&nbsp;<a href="{{route('module.edit',$menu->id)}}">{{isset($menu->client_projects_name) ? $menu->client_projects_name : ''}}</a></td>
-                                        <td>{{$menu->name}}</td>
-                                        <td>
-                                            <a href="javascript:;" class="text-danger" wire:click="delete({{$menu->id}})"><i class="fa fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-{{--                                 
-                                <td>{{isset($item->client_project->company->code) ? $item->client_project->company->code : ''}}</td>
-                                <td>{{isset($item->client_project->name) ? $item->client_project->name : ''}}</td>
-                                <td><a href="{{route('module.edit',['id'=>$item->id])}}">{{$item->name}}</a></td>
-                                <td>{{$item->prefix_link}}</td>
-                                <td>
-                                    @if($item->icon)
-                                        <i style="{{$item->color?'color:'.$item->color:''}}" class="fa fa-{{$item->icon}}"></i>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($item->status==1)
-                                        <span class="badge badge-success">Active</span>
-                                    @else
-                                        <span class="badge badge-danger">Inactive</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    {{$item->updated_at}}
-                                    <a href="javascript:;" class="text-danger" wire:click="delete({{$item->id}})"><i class="fa fa-trash"></i></a>
-                                </td> --}}
-                            
+                                <tr>
+                                    <th>{{isset($item->department->name) ? $item->department->name : ''}}</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                @php($menus = \App\Models\Module::select('modules.id','modules.name',\DB::raw('client_projects.name as client_projects_name'))->join('client_projects','client_projects.id','=','modules.client_project_id')
+                                ->where(['department_id'=>$item->department_id])->get())
+                                @if($menus->count()==0)
+                                <tr><td colspan="3"></td></tr>
+                                @else
+                                    @foreach($menus as $menu)
+                                        <tr>
+                                            <td>&nbsp;&nbsp;&nbsp;<a href="{{route('module.edit',$menu->id)}}">{{isset($menu->client_projects_name) ? $menu->client_projects_name : ''}}</a></td>
+                                            <td>{{$menu->name}}</td>
+                                            <td>
+                                                <a href="javascript:;" class="text-danger" wire:click="delete({{$menu->id}})"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             @endforeach
                         </tbody>
                     </table>
                 </div>
                 <br />
                 {{$data->links()}}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="header row">
+                <div class="col-md-2">
+                    <h6>Data Master</h6>
+                </div>
+                <div class="col-md-3">
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_insert_module" class="btn btn-primary"><i class="fa fa-plus"></i> Menu</a>
+                </div>
+            </div>
+            <div class="body pt-0">
+                <div class="table-responsive">
+                    @livewire('module.data-master',['id'=>17],key(17))
+                </div>
             </div>
         </div>
     </div>

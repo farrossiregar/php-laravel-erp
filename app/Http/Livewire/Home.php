@@ -12,9 +12,16 @@ class Home extends Component
     {
         return view('livewire.home');
     }
+
+    public function updated($propertyName)
+    {
+        session()->put('company_id',$this->$propertyName);
+    }
     
     public function mount()
     {
         \LogActivity::add('Home');
+
+        if(session()->get('company_id')) $this->company_id = session()->get('company_id');
     }
 }

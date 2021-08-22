@@ -3,10 +3,13 @@
 namespace App\Http\Livewire\Department;
 
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Insert extends Component
 {
     public $name,$icon;
+    use WithFileUploads;
+
     public function render()
     {
         return view('livewire.department.insert');
