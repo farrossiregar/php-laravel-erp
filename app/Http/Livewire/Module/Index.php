@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Module;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\Module;
+use App\Models\ModulesItem;
 
 class Index extends Component
 {   
@@ -13,7 +15,7 @@ class Index extends Component
     public $keyword,$company_id;
     public function render()
     {
-        $data = \App\Models\Module::orderBy('id','DESC')->groupBy('department_id');
+        $data = Module::orderBy('id','DESC')->groupBy('department_id');
         
         if($data) $data = $data->where("name","LIKE","%{$this->keyword}%");
 
@@ -22,7 +24,7 @@ class Index extends Component
 
     public function delete($id)
     {
-        \App\Models\ModulesItem::where('module_id',$id)->delete();
-        \App\Models\Module::find($id)->delete();
+        ModulesItem::where('module_id',$id)->delete();
+        Module::find($id)->delete();
     }
 }

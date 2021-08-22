@@ -184,7 +184,6 @@
                                         @enderror
                                     </div>
                                 </div>
-
                                 <div class="col-md-4">
                                     <h5>Position / Access</h5>
                                     <hr />
@@ -337,6 +336,10 @@
 @push('after-scripts')
 <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
 <script>
+    @foreach($employee_project as $item)
+    $('.multiselect_project').find("option[value='{{$item->client_project_id}}']").prop("selected", true);
+    @endforeach
+
     var _multiSelect = $('.multiselect_project').multiselect({ 
             nonSelectedText: ' --- Select Project --- ',
             onChange: function (option, checked) {

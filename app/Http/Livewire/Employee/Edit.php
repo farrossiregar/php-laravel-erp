@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Employee;
 use App\Models\ClientProject;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Models\DepartmentSub;
+use App\Models\EmployeeProject;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -13,7 +13,7 @@ class Edit extends Component
 {
     public $data,$name,$nik,$email,$telepon,$address,$place_of_birth,$date_of_birth,$marital_status,$blood_type,$employee_status,$religion,$user_access_id,$department_sub_id;
     public $foto,$foto_ktp,$password,$confirm,$region_id,$company_id,$lokasi_kantor,$is_use_android,$employee_code,$is_noc,$ktp,$domisili,$postcode;
-    public $showEditPassword=false,$department_id,$showProject=false,$projects=[],$project_id=[];
+    public $showEditPassword=false,$department_id,$showProject=false,$projects=[],$project_id=[],$employee_project;
     use WithFileUploads;
     public function render()
     {
@@ -36,6 +36,7 @@ class Edit extends Component
         $this->religion = $this->data->religion;
         $this->user_access_id = $this->data->user_access_id;
         $this->department_sub_id = $this->data->department_sub_id;
+        $this->department_id = $this->data->department_id;
         $this->region_id = $this->data->region_id;
         $this->company_id = $this->data->company_id;
         $this->lokasi_kantor = $this->data->lokasi_kantor;
@@ -45,6 +46,12 @@ class Edit extends Component
         $this->ktp = $this->data->ktp;
         $this->domisili = $this->data->domisili;
         $this->postcode = $this->data->postcode;
+        $this->employee_project = EmployeeProject::where(['employee_id'=>$this->data->id])->get();
+        if($this->department_id==4){
+            $this->showProject = true;
+            $this->projects = ClientProject::where('company_id',$this->company_id)->orderBy('name','ASC')->get();
+            $this->emit('load-project');
+        }
     }
 
     public function updated($propertyName)
@@ -108,7 +115,6 @@ class Edit extends Component
             'user_access_id' => 'required',
             'employee_code' => 'required|unique:employees,employee_code,'.$this->data->id
         ]);
-        $department = DepartmentSub::find($this->department_sub_id);
         $user = User::find($this->data->user_id);
         if(!$user) $user = new User();
 
@@ -160,7 +166,21 @@ class Edit extends Component
 
         $this->data->save();
         
+        if($this->project_id){
+            EmployeeProject::where(['employee_id'=>$this->data->id])->truncate();
+
+            foreach($this->project_id as $k => $id){
+                $project = EmployeeProject::where(['client_project_id'=>$id,'employee_id'=> $this->data->id])->first();
+                if(!$project){
+                    $project = new EmployeeProject();
+                    $project->employee_id = $this->data->id;
+                    $project->client_project_id = $id;
+                    $project->save();
+                }
+            }
+        }
+
         session()->flash('message-success',__('Data saved successfully'));
-        return redirect()->to('employee');
+        return redirect()->route('employee.edit',['id'=>$this->data->id]);
     }
 }
