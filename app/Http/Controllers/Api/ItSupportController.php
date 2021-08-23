@@ -16,7 +16,7 @@ class ItSupportController extends Controller
         if(check_access('trouble-ticket.pickup')){
             $data = TroubleTicket::join('employees','employees.id','=','trouble_tickets.employee_id')->where(function($table){
                 $table->where('employee_pic_id',\Auth::user()->employee->id)->orWhere('trouble_tickets.status',1);
-            });
+            })->orWhere('employee_id',\Auth::user()->employee->id);
             $is_pic = true;   
         }else 
             $data = TroubleTicket::join('employees','employees.id','=','trouble_tickets.employee_id')->where('employee_id',\Auth::user()->employee->id);
@@ -58,6 +58,7 @@ class ItSupportController extends Controller
             $param[$k]['trouble_ticket_category_others'] = $item->trouble_ticket_category_others;
             $param[$k]['file'] = $item->file ? asset($item->file) : null;
             $param[$k]['note'] = $item->note;
+            $param[$k]['type_risk'] = $item->type_risk;
             $param[$k]['is_pic'] = $is_pic == true ? 1 : 0;
             
             $param[$k]['is_pick'] = 0;
@@ -86,6 +87,7 @@ class ItSupportController extends Controller
         $data->employee_pic_id = \Auth::user()->employee->id;
         $data->trouble_ticket_number = TroubleTicketHelper::generate_number();
         $data->start_date = date('Y-m-d H:i:s');
+        $data->type_risk  = $r->type_risk;
         $data->save();
         
         $description = "Pick-up By : ". \Auth::user()->employee->name ."\n";

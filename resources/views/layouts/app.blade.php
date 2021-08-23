@@ -28,6 +28,10 @@
             @yield('page-styles')
         @endif
         @livewireStyles
+        <style>
+            .theme-blue:before, .theme-blue:after {background:white !important;}
+            .theme-blue #wrapper:before, .theme-blue #wrapper:after {background:white !important;}
+        </style>
     </head>
     <body class="theme-blue layout-fullwidth">
         <!-- Page Loader -->
