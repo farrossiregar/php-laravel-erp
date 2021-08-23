@@ -68,7 +68,7 @@
         @endforeach
         <div id="wrapper">
             @include('layouts.navbar')
-            @include('layouts.sidebar')
+            {{-- @include('layouts.sidebar') --}}
             <div id="main-content">
                 <div class="container-fluid">
                     <div class="block-header">
@@ -144,11 +144,6 @@
             }
 
             $('.metismenu').metisMenu();
-
-            function show_left_menu(id){
-                $(".left-sub-menu").hide();
-                $(".item_"+id).show();
-            }
 
             Livewire.on('message-success',(msg)=>{
                 $('.alert-success').show();
