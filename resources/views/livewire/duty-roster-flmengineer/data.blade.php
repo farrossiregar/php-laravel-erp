@@ -48,6 +48,9 @@
         <a href="{{ route('duty-roster-flmengineer.updateemployee') }}"  class="btn btn-info"><i class="fa fa-edit"></i> Update Employee</a>
     </div>
 
+    @endif
+    
+    
     <div class="col-md-2">
         <?php
             $monthyear = $month.$year;
@@ -55,8 +58,6 @@
         <a href="javascript:;" wire:click="$emit('modalexportdutyrosterflm','{{ $monthyear }}')" class="btn btn-info"><i class="fa fa-download"></i> Export</a>
         
     </div>
-    
-    @endif
     
     
     <div class="col-md-12">
@@ -117,13 +118,17 @@
                         <td>
                             
                             <a href="javascript:;" wire:click="$emit('modalpreviewdutyrosterflm','{{ $item->id }}')" class="btn btn-info"><i class="fa fa-eye"></i> Preview</a>
-                            @if($item->status == '0')
-                            <a href="javascript:;" wire:click="$emit('modalrevisidutyrosterflm','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-edit"></i> Revisi</a>
+                            @if(check_access('duty-roster.import'))
+                                @if($item->status == '0')
+                                <a href="javascript:;" wire:click="$emit('modalrevisidutyrosterflm','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-edit"></i> Revisi</a>
+                                @endif
                             @endif
 
-                            @if($item->status == '' || $item->status == 'null')
-                            <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                            <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                            @if(check_access('duty-roster.approve'))
+                                @if($item->status == '' || $item->status == 'null')
+                                <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                @endif
                             @endif
                         </td> 
                     </tr>

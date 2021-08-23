@@ -88,7 +88,7 @@
     });
 
     Livewire.on('modalexportdutyrosterflm',(data)=>{
-        $("#modal-dutyrosterflmengineer-exportdutyrosterflm").modal('show');
+        <!-- $("#modal-dutyrosterflmengineer-exportdutyrosterflm").modal('show'); -->
     });
 
     Livewire.on('modalrevisidutyrosterflm',(data)=>{

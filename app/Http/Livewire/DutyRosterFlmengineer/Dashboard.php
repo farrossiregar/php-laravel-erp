@@ -70,67 +70,37 @@ class Dashboard extends Component
             // $this->labels[] = date('F', mktime(0, 0, 0, $item->month, 10));
             $this->labels[] = $item->level;
         }
-        $lvl = array('FLM Engineer', 'Management', 'Resign Team');
-        $this->labels = array('FLM Engineer', 'Management', 'Resign Team');
+        $lvl = array('FLM Engineer Active Personel', 'Management Active Personel', 'Resign Team This Month');
+        $this->labels = array('FLM Engineer Active Personel', 'Management Active Personel', 'Resign Team This Month');
 
         // dd($this->labels);
         
         $color = ['#ffb1c1','#4b89d6','#add64b','#80b10a','#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
-        $this->datasets[0] = [];
-        // foreach($master_dutyroster_flmengineer as $k => $item){
-        // foreach($lvl as $k => $item){
-            
-        //     $color = ['#ffb1c1','#4b89d6','#add64b','#80b10a','#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
-            
-        //     $detail_dutyroster_flmengineer = \App\Models\Employee::select(DB::Raw('count(level) as jumlah_resign'), 'name', 'level')
-        //                                                             ->where(DB::Raw('year(resign_date)'), $this->year)
-        //                                                             ->where(DB::Raw('month(resign_date)'), $this->month)
-        //                                                             // ->where('level', 'Management')
-        //                                                             ->where('level', $item)
-        //                                                             ->groupBy('level')
-        //                                                             ->get();
-        //     foreach($detail_dutyroster_flmengineer as $l => $items){    
-                
-        //         $this->datasets[$l]['label'] = @$item->level;
-        //         // $this->datasets[$l]['label'] = $item[$k];
-        //         $this->datasets[$l]['backgroundColor'] = $color[0];
-        //         $this->datasets[$l]['fill'] = 'boundary';
-        //         $this->datasets[$l]['data'] = $items->jumlah_resign;
-     
-        //     }
-
-        // }
+        $this->datasets[] = [];
+      
        
         $flmengineeractive = \App\Models\Employee::select(DB::Raw('count(*) as activeflm'), 'name', 'level')
-                                                    // ->where(DB::Raw('year(resign_date)'), $this->year)
-                                                    // ->where(DB::Raw('month(resign_date)'), $this->month)
-                                                    ->where(DB::Raw('year(resign_date)'), '<=', $this->year)
-                                                    ->where(DB::Raw('month(resign_date)'), '<', $this->month)
-                                                    // ->orwhere('resign_date', '')
+                                                    ->whereNull('resign_date')
                                                     ->where('level', 'FLM Engineer')
                                                     ->groupBy('level')
                                                     ->first();
 
-        $this->datasets[0]['label'] = 'FLM Engineer';
+        $this->datasets[0]['label'] = 'FLM Engineer Active Personel';
         $this->datasets[0]['backgroundColor'] = $color[0];
         $this->datasets[0]['fill'] = 'boundary';
-        $this->datasets[0]['data'][] = $flmengineeractive->activeflm;
+        // $this->datasets[0]['data'][] = $flmengineeractive->activeflm;
+        
 
 
         $managementactive = \App\Models\Employee::select(DB::Raw('count(*) as activemanagement'), 'name', 'level')
-                                                    ->where(DB::Raw('year(resign_date)'), '<=', $this->year)
-                                                    // ->whereRaw('year(resign_date) <= "2021" ')
-                                                    ->where(DB::Raw('month(resign_date)'), '<', $this->month)
-                                                    // ->whereRaw('month(resign_date) < "08" ')
-                                                    // ->whereNull('resign_date')
+                                                    
+                                                    ->whereNull('resign_date')
                                                     ->where('level', 'Management')
                                                     ->groupBy('level')
                                                     ->first();
 
-        $this->datasets[1]['label'] = 'Management';
-        $this->datasets[1]['backgroundColor'] = $color[1];
-        $this->datasets[1]['fill'] = 'boundary';
-        $this->datasets[1]['data'][] = $managementactive->activemanagement;
+        $this->datasets[1]['label'] = 'Management Active Personel';
+        $this->datasets[1]['backgroundColor'] = $color[0];
 
 
         $resignteam = \App\Models\Employee::select(DB::Raw('count(*) as jumlah_resign'))
@@ -138,14 +108,11 @@ class Dashboard extends Component
                                                     ->where(DB::Raw('month(resign_date)'), $this->month)
                                                     ->first();
         
-        $this->datasets[2]['label'] = 'Resign Team';
-        $this->datasets[2]['backgroundColor'] = $color[2];
-        $this->datasets[2]['fill'] = 'boundary';
-        $this->datasets[2]['data'][] = $resignteam->jumlah_resign;
-        // dd($this->datasets);
+        $this->datasets[2]['label'] = 'Resign Team This Month';
+        $this->datasets[2]['backgroundColor'] = $color[0];
+      
 
-
-
+        $this->datasets[0]['data'] = array($flmengineeractive->activeflm, $managementactive->activemanagement, $resignteam->jumlah_resign);
 
 
         $orgchartflm = \App\Models\Employee::select('user_access.name as name')
@@ -174,7 +141,7 @@ class Dashboard extends Component
             foreach($jumlah_employee_active_flm as $l => $items){    
 
                 $this->datasetsorgflm[$k]['label'] = $items->position;
-                $this->datasetsorgflm[$k]['backgroundColor'] = $color[$k];
+                $this->datasetsorgflm[$k]['backgroundColor'] = $color[0];
                 $this->datasetsorgflm[$k]['fill'] = 'boundary';
                 $this->datasetsorgflm[$l]['data'][] = $items->jumlah;
      
@@ -203,6 +170,11 @@ class Dashboard extends Component
         foreach($orgchartmanagement as $k => $item){
             $color = ['#ffb1c1','#4b89d6','#add64b','#80b10a','#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
             
+
+            $this->datasetsorgmanagement[$k]['label'] = $item->name;
+            $this->datasetsorgmanagement[$k]['backgroundColor'] = $color[0];
+            $this->datasetsorgmanagement[$k]['fill'] = 'boundary';
+            
             $jumlah_employee_active_management = \App\Models\Employee::select(DB::Raw('count(employees.id) as jumlah'), 'user_access.name as position')
                                                             ->leftjoin('user_access', 'user_access.id', 'employees.user_access_id')
                                                             // ->groupBy('employees.user_access_id')
@@ -211,25 +183,13 @@ class Dashboard extends Component
                                                             ->whereNull('employees.resign_date')
                                                             ->get();
             foreach($jumlah_employee_active_management as $l => $items){    
-                if($k > 9){
-                    $j = 0;
-                }else{
-                    $j = $k;
-                }
-                $this->datasetsorgmanagement[$k]['label'] = $items->position;
-                $this->datasetsorgmanagement[$k]['backgroundColor'] = $color[$j];
-                $this->datasetsorgmanagement[$k]['fill'] = 'boundary';
-                // $this->datasetsorg[$k]['data'][] = $items->jumlah.' - '.$items->position;
+       
                 $this->datasetsorgmanagement[$l]['data'][] = $items->jumlah;
      
             }
 
         }
         
-
-        // dd($this->datasetsorgmanagement);
-
-
 
        
         $this->labels = json_encode($this->labels);
