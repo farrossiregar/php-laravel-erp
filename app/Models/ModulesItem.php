@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\ModuleGroup;
+use App\Models\ClientProject;
 
 class ModulesItem extends Model
 {
@@ -16,11 +18,11 @@ class ModulesItem extends Model
 
     public function client_project()
     {
-        return $this->belongsTo(\App\Models\ClientProject::class);
+        return $this->belongsTo(ClientProject::class);
     }
 
     public function group()
     {
-        return $this->belongsTo(\App\Models\ModuleGroup::class,'module_group_id','id');
+        return $this->belongsTo(ModuleGroup::class,'module_group_id','id');
     }
 }

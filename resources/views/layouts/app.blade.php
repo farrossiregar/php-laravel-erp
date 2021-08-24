@@ -43,7 +43,6 @@
                 <p>Please wait...</p>        
             </div>
         </div>
-
         @foreach(\App\Models\Department::get() as $dep)
             <div class="left-sub-menu pt-5 item_{{$dep->id}}">
                 <div class="sidebar-scroll">
