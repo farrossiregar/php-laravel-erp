@@ -30,7 +30,7 @@
 
         @if(!isset($_GET['company_id']) and !isset($_GET['menu']))
             <div class="home row">
-                <div class="item col-md-3 is_hover {{$company_id==2 ? 'active_hover' : ''}}" style="margin-right:5px;" wire:click="$set('company_id',2)">
+                <div class="item col-md-3 is_hover {{$company_id==2 ? 'active_hover' : ''}}" wire:click="$set('company_id',2)">
                     <a href="javascript:void(0)" title="PT Putra Mulia Telecommunication">
                         <img class="pmt" src="{{asset('images/pmt-logo.png')}}">
                     </a>
@@ -40,38 +40,6 @@
                         <img class="hup" src="{{asset('images/hup.png')}}">
                     </a>
                 </div>
-<<<<<<< HEAD
-                <div class="col-md-6 item item-department" style="margin-right:-5px;">
-                    @foreach(\App\Models\Department::get() as $dep)
-                        <div class="sub-item" title="{{$dep->name}}" onclick="window.open('{{route('home',['company_id'=>$company_id, 'department_name'=>$dep->name,'department_id'=>$dep->id])}}','_self')">
-                            @if($dep->icon)
-                                <img src="{{$dep->icon}}" class="ml-3 mb-2" style="width: 30%;margin-top:20px;" />
-                            @endif
-                            <p>{{$dep->name}}</p>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-
-            {{-- <div class="row clearfix mt-3 text-center">
-                <div class="col-12 mb-5 mt-5">
-                    <h1 class="animate__animated animate__delay-2s animate__fadeInDown">Welcome, {{\Auth::user()->name}}</h1>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 px-1">
-                    <div class="card ng-star-inserted" style="float:right; width:50% !important;flex:0 0 30%;margin:auto;height:200px;border:1px solid #eee;">
-                        <div class="body clearfix">
-                            <div class="content3">
-                                <a href="{{route('home',['company_id'=>2,'company_name'=>'PT Putra Mulia Telecommunication'])}}"><img src="{{asset('images/pmt-logo.png')}}" style="margin-top:50px"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 px-1">
-                    <div class="card ng-star-inserted" style="float:left; width:50% !important;flex:0 0 30%;margin:auto;height:200px;border:1px solid #eee;">
-                        <div class="body clearfix">
-                            <div class="content3">
-                                <a href="{{route('home',['company_id'=>1,'company_name'=>'Harapan Utama Prima'])}}"><img src="{{asset('images/hup.png')}}" style="height:80px;margin-top:32px"></a>
-=======
                 <div class="col-md-6 item item-department">
                     <div class="row">
                         @foreach(\App\Models\Department::get() as $dep)
@@ -81,7 +49,6 @@
                                     <img src="{{$dep->icon}}" class="ml-3 mb-2" style="width: 30%;margin-top:20px;" />
                                 @endif
                                 <p>{{$dep->name}}</p>
->>>>>>> 3c7d6c7f23c1393179c2b106b68c590198eebb28
                             </div>
                         @endforeach
                     </div>
@@ -211,11 +178,12 @@
         background-size: 300% !important;
         background-repeat: no-repeat !important;
     }
+
     .home {
         display: flex;
         flex-wrap: wrap;
         text-align: center;
-        margin-top:10%;
+        margin-top:20%;
     }
     .home .item{
         cursor:pointer;
@@ -229,16 +197,16 @@
     }
     .home .item {
         border: 1px solid #d6d0d0;
-        height: 330px;
-        width: 310px;
+        height: 280px;
+        width: 280px;
         /* margin-right: 10px; */
     }
     .home .item img.hup {
         height: 80px;
-        margin-top: 33%;
+        margin-top: 30%;
     }
     .home .item img.pmt {
-        margin-top: 36%;
+        margin-top: 35%;
     }
     .home .item-department {
         display: flex;
@@ -251,7 +219,7 @@
     }
     .home .item-department .sub-item {
         border: 1px solid #d6d0d0;
-        height: 160px;
+        height: 140px;
         /* width: 160px; */ 
         /* margin-right: 5px; */
         flex: 1 0 33%; /* explanation below */
