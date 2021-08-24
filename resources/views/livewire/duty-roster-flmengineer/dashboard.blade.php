@@ -1,5 +1,5 @@
 <div>
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-md-1">                
             <select class="form-control" wire:model="year">
                 <option value=""> --- Year --- </option>
@@ -27,7 +27,7 @@
                 <span class="sr-only">{{ __('Loading...') }}</span>
             </label>
         </div>
-    </div>
+    </div> -->
     <div class="mt-4" style="height: 300px">
         <canvas id="chBar"></canvas>
     </div>
@@ -110,7 +110,7 @@ function init_chart_databasenoc(){
                 },
                 title: {
                     display: true,
-                    text: 'DUTY ROSTER FLM ENGINEER'
+                    text: 'DUTY ROSTER FLM ENGINEER THIS MONTH'
                 },
                 scales: {
                     xAxes: [{
@@ -172,8 +172,8 @@ function init_chart_databasenoc(){
                 },
                 scales: {
                     xAxes: [{
-                        barPercentage: 1.0,
-                        categoryPercentage: 0.9
+                        barPercentage: 2.6,
+                        categoryPercentage: 0.8
                     }]
                 }
             }

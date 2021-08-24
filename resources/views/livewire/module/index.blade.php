@@ -2,7 +2,6 @@
 @section('parentPageTitle', 'Management Menu')
 
 <div class="row clearfix">
-
     <div class="col-lg-6">
         <div class="card">
             <div class="header row">
