@@ -27,35 +27,51 @@
                                         
                                         @if(isset($group->group->name))
                                             @if($group->group->name != $menu->client_project->name)
-                                                <li>
-                                                    <a href="javascript:void(0)"class="has-arrow"><span>{{$group->group->name}}</span></a>
-                                                    </ul>
-                                            @endif
-
-                                            @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id])->get() as $action)    
-                                                <li class="">
-                                                    @if(Route::has($action->link))
-                                                        <a href="{{route($action->link)}}">{{$action->name}}</a>
-                                                    @else
-                                                        <a href="javascript:void(0)">{{$action->name}}</a>
-                                                    @endif
-                                                    @if($action->is_have_sub_menu==1)
-                                                        <ul>
-                                                            @foreach(\App\Models\ModulesItem::where(['parent_id'=>$action->id])->get() as $sub)
-                                                                @if(Route::has($sub->link))
-                                                                    <li class="ml-2"> <a href="{{route($sub->link)}}">{{$sub->name}}</a></li>
+                                                <li><a href="javascript:void(0)">{{$group->group->name}}</a>
+                                                    <ul>
+                                                        @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id])->get() as $action)    
+                                                            <li class="ml-2">
+                                                                @if(Route::has($action->link))
+                                                                    <a href="{{route($action->link)}}">{{$action->name}}</a>
                                                                 @else
-                                                                    <li class="ml-2"> <a href="javascript:void(0)">{{$sub->name}}</a></li>
+                                                                    <a href="javascript:void(0)">{{$action->name}}</a>
                                                                 @endif
-                                                            @endforeach
-                                                        </ul>                                                        
-                                                    @endif
-                                                </li> 
-                                            @endforeach
-                                            
-                                            @if($group->group->name != $menu->client_project->name)
-                                                </ul>
-                                            </li>    
+                                                                @if($action->is_have_sub_menu==1)
+                                                                    <ul>
+                                                                        @foreach(\App\Models\ModulesItem::where(['parent_id'=>$action->id])->get() as $sub)
+                                                                            @if(Route::has($sub->link))
+                                                                                <li class="ml-2"> <a href="{{route($sub->link)}}">{{$sub->name}}</a></li>
+                                                                            @else
+                                                                                <li class="ml-2"> <a href="javascript:void(0)">{{$sub->name}}</a></li>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </ul>                                                        
+                                                                @endif
+                                                            </li> 
+                                                        @endforeach
+                                                    </ul>
+                                                </li>
+                                            @else
+                                                @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id])->get() as $action)    
+                                                    <li class="">
+                                                        @if(Route::has($action->link))
+                                                            <a href="{{route($action->link)}}">{{$action->name}}</a>
+                                                        @else
+                                                            <a href="javascript:void(0)">{{$action->name}}</a>
+                                                        @endif
+                                                        @if($action->is_have_sub_menu==1)
+                                                            <ul>
+                                                                @foreach(\App\Models\ModulesItem::where(['parent_id'=>$action->id])->get() as $sub)
+                                                                    @if(Route::has($sub->link))
+                                                                        <li class="ml-2"> <a href="{{route($sub->link)}}">{{$sub->name}}</a></li>
+                                                                    @else
+                                                                        <li class="ml-2"> <a href="javascript:void(0)">{{$sub->name}}</a></li>
+                                                                    @endif
+                                                                @endforeach
+                                                            </ul>                                                        
+                                                        @endif
+                                                    </li> 
+                                                @endforeach
                                             @endif
                                         @endif
                                     @endforeach
