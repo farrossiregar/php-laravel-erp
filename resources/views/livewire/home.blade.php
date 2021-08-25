@@ -32,17 +32,17 @@
                                                         @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id])->get() as $action)    
                                                             <li class="ml-2">
                                                                 @if(Route::has($action->link))
-                                                                    <a href="{{route($action->link)}}">{{$action->name}}</a>
+                                                                    <a href="{{route($action->link)}}" class="pl-5">{{$action->name}}</a>
                                                                 @else
-                                                                    <a href="javascript:void(0)">{{$action->name}}</a>
+                                                                    <a href="javascript:void(0)" class="pl-5">{{$action->name}}</a>
                                                                 @endif
                                                                 @if($action->is_have_sub_menu==1)
                                                                     <ul>
                                                                         @foreach(\App\Models\ModulesItem::where(['parent_id'=>$action->id])->get() as $sub)
                                                                             @if(Route::has($sub->link))
-                                                                                <li class="ml-2"> <a href="{{route($sub->link)}}">{{$sub->name}}</a></li>
+                                                                                <li><a href="{{route($sub->link)}}" class="pl-5">{{$sub->name}}</a></li>
                                                                             @else
-                                                                                <li class="ml-2"> <a href="javascript:void(0)">{{$sub->name}}</a></li>
+                                                                                <li> <a href="javascript:void(0)" class="pl-5">{{$sub->name}}</a></li>
                                                                             @endif
                                                                         @endforeach
                                                                     </ul>                                                        
@@ -55,17 +55,17 @@
                                                 @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id])->get() as $action)    
                                                     <li class="">
                                                         @if(Route::has($action->link))
-                                                            <a href="{{route($action->link)}}">{{$action->name}}</a>
+                                                            <a href="{{route($action->link)}}" class="pl-5">{{$action->name}}</a>
                                                         @else
-                                                            <a href="javascript:void(0)">{{$action->name}}</a>
+                                                            <a href="javascript:void(0)" class="pl-5">{{$action->name}}</a>
                                                         @endif
                                                         @if($action->is_have_sub_menu==1)
                                                             <ul>
                                                                 @foreach(\App\Models\ModulesItem::where(['parent_id'=>$action->id])->get() as $sub)
                                                                     @if(Route::has($sub->link))
-                                                                        <li class="ml-2"> <a href="{{route($sub->link)}}">{{$sub->name}}</a></li>
+                                                                        <li class="ml-2"> <a href="{{route($sub->link)}}" class="pl-5">{{$sub->name}}</a></li>
                                                                     @else
-                                                                        <li class="ml-2"> <a href="javascript:void(0)">{{$sub->name}}</a></li>
+                                                                        <li class="ml-2"> <a href="javascript:void(0)" class="pl-5">{{$sub->name}}</a></li>
                                                                     @endif
                                                                 @endforeach
                                                             </ul>                                                        
