@@ -28,7 +28,7 @@
                                         @if(isset($group->group->name))
                                             @if($group->group->name != $menu->client_project->name)
                                                 <li>
-                                                        <a href="javascript:void(0)">{{$group->group->name}}</a>
+                                                    <a href="javascript:void(0)"class="has-arrow"><span>{{$group->group->name}}</span></a>
                                                     </ul>
                                             @endif
 
@@ -53,7 +53,7 @@
                                                 </li> 
                                             @endforeach
                                             
-                                            @if(!$group->group->name == $menu->client_project->name)
+                                            @if($group->group->name != $menu->client_project->name)
                                                 </ul>
                                             </li>    
                                             @endif
