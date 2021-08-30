@@ -1,23 +1,34 @@
-@section('title', __('Trouble Ticket'))
+@section('title', __('Trouble / Incident'))
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
             <div class="header row">
                 <div class="col-md-2">
+                    <select class="form-control" wire:model="filter_type">
+                        <option value=""> -- Type -- </option>
+                        <option value="1">Trouble</option>
+                        <option value="2">Incident</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                 </div>
-                {{-- @if(check_access('trouble-ticket.insert'))
-                <div class="col-md-1">
-                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_insert_trouble_ticket" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Trouble Ticket')}}</a>
+                <div class="col-md-8">
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_insert_trouble_ticket" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Trouble / Incident')}}</a>
+                    <span wire:loading>
+                        <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                        <span class="sr-only">{{ __('Loading...') }}</span>
+                    </span>
                 </div>
-                @endif --}}
             </div>
             <div class="body">
                 <div class="table-responsive">
                     <table class="table table-striped m-b-0 c_list">
                         <thead>
                             <tr>
-                                <th>No</th>                               
+                                <th>No</th>
+                                <th>Status</th>          
+                                <th>Type</th>                               
                                 <th>Ticket Number</th>    
                                 <th>Nama Pelapor / Requester</th>          
                                 <th>NIK</th>          
@@ -34,13 +45,27 @@
                                 <th>Pickup Date</th> 
                                 <th>Resolved Date</th> 
                                 <th>Closed Date</th> 
-                                <th>Status</th>          
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($data as $k => $item)
                             <tr>
                                 <td style="width: 50px;">{{$k+1}}</td>
+                                <td>
+                                    @if($item->status==1)
+                                        <span class="badge badge-info">Open</span>
+                                    @endif
+                                    @if($item->status==2)
+                                        <span class="badge badge-warning">Progress</span>
+                                    @endif
+                                    @if($item->status==3)
+                                        <span class="badge badge-success">Resolved</span>
+                                    @endif
+                                    @if($item->status==4)
+                                        <span class="badge badge-primary">Close</span>
+                                    @endif
+                                </td>
+                                <td>{{$item->type==1 ? 'Trouble' : "Incident"}}</td>
                                 <td>{{$item->trouble_ticket_number}}</td>
                                 <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
                                 <td>{{isset($item->employee->nik) ? $item->employee->nik : ''}}</td>
@@ -81,20 +106,6 @@
                                         {{date('d-M-Y H:i',strtotime($item->approve_date))}}
                                     @endif
                                 </td>
-                                <td>
-                                    @if($item->status==1)
-                                        <span class="badge badge-info">Open</span>
-                                    @endif
-                                    @if($item->status==2)
-                                        <span class="badge badge-warning">Progress</span>
-                                    @endif
-                                    @if($item->status==3)
-                                        <span class="badge badge-success">Resolved</span>
-                                    @endif
-                                    @if($item->status==4)
-                                        <span class="badge badge-primary">Close</span>
-                                    @endif
-                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -112,34 +123,41 @@
             <form wire:submit.prevent="save">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Trouble Ticket</h5>
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Trouble / Incident</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true close-btn">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Trouble Ticket Number </label>
+                            <label>Type</label>
+                            <select class="form-control" wire:model="type">
+                                <option value="1">Trouble</option>
+                                <option value="2">Incident</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Trouble / Incident Number </label>
                             <input type="text" class="form-control" wire:model="trouble_ticket_number" disabled />
                         </div>
                         <div class="form-group">
-                            <label>Employee </label>
-                            <select class="form-control" wire:model="employee_id">
-                                <option value=""> --- Select --- </option>
-                                @foreach($employee as $item)
-                                    <option value="{{$item->id}}">{{$item->name}}</option>
-                                @endforeach
-                            </select>                            
-                            @error('employee_id')
-                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                            @enderror
+                            <label>Tanggal Kejadian </label>
+                            <input type="date" class="form-control" wire:model="tanggal_kejadian" />
                         </div>
+                        <div class="form-group">
+                            <label>Lokasi</label>
+                            <select class="form-control" wire:model="lokasi">
+                                <option>Head Office</option>
+                                <option>Diluar Kantor / Remote</option>
+                            </select>
+                        </div>
+                        
                         <div class="form-group" x-data="">
-                            <label>Category </label>
+                            <label>Kategori Masalah </label>
                             <select class="form-control" wire:model="trouble_ticket_category_id">
                                 <option value=""> --- Select --- </option>
-                                @foreach($category as $item)
-                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @foreach(config('vars.kategori_masalah_trouble') as $item)
+                                    <option>{{$item}}</option>
                                 @endforeach
                                 <option value="others">Others ( Free Text )</option>
                             </select>
@@ -151,7 +169,8 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label>Description</label>
+                            <label>Uraian Masalah</label>
+                            <small>Jelaskan masalah lebih detail</small>
                             <textarea class="form-control" wire:model="description" style="height: 80px;"></textarea>
                             @error('description')
                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -170,5 +189,4 @@
             </form>
         </div>
     </div>
-
 </div>

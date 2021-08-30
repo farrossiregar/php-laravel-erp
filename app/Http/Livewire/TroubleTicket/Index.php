@@ -10,10 +10,14 @@ use Livewire\Component;
 class Index extends Component
 {
     public $trouble_ticket_number,$category,$description,$employee_id,$employee,$show_category_others=false,$trouble_ticket_category_id,$trouble_ticket_category_others;
-    
+    public $type=1,$lokasi;
+    public $filter_type;
+
     public function render()
     {
         $data = TroubleTicket::orderBy('id','DESC');
+
+        if($this->filter_type) $data->where('type',$this->filter_type);
 
         return view('livewire.trouble-ticket.index')->with(['data'=>$data->paginate(100)]);
     }

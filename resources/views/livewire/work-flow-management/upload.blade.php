@@ -10,6 +10,7 @@
         <div class="form-group">
             <label>{{ __('File') }}</label>
             <input type="file" class="form-control" name="file" wire:model="file" />
+            <a href="{{asset('template/template-wfm.xlsx')}}">Download Template</a>
             @error('file')
             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
             @enderror
