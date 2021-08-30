@@ -20,7 +20,7 @@ class DataNotStolen extends Component
     {
         $data = CustomerAssetManagementHistory::select('customer_asset_management_history.*','sites.site_owner',\DB::raw('sites.site_id as site_code'),\DB::raw('sites.name as site_name'))->orderBy('customer_asset_management_history.id','desc')
                     ->leftJoin('sites','sites.id','=','customer_asset_management_history.site_id')
-                    ->where('status',2);
+                    ->where('is_stolen',2);
 
         if($this->keyword) $data = $data->where(function($table){
             foreach(\Illuminate\Support\Facades\Schema::getColumnListing('customer_asset_management_history') as $column){

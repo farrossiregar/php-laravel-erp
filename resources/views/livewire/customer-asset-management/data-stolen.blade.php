@@ -88,11 +88,11 @@
                         </td>
                         <td>{{$item->catatan}}</td>
                         <td>
-                        {{--
+                        
                             @if($item->site_owner == 'TLP')
                                 @if($item->status==1)
                                     @if(check_access('customer-asset-management.asset-stolen-open-tt-tlp'))
-                                        @livewire('customer-asset-management.status-stolen-tlp',['data'=>$item],key($item->id+$item->status))
+                                        @livewire('customer-asset-management.status-stolen-tlp',['data'=>$item->id],key($item->id+$item->status))
                                     @else
                                         <a href="javascript:;" class="badge badge-danger"><i class="fa fa-warning"></i> Not Verify</a>
                                     @endif
@@ -104,14 +104,14 @@
                             @if($item->site_owner == 'TMG')
                                 @if($item->status==1)
                                     @if(check_access('customer-asset-management.asset-stolen-verify-and-acknowldge-tmg'))
-                                        @livewire('customer-asset-management.status-stolen-tmg',['data'=>$item],key($item->id+$item->status))
+                                        @livewire('customer-asset-management.status-stolen-tmg',['data'=>$item->id],key($item->id+$item->status))
                                     @else
                                         <a href="javascript:;" class="badge badge-danger"><i class="fa fa-warning"></i> Not Verify</a>
                                     @endif
                                 @endif
                                 @if($item->status==2)
                                     @if(check_access('customer-asset-management.stolen-submit-email-boq'))
-                                        @livewire('customer-asset-management.status-stolen-boq-tmg',['data'=>$item],key($item->id+$item->status))
+                                        @livewire('customer-asset-management.status-stolen-boq-tmg',['data'=>$item->id],key($item->id+$item->status))
                                     @else
                                         <span class="badge badge-warning"><i class="fa fa-times"></i> Not Uploaded</span>
                                     @endif
@@ -120,7 +120,7 @@
                                     <a href="{{asset("storage/customer-asset/boq/{$item->file_boq}")}}" target="_blank" class="badge badge-success"><i class="fa fa-download"></i> Uploaded</a>
                                 @endif
                             @endif
-                            --}}
+                            
                         </td>
                     @endforeach
                 </tbody>

@@ -24,13 +24,13 @@
         <div class="col-md-2">
             <input type="date" class="form-control" wire:model="created_at" title="Date Submited" />
         </div>
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <a href="javascript:;" class="btn btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_upload"><i class="fa fa-upload"></i> {{ __('Upload') }}</a>
             <label wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>
             </label>
-        </div>
+        </div> -->
     </div>
     <div class="body px-0 pt-0">
         <div class="table-responsive">

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\CustomerAssetManagement;
 
 use Livewire\Component;
 use App\Models\CustomerAssetManagement;
+use App\Models\CustomerAssetManagementHistory;
 
 class StatusStolenTmg extends Component
 {
@@ -16,7 +17,7 @@ class StatusStolenTmg extends Component
         return view('livewire.customer-asset-management.status-stolen-tmg');
     }
 
-    public function mount(CustomerAssetManagement $data)
+    public function mount(CustomerAssetManagementHistory $data)
     {
         $this->data = $data;
     }
@@ -37,7 +38,7 @@ class StatusStolenTmg extends Component
         $this->data->status = 0;
         $this->data->is_submit = 0;
         $this->data->is_revisi = 1;
-        $this->data->is_stolen = 0;
+        // $this->data->is_stolen = 0;
         $this->data->save();
         $this->emit('refresh-page');
     }

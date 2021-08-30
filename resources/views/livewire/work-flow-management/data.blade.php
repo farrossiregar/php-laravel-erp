@@ -41,25 +41,13 @@
                     <tr>
                         <th>{{ __('NO') }}</th>
                         <th>{{ __('UPLOADED') }}</th>                                    
-                        <th>{{ __('DATE') }}</th>                                    
-                        <th>{{ __('NAME') }}</th>                                    
-                        <th>{{ __('ID') }}</th>                                    
-                        <th>{{ __('SERVICEAREA4') }}</th>
-                        <th>{{ __('CITY') }}</th>
-                        <th>{{ __('SERVICEAREA2') }}</th>
+                        <th>{{ __('DATE') }}</th>      
                         <th>{{ __('REGION') }}</th>
-                        <th>{{ __('ASP') }}</th>
-                        <th>{{ __('REGION_&_ASP_INFO') }}</th>
-                        <th>{{ __('SKILLS') }}</th>
-                        <th>{{ __('WO ASSIGN') }}</th>
-                        <th>{{ __('WO ACCEPT') }}</th>
-                        <th>{{ __('WO_CLOSE_MANUAL') }}</th>
-                        <th>{{ __('WO_CLOSE_AUTO') }}</th>
-                        <th>{{ __('MTTR') }}</th>
-                        <th>{{ __('REMARK_WO_ASSIGN') }}</th>
-                        <th>{{ __('REMARK_WO_ACCEPT') }}</th>
-                        <th>{{ __('REMARK_WO_CLOSE MANUAL') }}</th>
-                        <th>{{ __('FINAL REMARK') }}</th>
+                        <th>{{ __('AREA') }}</th>
+                        <th>{{ __('CLUSTER') }}</th>
+                        <th>{{ __('SIGNUM')}}</th>
+                        <th>{{ __('FT NAME')}}</th>
+                        <th>{{ __('PROBLEM')}}</th>
                         <th>{{ __('THRESHOLD') }}</th>
                     </tr>
                 </thead>
@@ -69,25 +57,13 @@
                         <td style="width: 50px;">{{$k+1}}</td>
                         <td>{{date('d M Y',strtotime($item->created_at))}}</td> 
                         <td>{{$item->date}}</td> 
-                        <td>{{$item->name}}</td> 
-                        <td>{{$item->id_}}</td> 
-                        <td>{{$item->servicearea4}}</td> 
-                        <td>{{$item->city}}</td> 
-                        <td>{{$item->servicearea2}}</td> 
                         <td>{{$item->region}}</td> 
-                        <td>{{$item->asp}}</td> 
-                        <td>{{$item->region_dan_asp_info}}</td> 
-                        <td>{{$item->skills}}</td> 
-                        <td>{{$item->wo_assign}}</td> 
-                        <td>{{$item->wo_accept}}</td> 
-                        <td>{{$item->wo_close_manual}}</td> 
-                        <td>{{$item->wo_close_auto}}</td> 
-                        <td>{{$item->mttr}}</td> 
-                        <td>{{$item->remark_wo_assign}}</td> 
-                        <td>{{$item->remark_wo_accept}}</td> 
-                        <td>{{$item->remark_wo_close_manual}}</td> 
-                        <td>{{$item->final_remark}}</td>
-                        <td>{{$item->threshold}}</td>
+                        <td>{{$item->servicearea4}}</td> 
+                        <td>{{isset($item->cluster->name) ? $item->cluster->name : '' }}</td> 
+                        <td>{{isset($item->employee->employee_code) ? $item->employee->employee_code : '' }}</td> 
+                        <td>{{isset($item->employee->name) ? $item->employee->name : '' }}</td> 
+                        <td>{{$item->problem}}</td>
+                        <td class="text-center">{{$item->threshold}}</td>
                     </tr>
                     @endforeach
                 </tbody>

@@ -73,7 +73,7 @@ class CustomerAssetManagementController extends Controller
         $data->tower_id = $parent->tower_id;
         $data->region_cluster_id = $parent->region_cluster_id;
         $data->customer_asset_management_id = $r->id;
-        $data->site_id = $r->site_id;
+        $data->site_id = $parent->site_id;
         $data->status = $r->is_stolen=='Ya' ? 1 : 2;
         $data->qty_module_1 = $r->qty_module_1;
         $data->battery_brand_1 = $r->battery_brand_1;

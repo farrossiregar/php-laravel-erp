@@ -64,6 +64,7 @@ class TotalFtNeverCloseManual extends Component
         foreach(WorkFlowManagement::where(function($table){
             $table->whereYear('date',$this->year);
             if($this->month) $table->whereIn(\DB::raw('MONTH(date)'),$this->month);
+            if($this->region) $table->whereIn('region',$this->region);
         })->groupBy('region')->get() as $k => $item){
             $this->series[$k]['label'] = $item->region;
             $this->series[$k]['borderColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
