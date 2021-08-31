@@ -20,13 +20,15 @@ class DataStolen extends Component
     {
         $data = CustomerAssetManagementHistory::select('customer_asset_management_history.*','sites.site_owner',\DB::raw('sites.site_id as site_code'),\DB::raw('sites.name as site_name'))->orderBy('customer_asset_management_history.id','desc')
                     ->leftJoin('sites','sites.id','=','customer_asset_management_history.site_id')
-                    ->where(['status'=>1]);
+                    ->where(['is_stolen'=>1]);
 
         if($this->keyword) $data = $data->where(function($table){
             foreach(\Illuminate\Support\Facades\Schema::getColumnListing('customer_asset_management_history') as $column){
                 $table->orWhere('customer_asset_management_history.'.$column,'LIKE',"%{$this->keyword}%");
             }
         });
+
+        
         
         if($this->employee_id) $data = $data->where('sites.employee_id',$this->employee_id);
 

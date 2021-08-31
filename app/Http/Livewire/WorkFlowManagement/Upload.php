@@ -93,6 +93,8 @@ class Upload extends Component
                     $data->wo_close_manual = 1;
                 }    
                 
+                $data->problem = $problem;
+
                 // $data->name = $i[1];
                 // $data->id_ = $i[2];
                 // $data->city = $i[4];

@@ -11,17 +11,14 @@ use DB;
 
 class Dashboard extends Component
 {
-    public $start,$end,$year,$datasets,$month,$datasets_pie=[],$labels_pie=[];
+    public $start,$end,$year,$datasets,$month,$datasets_pie=[],$labels_pie=[],$action_point;
     public $labels;
-    //public $series;
-    //public $seriess;
     public $project;
     public $region;
     public function render()
     { 
         return view('livewire.criticalcase.dashboard');
     }
-
     // ketika ada filter / perubahan di form maka di generate ulang chart berdasarkan data yang dirubah di formnya
     public function updated()
     {

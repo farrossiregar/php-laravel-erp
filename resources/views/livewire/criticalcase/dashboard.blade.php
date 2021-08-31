@@ -1,6 +1,12 @@
 <div>
     <div class="body pt-0">
         <div class="row my-2">
+            <div class="col-md-2" wire:ignore>
+                <select class="multiselect multiselect-custom multiselect_action_point" style="width:100%;" wire:model="action_point" multiple="multiple">
+                    <option value="1">[R] Repetitive</option>
+                    <option value="2">[N] Non Repetitive</option>
+                </select>
+            </div>
             <div class="col-md-1">
                 <select class="form-control" wire:model="year">
                     <option value="">{{__('-- Year -- ')}}</option>
@@ -99,6 +105,14 @@ $( document ).ready(function() {
             nonSelectedText: ' --- All Month --- ',
             onChange: function (option, checked) {
                 @this.set('month', $('.multiselect_month').val());
+            },
+            buttonWidth: '100%'
+        }
+    );
+    $('.multiselect_action_point').multiselect({ 
+            nonSelectedText: ' --- Action Point --- ',
+            onChange: function (option, checked) {
+                @this.set('action_point', $('.multiselect_action_point').val());
             },
             buttonWidth: '100%'
         }
