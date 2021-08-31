@@ -11,6 +11,12 @@ $( document ).ready(function() {
     },1000);
 });
 var chart_4="";
+Livewire.on('chart-total-ft-never-close-manual',(data)=>{
+    labels = JSON.parse(data.labels);
+    series = JSON.parse(data.series);
+    init_chart_total_ft_never_close_manual(labels,series);
+    console.log('reload chart');
+});
 function init_chart_total_ft_never_close_manual(labels,series){
     if(chart_4!=="") chart_4.destroy();
     var config = {
