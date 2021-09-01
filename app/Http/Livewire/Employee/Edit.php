@@ -8,12 +8,13 @@ use Livewire\WithFileUploads;
 use App\Models\EmployeeProject;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Employee;
 
 class Edit extends Component
 {
     public $data,$name,$nik,$email,$telepon,$address,$place_of_birth,$date_of_birth,$marital_status,$blood_type,$employee_status,$religion,$user_access_id,$department_sub_id;
     public $foto,$foto_ktp,$password,$confirm,$region_id,$company_id,$lokasi_kantor,$is_use_android,$employee_code,$is_noc,$ktp,$domisili,$postcode;
-    public $showEditPassword=false,$department_id,$showProject=false,$projects=[],$project_id=[],$employee_project;
+    public $showEditPassword=false,$department_id,$showProject=false,$projects=[],$project_id=[],$employee_project=[];
     use WithFileUploads;
     public function render()
     {
@@ -22,7 +23,7 @@ class Edit extends Component
 
     public function mount($id)
     {
-        $this->data = \App\Models\Employee::find($id);
+        $this->data = Employee::find($id);
         $this->nik = $this->data->nik;
         $this->name = $this->data->name;
         $this->email = $this->data->email;
