@@ -11,7 +11,7 @@ use DB;
 
 class Dashboard extends Component
 {
-    public $start,$end,$year,$datasets,$month,$datasets_pie=[],$labels_pie=[],$action_point;
+    public $start,$end,$year,$datasets,$month,$datasets_pie=[],$labels_pie=[],$action_point=[];
     public $labels;
     public $project;
     public $region;
@@ -27,13 +27,13 @@ class Dashboard extends Component
     // set default ketika pertama kali load halaman
     public function mount(){
         $this->year = date('Y');
+        $this->action_point = ['Repetitive','Non Repetitive'];
         $this->generate_chart();
     }
 
     public function generate_chart()
     {
         $this->labels = [];
-        //$this->series = [];
         $this->datasets = [];
 
         foreach(Criticalcase::whereYear('date',$this->year)->where(function($table){
@@ -43,23 +43,41 @@ class Dashboard extends Component
         })->groupBy('date')->get() as $item){
             $this->labels[] = $item->date;
         }
-        
-        foreach(Criticalcase::groupBy('region')->where(function($table){
-            if($this->region) $table->whereIn('region',$this->region);    
-            if($this->project) $table->whereIn('project',$this->project);    
-        })->get() as $key => $item){
-            $this->datasets[$key]['label'] = $item->region;
-            $this->datasets[$key]['backgroundColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
-            $this->datasets[$key]['borderColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
+        $colors = ['#de4848','#3C89DA'];
+        foreach($this->action_point as $key => $name){
+            $this->datasets[$key]['label'] = $name;
+            $this->datasets[$key]['backgroundColor'] = $colors[$key]; // generate warna
+            $this->datasets[$key]['borderColor'] = $colors[$key]; // generate warna
             $this->datasets[$key]['borderWidth'] = 1;
             $this->datasets[$key]['data'] = [];
+
             foreach($this->labels as $date){
-                $this->datasets[$key]['data'][]  = Criticalcase::where(['date'=>$date,'region'=>$item->region])->where(function($table){
+                $this->datasets[$key]['data'][]  = Criticalcase::where(['date'=>$date])->where(function($table)use($key){
+                    if($key==0) $table->where('type',1);
+                    if($key==1) $table->where('type',2);
                     if($this->project) $table->whereIn('project',$this->project);
+                    if($this->month) $table->whereMonth('date',$this->month);
+                    if($this->region) $table->whereIn('region',$this->region);
                 })->count();
             }
         }
-        
+
+
+        // foreach(Criticalcase::groupBy('region')->where(function($table){
+        //     if($this->region) $table->whereIn('region',$this->region);    
+        //     if($this->project) $table->whereIn('project',$this->project);    
+        // })->get() as $key => $item){
+        //     $this->datasets[$key]['label'] = $item->region;
+        //     $this->datasets[$key]['backgroundColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
+        //     $this->datasets[$key]['borderColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
+        //     $this->datasets[$key]['borderWidth'] = 1;
+        //     $this->datasets[$key]['data'] = [];
+        //     foreach($this->labels as $date){
+        //         $this->datasets[$key]['data'][]  = Criticalcase::where(['date'=>$date,'region'=>$item->region])->where(function($table){
+        //             if($this->project) $table->whereIn('project',$this->project);
+        //         })->count();
+        //     }
+        // }
 
         $labels = ['Repetitive','Non Repetitive'];
         foreach($labels as $k => $label){

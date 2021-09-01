@@ -2,15 +2,6 @@
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
-        <div>
-            <br>
-        </div>
-        <div>
-            <br>
-        </div>
-        <div>
-            <br>
-        </div>
         <div class="card">
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
@@ -24,11 +15,9 @@
                     <livewire:duty-roster-flmengineer.data />
                 </div>
             </div>
-        </div>
-        
+        </div>  
     </div>
 </div>
-
 
 <div class="modal fade" id="modal-dutyrosterflmengineer-previewdutyrosterflm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

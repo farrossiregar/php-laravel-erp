@@ -112,7 +112,7 @@ class Dashboard extends Component
         $this->datasets[2]['backgroundColor'] = $color[0];
       
 
-        $this->datasets[0]['data'] = array($flmengineeractive->activeflm, $managementactive->activemanagement, $resignteam->jumlah_resign);
+        $this->datasets[0]['data'] = array(@$flmengineeractive->activeflm, @$managementactive->activemanagement, @$resignteam->jumlah_resign);
 
 
         $orgchartflm = \App\Models\Employee::select('user_access.name as name')
@@ -212,9 +212,4 @@ class Dashboard extends Component
 
         $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets,'labelsorgflm'=>$this->labelsorgflm,'datasetsorgflm'=>$this->datasetsorgflm,'labelsorgmanagement'=>$this->labelsorgmanagement,'datasetsorgmanagement'=>$this->datasetsorgmanagement]);
     }
-
-
 }
-
-
-

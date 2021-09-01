@@ -40,9 +40,9 @@
                                                                     <ul>
                                                                         @foreach(\App\Models\ModulesItem::where(['parent_id'=>$action->id])->get() as $sub)
                                                                             @if(Route::has($sub->link))
-                                                                                <li><a href="{{route($sub->link)}}" class="pl-5">{{$sub->name}}</a></li>
+                                                                                <li><a href="{{route($sub->link)}}" class="pl-5 custome_li">{{$sub->name}}</a></li>
                                                                             @else
-                                                                                <li> <a href="javascript:void(0)" class="pl-5">{{$sub->name}}</a></li>
+                                                                                <li> <a href="javascript:void(0)" class="pl-5 custome_li">{{$sub->name}}</a></li>
                                                                             @endif
                                                                         @endforeach
                                                                     </ul>                                                        
@@ -63,9 +63,9 @@
                                                             <ul>
                                                                 @foreach(\App\Models\ModulesItem::where(['parent_id'=>$action->id])->get() as $sub)
                                                                     @if(Route::has($sub->link))
-                                                                        <li class="ml-2"> <a href="{{route($sub->link)}}" class="pl-5">{{$sub->name}}</a></li>
+                                                                        <li class="ml-2"> <a href="{{route($sub->link)}}" class="pl-5 custome_li"><i class="fa fa-dot-circle-o"></i> {{$sub->name}}</a></li>
                                                                     @else
-                                                                        <li class="ml-2"> <a href="javascript:void(0)" class="pl-5">{{$sub->name}}</a></li>
+                                                                        <li class="ml-2"> <a href="javascript:void(0)" class="pl-5 custome_li"><i class="fa fa-dot-circle-o"></i>  {{$sub->name}}</a></li>
                                                                     @endif
                                                                 @endforeach
                                                             </ul>                                                        
@@ -274,6 +274,10 @@
 </script>
 @endpush
 <style>
+    .sidebar-nav .metismenu ul a.custome_li::before {
+        content:'' !important;
+        left:0 !important;
+    }
     body {
         background: url('{{asset('images/bg-home.jpg')}}') !important;
         background-size: 300% !important;
