@@ -21,13 +21,13 @@
                                             if(session()->get('company_id')) $table->where('client_projects.company_id',session()->get('company_id')); 
                                         })->get() as $menu)
                             <li class="">
-                                <a href="#menu_{{$menu->id}}" class="has-arrow"><span>{{isset($menu->client_project->name) ? $menu->client_project->name : ''}}</span></a>
+                                <a href="javascript:void(0)" class="has-arrow"><span>{{isset($menu->client_project->name) ? $menu->client_project->name : ''}}</span></a>
                                 <ul>
                                     @foreach(\App\Models\ModulesItem::where('module_id',$menu->id)->whereNotNull('module_group_id')->groupBy('module_group_id')->get() as $group)
                                         
                                         @if(isset($group->group->name))
                                             @if($group->group->name != $menu->client_project->name)
-                                                <li><a href="javascript:void(0)">{{$group->group->name}}</a>
+                                                <li class="sub__"><a href="javascript:void(0)">{{$group->group->name}}</a>
                                                     <ul>
                                                         @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id])->get() as $action)    
                                                             <li class="ml-2">
@@ -53,7 +53,7 @@
                                                 </li>
                                             @else
                                                 @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id])->get() as $action)    
-                                                    <li class="">
+                                                    <li  class="sub__">
                                                         @if(Route::has($action->link))
                                                             <a href="{{route($action->link)}}" class="pl-5">{{$action->name}}</a>
                                                         @else
@@ -255,6 +255,10 @@
             @endif
         @endif
     </div>
+    <div style="position: fixed;bottom: 20px;right: 40px;text-align:center;">
+        <h6>PMT e-PM Mobile Apps Download</h6>
+        <a href="{{asset('apk/app-pmt-v1.9.apk')}}"><img src="{{asset('images/google-play.png')}}" height="50" /></a>
+    </div>
 </div>
 @push('after-scripts')
 <script>
@@ -263,13 +267,16 @@
             $(".btn-toggle-fullwidth").trigger('click');
         }
     }
+    
     function close_left_menu(){
         $(".btn-toggle-fullwidth").trigger('click');
     }
     Livewire.on('update-menu',()=>{
-        $('.metismenu').metisMenu({
-            toggle: false
-        });
+        setTimeout(function(){
+            $('.metismenu').metisMenu({
+                toggle: false
+            });
+        },1000)
     });
 </script>
 @endpush
