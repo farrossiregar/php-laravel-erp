@@ -42,9 +42,16 @@
             @enderror
         </div>
         <div class="form-group">
+            <label>{{ __('Link') }}</label>
+            <input type="text" class="form-control" wire:model="link" >
+            @error('link')
+            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+            @enderror
+        </div>
+        <div class="form-group">
             <label>{{ __('Prefix Link') }}</label>
             <input type="text" class="form-control" wire:model="prefix_link" >
-            @error('link')
+            @error('Link')
             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
             @enderror
         </div>

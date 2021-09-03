@@ -47,7 +47,7 @@ class WorkOrderController extends Controller
     public function workOrderOpen()
     {
         $data = [];
-        $param = PoTrackingNonms::whereNull('bast_status')->get();
+        $param = PoTrackingNonms::whereNull('bast_status')->orderBy('id','DESC')->get();
         
         foreach($param as $k => $item){
             $data[$k] = $item;

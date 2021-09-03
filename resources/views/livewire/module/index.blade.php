@@ -22,15 +22,18 @@
                                     <th></th>
                                     <th></th>
                                 </tr>
-                                @php($menus = \App\Models\Module::select('modules.id','modules.name',\DB::raw('client_projects.name as client_projects_name'))->join('client_projects','client_projects.id','=','modules.client_project_id')
+                                @php($menus = \App\Models\Module::select('modules.id','modules.name',\DB::raw('client_projects.name as client_projects_name'))
+                                        ->leftJoin('client_projects','client_projects.id','=','modules.client_project_id')
                                 ->where(['department_id'=>$item->department_id])->get())
                                 @if($menus->count()==0)
                                 <tr><td colspan="3"></td></tr>
                                 @else
                                     @foreach($menus as $menu)
                                         <tr>
-                                            <td>&nbsp;&nbsp;&nbsp;<a href="{{route('module.edit',$menu->id)}}">{{isset($menu->client_projects_name) ? $menu->client_projects_name : ''}}</a></td>
-                                            <td>{{$menu->name}}</td>
+                                            <td>
+                                                &nbsp;&nbsp;&nbsp;<a href="{{route('module.edit',$menu->id)}}">{{isset($menu->client_projects_name) ? $menu->client_projects_name : ''}}</a>
+                                                <p class="py-0 my-0">&nbsp;&nbsp;&nbsp;<a href="{{route('module.edit',$menu->id)}}">{{$menu->name}}</a></p>
+                                            </td>
                                             <td>
                                                 <a href="javascript:;" class="text-danger" wire:click="delete({{$menu->id}})"><i class="fa fa-trash"></i></a>
                                             </td>

@@ -301,7 +301,7 @@ function get_total_price($id){
 
 
     $total_after = json_decode($total_after);
-    $total_after = $total_after[0]->input_price;
+    $total_after = @$total_after[0]->input_price;
 
     return $total_after;
 
@@ -322,7 +322,7 @@ function get_total_actual_price($id){
                                     ->get();  
 
     $total_before = json_decode($total_before);
-    $total_before = $total_before[0]->price;
+    $total_before = @$total_before[0]->price;
 
     return $total_before;
 

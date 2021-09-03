@@ -81,7 +81,7 @@
             </tr>
             <tr>
                 <td>1</td>
-                <td>{{ @$po_tracking->site_code }}</td>
+                <td>{{ @$po_tracking->site_id }}</td>
                 <td>{{ @$po_tracking->site_name }}</td>
                 <td>{{ @$po_tracking->item_description }}</td>
                 <td>{{ @$po_tracking->unit }}</td>

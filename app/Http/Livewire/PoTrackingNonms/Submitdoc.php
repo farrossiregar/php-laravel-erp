@@ -4,8 +4,9 @@ namespace App\Http\Livewire\PoTrackingNonms;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
-use DB;
+use App\Models\PoTrackingNonms;
+use App\Models\PoTrackingNonmsStp;
+use App\Models\PoTrackingNonmsBoq;
 
 class Submitdoc extends Component
 {
@@ -32,46 +33,32 @@ class Submitdoc extends Component
     public function save()
     {
         $status = $this->status;
-        $user = \Auth::user();
 
-        $data = \App\Models\PoTrackingNonms::where('id', $this->selected_id)->first();
+        $data = PoTrackingNonms::where('id', $this->selected_id)->first();
         
         if($data->type_doc == '1'){
             $typedoc = 'STP';
-            $cekprofit = \App\Models\PoTrackingNonmsStp::where('id_po_nonms_master', $this->selected_id)
-                                                        ->where('profit', '<', '30')
-                                                        ->get();
-
-            if(count($cekprofit) > 0){ // submit to PMG
+            $cekprofit = PoTrackingNonmsStp::where('id_po_nonms_master', $this->selected_id)->where('profit', '<', 30)->count();
+            if($cekprofit > 0){ // submit to PMG
                 $target_user = 'PMG';
-                $target_user_access_id = '24';
 
-                $data->status = '3';
+                $data->status = 3;
                 $data->save();
             }else{ // submit to Finance
                 $target_user = 'Finance';
-                $target_user_access_id = '2';
-
-                $data->status = '1';
+                $data->status = 1;
                 $data->save();
             }
         }else{
             $typedoc = 'BOQ';
-            $cekprofit = \App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master', $this->selected_id)
-                                                        ->where('profit', '<', '30')
-                                                        ->get();
-
-            if(count($cekprofit) > 0){ // submit to PMG
+            $cekprofit = PoTrackingNonmsBoq::where('id_po_nonms_master', $this->selected_id)->where('profit', '<', 30)->count();
+            if($cekprofit > 0){ // submit to PMG
                 $target_user = 'PMG';
-                $target_user_access_id = '24';
-
-                $data->status = '3';
+                $data->status = 3;
                 $data->save();
             }else{ // submit to Finance
                 $target_user = 'Finance';
-                $target_user_access_id = '2';
-
-                $data->status = '1';
+                $data->status = 1;
                 $data->save();
             }
         }

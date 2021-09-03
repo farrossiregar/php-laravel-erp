@@ -93,8 +93,8 @@
                         <td>
                             {{ $item->po_reimbursement_id }}
                             <div class="btn-group" role="group">
-                                <a class=" text-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-{{$item->status==4?'download':'edit'}}"></i>
+                                <a class="{{$item->status >=1 ? 'text-success' : 'text-warning' }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-{{$item->status==4?'download':'upload'}}"></i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 @if($item->status==0) {{-- Upload Approved BAST --}}
@@ -119,7 +119,7 @@
                                     @endif
                                 @endif
                                 @if(isset($item->bast->bast_filename))
-                                    <a href="{{asset("storage/po_tracking/bast/{$item->bast->bast_filename}")}}" class="dropdown-item" data-toggle="tooltip" title="Download BAST"><i class="fa fa-download"></i> {{__('BAST')}}</a>
+                                    <a href="{{asset("storage/po_tracking/Bast/{$item->bast->bast_filename}")}}" class="dropdown-item" data-toggle="tooltip" title="Download BAST"><i class="fa fa-download"></i> {{__('BAST')}}</a>
                                 @endif
                                 
                                 @if(isset($item->esar->approved_esar_filename))

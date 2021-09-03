@@ -4,8 +4,7 @@ namespace App\Http\Livewire\PoTrackingNonms;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
-use DB;
+use App\Models\PoTrackingNonms;
 
 class Approvedocpmg extends Component
 {
@@ -20,9 +19,6 @@ class Approvedocpmg extends Component
 
     public function render()
     {
-
-        
-
         return view('livewire.po-tracking-nonms.approvedocpmg');
     }
 
@@ -31,24 +27,37 @@ class Approvedocpmg extends Component
         $this->selected_id = $id;
     }
 
+    public function approve()
+    {
+        $this->status = 1;
+        $this->save();
+    }
+
+    public function revise()
+    {
+        $this->status = 2;
+        $this->save();
+    }
+
     public function save()
     {
-        $status = $this->status;
-        $user = \Auth::user();
+        $this->validate([
+            'note'=>'required'
+        ]);
 
-        $data = \App\Models\PoTrackingNonms::where('id', $this->selected_id)->first();
+        $data = PoTrackingNonms::where('id', $this->selected_id)->first();
 
-        if($status == '1'){
+        if($this->status == '1'){
             $status_text = 'Approved';
             $status_type = 'success';
-            $data->status = $status;
+            $data->status = $this->status;
         }else{
             $status_text = 'Rejected';
             $status_type = 'danger';
-            $data->status = $status;
+            $data->status = $this->status;
         }
-        $data->status_note = $this->note;
 
+        $data->status_note = $this->note;
         $data->save();
 
         // $region_pono = \App\Models\PoTrackingReimbursement::where('po_no', $this->selected_id)->take(1)->get();

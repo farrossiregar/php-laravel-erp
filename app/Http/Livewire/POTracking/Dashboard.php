@@ -26,7 +26,7 @@ class Dashboard extends Component
         
         //$this->generate_chart();
         // return view('livewire.criticalcase.dashboard')->with(compact('labels', 'series'));   
-        return view('livewire.criticalcase.dashboard');
+        return view('livewire.po-tracking.dashboard');
     }
 
     // ketika ada filter / perubahan di form maka di generate ulang chart berdasarkan data yang dirubah di formnya

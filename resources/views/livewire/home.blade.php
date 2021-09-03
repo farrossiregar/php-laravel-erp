@@ -16,12 +16,17 @@
                 <hr />
                 <nav id="left-sidebar-nav" class="sidebar-nav" wire:loading.remove>
                     <ul class="metismenu main-menu">
-                        @foreach(\App\Models\Module::select('modules.*')->join('client_projects','client_projects.id','=','modules.client_project_id')->where(['department_id'=>$department->id])->groupBy('client_project_id')->where(
+                        @foreach(\App\Models\Module::select('modules.*')->leftJoin('client_projects','client_projects.id','=','modules.client_project_id')->where(['department_id'=>$department->id])->groupBy('client_project_id')->where(
                                         function($table){
                                             if(session()->get('company_id')) $table->where('client_projects.company_id',session()->get('company_id')); 
                                         })->get() as $menu)
                             <li class="">
-                                <a href="javascript:void(0)" class="has-arrow"><span>{{isset($menu->client_project->name) ? $menu->client_project->name : ''}}</span></a>
+                                @if(Route::has($menu->link))
+                                    <a href="{{ route($menu->link)}}" onclick="document.location='{{route($menu->link)}}'">
+                                @else
+                                    <a href="javascript:void(0)" class="has-arrow">
+                                @endif
+                                    <span>{{isset($menu->client_project->name) ? $menu->client_project->name : $menu->name}}</span></a>
                                 <ul>
                                     @foreach(\App\Models\ModulesItem::where('module_id',$menu->id)->whereNotNull('module_group_id')->groupBy('module_group_id')->get() as $group)
                                         
@@ -272,11 +277,13 @@
         $(".btn-toggle-fullwidth").trigger('click');
     }
     Livewire.on('update-menu',()=>{
+        $('.metismenu').metisMenu().dispose();
         setTimeout(function(){
             $('.metismenu').metisMenu({
                 toggle: false
             });
         },1000)
+    
     });
 </script>
 @endpush

@@ -8,11 +8,11 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label>Submit Dokumen ke Finance?</label>
+            <p>Submit Dokumen ke Finance?</p>
         </div>
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-info close-modal"><i class="fa fa-upload"></i> Submit</button>
+        <button type="submit" class="btn btn-info close-modal"><i class="fa fa-arrow-right"></i> Submit</button>
     </div>
     <!-- <div wire:loading>
         <div class="page-loader-wrapper" style="display:block">

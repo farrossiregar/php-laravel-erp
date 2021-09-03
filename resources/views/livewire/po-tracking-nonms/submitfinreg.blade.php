@@ -8,7 +8,7 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label>Transfer Budget ke Finance Regional ?</label>
+            <p>Transfer Budget ke Finance Regional ?</p>
         </div>
     </div>
     <div class="modal-footer">
