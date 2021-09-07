@@ -54,7 +54,13 @@ class Index extends Component
                 $sim_expired = ($i[20]) ? @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($i[20])->format('Y-m-d') : '';
                 $password = random_int(100000, 999999);
                 
-                $check = Employee::where('email',$email)->orWhere('telepon',$no_telepon1)->first();
+                $check = Employee::where('email',$email)->where(function($table) use($no_telepon1,$no_telepon2){
+                    $table->where('telepon',$no_telepon1)
+                        ->orWhere('telepon2',$no_telepon2)
+                        ->orWhere('telepon',$no_telepon1)
+                        ->orWhere('telepon2',$no_telepon2);
+                })->first();
+
                 if($check) continue;
 
                 $data = new User();
