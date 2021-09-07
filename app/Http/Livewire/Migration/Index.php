@@ -32,7 +32,6 @@ class Index extends Component
             foreach($sheetData as $key => $i){
                 if($key<2) continue; // skip header
                 
-
                 $project  = $i[0];
                 $region  = $i[1];
                 $name  = $i[2];
@@ -55,13 +54,8 @@ class Index extends Component
                 $sim_expired = ($i[20]) ? @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($i[20])->format('Y-m-d') : '';
                 $password = random_int(100000, 999999);
                 
-                if($key > 5) continue;
-
-                $message = "Hallo {$name},\nBerikut username dan password untuk masuk ke dalam aplikasi EPL e-PM\n";
-                $message .= "Username : ". $email;
-                $message .= "\nPassword : ". $password;
-                $message .= "\nDownload : https://play.google.com/store/apps/details?id=com.pmt.access";
-                send_wa(['phone'=> '087775365856','message'=>$message]);
+                $check = Employee::where('email',$email)->orWhere('telepon',$no_telepon1)->first();
+                if($check) continue;
 
                 $data = new User();
                 $data->name = $name;
@@ -94,7 +88,7 @@ class Index extends Component
                 $message .= "Username : ". $email;
                 $message .= "\nPassword : ". $password;
                 $message .= "\nDownload : https://play.google.com/store/apps/details?id=com.pmt.access";
-                //send_wa(['phone'=> '087775365856','message'=>$message]);
+                send_wa(['phone'=> $no_telepon1,'message'=>$message]);
             }
         }
         
