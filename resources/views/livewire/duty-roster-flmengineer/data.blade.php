@@ -1,22 +1,4 @@
 <div class="row">
-    <!-- <div class="col-md-2">
-        <input type="date" class="form-control" wire:model="date" />
-    </div> -->
-
-    <!-- <div class="col-md-2">
-        <input type="text" class="form-control" wire:model="name" />
-    </div>
-
-    <div class="col-md-2">
-        <select class="form-control" name="" id="" wire:model="position">
-            <option value="">-- Position --</option>
-            <option value="Rainy Session">Rainy Session</option>
-            <option value="Team Rectification">Team Rectification</option>
-            <option value="TE Engineer">TE Engineer</option>
-            <option value="CME Engineer">CME Engineer</option>
-        </select>
-    </div> -->
-    
     <div class="col-md-1">                
         <select class="form-control" wire:model="year">
             <option value=""> --- Year --- </option>
@@ -25,32 +7,19 @@
             @endforeach 
         </select>
     </div>
-
     <div class="col-md-1">                
         <select class="form-control" wire:model="month">
             <option value=""> --- Month --- </option>
-            
-            <?php
-                for($m = 1; $m <= 12; $m++){
-            ?>
+            @for($m = 1; $m <= 12; $m++)
             <option value="{{$m}}">{{date('F', mktime(0, 0, 0, $m, 10))}}</option>
-            <?php
-                }
-            ?>
+            @endfor
         </select>
     </div>
-
-    
-
-
-    @if(check_access('duty-roster.import'))
+    @if(check_access('duty-roster.flm-engineer.import'))
     <div class="col-md-1" style="margin-right: 55px;">
         <a href="{{ route('duty-roster-flmengineer.updateemployee') }}"  class="btn btn-info"><i class="fa fa-edit"></i> Update Employee</a>
     </div>
-
     @endif
-    
-    
     <div class="col-md-2">
         <?php
             $monthyear = $month.$year;

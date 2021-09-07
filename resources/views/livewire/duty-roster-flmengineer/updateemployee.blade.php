@@ -9,15 +9,9 @@
                 </div>
                 <div class="col-md-12">
                     <div class="header row">
-                        <!-- <div class="col-md-2">
-                            <input type="date" class="form-control" wire:model="date" />
-                        </div> -->
-
                         <div class="col-md-1">
                             <input type="text" class="form-control" wire:model="name" placeholder="Name" />
                         </div>
-                        
-
                         <div class="col-md-2" wire:ignore>
                             <select class="form-control" style="width:100%;" wire:model="position">
                                 <option value=""> --- Position --- </option>
@@ -26,12 +20,8 @@
                                 @endforeach
                             </select>
                         </div>
-                   
-
-
                     </div>
                 </div>
-    
                 <div class="col-md-12">
                     <div class="body pt-0">
                         <div class="table-responsive">
@@ -48,14 +38,10 @@
                                         <th>Training K3</th> 
                                         <th>Total Site</th> 
                                         <th>Status Synergy</th> 
-                                        <!-- <th>Status Employee</th>  -->
                                         <th>Action</th> 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                        // $data = \App\Models\Employee::orderBy('id', 'ASC')->get();
-                                    ?>
                                     @foreach($data as $key => $item)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
@@ -63,7 +49,6 @@
                                         <td>{{ @get_position($item->user_access_id) }}</td>
                                         <td>{{ isset($item->resign_date) ? date_format(date_create(@$item->join_date), 'd M Y') : '' }}</td>
                                         <td>{{ isset($item->resign_date) ? date_format(date_create(@$item->resign_date), 'd M Y') : '' }}</td>
-                                        
                                         <td>{{ $item->account_mateline }}</td>
                                         <td>{{ $item->no_pass_id }}</td>
                                         <td>
@@ -72,22 +57,17 @@
                                             @else
                                                 <label class="badge badge-danger" data-toggle="tooltip" title="Not Yet">{{ get_data_flmengineer($item->id, 'training_k3') }}</label>
                                             @endif
-                                            
                                         </td>
                                         <td>{{ $item->total_site }}</td>
-                                        
-                                        
                                         <td>
                                             <!-- if($item->resign_date == '') -->
                                             @if($item->status_synergy == 'Synergy')
                                                 <label class="badge badge-success" data-toggle="tooltip" title="Approved">Synergy</label>
                                             @endif
-
                                             <!-- if($item->resign_date != '') -->
                                             @if($item->status_synergy == 'Tidak')
                                                 <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Tidak</label>
                                             @endif
-
                                         </td> 
                                         <td>
                                             <!-- <a href="{{route('duty-roster.preview',['id'=>$item->id]) }}" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> {{__('Preview')}}</a>

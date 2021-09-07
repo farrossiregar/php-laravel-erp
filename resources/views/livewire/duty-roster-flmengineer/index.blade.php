@@ -1,5 +1,5 @@
-@section('title', __('Duty Roster FLM Engineer- Index'))
-@section('parentPageTitle', 'Home')
+@section('title', __('Duty Roster FLM Engineer'))
+@section('parentPageTitle', '')
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
