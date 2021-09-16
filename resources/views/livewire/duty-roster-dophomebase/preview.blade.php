@@ -35,9 +35,9 @@
                             </select>
                         </div> -->
         
-                        <div class="col-md-2">
+                        <!-- <div class="col-md-2">
                             <a wire:click="save({{ $selected_id }})" href="" title="Add" class="btn btn-primary"><i class="fa fa-download"></i> {{__('Export Duty roster')}}</a>
-                        </div>
+                        </div> -->
                         <!-- <div class="col-md-2" wire:ignore>
                             <select class="form-control" style="width:100%;" wire:model="month">
                                 <option value=""> --- Month --- </option>
@@ -57,7 +57,7 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Remarks</th>
+                                        <!-- <th>Remarks</th> -->
                                         <th>Nama DOP</th>
                                         <th>Project</th>
                                         <th>Region</th>
@@ -78,7 +78,7 @@
                                     @foreach($data as $key => $item)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>
+                                        <!-- <td>
                                             @if(check_access('duty-roster-dophomebase.audit'))
                                             <input type="checkbox"  wire:click="checkdata({{ $item->id }})" wire:model="data_id.{{ $item->id }}" />
                                             @else
@@ -88,7 +88,7 @@
                                                     <a href="javascript:;" class="btn btn-success"><i class="fa fa-check"></i></a>
                                                 @endif
                                             @endif
-                                        </td>
+                                        </td> -->
                                         <td>{{ $item->nama_dop }}</td>
                                         <td>{{ $item->project }}</td>
                                         <td>{{ $item->region }}</td>
@@ -99,8 +99,19 @@
                                         <td>{{ $item->telepon_pemilik }}</td>
                                         <td>{{ $item->opex_region_ga }}</td>
                                         <td>{{ $item->type_homebase_dop }}</td>
-                                        <td>Expired</td>
-                                        <td>Budget</td>
+                                        <td>
+                                            <?php  
+                                                if(substr($item->expired, 0, 11) > date('Y-m-d')){
+                                                    echo '<label class="badge badge-danger" data-toggle="tooltip" title="Expired"><b>'.date_format(date_create($item->expired), 'd M Y').'</b></label>';
+                                                }
+
+                                                if(substr($item->expired, 0, 11) < date('Y-m-d')){
+                                                    echo '<label class="badge badge-success" data-toggle="tooltip" title="In Progress"><b>'.date_format(date_create($item->expired), 'd M Y').'</b></label>';
+                                                }
+                                            ?>
+                                            
+                                        </td>
+                                        <td><?php echo 'Rp.'. @format_idr($item->budget); ?></td>
 
                                         
                                     </tr>
