@@ -2,10 +2,13 @@
 
 namespace App\Http\Livewire\Migration;
 
+use App\Models\ClientProject;
 use App\Models\Employee;
+use App\Models\EmployeeProject;
 use App\Models\User;
 use App\Models\UserAccess;
 use App\Models\Region;
+use App\Models\RegionCluster;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Hash;
@@ -34,25 +37,97 @@ class Index extends Component
             foreach($sheetData as $key => $i){
                 if($key<2) continue; // skip header
                 
-                $project  = $i[0];
-                $region  = $i[1];
-                $name  = $i[2];
-                $nik  = $i[3];
-                $no_telepon1  = $i[4];
-                $no_telepon2  = $i[5];
-                $email = $i[6];
-                $no_ktp = $i[7];
-                $position = $i[8];
-                $date_join = ($i[9]) ? @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($i[9])->format('Y-m-d') : '';
-                $password = random_int(100000, 999999);
+                $company  = strtoupper($i[0]);
+                $project  = $i[1];
+                $region  = $i[2];
+                $sub_region  = $i[3];
+                $name  = $i[4];
+                $no_ktp  = $i[5];
+                $nik  = $i[6];
+                $employee_status  = $i[7];
+                $rule  = $i[8];
+                $no_telepon1  = $i[9];
+                $no_telepon2  = $i[10];
+                $email = $i[11];
+                $lokasi_kantor = $i[12];
+
+                if($company=='PT. HARAPAN UTAMA PRIMA')
+                    $company = 1;
+                else
+                    $company = 2;
+
+                //$position = $i[8];
+                //$date_join = ($i[9]) ? @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($i[9])->format('Y-m-d') : '';
+                //$password = random_int(100000, 999999);
+                 
+                $user_access = UserAccess::where('name',$rule)->first();
+                if(!$user_access){
+                    $user_access = new UserAccess;
+                    $user_access->name = $rule;
+                    $user_access->save();
+                }
 
                 $user = User::where('email',$email)->first();
                 if($user){
+                    $user->user_access_id = $user_access->id;
                     $employee = Employee::where('user_id',$user->id)->first();
                     if($employee){
+                        if($region){
+                            $find_region = Region::where('region',$region)->first();
+                            if(!$find_region){
+                                $find_region = new Region();
+                                $find_region->region = $region;
+                                $find_region->region_code = $region;
+                                $find_region->save();
+                            }
+                            $employee->region_id = $find_region->id;
+
+                            // find sub region
+                            $find_sub_region = RegionCluster::where(['region_id'=>$find_region->id,'name'=>$sub_region])->first();
+                            if(!$find_sub_region){
+                                $find_sub_region = new RegionCluster();
+                                $find_sub_region->region_id = $find_region->id;
+                                $find_sub_region->name = $sub_region;
+                                $find_sub_region->save();
+                            }
+                            $employee->region_cluster_id = $find_sub_region->id;
+                        }
+
+                        if($project){
+                            $find_project = ClientProject::where('name',$project)->first();
+                            if(!$find_project){
+                                $find_project = new ClientProject();
+                                $find_project->name = $project;
+                                $find_project->region_id = $find_region->id;
+                                $find_project->region_cluster_id = $find_sub_region->id;
+                                $find_project->save();
+                            }
+
+                            $find_project->region_id = $find_region->id;
+                            $find_project->save();
+
+                            $find_employee_project = EmployeeProject::where(['employee_id'=>$employee->id,'client_project_id'=>$find_project->id])->first();
+                            if(!$find_employee_project){
+                                $find_employee_project = new EmployeeProject();
+                                $find_employee_project->employee_id = $employee->id;
+                                $find_employee_project->client_project_id = $find_project->id;
+                                $find_employee_project->save();
+                            }
+                        }
                         
+                        $employee->name  = $name;
+                        $employee->telepon  = $no_telepon1;
+                        $employee->telepon2  = $no_telepon2;
+                        $employee->lokasi_kantor  = $lokasi_kantor;
+                        $employee->ktp = $no_ktp;
+                        $employee->company_id = $company;
                         $employee->email = $email;
+                        $employee->status = 1;
+                        $employee->user_access_id = $user_access->id;
                         $employee->save();
+
+                        $user->nik = $nik;
+                        $user->save();
                     }
                 }
                 continue;

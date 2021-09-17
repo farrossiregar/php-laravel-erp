@@ -12,7 +12,7 @@ class Login extends Component
     public $message;
 
     protected $rules = [
-        'email' => 'required|email',
+        'email' => 'required',
         'password' => 'required',
     ];
 
@@ -26,7 +26,15 @@ class Login extends Component
     {
         $this->validate();
         
-        $credentials = ['email'=>$this->email,'password'=>$this->password];
+        if(is_numeric($this->email)){
+            $field = 'nik';
+        } elseif (filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $field = 'email';
+        }else{
+            $field = 'email';
+        }
+        
+        $credentials = [$field=>$this->email,'password'=>$this->password];
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Update2FieldStatusToDutyrosterDophomebaseMaster extends Migration
+class AddFieldNikToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class Update2FieldStatusToDutyrosterDophomebaseMaster extends Migration
      */
     public function up()
     {
-        // Schema::table('dutyroster_dophomebase_master', function (Blueprint $table) {
-        //     $table->char('status', 10)->nullable()->after('id');
-        // });
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('nik',50)->nullable();
+        });
     }
 
     /**
@@ -25,7 +25,7 @@ class Update2FieldStatusToDutyrosterDophomebaseMaster extends Migration
      */
     public function down()
     {
-        Schema::table('dutyroster_dophomebase_master', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }
