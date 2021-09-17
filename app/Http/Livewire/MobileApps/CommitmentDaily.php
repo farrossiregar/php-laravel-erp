@@ -4,10 +4,15 @@ namespace App\Http\Livewire\MobileApps;
 
 use Livewire\Component;
 use App\Models\CommitmentDaily as ModelsCommitmentDaily;
+use Livewire\WithPagination;
 
 class CommitmentDaily extends Component
 {
     public $employee_id,$date_start,$date_end;
+    
+    use WithPagination;
+    
+    protected $paginationTheme = 'bootstrap';
     
     public function render()
     {

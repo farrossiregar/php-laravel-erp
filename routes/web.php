@@ -124,6 +124,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('duty-roster-flmengineer',App\Http\Livewire\DutyRosterFlmengineer\Index::class)->name('duty-roster-flmengineer.index');
     Route::get('duty-roster-flmengineer/export/{id}',App\Http\Livewire\DutyRosterFlmengineer\Export::class)->name('duty-roster-flmengineer.export');
     Route::get('duty-roster-flmengineer/updateemployee',App\Http\Livewire\DutyRosterFlmengineer\Updateemployee::class)->name('duty-roster-flmengineer.updateemployee');
+    Route::get('duty-roster-dophomebase',App\Http\Livewire\DutyRosterDophomebase\Index::class)->name('duty-roster-dophomebase.index');
+    Route::get('duty-roster-dophomebase/preview/{id}',App\Http\Livewire\DutyRosterDophomebase\Preview::class)->name('duty-roster-dophomebase.preview');
     Route::get('performance-kpi',App\Http\Livewire\PerformanceKpi\Index::class)->name('performance-kpi.index');
     Route::get('commercial-e2e',App\Http\Livewire\Commerciale2e\Index::class)->name('commercial-e2e.index');
     Route::get('trouble-ticket',App\Http\Livewire\TroubleTicket\Index::class)->name('trouble-ticket.index');
@@ -133,5 +135,5 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('flm-tools',function(){ })->name('flm-tools.index');
     Route::get('region-tools',function(){ })->name('region-tools.index');
     Route::get('monitoring',App\Http\Livewire\Monitoring\Index::class)->name('monitoring.index');
-    Route::get('migration',App\Http\Livewire\MIgration\Index::class)->name('migration.index');
+    Route::get('migration',App\Http\Livewire\Migration\Index::class)->name('migration.index');
 });

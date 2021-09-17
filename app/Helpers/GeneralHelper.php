@@ -87,6 +87,7 @@ function send_wa($param)
     
     $curl = curl_init(); 
     $token = "HioVXgQTselUx6alx9GmtfcJgpySCDnH3FCZh2tARb0C7vRtQon5shmOwx0KmGl1";
+    // $token = "uhZrgyuk3EbEMCVXHrILrxBIO1bV6FSj4BYMWniXBGeybCtnyLDPmm2rwzHBnBxT";
     $data = [
         'phone' => $number,
         'message' => $message,

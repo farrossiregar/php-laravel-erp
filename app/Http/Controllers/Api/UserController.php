@@ -27,6 +27,8 @@ class UserController extends Controller
     
     public function login(Request $r){
         
+        if($r->email =="" or $r->password == "") return response(['status'=>401,'message'=>'Unauthorised : '. $r->email. ' : '. $r->password], 200);
+        
         if(Auth::attempt(['email' => $r->email, 'password' => $r->password])){
 
             if(\Auth::user()->employee->is_use_android==0) return response(['status'=>401,'message'=>'Unauthorised : '. $r->email. ' : '. $r->password], 200);
