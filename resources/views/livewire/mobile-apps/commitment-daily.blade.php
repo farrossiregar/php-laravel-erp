@@ -72,4 +72,6 @@
             </tbody>
         </table>
     </div>
+    <br />
+    {{$data->links()}}
 </div>
