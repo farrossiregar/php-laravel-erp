@@ -1,7 +1,7 @@
 <div>
     <div class=" row">
         <div class="col-md-2">
-            <select class="form-control" wire:model="employee_id">
+            <select class="form-control" wire:model="employee_id" wire:key="1">
                 <option value=""> --- Employee --- </option>
                 @foreach(\App\Models\Employee::where('is_use_android',1)->get() as $item)
                 <option value="{{$item->id}}">{{$item->name}}</option>
@@ -36,13 +36,14 @@
                 </tr>
             </thead>
             <tbody>
+                @php($num=$data->firstItem())
                 @foreach($data as $k => $item)
                     <tr>
-                        <td>{{$k+1}}</td>
+                        <td>{{$num}}</td>
                         <td>
                             {{isset($item->employee->name) ? $item->employee->name : ''}}
                         </td>
-                        <td>{{date('d-F-Y',strtotime($item->created_at))}}</td>
+                        <td>{{date('d-M-Y H:i',strtotime($item->created_at))}}</td>
                         @if($item->is_submit==1)
                             <td>{{isset($item->company) ? $item->company : ''}}</td>
                             <td>{{isset($item->lokasi_kantor) ? $item->lokasi_kantor : ''}}</td>
@@ -63,6 +64,7 @@
                             <td class="text-center">-</td>
                         @endif
                     </tr>
+                    @php($num++)
                 @endforeach
                 @if($data->count() ==0)
                 <tr>
@@ -72,6 +74,8 @@
             </tbody>
         </table>
     </div>
+    <br />
+    {{$data->links()}}
     @push('after-scripts')
     <script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>

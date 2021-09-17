@@ -120,16 +120,16 @@
             @if(!isset($_GET['company_id']) and !isset($_GET['menu']))
                 <div class="home row">
                     <div class="item col-md-3 is_hover {{$company_id==2 ? 'active_hover' : ''}}" wire:click="$set('company_id',2)">
-                        <a href="javascript:void(0)" title="PT Putra Mulia Telecommunication">
+                        <a href="{{route('home')}}?company_id=2" title="PT Putra Mulia Telecommunication">
                             <img class="pmt" src="{{asset('images/pmt-logo.png')}}">
                         </a>
                     </div>
                     <div class="item col-md-3 is_hover {{$company_id==1 ? 'active_hover' : ''}}" wire:click="$set('company_id',1)">
-                        <a href="javascript:void(0)" title="Harapan Utama Prima">
+                        <a href="{{route('home')}}?company_id=1" title="Harapan Utama Prima">
                             <img class="hup" src="{{asset('images/hup.png')}}">
                         </a>
                     </div>
-                    <div class="col-md-6 item item-department">
+                    <!-- <div class="col-md-6 item item-department">
                         <div class="row">
                             @foreach(\App\Models\Department::get() as $dep)
                                 <div class="sub-item col-md-4" title="{{$dep->name}}" wire:click="set_department({{$dep->id}})" onclick="show_left_menu({{$dep->id}})">
@@ -140,7 +140,7 @@
                                 </div>
                             @endforeach
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             @endif
 
@@ -262,7 +262,7 @@
     </div>
     <div style="position: fixed;bottom: 20px;right: 40px;text-align:center;">
         <h6>PMT e-PM Mobile Apps Download</h6>
-        <a href="{{asset('apk/app-pmt-v1.9.apk')}}"><img src="{{asset('images/google-play.png')}}" height="50" /></a>
+        <a href="https://play.google.com/store/apps/details?id=com.pmt.access"><img src="{{asset('images/google-play.png')}}" height="50" /></a>
     </div>
 </div>
 @push('after-scripts')

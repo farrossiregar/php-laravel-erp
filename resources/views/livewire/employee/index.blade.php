@@ -80,6 +80,12 @@
                                     @if(check_access('employee.delete'))
                                     <a href="#" class="text-danger" wire:click="$emit('emit-delete',{{$item->id}})" data-toggle="modal" data-target="#modal_delete" title="Delete"><i class="fa fa-trash-o"></i></a>
                                     @endif
+                                    @if($item->is_use_android==1)
+                                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item" wire:click="generate_login_password({{$item->id}})" title="Username dan Password login akan dikirim ke nomor karyawan yang bersangkutan"><i class="fa fa-key"></i> Generate Login Apps</a>
+                                        </div>
+                                    @endif
                                 </td>
                             </tr>
                             @php($num++)

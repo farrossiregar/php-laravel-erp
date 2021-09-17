@@ -133,5 +133,5 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('flm-tools',function(){ })->name('flm-tools.index');
     Route::get('region-tools',function(){ })->name('region-tools.index');
     Route::get('monitoring',App\Http\Livewire\Monitoring\Index::class)->name('monitoring.index');
-    Route::get('migration',App\Http\Livewire\MIgration\Index::class)->name('migration.index');
+    Route::get('migration',App\Http\Livewire\Migration\Index::class)->name('migration.index');
 });

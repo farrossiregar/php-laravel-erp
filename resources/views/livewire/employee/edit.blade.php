@@ -128,7 +128,7 @@
                                             <select class="form-control" wire:model="marital_status">
                                                 <option value=""> --- Marital Status --- </option>
                                                 @foreach(config('vars.marital_status') as $k => $i)
-                                                <option value="{{$k}}">{{$i}}</option>
+                                                <option value="{{$k}}" wire:key="marital_status_{{$k}}">{{$i}}</option>
                                                 @endforeach
                                             </select>
                                             @error('marital_status')
