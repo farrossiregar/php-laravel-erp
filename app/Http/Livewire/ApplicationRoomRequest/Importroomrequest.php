@@ -54,13 +54,15 @@ class Importroomrequest extends Component
             $datamaster->request_room_detail        = $this->request_room_detail;
             $datamaster->start_booking              = $this->start_date_booking.' '.$this->start_time_booking;
             $datamaster->end_booking                = $this->start_date_booking.' '.$this->end_time_booking;
+            $datamaster->duration                   = $this->duration($datamaster->end_booking, $datamaster->start_booking);
             $datamaster->purpose                    = $this->purpose;
             $datamaster->participant                = $this->participant;
-            $datamaster->status                     = '';
+            $datamaster->status                     = '2';
             $datamaster->note                       = '';
             $datamaster->created_at                 = date('Y-m-d H:i:s');
             $datamaster->updated_at                 = date('Y-m-d H:i:s');
-            
+            // dd($this->duration($datamaster->end_booking, $datamaster->start_booking));
+            // dd($datamaster->end_booking.' - '.$datamaster->start_booking);
             $datamaster->save();
             session()->flash('message-success',"Success, <strong>Request Successfully Added</strong>");
             return redirect()->route('application-room-request.index');
@@ -70,68 +72,26 @@ class Importroomrequest extends Component
         }
            
 
+    }
 
-        // $this->validate([
-        //     'file'=>'required|mimes:xls,xlsx|max:51200' // 50MB maksimal
-        // ]);
+
+    public function duration($start_time, $end_time){
         
-        // $users = Auth::user();
-
-        // $path = $this->file->getRealPath();
-       
-        // $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-        // $reader->setReadDataOnly(true);
-        // $data = $reader->load($path);
-        // $sheetData = $data->getActiveSheet()->toArray();
-
-       
-
-        // if(count($sheetData) > 0){
-        //     $countLimit = 1;
-        //     $total_failed = 0;
-        //     $total_success = 0;
-
-        //     // $datamaster                 = new \App\Models\ApplicationRoomRequest();
-        //     // $datamaster->upload_by      = 'HRD - GA';
-        //     // $datamaster->created_at     = date('Y-m-d H:i:s');
-        //     // $datamaster->updated_at     = date('Y-m-d H:i:s');
-        //     // $datamaster->status         = '';
-        //     // $datamaster->save();
-
-
-        //     // foreach($sheetData as $key => $i){
-        //     //     if($key<2) continue; // skip header
-                
-        //     //     foreach($i as $k=>$a){ $i[$k] = trim($a); }
-                    
-        //     //         $data                           = new \App\Models\DutyrosterDophomebaseDetail();
-        //     //         $data->id_master_dutyroster     = $datamaster->id;
-        //     //         $data->nama_dop                 = $i[0];
-        //     //         $data->project                  = $i[1];
-        //     //         $data->region                   = $i[2];
-        //     //         $data->alamat                   = $i[3];
-        //     //         $data->long                     = $i[4];
-        //     //         $data->lat                      = $i[5];
-        //     //         $data->pemilik_dop              = $i[6];
-        //     //         $data->telepon_pemilik          = $i[7];
-        //     //         $data->opex_region_ga           = $i[8];
-        //     //         $data->type_homebase_dop        = $i[9];
-        //     //         $data->expired                  = $i[10];
-        //     //         $data->budget                   = $i[11];
-        //     //         $data->remarks                  = '';
-        //     //         $data->created_at               = date('Y-m-d H:i:s');
-        //     //         $data->updated_at               = date('Y-m-d H:i:s');
-        //     //         $data->save();
-                    
-               
-
-        //     //     $total_success++;
-        //     // }
-
-        //     // session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
-            
-        //     return redirect()->route('application-room-request.index');   
-        // }
+        $diff = abs(strtotime($end_time) - strtotime($start_time));
+        $years   = floor($diff / (365*60*60*24)); 
+        $months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
+        $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+        $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
+        $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
+        
+        if($hours > 0){
+            $waktu = $hours.'.'.$minuts.' hours';
+            // $waktu = $hours;
+        }else{
+            $waktu = $minuts.' minute';
+            // $waktu = $minuts;
+        }
+        return $waktu;
     }
     
 }
