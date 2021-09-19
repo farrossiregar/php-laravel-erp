@@ -9,5 +9,5 @@ class Region extends Model
 {
     use HasFactory;
     protected $table = 'region';
-    protected $connection = 'epl_pmt';
+    // protected $connection = 'epl_pmt';
 }

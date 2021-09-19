@@ -223,6 +223,33 @@
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-6">
+                                            <label>Region</label>
+                                            <select class="form-control" wire:model="region_id">
+                                                <option value="">{{__('--- Region --- ')}} </option>
+                                                @foreach($regions as $item)
+                                                @if(empty($item->region))@continue @endif
+                                                <option value="{{$item->id}}">{{$item->region}}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('user_access_id')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Sub Region</label>
+                                            <select class="form-control" wire:model="sub_region_id">
+                                                <option value="">{{__('--- Sub Region --- ')}} </option>
+                                                @foreach($sub_regions as $sub)
+                                                    <option value="{{$sub->id}}">{{$sub->name}}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('user_access_id')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
                                             <label>Employee Status</label>
                                             <select class="form-control" wire:model="employee_status">
                                                 <option value=""> --- Employee Status --- </option>
@@ -234,21 +261,6 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label>Region</label>
-                                            <select class="form-control" wire:model="region_id">
-                                                <option value="">{{__('--- Region --- ')}} </option>
-                                                @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $item)
-                                                @if(empty($item->region))@continue @endif
-                                                <option value="{{$item->id}}">{{$item->region}}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('user_access_id')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="form-group col-md-6">
                                             <label>Rule / Access</label>
                                             <select class="form-control" wire:model="user_access_id">
@@ -263,22 +275,23 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label>Lokasi Kantor</label>
-                                            <select class="form-control" wire:model="lokasi_kantor">
+                                            <input type="text" class="form-control" wire:model="lokasi_kantor" />
+                                            <!-- <select class="form-control" wire:model="lokasi_kantor">
                                                 <option value=""> --- Lokasi Kantor --- </option>
                                                 <option>Kantor Pusat (Duren Tiga,Jakarta)</option>
                                                 <option>Kantor Cabang / Homebase</option>
-                                            </select>
-                                            @error('company_id')
+                                            </select> -->
+                                            @error('lokasi_kantor')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label class="fancy-checkbox">
                                             <input type="checkbox" value="1" wire:model="is_noc">
                                             <span>NOC Database</span>
                                         </label>
-                                    </div>
+                                    </div> -->
                                     <div  x-data="{open:@entangle('showEditPassword') }" class="mb-2">
                                         <div class="row">
                                             <div class="col-12">
@@ -347,16 +360,19 @@
             },
             buttonWidth: '100%'
         });
+
     Livewire.on('load-project',()=>{
-        _multiSelect.multiselect('destroy');
-        _multiSelect.multiselect({
-            nonSelectedText: ' --- Select Project --- ',
-            onChange: function (option, checked) {
-                @this.set('project_id', $('.multiselect_project').val());
-            },
-            buttonWidth: '100%'
-        });
-        console.log("load project");
+        setTimeout(function(){
+            _multiSelect.multiselect('destroy');
+            _multiSelect.multiselect({
+                nonSelectedText: ' --- Select Project --- ',
+                onChange: function (option, checked) {
+                    @this.set('project_id', $('.multiselect_project').val());
+                },
+                buttonWidth: '100%'
+            });
+            console.log("load project");
+        },1000);
     });
 </script>
 @endpush

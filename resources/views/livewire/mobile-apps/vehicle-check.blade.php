@@ -1,12 +1,7 @@
 <div>
     <div class="form-group row">
         <div class="col-md-2">
-            <select class="form-control" wire:model="employee_id">
-                <option value=""> --- Employee --- </option>
-                @foreach(\App\Models\Employee::where('is_use_android',1)->get() as $item)
-                <option value="{{$item->id}}">{{$item->name}}</option>
-                @endforeach
-            </select>
+            <input type="text" class="form-control" />
         </div>
         <div class="col-md-6">
             <span wire:loading>
@@ -34,7 +29,7 @@
                 @foreach($data as $k => $item)
                 <tr>
                     <td>{{$k+1}}</td>
-                    <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
+                    <td>{{$item->name}}</td>
                     <td>{{date('d-M-Y',strtotime($item->created_at))}}</td>
                     @if($item->is_submit==1)
                         <td>{{$item->plat_nomor}}</td>

@@ -2,10 +2,10 @@
 @section('parentPageTitle', 'Data Master')
 
 <div class="row clearfix">
-    <div class="col-lg-12">
+    <div class="col-lg-6">
         <div class="card">
             <div class="header row">
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                 </div>
                 <div class="col-md-2 pl-0">
@@ -15,14 +15,6 @@
             <div class="body pt-0">
                 <div class="table-responsive">
                     <table class="table table-striped m-b-0 c_list">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Region Code</th>                                    
-                                <th>Region</th>
-                                <th></th>
-                            </tr>
-                        </thead>
                         <tbody>
                             @foreach($data as $k => $item)
                             <tr>

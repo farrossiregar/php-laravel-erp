@@ -11,7 +11,7 @@ class PpeCheck extends Component
 
     public function render()
     {
-        $data = PpeCheckModel::orderBy('id','DESC');
+        $data = PpeCheckModel::select('ppe_check.*','employees.name')->orderBy('ppe_check.id','DESC')->join('employees','employees.id','=','employee_id');
         
         if($this->employee_id) $data->where('employee_id',$this->employee_id);
 

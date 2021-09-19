@@ -29,7 +29,15 @@ class UserController extends Controller
         
         if($r->email =="" or $r->password == "") return response(['status'=>401,'message'=>'Unauthorised : '. $r->email. ' : '. $r->password], 200);
         
-        if(Auth::attempt(['email' => $r->email, 'password' => $r->password])){
+        if(is_numeric($r->email)){
+            $field = 'nik';
+        } elseif (filter_var($r->email, FILTER_VALIDATE_EMAIL)) {
+            $field = 'email';
+        }else{
+            $field = 'email';
+        }
+        
+        if(Auth::attempt([$field => $r->email, 'password' => $r->password])){
 
             if(\Auth::user()->employee->is_use_android==0) return response(['status'=>401,'message'=>'Unauthorised : '. $r->email. ' : '. $r->password], 200);
 

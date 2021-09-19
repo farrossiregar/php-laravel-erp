@@ -15,7 +15,7 @@ class HealthCheck extends Component
 
     public function render()
     {
-        $data = HealthCheckModel::orderBy('id','DESC');
+        $data = HealthCheckModel::select('employees.name','health_check.*')->orderBy('health_check.id','DESC')->join('employees','employees.id','=','employee_id');
 
         return view('livewire.mobile-apps.health-check')->with(['data'=>$data->paginate(100)]);
     }

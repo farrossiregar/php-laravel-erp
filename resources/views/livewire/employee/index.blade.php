@@ -32,10 +32,10 @@
                                 <th>No</th>                                    
                                 <th>Company</th>                                    
                                 <th>Code / Alias</th>                                    
+                                <th>NIK</th>                                    
                                 <th>Name</th>                                    
                                 <th>Phone</th>                                    
-                                <th>Email</th>                                    
-                                <th>Address</th>
+                                <th>Email</th>  
                                 <th>Department</th>
                                 <th>Position</th>
                                 <th>Android</th>
@@ -50,6 +50,7 @@
                                 <td style="width: 50px;">{{$num}}</td>
                                 <td>{{isset($item->company->code) ? $item->company->code : '-' }}</td>
                                 <td>{{$item->employee_code}}</td>
+                                <td>{{$item->nik}}</td>
                                 <td>
                                     @if(check_access('employee.autologin') and !empty($item->user_id))
                                         <a href="#" class="text-success pr-2" onclick="autologin('{{ route('users.autologin',['id'=>$item->user_id]) }}','{{$item->name}}')" title="Autologin"><i class="fa fa-sign-in"></i></a>
@@ -61,9 +62,8 @@
                                     @endif
                                 </td>
                                 <td>{{$item->telepon}}</td> 
-                                <td>{{$item->email}}</td>                                   
-                                <td>{{$item->address}}</td>
-                                <td>{{isset($item->department_sub->name)?$item->department_sub->name .' - '.$item->department_sub->name:''}}</td>
+                                <td>{{$item->email}}</td>          
+                                <td>{{isset($item->department->name)?$item->department->name :''}}</td>
                                 <td>{{isset($item->access->name)?$item->access->name:''}}</td>
                                 <td>
                                     @if($item->is_use_android==1)

@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\UserAccess;
 use App\Models\Region;
 use App\Models\RegionCluster;
+use App\Models\SubRegion;
+use App\Models\ClientProjectRegion;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Hash;
@@ -35,7 +37,7 @@ class Index extends Component
         $bulan = ['januari' => 'January','februari' => 'February','maret'=>'March','april'=>'April','mei'=>'May','juni'=>'June','juli'=>'July','agustus'=>'August','september'=>'September','oktober'=>'October','november'=>'November','desember'=>'December'];
         if(count($sheetData) > 0){
             foreach($sheetData as $key => $i){
-                if($key<2) continue; // skip header
+                if($key<1) continue; // skip header
                 
                 $company  = strtoupper($i[0]);
                 $project  = $i[1];
@@ -51,11 +53,12 @@ class Index extends Component
                 $email = $i[11];
                 $lokasi_kantor = $i[12];
 
-                if($company=='PT. HARAPAN UTAMA PRIMA')
+                if($company=='PT HARAPAN UTAMA PRIMA')
                     $company = 1;
-                else
+                else 
                     $company = 2;
-
+                
+                // dd($email);
                 //$position = $i[8];
                 //$date_join = ($i[9]) ? @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($i[9])->format('Y-m-d') : '';
                 //$password = random_int(100000, 999999);
@@ -67,69 +70,82 @@ class Index extends Component
                     $user_access->save();
                 }
 
-                $user = User::where('email',$email)->first();
-                if($user){
-                    $user->user_access_id = $user_access->id;
-                    $employee = Employee::where('user_id',$user->id)->first();
-                    if($employee){
-                        if($region){
-                            $find_region = Region::where('region',$region)->first();
-                            if(!$find_region){
-                                $find_region = new Region();
-                                $find_region->region = $region;
-                                $find_region->region_code = $region;
-                                $find_region->save();
-                            }
-                            $employee->region_id = $find_region->id;
-
-                            // find sub region
-                            $find_sub_region = RegionCluster::where(['region_id'=>$find_region->id,'name'=>$sub_region])->first();
-                            if(!$find_sub_region){
-                                $find_sub_region = new RegionCluster();
-                                $find_sub_region->region_id = $find_region->id;
-                                $find_sub_region->name = $sub_region;
-                                $find_sub_region->save();
-                            }
-                            $employee->region_cluster_id = $find_sub_region->id;
+                $employee = Employee::where('email',$email)->first();
+                
+                if($employee){
+                    if($region){
+                        $find_region = Region::where('region',$region)->first();
+                        if(!$find_region){
+                            $find_region = new Region();
+                            $find_region->region = $region;
+                            $find_region->region_code = $region;
+                            $find_region->save();
                         }
+                        $employee->region_id = $find_region->id;
 
-                        if($project){
-                            $find_project = ClientProject::where('name',$project)->first();
-                            if(!$find_project){
-                                $find_project = new ClientProject();
-                                $find_project->name = $project;
-                                $find_project->region_id = $find_region->id;
-                                $find_project->region_cluster_id = $find_sub_region->id;
-                                $find_project->save();
-                            }
+                        // find sub region
+                        $find_sub_region = SubRegion::where(['region_id'=>$find_region->id,'name'=>$sub_region])->first();
+                        if(!$find_sub_region){
+                            $find_sub_region = new SubRegion();
+                            $find_sub_region->region_id = $find_region->id;
+                            $find_sub_region->name = $sub_region;
+                            $find_sub_region->save();
+                        }
+                        $employee->region_cluster_id = $find_sub_region->id;
+                    }
 
+                    if($project){
+                        $find_project = ClientProject::where('name',$project)->first();
+                        if(!$find_project){
+                            $find_project = new ClientProject();
+                            $find_project->name = $project;
                             $find_project->region_id = $find_region->id;
+                            $find_project->region_cluster_id = $find_sub_region->id;
                             $find_project->save();
-
-                            $find_employee_project = EmployeeProject::where(['employee_id'=>$employee->id,'client_project_id'=>$find_project->id])->first();
-                            if(!$find_employee_project){
-                                $find_employee_project = new EmployeeProject();
-                                $find_employee_project->employee_id = $employee->id;
-                                $find_employee_project->client_project_id = $find_project->id;
-                                $find_employee_project->save();
-                            }
                         }
-                        
-                        $employee->name  = $name;
-                        $employee->telepon  = $no_telepon1;
-                        $employee->telepon2  = $no_telepon2;
-                        $employee->lokasi_kantor  = $lokasi_kantor;
-                        $employee->ktp = $no_ktp;
-                        $employee->company_id = $company;
-                        $employee->email = $email;
-                        $employee->status = 1;
-                        $employee->user_access_id = $user_access->id;
-                        $employee->save();
 
+                        $find_project->region_id = $find_region->id;
+                        $find_project->region_cluster_id = $find_sub_region->id;
+                        $find_project->save();
+
+                        $find_employee_project = EmployeeProject::where(['employee_id'=>$employee->id,'client_project_id'=>$find_project->id])->first();
+                        if(!$find_employee_project){
+                            $find_employee_project = new EmployeeProject();
+                            $find_employee_project->employee_id = $employee->id;
+                            $find_employee_project->client_project_id = $find_project->id;
+                            $find_employee_project->save();
+                        }
+                        // relation client_project_region
+                        $find_client_project_region = ClientProjectRegion::where(['client_project_id'=>$find_project->id,'region_id'=>$find_region->id,'region_cluster_id'=>$find_sub_region->id])->first();
+                        if(!$find_client_project_region){
+                            $find_client_project_region = new ClientProjectRegion();
+                            $find_client_project_region->client_project_id = $find_project->id;
+                            $find_client_project_region->region_id = $find_region->id;
+                            $find_client_project_region->region_cluster_id = $find_sub_region->id; 
+                            $find_client_project_region->save();
+                        }
+                    }
+                    
+                    $employee->name  = $name;
+                    $employee->telepon  = $no_telepon1;
+                    $employee->telepon2  = $no_telepon2;
+                    $employee->lokasi_kantor  = $lokasi_kantor;
+                    $employee->ktp = $no_ktp;
+                    $employee->company_id = $company;
+                    $employee->email = $email;
+                    $employee->employee_status = 1;
+                    $employee->department_id = 4;
+                    $employee->user_access_id = $user_access->id;
+                    $employee->save();
+
+                    $user = User::find($employee->user_id);
+                    if($user){
+                        $user->user_access_id = $user_access->id;
                         $user->nik = $nik;
                         $user->save();
                     }
                 }
+
                 continue;
 
                 // find region 

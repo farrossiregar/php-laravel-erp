@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Company;
 use App\Models\Region;
+use App\Models\SubRegion;
 use App\Models\Employee as EmployeeModel;
 
 class Employee extends Model
@@ -17,6 +18,11 @@ class Employee extends Model
     public function region()
     {
         return $this->hasOne(Region::class,'id','region_id');
+    }
+
+    public function sub_region()
+    {
+        return $this->belongsTo(SubRegion::class);
     }
 
     public function department()

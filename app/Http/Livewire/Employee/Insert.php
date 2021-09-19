@@ -14,7 +14,7 @@ class Insert extends Component
 {
     use WithFileUploads;
     public $name,$nik,$place_of_birth,$date_of_birth,$marital_status,$blood_type,$email,$join_date,$employee_status,$telepon,$npwp_number,$bpjs_number,$religion,$address,$department_sub_id,$foto,$foto_ktp;
-    public $password,$confirm,$user_id,$user_access_id,$region_id,$is_noc=0,$lokasi_kantor,$employee_code,$ktp,$company_id,$postcode,$domisili;
+    public $password,$confirm,$user_id,$user_access_id,$region_id,$is_noc=0,$lokasi_kantor,$employee_code,$ktp,$company_id,$postcode,$domisili,$sub_region_id;
     public $department_id,$showProject=false,$projects=[],$project_id=[],$employee_project=[];
     public function render()
     {
@@ -104,6 +104,7 @@ class Insert extends Component
         $employee->company_id = $this->company_id;
         $employee->postcode = $this->postcode;
         $employee->domisili = $this->domisili;
+        $employee->sub_region_id = $this->sub_region_id;
         
         if($this->foto!=""){
             $foto = 'foto'.date('Ymdhis').'.'.$this->foto->extension();

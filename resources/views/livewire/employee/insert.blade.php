@@ -258,19 +258,19 @@
                                             <select class="form-control" wire:model="lokasi_kantor">
                                                 <option value=""> --- Lokasi Kantor --- </option>
                                                 <option>Kantor Pusat (Duren Tiga,Jakarta)</option>
-                                                <option>Kantor Cabang / Homebase</option>
+                                                <option>Kantor Cabang/Homebase</option>
                                             </select>
                                             @error('company_id')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label class="fancy-checkbox">
                                             <input type="checkbox" value="1" wire:model="is_noc">
                                             <span>NOC Database</span>
                                         </label>
-                                    </div>
+                                    </div> -->
                                     <div class="mb-2">
                                         <div class="row border mx-0 py-2 mt-2" x-show="open" @click.away="open = false">
                                             <div class="form-group col-md-6">

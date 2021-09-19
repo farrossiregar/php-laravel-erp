@@ -7,7 +7,7 @@ use App\Models\Department;
 
 class Home extends Component
 {
-    public $company_id=2,$department;
+    public $company_id,$department,$update_menu_=false;
     
     public function render()
     {
@@ -17,19 +17,22 @@ class Home extends Component
     public function updated($propertyName)
     {
         session()->put('company_id',$this->$propertyName);
-        $this->emit('update-menu');
     }
     
     public function set_department(Department $data)
     {
         $this->department = $data;
-        $this->emit('update-menu');
+        if($this->update_menu_==false){
+            $this->emit('update-menu');
+            $this->update_menu_=true;
+        }
     }
 
     public function mount()
     {
         \LogActivity::add('Home');
 
+        if(isset($_GET['company_id'])) $this->company_id = $_GET['company_id'];
         if(session()->get('company_id')) $this->company_id = session()->get('company_id');
     }
 }

@@ -1,12 +1,7 @@
 <div>
     <div class=" row">
         <div class="col-md-2">
-            <select class="form-control" wire:model="employee_id">
-                <option value=""> --- Employee --- </option>
-                @foreach(\App\Models\Employee::where('is_use_android',1)->get() as $item)
-                <option value="{{$item->id}}">{{$item->name}}</option>
-                @endforeach
-            </select>
+            <input type="text" class="form-control" />
         </div>
         <div class="col-md-2 form-group">
             <input type="text" class="form-control date_created" placeholder="Date" />

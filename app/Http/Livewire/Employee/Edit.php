@@ -9,12 +9,16 @@ use App\Models\EmployeeProject;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Employee;
+use App\Models\Region;
+use App\Models\RegionCluster;
+use App\Models\ClientProjectRegion;
+use Illuminate\Support\Arr;
 
 class Edit extends Component
 {
     public $data,$name,$nik,$email,$telepon,$address,$place_of_birth,$date_of_birth,$marital_status,$blood_type,$employee_status,$religion,$user_access_id,$department_sub_id;
-    public $foto,$foto_ktp,$password,$confirm,$region_id,$company_id,$lokasi_kantor,$is_use_android,$employee_code,$is_noc,$ktp,$domisili,$postcode;
-    public $showEditPassword=false,$department_id,$showProject=false,$projects=[],$project_id=[],$employee_project=[];
+    public $foto,$foto_ktp,$password,$confirm,$region_id,$company_id,$lokasi_kantor,$is_use_android,$employee_code,$is_noc,$ktp,$domisili,$postcode,$sub_region_id;
+    public $showEditPassword=false,$department_id,$showProject=false,$projects=[],$project_id=[],$employee_project=[],$regions=[],$sub_regions=[],$region_cluster_id;
     use WithFileUploads;
     public function render()
     {
@@ -48,11 +52,18 @@ class Edit extends Component
         $this->domisili = $this->data->domisili;
         $this->postcode = $this->data->postcode;
         $this->employee_project = EmployeeProject::where(['employee_id'=>$this->data->id])->get();
+        $this->region_cluster_id = $this->data->region_cluster_id;
+        $this->sub_region_id = $this->data->sub_region_id;
         if($this->department_id==4){
             $this->showProject = true;
             $this->projects = ClientProject::where('company_id',$this->company_id)->orderBy('name','ASC')->get();
             $this->emit('load-project');
         }
+        
+        $client_project_ids = Arr::pluck(EmployeeProject::select('client_project_id')->where(['employee_id'=>$this->data->id])->get()->toArray(),'client_project_id');
+        
+        $this->regions = ClientProjectRegion::select('region.id','region.region')->join('region','region.id','=','client_project_region.region_id')->whereIn('client_project_region.client_project_id',$client_project_ids)->groupBy('region.id')->get();
+        $this->sub_regions = RegionCluster::where('region_id', $this->data->region_id)->get();
     }
 
     public function updated($propertyName)
@@ -124,6 +135,7 @@ class Edit extends Component
         $user->name = $this->name;
         $user->email = $this->email;
         $user->telepon = $this->telepon;
+        $user->nik = $this->nik;
         $user->save();
 
         if(empty($this->data->user_id))$this->data->user_id = $user->id;
@@ -152,6 +164,7 @@ class Edit extends Component
         $this->data->ktp = $this->ktp;
         $this->data->domisili = $this->domisili;
         $this->data->postcode = $this->postcode;
+        $this->data->sub_region_id = $this->sub_region_id;
 
         if($this->foto!=""){
             $foto = 'foto'.date('Ymdhis').'.'.$this->foto->extension();

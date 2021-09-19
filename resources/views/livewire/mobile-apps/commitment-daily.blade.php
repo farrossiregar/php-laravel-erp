@@ -35,7 +35,7 @@
                 @foreach($data as $k => $item)
                     <tr>
                         <td>{{$num}}</td>
-                        <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
+                        <td>{{isset($item->name) ? $item->name : ''}}</td>
                         @if($item->is_submit ==1)
                             <td class="text-center">{!!$item->regulasi_terkait_ppe_apd_menggunakan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
                             <td class="text-center">{{$item->regulasi_terkait_ppe_apd_tidak_punya !='null' ? $item->regulasi_terkait_ppe_apd_tidak_punya : '-'}}</td>

@@ -116,9 +116,9 @@
                 </div>
             @endforeach
         @else
-
-            @if(!isset($_GET['company_id']) and !isset($_GET['menu']))
+            @if(!$company_id))
                 <div class="home row">
+                    <div class="col-md-3"></div>
                     <div class="item col-md-3 is_hover {{$company_id==2 ? 'active_hover' : ''}}" wire:click="$set('company_id',2)">
                         <a href="{{route('home')}}?company_id=2" title="PT Putra Mulia Telecommunication">
                             <img class="pmt" src="{{asset('images/pmt-logo.png')}}">
@@ -129,6 +129,7 @@
                             <img class="hup" src="{{asset('images/hup.png')}}">
                         </a>
                     </div>
+                    <div class="col-md-3"></div>
                     <!-- <div class="col-md-6 item item-department">
                         <div class="row">
                             @foreach(\App\Models\Department::get() as $dep)
@@ -144,11 +145,11 @@
                 </div>
             @endif
 
-            @if(isset($_GET['company_id']) and !isset($_GET['department_id']))
-                <h5 class="text-info"><a href="javascript:void();" class="text-info mr-1" style="font-size:20px;" onclick="history.back()"><i class="fa fa-arrow-left mr-1" title="Back"></i></a> {{isset($_GET['company_name']) ? $_GET['company_name'] : ''}}</h5>
+            @if(isset($company_id))
+                <h5 class="text-info"><a href="javascript:void();" class="text-info mr-1" style="font-size:20px;" onclick="history.back()"><i class="fa fa-arrow-left mr-1" title="Back"></i></a> {{isset($_GET['company_name']) ? $_GET['company_name'] : 'Back'}}</h5>
                 <div class="row clearfix mt-3">
                     @foreach(\App\Models\Department::get() as $dep)
-                        <div class="col-lg-2 col-md-2 col-sm-12 px-1" onclick="window.open('{{route('home',['company_id'=>$_GET['company_id'], 'department_name'=>$dep->name,'department_id'=>$dep->id])}}','_self')">
+                        <div class="col-lg-2 col-md-2 col-sm-12 px-1" wire:click="set_department({{$dep->id}})" onclick="show_left_menu({{$dep->id}})">    
                             <div class="card ng-star-inserted text-center" style="height:200px;border:1px solid #eee">
                                 <div class="body clearfix">
                                     <div class="content3">
@@ -157,7 +158,7 @@
                                 </div>
                                 <div class="clearfix">
                                     @if($dep->icon)
-                                        <a href="{{route('home',['company_id'=>$_GET['company_id'], 'department_name'=>$dep->name,'department_id'=>$dep->id])}}"><img src="{{$dep->icon}}" style="width: 45%;" /></a>
+                                        <a href="javascript:void(0)"><img src="{{$dep->icon}}" style="width: 45%;" /></a>
                                     @endif
                                 </div>
                             </div>
@@ -277,10 +278,9 @@
         $(".btn-toggle-fullwidth").trigger('click');
     }
     Livewire.on('update-menu',()=>{
-        $('.metismenu').metisMenu().dispose();
         setTimeout(function(){
             $('.metismenu').metisMenu({
-                toggle: false
+                //toggle: false
             });
         },1000)
     

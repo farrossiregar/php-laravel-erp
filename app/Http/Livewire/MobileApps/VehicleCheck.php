@@ -13,7 +13,7 @@ class VehicleCheck extends Component
 
     public function render()
     {
-        $data = VehicleCheckModel::orderBy('id','DESC');
+        $data = VehicleCheckModel::select('employees.name','vehicle_check.*')->orderBy('vehicle_check.id','DESC')->join('employees','employees.id','=','vehicle_check.employee_id');
         
         if($this->employee_id) $data->where('employee_id',$this->employee_id);
 
