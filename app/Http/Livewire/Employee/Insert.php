@@ -9,13 +9,14 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Employee;
 use App\Models\EmployeeProject;
+use App\Models\SubRegion;
 
 class Insert extends Component
 {
     use WithFileUploads;
     public $name,$nik,$place_of_birth,$date_of_birth,$marital_status,$blood_type,$email,$join_date,$employee_status,$telepon,$npwp_number,$bpjs_number,$religion,$address,$department_sub_id,$foto,$foto_ktp;
     public $password,$confirm,$user_id,$user_access_id,$region_id,$is_noc=0,$lokasi_kantor,$employee_code,$ktp,$company_id,$postcode,$domisili,$sub_region_id;
-    public $department_id,$showProject=false,$projects=[],$project_id=[],$employee_project=[];
+    public $department_id,$showProject=false,$projects=[],$project_id=[],$employee_project=[],$sub_regions=[];
     public function render()
     {
         return view('livewire.employee.insert');
@@ -34,6 +35,13 @@ class Insert extends Component
             $this->emit('load-project');
         }
         if($this->department_id != 4) $this->showProject = false;
+
+        
+    }
+
+    public function select_sub_region()
+    {
+        $this->sub_regions = SubRegion::where('region_id', $this->region_id)->get();
     }
 
     public function updatedFoto()

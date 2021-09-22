@@ -1,9 +1,13 @@
 <div>
     <div class="form-group row">
-        <div class="col-md-2">
-            <input type="text" class="form-control" />
+    <div class="col-md-2">
+            <input type="text" class="form-control" wire:model="keyword" />
+        </div>
+        <div class="col-md-2 form-group" wire:ignore>
+            <input type="text" class="form-control date_vehicle_check" placeholder="Date" />
         </div>
         <div class="col-md-6">
+            <a href="javascript:void(0)" class="btn btn-sm btn-info" wire:click="downloadExcel"><i class="fa fa-download"></i> Download</a>
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>
@@ -126,4 +130,19 @@
             </div>
         </div>
     </div>
+    @push('after-scripts')
+        <script>
+            $('.date_vehicle_check').daterangepicker({
+                opens: 'left',
+                locale: {
+                    cancelLabel: 'Clear'
+                },
+                autoUpdateInput: false,
+            }, function(start, end, label) {
+                @this.set("date_start", start.format('YYYY-MM-DD'));
+                @this.set("date_end", end.format('YYYY-MM-DD'));
+                $('.date_vehicle_check').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
+            });
+        </script>
+    @endpush
 </div>

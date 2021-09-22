@@ -144,7 +144,6 @@
                         </div>
                     </div>
                 </div>
-
                 @push('after-scripts')
                 <script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
                 <script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>

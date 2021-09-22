@@ -45,6 +45,9 @@
                         </thead>
                         <tbody>
                             @php($num=$data->firstItem())
+                            @php($edit = check_access('employee.edit'))
+                            @php($autologin = check_access('employee.autologin'))
+                            @php($is_delete = check_access('employee.autologin'))
                             @foreach($data as $k => $item)
                             <tr>
                                 <td style="width: 50px;">{{$num}}</td>
@@ -52,10 +55,10 @@
                                 <td>{{$item->employee_code}}</td>
                                 <td>{{$item->nik}}</td>
                                 <td>
-                                    @if(check_access('employee.autologin') and !empty($item->user_id))
+                                    @if($autologin and !empty($item->user_id))
                                         <a href="#" class="text-success pr-2" onclick="autologin('{{ route('users.autologin',['id'=>$item->user_id]) }}','{{$item->name}}')" title="Autologin"><i class="fa fa-sign-in"></i></a>
                                     @endif
-                                    @if(check_access('employee.edit'))
+                                    @if($edit)
                                         <a href="{{route('employee.edit',['id'=>$item->id])}}">{{$item->name}}</a>
                                     @else
                                         {{$item->name}}
@@ -74,10 +77,10 @@
                                 </td>
                                 <td>{{$item->updated_at}}</td>
                                 <td>  
-                                    @if(check_access('employee.autologin') and !empty($item->user_id))
+                                    @if($autologin and !empty($item->user_id))
                                     <a href="#" class="text-success pr-2" onclick="autologin('{{ route('users.autologin',['id'=>$item->user_id]) }}','{{$item->name}}')" title="Autologin"><i class="fa fa-sign-in"></i></a>
                                     @endif
-                                    @if(check_access('employee.delete'))
+                                    @if($is_delete)
                                     <a href="#" class="text-danger" wire:click="$emit('emit-delete',{{$item->id}})" data-toggle="modal" data-target="#modal_delete" title="Delete"><i class="fa fa-trash-o"></i></a>
                                     @endif
                                     @if($item->is_use_android==1)
@@ -99,7 +102,7 @@
         </div>
     </div>
 </div>
-@if(check_access('employee.delete'))
+@if($is_delete)
 <div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <livewire:employee.delete />

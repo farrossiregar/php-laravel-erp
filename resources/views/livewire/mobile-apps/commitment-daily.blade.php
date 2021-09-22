@@ -3,7 +3,11 @@
         <div class="col-md-2 form-group">
             <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
         </div>
+        <div class="col-md-2" wire:ignore>
+            <input type="text" class="form-control date_range_commitment_daily" />
+        </div>
         <div class="col-md-6">
+            <a href="javascript:void(0)" class="btn btn-sm btn-info" wire:click="downloadExcel"><i class="fa fa-download"></i> Download</a>
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>
@@ -76,4 +80,19 @@
     </div>
     <br />
     {{$data->links()}}
+    @push('after-scripts')
+        <script>
+            $('.date_range_commitment_daily').daterangepicker({
+                opens: 'left',
+                locale: {
+                    cancelLabel: 'Clear'
+                },
+                autoUpdateInput: false,
+            }, function(start, end, label) {
+                @this.set("date_start", start.format('YYYY-MM-DD'));
+                @this.set("date_end", end.format('YYYY-MM-DD'));
+                $('.date_range_commitment_daily').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
+            });
+        </script>
+    @endpush
 </div>

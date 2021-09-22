@@ -19,6 +19,7 @@
                 <option value=""> --- Select Type --- </option>
                 <option value="1">Menu</option>
                 <option value="2">Function</option>
+                <option value="3">Access</option>
             </select>
             @error('type')
             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>

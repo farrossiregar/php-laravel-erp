@@ -28,7 +28,6 @@ class FormFunction extends Component
     {
         $this->validate([
             'name'=>'required',
-            // 'icon'=>'required',
         ]);
 
         $data = new \App\Models\ModulesItem();

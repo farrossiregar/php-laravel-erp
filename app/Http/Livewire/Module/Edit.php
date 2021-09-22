@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\ModuleGroup;
 use Livewire\WithFileUploads;
+use App\Models\ModulesItem;
 
 class Edit extends Component
 {
@@ -102,5 +103,10 @@ class Edit extends Component
         $this->items = \App\Models\ModulesItem::where('module_id',$this->data->id)->get();
         
         $this->emit('hideModal');
+    }
+
+    public function deleteFunction(ModulesItem $item)
+    {
+        $item->delete();
     }
 }

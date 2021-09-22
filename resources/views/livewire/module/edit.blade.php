@@ -84,7 +84,7 @@
                 <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_add_group" class="btn btn-info"><i class="fa fa-plus"></i> Add Group</a>
             </div>
             <div class="body pt-0">
-                @foreach(\App\Models\ModuleGroup::where('module_id',$data->id)->get() as $group)
+                @foreach(\App\Models\ModuleGroup::where('module_id',$data->id)->get() as $key_group => $group)
                     <div class="table-responsive">
                         <h5>{{$group->name}}</h5>
                         <table class="table">
@@ -93,20 +93,22 @@
                                     <th style="background:#eee;">
                                         <div class="row mx-0">
                                             <div class="col-md-6 mx-0">
-                                                @livewire('module.form-edit-sub-menu', ['data'=>$item], key($group->id+$item->id))
+                                                @livewire('module.form-edit-sub-menu', ['data'=>$item], key($group->id+$item->id+$key_group))
                                                 <small>{{ $item->link }}</small>
                                             </div>
                                             <div class="col-md-6 mx-0">
-                                                <a href="javascript:void(0)" wire:click="addFunction({{$item->id}})" class="mr-3"><i class="fa fa-plus"></i></a>
+                                                <a href="javascript:void(0)" wire:click="addFunction({{$item->id}})" data-toggle="modal" data-target="#modal_add_function" class="mr-3"><i class="fa fa-plus"></i></a>
                                                 <a href="javascript:void(0)" wire:click="deleteItem({{$item->id}})" class="text-danger"><i class="fa fa-trash"></i> </a>
                                             </div>
                                         </div>
                                     </th>
                                 </tr>
-                                @foreach($item->func as $function)
+                                @foreach($item->func as $key_function => $function)
                                 <tr>
                                     <td>
-                                        @livewire('module.delete-sub', ['data'=>$function],key($function->id+$group->id+$item->id))
+                                        <div>
+                                            <a href="javascript:;" wire:click="deleteFunction({{$function->id}})" class="text-danger"><i class="fa fa-trash"></i></a> {{$function->name}}
+                                        </div>
                                         <small>{{$function->link}}</small>
                                     </td>
                                 </tr>
@@ -157,15 +159,12 @@
     <div wire:ignore.self class="modal fade" id="modal_add_function" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                @livewire('module.form-function', ['data' => $data])
+                @livewire('module.form-function', ['data' => $data],key('modal_add_function'))
             </div>
         </div>
     </div>
 </div>
 @section('page-script')
-Livewire.on('modalAddFunction', (id) =>
-    $('#modal_add_function').modal('show')
-);
 Livewire.on('hideModal', () =>
     $('#modal_add_items').modal('hide')
 );

@@ -1,12 +1,13 @@
 <div>
     <div class=" row">
         <div class="col-md-2">
-            <input type="text" class="form-control" />
+            <input type="text" class="form-control" wire:model="keyword" />
         </div>
-        <div class="col-md-2 form-group">
-            <input type="text" class="form-control date_created" placeholder="Date" />
+        <div class="col-md-2 form-group" wire:ignore>
+            <input type="text" class="form-control date_health_check" placeholder="Date" />
         </div>
         <div class="col-md-5">
+            <a href="javascript:void(0)" class="btn btn-sm btn-info" wire:click="downloadExcel"><i class="fa fa-download"></i> Download</a>
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>
@@ -72,11 +73,8 @@
     <br />
     {{$data->links()}}
     @push('after-scripts')
-    <script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/daterange/daterangepicker.css') }}" />
     <script>
-        $('.date_created').daterangepicker({
+        $('.date_health_check').daterangepicker({
             opens: 'left',
             locale: {
                 cancelLabel: 'Clear'
@@ -85,7 +83,7 @@
         }, function(start, end, label) {
             @this.set("date_start", start.format('YYYY-MM-DD'));
             @this.set("date_end", end.format('YYYY-MM-DD'));
-            $('.date_created').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
+            $('.date_health_check').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
         });
     </script>
     @endpush

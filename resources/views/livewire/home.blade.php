@@ -34,7 +34,7 @@
                                             @if($group->group->name != $menu->client_project->name)
                                                 <li class="sub__"><a href="javascript:void(0)">{{$group->group->name}}</a>
                                                     <ul>
-                                                        @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id])->get() as $action)    
+                                                        @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id,'is_show'=>1])->get() as $action)    
                                                             <li class="ml-2">
                                                                 @if(Route::has($action->link))
                                                                     <a href="{{route($action->link)}}" class="pl-5">{{$action->name}}</a>
@@ -57,7 +57,7 @@
                                                     </ul>
                                                 </li>
                                             @else
-                                                @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id])->get() as $action)    
+                                                @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id,'is_show'=>1])->get() as $action)    
                                                     <li  class="sub__">
                                                         @if(Route::has($action->link))
                                                             <a href="{{route($action->link)}}" class="pl-5">{{$action->name}}</a>
@@ -116,7 +116,7 @@
                 </div>
             @endforeach
         @else
-            @if(!$company_id))
+            @if(!$company_id)
                 <div class="home row">
                     <div class="col-md-3"></div>
                     <div class="item col-md-3 is_hover {{$company_id==2 ? 'active_hover' : ''}}" wire:click="$set('company_id',2)">

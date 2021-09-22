@@ -1,9 +1,15 @@
 @section('title', __('Performance KPI'))
+@push('after-scripts')
+<script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/daterange/daterangepicker.css') }}" />
+@endpush
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
             <ul class="nav nav-tabs-new2">
-                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#commitment-daily">{{ __('Commitment Daily') }}</a></li>
+                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard">{{ __('Dashboard') }}</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#commitment-daily">{{ __('Commitment Daily') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#health-check">{{ __('Health Check') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#vehicle-check">{{ __('Vehicle Check') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#ppe-check">{{ __('PPE Check') }}</a></li>
@@ -13,7 +19,10 @@
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#drug-test">{{ __('Drug Test') }}</a></li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active" id="commitment-daily">
+                <div class="tab-pane active" id="dashboard">
+                    <livewire:performance-kpi.dashboard />
+                </div>
+                <div class="tab-pane" id="commitment-daily">
                     <livewire:mobile-apps.commitment-daily />
                 </div>
                 <div class="tab-pane" id="health-check">

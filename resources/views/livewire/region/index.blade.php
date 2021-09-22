@@ -17,22 +17,26 @@
                     <table class="table table-striped m-b-0 c_list">
                         <tbody>
                             @foreach($data as $k => $item)
-                            <tr>
-                                <td style="width: 50px;">{{$k+1}}</td>
-                                <td>
-                                    @if(check_access('region.edit'))
-                                        <a href="javascript:;" wire:click="$emit('emit-edit',{{$item->id}})" data-target="#modal_edit" data-toggle="modal">{{$item->region_code}}</a>
-                                    @else
-                                        {{$item->region_code}}
-                                    @endif
-                                </td>
-                                <td>{{$item->region}}</td>
-                                <td>
-                                    @if(check_access('region.delete'))
-                                    <a href="javascript:;" wire:click="$emit('emit-delete',{{$item->id}})" data-target="#modal_delete" data-toggle="modal" class="text-danger"><i class="fa fa-trash"></i></a>
-                                    @endif
-                                </td>
-                            </tr>
+                                <tr x-data="{insert:false}">
+                                    <td style="width: 50px;">{{$k+1}}</td>
+                                    <td>
+                                        <a href="javascript:;" wire:click="$emit('emit-edit',{{$item->id}})" data-toggle="modal" data-target="#modal_edit" >{{$item->region}}</a>
+                                        <div x-show="insert" @click.away="insert = false">
+                                            <input type="text" wire:keydown.enter="insert_sub_region({{$item->id}})" wire:model="name_insert_sub_region" x-on:keydown.enter="insert = false" class="form-control" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0)" title="add sub region under {{$item->region}}" @click="insert = true"><i class="fa fa-plus"></i></a>
+                                        <a href="javascript:;" wire:click="$emit('emit-delete',{{$item->id}})" data-target="#modal_delete" data-toggle="modal" class="text-danger"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                                @foreach(\App\Models\SubRegion::where('region_id',$item->id)->get() as $sub)
+                                    <tr>
+                                        <td></td>
+                                        <td>{{$sub->name}}</td>
+                                        <td></td>
+                                    </tr>
+                                @endforeach
                             @endforeach
                         </tbody>
                     </table>
@@ -44,29 +48,24 @@
     </div>
 </div>
 
-@if(check_access('region.delete'))
 <div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <livewire:region.delete />
     </div>
 </div>
-@endif
 
-@if(check_access('region.edit'))
 <div class="modal fade" id="modal_edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <livewire:region.edit />
     </div>
 </div>
-@endif
 
-@if(check_access('region.insert'))
 <div class="modal fade" id="modal_insert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <livewire:region.insert />
     </div>
 </div>
-@endif
+
 @section('page-script')
 Livewire.on('emit-delete-hide',()=>{
     $("#modal_delete").modal('hide');

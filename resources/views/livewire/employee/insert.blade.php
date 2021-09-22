@@ -181,7 +181,7 @@
                                     <hr />
                                     <div class="form-group">
                                         <label>Company</label>
-                                        <select class="form-control" wire:model="company_id">
+                                        <select class="form-control" wire:model.lazy="company_id">
                                             <option value=""> --- Company --- </option>
                                             @foreach(\App\Models\Company::get() as $company)
                                             <option value="{{$company->id}}">{{$company->name}}</option>   
@@ -193,7 +193,7 @@
                                     </div>
                                     <div class="form-group" x-data="{showProject:false}">
                                         <label>Department</label>
-                                        <select class="form-control" wire:model="department_id">
+                                        <select class="form-control" wire:model.defer="department_id">
                                             <option value="">{{__('--- Department --- ')}} </option>
                                             @foreach(\App\Models\Department::orderBy('name','ASC')->get() as $item)
                                                 <option value="{{$item->id}}">{{$item->name}}</option>
@@ -206,11 +206,38 @@
                                     <div class="row" x-data="{open:@entangle('showProject')}">
                                         <div class="form-group col-md-12" x-show="open">
                                             <label class="mr-2">Project</label>
-                                            <select class="form-control multiselect multiselect-custom multiselect_project" multiple="multiple" wire:model="project_id" >
+                                            <select class="form-control multiselect multiselect-custom multiselect_project" multiple="multiple" wire:model.defer="project_id" >
                                                 @foreach($projects as $item)
                                                 <option value="{{$item->id}}">{{$item->name}}</option>   
                                                 @endforeach
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label>Region</label>
+                                            <select class="form-control" wire:model="region_id" wire:change="select_sub_region">
+                                                <option value="">{{__('--- Region --- ')}} </option>
+                                                @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $item)
+                                                @if(empty($item->region))@continue @endif
+                                                <option value="{{$item->id}}">{{$item->region}}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('user_access_id')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Sub Region</label>
+                                            <select class="form-control" wire:model="sub_region_id">
+                                                <option value="">{{__('--- Sub Region --- ')}} </option>
+                                                @foreach($sub_regions as $sub)
+                                                    <option value="{{$sub->id}}">{{$sub->name}}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('user_access_id')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="row">
@@ -227,21 +254,6 @@
                                             @enderror
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label>Region</label>
-                                            <select class="form-control" wire:model="region_id">
-                                                <option value="">{{__('--- Region --- ')}} </option>
-                                                @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $item)
-                                                @if(empty($item->region))@continue @endif
-                                                <option value="{{$item->id}}">{{$item->region}}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('user_access_id')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
                                             <label>Rule / Access</label>
                                             <select class="form-control" wire:model="user_access_id">
                                                 <option value="">{{__('--- Position --- ')}} </option>
@@ -255,7 +267,7 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label>Lokasi Kantor</label>
-                                            <select class="form-control" wire:model="lokasi_kantor">
+                                            <select class="form-control" wire:model="lokasi_kantor" wire:key="lokasi_kantor">
                                                 <option value=""> --- Lokasi Kantor --- </option>
                                                 <option>Kantor Pusat (Duren Tiga,Jakarta)</option>
                                                 <option>Kantor Cabang/Homebase</option>
@@ -308,7 +320,7 @@
 </div>
 @push('after-scripts')
 <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
-<script>
+<script>    
     @foreach($employee_project as $item)
     $('.multiselect_project').find("option[value='{{$item->client_project_id}}']").prop("selected", true);
     @endforeach
