@@ -16,9 +16,27 @@
         <input type="text" class="form-control" wire:model="region" placeholder="Region" />
     </div>
                         
+    @if(check_access('duty-roster-dophomebase.importhrd'))
+    <div class="col-md-2">
+        <a href="#" data-toggle="modal" data-target="#modal-dutyroster-importdutyroster" title="Add" class="btn btn-primary"><i class="fa fa-upload"></i> {{__('Import DOP Homebase')}}</a>
+    </div>
 
     <div class="col-md-2">
-        <a wire:click="save()" href="" title="Add" class="btn btn-primary"><i class="fa fa-download"></i> {{__('Export Duty roster')}}</a>
+        <a href="#" data-toggle="modal" data-target="#modal-dutyroster-inputdutyroster" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input DOP Homebase')}}</a>
+    </div>
+    @endif
+
+    @if(check_access('duty-roster-dophomebase.importsm'))
+    <div class="col-md-2">
+        <a href="#" data-toggle="modal" data-target="#modal-dutyroster-importdutyrostersm" title="Add" class="btn btn-primary"><i class="fa fa-upload"></i> {{__('Import DOP Homebase')}}</a>
+    </div>
+    
+    @endif
+    
+    
+
+    <div class="col-md-2">
+        <a wire:click="save()" href="" title="Add" class="btn btn-success"><i class="fa fa-download"></i> {{__('Export Duty roster')}}</a>
     </div>
 
 <!--     
@@ -55,6 +73,7 @@
                     <tr>
                         <th>No</th>
                         <th>Remarks</th>
+                        <th>Status</th>
                         <th>Nama DOP</th>
                         <th>Project</th>
                         <th>Region</th>
@@ -86,12 +105,52 @@
                                 @endif
                             @endif
                         </td>
+                        
+                        <td>
+                            @if($item->status == '1')
+                                <label class="badge badge-success" data-toggle="tooltip" title="Approved">Approved</label>
+                            @endif
+
+                            @if($item->status == '0')
+                                <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Decline</label>
+                            @endif
+
+                            @if($item->status == '' || $item->status == 'null')
+                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
+                            @endif
+
+                            @if(check_access('duty-roster-dophomebase.approval'))
+                                @if($item->status == '' || $item->status == null)
+                                    <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                @endif
+
+                            @endif
+                        
+                        </td>
                         <td>{{ $item->nama_dop }}</td>
                         <td>{{ $item->project }}</td>
                         <td>{{ $item->region }}</td>
                         <td>{{ $item->alamat }}</td>
-                        <td>{{ $item->long }}</td>
-                        <td>{{ $item->lat }}</td>
+                        <td>
+                            @if($item->status == '1')
+                                {{ $item->long }}
+                                <!-- <a href="#" data-toggle="modal" data-target="#modal-dutyroster-updatelongitude" title="Add" class="btn btn-primary"><i class="fa fa-edit"></i> </a> -->
+                                <div wire:click="$emit('modalupdatelong','{{ $item->id }}')" title="Add" class="btn btn-primary"><i class="fa fa-edit"></i> </div>
+                            @else
+                                {{ $item->long }}
+                            @endif
+                            
+                        </td>
+                        <td>
+                            @if($item->status == '1')
+                                {{ $item->lat }}
+                                <!-- <a href="#" data-toggle="modal" data-target="#modal-dutyroster-inputdutyroster" title="Add" class="btn btn-primary"><i class="fa fa-edit"></i> </a> -->
+                                <div wire:click="$emit('modalupdatelat','{{ $item->id }}')" title="Add" class="btn btn-primary"><i class="fa fa-edit"></i> </div>
+                            @else
+                                {{ $item->lat }}
+                            @endif
+                        </td>
                         <td>{{ $item->pemilik_dop  }}</td>
                         <td>{{ $item->telepon_pemilik }}</td>
                         <td>{{ $item->opex_region_ga }}</td>
@@ -107,7 +166,7 @@
                                     echo '<label class="badge badge-success" data-toggle="tooltip" title="In Progress"><b>'.date_format(date_create($item->expired), 'd M Y').'</b></label>';
                                 }
                             ?>
-                            
+                           <div wire:click="$emit('modaluploadimage','{{ $item->id }}')" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Image')}}</div>
                         </td>
                         <td><?php echo 'Rp.'. @format_idr($item->budget); ?></td>
   
