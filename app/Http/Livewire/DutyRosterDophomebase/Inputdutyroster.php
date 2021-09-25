@@ -30,7 +30,16 @@ class Inputdutyroster extends Component
   
     public function save()
     {
-        $data                           = new \App\Models\DopHomebaseMaster();
+
+        
+        $check = \App\Models\DophomebaseMaster::where('nama_dop', $this->nama_dop)->first();
+        if($check){
+            $data                       = \App\Models\DophomebaseMaster::where('nama_dop', $this->nama_dop)->first();
+        }else{
+            $data                       = new \App\Models\DophomebaseMaster();
+        }
+
+        // $data                           = new \App\Models\DopHomebaseMaster();
         
         $data->nama_dop                 = $this->nama_dop;
         $data->project                  = $this->project;
