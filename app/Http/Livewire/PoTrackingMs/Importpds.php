@@ -10,10 +10,18 @@ use DB;
 class Importpds extends Component
 {
 
+    protected $listeners = [
+        'modaluploadpds'=>'uploadpds',
+    ];
+
     use WithFileUploads;
     // public $employee_id, $employee_name, $departement, $lokasi, $type_request, $request_room_detail;
     // public $purpose, $participant, $start_date_booking, $start_time_booking, $end_date_booking, $end_time_booking;
-    public $file;
+    public $file, $selected_id;
+
+    protected $rules = [
+        'file' => 'required',
+    ];
     
     public function render()
     {
@@ -32,10 +40,14 @@ class Importpds extends Component
         
     }
 
+    public function uploadpds($id)
+    {
+        $this->selected_id = $id;
+    }
   
     public function save()
     {
-
+        
         $this->validate([
             'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
         ]);
@@ -45,6 +57,7 @@ class Importpds extends Component
             $this->file->storePubliclyAs('public/po_tracking_ms/Pds/',$pds);
 
             $data = \App\Models\PoTrackingMs::where('id', $this->selected_id)->first();
+            
             $data->pds         = $pds;
             
             $data->save();

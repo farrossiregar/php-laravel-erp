@@ -9,10 +9,12 @@ use DB;
 
 class Importapprovedverificationdocs extends Component
 {
+    protected $listeners = [
+        'modaluploadappverdocs'=>'uploadappverdocs',
+    ];
 
     use WithFileUploads;
-    public $employee_id, $employee_name, $departement, $lokasi, $type_request, $request_room_detail;
-    public $purpose, $participant, $start_date_booking, $start_time_booking, $end_date_booking, $end_time_booking;
+    public $file, $selected_id;
 
     
     public function render()
@@ -30,6 +32,11 @@ class Importapprovedverificationdocs extends Component
         
         return view('livewire.po-tracking-ms.importapprovedverificationdocs');
         
+    }
+
+    public function uploadappverdocs($id)
+    {
+        $this->selected_id = $id;
     }
 
     public function save()

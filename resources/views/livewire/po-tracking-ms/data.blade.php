@@ -37,11 +37,13 @@
                     <tr style="background: #eee;">
                         <th>No</th>                               
                         <th>Date Uploaded</th>  
-                        <th>ID</th>  
+                        
                         <th class="text-center">Status</th>
-                        <th>Change History</th> 
-                        <th>Rep Office</th>  
-                        <th>Customer</th>  
+                        <th>PDS</th>
+                        <th>Approval Docs</th>
+                        <th>Approved Verification Docs</th>
+                        <th>Acceptance Docs</th>
+                        <th>Invoice</th>
                         <th>
                             Action
                         </th>
@@ -52,7 +54,7 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>{{ date('d-M-Y',strtotime($item->created_at)) }}</td>
-                        <td>
+                        <!-- <td>
                             {{ $item->po_reimbursement_id }}
                             <div class="btn-group" role="group">
                                 <a class="{{$item->status >=1 ? 'text-success' : 'text-warning' }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -93,7 +95,8 @@
                                 @endif
                                 </div>
                             </div>
-                        </td>
+                        </td> -->
+                        
                         <td class="text-center">
                             @if($item->status==0)
                                 <label class="badge badge-info" data-toggle="tooltip" title="Regional - Upload approved BAST {{$item->is_revisi==1?' - Revisi : '.$item->note : ''}}">Regional {{$item->is_revisi==1?' - R ' : ''}}</label>
@@ -111,24 +114,64 @@
                                 <label class="badge badge-success" data-toggle="tooltip" title="Done">Done </label>
                             @endif
                         </td>
-                        <td>{{ $item->change_history }}</td>
-                        <td>{{ $item->rep_office }}</td>
-                        <td>{{ $item->customer }}</td>
+                        
+                        <td>
+                            @if($item->pds)
+                                <a href=""><i class="fa fa-download"></i> Download PDS</a>
+                            @else
+                                <a href="javascript:;"  wire:click="$emit('modaluploadpds','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PDS')}}</a>
+                            @endif
+                        </td>
+                        <td>
+                            @if($item->approval_docs)
+                                <a href=""><i class="fa fa-download"></i> Download Approval Docs</a>
+                            @else
+                                <a href="javascript:;"  wire:click="$emit('modaluploadapprovaldocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approval Docs')}}</a>
+                            @endif
+                        </td>
+                        <td>
+                            @if($item->approved_verification)
+                                <a href=""><i class="fa fa-download"></i> Download Approved Verification Docs</a>
+                            @else
+                                <a href="javascript:;"  wire:click="$emit('modaluploadappverdocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved Verification Docs')}}</a>
+                            @endif
+                        </td>
+                        <td>
+                            @if($item->acceptance_docs)
+                                <a href=""><i class="fa fa-download"></i> Download Acceptance Docs</a>
+                            @else
+                                <a href="javascript:;"  wire:click="$emit('modaluploadaccdocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Acceptance Docs')}}</a>
+                            @endif
+                        </td>
+                        <td></td>
                         <td>
 
+                            <div class="col-md-2">
+                                <!-- <a href="#" data-toggle="modal" data-target="#modal-potrackingms-uploadpds" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PDS')}}</a> -->
+                                <a href="javascript:;" title="Upload" class="btn btn-primary"><i class="fa fa-eye"></i> {{__('Preview')}}</a>
+                            </div>
+
+                            <!-- <div class="col-md-2">
+                                
+                                <a href="javascript:;"  wire:click="$emit('modaluploadpds','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PDS')}}</a>
+                            </div> -->
                             
-                        <div class="col-md-2">
-                            <a href="#" data-toggle="modal" data-target="#modal-potrackingms-uploadpds" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PDS')}}</a>
-                        </div>
-                        
-                        <div class="col-md-2">
-                            <a href="#" data-toggle="modal" data-target="#modal-potrackingms-uploadapprovaldocs" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approval Docs')}}</a>
-                        </div>
+                            <!-- <div class="col-md-2">
+                                <a href="javascript:;"  wire:click="$emit('modaluploadapprovaldocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approval Docs')}}</a>
+                            </div> -->
 
-                        <div class="col-md-2">
-                            <a href="#" data-toggle="modal" data-target="#modal-potrackingms-uploadapprovedverificationdocs" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved Verification Docs')}}</a>
-                        </div>
+                            <!-- <div class="col-md-2">
+                                <a href="javascript:;"  wire:click="$emit('modaluploadappverdocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved Verification Docs')}}</a>
+                            </div> -->
 
+                            <!-- <div class="col-md-2">
+                                <a href="javascript:;"  wire:click="$emit('modaluploadaccdocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Acceptance Docs')}}</a>
+                            </div> -->
+
+                            @if($item->status == '' || $item->status == null)
+                                <a href="javascript:;" wire:click="$emit('modalapprovemspo','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                <a href="javascript:;" wire:click="$emit('modaldeclinemspo','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                            @endif
 
                         </td>
                     </tr>

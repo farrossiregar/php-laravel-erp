@@ -7,11 +7,10 @@ use Livewire\WithFileUploads;
 use Auth;
 use DB;
 
-class Importapprovaldocs extends Component
+class Importacceptancedocs extends Component
 {
-
     protected $listeners = [
-        'modaluploadapprovaldocs'=>'uploadapprovaldocs',
+        'modaluploadaccdocs'=>'uploadacceptancedocs',
     ];
 
     use WithFileUploads;
@@ -31,16 +30,15 @@ class Importapprovaldocs extends Component
         // }
         
         
-        return view('livewire.po-tracking-ms.importapprovaldocs');
+        return view('livewire.po-tracking-ms.importacceptancedocs');
         
     }
 
-  
-    public function uploadapprovaldocs($id)
+    public function uploadacceptancedocs($id)
     {
         $this->selected_id = $id;
     }
-    
+
     public function save()
     {
 
@@ -49,16 +47,16 @@ class Importapprovaldocs extends Component
         ]);
 
         if($this->file){
-            $appdocs = 'poms-appdocs'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/po_tracking_ms/Approval_docs/',$appdocs);
+            $accdocs = 'poms-appverdocs'.$this->selected_id.'.'.$this->file->extension();
+            $this->file->storePubliclyAs('public/po_tracking_ms/Acceptance_docs/',$accdocs);
 
             $data = \App\Models\PoTrackingMs::where('id', $this->selected_id)->first();
-            $data->approval_docs         = $appdocs;
+            $data->acceptance_docs         = $accdocs;
             
             $data->save();
         }
 
-        session()->flash('message-success',"Upload PDS for Record, Tracking and Monitoring PO to Payment For MS PO success");
+        session()->flash('message-success',"Upload Acceptance Docs for Record, Tracking and Monitoring PO to Payment For MS PO success");
         
         return redirect()->route('po-tracking-ms.index',['id'=>$data->id]);
 
