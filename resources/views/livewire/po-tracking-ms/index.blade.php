@@ -78,6 +78,38 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-potrackingms-approvepmgreview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-ms.approvepmgreview />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-potrackingms-approvedeductionregional" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-ms.approvedeductionregional />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-potrackingms-approvee2epds" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-ms.approvee2epds />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-potrackingms-approvee2eappdocs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-ms.approvee2eappdocs />
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modal-potrackingms-declinemspo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -113,6 +145,22 @@
 
     Livewire.on('modalapprovemspo',(data)=>{
         $("#modal-potrackingms-approvemspo").modal('show');
+    });
+
+    Livewire.on('modalapprovepmgreview',(data)=>{
+        $("#modal-potrackingms-approvepmgreview").modal('show');
+    });
+
+    Livewire.on('modalapprovedeductionregional',(data)=>{
+        $("#modal-potrackingms-approvedeductionregional").modal('show');
+    });
+
+    Livewire.on('modalapprovee2epds',(data)=>{
+        $("#modal-potrackingms-approvee2epds").modal('show');
+    });
+
+    Livewire.on('modalapprovee2eappdocs',(data)=>{
+        $("#modal-potrackingms-approvee2eappdocs").modal('show');
     });
 
     Livewire.on('modaldeclinemspo',(data)=>{

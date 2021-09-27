@@ -42,8 +42,7 @@
                         <th>PDS</th>
                         <th>Approval Docs</th>
                         <th>Approved Verification Docs</th>
-                        <th>Acceptance Docs</th>
-                        <th>Invoice</th>
+                        <th>Acceptance Docs & Invoice</th>
                         <th>
                             Action
                         </th>
@@ -98,80 +97,149 @@
                         </td> -->
                         
                         <td class="text-center">
-                            @if($item->status==0)
-                                <label class="badge badge-info" data-toggle="tooltip" title="Regional - Upload approved BAST {{$item->is_revisi==1?' - Revisi : '.$item->note : ''}}">Regional {{$item->is_revisi==1?' - R ' : ''}}</label>
+                            @if($item->status == '' || $item->status == null)
+                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting Approval">Waiting Approval</label>
                             @endif
-                            @if($item->status==1)
-                                <label class="badge badge-warning" data-toggle="tooltip" title="E2E - Review">E2E Review </label>
+
+                            @if($item->status == 1)
+                                <label class="badge badge-success" data-toggle="tooltip" title="Approved by PMG">Approved by PMG</label>
+                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting Finance Approval">Waiting Finance Approval</label>
                             @endif
-                            @if($item->status==2)
-                                <label class="badge badge-primary" data-toggle="tooltip" title="E2E - Generate ESAR, Upload ESAR and Verification Docs">E2E Upload</label>
+
+                            @if($item->status == 2)
+                                <label class="badge badge-success" data-toggle="tooltip" title="Approved by Finance">Approved by Finance</label>
+                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting Regional Reconcile">Waiting Regional Reconcile</label>
                             @endif
-                            @if($item->status==3)
-                                <label class="badge badge-danger" data-toggle="tooltip" title="Finance - Upload Acceptance Docs and Invoice">Finance </label>
+
+                            <!-- Deduction  -->
+                            @if($item->status == 3) 
+                                <label class="badge badge-success" data-toggle="tooltip" title="Approved by Regional">Approved by Regional</label>
+                                <!-- <label class="badge badge-warning" data-toggle="tooltip" title="Waiting Regional Reconcile">Waiting Regional Reconcile</label> -->
                             @endif
-                            @if($item->status==4)
-                                <label class="badge badge-success" data-toggle="tooltip" title="Done">Done </label>
+
+
+                            @if($item->status == 4) 
+                                <label class="badge badge-success" data-toggle="tooltip" title="Approved PDS by E2E">Approved PDS by E2E</label>
+                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting Approval Docs by Regional">Waiting Approval Docs</label>
+                            @endif
+
+
+                            @if($item->status == 5) 
+                                <label class="badge badge-success" data-toggle="tooltip" title="Approved Approval Docs by E2E">Approved Approval Docs by E2E</label>
+                                
+                            @endif
+
+
+                            @if($item->status == 6) 
+                                <label class="badge badge-success" data-toggle="tooltip" title="Done">Done</label>
+                                
                             @endif
                         </td>
                         
                         <td>
                             @if($item->pds)
-                                <a href=""><i class="fa fa-download"></i> Download PDS</a>
+                                <a href="<?php echo asset('storage/po_tracking_ms/Pds/'.$item->pds.''); ?>" data-toggle="tooltip" title="Download Download PDS"><i class="fa fa-download"></i> {{__('Download PDS')}}</a>
                             @else
-                                <a href="javascript:;"  wire:click="$emit('modaluploadpds','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PDS')}}</a>
+                                @if(check_access('po-tracking-ms.import-pds') && $item->status == '3')
+                                    <a href="javascript:;"  wire:click="$emit('modaluploadpds','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PDS')}}</a>
+                                @endif
                             @endif
                         </td>
                         <td>
                             @if($item->approval_docs)
-                                <a href=""><i class="fa fa-download"></i> Download Approval Docs</a>
+                                <a href="<?php echo asset('storage/po_tracking_ms/Approval_docs/'.$item->approval_docs.''); ?>" data-toggle="tooltip" title="Download Download Approval Docs"><i class="fa fa-download"></i> {{__('Download Approval Docs')}}</a>
                             @else
-                                <a href="javascript:;"  wire:click="$emit('modaluploadapprovaldocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approval Docs')}}</a>
+                                @if(check_access('po-tracking-ms.import-approvaldocs') && $item->status == '4')
+                                    <a href="javascript:;"  wire:click="$emit('modaluploadapprovaldocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approval Docs')}}</a>
+                                @endif
                             @endif
                         </td>
                         <td>
                             @if($item->approved_verification)
-                                <a href=""><i class="fa fa-download"></i> Download Approved Verification Docs</a>
+                                <a href="<?php echo asset('storage/po_tracking_ms/Approval_verification_docs/'.$item->approved_verification.''); ?>" data-toggle="tooltip" title="Download Download Approved Verification Docs"><i class="fa fa-download"></i> {{__('Download Approved Verification Docs')}}</a>
                             @else
-                                <a href="javascript:;"  wire:click="$emit('modaluploadappverdocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved Verification Docs')}}</a>
+                                @if(check_access('po-tracking-ms.import-approvedverificationdocs') && $item->status == '5')
+                                    <a href="javascript:;"  wire:click="$emit('modaluploadappverdocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved Verification Docs')}}</a>
+                                @endif
                             @endif
                         </td>
                         <td>
-                            @if($item->acceptance_docs)
-                                <a href=""><i class="fa fa-download"></i> Download Acceptance Docs</a>
+                            @if(!$item->acceptance_docs)
+                                <a href="<?php echo asset('storage/po_tracking_ms/Acceptance_docs/'.$item->acceptance_docs.''); ?>" data-toggle="tooltip" title="Download Download Acceptance Docs"><i class="fa fa-download"></i> {{__('Download Acceptance Docs')}}</a>
+                                <a href="<?php echo asset('storage/po_tracking_ms/Acceptance_docs/'.$item->invoice.''); ?>" data-toggle="tooltip" title="Download Download Invoice"><i class="fa fa-download"></i> {{__('Download Invoice')}}</a>
                             @else
-                                <a href="javascript:;"  wire:click="$emit('modaluploadaccdocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Acceptance Docs')}}</a>
+                                @if(check_access('po-tracking-ms.import-acceptancedocsinvoice') && $item->status == '6')
+                                    <a href="javascript:;"  wire:click="$emit('modaluploadaccdocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Acceptance Docs')}}</a>
+                                    <a href="javascript:;"  wire:click="$emit('modaluploadaccdocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Invoice')}}</a>
+                                @endif
                             @endif
                         </td>
-                        <td></td>
                         <td>
 
                             <div class="col-md-2">
-                                <!-- <a href="#" data-toggle="modal" data-target="#modal-potrackingms-uploadpds" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PDS')}}</a> -->
-                                <a href="javascript:;" title="Upload" class="btn btn-primary"><i class="fa fa-eye"></i> {{__('Preview')}}</a>
+                               
+                                <a href="{{route('po-tracking-ms.preview',$item->id)}}" target="_blank" class="btn btn-primary"><i class="fa fa-eye"></i> Preview </a>
                             </div>
 
-                            <!-- <div class="col-md-2">
-                                
-                                <a href="javascript:;"  wire:click="$emit('modaluploadpds','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PDS')}}</a>
-                            </div> -->
-                            
-                            <!-- <div class="col-md-2">
-                                <a href="javascript:;"  wire:click="$emit('modaluploadapprovaldocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approval Docs')}}</a>
-                            </div> -->
 
-                            <!-- <div class="col-md-2">
-                                <a href="javascript:;"  wire:click="$emit('modaluploadappverdocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Approved Verification Docs')}}</a>
-                            </div> -->
-
-                            <!-- <div class="col-md-2">
-                                <a href="javascript:;"  wire:click="$emit('modaluploadaccdocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Acceptance Docs')}}</a>
-                            </div> -->
-
-                            @if($item->status == '' || $item->status == null)
-                                <a href="javascript:;" wire:click="$emit('modalapprovemspo','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                <a href="javascript:;" wire:click="$emit('modaldeclinemspo','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                            <!--    Start Approval PMG     -->
+                            @if(check_access('po-tracking-ms.approval-pmg'))
+                                @if($item->status == '' || $item->status == null)
+                                    <div class="col-md-2">
+                                        <a href="javascript:;" wire:click="$emit('modalapprovemspo','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclinemspo','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                    </div>
+                                @endif
                             @endif
+                            <!--    End Approval PMG     -->
+
+
+                            <!--    Start Approval Finance     -->
+                            @if(check_access('po-tracking-ms.approval-finance'))
+                                @if($item->status == '1')
+                                    <div class="col-md-2">
+                                        <a href="javascript:;" wire:click="$emit('modalapprovepmgreview','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclinemspo','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                    </div>
+                                @endif
+                            @endif
+                            <!--    End Approval Finance     -->
+
+
+                            <!--    Start Approval Regional     -->
+                            @if(check_access('po-tracking-ms.approval-regional'))
+                                @if($item->status == '2')
+                                    <div class="col-md-2">
+                                        <a href="javascript:;" wire:click="$emit('modalapprovedeductionregional','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclinemspo','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                    </div>
+                                @endif
+                            @endif
+                            <!--    End Approval Regional     -->
+
+
+                            <!--    Start Approval E2E PDS     -->
+                            @if(check_access('po-tracking-ms.approval-e2e-pds'))
+                                @if($item->status == '3')
+                                    <div class="col-md-2">
+                                        <a href="javascript:;" wire:click="$emit('modalapprovee2epds','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclinemspo','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                    </div>
+                                @endif
+                            @endif
+                            <!--    End Approval E2E PDS     -->
+
+
+                            <!--    Start Approval E2E Approval Docs     -->
+                            @if(check_access('po-tracking-ms.approval-e2e-approvaldocs'))
+                                @if($item->status == '4')
+                                    <div class="col-md-2">
+                                        <a href="javascript:;" wire:click="$emit('modalapprovee2eappdocs','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclinemspo','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                    </div>
+                                @endif
+                            @endif
+                            <!--    End Approval E2E Approval Docs     -->
 
                         </td>
                     </tr>
@@ -181,51 +249,8 @@
         </div>
         <br />
     </div>
-    <!--    MODAL REIMBURSEMENT      -->
-    <div class="modal fade" id="modal-potracking-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <livewire:p-o-tracking.insert />
-            </div>
-        </div>
-    </div>
-    <!--    MODAL REIMBURSEMENT      -->
-    <!--    MODAL BAST      -->
-    <div class="modal fade" id="modal-potrackingbast-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <livewire:po-tracking.importbast />
-            </div>
-        </div>
-    </div>
-    <!--    END MODAL BAST      -->
-    <!--    MODAL ESAR      -->
-    <div class="modal fade" id="modal-potrackingesar-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <livewire:po-tracking.importesar />
-            </div>
-        </div>
-    </div>
-    <!--    END MODAL ESAR      -->
-    <!--    MODAL APPROVE BAST      -->
-    <div class="modal fade" id="modal-potrackingapprovebast-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <livewire:po-tracking.approvebast />
-            </div>
-        </div>
-    </div>
-    <!--    END MODAL APPROVE BAST      -->
-    <!--    MODAL ACCEPTANCE DOCS      -->
-    <div class="modal fade" id="modal-potrackingacceptance-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <livewire:po-tracking.importacceptancedocs />
-            </div>
-        </div>
-    </div>
-    <!--    END MODAL ACCEPTANCE DOCS      -->
+   
+   
     @push('after-scripts')
     <script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>
