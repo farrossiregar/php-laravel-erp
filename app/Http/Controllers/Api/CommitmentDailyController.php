@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\CommitmentDaily;
 use App\Models\Notification;
+use App\Models\EmployeeProject;
 use Illuminate\Http\Request;
 
 class CommitmentDailyController extends Controller
@@ -42,13 +43,18 @@ class CommitmentDailyController extends Controller
         ]);
 
         // check exist
-        $find = CommitmentDaily::whereDate('created_at',date('Y-m-d'))->where('employee_id',\Auth::user()->employee->id)->first();
-        if($find){
-            $data = new CommitmentDaily();
-            // return response()->json(['message'=>'exist'], 200);
-        } 
-
-        $data->employee_id = isset(\Auth::user()->employee->id) ? \Auth::user()->employee->id : '';
+        $data = CommitmentDaily::whereDate('created_at',date('Y-m-d'))->where('employee_id',\Auth::user()->employee->id)->first();
+        
+        if(!$data) $data = new CommitmentDaily();
+        
+        $employee = isset(\Auth::user()->employee->id) ? \Auth::user()->employee : '';
+        if($employee){
+            $data->region_id = $employee->region_id;
+            $data->sub_region_id = $employee->sub_region_id;
+            $project = EmployeeProject::where('employee_id',$employee->id)->first();
+            if($project) $data->client_project_id = $project->client_project_id; 
+        }
+        $data->employee_id = isset($employee->id) ? $employee->id : '';
         $data->regulasi_terkait_ppe_apd_menggunakan = $request->regulasi_terkait_ppe_apd_menggunakan;
         $data->regulasi_terkait_ppe_apd_tidak_punya = $request->regulasi_terkait_ppe_apd_tidak_punya;
         $data->regulasi_terkait_sanksi = $request->regulasi_terkait_sanksi;

@@ -226,7 +226,7 @@
                                             <label>Region</label>
                                             <select class="form-control" wire:model="region_id">
                                                 <option value="">{{__('--- Region --- ')}} </option>
-                                                @foreach($regions as $item)
+                                                @foreach(\App\Models\ClientProjectRegion::select('region.id','region.region')->join('region','region.id','=','client_project_region.region_id')->whereIn('client_project_region.client_project_id',$client_project_ids)->groupBy('region.id')->get() as $item)
                                                 @if(empty($item->region))@continue @endif
                                                 <option value="{{$item->id}}">{{$item->region}}</option>
                                                 @endforeach
@@ -364,6 +364,9 @@
     Livewire.on('load-project',()=>{
         setTimeout(function(){
             _multiSelect.multiselect('destroy');
+            @foreach($employee_project as $item)
+            $('.multiselect_project').find("option[value='{{$item->client_project_id}}']").prop("selected", true);
+            @endforeach
             _multiSelect.multiselect({
                 nonSelectedText: ' --- Select Project --- ',
                 onChange: function (option, checked) {

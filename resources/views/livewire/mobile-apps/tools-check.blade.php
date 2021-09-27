@@ -1,7 +1,7 @@
 <div>
     <div class="form-group row">
         <div class="col-md-2">
-            <input type="text" class="form-control" />
+            <input type="text" class="form-control" placeholder="Searching..." />
         </div>
         <div class="col-md-1">
             <select class="form-control" wire:model="tahun">

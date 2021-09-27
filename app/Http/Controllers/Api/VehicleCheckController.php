@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Notification;
 use App\Models\AccidentReport;
 use App\Models\AccidentReportImage;
+use App\Models\EmployeeProject;
 
 class VehicleCheckController extends Controller
 {
@@ -25,6 +26,14 @@ class VehicleCheckController extends Controller
         if(!$data){
             $data = new VehicleCheck();
             $data->employee_id = \Auth::user()->employee->id;
+        }
+
+        $employee = isset(\Auth::user()->employee->id) ? \Auth::user()->employee : '';
+        if($employee){
+            $data->region_id = $employee->region_id;
+            $data->sub_region_id = $employee->sub_region_id;
+            $project = EmployeeProject::where('employee_id',$employee->id)->first();
+            if($project) $data->client_project_id = $project->client_project_id; 
         }
 
         $data->is_submit = 1;

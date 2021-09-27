@@ -24,7 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('general_notification')->weekdays();
+        // $schedule->command('general_notification')->weekdays();
+        $schedule->command('general_notification')->dailyAt('07:00')->timezone('Asia/Jakarta');
     }
 
     /**

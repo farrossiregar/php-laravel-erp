@@ -81,10 +81,6 @@
             </div>
         </div>
     </div>
-    @push('after-scripts')
-    <script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/daterange/daterangepicker.css') }}" />
     <script>
         $('.date_created').daterangepicker({
             opens: 'left',
@@ -98,5 +94,4 @@
             $('.date_created').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
         });
     </script>
-    @endpush
 </div>
