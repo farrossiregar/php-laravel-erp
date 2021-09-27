@@ -16,17 +16,20 @@
 
     @if(check_access('duty-roster-dophomebase.importhrd'))
     <div class="col-md-2">
-        <a href="#" data-toggle="modal" data-target="#modal-dutyroster-importdutyroster" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Duty Roster')}}</a>
+        <a href="#" data-toggle="modal" data-target="#modal-dutyroster-importdutyroster" title="Add" class="btn btn-primary"><i class="fa fa-upload"></i> {{__('Import DOP Homebase')}}</a>
     </div>
     @endif
 
     @if(check_access('duty-roster-dophomebase.importsm'))
     <div class="col-md-2">
-        <a href="#" data-toggle="modal" data-target="#modal-dutyroster-importdutyrostersm" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Duty Roster')}}</a>
+        <a href="#" data-toggle="modal" data-target="#modal-dutyroster-importdutyrostersm" title="Add" class="btn btn-primary"><i class="fa fa-upload"></i> {{__('Import DOP Homebase')}}</a>
     </div>
     
     @endif
     
+    <div class="col-md-2">
+        <a href="#" data-toggle="modal" data-target="#modal-dutyroster-inputdutyroster" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input DOP Homebase')}}</a>
+    </div>
     
     <div class="col-md-12">
         <br><br>

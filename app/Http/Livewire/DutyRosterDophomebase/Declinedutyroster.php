@@ -32,7 +32,7 @@ class Declinedutyroster extends Component
     public function save()
     {
         
-        $data = \App\Models\DutyrosterDophomebaseMaster::where('id', $this->selected_id)->first();
+        $data = \App\Models\DopHomebaseMaster::where('id', $this->selected_id)->first();
         
         $data->status   = '0';
         $data->note     = $this->note;
