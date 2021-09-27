@@ -18,7 +18,7 @@ class Edit extends Component
 {
     public $data,$name,$nik,$email,$telepon,$address,$place_of_birth,$date_of_birth,$marital_status,$blood_type,$employee_status,$religion,$user_access_id,$department_sub_id;
     public $foto,$foto_ktp,$password,$confirm,$region_id,$company_id,$lokasi_kantor,$is_use_android,$employee_code,$is_noc,$ktp,$domisili,$postcode,$sub_region_id;
-    public $showEditPassword=false,$department_id,$showProject=false,$projects=[],$project_id=[],$employee_project=[],$regions=[],$sub_regions=[],$region_cluster_id;
+    public $showEditPassword=false,$department_id,$showProject=false,$projects=[],$project_id=[],$employee_project=[],$regions=[],$sub_regions=[],$region_cluster_id,$client_project_ids=[];
     use WithFileUploads;
     public function render()
     {
@@ -57,12 +57,11 @@ class Edit extends Component
         if($this->department_id==4){
             $this->showProject = true;
             $this->projects = ClientProject::where('company_id',$this->company_id)->orderBy('name','ASC')->get();
-            $this->emit('load-project');
+            // $this->emit('load-project');
         }
         
-        $client_project_ids = Arr::pluck(EmployeeProject::select('client_project_id')->where(['employee_id'=>$this->data->id])->get()->toArray(),'client_project_id');
-        
-        $this->regions = ClientProjectRegion::select('region.id','region.region')->join('region','region.id','=','client_project_region.region_id')->whereIn('client_project_region.client_project_id',$client_project_ids)->groupBy('region.id')->get();
+        $this->client_project_ids = Arr::pluck(EmployeeProject::select('client_project_id')->where(['employee_id'=>$this->data->id])->get()->toArray(),'client_project_id');
+        $this->regions = ClientProjectRegion::select('region.id','region.region')->join('region','region.id','=','client_project_region.region_id')->whereIn('client_project_region.client_project_id',$this->client_project_ids)->groupBy('region.id')->get();
         $this->sub_regions = RegionCluster::where('region_id', $this->data->region_id)->get();
     }
 
@@ -71,9 +70,15 @@ class Edit extends Component
         if($this->department_id == 4 and $this->company_id){
             $this->showProject = true;
             $this->projects = ClientProject::where('company_id',$this->company_id)->orderBy('name','ASC')->get();
+            $this->employee_project = EmployeeProject::where(['employee_id'=>$this->data->id])->get();
             $this->emit('load-project');
         }
         if($this->department_id != 4) $this->showProject = false;
+
+        // $client_project_ids = Arr::pluck(EmployeeProject::select('client_project_id')->where(['employee_id'=>$this->data->id])->get()->toArray(),'client_project_id');
+        
+        // $this->regions = ClientProjectRegion::select('region.id','region.region')->join('region','region.id','=','client_project_region.region_id')->whereIn('client_project_region.client_project_id',$client_project_ids)->groupBy('region.id')->get();
+        $this->sub_regions = RegionCluster::where('region_id', $this->region_id)->get();
     }
 
     public function updatedFoto()

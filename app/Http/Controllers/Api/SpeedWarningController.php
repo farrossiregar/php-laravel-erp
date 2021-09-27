@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\SpeedWarningAlarm;
 use Illuminate\Http\Request;
+use App\Models\EmployeeProject;
  
 class SpeedWarningController extends Controller
 {
@@ -36,6 +37,15 @@ class SpeedWarningController extends Controller
         $data->speed = $request->speed;
         $data->lat = $request->lat;
         $data->long = $request->long;
+
+        $employee = isset(\Auth::user()->employee->id) ? \Auth::user()->employee : '';
+        if($employee){
+            $data->region_id = $employee->region_id;
+            $data->sub_region_id = $employee->sub_region_id;
+            $project = EmployeeProject::where('employee_id',$employee->id)->first();
+            if($project) $data->client_project_id = $project->client_project_id; 
+        }
+
         $data->save();
 
         if(isset(\Auth::user()->employee->pic_speed->telepon)){

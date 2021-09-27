@@ -7,44 +7,64 @@
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
-            <ul class="nav nav-tabs-new2">
-                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard">{{ __('Dashboard') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#commitment-daily">{{ __('Commitment Daily') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#health-check">{{ __('Health Check') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#vehicle-check">{{ __('Vehicle Check') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#ppe-check">{{ __('PPE Check') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tools-check">{{ __('Tools Check') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#speed-warning-alarm">{{ __('Speed Warning Alarm') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#preventive-maintenance">{{ __('Preventive Maintenance') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#drug-test">{{ __('Drug Test') }}</a></li>
+            <ul class="nav nav-tabs-new2" wire:ignore>
+                <li class="nav-item"><a class="nav-link active show" wire:click="$set('view_index','dashboard')" data-toggle="tab" href="#dashboard">{{ __('Dashboard') }}</a></li>
+                <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','commitment_daily')" data-toggle="tab" href="#commitment-daily">{{ __('Commitment Daily') }}</a></li>
+                <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','health_check')" data-toggle="tab" href="#health-check">{{ __('Health Check') }}</a></li>
+                <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','vehicle_check')" data-toggle="tab" href="#vehicle-check">{{ __('Vehicle Check') }}</a></li>
+                <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','ppe_check')" data-toggle="tab" href="#ppe-check">{{ __('PPE Check') }}</a></li>
+                <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','tools_check')" data-toggle="tab" href="#tools-check">{{ __('Tools Check') }}</a></li>
+                <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','speed_warning')" data-toggle="tab" href="#speed-warning-alarm">{{ __('Speed Warning Alarm') }}</a></li>
+                <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','preventive_maintenance')" data-toggle="tab" href="#preventive-maintenance">{{ __('Preventive Maintenance') }}</a></li>
+                <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','drug_test')" data-toggle="tab" href="#drug-test">{{ __('Drug Test') }}</a></li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active" id="dashboard">
-                    <livewire:performance-kpi.dashboard />
+                <span wire:loading>
+                    <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                    <span class="sr-only">{{ __('Loading...') }} </span> please wait...
+                </span>
+                <div class="tab-pane {{ $view_index=='dashboard' ? 'active' : ''}}" id="dashboard">
+                    @if($view_index=='dashboard')
+                        @livewire('performance-kpi.dashboard')
+                    @endif
                 </div>
-                <div class="tab-pane" id="commitment-daily">
-                    <livewire:mobile-apps.commitment-daily />
+                <div class="tab-pane {{ $view_index=='commitment_daily' ? 'active' : ''}}" id="commitment-daily">
+                    @if($view_index=='commitment_daily')
+                        @livewire('mobile-apps.commitment-daily')
+                    @endif
                 </div>
-                <div class="tab-pane" id="health-check">
-                    <livewire:mobile-apps.health-check />
+                <div class="tab-pane {{ $view_index=='health_check' ? 'active' : ''}}" id="health-check">
+                    @livewire('mobile-apps.health-check')
                 </div>
-                <div class="tab-pane" id="vehicle-check">
-                    <livewire:mobile-apps.vehicle-check />
+                <div class="tab-pane {{ $view_index=='vehicle_check' ? 'active' : ''}}" id="vehicle-check">
+                    @if($view_index=='vehicle_check')
+                        @livewire('mobile-apps.vehicle-check')
+                    @endif
                 </div>
-                <div class="tab-pane" id="ppe-check">
-                    <livewire:mobile-apps.ppe-check />
+                <div class="tab-pane {{ $view_index=='ppe_check' ? 'active' : ''}}" id="ppe-check">
+                    @if($view_index=='ppe_check')
+                        @livewire('mobile-apps.ppe-check')
+                    @endif
                 </div>
-                <div class="tab-pane" id="tools-check">
-                    <livewire:mobile-apps.tools-check />
+                <div class="tab-pane {{ $view_index=='tools_check' ? 'active' : ''}}" id="tools-check">
+                    @if($view_index=='tools_check')
+                        @livewire('mobile-apps.tools-check')
+                    @endif
                 </div>
-                <div class="tab-pane" id="speed-warning-alarm">
-                    <livewire:mobile-apps.speed-warning-alarm />
+                <div class="tab-pane {{ $view_index=='speed_warning' ? 'active' : ''}}" id="speed-warning-alarm">
+                    @if($view_index=='speed_warning')
+                        @livewire('mobile-apps.speed-warning-alarm')
+                    @endif
                 </div>
-                <div class="tab-pane" id="preventive-maintenance">
-                    <livewire:mobile-apps.preventive-maintenance />
+                <div class="tab-pane {{ $view_index=='preventive_maintenance' ? 'active' : ''}}" id="preventive-maintenance">
+                    @if($view_index=='preventive_maintenance')
+                        @livewire('mobile-apps.preventive-maintenance')
+                    @endif
                 </div>
-                <div class="tab-pane" id="drug-test">
-                    <livewire:mobile-apps.drug-test />
+                <div class="tab-pane {{ $view_index=='drug_test' ? 'active' : ''}}" id="drug-test">
+                    @if($view_index=='drug_test')
+                        @livewire('mobile-apps.drug-test')
+                    @endif
                 </div>
             </div>
         </div>

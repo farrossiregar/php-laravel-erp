@@ -17,7 +17,7 @@
                         @endif
                         <div class="form-group">
                             <label for="signin-email" class="control-label sr-only">{{ __('Email') }}</label>
-                            <input type="email" class="form-control" id="signin-email" wire:model="email" placeholder="{{ __('Email') }}">
+                            <input type="text" class="form-control" id="signin-email" wire:model="email" placeholder="{{ __('Email') }}">
                             @error('email')
                             <p class="text-danger">{{ $message }}</p>
                             @enderror

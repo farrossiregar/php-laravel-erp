@@ -11,9 +11,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class CommitmentDaily extends Component
 {
     public $keyword,$date_start,$date_end;
-    
     use WithPagination;
-    
     protected $paginationTheme = 'bootstrap';
     
     public function render()

@@ -8,6 +8,7 @@ use App\Models\ToolboxType;
 use App\Models\ToolboxCheck;
 use App\Models\ToolsCheck;
 use App\Models\ToolsCheckUpload;
+use App\Models\EmployeeProject;
 use Illuminate\Http\Request;
  
 class ToolsCheckController extends Controller
@@ -74,6 +75,24 @@ class ToolsCheckController extends Controller
      */
     public function store(Request $request)
     {
+        $toolBox = Toolbox::get();
+        // validate toolbox
+        $error = '';
+        foreach($toolBox as $item){
+            $img = "image_{$item->id}";
+            if(isset($request->$img)){
+                $condition = "condition_{$item->id}";
+                if(!isset($request->$condition)){
+                    $error .= "Kondisi {$item->name} harus dipilih.\n" ;
+                }
+            }
+        }
+        
+        if($error) return response()->json(['message'=>$error], 200);
+
+        $employee = isset(\Auth::user()->employee->id) ? \Auth::user()->employee : '';
+        $project = EmployeeProject::where('employee_id',$employee->id)->first();
+
         $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
         if(!$find){
             $find = new ToolsCheck();
@@ -83,7 +102,10 @@ class ToolsCheckController extends Controller
             $find->save();
         }
         
-        $toolBox = Toolbox::get();
+        $find->region_id = $employee->region_id;
+        $find->sub_region_id = $employee->sub_region_id;
+        $find->client_project_id = $project->id;
+        
         foreach($toolBox as $item){
             $new = new ToolboxCheck();
 
@@ -111,6 +133,12 @@ class ToolsCheckController extends Controller
             
             $new->tools_check_id = $find->id;
             $new->toolbox_id = $item->id;
+            if($project) $new->client_project_id = $project->id;
+            if($employee){
+                $new->employee_id = isset($employee->id) ? $employee->id : '';
+                $new->region_id = $employee->region_id;
+                $new->sub_region_id = $employee->sub_region_id;
+            }
             $new->save();
         }
 

@@ -15,7 +15,9 @@ class VehicleCheck extends Component
     {
         $data = VehicleCheckModel::select('employees.name','vehicle_check.*')->orderBy('vehicle_check.id','DESC')->join('employees','employees.id','=','vehicle_check.employee_id');
         
-        if($this->keyword) $data->where('employees.name',"LIKE", "%{$this->keyword}%");
+        if($this->keyword) 
+            $data->where('employees.name',"LIKE", "%{$this->keyword}%")
+                ->orWhere('plat_nomor','LIKE', "%{$this->keyword}%");
         if($this->date_start and $this->date_end) $data = $data->whereBetween('vehicle_check.created_at',[$this->date_start,$this->date_end]);
 
         return view('livewire.mobile-apps.vehicle-check')->with(['data'=>$data->paginate(100)]);

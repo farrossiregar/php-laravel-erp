@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\HealthCheck;
 use Illuminate\Http\Request;
+use App\Models\EmployeeProject;
 
 class HealthCheckController extends Controller
 {
@@ -19,6 +20,14 @@ class HealthCheckController extends Controller
         if($request->lokasi_kantor==1) $data->lokasi_kantor = "Kantor Pusat (Duren Tiga, Jakarta)";
         if($request->lokasi_kantor==2) $data->lokasi_kantor = "Kantor Cabang / Homebase";
         
+        $employee = isset(\Auth::user()->employee->id) ? \Auth::user()->employee : '';
+        if($employee){
+            $data->region_id = $employee->region_id;
+            $data->sub_region_id = $employee->sub_region_id;
+            $project = EmployeeProject::where('employee_id',$employee->id)->first();
+            if($project) $data->client_project_id = $project->client_project_id; 
+        }
+
         $data->employee_id = \Auth::user()->employee->id;
         $data->status_bekerja = $request->status_bekerja;
         $data->status_bekerja_others = $request->status_bekerja_others;
