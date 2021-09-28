@@ -36,7 +36,8 @@ class Declinemspo extends Component
         
         $data = \App\Models\PoTrackingMs::where('id', $this->selected_id)->first();
         
-        $data->status   = '0';
+        $data->status   = '';
+        $data->revise   = '1';
         $data->note     = $this->note;
 
         $data->save();

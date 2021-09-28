@@ -36,8 +36,8 @@ class Approvedeductionregional extends Component
         
         $data = \App\Models\PoTrackingMs::where('id', $this->selected_id)->first();
         
-        $data->status   = '1';
-        // $data->note     = $this->note;
+        $data->status   = '3';
+        
 
         $data->save();
 

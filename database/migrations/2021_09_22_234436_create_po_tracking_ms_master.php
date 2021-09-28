@@ -17,11 +17,11 @@ class CreatePoTrackingMsMaster extends Migration
             $table->id();
             $table->char('status', 10)->nullable();
             $table->string('note', 250)->nullable();
-            $table->char('pds', 10)->nullable();
-            $table->char('approval_docs', 10)->nullable();
-            $table->char('approved_verification', 10)->nullable();
-            $table->char('acceptance_docs', 10)->nullable();
-            $table->char('invoice', 10)->nullable();
+            // $table->char('pds', 30)->nullable();
+            // $table->char('approval_docs', 30)->nullable();
+            // $table->char('approved_verification', 30)->nullable();
+            // $table->char('acceptance_docs', 30)->nullable();
+            // $table->char('invoice', 30)->nullable();
             $table->timestamps();
         });
 
@@ -85,6 +85,15 @@ class CreatePoTrackingMsMaster extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('po_tracking_ms_master');
+        // Schema::dropIfExists('po_tracking_ms_master');
+        Schema::create('po_tracking_ms_master', function (Blueprint $table) {
+            
+            $table->char('pds', 30)->nullable();
+            $table->char('approval_docs', 30)->nullable();
+            $table->char('approved_verification', 30)->nullable();
+            $table->char('acceptance_docs', 30)->nullable();
+            $table->char('invoice', 30)->nullable();
+            
+        });
     }
 }

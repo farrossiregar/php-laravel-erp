@@ -53,48 +53,7 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>{{ date('d-M-Y',strtotime($item->created_at)) }}</td>
-                        <!-- <td>
-                            {{ $item->po_reimbursement_id }}
-                            <div class="btn-group" role="group">
-                                <a class="{{$item->status >=1 ? 'text-success' : 'text-warning' }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-{{$item->status==4?'download':'upload'}}"></i>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                @if($item->status==0) {{-- Upload Approved BAST --}}
-                                    @if(check_access('po-tracking.upload-bast'))
-                                        <a class="dropdown-item" href="javascript:void(0);" wire:click="$emit('modal-bast',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingbast-upload"><i class="fa fa-upload"></i> Upload BAST</a>
-                                    @endif
-                                @endif
-                                @if($item->status==1) {{-- E2E Review Approve / Reject --}}
-                                    @if(check_access('po-tracking.approved-bast'))
-                                        <a href="javascript:;" class="dropdown-item text-success" wire:click="$emit('modal-approvebast','{{$item->id}}')" data-toggle="modal" data-target="#modal-potrackingapprovebast-upload" title="Upload"><i class="fa fa-check-circle"></i> {{__('Proccess')}}</a>
-                                    @endif
-                                @endif
-                                @if($item->status==2)  {{-- Esar Upload --}}
-                                    @if(check_access('po-tracking.edit-esar'))
-                                        <a href="{{route('po-tracking.generate-esar',$item->id)}}" target="_blank" class="dropdown-item"><i class="fa fa-download"></i> Generate ESAR</a>
-                                        <a href="javascript:void(0);" class="dropdown-item text-success" wire:click="$emit('modalesarupload','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload"><i class="fa fa-upload"></i> {{__('Upload Approved ESAR')}}</a>
-                                    @endif
-                                @endif
-                                @if($item->status==3) {{-- Finance Acceptance --}}
-                                    @if(check_access('po-tracking.edit-accdoc'))
-                                        <a href="javascript:void(0)" class="dropdown-item text-success" wire:click="$emit('modal-acceptancedocs',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingacceptance-upload" title="Upload"><i class="fa fa-upload"></i> {{__('Upload Acceptance & Invoice Docs')}}</a>
-                                    @endif
-                                @endif
-                                @if(isset($item->bast->bast_filename))
-                                    <a href="{{asset("storage/po_tracking/Bast/{$item->bast->bast_filename}")}}" class="dropdown-item" data-toggle="tooltip" title="Download BAST"><i class="fa fa-download"></i> {{__('BAST')}}</a>
-                                @endif
-                                
-                                @if(isset($item->esar->approved_esar_filename))
-                                    <a href="javascript:void(0);" class="dropdown-item" wire:click="$emit('modalesarupload','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" ata-toggle="tooltip" title="Download Approved ESAR"><i class="fa fa-download"></i> {{__('Approved ESAR')}}</a>
-                                    {{-- <a href="{{asset('storage/po_tracking/ApprovedEsar/'.$item->esar->approved_esar_filename)}}" class="dropdown-item" data-toggle="tooltip" title="Download Approved ESAR"><i class="fa fa-download"></i> {{__('Approved ESAR')}}</a> --}}
-                                @endif
-                                @if(isset($item->acceptance->accdoc_filename))
-                                    <a href="{{asset('storage/po_tracking/AcceptanceDocs/'.$item->acceptance->accdoc_filename)}}" class="dropdown-item" data-toggle="tooltip" title="Download Acceptance Docs & Invoice"><i class="fa fa-download"></i> {{__('Acceptance Docs & Invoice')}}</a>
-                                @endif
-                                </div>
-                            </div>
-                        </td> -->
+                      
                         
                         <td class="text-center">
                             @if($item->status == '' || $item->status == null)
@@ -102,8 +61,14 @@
                             @endif
 
                             @if($item->status == 1)
-                                <label class="badge badge-success" data-toggle="tooltip" title="Approved by PMG">Approved by PMG</label>
-                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting Finance Approval">Waiting Finance Approval</label>
+                                
+                                @if($item->revise == '1')
+                                    <label class="badge badge-danger" data-toggle="tooltip" title="PMG Review need to Revise">Cost Analysist need to Revise</label>
+                                @else
+                                    <label class="badge badge-success" data-toggle="tooltip" title="Approved by PMG">Approved by PMG</label>
+                                    <label class="badge badge-warning" data-toggle="tooltip" title="Waiting Finance Approval">Waiting Finance Approval</label>
+                                @endif
+                                
                             @endif
 
                             @if($item->status == 2)
@@ -164,13 +129,21 @@
                             @endif
                         </td>
                         <td>
-                            @if(!$item->acceptance_docs)
+                            
+
+                            @if($item->acceptance_docs)
                                 <a href="<?php echo asset('storage/po_tracking_ms/Acceptance_docs/'.$item->acceptance_docs.''); ?>" data-toggle="tooltip" title="Download Download Acceptance Docs"><i class="fa fa-download"></i> {{__('Download Acceptance Docs')}}</a>
-                                <a href="<?php echo asset('storage/po_tracking_ms/Acceptance_docs/'.$item->invoice.''); ?>" data-toggle="tooltip" title="Download Download Invoice"><i class="fa fa-download"></i> {{__('Download Invoice')}}</a>
                             @else
-                                @if(check_access('po-tracking-ms.import-acceptancedocsinvoice') && $item->status == '6')
+                                @if(check_access('po-tracking-ms.import-acceptancedocsinvoice') && $item->approved_verification != '' && $item->status == '5')
                                     <a href="javascript:;"  wire:click="$emit('modaluploadaccdocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Acceptance Docs')}}</a>
-                                    <a href="javascript:;"  wire:click="$emit('modaluploadaccdocs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Invoice')}}</a>
+                                @endif
+                            @endif
+
+                            @if($item->invoice)
+                                <a href="<?php echo asset('storage/po_tracking_ms/Invoice/'.$item->invoice.''); ?>" data-toggle="tooltip" title="Download Download Invoice"><i class="fa fa-download"></i> {{__('Download Invoice')}}</a>
+                            @else
+                                @if(check_access('po-tracking-ms.import-acceptancedocsinvoice') && $item->approved_verification != '' && $item->status == '5')
+                                    <a href="javascript:;"  wire:click="$emit('modaluploadinvoice','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Invoice')}}</a>
                                 @endif
                             @endif
                         </td>
@@ -199,7 +172,7 @@
                                 @if($item->status == '1')
                                     <div class="col-md-2">
                                         <a href="javascript:;" wire:click="$emit('modalapprovepmgreview','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                        <a href="javascript:;" wire:click="$emit('modaldeclinemspo','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclinepmgreview','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
                                     </div>
                                 @endif
                             @endif
@@ -211,7 +184,7 @@
                                 @if($item->status == '2')
                                     <div class="col-md-2">
                                         <a href="javascript:;" wire:click="$emit('modalapprovedeductionregional','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                        <a href="javascript:;" wire:click="$emit('modaldeclinemspo','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclinedeductionregional','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
                                     </div>
                                 @endif
                             @endif
@@ -223,7 +196,7 @@
                                 @if($item->status == '3')
                                     <div class="col-md-2">
                                         <a href="javascript:;" wire:click="$emit('modalapprovee2epds','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                        <a href="javascript:;" wire:click="$emit('modaldeclinemspo','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclinee2epds','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
                                     </div>
                                 @endif
                             @endif
@@ -235,7 +208,7 @@
                                 @if($item->status == '4')
                                     <div class="col-md-2">
                                         <a href="javascript:;" wire:click="$emit('modalapprovee2eappdocs','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                        <a href="javascript:;" wire:click="$emit('modaldeclinemspo','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclinee2eappdocs','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
                                     </div>
                                 @endif
                             @endif

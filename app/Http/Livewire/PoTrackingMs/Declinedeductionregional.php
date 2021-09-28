@@ -7,10 +7,10 @@ use Livewire\WithFileUploads;
 use Auth;
 use DB;
 
-class Approvee2eappdocs extends Component
+class Declinedeductionregional extends Component
 {
     protected $listeners = [
-        'modalapprovee2eappdocs'=>'approvee2eappdocs',
+        'modaldeclinedeductionregional'=>'deductionregional',
     ];
 
     use WithFileUploads;
@@ -22,10 +22,10 @@ class Approvee2eappdocs extends Component
     public function render()
     {       
         
-        return view('livewire.po-tracking-ms.approvee2eappdocs');
+        return view('livewire.po-tracking-ms.declinedeductionregional');
     }
 
-    public function approvee2eappdocs($id)
+    public function deductionregional($id)
     {
         $this->selected_id = $id;
  
@@ -36,8 +36,9 @@ class Approvee2eappdocs extends Component
         
         $data = \App\Models\PoTrackingMs::where('id', $this->selected_id)->first();
         
-        $data->status   = '5';
-        
+        $data->status   = '2';
+        $data->revise   = '1';
+        $data->note     = $this->note;
 
         $data->save();
 

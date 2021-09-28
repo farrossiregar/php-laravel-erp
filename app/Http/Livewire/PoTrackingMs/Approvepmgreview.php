@@ -36,7 +36,7 @@ class Approvepmgreview extends Component
         
         $data = \App\Models\PoTrackingMs::where('id', $this->selected_id)->first();
         
-        $data->status   = '1';
+        $data->status   = '2';
         // $data->note     = $this->note;
 
         $data->save();

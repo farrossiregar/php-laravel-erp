@@ -7,10 +7,10 @@ use Livewire\WithFileUploads;
 use Auth;
 use DB;
 
-class Approvee2eappdocs extends Component
+class Declinepmgreview extends Component
 {
     protected $listeners = [
-        'modalapprovee2eappdocs'=>'approvee2eappdocs',
+        'modaldeclinepmgreview'=>'declinepmgreview',
     ];
 
     use WithFileUploads;
@@ -22,10 +22,10 @@ class Approvee2eappdocs extends Component
     public function render()
     {       
         
-        return view('livewire.po-tracking-ms.approvee2eappdocs');
+        return view('livewire.po-tracking-ms.declinepmgreview');
     }
 
-    public function approvee2eappdocs($id)
+    public function declinepmgreview($id)
     {
         $this->selected_id = $id;
  
@@ -36,8 +36,9 @@ class Approvee2eappdocs extends Component
         
         $data = \App\Models\PoTrackingMs::where('id', $this->selected_id)->first();
         
-        $data->status   = '5';
-        
+        $data->status   = '1';
+        $data->revise   = '1';
+        $data->note     = $this->note;
 
         $data->save();
 
