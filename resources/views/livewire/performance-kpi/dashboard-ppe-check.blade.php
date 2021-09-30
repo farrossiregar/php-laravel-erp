@@ -36,11 +36,11 @@
                                 <td rowspan="{{$count_sub_region}}">{{isset($region->region->region) ? $region->region->region : ''}}</td>
                             @endif
                             <td>{{isset($sub->sub_region->name) ? $sub->sub_region->name : ''}}</td>
-                                @php($done = \App\Models\PpeCheck::where(['is_submit'=>1,'client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->count())
-                                @php($not_done = \App\Models\PpeCheck::where(['is_submit'=>1,'client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->count())
-                                @php($tidak_lengkap = \App\Models\PpeCheck::where(['ppe_lengkap'=>0,'client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->count())
-                                @php($banner_tidak_lengkap = \App\Models\PpeCheck::where(['banner_lengkap'=>0,'client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->count())
-                                @php($sertifikasi_tidak_lengkap = \App\Models\PpeCheck::whereNotNull('sertifikasi_alasan_tidak_lengkap')->where(['client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->count())
+                                @php($done = \App\Models\PpeCheck::whereDate('updated_at',date('Y-m-d'))->where(['is_submit'=>1,'client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->count())
+                                @php($not_done = \App\Models\PpeCheck::whereDate('updated_at',date('Y-m-d'))->where(['is_submit'=>0,'client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->count())
+                                @php($tidak_lengkap = \App\Models\PpeCheck::whereDate('updated_at',date('Y-m-d'))->where(['ppe_lengkap'=>0,'client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->count())
+                                @php($banner_tidak_lengkap = \App\Models\PpeCheck::whereDate('updated_at',date('Y-m-d'))->where(['banner_lengkap'=>0,'client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->count())
+                                @php($sertifikasi_tidak_lengkap = \App\Models\PpeCheck::whereDate('updated_at',date('Y-m-d'))->whereNotNull('sertifikasi_alasan_tidak_lengkap')->where(['client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->count())
                                 @php($grand_total = $done+$not_done)
                                 <td class="text-center">{{$grand_total}}</td>
                                 <td class="text-center">{{$done}}</td>

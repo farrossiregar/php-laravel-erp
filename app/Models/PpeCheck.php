@@ -12,8 +12,8 @@ class PpeCheck extends Model
 
     protected $table = 'ppe_check';
 
-    public function _employee()
+    public function employee()
     {
-        return $this->hasOne(Employee::class,'id','employee_id');
+        return $this->belongsTo(Employee::class,'employee_id');
     }
 }

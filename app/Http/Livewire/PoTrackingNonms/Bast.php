@@ -3,10 +3,12 @@
 namespace App\Http\Livewire\PoTrackingNonms;
 
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use App\Models\PoTrackingNonms;
 
 class Bast extends Component
 {
+    use WithFileUploads;
     public $data,$url_generate_bast,$url_generate_esar,$file_bast,$file_gr,$note;
     protected $listeners = [
         'listen-bast'=>'listen_bast',
@@ -38,7 +40,7 @@ class Bast extends Component
             $this->data->bast         = $bast;
             $this->data->bast_status  = 2;
             $this->data->bast_status_note  = $this->note;
-            $data->save();
+            $this->data->save();
         }
         if($this->file_gr){
             $grcust = 'pononms-grcust'.$this->data->id.'.'.$this->file_gr->extension();

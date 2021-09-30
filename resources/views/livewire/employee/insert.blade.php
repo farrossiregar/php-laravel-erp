@@ -115,7 +115,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-6" wire:ignore>
                                             <label>Marital Status</label>
                                             <select class="form-control" wire:model="marital_status">
                                                 <option value=""> --- Marital Status --- </option>
@@ -127,7 +127,7 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-6" wire:ignore>
                                             <label>Blood Type</label>
                                             <select class="form-control" wire:model="blood_type">
                                                 <option value=""> --- Blood Type --- </option>
@@ -148,7 +148,7 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-6" wire:ignore>
                                             <label>Religion</label>
                                             <select class="form-control" wire:model="religion">
                                                 <option value=""> --- Religion --- </option>
@@ -179,7 +179,7 @@
                                 <div class="col-md-4">
                                     <h5>Position / Access</h5>
                                     <hr />
-                                    <div class="form-group">
+                                    <div class="form-group" wire:ignore>
                                         <label>Company</label>
                                         <select class="form-control" wire:model.lazy="company_id">
                                             <option value=""> --- Company --- </option>
@@ -191,18 +191,33 @@
                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                         @enderror
                                     </div>
-                                    <div class="form-group" x-data="{showProject:false}">
-                                        <label>Department</label>
-                                        <select class="form-control" wire:model.defer="department_id">
-                                            <option value="">{{__('--- Department --- ')}} </option>
-                                            @foreach(\App\Models\Department::orderBy('name','ASC')->get() as $item)
-                                                <option value="{{$item->id}}">{{$item->name}}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('department_id')
-                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                        @enderror
+                                    <div class="row">
+                                        <div class="form-group col-md-6" x-data="{showProject:false}"  wire:ignore>
+                                            <label>Department</label>
+                                            <select class="form-control" name="department_id" wire:model="department_id">
+                                                <option value="" selected>{{__('--- Department --- ')}} </option>
+                                                @foreach(\App\Models\Department::orderBy('name','ASC')->where('is_project',0)->get() as $item)
+                                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('department_id')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6">
+                                            @php($sub_department = \App\Models\DepartmentSub::where('department_id',$this->department_id)->get())
+                                            @if($sub_department->count()>0)
+                                                <label>Sub Department</label>
+                                                <select class="form-control" wire:model="sub_department_id">
+                                                    <option value="">-- Sub Department -- </option>
+                                                    @foreach($sub_department as $sub)
+                                                        <option value="{{$sub->id}}">{{$sub->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
+                                        </div>
                                     </div>
+
                                     <div class="row" x-data="{open:@entangle('showProject')}">
                                         <div class="form-group col-md-12" x-show="open">
                                             <label class="mr-2">Project</label>
@@ -213,12 +228,13 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @if($showProject)
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label>Region</label>
-                                            <select class="form-control" wire:model="region_id" wire:change="select_sub_region">
+                                            <select class="form-control" wire:model="region_id">
                                                 <option value="">{{__('--- Region --- ')}} </option>
-                                                @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $item)
+                                                @foreach(\App\Models\ClientProjectRegion::select('region.id','region.region')->join('region','region.id','=','client_project_region.region_id')->whereIn('client_project_region.client_project_id',$client_project_ids)->groupBy('region.id')->get() as $item)
                                                 @if(empty($item->region))@continue @endif
                                                 <option value="{{$item->id}}">{{$item->region}}</option>
                                                 @endforeach
@@ -231,7 +247,7 @@
                                             <label>Sub Region</label>
                                             <select class="form-control" wire:model="sub_region_id">
                                                 <option value="">{{__('--- Sub Region --- ')}} </option>
-                                                @foreach($sub_regions as $sub)
+                                                @foreach(\App\Models\SubRegion::where('region_id',$region_id)->get() as $sub)
                                                     <option value="{{$sub->id}}">{{$sub->name}}</option>
                                                 @endforeach
                                             </select>
@@ -240,6 +256,7 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    @endif
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label>Employee Status</label>
@@ -257,7 +274,7 @@
                                             <label>Rule / Access</label>
                                             <select class="form-control" wire:model="user_access_id">
                                                 <option value="">{{__('--- Position --- ')}} </option>
-                                                @foreach(\App\Models\UserAccess::orderBy('name','ASC')->get() as $item)
+                                                @foreach(\App\Models\UserAccess::where('is_project',$is_project)->orderBy('name','ASC')->get() as $item)
                                                 <option value="{{$item->id}}">{{$item->name}}</option>
                                                 @endforeach
                                             </select>
@@ -272,17 +289,11 @@
                                                 <option>Kantor Pusat (Duren Tiga,Jakarta)</option>
                                                 <option>Kantor Cabang/Homebase</option>
                                             </select>
-                                            @error('company_id')
+                                            @error('lokasi_kantor')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                     </div>
-                                    <!-- <div class="form-group">
-                                        <label class="fancy-checkbox">
-                                            <input type="checkbox" value="1" wire:model="is_noc">
-                                            <span>NOC Database</span>
-                                        </label>
-                                    </div> -->
                                     <div class="mb-2">
                                         <div class="row border mx-0 py-2 mt-2" x-show="open" @click.away="open = false">
                                             <div class="form-group col-md-6">
@@ -302,7 +313,113 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <h5>Android</h5>
+                                    <hr />
+                                    <div class="form-group">
+                                        <label class="fancy-checkbox">
+                                            <input type="checkbox" value="1" wire:model="is_use_android">
+                                            <span>Active Android</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-group border p-3">
+                                        <p>
+                                            <label class="fancy-checkbox">
+                                                <input type="checkbox" value="1" wire:model="app_site_list" />
+                                                <span>Site List</span>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label class="fancy-checkbox">
+                                                <input type="checkbox" value="1" wire:model="app_daily_commitment" />
+                                                <span>Daily Commitment</span>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label class="fancy-checkbox">
+                                                <input type="checkbox" value="1" wire:model="app_health_check" />
+                                                <span>Health Check</span>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label class="fancy-checkbox">
+                                                <input type="checkbox" value="1" wire:model="app_vehicle_check" />
+                                                <span>Vehicle Check</span>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label class="fancy-checkbox">
+                                                <input type="checkbox" value="1" wire:model="app_ppe_check" />
+                                                <span>PPE Check</span>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label class="fancy-checkbox">
+                                                <input type="checkbox" value="1" wire:model="app_tools_check" />
+                                                <span>Tools Check</span>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label class="fancy-checkbox">
+                                                <input type="checkbox" value="1" wire:model="app_location_of_field_team" />
+                                                <span>Location of Field Team</span>
+                                            </label>
+                                        </p>  
+                                        <p>
+                                            <label class="fancy-checkbox">
+                                                <input type="checkbox" value="1" wire:model="app_speed_warning" />
+                                                <span>Speed Warning Alarm</span>
+                                            </label>
+                                        </p>  
+                                        <p>
+                                            <label class="fancy-checkbox">
+                                                <input type="checkbox" value="1" wire:model="app_drug_test" />
+                                                <span>Drug Test</span>
+                                            </label>
+                                        </p>  
+                                        <p>
+                                            <label class="fancy-checkbox">
+                                                <input type="checkbox" value="1" wire:model="app_preventive_maintenance" />
+                                                <span>Preventive Maintenance</span>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label class="fancy-checkbox">
+                                                <input type="checkbox" value="1" wire:model="app_customer_asset" />
+                                                <span>Customer Asset</span>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label class="fancy-checkbox">
+                                                <input type="checkbox" value="1" wire:model="app_work_order" />
+                                                <span>Work Order</span>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label class="fancy-checkbox">
+                                                <input type="checkbox" value="1" wire:model="app_training_material" />
+                                                <span>Training Material & Exam</span>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label class="fancy-checkbox">
+                                                <input type="checkbox" value="1" wire:model="app_it_support" />
+                                                <span>IT Support</span>
+                                            </label>
+                                        </p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>PIC Speed Warning Alarm</label>
+                                        <select class="form-control" wire:model="speed_warning_pic_id">
+                                            <option value=""> --- select --- </option>
+                                            @foreach(\App\Models\Employee::whereNotNull('telepon')->get() as $em)
+                                                <option value="{{$em->id}}">{{$em->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
+                            
 
                             <hr>
                             <a href="javascript:;" onclick="history.back()"><i class="fa fa-arrow-left"></i> {{ __('Back') }}</a>

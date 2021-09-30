@@ -11,17 +11,17 @@
                 <th class="text-center">Percentage</th>
             </tr>
         </thead> 
-        <tbody>
+        <tbody> 
             @foreach($projects as $k => $p)
-                @php($done = \App\Models\HealthCheck::where(['client_project_id'=>$p->id,'is_submit'=>1])->count())
-                @php($qty = \App\Models\HealthCheck::where(['client_project_id'=>$p->id])->count())
+                @php($done = \App\Models\HealthCheck::where(['client_project_id'=>$p->id,'is_submit'=>1])->whereDate('created_at',date('Y-m-d'))->count())
+                @php($qty = \App\Models\HealthCheck::where(['client_project_id'=>$p->id])->whereDate('created_at',date('Y-m-d'))->count())
                 @php($persen = @floor($done / $qty * 100))
                 <tr>
                     <td>{{$p->name}}</td>
                     <td class="text-center">{{$qty}}</td>
                     <td class="text-center">{{$done}}</td>
                     @foreach(config('vars.health_check_status_bekerja') as $field)
-                    <td class="text-center">{{\App\Models\HealthCheck::where('client_project_id',$p->id)->where('status_bekerja',$field)->count()}}</td>
+                        <td class="text-center">{{\App\Models\HealthCheck::where('client_project_id',$p->id)->where('status_bekerja',$field)->whereDate('created_at',date('Y-m-d'))->count()}}</td>
                     @endforeach
                     @if($done ==0) 
                         <td class="bg-danger text-center" style="color:white;">0%</td> 

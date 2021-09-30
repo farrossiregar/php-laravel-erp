@@ -52,7 +52,7 @@
                             <td class="text-center">{!!$item->regulasi_terkait_penggunaan_kendaraan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
                             <td class="text-center">{!!$item->regulasi_bcg==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
                             <td class="text-center">{!!$item->regulasi_terkait_cyber_security==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
-                            <td>{{date('d-M-Y H:i',strtotime($item->created_at))}}</td>
+                            <td>{{date('d-M-Y H:i',strtotime($item->updated_at))}}</td>
                         @else
                             <td class="text-center">-</td>
                             <td class="text-center">-</td>

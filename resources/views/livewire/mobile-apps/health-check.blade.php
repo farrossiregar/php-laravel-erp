@@ -39,7 +39,7 @@
                         <td>
                             {{isset($item->name) ? $item->name : ''}}
                         </td>
-                        <td>{{date('d-M-Y H:i',strtotime($item->created_at))}}</td>
+                        <td>{{date('d-M-Y H:i',strtotime($item->updated_at))}}</td>
                         @if($item->is_submit==1)
                             <td>{{isset($item->company) ? $item->company : ''}}</td>
                             <td>{{isset($item->lokasi_kantor) ? $item->lokasi_kantor : ''}}</td>

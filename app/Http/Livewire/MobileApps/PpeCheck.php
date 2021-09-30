@@ -16,7 +16,7 @@ class PpeCheck extends Component
 
     public function render()
     {
-        $data = PpeCheckModel::select('ppe_check.*','employees.name')->orderBy('ppe_check.id','DESC')->join('employees','employees.id','=','employee_id');
+        $data = PpeCheckModel::select('ppe_check.*','employees.name')->orderBy('ppe_check.is_submit','DESC')->orderBy('ppe_check.updated_at','DESC')->join('employees','employees.id','=','employee_id');
         
         if($this->keyword) $data->where('employees.name',"LIKE", "%{$this->keyword}%");
         if($this->date_start and $this->date_end) $data = $data->whereBetween('ppe_check.created_at',[$this->date_start,$this->date_end]);

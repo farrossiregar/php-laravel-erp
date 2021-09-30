@@ -60,7 +60,7 @@
                 <p>Please wait...</p>        
             </div>
         </div>
-        @foreach(\App\Models\Department::get() as $dep)
+        @foreach(\App\Models\Department::where('is_project',0)->get() as $dep)
             <div class="left-sub-menu pt-5 item_{{$dep->id}}">
                 <div class="sidebar-scroll">
                     <h6 class="px-3"><a href="javascript:void(0)" style="font-size: 17px;margin-right:10px;" onclick="hide_left_menu()"><i class="fa fa-arrow-left"></i></a> {{$dep->name}}</h6>

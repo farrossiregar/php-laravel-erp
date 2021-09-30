@@ -15,7 +15,7 @@ class HealthCheck extends Component
 
     public function render()
     {
-        $data = HealthCheckModel::select('employees.name','health_check.*')->orderBy('health_check.id','DESC')->join('employees','employees.id','=','employee_id');
+        $data = HealthCheckModel::select('employees.name','health_check.*')->orderBy('health_check.is_submit','DESC')->orderBy('health_check.updated_at','DESC')->join('employees','employees.id','=','employee_id');
 
         if($this->keyword) $data->where('employees.name',"LIKE", "%{$this->keyword}%");
         if($this->date_start and $this->date_end) $data = $data->whereBetween('health_check.created_at',[$this->date_start,$this->date_end]);

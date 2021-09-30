@@ -18,7 +18,9 @@ class Edit extends Component
 {
     public $data,$name,$nik,$email,$telepon,$address,$place_of_birth,$date_of_birth,$marital_status,$blood_type,$employee_status,$religion,$user_access_id,$department_sub_id;
     public $foto,$foto_ktp,$password,$confirm,$region_id,$company_id,$lokasi_kantor,$is_use_android,$employee_code,$is_noc,$ktp,$domisili,$postcode,$sub_region_id;
-    public $showEditPassword=false,$department_id,$showProject=false,$projects=[],$project_id=[],$employee_project=[],$regions=[],$sub_regions=[],$region_cluster_id,$client_project_ids=[];
+    public $showEditPassword=false,$department_id,$showProject=false,$projects=[],$project_id=[],$employee_project=[],$regions=[],$sub_regions=[],$region_cluster_id,$client_project_ids=[],$speed_warning_pic_id;
+    public $app_site_list,$app_daily_commitment,$app_health_check,$app_vehicle_check,$app_ppe_check,$app_tools_check,$app_location_of_field_team,$app_speed_warning,$app_preventive_maintenance,$app_customer_asset,$app_work_order,$app_drug_test,$app_training_material,$app_it_support;
+    public $is_project=0,$sub_department_id;
     use WithFileUploads;
     public function render()
     {
@@ -54,9 +56,27 @@ class Edit extends Component
         $this->employee_project = EmployeeProject::where(['employee_id'=>$this->data->id])->get();
         $this->region_cluster_id = $this->data->region_cluster_id;
         $this->sub_region_id = $this->data->sub_region_id;
+
+        $this->app_site_list = $this->data->app_site_list;
+        $this->app_daily_commitment = $this->data->app_daily_commitment;
+        $this->app_health_check = $this->data->app_health_check;
+        $this->app_vehicle_check = $this->data->app_vehicle_check;
+        $this->app_ppe_check = $this->data->app_ppe_check;
+        $this->app_tools_check = $this->data->app_tools_check;
+        $this->app_location_of_field_team = $this->data->app_location_of_field_team;
+        $this->app_speed_warning = $this->data->app_speed_warning;
+        $this->app_preventive_maintenance = $this->data->app_preventive_maintenance;
+        $this->app_customer_asset = $this->data->app_customer_asset;
+        $this->app_work_order = $this->data->app_work_order;
+        $this->app_drug_test = $this->data->app_drug_test;
+        $this->app_training_material = $this->data->app_training_material;
+        $this->app_it_support = $this->data->app_it_support;
+
+        
         if($this->department_id==4){
             $this->showProject = true;
-            $this->projects = ClientProject::where('company_id',$this->company_id)->orderBy('name','ASC')->get();
+            $this->is_project = 1;
+            $this->projects = ClientProject::where(['company_id'=>$this->company_id,'is_project'=>1])->orderBy('name','ASC')->get();
             // $this->emit('load-project');
         }
         
@@ -69,16 +89,17 @@ class Edit extends Component
     {
         if($this->department_id == 4 and $this->company_id){
             $this->showProject = true;
-            $this->projects = ClientProject::where('company_id',$this->company_id)->orderBy('name','ASC')->get();
-            $this->employee_project = EmployeeProject::where(['employee_id'=>$this->data->id])->get();
+            $this->projects = ClientProject::where(['company_id'=>$this->company_id,'is_project'=>1])->orderBy('name','ASC')->get();
+            $this->employee_project = EmployeeProject::where('employee_id',$this->data->id)->get();
             $this->emit('load-project');
         }
-        if($this->department_id != 4) $this->showProject = false;
+        if($this->department_id != 4) {
+            $this->showProject = false;
+            $this->is_project=0;
+        }else 
+            $this->is_project = 1;
 
-        // $client_project_ids = Arr::pluck(EmployeeProject::select('client_project_id')->where(['employee_id'=>$this->data->id])->get()->toArray(),'client_project_id');
-        
-        // $this->regions = ClientProjectRegion::select('region.id','region.region')->join('region','region.id','=','client_project_region.region_id')->whereIn('client_project_region.client_project_id',$client_project_ids)->groupBy('region.id')->get();
-        $this->sub_regions = RegionCluster::where('region_id', $this->region_id)->get();
+        if($propertyName=='project_id') $this->client_project_ids = $this->project_id;
     }
 
     public function updatedFoto()
@@ -119,16 +140,16 @@ class Edit extends Component
         $this->validate([
             'name' => 'required',
             'nik' => 'required',
-            'place_of_birth' => 'required',
-            'date_of_birth' => 'required',
-            'marital_status' => 'required',
-            'blood_type' => 'required',
+            //'place_of_birth' => 'required',
+            //'date_of_birth' => 'required',
+            //'marital_status' => 'required',
+            //'blood_type' => 'required',
             'email' => 'required',
-            'employee_status' => 'required',
+            //'employee_status' => 'required',
             'telepon' => 'required',
-            'religion' => 'required',
-            'address' => 'required',
-            'department_sub_id' => 'required',
+            //'religion' => 'required',
+            //'address' => 'required',
+            //'department_sub_id' => 'required',
             'user_access_id' => 'required',
             'employee_code' => 'required|unique:employees,employee_code,'.$this->data->id
         ]);
@@ -170,6 +191,22 @@ class Edit extends Component
         $this->data->domisili = $this->domisili;
         $this->data->postcode = $this->postcode;
         $this->data->sub_region_id = $this->sub_region_id;
+        $this->data->speed_warning_pic_id = $this->speed_warning_pic_id;
+
+        $this->data->app_site_list = $this->app_site_list;
+        $this->data->app_daily_commitment = $this->app_daily_commitment;
+        $this->data->app_health_check = $this->app_health_check;
+        $this->data->app_vehicle_check = $this->app_vehicle_check;
+        $this->data->app_ppe_check = $this->app_ppe_check;
+        $this->data->app_tools_check = $this->app_tools_check;
+        $this->data->app_location_of_field_team = $this->app_location_of_field_team;
+        $this->data->app_speed_warning = $this->app_speed_warning;
+        $this->data->app_preventive_maintenance = $this->app_preventive_maintenance;
+        $this->data->app_customer_asset = $this->app_customer_asset;
+        $this->data->app_work_order = $this->app_work_order;
+        $this->data->app_drug_test = $this->app_drug_test;
+        $this->data->app_training_material = $this->app_training_material;
+        $this->data->app_it_support = $this->app_it_support;
 
         if($this->foto!=""){
             $foto = 'foto'.date('Ymdhis').'.'.$this->foto->extension();
@@ -186,7 +223,7 @@ class Edit extends Component
         $this->data->save();
         
         if($this->project_id){
-            EmployeeProject::where(['employee_id'=>$this->data->id])->truncate();
+            EmployeeProject::where(['employee_id'=>$this->data->id])->delete();
 
             foreach($this->project_id as $k => $id){
                 $project = EmployeeProject::where(['client_project_id'=>$id,'employee_id'=> $this->data->id])->first();

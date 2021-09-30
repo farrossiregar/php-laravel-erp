@@ -9,6 +9,7 @@ use App\Models\CommitmentDaily;
 use App\Models\PpeCheck;
 use App\Models\VehicleCheck;
 use App\Models\HealthCheck;
+use App\Models\EmployeeProject;
 
 class GeneralNotification extends Command
 {
@@ -61,6 +62,12 @@ class GeneralNotification extends Command
 
                 $commitemnt_daily  = new CommitmentDaily();
                 $commitemnt_daily->employee_id = $em->id;
+
+                $project = EmployeeProject::where('employee_id',$em->id)->first();
+                if($project) $commitemnt_daily->client_project_id = $project->client_project_id; 
+
+                $commitemnt_daily->region_id = $em->region_id;
+                $commitemnt_daily->sub_region_id = $em->sub_region_id;
                 $commitemnt_daily->save();
 
                 if($em->device_token){
@@ -79,6 +86,12 @@ class GeneralNotification extends Command
 
                 $data = new PpeCheck();
                 $data->employee_id = $em->id;
+
+                $project = EmployeeProject::where('employee_id',$em->id)->first();
+                if($project) $data->client_project_id = $project->client_project_id; 
+
+                $data->region_id = $em->region_id;
+                $data->sub_region_id = $em->sub_region_id;
                 $data->save();
 
                 if($em->device_token){
@@ -97,6 +110,12 @@ class GeneralNotification extends Command
 
                 $data = new VehicleCheck();
                 $data->employee_id = $em->id;
+                
+                $project = EmployeeProject::where('employee_id',$em->id)->first();
+                if($project) $data->client_project_id = $project->client_project_id; 
+
+                $data->region_id = $em->region_id;
+                $data->sub_region_id = $em->sub_region_id;
                 $data->save();
 
                 if($em->device_token){
@@ -115,6 +134,11 @@ class GeneralNotification extends Command
 
                 $data = new HealthCheck();
                 $data->employee_id = $em->id;
+                $project = EmployeeProject::where('employee_id',$em->id)->first();
+                if($project) $data->client_project_id = $project->client_project_id; 
+
+                $data->region_id = $em->region_id;
+                $data->sub_region_id = $em->sub_region_id;
                 $data->save();
 
                 if($em->device_token){
