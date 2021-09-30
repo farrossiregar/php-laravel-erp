@@ -69,6 +69,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-potrackingms-uploadinvoice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-ms.importinvoice />
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="modal-potrackingms-approvemspo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -85,6 +93,83 @@
         </div>
     </div>
 </div>
+
+
+
+
+<div class="modal fade" id="modal-potrackingms-approvepmgreview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-ms.approvepmgreview />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-potrackingms-declinepmgreview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-ms.declinepmgreview />
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="modal-potrackingms-approvedeductionregional" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-ms.approvedeductionregional />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-potrackingms-declinedeductionregional" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-ms.declinedeductionregional />
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="modal-potrackingms-approvee2epds" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-ms.approvee2epds />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-potrackingms-declinee2epds" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-ms.declinee2epds />
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="modal-potrackingms-approvee2eappdocs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-ms.approvee2eappdocs />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-potrackingms-declinee2eappdocs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-ms.declinee2eappdocs />
+        </div>
+    </div>
+</div>
+
 
 
 @section('page-script')
@@ -111,6 +196,12 @@
         $("#modal-potrackingms-uploadacceptancedocs").modal('show');
     });
 
+    Livewire.on('modaluploadinvoice',(data)=>{
+        $("#modal-potrackingms-uploadinvoice").modal('show');
+    });
+
+
+
     Livewire.on('modalapprovemspo',(data)=>{
         $("#modal-potrackingms-approvemspo").modal('show');
     });
@@ -118,8 +209,48 @@
     Livewire.on('modaldeclinemspo',(data)=>{
         $("#modal-potrackingms-declinemspo").modal('show');
     });
+
+
+
+    Livewire.on('modalapprovepmgreview',(data)=>{
+        $("#modal-potrackingms-approvepmgreview").modal('show');
+    });
+
+    Livewire.on('modaldeclinepmgreview',(data)=>{
+        $("#modal-potrackingms-declinepmgreview").modal('show');
+    });
+
     
- 
+
+    Livewire.on('modalapprovedeductionregional',(data)=>{
+        $("#modal-potrackingms-approvedeductionregional").modal('show');
+    });
+
+    Livewire.on('modaldeclinedeductionregional',(data)=>{
+        $("#modal-potrackingms-declinedeductionregional").modal('show');
+    });
+
+
+
+    Livewire.on('modalapprovee2epds',(data)=>{
+        $("#modal-potrackingms-approvee2epds").modal('show');
+    });
+
+    Livewire.on('modaldeclinee2epds',(data)=>{
+        $("#modal-potrackingms-declinee2epds").modal('show');
+    });
+
+
+
+    Livewire.on('modalapprovee2eappdocs',(data)=>{
+        $("#modal-potrackingms-approvee2eappdocs").modal('show');
+    });
+
+    Livewire.on('modaldeclinee2eappdocs',(data)=>{
+        $("#modal-potrackingms-declinee2eappdocs").modal('show');
+    });
+
+   
 
 @endsection
 

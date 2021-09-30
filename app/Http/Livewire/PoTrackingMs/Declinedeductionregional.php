@@ -7,10 +7,10 @@ use Livewire\WithFileUploads;
 use Auth;
 use DB;
 
-class Declinemspo extends Component
+class Declinedeductionregional extends Component
 {
     protected $listeners = [
-        'modaldeclinemspo'=>'declinemspo',
+        'modaldeclinedeductionregional'=>'deductionregional',
     ];
 
     use WithFileUploads;
@@ -22,10 +22,10 @@ class Declinemspo extends Component
     public function render()
     {       
         
-        return view('livewire.po-tracking-ms.declinemspo');
+        return view('livewire.po-tracking-ms.declinedeductionregional');
     }
 
-    public function declinemspo($id)
+    public function deductionregional($id)
     {
         $this->selected_id = $id;
  
@@ -36,7 +36,7 @@ class Declinemspo extends Component
         
         $data = \App\Models\PoTrackingMs::where('id', $this->selected_id)->first();
         
-        $data->status   = '';
+        $data->status   = '2';
         $data->revise   = '1';
         $data->note     = $this->note;
 
