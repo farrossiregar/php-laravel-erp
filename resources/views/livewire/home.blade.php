@@ -16,20 +16,20 @@
                 <hr />
                 <nav id="left-sidebar-nav" class="sidebar-nav" wire:loading.remove>
                     <ul class="metismenu main-menu">
-                        @foreach(\App\Models\Module::select('modules.*')->leftJoin('client_projects','client_projects.id','=','modules.client_project_id')->where(['department_id'=>$department->id])->groupBy('client_project_id')->where(
+                        @php($modules = \App\Models\Module::select('modules.*')->leftJoin('client_projects','client_projects.id','=','modules.client_project_id')->where(['department_id'=>$department->id])->groupBy('client_project_id')->where(
                                         function($table){
                                             if(session()->get('company_id')) $table->where('client_projects.company_id',session()->get('company_id')); 
-                                        })->get() as $menu)
+                                        })->get())
+                        @foreach($modules as $menu)
                             <li class="">
                                 @if(Route::has($menu->link))
                                     <a href="{{ route($menu->link)}}" onclick="document.location='{{route($menu->link)}}'">
                                 @else
                                     <a href="javascript:void(0)" class="has-arrow">
                                 @endif
-                                    <span>{{isset($menu->client_project->name) ? $menu->client_project->name : $menu->name}}</span></a>
+                                <span>{{isset($menu->client_project->name) ? $menu->client_project->name : $menu->name}}</span></a>
                                 <ul>
                                     @foreach(\App\Models\ModulesItem::where('module_id',$menu->id)->whereNotNull('module_group_id')->groupBy('module_group_id')->get() as $group)
-                                        
                                         @if(isset($group->group->name))
                                             @if($group->group->name != $menu->client_project->name)
                                                 <li class="sub__"><a href="javascript:void(0)">{{$group->group->name}}</a>
@@ -56,33 +56,46 @@
                                                         @endforeach
                                                     </ul>
                                                 </li>
-                                            @else
-                                                @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id,'is_show'=>1])->get() as $action)    
-                                                    <li  class="sub__">
-                                                        @if(Route::has($action->link))
-                                                            <a href="{{route($action->link)}}" class="pl-5">{{$action->name}}</a>
-                                                        @else
-                                                            <a href="javascript:void(0)" class="pl-5">{{$action->name}}</a>
-                                                        @endif
-                                                        @if($action->is_have_sub_menu==1)
-                                                            <ul>
-                                                                @foreach(\App\Models\ModulesItem::where(['parent_id'=>$action->id])->get() as $sub)
-                                                                    @if(Route::has($sub->link))
-                                                                        <li class="ml-2"> <a href="{{route($sub->link)}}" class="pl-5 custome_li"><i class="fa fa-dot-circle-o"></i> {{$sub->name}}</a></li>
-                                                                    @else
-                                                                        <li class="ml-2"> <a href="javascript:void(0)" class="pl-5 custome_li"><i class="fa fa-dot-circle-o"></i>  {{$sub->name}}</a></li>
-                                                                    @endif
-                                                                @endforeach
-                                                            </ul>                                                        
-                                                        @endif
-                                                    </li> 
-                                                @endforeach
                                             @endif
+                                        @else
+                                            @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'is_show'=>1])->get() as $action)    
+                                                <li  class="sub__">
+                                                    @if(Route::has($action->link))
+                                                        <a href="{{route($action->link)}}" class="pl-5">{{$action->name}}</a>
+                                                    @else
+                                                        <a href="javascript:void(0)" class="pl-5">{{$action->name}}</a>
+                                                    @endif
+                                                    @if($action->is_have_sub_menu==1)
+                                                        <ul>
+                                                            @foreach(\App\Models\ModulesItem::where(['parent_id'=>$action->id])->get() as $sub)
+                                                                @if(Route::has($sub->link))
+                                                                    <li class="ml-2"> <a href="{{route($sub->link)}}" class="pl-5 custome_li"><i class="fa fa-dot-circle-o"></i> {{$sub->name}}</a></li>
+                                                                @else
+                                                                    <li class="ml-2"> <a href="javascript:void(0)" class="pl-5 custome_li"><i class="fa fa-dot-circle-o"></i>  {{$sub->name}}</a></li>
+                                                                @endif
+                                                            @endforeach
+                                                        </ul>                                                        
+                                                    @endif
+                                                </li> 
+                                            @endforeach
                                         @endif
                                     @endforeach
                                 </ul>
                             </li>
                         @endforeach
+                        
+                        @if($modules->count()==0)
+                            @foreach(\App\Models\Module::select('modules.*')->where(['department_id'=>$department->id])->get() as $menu)
+                                <li class="">
+                                    @if(Route::has($menu->link))
+                                        <a href="{{ route($menu->link)}}" onclick="document.location='{{route($menu->link)}}'">
+                                    @else
+                                        <a href="javascript:void(0)" class="has-arrow">
+                                    @endif
+                                    {{$menu->name}}</a>
+                                </li> 
+                            @endforeach
+                        @endif
                     </ul>
                 </nav>
             @endif
@@ -119,12 +132,12 @@
             @if(!$company_id)
                 <div class="home row">
                     <div class="col-md-3"></div>
-                    <div class="item col-md-3 is_hover {{$company_id==2 ? 'active_hover' : ''}}" wire:click="$set('company_id',2)">
+                    <div class="item col-md-3 is_hover {{$company_id==2 ? 'active_hover' : ''}}">
                         <a href="{{route('home')}}?company_id=2" title="PT Putra Mulia Telecommunication">
                             <img class="pmt" src="{{asset('images/pmt-logo.png')}}">
                         </a>
                     </div>
-                    <div class="item col-md-3 is_hover {{$company_id==1 ? 'active_hover' : ''}}" wire:click="$set('company_id',1)">
+                    <div class="item col-md-3 is_hover {{$company_id==1 ? 'active_hover' : ''}}">
                         <a href="{{route('home')}}?company_id=1" title="Harapan Utama Prima">
                             <img class="hup" src="{{asset('images/hup.png')}}">
                         </a>

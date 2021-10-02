@@ -132,6 +132,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('performance-kpi',App\Http\Livewire\PerformanceKpi\Index::class)->name('performance-kpi.index');
     Route::get('commercial-e2e',App\Http\Livewire\Commerciale2e\Index::class)->name('commercial-e2e.index');
     Route::get('trouble-ticket',App\Http\Livewire\TroubleTicket\Index::class)->name('trouble-ticket.index');
+    Route::get('incident-report',App\Http\Livewire\IncidentReport\Index::class)->name('incident-report.index');
     Route::get('flm-engineer',function(){ })->name('flm-engineer.index');
     Route::get('vehicle',function(){ })->name('vehicle.index');
     Route::get('homebase',function(){ })->name('homebase.index');

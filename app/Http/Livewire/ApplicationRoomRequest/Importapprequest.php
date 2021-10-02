@@ -11,31 +11,26 @@ class Importapprequest extends Component
 {
 
     use WithFileUploads;
-    public $employee_id, $employee_name, $departement, $lokasi, $type_request, $request_room_detail;
+    public $nik,$employee_id, $employee_name, $departement, $lokasi, $type_request, $request_room_detail,$description,$others;
     public $purpose, $participant, $start_date_booking, $start_time_booking, $end_date_booking, $end_time_booking;
 
-    
     public function render()
     {
         $user = \Auth::user();
+        $this->nik = $user->employee->nik;
         $this->employee_id = $user->id;
         $this->employee_name = $user->name;
         $this->departement = get_position($user->user_access_id);
         
         return view('livewire.application-room-request.importapprequest');
-        
     }
 
-  
     public function save()
     {
-
         $check = \App\Models\ApplicationRoomRequest::
                                                     where('request_room_detail', $this->request_room_detail)
                                                     ->where('employee_id', $this->employee_id)
                                                     ->get();
-        // dd(count($check));
-        
         if(count($check) < 1){
             $datamaster                             = new \App\Models\ApplicationRoomRequest();
             $datamaster->employee_id                = $this->employee_id;
@@ -43,7 +38,7 @@ class Importapprequest extends Component
             $datamaster->departement                = $this->departement;
             $datamaster->lokasi                     = $this->lokasi;
             $datamaster->type_request               = 'application';
-            $datamaster->request_room_detail        = $this->request_room_detail;
+            $datamaster->request_room_detail        = $this->request_room_detail == "Others" ? $this->others : $this->request_room_detail;
             $datamaster->start_booking              = '';
             $datamaster->end_booking                = '';
             $datamaster->purpose                    = '';

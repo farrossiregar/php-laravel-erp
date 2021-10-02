@@ -66,7 +66,7 @@
                     <h6 class="px-3"><a href="javascript:void(0)" style="font-size: 17px;margin-right:10px;" onclick="hide_left_menu()"><i class="fa fa-arrow-left"></i></a> {{$dep->name}}</h6>
                     <nav id="lef t-sidebar-nav" class="sidebar-nav">
                         <ul class="metismenu main-menu">
-                            @foreach(\App\Models\Module::select('modules.*')->join('client_projects','client_projects.id','=','modules.client_project_id')->where(['department_id'=>$dep->id])->groupBy('client_project_id')->where(
+                            @foreach(\App\Models\Module::select('modules.*')->with('client_project')->join('client_projects','client_projects.id','=','modules.client_project_id')->where(['department_id'=>$dep->id])->groupBy('client_project_id')->where(
                                         function($table){
                                             if(session()->get('company_id')) $table->where('client_projects.company_id',session()->get('company_id')); 
                                         })->get() as $menu)

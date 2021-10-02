@@ -20,7 +20,7 @@ class Index extends Component
     
     public function render()
     {
-        $data = Employee::orderBy('id','DESC');
+        $data = Employee::with('company','department','access')->orderBy('id','DESC');
 
         if($this->keyword) $data = $data->where(function($table){
             foreach(\Illuminate\Support\Facades\Schema::getColumnListing('employees') as $column){

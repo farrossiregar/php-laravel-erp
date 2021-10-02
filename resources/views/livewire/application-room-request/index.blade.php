@@ -1,15 +1,11 @@
-@section('title', __('Application & Room Request - Index'))
-@section('parentPageTitle', 'Home')
+@section('title', __('Application & Room'))
+@section('parentPageTitle', 'Request')
 <div class="row clearfix">
     <div class="col-lg-12">
-        <div><br></div>
-        <div><br></div>
-        <div><br></div>
         <div class="card">
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data">{{ __('Data') }}</a></li>
-                <!-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#datamaster">{{ __('Data Master Homebase') }}</a></li> -->
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active show " id="dashboard">

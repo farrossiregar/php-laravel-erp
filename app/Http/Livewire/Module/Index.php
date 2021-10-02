@@ -12,7 +12,7 @@ class Index extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
-    public $keyword,$company_id;
+    public $keyword,$company_id,$name_data_master,$status_data_master;
     public function render()
     {
         $data = Module::orderBy('id','DESC')->groupBy('department_id');
@@ -26,5 +26,19 @@ class Index extends Component
     {
         ModulesItem::where('module_id',$id)->delete();
         Module::find($id)->delete();
+    }
+
+    public function save_data_master()
+    {
+        $this->validate([
+            'name_data_master' => 'required'
+        ]);
+
+        $insert = new ModulesItem();
+        $insert->module_id = 17;
+        $insert->type = 1;
+        $insert->name = $this->name_data_master;
+        $insert->is_show = 0;
+        $insert->save();
     }
 }

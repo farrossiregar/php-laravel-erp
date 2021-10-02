@@ -11,14 +11,14 @@ class Importroomrequest extends Component
 {
 
     use WithFileUploads;
-    public $employee_id, $employee_name, $departement, $lokasi, $type_request, $request_room_detail;
+    public $nik,$employee_id, $employee_name, $departement, $lokasi, $type_request, $request_room_detail;
     public $purpose, $participant, $start_date_booking, $start_time_booking, $end_date_booking, $end_time_booking;
 
-    
     public function render()
     {
         $user = \Auth::user();
         $this->employee_id = $user->id;
+        $this->nik = $user->employee->nik;
         $this->employee_name = $user->name;
         $this->departement = get_position($user->user_access_id);
         // dd($user);
