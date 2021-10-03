@@ -31,13 +31,13 @@
         </select>
     </div> -->
     
-    <!-- <div class="col-md-1" style="margin-right: 5px;">
+    <div class="col-md-1" style="margin-right: 5px;">
         <a href="#" data-toggle="modal" data-target="#modal-roomrequest-importroomrequest" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Room Request')}}</a>
-    </div> -->
-
+    </div>
+<!-- 
     <div class="col-md-2">
         <a href="#" data-toggle="modal" data-target="#modal-roomrequest-importapprequest" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('App Request')}}</a>
-    </div>
+    </div> -->
     
     <div class="col-md-12">
         <br><br>

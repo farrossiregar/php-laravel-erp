@@ -282,7 +282,7 @@
         </div>
     </div>
     
-    <br>
+    
     <div class="col-md-8">
         <div id='wrap' class="col-md-8" style="margin: 5px;">
             <div id='calendar' class="col-md-12" onclick="return false;"></div>
@@ -290,7 +290,8 @@
     </div>
 </div>
 
-@push('after-scripts')
+<!-- push('after-scripts') -->
+@section('page-script')
 <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
 <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
 
@@ -304,131 +305,153 @@
 
 
 <script>
-var labels = {!!$labels!!};
-var datasets = {!!$datasets!!};
+    var labels = {!!$labels!!};
+    var datasets = {!!$datasets!!};
 
-var labelsapp = [];
-var labelsapp = {!!$labelsapp!!};
-var datasetsapp = [];
-var datasetsapp = {!!$datasetsapp!!};
+    var labelsapp = [];
+    var labelsapp = {!!$labelsapp!!};
+    var datasetsapp = [];
+    var datasetsapp = {!!$datasetsapp!!};
 
 
 
-$( document ).ready(function() {
-    
-
-    // $('.multiselect_month').multiselect({ 
-    //         nonSelectedText: ' --- All Month --- ',
-    //         onChange: function (option, checked) {
-    //             @this.set('month', $('.multiselect_month').val());
-    //         },
-    //         buttonWidth: '100%'
-    //     }
-    // );
-    init_chart_applicationroomreq();
-});
-Livewire.on('init-chart',(data)=>{
-    labels = JSON.parse(data.labels);
-    datasets = JSON.parse(data.datasets);
-    labelsapp = JSON.parse(data.labelsapp);
-    
-    datasetsapp = JSON.parse(data.datasetsapp);
-    // alert(datasetsapp.length);
-    init_chart_applicationroomreq();
-});
-function init_chart_applicationroomreq(){
-    // var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
-    var colors = ['#ffb1c1','#4b89d6','#add64b','#80b10a','#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
-    var chBar = document.getElementById("chBar");
-    var chBar1 = document.getElementById("chBar1");
-
-    var dataapps = [];
-    for(var i = 0; i < datasetsapp.length; i++) 
-    {
-        dataapps.push( {
-                label: labelsapp[i]['request_room_detail'], 
-                backgroundColor: colors[i], 
-                fill: 'boundary',
-                data: [ datasetsapp[i]['jumlahrequest'] ]
-                
-        });
+    $( document ).ready(function() {
         
-    }
 
-    var dataroom = [];
-    for(var i = 0; i < datasets.length; i++) 
-    {
-        dataroom.push( {
-                label: labels[i]['request_room_detail'], 
-                backgroundColor: colors[i], 
-                fill: 'boundary',
-                data: [ datasets[i]['jumlahrequest'] ]
-                
-        });
+        // $('.multiselect_month').multiselect({ 
+        //         nonSelectedText: ' --- All Month --- ',
+        //         onChange: function (option, checked) {
+        //             @this.set('month', $('.multiselect_month').val());
+        //         },
+        //         buttonWidth: '100%'
+        //     }
+        // );
+        init_chart_applicationroomreq();
+    });
+    Livewire.on('init-chart',(data)=>{
+        labels = JSON.parse(data.labels);
+        datasets = JSON.parse(data.datasets);
+        labelsapp = JSON.parse(data.labelsapp);
         
-    }
-    // console.log(dataapps);
+        datasetsapp = JSON.parse(data.datasetsapp);
+        // alert(datasetsapp.length);
+        init_chart_applicationroomreq();
+    });
+    function init_chart_applicationroomreq(){
+        // var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+        var colors = ['#ffb1c1','#4b89d6','#add64b','#80b10a','#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+        var chBar = document.getElementById("chBar");
+        var chBar1 = document.getElementById("chBar1");
 
-    if (chBar) {
-        new Chart(chBar, {
-            type: 'bar',
-            data: {
-                labels: labelsapp['request_room_detail'],
-                datasets: dataapps,
-            },
-            options: {
-                maintainAspectRatio: false,
-                responsive: true,
-                legend: {
-                    display: true,
-                    position:'bottom'
+        var dataapps = [];
+        for(var i = 0; i < datasetsapp.length; i++) 
+        {
+            dataapps.push( {
+                    label: labelsapp[i]['request_room_detail'], 
+                    backgroundColor: colors[i], 
+                    fill: 'boundary',
+                    data: [ datasetsapp[i]['jumlahrequest'] ]
+                    
+            });
+            
+        }
+
+        var dataroom = [];
+        for(var i = 0; i < datasets.length; i++) 
+        {
+            dataroom.push( {
+                    label: labels[i]['request_room_detail'], 
+                    backgroundColor: colors[i], 
+                    fill: 'boundary',
+                    data: [ datasets[i]['jumlahrequest'] ]
+                    
+            });
+            
+        }
+        // console.log(dataapps);
+
+        if (chBar) {
+            new Chart(chBar, {
+                type: 'bar',
+                data: {
+                    labels: labelsapp['request_room_detail'],
+                    datasets: dataapps,
                 },
-                title: {
-                    display: true,
-                    text: 'APPLICATION REQUEST - AVERAGE TIME EXECUTION'
-                },
-                scales: {
-                    xAxes: [{
-                        barPercentage: 0.5,
-                        categoryPercentage: 0.5
-                    }]
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    legend: {
+                        display: true,
+                        position:'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'APPLICATION REQUEST - AVERAGE TIME EXECUTION'
+                    },
+                    scales: {
+                        xAxes: [{
+                            barPercentage: 0.5,
+                            categoryPercentage: 0.5
+                        }]
+                    }
                 }
-            }
-        });
-    }
+            });
+        }
 
 
-    if (chBar1) {
-        new Chart(chBar1, {
-            type: 'bar',
-            data: {
-                labels: labels['request_room_detail'],
-                datasets: dataroom,
-            },
-            options: {
-                maintainAspectRatio: false,
-                responsive: true,
-                legend: {
-                    display: true,
-                    position:'bottom'
+        if (chBar1) {
+            new Chart(chBar1, {
+                type: 'bar',
+                data: {
+                    labels: labels['request_room_detail'],
+                    datasets: dataroom,
                 },
-                title: {
-                    display: true,
-                    text: 'ROOM REQUEST - MONTHLY REQUEST'
-                },
-                scales: {
-                    xAxes: [{
-                        barPercentage: 0.5,
-                        categoryPercentage: 0.5
-                    }]
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    legend: {
+                        display: true,
+                        position:'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'ROOM REQUEST - MONTHLY REQUEST'
+                    },
+                    scales: {
+                        xAxes: [{
+                            barPercentage: 0.5,
+                            categoryPercentage: 0.5
+                        }]
+                    }
                 }
-            }
-        });
+            });
+        }
     }
-}
 
 
 </script>
-@endpush
 
 
+<!-- endpush -->
+@endsection
+
+
+
+@section('page-script')
+
+
+    Livewire.on('modalrevisiroomrequest',(data)=>{
+        $("#modal-roomrequest-revisiroomrequest").modal('show');
+    });
+
+    Livewire.on('modalapproveroomrequest',(data)=>{
+        $("#modal-roomrequest-approveroomrequest").modal('show');
+    });
+
+   
+
+    Livewire.on('modaldeclineroomrequest',(data)=>{
+        $("#modal-roomrequest-declineroomrequest").modal('show');
+    });
+
+@endsection
