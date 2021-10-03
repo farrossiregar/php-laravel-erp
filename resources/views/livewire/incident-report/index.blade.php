@@ -1,4 +1,4 @@
-@section('title', __('Trouble Ticket'))
+@section('title', __('Incident Report'))
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -7,7 +7,7 @@
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                 </div>
                 <div class="col-md-8">
-                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_insert_trouble_ticket" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Trouble Ticket')}}</a>
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_insert_trouble_ticket" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Incident Report')}}</a>
                     <span wire:loading>
                         <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                         <span class="sr-only">{{ __('Loading...') }}</span>
@@ -49,13 +49,13 @@
                                                 <a href="javascript:void(0)" class="badge badge-info">Open</a>
                                             @endif
                                             @if($item->status==2)
-                                                <span class="badge badge-warning">Progress</span>
+                                                <a class="badge badge-warning">Progress</a>
                                             @endif
                                             @if($item->status==3)
-                                                <span class="badge badge-success">Resolved</span>
+                                                <a class="badge badge-success">Resolved</a>
                                             @endif
                                             @if($item->status==4)
-                                                <span class="badge badge-primary">Close</span>
+                                                <a class="badge badge-primary">Close</a>
                                             @endif
                                         @else
                                             @if($item->status==1)
@@ -85,15 +85,15 @@
                                     <td>{{$item->description}}</td>
                                     <td>
                                         @if($item->file)
-                                        <div x-data="{show:false}">
-                                            <template x-if="!show">
-                                                <a href="javascript:void(0)" x-on:click="show = ! show"><i class="fa fa-image"></i></a>
-                                            </template>
-                                            <div x-show="show">
-                                                <img src="{{asset($item->file)}}" style="width:150px;" /><br />
-                                                <a href="javascript:void(0)" x-on:click="show = ! show"><i class="fa fa-times"></i></a>
+                                            <div x-data="{show:false}">
+                                                <template x-if="!show">
+                                                    <a href="javascript:void(0)" x-on:click="show = ! show"><i class="fa fa-image"></i></a>
+                                                </template>
+                                                <div x-show="show">
+                                                    <img src="{{asset($item->file)}}" style="width:150px;" /><br />
+                                                    <a href="javascript:void(0)" x-on:click="show = ! show"><i class="fa fa-times"></i></a>
+                                                </div>
                                             </div>
-                                        </div>
                                         @endif
                                     </td>
                                     <td>{{isset($item->pic->name) ? $item->pic->name : ''}}</td>
@@ -129,15 +129,15 @@
             <form wire:submit.prevent="save">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Trouble Ticket</h5>
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Incident Report</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true close-btn">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Trouble Ticket Number </label>
-                            <input type="text" class="form-control" wire:model="trouble_ticket_number" disabled />
+                            <label>Incident Report Number </label>
+                            <input type="text" class="form-control" wire:model="incident_report_number" disabled />
                         </div>
                         <div class="form-group">
                             <label>Tanggal Kejadian </label>

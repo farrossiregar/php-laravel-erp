@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Livewire\TroubleTicket;
+namespace App\Http\Livewire\IncidentReport;
 
 use TroubleTicketHelper;
 use App\Models\Employee;
-use App\Models\TroubleTicket;
+use App\Models\IncidentReport;
 use App\Models\TroubleTicketCategory;
 use Livewire\Component;
 class Index extends Component
@@ -15,9 +15,9 @@ class Index extends Component
 
     public function render()
     {
-        $data = TroubleTicket::orderBy('id','DESC');
+        $data = IncidentReport::orderBy('id','DESC');
 
-        return view('livewire.trouble-ticket.index')->with(['data'=>$data->paginate(100)]);
+        return view('livewire.incident-report.index')->with(['data'=>$data->paginate(100)]);
     }
 
     public function mount()

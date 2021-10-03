@@ -32,35 +32,35 @@
             <div class="body">
                 <table class="table table-hover">
                     @foreach(\App\Models\Module::all() as $key_module => $module)
-                    <tr style="background: #eee;">
-                        <th style="width:20px;">{{ $key_module+1 }}.</th>
-                        <td>
-                            <strong>
-                            @if(isset($module->client_project->name))
-                                {{ $module->client_project->name }}
-                            @else
-                                {{ $module->name }}
-                            @endif
-                            </strong>
-                        </td>
-                        <td></td>
-                    </tr>
-                    @if($module->menu)
-                        @foreach($module->menu as $key_menu => $menu)
-                        <tr>
+                        <tr style="background: #eee;">
+                            <th style="width:20px;">{{ $key_module+1 }}.</th>
+                            <td>
+                                <strong>
+                                @if(isset($module->client_project->name))
+                                    {{ $module->client_project->name }}
+                                @else
+                                    {{ $module->name }}
+                                @endif
+                                </strong>
+                            </td>
                             <td></td>
-                            <td>{{ $menu->name }}</td>
-                            <td><input type="checkbox"  wire:click="checkmodule({{ $menu->id }})" wire:model="module_id.{{ $menu->id }}" /></td>
                         </tr>
-                            @foreach($menu->func as $key_func => $func)
+                        @if($module->menu)
+                            @foreach($module->menu as $key_menu => $menu)
                             <tr>
                                 <td></td>
-                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- {{ $func->name }}</td>
-                                <td><input type="checkbox" wire:click="checkmodule({{ $func->id }})" wire:model="module_id.{{ $func->id }}"  /></td>
+                                <td>{{ $menu->name }}</td>
+                                <td><input type="checkbox"  wire:click="checkmodule({{ $menu->id }})" wire:model="module_id.{{ $menu->id }}" /></td>
                             </tr>
+                                @foreach($menu->func as $key_func => $func)
+                                <tr>
+                                    <td></td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- {{ $func->name }}</td>
+                                    <td><input type="checkbox" wire:click="checkmodule({{ $func->id }})" wire:model="module_id.{{ $func->id }}"  /></td>
+                                </tr>
+                                @endforeach
                             @endforeach
-                        @endforeach
-                    @endif
+                        @endif
                     @endforeach
                 </table>
             </div>

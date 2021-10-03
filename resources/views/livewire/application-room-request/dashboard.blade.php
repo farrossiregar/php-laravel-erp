@@ -180,18 +180,18 @@
     </script>
     <style>
 
-        body {
+        /* body {
             margin-top: 40px;
             text-align: center;
             font-size: 14px;
             font-family: "Helvetica Nueue",Arial,Verdana,sans-serif;
             background-color: #DDDDDD;
-            }
+            } */
 
-        #wrap {
+        /* #wrap {
             width: 1100px;
             margin: 0 auto;
-            }
+            } */
 
         #external-events {
             float: left;

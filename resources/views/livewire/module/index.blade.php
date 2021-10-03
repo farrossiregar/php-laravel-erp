@@ -56,7 +56,7 @@
                     <h6>Data Master</h6>
                 </div>
                 <div class="col-md-3">
-                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_insert_module" class="btn btn-primary"><i class="fa fa-plus"></i> Menu</a>
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_insert_datamaster" class="btn btn-primary"><i class="fa fa-plus"></i> Menu</a>
                 </div>
             </div>
             <div class="body pt-0">
@@ -66,6 +66,41 @@
             </div>
         </div>
     </div>
+    
+    <div wire:ignore.self class="modal fade" id="modal_insert_datamaster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form id="basic-form" method="post" wire:submit.prevent="save_data_master">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Menu</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true close-btn">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <div class="form-group">
+                            <label>{{ __('Name') }}</label>
+                            <input type="text" class="form-control" wire:model="name_data_master" >
+                            @error('name_data_master')
+                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label class="fancy-checkbox">
+                                <input type="checkbox" name="checkbox" wire:model="status_data_master" value="1" data-parsley-errors-container="#error-checkbox" data-parsley-multiple="checkbox">
+                                <span>Active</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary ml-3"><i class="fa fa-save"></i> {{ __('Save') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modal_insert_module" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

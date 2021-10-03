@@ -119,12 +119,11 @@
                         </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>
-                             @if(check_access('application-room-request.manager-approval'))
+                            @if(check_access('application-room-request.manager-approval'))
                                 @if($item->status == '' || $item->status == null)
                                     <a href="javascript:;" wire:click="$emit('modalapproveroomrequest','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
                                     <a href="javascript:;" wire:click="$emit('modaldeclineroomrequest','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
                                 @endif
-
                             @endif
 
                             @if(check_access('application-room-request.pmg-approval'))
@@ -132,10 +131,7 @@
                                     <a href="javascript:;" wire:click="$emit('modalapproveroomrequest','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
                                     <a href="javascript:;" wire:click="$emit('modaldeclineroomrequest','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
                                 @endif
-
                             @endif
-                            
-                               
                         </td> 
                     </tr>
                     @endforeach
