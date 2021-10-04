@@ -35,11 +35,13 @@ class Wonbo extends Component
     public function save()
     {
        
-        $data = \App\Models\BusinessOpportunities::where('id', $this->selected_id)->first();
-        
-        $data->status   = '1';
-
+        $data               = \App\Models\BusinessOpportunities::where('id', $this->selected_id)->first();
+        $data->status       = '1';
         $data->save();
+
+        $insertcrf          = new \App\Models\ContractRegistrationFlow();
+        $insertcrf->id_bo   = $this->selected_id;
+        $insertcrf->save();
 
         // $notif = check_access_data('application-room-request.notif-user', '');
         // $nameuser = [];

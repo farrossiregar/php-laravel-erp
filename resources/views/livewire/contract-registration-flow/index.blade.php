@@ -40,15 +40,31 @@
     </div>
 </div>
 
-<!-- <div class="modal fade" id="modal-dutyroster-revisidutyroster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-contractregistrationflow-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:duty-roster.revisidutyroster />
+            <livewire:contract-registration-flow.edit />
         </div>
     </div>
-</div> -->
+</div>
 
+<div class="modal fade" id="modal-contractregistrationflow-importcontract" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:contract-registration-flow.importcontract />
+        </div>
+    </div>
+</div>
 
+<div class="modal fade" id="modal-contractregistrationflow-closecontract" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:contract-registration-flow.closecontract />
+        </div>
+    </div>
+</div>
+
+<!-- 
 <div class="modal fade" id="modal-businessopportunities-wonbo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -63,7 +79,7 @@
             <livewire:business-opportunities.failedbo />
         </div>
     </div>
-</div>
+</div> -->
 
 
 
@@ -74,9 +90,22 @@
         $("#modal-dutyroster-importdutyroster").modal('show');
     });
 
-    Livewire.on('modalrevisidutyroster',(data)=>{
-        $("#modal-dutyroster-revisidutyroster").modal('show');
+    Livewire.on('modaledit',(data)=>{
+        
+        $("#modal-contractregistrationflow-edit").modal('show');
     });
+
+    Livewire.on('modalimportcontract',(data)=>{
+        
+        $("#modal-contractregistrationflow-importcontract").modal('show');
+    });
+
+    Livewire.on('modalclosecontract',(data)=>{
+        
+        $("#modal-contractregistrationflow-closecontract").modal('show');
+    });
+
+    
 
     Livewire.on('modalwonbo',(data)=>{
         $("#modal-businessopportunities-wonbo").modal('show');
