@@ -44,35 +44,28 @@
                                 <tr>
                                     <td style="width: 50px;">{{$k+1}}</td>
                                     <td>
-                                        @if(check_access('trouble-ticket.field-team'))
-                                            @if($item->status==1)
-                                                <a href="javascript:void(0)" class="badge badge-info">Open</a>
-                                            @endif
-                                            @if($item->status==2)
-                                                <span class="badge badge-warning">Progress</span>
-                                            @endif
-                                            @if($item->status==3)
-                                                <span class="badge badge-success">Resolved</span>
-                                            @endif
-                                            @if($item->status==4)
-                                                <span class="badge badge-primary">Close</span>
-                                            @endif
-                                        @else
-                                            @if($item->status==1)
-                                                <span class="badge badge-info">Open</span>
-                                            @endif
-                                            @if($item->status==2)
-                                                <span class="badge badge-warning">Progress</span>
-                                            @endif
-                                            @if($item->status==3)
-                                                <span class="badge badge-success">Resolved</span>
-                                            @endif
-                                            @if($item->status==4)
-                                                <span class="badge badge-primary">Close</span>
-                                            @endif
+                                        @if($item->status==1)
+                                            <span class="badge badge-info">Open</span>
+                                        @endif
+                                        @if($item->status==2)
+                                            <span class="badge badge-warning">Progress</span>
+                                        @endif
+                                        @if($item->status==3)
+                                            <span class="badge badge-success">Resolved</span>
+                                        @endif
+                                        @if($item->status==4)
+                                            <span class="badge badge-primary">Close</span>
                                         @endif
                                     </td>
-                                    <td>{{$item->trouble_ticket_number}}</td>
+                                    <td>
+                                        @if($item->status==1)
+                                            @if(check_access('trouble-ticket.field-team'))
+                                                <a href="javascript:void(0)" wire:click="set_({{$item->id}})" data-toggle="modal" data-target="#modal_accept" class="badge badge-danger"><i class="fa fa-arrow-right"></i> Proses</a>
+                                            @endif
+                                        @else 
+                                            {{$item->trouble_ticket_number}}
+                                        @endif
+                                    </td>
                                     <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
                                     <td>{{isset($item->employee->nik) ? $item->employee->nik : ''}}</td>
                                     <td>{{isset($item->employee->telepon) ? $item->employee->telepon : ''}}</td>
@@ -103,6 +96,11 @@
                                         @endif
                                     </td>
                                     <td>
+                                        @if($item->status==2)
+                                            @if(check_access('trouble-ticket.field-team'))
+                                                <a href="javascript:void(0)" wire:click="set_({{$item->id}})" data-toggle="modal" data-target="#modal_solved" class="badge badge-danger btn-block"><i class="fa fa-check"></i> Resolve</a>
+                                            @endif
+                                        @endif
                                         @if($item->end_date)
                                             {{date('d-M-Y H:i',strtotime($item->end_date))}}
                                         @endif
@@ -120,6 +118,38 @@
                 <br />
                 {{$data->links()}}
             </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" x-data="" wire:ignore.self id="modal_solved" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form wire:submit.prevent="solved">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Solve Trouble Ticket</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true close-btn">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Note</label>
+                            <textarea class="form-control" wire:model="note"></textarea>
+                            @error('note')
+                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer" wire:loading.remove wire:target="save">
+                        <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Solved Trouble Ticket</button>
+                        <span wire:loading>
+                            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                            <span class="sr-only">{{ __('Loading...') }}</span>
+                        </span>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -188,4 +218,44 @@
             </form>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" x-data="" wire:ignore.self id="modal_accept" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form wire:submit.prevent="accept">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Generate Trouble Ticket Number & Approve</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true close-btn">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Risk</label>
+                            <select class="form-control" wire:model="risk">
+                                <option value=""> --- Select --- </option>
+                                <option>High</option>
+                                <option>Medium</option>
+                                <option>Low</option>
+                            </select>
+                            @error('risk')
+                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer" wire:loading.remove wire:target="save">
+                        <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Accept and Generate Number</button>
+                        <span wire:loading>
+                            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                            <span class="sr-only">{{ __('Loading...') }}</span>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
 </div>

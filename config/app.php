@@ -231,6 +231,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'LogActivity' => App\Helpers\LogActivity::class,
         'TroubleTicketHelper' => App\Helpers\TroubleTicketHelper::class,
+        'IncidentReportHelper' => App\Helpers\IncidentReportHelper::class,
     ],
 
 ];

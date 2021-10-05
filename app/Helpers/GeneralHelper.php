@@ -2,6 +2,17 @@
 
 use Illuminate\Support\Facades\DB;
 
+function table_history($table='',$key,$type,$value){
+    if($table){
+        $data = new \App\Models\TableHistory();
+        $data->table = $table;
+        $data->key_id = $key;
+        $data->value = $value;
+        $data->type = $type;
+        $data->save();
+    }
+}
+
 function marital_status($status){
     foreach(config('vars.marital_status') as $k => $i) 
         if($k==$status) return $i;
@@ -50,7 +61,7 @@ function push_notification_android($device_id,$title,$message,$type){
         die('FCM Send Error: ' . curl_error($ch));
     }
     curl_close($ch);
-
+    
     return $result;
 }
 
@@ -110,7 +121,7 @@ function send_wa($param)
 
 function get_user_from_access($link)
 {
-    $cek = \App\Models\UserAccessModule::select('users.*',\DB::raw('employees.id as employee_id'),'employees.device_token')
+    $cek = \App\Models\UserAccessModule::select('users.*',\DB::raw('employees.id as employee_id'),'employees.device_token',\DB::raw('employees.email as email_employee'))
             ->where('modules_items.link',$link)
             ->join('modules_items','modules_items.id','=','user_access_modules.module_id')
             ->join('modules','modules.id','=','modules_items.module_id')

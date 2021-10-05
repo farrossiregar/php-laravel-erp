@@ -17,7 +17,7 @@ class Insert extends Component
     public $name,$nik,$place_of_birth,$date_of_birth,$marital_status,$blood_type,$email,$join_date,$employee_status,$telepon,$npwp_number,$bpjs_number,$religion,$address,$department_sub_id,$foto,$foto_ktp;
     public $password,$confirm,$user_id,$user_access_id,$region_id,$is_noc=0,$lokasi_kantor,$employee_code,$ktp,$company_id,$postcode,$domisili,$sub_region_id;
     public $department_id="",$showProject=false,$projects=[],$project_id=[],$employee_project=[],$sub_regions=[],$is_project=0,$is_use_android=0,$speed_warning_pic_id;
-    public $app_site_list,$app_daily_commitment,$app_health_check,$app_vehicle_check,$app_ppe_check,$app_tools_check,$app_location_of_field_team,$app_speed_warning,$app_preventive_maintenance,$app_customer_asset,$app_work_order,$app_drug_test,$app_training_material,$it_support;
+    public $app_site_list,$app_daily_commitment,$app_health_check,$app_vehicle_check,$app_ppe_check,$app_tools_check,$app_location_of_field_team,$app_speed_warning,$app_preventive_maintenance,$app_customer_asset,$app_work_order,$app_drug_test,$app_training_material,$app_it_support;
     public $client_project_ids=[],$sub_department_id="";
     public function render()
     {
