@@ -140,4 +140,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('region-tools',function(){ })->name('region-tools.index');
     Route::get('monitoring',App\Http\Livewire\Monitoring\Index::class)->name('monitoring.index');
     Route::get('migration',App\Http\Livewire\Migration\Index::class)->name('migration.index');
+
+    Route::get('business-opportunities',App\Http\Livewire\BusinessOpportunities\Index::class)->name('business-opportunities.index');
+    Route::get('contract-registration-flow',App\Http\Livewire\ContractRegistrationFlow\Index::class)->name('contract-registration-flow.index');
+
 });

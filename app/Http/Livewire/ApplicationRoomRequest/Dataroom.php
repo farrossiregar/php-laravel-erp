@@ -8,7 +8,7 @@ use Auth;
 use DB;
 
 
-class Data extends Component
+class Dataroom extends Component
 {
     use WithPagination;
     public $date, $type_request, $status;
@@ -18,7 +18,7 @@ class Data extends Component
     {
 
        
-        $data = \App\Models\ApplicationRoomRequest::where('type_request','Application')->orderBy('created_at', 'desc');
+        $data = \App\Models\ApplicationRoomRequest::where('type_request','Room')->orderBy('created_at', 'desc');
                                     
 
         if($this->date) $ata = $data->whereDate('created_at',$this->date);
@@ -30,7 +30,7 @@ class Data extends Component
         // if($this->type_request) $ata = $data->where('type_request',$this->type_request);
                         
         
-        return view('livewire.application-room-request.data')->with(['data'=>$data->paginate(50)]);
+        return view('livewire.application-room-request.dataroom')->with(['data'=>$data->paginate(50)]);
 
         
     }
