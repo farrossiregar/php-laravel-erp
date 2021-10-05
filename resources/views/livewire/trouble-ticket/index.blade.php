@@ -133,20 +133,45 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label>Note</label>
-                            <textarea class="form-control" wire:model="note"></textarea>
-                            @error('note')
-                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                            @enderror
-                        </div>
+                        <label class="fancy-radio">
+                            <input type="radio" wire:model="status" value="3" required>
+                            <span><i></i>Solve</span>
+                        </label>
+                        <label class="fancy-radio">
+                            <input type="radio" wire:model="status" value="4" required>
+                            <span><i></i>Not Solve</span>
+                        </label>
+                        @if($status == 4)
+                            <div class="form-group">
+                                <label>Reason</label>
+                                <textarea class="form-control" wire:model="reason"></textarea>
+                                @error('reason')
+                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Recommendation</label>
+                                <textarea class="form-control" wire:model="recommendation"></textarea>
+                                @error('recommendation')
+                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                @enderror
+                            </div>
+                        @else
+                            <div class="form-group">
+                                <label>Note</label>
+                                <textarea class="form-control" wire:model="note"></textarea>
+                                @error('note')
+                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                @enderror
+                            </div>
+                        @endif
                     </div>
                     <div class="modal-footer" wire:loading.remove wire:target="save">
-                        <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Solved Trouble Ticket</button>
                         <span wire:loading>
                             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                             <span class="sr-only">{{ __('Loading...') }}</span>
                         </span>
+                        <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Submit</button>
                     </div>
                 </div>
             </form>

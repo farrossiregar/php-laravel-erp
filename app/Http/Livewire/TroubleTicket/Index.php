@@ -10,7 +10,7 @@ use Livewire\Component;
 class Index extends Component
 {
     public $trouble_ticket_number,$category,$description,$employee_id,$employee,$show_category_others=false,$trouble_ticket_category_id,$trouble_ticket_category_others;
-    public $type=1,$lokasi,$selected,$risk,$note;
+    public $type=1,$lokasi,$selected,$risk,$note,$status=3,$reason,$recommendation;
     public $filter_type;
 
     public function render()
@@ -39,19 +39,31 @@ class Index extends Component
 
     public function solved()
     {
-        $this->validate([
-            'note'=>'required'
-        ]);
+        if($this->status==4){
+            $this->validate([
+                'status'=>'required',
+                'reason'=>'required',
+                'recommendation'=>'required'
+            ]);
+        }else{
+            $this->validate([
+                'status'=>'required',
+                'note'=>'required'
+            ]);
+        }
 
-        $this->selected->status = 3;
+        $this->selected->status = $this->status;
         $this->selected->end_date = date('Y-m-d H:i:s');
         $this->selected->note = $this->note;
         $this->selected->save();
         
         $description = "Resolved By : ". \Auth::user()->employee->name ."\n";
 
-        if(isset($this->selected->employee->device_token)) 
-            push_notification_android($this->selected->employee->device_token,"TT Number #".$this->selected->trouble_ticket_number ." Resolved" ,$description,6);
+        if(isset($this->selected->employee->device_token)) push_notification_android($this->selected->employee->device_token,"TT Number #".$this->selected->trouble_ticket_number ." Resolved" ,$description,6);
+        
+        session()->flash('message-success',__("Trouble Ticket #{$this->selected->trouble_ticket_number} ".($status==3 ? "Solve" : "Not Solve")));
+        
+        return redirect()->route('trouble-ticket.index');
     }
 
     public function accept()

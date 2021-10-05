@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\DB;
 
-function table_history($table='',$key,$type,$value){
+function table_history($table='',$key="",$type="",$value=""){
     if($table){
         $data = new \App\Models\TableHistory();
         $data->table = $table;

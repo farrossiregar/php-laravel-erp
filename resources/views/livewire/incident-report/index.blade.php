@@ -43,32 +43,17 @@
                                 <tr>
                                     <td style="width: 50px;">{{$k+1}}</td>
                                     <td>
-                                        @if(check_access('trouble-ticket.field-team'))
-                                            @if($item->status==1)
-                                                <a href="javascript:void(0)" class="badge badge-info">Open</a>
-                                            @endif
-                                            @if($item->status==2)
-                                                <a class="badge badge-warning">Progress</a>
-                                            @endif
-                                            @if($item->status==3)
-                                                <a class="badge badge-success">Resolved</a>
-                                            @endif
-                                            @if($item->status==4)
-                                                <a class="badge badge-primary">Close</a>
-                                            @endif
-                                        @else
-                                            @if($item->status==1)
-                                                <span class="badge badge-info">Open</span>
-                                            @endif
-                                            @if($item->status==2)
-                                                <span class="badge badge-warning">Progress</span>
-                                            @endif
-                                            @if($item->status==3)
-                                                <span class="badge badge-success">Resolved</span>
-                                            @endif
-                                            @if($item->status==4)
-                                                <span class="badge badge-primary">Close</span>
-                                            @endif
+                                        @if($item->status==1)
+                                            <span class="badge badge-info">Open</span>
+                                        @endif
+                                        @if($item->status==2)
+                                            <span class="badge badge-warning">Progress</span>
+                                        @endif
+                                        @if($item->status==3)
+                                            <span class="badge badge-success">Resolved</span>
+                                        @endif
+                                        @if($item->status==4)
+                                            <span class="badge badge-primary">Close</span>
                                         @endif
                                     </td>
                                     <td>

@@ -151,7 +151,7 @@ class Edit extends Component
             //'address' => 'required',
             //'department_sub_id' => 'required',
             'user_access_id' => 'required',
-            'employee_code' => 'required|unique:employees,employee_code,'.$this->data->id
+            //'employee_code' => 'required|unique:employees,employee_code,'.$this->data->id
         ]);
         $user = User::find($this->data->user_id);
         if(!$user) $user = new User();
