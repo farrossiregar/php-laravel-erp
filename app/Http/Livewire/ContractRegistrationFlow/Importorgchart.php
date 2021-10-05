@@ -7,11 +7,11 @@ use Livewire\WithFileUploads;
 use Auth;
 use DB;
 
-class Importcontract extends Component
+class Importorgchart extends Component
 {
 
     protected $listeners = [
-        'modalimportcontract'=>'importcontract',
+        'modalimportorgchart'=>'importorgchart',
     ];
 
     use WithFileUploads;
@@ -27,11 +27,11 @@ class Importcontract extends Component
         // }
         
         
-        return view('livewire.contract-registration-flow.importcontract');
+        return view('livewire.contract-registration-flow.importorgchart');
         
     }
 
-    public function importcontract($id)
+    public function importorgchart($id)
     {
         $this->selected_id = $id;
     }
@@ -44,16 +44,16 @@ class Importcontract extends Component
         ]);
 
         if($this->file){
-            $contract = 'crf-contract'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/contract_registration_flow/Contract/',$contract);
+            $orgchart = 'crf-orgchart'.$this->selected_id.'.'.$this->file->extension();
+            $this->file->storePubliclyAs('public/contract_registration_flow/Org_chart/',$orgchart);
 
             $data = \App\Models\ContractRegistrationFlow::where('id', $this->selected_id)->first();
-            $data->contract         = $contract;
+            $data->org_chart         = $orgchart;
             
             $data->save();
         }
 
-        session()->flash('message-success',"Upload Contract for Contract Registration Flow success");
+        session()->flash('message-success',"Upload Org Chart for Contract Registration Flow success");
         
         return redirect()->route('contract-registration-flow.index');
 

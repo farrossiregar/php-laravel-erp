@@ -1,13 +1,13 @@
 <div>
     <div class="row">
-        <div class="col-md-1">                
+        <!-- <div class="col-md-1">                
             <select class="form-control" wire:model="year">
                 <option value=""> --- Year --- </option>
                 @foreach(\App\Models\EmployeeNoc::select('year')->groupBy('year')->get() as $item) 
                 <option>{{$item->year}}</option>
                 @endforeach 
             </select>
-        </div>
+        </div> -->
         <!-- <div class="col-md-2" wire:ignore>
             <select class="form-control" style="width:100%;" wire:model="month">
                 <option value=""> --- Month --- </option>
@@ -26,6 +26,10 @@
     <div class="mt-4" style="height: 300px">
         <canvas id="chBar"></canvas>
     </div>
+
+    <div class="mt-4" style="height: 300px">
+        <canvas id="chPie"></canvas>
+    </div>
 </div>
 @push('after-scripts')
 <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
@@ -34,6 +38,8 @@
 <script>
 var labels = {!!$labels!!};
 var datasets = {!!$datasets!!};
+var labels2 = {!!$labels2!!};
+var datasets2 = {!!$datasets2!!};
 // var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
 
 // var dataslt = [];
@@ -61,6 +67,8 @@ $( document ).ready(function() {
 Livewire.on('init-chart',(data)=>{
     labels = JSON.parse(data.labels);
     datasets = JSON.parse(data.datasets);
+    labels2 = JSON.parse(data.labels2);
+    datasets2 = JSON.parse(data.datasets2);
     init_chart_databasenoc();
 });
 function init_chart_databasenoc(){
@@ -83,7 +91,35 @@ function init_chart_databasenoc(){
                 },
                 title: {
                     display: true,
-                    text: 'DUTY ROSTER MONTHLY - SITE PER PROJECT'
+                    text: 'LEAD CONVERSION RATE'
+                },
+                scales: {
+                    xAxes: [{
+                        barPercentage: 0.5,
+                        categoryPercentage: 0.5
+                    }]
+                }
+            }
+        });
+    }
+
+    if (chPie) {
+        new Chart(chPie, {
+            type: 'pie',
+            data: {
+                labels: labels2,
+                datasets: datasets2,
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                legend: {
+                    display: true,
+                    position:'bottom'
+                },
+                title: {
+                    display: true,
+                    text: 'SALES LEAD / OPPORTUNITY BY BUSINESS TYPE'
                 },
                 scales: {
                     xAxes: [{

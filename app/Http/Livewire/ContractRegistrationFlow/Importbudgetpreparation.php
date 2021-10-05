@@ -7,11 +7,11 @@ use Livewire\WithFileUploads;
 use Auth;
 use DB;
 
-class Importcontract extends Component
+class Importbudgetpreparation extends Component
 {
 
     protected $listeners = [
-        'modalimportcontract'=>'importcontract',
+        'modalimportbudgetpreparation'=>'importbudgetpreparation',
     ];
 
     use WithFileUploads;
@@ -27,11 +27,11 @@ class Importcontract extends Component
         // }
         
         
-        return view('livewire.contract-registration-flow.importcontract');
+        return view('livewire.contract-registration-flow.importbudgetpreparation');
         
     }
 
-    public function importcontract($id)
+    public function importbudgetpreparation($id)
     {
         $this->selected_id = $id;
     }
@@ -44,16 +44,16 @@ class Importcontract extends Component
         ]);
 
         if($this->file){
-            $contract = 'crf-contract'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/contract_registration_flow/Contract/',$contract);
+            $budgetpreparation = 'crf-budgetpreparation'.$this->selected_id.'.'.$this->file->extension();
+            $this->file->storePubliclyAs('public/contract_registration_flow/Budget_preparation/',$budgetpreparation);
 
             $data = \App\Models\ContractRegistrationFlow::where('id', $this->selected_id)->first();
-            $data->contract         = $contract;
+            $data->budget_preparation         = $budgetpreparation;
             
             $data->save();
         }
 
-        session()->flash('message-success',"Upload Contract for Contract Registration Flow success");
+        session()->flash('message-success',"Upload Budget Preparation for Contract Registration Flow success");
         
         return redirect()->route('contract-registration-flow.index');
 

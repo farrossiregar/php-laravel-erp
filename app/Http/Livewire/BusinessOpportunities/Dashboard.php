@@ -9,14 +9,16 @@ use App\Models\Criticalcase;
 use App\Helpers\GeneralHelper;
 use DB;
 
+
 class Dashboard extends Component
 {
     public $start,$end,$year,$datasets,$month;
     public $labels;
+    public $labels2, $datasets2;
     //public $series;
     //public $seriess;
-    public $project;
-    public $region;
+    // public $project;
+    // public $region;
     public function render()
     { 
        
@@ -24,8 +26,7 @@ class Dashboard extends Component
         // $labels = $this->labels;
         // $series = $this->series;
         
-        //$this->generate_chart();
-        // return view('livewire.criticalcase.dashboard')->with(compact('labels', 'series'));   
+        $this->generate_chart();  
         return view('livewire.business-opportunities.dashboard');
     }
 
@@ -42,40 +43,81 @@ class Dashboard extends Component
 
     public function generate_chart(){
         $this->labels = [];
-        //$this->series = [];
         $this->datasets = [];
+        $this->labels2 = [];
+        $this->datasets2 = [];
 
-        foreach(Criticalcase::whereYear('date',$this->year)->where(function($table){
-            if($this->month) $table->whereMonth('date',$this->month);
-            if($this->region) $table->whereIn('region',$this->region);
-            if($this->project) $table->whereIn('project',$this->project);
-        })->groupBy('date')->get() as $item){
-            $this->labels[] = $item->date;
-        }
-        foreach(Criticalcase::groupBy('region')->where(function($table){
-            if($this->region) $table->whereIn('region',$this->region);    
-            if($this->project) $table->whereIn('project',$this->project);    
-        })->get() as $key => $item){
-            $this->datasets[$key]['label'] = $item->region;
-            $this->datasets[$key]['backgroundColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
-            $this->datasets[$key]['borderColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
-            $this->datasets[$key]['borderWidth'] = 1;
-            $this->datasets[$key]['data'] = [];
-            foreach($this->labels as $date){
-                $this->datasets[$key]['data'][]  = Criticalcase::where(['date'=>$date,'region'=>$item->region])->where(function($table){
-                    if($this->project) $table->whereIn('project',$this->project);
-                })->count();
-            }
-        }
+    
+        $rate = \App\Models\BusinessOpportunities::where('status', '1')->get();
+        $won = \App\Models\BusinessOpportunities::where('status', '1')->get();
+        $all = \App\Models\BusinessOpportunities::orderBy('id', 'desc')->get();
 
+
+        
+        // $this->labels = array('Hit Rate (%)', 'Won', 'Leads');
+
+        $this->datasets[0]['label'] = 'Hit Rate (%)';
+        $this->datasets[0]['backgroundColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
+        $this->datasets[0]['fill'] = 'boundary';
+        // $this->datasets[0]['borderColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
+        // $this->datasets[0]['borderWidth'] = 1;
+        // $this->datasets[0]['data'][] = 55;
+        
+        $this->datasets[0]['data'][] = ( count($rate) / count($all) ) * 100;
+
+        $this->datasets[1]['label'] = 'Won';
+        $this->datasets[1]['backgroundColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
+        $this->datasets[0]['fill'] = 'boundary';
+        // $this->datasets[1]['borderColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
+        // $this->datasets[1]['borderWidth'] = 1;
+        $this->datasets[1]['data'][] = count($won);
+
+        $this->datasets[2]['label'] = 'Leads';
+        $this->datasets[2]['backgroundColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
+        $this->datasets[0]['fill'] = 'boundary';
+        // $this->datasets[2]['borderColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
+        // $this->datasets[2]['borderWidth'] = 1;
+        $this->datasets[2]['data'][] = count($all);
+
+        // $this->datasets[] = [];
+        // $this->datasets[0]['data'] = array('55', '11', '20');
+
+
+        $tower = \App\Models\BusinessOpportunities::where('customer_type', 'Tower provider')->where('status', '1')->get();
+        $vendor = \App\Models\BusinessOpportunities::where('customer_type', 'Vendor')->where('status', '1')->get();
+        $operators = \App\Models\BusinessOpportunities::where('customer_type', 'Operators')->where('status', '1')->get();
+        $others = \App\Models\BusinessOpportunities::where('customer_type', 'Others')->where('status', '1')->get();
+
+        $this->labels2 = array('Tower provider', 'Vendor', 'Operators', 'Others');
+
+        $this->datasets2[0]['label'][] = array('Tower Provider', 'Vendor', 'Operators', 'Others');
+        $this->datasets2[0]['backgroundColor'] = array(sprintf('#%06X', mt_rand(0, 0xFFFFFF)), sprintf('#%06X', mt_rand(0, 0xFFFFFF)), sprintf('#%06X', mt_rand(0, 0xFFFFFF)), sprintf('#%06X', mt_rand(0, 0xFFFFFF))); // generate warna
+        $this->datasets2[0]['fill'] = 'boundary';
+        // $this->datasets2[0]['data'][] = count($tower);
+        $this->datasets2[0]['data'] = array(count($tower), count($vendor), count($operators), count($others));
+
+        // $this->datasets2[1]['label'] = 'Vendor';
+        // $this->datasets2[1]['backgroundColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
+        // $this->datasets2[1]['fill'] = 'boundary';
+        // $this->datasets2[1]['data'][] = count($vendor);
+
+        // $this->datasets2[2]['label'] = 'Operators';
+        // $this->datasets2[2]['backgroundColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
+        // $this->datasets2[2]['fill'] = 'boundary';
+        // $this->datasets2[2]['data'][] = count($operators);
+
+        // $this->datasets2[3]['label'] = 'Others';
+        // $this->datasets2[3]['backgroundColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
+        // $this->datasets2[3]['fill'] = 'boundary';
+        // $this->datasets2[3]['data'][] = count($others);
+        
         $this->labels = json_encode($this->labels); 
         $this->datasets = json_encode($this->datasets); 
-        //$this->series = $this->series;
-        //$this->seriess = [[12, 24], [5, 10], [15, 30], [7, 14], [10, 20], [9, 27], [16, 32], [11, 22]];
-        //$this->seriess = $this->seriess;
+        $this->labels2 = json_encode($this->labels2); 
+        $this->datasets2 = json_encode($this->datasets2); 
+        // dd(json_encode($this->datasets2));
         
         
-        //$this->emit('init-chart',['labels'=>$this->labels,'series'=>$this->series, 'region'=>$this->region, 'seriess'=>$this->seriess]);
-        $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets]);
+        $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets,'labels2'=>$this->labels2,'datasets2'=>$this->datasets2]);
     }
 }

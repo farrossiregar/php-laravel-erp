@@ -7,11 +7,11 @@ use Livewire\WithFileUploads;
 use Auth;
 use DB;
 
-class Importcontract extends Component
+class Importtimeline extends Component
 {
 
     protected $listeners = [
-        'modalimportcontract'=>'importcontract',
+        'modalimporttimeline'=>'importtimeline',
     ];
 
     use WithFileUploads;
@@ -27,11 +27,11 @@ class Importcontract extends Component
         // }
         
         
-        return view('livewire.contract-registration-flow.importcontract');
+        return view('livewire.contract-registration-flow.importtimeline');
         
     }
 
-    public function importcontract($id)
+    public function importtimeline($id)
     {
         $this->selected_id = $id;
     }
@@ -44,16 +44,16 @@ class Importcontract extends Component
         ]);
 
         if($this->file){
-            $contract = 'crf-contract'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/contract_registration_flow/Contract/',$contract);
+            $timeline = 'crf-timeline'.$this->selected_id.'.'.$this->file->extension();
+            $this->file->storePubliclyAs('public/contract_registration_flow/Timeline/',$timeline);
 
             $data = \App\Models\ContractRegistrationFlow::where('id', $this->selected_id)->first();
-            $data->contract         = $contract;
+            $data->ca_timeline         = $timeline;
             
             $data->save();
         }
 
-        session()->flash('message-success',"Upload Contract for Contract Registration Flow success");
+        session()->flash('message-success',"Upload Timeline for Contract Registration Flow success");
         
         return redirect()->route('contract-registration-flow.index');
 

@@ -88,7 +88,7 @@
                             @endif
                         </td>
                         <td>
-                            @if($item->contract && $item->ca_tools_budget && $item->ca_vehicle_budget && $item->ca_resource_budget && $item->ca_office_base && $item->ca_opex_budget && $item->timeline && $item->budget_preparation && $item->revenue && $item->resource_preparation && $item->kickof && $item->org_chart && $item->team_dimension)
+                            @if($item->contract && $item->ca_tools_budget && $item->ca_vehicle_budget && $item->ca_resource_budget && $item->ca_office_base && $item->ca_opex_budget && $item->ca_timeline && $item->budget_preparation && $item->revenue && $item->resource_preparation && $item->kickof && $item->org_chart && $item->team_dimension)
                                 @if($item->status == '' || $item->status == null)
                                     <a href="javascript:;" wire:click="$emit('modalclosecontract','{{ $item->id }}')" class="btn btn-info"><i class="fa fa-check"></i> Close Contract</a>
                                 @endif
@@ -127,7 +127,7 @@
                             @else
                                 @if($item->contract)
                                     <!-- if(check_access('po-tracking-ms.import-pds') && $item->status == '3') -->
-                                        <a href="javascript:;"  wire:click="$emit('modaluploadpds','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
+                                        <a href="javascript:;"  wire:click="$emit('modalimporttoolsbudget','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
                                     <!-- endif -->
                                 @endif
                             @endif
@@ -139,7 +139,7 @@
                             @else
                                 @if($item->contract)
                                     <!-- if(check_access('po-tracking-ms.import-pds') && $item->status == '3') -->
-                                        <a href="javascript:;"  wire:click="$emit('modaluploadpds','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
+                                        <a href="javascript:;"  wire:click="$emit('modalimportvehiclebudget','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
                                     <!-- endif -->
                                 @endif
                             @endif
@@ -151,7 +151,7 @@
                             @else
                                 @if($item->contract)
                                     <!-- if(check_access('po-tracking-ms.import-pds') && $item->status == '3') -->
-                                        <a href="javascript:;"  wire:click="$emit('modaluploadpds','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
+                                        <a href="javascript:;"  wire:click="$emit('modalimportresourcebudget','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
                                     <!-- endif -->
                                 @endif
                             @endif
@@ -163,45 +163,111 @@
                             @else
                                 @if($item->contract)
                                     <!-- if(check_access('po-tracking-ms.import-pds') && $item->status == '3') -->
-                                        <a href="javascript:;"  wire:click="$emit('modaluploadpds','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
+                                        <a href="javascript:;"  wire:click="$emit('modalimportofficebase','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
                                     <!-- endif -->
                                 @endif
                             @endif
                             
                         </td>
                         <td>
-                            @if($item->opex_budget)
-                                <a href="<?php echo asset('storage/contract_registration_flow/Opex_Budget/'.$item->opex_budget.''); ?>" data-toggle="tooltip" title="Download Opex Budget"><i class="fa fa-download"></i> {{__('Download Opex Budget')}}</a>
+                            @if($item->ca_opex_budget)
+                                <a href="<?php echo asset('storage/contract_registration_flow/Opex_Budget/'.$item->ca_opex_budget.''); ?>" data-toggle="tooltip" title="Download Opex Budget"><i class="fa fa-download"></i> {{__('Download Opex Budget')}}</a>
                             @else
                                 @if($item->contract)
                                     <!-- if(check_access('po-tracking-ms.import-pds') && $item->status == '3') -->
-                                        <a href="javascript:;"  wire:click="$emit('modaluploadpds','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
+                                        <a href="javascript:;"  wire:click="$emit('modalimportopexbudget','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
                                     <!-- endif -->
                                 @endif
                             @endif
                             
                         </td>
                         <td>
-                            @if($item->timeline)
-                                <a href="<?php echo asset('storage/contract_registration_flow/Timeline/'.$item->timeline.''); ?>" data-toggle="tooltip" title="Download Timeline"><i class="fa fa-download"></i> {{__('Download Timenline')}}</a>
+                            @if($item->ca_timeline)
+                                <a href="<?php echo asset('storage/contract_registration_flow/Timeline/'.$item->ca_timeline.''); ?>" data-toggle="tooltip" title="Download Timeline"><i class="fa fa-download"></i> {{__('Download Timenline')}}</a>
                             @else
                                 @if($item->contract)
                                     <!-- if(check_access('po-tracking-ms.import-pds') && $item->status == '3') -->
-                                        <a href="javascript:;"  wire:click="$emit('modaluploadpds','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
+                                        <a href="javascript:;"  wire:click="$emit('modalimporttimeline','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
                                     <!-- endif -->
                                 @endif
                             @endif
                             
                         </td>
 
-                        <td>{{ $item->budget_preparation }}</td>
-                        <td>{{ $item->revenue }}</td>
+                        <td>
+                            @if($item->budget_preparation)
+                                <a href="<?php echo asset('storage/contract_registration_flow/Budget_preparation/'.$item->budget_preparation.''); ?>" data-toggle="tooltip" title="Download Budget Preparation"><i class="fa fa-download"></i> {{__('Download Budget Preparation')}}</a>
+                            @else
+                                @if($item->ca_tools_budget && $item->ca_vehicle_budget && $item->ca_resource_budget && $item->ca_office_base && $item->ca_opex_budget && $item->ca_timeline)
+                                    <!-- if(check_access('po-tracking-ms.import-pds') && $item->status == '3') -->
+                                        <a href="javascript:;"  wire:click="$emit('modalimportbudgetpreparation','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
+                                    <!-- endif -->
+                                @endif
+                            @endif
+                            
+                        </td>
+                        <td>
+                            @if($item->revenue)
+                                <a href="<?php echo asset('storage/contract_registration_flow/Revenue/'.$item->revenue.''); ?>" data-toggle="tooltip" title="Download Revenue"><i class="fa fa-download"></i> {{__('Download Revenue')}}</a>
+                            @else
+                                @if($item->ca_tools_budget && $item->ca_vehicle_budget && $item->ca_resource_budget && $item->ca_office_base && $item->ca_opex_budget && $item->ca_timeline)
+                                    <!-- if(check_access('po-tracking-ms.import-pds') && $item->status == '3') -->
+                                        <a href="javascript:;"  wire:click="$emit('modalimportrevenue','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
+                                    <!-- endif -->
+                                @endif
+                            @endif
+                            
+                        </td>
 
-                        <td>{{ $item->resource_preparation }}</td>
+                        <td>
+                            @if($item->resource_preparation)
+                                <a href="<?php echo asset('storage/contract_registration_flow/Reseource_preparation/'.$item->resource_preparation.''); ?>" data-toggle="tooltip" title="Download Resource Preparation"><i class="fa fa-download"></i> {{__('Download Resource Preparation')}}</a>
+                            @else
+                                @if($item->ca_tools_budget && $item->ca_vehicle_budget && $item->ca_resource_budget && $item->ca_office_base && $item->ca_opex_budget && $item->ca_timeline)
+                                    <!-- if(check_access('po-tracking-ms.import-pds') && $item->status == '3') -->
+                                        <a href="javascript:;"  wire:click="$emit('modalimportresourcepreparation','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
+                                    <!-- endif -->
+                                @endif
+                            @endif
+                            
+                        </td>
 
-                        <td>{{ $item->kickof }}</td>
-                        <td>{{ $item->org_chart }}</td>
-                        <td>{{ $item->team_dimension }}</td>
+                        <td>
+                            @if($item->kickof)
+                                <a href="<?php echo asset('storage/contract_registration_flow/Kickof/'.$item->kickof.''); ?>" data-toggle="tooltip" title="Download Kick Off"><i class="fa fa-download"></i> {{__('Download Kick Off')}}</a>
+                            @else
+                                @if($item->ca_tools_budget && $item->ca_vehicle_budget && $item->ca_resource_budget && $item->ca_office_base && $item->ca_opex_budget && $item->ca_timeline)
+                                    <!-- if(check_access('po-tracking-ms.import-pds') && $item->status == '3') -->
+                                        <a href="javascript:;"  wire:click="$emit('modalimportkickof','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
+                                    <!-- endif -->
+                                @endif
+                            @endif
+                            
+                        </td>
+                        <td>
+                            @if($item->org_chart)
+                                <a href="<?php echo asset('storage/contract_registration_flow/Org_chart/'.$item->org_chart.''); ?>" data-toggle="tooltip" title="Download Org Chart"><i class="fa fa-download"></i> {{__('Download Org Chart')}}</a>
+                            @else
+                                @if($item->ca_tools_budget && $item->ca_vehicle_budget && $item->ca_resource_budget && $item->ca_office_base && $item->ca_opex_budget && $item->ca_timeline)
+                                    <!-- if(check_access('po-tracking-ms.import-pds') && $item->status == '3') -->
+                                        <a href="javascript:;"  wire:click="$emit('modalimportorgchart','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
+                                    <!-- endif -->
+                                @endif
+                            @endif
+                            
+                        </td>
+                        <td>
+                            @if($item->team_dimension)
+                                <a href="<?php echo asset('storage/contract_registration_flow/Team_dimension/'.$item->team_dimension.''); ?>" data-toggle="tooltip" title="Download Team Dimension"><i class="fa fa-download"></i> {{__('Download Team Dimension')}}</a>
+                            @else
+                                @if($item->ca_tools_budget && $item->ca_vehicle_budget && $item->ca_resource_budget && $item->ca_office_base && $item->ca_opex_budget && $item->ca_timeline)
+                                    <!-- if(check_access('po-tracking-ms.import-pds') && $item->status == '3') -->
+                                        <a href="javascript:;"  wire:click="$emit('modalimportteamdimension','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
+                                    <!-- endif -->
+                                @endif
+                            @endif
+                            
+                        </td>
                         <!-- <td>
                             
                             @if(check_access('duty-roster.approve'))

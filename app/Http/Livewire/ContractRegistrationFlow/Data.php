@@ -8,7 +8,7 @@ use App\Models\ContractRegistrationFlow;
 
 class Data extends Component
 {
-    public $date_start,$date_end,$keyword,$status;
+    public $date_start,$date_end,$keyword,$status,$data_id;
 
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -28,10 +28,35 @@ class Data extends Component
         //     }
         // });
         
-        if($this->status !="") $data->where('status',$this->status);
+        
+        
+
+        // if($this->status !="") $data->where('status',$this->status);
         // if($this->date_start and $this->date_end) $data = $data->whereBetween('created_at',[$this->date_start,$this->date_end]);
 
         return view('livewire.contract-registration-flow.data')->with(['data'=>$data->paginate(100)]);
+    }
+
+    public function mount()
+    {
+
+        $data = ContractRegistrationFlow::orderBy('id', 'DESC');
+
+        foreach($data->get() as $item){
+            $this->data_id[$item->id] = $item->id;
+        }
+    }
+
+    public function checkdata($id)
+    {
+        $check = \App\Models\ContractRegistrationFlow::where('id',$id)->first();
+        if($check->remarks == '1'){
+            $check->remarks = '';
+        }else{
+            $check->remarks = '1';
+        }
+        $check->save();
+        
     }
 }
 

@@ -7,11 +7,11 @@ use Livewire\WithFileUploads;
 use Auth;
 use DB;
 
-class Importcontract extends Component
+class Importteamdimension extends Component
 {
 
     protected $listeners = [
-        'modalimportcontract'=>'importcontract',
+        'modalimportteamdimension'=>'importteamdimension',
     ];
 
     use WithFileUploads;
@@ -27,11 +27,11 @@ class Importcontract extends Component
         // }
         
         
-        return view('livewire.contract-registration-flow.importcontract');
+        return view('livewire.contract-registration-flow.importteamdimension');
         
     }
 
-    public function importcontract($id)
+    public function importteamdimension($id)
     {
         $this->selected_id = $id;
     }
@@ -44,16 +44,16 @@ class Importcontract extends Component
         ]);
 
         if($this->file){
-            $contract = 'crf-contract'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/contract_registration_flow/Contract/',$contract);
+            $teamdimension = 'crf-teamdimension'.$this->selected_id.'.'.$this->file->extension();
+            $this->file->storePubliclyAs('public/contract_registration_flow/Team_dimension/',$teamdimension);
 
             $data = \App\Models\ContractRegistrationFlow::where('id', $this->selected_id)->first();
-            $data->contract         = $contract;
+            $data->team_dimension         = $teamdimension;
             
             $data->save();
         }
 
-        session()->flash('message-success',"Upload Contract for Contract Registration Flow success");
+        session()->flash('message-success',"Upload Team Dimension for Contract Registration Flow success");
         
         return redirect()->route('contract-registration-flow.index');
 

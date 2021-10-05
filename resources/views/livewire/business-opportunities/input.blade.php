@@ -107,9 +107,9 @@
                                                 <option value="Operator">Operator</option>
                                                 <option value="Others">Others</option>
                                             </select>
-                                            <div x-show="$wire.show_customer_type2" class="mt-2">
+                                            <!-- <div x-show="$wire.show_customer_type2" class="mt-2">
                                                 <input type="text" class="form-control" placeholder="Customer lain yang tidak disebutkan diatas:  *Free Text*" wire:model="customer_type2">
-                                            </div>
+                                            </div> -->
                                             @error('customer_type')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
