@@ -1,6 +1,122 @@
 <div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <style>
+
+        /* body {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 14px;
+            font-family: "Helvetica Nueue",Arial,Verdana,sans-serif;
+            background-color: #DDDDDD;
+            } */
+
+        /* #wrap {
+            width: 1100px;
+            margin: 0 auto;
+            } */
+
+        #external-events {
+            float: left;
+            width: 150px;
+            padding: 0 10px;
+            text-align: left;
+            }
+
+        #external-events h4 {
+            font-size: 16px;
+            margin-top: 0;
+            padding-top: 1em;
+            }
+
+        .external-event { /* try to mimick the look of a real event */
+            margin: 10px 0;
+            padding: 2px 4px;
+            background: #3366CC;
+            color: #fff;
+            font-size: .85em;
+            cursor: pointer;
+            }
+
+        #external-events p {
+            margin: 1.5em 0;
+            font-size: 11px;
+            color: #666;
+            }
+
+        #external-events p input {
+            margin: 0;
+            vertical-align: middle;
+            }
+
+        #calendar {
+    /* 		float: right; */
+            margin: 0 auto;
+            width: 900px;
+            background-color: #FFFFFF;
+            border-radius: 6px;
+            box-shadow: 0 1px 2px #C3C3C3;
+            }
+
+    </style>
+
+
+
+    <div class="row">
+        <div class="col-md-1">                
+            <select class="form-control" wire:model="year">
+                <option value=""> --- Year --- </option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                
+            
+            </select>
+        </div>
+        <div class="col-md-2" wire:ignore>
+            <select class="form-control" style="width:100%;" wire:model="month">
+                <option value=""> --- Month --- </option>
+                <?php
+                    for($i = 1; $i <= 12; $i++){
+                ?>
+                <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
+                <?php
+                    }
+                ?>
+            </select>
+        </div>
+        
+        <div class="col-md-7">
+            <label wire:loading>
+                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                <span class="sr-only">{{ __('Loading...') }}</span>
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6" style="height: 300px">
+            <canvas id="chBar"></canvas>
+        </div>
+
+        <div class="col-md-6" style="height: 300px">
+            <canvas id="chBar1"></canvas>
+        </div>
+    </div>
+    
+    
+    <div class="col-md-8">
+        <div id='wrap' class="col-md-8" style="margin: 5px;">
+            <div id='calendar' class="col-md-12" onclick="return false;"></div>
+        </div>
+    </div>
+</div>
+
+@push('after-scripts')
+<!-- section('page-script') -->
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <script>
 
         $(document).ready(function() {
@@ -178,121 +294,8 @@
         });
 
     </script>
-    <style>
 
-        /* body {
-            margin-top: 40px;
-            text-align: center;
-            font-size: 14px;
-            font-family: "Helvetica Nueue",Arial,Verdana,sans-serif;
-            background-color: #DDDDDD;
-            } */
-
-        /* #wrap {
-            width: 1100px;
-            margin: 0 auto;
-            } */
-
-        #external-events {
-            float: left;
-            width: 150px;
-            padding: 0 10px;
-            text-align: left;
-            }
-
-        #external-events h4 {
-            font-size: 16px;
-            margin-top: 0;
-            padding-top: 1em;
-            }
-
-        .external-event { /* try to mimick the look of a real event */
-            margin: 10px 0;
-            padding: 2px 4px;
-            background: #3366CC;
-            color: #fff;
-            font-size: .85em;
-            cursor: pointer;
-            }
-
-        #external-events p {
-            margin: 1.5em 0;
-            font-size: 11px;
-            color: #666;
-            }
-
-        #external-events p input {
-            margin: 0;
-            vertical-align: middle;
-            }
-
-        #calendar {
-    /* 		float: right; */
-            margin: 0 auto;
-            width: 900px;
-            background-color: #FFFFFF;
-            border-radius: 6px;
-            box-shadow: 0 1px 2px #C3C3C3;
-            }
-
-    </style>
-
-
-
-    <div class="row">
-        <div class="col-md-1">                
-            <select class="form-control" wire:model="year">
-                <option value=""> --- Year --- </option>
-                <option value="2021">2021</option>
-                <option value="2020">2020</option>
-                <option value="2019">2019</option>
-                <option value="2018">2018</option>
-                <option value="2017">2017</option>
-                
-            
-            </select>
-        </div>
-        <div class="col-md-2" wire:ignore>
-            <select class="form-control" style="width:100%;" wire:model="month">
-                <option value=""> --- Month --- </option>
-                <?php
-                    for($i = 1; $i <= 12; $i++){
-                ?>
-                <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
-                <?php
-                    }
-                ?>
-            </select>
-        </div>
-        
-        <div class="col-md-7">
-            <label wire:loading>
-                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-                <span class="sr-only">{{ __('Loading...') }}</span>
-            </label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6" style="height: 300px">
-            <canvas id="chBar"></canvas>
-        </div>
-
-        <div class="col-md-6" style="height: 300px">
-            <canvas id="chBar1"></canvas>
-        </div>
-    </div>
-    
-    
-    <div class="col-md-8">
-        <div id='wrap' class="col-md-8" style="margin: 5px;">
-            <div id='calendar' class="col-md-12" onclick="return false;"></div>
-        </div>
-    </div>
-</div>
-
-<!-- push('after-scripts') -->
-@section('page-script')
-<script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
+<!-- <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script> -->
 <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
 
 
@@ -432,8 +435,8 @@
 </script>
 
 
-<!-- endpush -->
-@endsection
+@endpush
+<!-- endsection -->
 
 
 

@@ -62,17 +62,24 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        <div class="col-md-6 form-group">
+                                        <!-- <div class="col-md-6 form-group">
                                             <label>Duration</label>
                                             <input type="number" class="form-control" wire:model="duration"/>
                                             @error('duration')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
+                                        </div> -->
+                                        <div class="col-md-6 form-group">
+                                            <label>Start Duration</label>
+                                            <input type="date" class="form-control" wire:model="startdate"/>
+                                            @error('startdate')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
                                         </div>
                                         <div class="col-md-6 form-group">
-                                            <label>Date</label>
-                                            <input type="date" class="form-control" wire:model="date"/>
-                                            @error('date')
+                                            <label>End Duration</label>
+                                            <input type="date" class="form-control" wire:model="enddate"/>
+                                            @error('enddate')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
@@ -104,7 +111,7 @@
                                                 <option value="">-- Customer Type --</option>
                                                 <option value="Tower Provider">Tower Provider</option>
                                                 <option value="Vendor">Vendor</option>
-                                                <option value="Operator">Operator</option>
+                                                <option value="Operators">Operator</option>
                                                 <option value="Others">Others</option>
                                             </select>
                                             <!-- <div x-show="$wire.show_customer_type2" class="mt-2">

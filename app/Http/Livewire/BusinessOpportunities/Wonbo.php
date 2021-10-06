@@ -39,8 +39,11 @@ class Wonbo extends Component
         $data->status       = '1';
         $data->save();
 
-        $insertcrf          = new \App\Models\ContractRegistrationFlow();
-        $insertcrf->id_bo   = $this->selected_id;
+        $insertcrf                      = new \App\Models\ContractRegistrationFlow();
+        $insertcrf->id_bo               = $this->selected_id;
+        $insertcrf->contract_duration   = $data->duration;
+        $insertcrf->start_contract      = $data->startdate;
+        $insertcrf->end_contract        = $data->enddate;
         $insertcrf->save();
 
         // $notif = check_access_data('application-room-request.notif-user', '');

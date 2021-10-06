@@ -7,7 +7,7 @@ use Auth;
 
 class Input extends Component
 {    
-    public $customer, $project_name, $region, $qty, $price_or_unit, $estimate_revenue, $duration, $brief_description, $date, $customer_type, $customer_type2, $show_customer_type2=false;
+    public $customer, $project_name, $region, $qty, $price_or_unit, $estimate_revenue, $duration, $brief_description, $startdate, $enddate, $date, $customer_type, $customer_type2, $show_customer_type2=false;
 
     public function render()
     {
@@ -31,10 +31,12 @@ class Input extends Component
         $data->qty                      = $this->qty;
         $data->price_or_unit            = $this->price_or_unit;
         $data->estimate_revenue         = $this->estimate_revenue;
-        $data->duration                 = $this->duration;
+        $data->duration                 = $this->duration($this->startdate, $this->enddate);
         $data->status                   = '';
         $data->brief_description        = $this->brief_description;
-        $data->date                     = $this->date;
+        $data->startdate                = $this->startdate;
+        $data->enddate                  = $this->enddate;
+        // $data->date                     = $this->date;
         $data->customer_type            = $this->customer_type;
         $data->sales_name               = $user->name;
         
@@ -46,5 +48,30 @@ class Input extends Component
         session()->flash('message-success',"Business Opportunity Berhasil diinput");
         
         return redirect()->route('business-opportunities.index');
+    }
+
+    public function duration($start_time, $end_time){
+        
+        $diff = abs(strtotime($end_time) - strtotime($start_time));
+        $years   = floor($diff / (365*60*60*24)); 
+        $months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
+        $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+        $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
+        $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
+        
+        // if($hours > 0){
+        //     $waktu = $hours.'.'.$minuts.' hours';
+        //     // $waktu = $hours;
+        // }else{
+        //     $waktu = $minuts.' minute';
+        //     // $waktu = $minuts;
+        // }
+
+        if($days > 0){
+            $waktu = $days.' days';
+        }else{
+            $waktu = $days.' day';
+        }
+        return $waktu;
     }
 }

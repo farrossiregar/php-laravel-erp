@@ -96,6 +96,10 @@
 
                             <a href="javascript:;" wire:click="$emit('modaledit','{{ $item->id }}')" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>
                         </td>
+                        <td>{{ date_format(date_create($item->date_create), 'd M Y') }}</td>
+                        
+                        <td>{{ $item->id_bo }}</td>
+                        
                         <td>
                             @if($item->status == null || $item->status == '')
                                 <label class="badge badge-warning" data-toggle="tooltip" title="On Going">On Going</label>
@@ -105,8 +109,8 @@
                                 <label class="badge badge-success" data-toggle="tooltip" title="Closed">Closed</label>
                             @endif
                         </td>
-                        <td>{{ $item->id_bo }}</td>
-                        <td>{{ $item->status }}</td>
+                        
+                        
                         <td>
                             @if($item->contract)
                                 <a href="<?php echo asset('storage/contract_registration_flow/Contract/'.$item->contract.''); ?>" data-toggle="tooltip" title="Download Contract"><i class="fa fa-download"></i> {{__('Download Contract')}}</a>
@@ -119,7 +123,7 @@
                         </td>
                         <td>{{ $item->project_code }} - {{ $item->sub_project_code }}</td>
                         <td>{{ $item->po_amount }}</td>
-                        <td>{{ $item->contract_duration }}</td>
+                        <td><label class="badge badge-info" data-toggle="tooltip" title="{{ date_format(date_create($item->start_contract), 'd M Y') }} - {{ date_format(date_create($item->end_contract), 'd M Y') }}">{{ $item->contract_duration }}</label></td>
 
                         <td>
                             @if($item->ca_tools_budget)

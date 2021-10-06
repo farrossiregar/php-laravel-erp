@@ -38,15 +38,15 @@
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <label>Start Duration</label>
-                                            <input type="date" class="form-control" wire:model="startdate"/>
-                                            @error('startdate')
+                                            <input type="date" class="form-control" wire:model="start_contract"/>
+                                            @error('start_contract')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <label>End Duration</label>
-                                            <input type="date" class="form-control" wire:model="enddate"/>
-                                            @error('enddate')
+                                            <input type="date" class="form-control" wire:model="end_contract"/>
+                                            @error('end_contract')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>

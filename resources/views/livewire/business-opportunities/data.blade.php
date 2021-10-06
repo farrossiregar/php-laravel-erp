@@ -37,7 +37,7 @@
                         <th>Estimated Revenue</th> 
                         <th>Duration</th> 
                         <th>Brief Description of Project</th> 
-                        <th>Date</th> 
+                        <!-- <th>Date</th>  -->
                         <th>Status</th> 
                         <th>Customer Type</th> 
                         <th>Created By</th> 
@@ -55,9 +55,9 @@
                         <td>{{ $item->qty }}</td>
                         <td>Rp,{{ format_idr($item->price_or_unit) }}</td>
                         <td>Rp,{{ format_idr($item->estimate_revenue) }}</td>
-                        <td>{{ $item->duration }}</td>
+                        <td><label class="badge badge-info" data-toggle="tooltip" title="{{ date_format(date_create($item->startdate), 'd M Y') }} - {{ date_format(date_create($item->enddate), 'd M Y') }}">{{ $item->duration }}</label></td>
                         <td>{{ $item->brief_description }}</td>
-                        <td>{{ date_format(date_create($item->date), 'd M Y') }}</td>
+                        <!-- <td>{{ date_format(date_create($item->date), 'd M Y') }}</td> -->
                         <td>
                             @if($item->status == '1')
                                 <label class="badge badge-success" data-toggle="tooltip" title="Won">Won</label>
