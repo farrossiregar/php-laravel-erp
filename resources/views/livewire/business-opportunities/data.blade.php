@@ -14,10 +14,11 @@
     </div> -->
 
 
-    
+    @if(check_access('business-opportunities.add'))
     <div class="col-md-2">
         <a href="#" data-toggle="modal" data-target="#modal-businessopportunities-input" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input New Opportunity')}}</a>
     </div>
+    @endif
     
     
     
@@ -78,7 +79,7 @@
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>
                             
-                            @if(check_access('duty-roster.approve'))
+                            @if(check_access('business-opportunities.add'))
                                 @if($item->status == '')
                                     <a href="javascript:;" wire:click="$emit('modalwonbo','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Won</a>
                                     <a href="javascript:;" wire:click="$emit('modalfailedbo','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Failed</a>
@@ -86,7 +87,7 @@
 
                             @endif
 
-                            @if(check_access('duty-roster.import'))
+                            @if(check_access('business-opportunities.add'))
                                 @if($item->status == '0')
                                     <!-- <a href="#" wire:click="$emit('modalrevisidutyroster','{{ $item->id }}')" data-toggle="modal" data-target="#modal-dutyroster-revisidutyroster" title="Add" class="btn btn-warning"><i class="fa fa-plus"></i> {{__('Revisi Duty roster')}}</a> -->
                                 @endif
