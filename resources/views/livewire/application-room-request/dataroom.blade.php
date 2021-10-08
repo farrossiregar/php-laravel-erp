@@ -46,7 +46,6 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Type Request</th> 
                         <th>Detail Request</th> 
                         <th>Booking Date Request</th> 
                         <th>Purpose</th> 
@@ -61,7 +60,6 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td><b>{{ strtoupper($item->type_request) }}</b></td>
                         <td>
                             <?php
                                 if($item->request_room_detail == 'server'){
@@ -121,21 +119,16 @@
                         <td>
                              @if(check_access('application-room-request.manager-approval'))
                                 @if($item->status == '' || $item->status == null)
-                                    <a href="javascript:;" wire:click="$emit('modalapproveroomrequest','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineroomrequest','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                    <a href="javascript:;" wire:click="$emit('modalapproveroomrequest','{{ $item->id }}')" class="badge badge-success"><i class="fa fa-check"></i> Approve</a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclineroomrequest','{{ $item->id }}')" class="badge badge-danger"><i class="fa fa-close"></i> Decline</a>
                                 @endif
-
                             @endif
-
                             @if(check_access('application-room-request.pmg-approval'))
                                 @if($item->status == '1')
-                                    <a href="javascript:;" wire:click="$emit('modalapproveroomrequest','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineroomrequest','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                    <a href="javascript:;" wire:click="$emit('modalapproveroomrequest','{{ $item->id }}')" class="badge badge-success"><i class="fa fa-check"></i> Approve</a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclineroomrequest','{{ $item->id }}')" class="badge badge-danger"><i class="fa fa-close"></i> Decline</a>
                                 @endif
-
                             @endif
-                            
-                               
                         </td> 
                     </tr>
                     @endforeach

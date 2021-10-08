@@ -46,11 +46,13 @@ class GeneralNotification extends Command
     {
         echo "General Notification\n";
 
-        foreach(Employee::where(['is_use_android'=>1])->get() as $em){
+        foreach(Employee::select('employees.*')->join('employee_projects','employee_projects.employee_id','=','employees.id')->where('is_use_android',1)->groupBy('employees.id')->get() as $em){
             echo "Daily Commitment\n";   
             echo "Name : {$em->name}\n";   
             echo "==========================\n\n";
             
+            $project = EmployeeProject::where('employee_id',$em->id)->first();
+
             $daily = Notification::where(['employee_id'=>$em->id,'type'=>1])->whereDate('created_at',date('Y-m-d'))->first();
             if(!$daily){
                 $daily = new Notification();
@@ -60,16 +62,16 @@ class GeneralNotification extends Command
                 $daily->description = "Sudahkah anda melakukan daily commitment hari ini";
                 $daily->save();
 
-                $commitemnt_daily  = new CommitmentDaily();
-                $commitemnt_daily->employee_id = $em->id;
-
-                $project = EmployeeProject::where('employee_id',$em->id)->first();
-                if($project) $commitemnt_daily->client_project_id = $project->client_project_id; 
-
-                $commitemnt_daily->region_id = $em->region_id;
-                $commitemnt_daily->sub_region_id = $em->sub_region_id;
-                $commitemnt_daily->save();
-
+                $find = CommitmentDaily::where('employee_id',$em->id)->whereDate('created_at',date('Y-m-d'))->first();
+                if(!$find){
+                    $commitemnt_daily  = new CommitmentDaily();
+                    $commitemnt_daily->employee_id = $em->id;
+                    if($project) $commitemnt_daily->client_project_id = $project->client_project_id; 
+                    $commitemnt_daily->region_id = $em->region_id;
+                    $commitemnt_daily->sub_region_id = $em->sub_region_id;
+                    $commitemnt_daily->save();
+                }
+                
                 if($em->device_token){
                     push_notification_android($em->device_token,$daily->title,$daily->description,1);
                 }
@@ -83,20 +85,22 @@ class GeneralNotification extends Command
                 $ppe->title = 'PPE Check';
                 $ppe->description = "Sudahkah anda melakukan PPE Check hari ini";
                 $ppe->save();
+                
+                $find = PpeCheck::where('employee_id',$em->id)->whereDate('created_at',date('Y-m-d'))->first();
+                if(!$find){
+                    $data = new PpeCheck();
+                    $data->employee_id = $em->id;
+                    if($project) $data->client_project_id = $project->client_project_id; 
+                    $data->region_id = $em->region_id;
+                    $data->sub_region_id = $em->sub_region_id;
+                    $data->save();
 
-                $data = new PpeCheck();
-                $data->employee_id = $em->id;
+                    if($em->device_token){
+                        push_notification_android($em->device_token,$ppe->title,$ppe->description,2);
+                    }
 
-                $project = EmployeeProject::where('employee_id',$em->id)->first();
-                if($project) $data->client_project_id = $project->client_project_id; 
-
-                $data->region_id = $em->region_id;
-                $data->sub_region_id = $em->sub_region_id;
-                $data->save();
-
-                if($em->device_token){
-                    push_notification_android($em->device_token,$ppe->title,$ppe->description,2);
                 }
+                
             }
 
             $vehicle = Notification::where(['employee_id'=>$em->id,'type'=>3])->whereDate('created_at',date('Y-m-d'))->first();
@@ -108,18 +112,18 @@ class GeneralNotification extends Command
                 $vehicle->description = "Sudahkah anda melakukan Vehicle Check hari ini";
                 $vehicle->save();
 
-                $data = new VehicleCheck();
-                $data->employee_id = $em->id;
-                
-                $project = EmployeeProject::where('employee_id',$em->id)->first();
-                if($project) $data->client_project_id = $project->client_project_id; 
+                $find = VehicleCheck::where('employee_id',$em->id)->whereDate('created_at',date('Y-m-d'))->first();
+                if(!$find){
+                    $data = new VehicleCheck();
+                    $data->employee_id = $em->id;
+                    if($project) $data->client_project_id = $project->client_project_id; 
+                    $data->region_id = $em->region_id;
+                    $data->sub_region_id = $em->sub_region_id;
+                    $data->save();
 
-                $data->region_id = $em->region_id;
-                $data->sub_region_id = $em->sub_region_id;
-                $data->save();
-
-                if($em->device_token){
-                    push_notification_android($em->device_token,$vehicle->title,$vehicle->description,3);
+                    if($em->device_token){
+                        push_notification_android($em->device_token,$vehicle->title,$vehicle->description,3);
+                    }
                 }
             }
 
@@ -131,18 +135,19 @@ class GeneralNotification extends Command
                 $health->title = 'Healt Check';
                 $health->description = "Lakukan Health Check hari ini";
                 $health->save();
+                
+                $find = HealthCheck::where('employee_id',$em->id)->whereDate('created_at',date('Y-m-d'))->first();
+                if(!$find){
+                    $data = new HealthCheck();
+                    $data->employee_id = $em->id;
+                    if($project) $data->client_project_id = $project->client_project_id; 
+                    $data->region_id = $em->region_id;
+                    $data->sub_region_id = $em->sub_region_id;
+                    $data->save();
 
-                $data = new HealthCheck();
-                $data->employee_id = $em->id;
-                $project = EmployeeProject::where('employee_id',$em->id)->first();
-                if($project) $data->client_project_id = $project->client_project_id; 
-
-                $data->region_id = $em->region_id;
-                $data->sub_region_id = $em->sub_region_id;
-                $data->save();
-
-                if($em->device_token){
-                    push_notification_android($em->device_token,$vehicle->title,$vehicle->description,4);
+                    if($em->device_token){
+                        push_notification_android($em->device_token,$vehicle->title,$vehicle->description,4);
+                    }
                 }
             }
         }

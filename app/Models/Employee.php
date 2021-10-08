@@ -8,12 +8,18 @@ use App\Models\Company;
 use App\Models\Region;
 use App\Models\SubRegion;
 use App\Models\Employee as EmployeeModel;
+use App\Models\EmployeeProject;
 
 class Employee extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
+
+    public function employee_project()
+    {
+        return $this->hasMany(EmployeeProject::class,'employee_id','id');
+    }
 
     public function region()
     {

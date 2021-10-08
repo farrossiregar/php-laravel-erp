@@ -20,7 +20,7 @@ class Data extends Component
             $this->redirect('/');
         }
 
-        $data = PoTrackingReimbursement::orderBy('id', 'DESC');
+        $data = PoTrackingReimbursement::with('acceptance','bast','esar')->orderBy('id', 'DESC');
         
         if($this->keyword) $data = $data->where(function($table){
             foreach(\Illuminate\Support\Facades\Schema::getColumnListing('po_tracking_reimbursement') as $column){

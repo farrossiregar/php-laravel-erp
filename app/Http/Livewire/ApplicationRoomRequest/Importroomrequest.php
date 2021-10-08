@@ -42,8 +42,6 @@ class Importroomrequest extends Component
                                                     ->where(DB::Raw('substring(end_booking, 12, 8)'), '<=', $this->end_time_booking.':00')
                                                     ->where('request_room_detail', $this->request_room_detail)
                                                     ->get();
-        // dd(count($check));
-        
         if(count($check) < 1){
             $datamaster                             = new \App\Models\ApplicationRoomRequest();
             $datamaster->employee_id                = $this->employee_id;

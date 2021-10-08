@@ -143,5 +143,4 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::get('business-opportunities',App\Http\Livewire\BusinessOpportunities\Index::class)->name('business-opportunities.index');
     Route::get('contract-registration-flow',App\Http\Livewire\ContractRegistrationFlow\Index::class)->name('contract-registration-flow.index');
-
 });

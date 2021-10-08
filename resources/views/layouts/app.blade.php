@@ -194,7 +194,7 @@
             //     $(".btn-toggle-fullwidth").trigger('click');
             // });
             $('[data-toggle="tooltip"]').tooltip();
-            $('*').tooltip();
+            // $('*').tooltip();
         </script>
     </body>
 </html>

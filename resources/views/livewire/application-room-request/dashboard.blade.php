@@ -294,41 +294,21 @@
         });
 
     </script>
-
-<!-- <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script> -->
 <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
-
-
-
 <link href="{{ asset('assets/fullcalendar-master/assets/css/fullcalendar.css') }}" rel='stylesheet' />
 <link href="{{ asset('assets/fullcalendar-master/assets/css/fullcalendar.print.css') }}" rel='stylesheet' media='print' />
-<script src="{{ asset('assets/fullcalendar-master/assets/js/jquery-1.10.2.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/fullcalendar-master/assets/js/jquery-ui.custom.min.js') }}" type="text/javascript"></script>
+<!-- <script src="{{ asset('assets/fullcalendar-master/assets/js/jquery-1.10.2.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/fullcalendar-master/assets/js/jquery-ui.custom.min.js') }}" type="text/javascript"></script> -->
 <script src="{{ asset('assets/fullcalendar-master/assets/js/fullcalendar.js') }}" type="text/javascript"></script>
-
-
 <script>
     var labels = {!!$labels!!};
     var datasets = {!!$datasets!!};
-
     var labelsapp = [];
     var labelsapp = {!!$labelsapp!!};
     var datasetsapp = [];
     var datasetsapp = {!!$datasetsapp!!};
 
-
-
     $( document ).ready(function() {
-        
-
-        // $('.multiselect_month').multiselect({ 
-        //         nonSelectedText: ' --- All Month --- ',
-        //         onChange: function (option, checked) {
-        //             @this.set('month', $('.multiselect_month').val());
-        //         },
-        //         buttonWidth: '100%'
-        //     }
-        // );
         init_chart_applicationroomreq();
     });
     Livewire.on('init-chart',(data)=>{
@@ -347,8 +327,7 @@
         var chBar1 = document.getElementById("chBar1");
 
         var dataapps = [];
-        for(var i = 0; i < datasetsapp.length; i++) 
-        {
+        for(var i = 0; i < datasetsapp.length; i++) {
             dataapps.push( {
                     label: labelsapp[i]['request_room_detail'], 
                     backgroundColor: colors[i], 
@@ -356,22 +335,18 @@
                     data: [ datasetsapp[i]['jumlahrequest'] ]
                     
             });
-            
         }
 
         var dataroom = [];
-        for(var i = 0; i < datasets.length; i++) 
-        {
+        for(var i = 0; i < datasets.length; i++) {
             dataroom.push( {
                     label: labels[i]['request_room_detail'], 
                     backgroundColor: colors[i], 
                     fill: 'boundary',
                     data: [ datasets[i]['jumlahrequest'] ]
                     
-            });
-            
+            });   
         }
-        // console.log(dataapps);
 
         if (chBar) {
             new Chart(chBar, {
@@ -430,31 +405,17 @@
             });
         }
     }
-
-
 </script>
-
-
 @endpush
 <!-- endsection -->
-
-
-
 @section('page-script')
-
-
     Livewire.on('modalrevisiroomrequest',(data)=>{
         $("#modal-roomrequest-revisiroomrequest").modal('show');
     });
-
     Livewire.on('modalapproveroomrequest',(data)=>{
         $("#modal-roomrequest-approveroomrequest").modal('show');
     });
-
-   
-
     Livewire.on('modaldeclineroomrequest',(data)=>{
         $("#modal-roomrequest-declineroomrequest").modal('show');
     });
-
 @endsection

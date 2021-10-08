@@ -16,11 +16,14 @@ class Index extends Component
     
     protected $listeners = ['emit-delete-hide' => '$refresh'];
     
-    public $keyword,$user_access_id,$department_sub_id;
+    public $keyword,$user_access_id,$department_sub_id,$department_id,$project_id;
     
     public function render()
     {
-        $data = Employee::with('company','department','access')->orderBy('id','DESC');
+        $data = Employee::with('company','department','access','employee_project.project')->orderBy('employees.id','DESC');
+
+        if($this->department_id) $data->where('department_id',$this->department_id);
+        if($this->project_id) $data->join('employee_projects','employee_projects.employee_id','=','employees.id')->where('employee_projects.client_project_id',$this->project_id)->groupBy('employees.id');
 
         if($this->keyword) $data = $data->where(function($table){
             foreach(\Illuminate\Support\Facades\Schema::getColumnListing('employees') as $column){

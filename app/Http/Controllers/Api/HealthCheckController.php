@@ -11,7 +11,7 @@ class HealthCheckController extends Controller
 {
     public function store(Request $request)
     {
-        $data = HealthCheck::where('employee_id',\Auth::user()->employee->id)->whereDate('created_at',date('Y-md-'))->first();
+        $data = HealthCheck::where('employee_id',\Auth::user()->employee->id)->whereDate('created_at',date('Y-m-d'))->first();
         if(!$data) $data = new HealthCheck();
         
         $data->company = $request->perusahaan == 1 ? 'PT. Putra Mulia Telecommunication' : 'PT. Harapan Utama Prima';

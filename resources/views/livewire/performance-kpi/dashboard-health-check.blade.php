@@ -13,8 +13,8 @@
         </thead> 
         <tbody> 
             @foreach($projects as $k => $p)
-                @php($done = \App\Models\HealthCheck::where(['client_project_id'=>$p->id,'is_submit'=>1])->whereDate('created_at',date('Y-m-d'))->count())
-                @php($qty = \App\Models\HealthCheck::where(['client_project_id'=>$p->id])->whereDate('created_at',date('Y-m-d'))->count())
+                @php($done = \App\Models\HealthCheck::where(['client_project_id'=>$p->id,'is_submit'=>1])->whereDate('created_at',date('Y-m-d'))->get()->count())
+                @php($qty = \App\Models\HealthCheck::where(['client_project_id'=>$p->id])->whereDate('created_at',date('Y-m-d'))->groupBy('employee_id')->get()->count())
                 @php($persen = @floor($done / $qty * 100))
                 <tr>
                     <td>{{$p->name}}</td>

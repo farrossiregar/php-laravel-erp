@@ -16,7 +16,23 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-2">
+                    <select class="form-control" wire:model="department_id">
+                        <option value="">--- Department ---</option>
+                        @foreach(\App\Models\Department::orderBy('name')->get() as $i)
+                        <option value="{{$i->id}}">{{$i->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" wire:model="project_id">
+                        <option value="">--- Project ---</option>
+                        @foreach(\App\Models\ClientProject::where('is_project',1)->groupBy('name')->orderBy('name')->get() as $i)
+                        <option value="{{$i->id}}">{{$i->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
                     <a href="{{route('employee.insert')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Employee</a>
                     <span wire:loading>
                         <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -37,6 +53,7 @@
                                 <th>Phone</th>                                    
                                 <th>Email</th>  
                                 <th>Department</th>
+                                <th>Project</th>
                                 <th>Position</th>
                                 <th>Android</th>
                                 <th>Updated</th>
@@ -67,6 +84,15 @@
                                 <td>{{$item->telepon}}</td> 
                                 <td>{{$item->email}}</td>          
                                 <td>{{isset($item->department->name)?$item->department->name :''}}</td>
+                                <td>
+                                    @if($item->employee_project)
+                                        @foreach($item->employee_project as $p)
+                                            @if(isset($p->project->name))
+                                                {{$p->project->name}} 
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </td>
                                 <td>{{isset($item->access->name)?$item->access->name:''}}</td>
                                 <td>
                                     @if($item->is_use_android==1)

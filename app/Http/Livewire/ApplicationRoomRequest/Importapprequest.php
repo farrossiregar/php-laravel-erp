@@ -41,7 +41,7 @@ class Importapprequest extends Component
             $datamaster->request_room_detail        = $this->request_room_detail == "Others" ? $this->others : $this->request_room_detail;
             $datamaster->start_booking              = '';
             $datamaster->end_booking                = '';
-            $datamaster->purpose                    = '';
+            $datamaster->purpose                    = $this->description;
             $datamaster->participant                = '';
             $datamaster->status                     = '';
             $datamaster->note                       = '';

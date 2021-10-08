@@ -23,7 +23,9 @@ date_default_timezone_set("Asia/Bangkok");
 Route::group(['middleware' => 'cors', 'json.response'], function(){
 	Route::post('auth-login', [\App\Http\Controllers\Api\UserController::class,'login']);
 });
-
+Route::get('tanggal',function(){
+	return date('Y-m-d H:i:s');
+});
 Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('get-customer-asset-management',[\App\Http\Controllers\Api\CustomerAssetManagementController::class,'index']);
 	Route::post('customer-asset-management/submit',[\App\Http\Controllers\Api\CustomerAssetManagementController::class,'submit'])->name('api.customer-asset.submit-checking');

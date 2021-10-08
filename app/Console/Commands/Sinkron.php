@@ -42,56 +42,72 @@ class Sinkron extends Command
      */
     public function handle()
     {
-        $commitmentDaily = CommitmentDaily::get();
+        $commitmentDaily = CommitmentDaily::whereDate('created_at',date('Y-m-d'))->where('is_submit',0)->get();
         foreach($commitmentDaily as $item){
-            if($item->employee->region_id){
-                echo "Sinkron Commitment Daily : {$item->employee->name}\n";
-                $project = EmployeeProject::where('employee_id',$item->employee_id)->first();
-                if($project) $item->client_project_id = $project->client_project_id; 
+            $project = EmployeeProject::where('employee_id',$item->employee_id)->first();
+            echo "Sinkron Commitment Daily : {$item->employee->name}\n";
 
-                $item->region_id = $item->employee->region_id;
-                $item->sub_region_id = $item->employee->sub_region_id;
-                $item->save();
-            }
+            if(!$project) $item->delete();
+            //if($item->employee->region_id){
+              //  echo "Sinkron Commitment Daily : {$item->employee->name}\n";
+                // if($project) $item->client_project_id = $project->client_project_id; 
+
+                // $item->region_id = $item->employee->region_id;
+                // $item->sub_region_id = $item->employee->sub_region_id;
+                // $item->save();
+            //}
         }
 
-        $commitmentDaily = PpeCheck::get();
+        $commitmentDaily = PpeCheck::whereDate('created_at',date('Y-m-d'))->where('is_submit',0)->get();
         foreach($commitmentDaily as $item){
-            if($item->employee->region_id){
-                echo "Sinkron PPE Check : {$item->employee->name}\n";
-                $project = EmployeeProject::where('employee_id',$item->employee_id)->first();
-                if($project) $item->client_project_id = $project->client_project_id; 
 
-                $item->region_id = $item->employee->region_id;
-                $item->sub_region_id = $item->employee->sub_region_id;
-                $item->save();
-            }
+            $project = EmployeeProject::where('employee_id',$item->employee_id)->first();
+            echo "Sinkron PPE Check : {$item->employee->name}\n";
+
+            if(!$project) $item->delete();
+            // if($item->employee->region_id){
+            //     echo "Sinkron PPE Check : {$item->employee->name}\n";
+            //     $project = EmployeeProject::where('employee_id',$item->employee_id)->first();
+            //     if($project) $item->client_project_id = $project->client_project_id; 
+
+            //     $item->region_id = $item->employee->region_id;
+            //     $item->sub_region_id = $item->employee->sub_region_id;
+            //     $item->save();
+            // }
         }
 
-        $commitmentDaily = VehicleCheck::get();
+        $commitmentDaily = VehicleCheck::whereDate('created_at',date('Y-m-d'))->where('is_submit',0)->get();
         foreach($commitmentDaily as $item){
-            if($item->employee->region_id){
-                echo "Sinkron Vehicle Check : {$item->employee->name}\n";
-                $project = EmployeeProject::where('employee_id',$item->employee_id)->first();
-                if($project) $item->client_project_id = $project->client_project_id; 
+            $project = EmployeeProject::where('employee_id',$item->employee_id)->first();
+            echo "Sinkron Vehicle Check : {$item->employee->name}\n";
 
-                $item->region_id = $item->employee->region_id;
-                $item->sub_region_id = $item->employee->sub_region_id;
-                $item->save();
-            }
+            if(!$project) $item->delete();
+            // if($item->employee->region_id){
+            //     echo "Sinkron Vehicle Check : {$item->employee->name}\n";
+            //     $project = EmployeeProject::where('employee_id',$item->employee_id)->first();
+            //     if($project) $item->client_project_id = $project->client_project_id; 
+
+            //     $item->region_id = $item->employee->region_id;
+            //     $item->sub_region_id = $item->employee->sub_region_id;
+            //     $item->save();
+            // }
         }
 
-        $commitmentDaily = HealthCheck::get();
+        $commitmentDaily = HealthCheck::whereDate('created_at',date('Y-m-d'))->where('is_submit',0)->get();
         foreach($commitmentDaily as $item){
-            if($item->employee->region_id){
-                echo "Sinkron Health Check : {$item->employee->name}\n";
-                $project = EmployeeProject::where('employee_id',$item->employee_id)->first();
-                if($project) $item->client_project_id = $project->client_project_id; 
+            $project = EmployeeProject::where('employee_id',$item->employee_id)->first();
+            echo "Sinkron Health Check : {$item->employee->name}\n";
 
-                $item->region_id = $item->employee->region_id;
-                $item->sub_region_id = $item->employee->sub_region_id;
-                $item->save();
-            }
+            if(!$project) $item->delete();
+            // if($item->employee->region_id){
+            //     echo "Sinkron Health Check : {$item->employee->name}\n";
+            //     $project = EmployeeProject::where('employee_id',$item->employee_id)->first();
+            //     if($project) $item->client_project_id = $project->client_project_id; 
+
+            //     $item->region_id = $item->employee->region_id;
+            //     $item->sub_region_id = $item->employee->sub_region_id;
+            //     $item->save();
+            // }
         }
         // return 0;
     }

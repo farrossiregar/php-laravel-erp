@@ -86,6 +86,10 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php($is_upload_bast = check_access('po-tracking.upload-bast'))
+                    @php($is_approved_bast = check_access('po-tracking.approved-bast'))
+                    @php($is_edit_esar = check_access('po-tracking.edit-esar'))
+                    @php($is_edit_accdoc = check_access('po-tracking.edit-accdoc'))
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
@@ -98,23 +102,23 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 @if($item->status==0) {{-- Upload Approved BAST --}}
-                                    @if(check_access('po-tracking.upload-bast'))
+                                    @if($is_upload_bast)
                                         <a class="dropdown-item" href="javascript:void(0);" wire:click="$emit('modal-bast',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingbast-upload"><i class="fa fa-upload"></i> Upload BAST</a>
                                     @endif
                                 @endif
                                 @if($item->status==1) {{-- E2E Review Approve / Reject --}}
-                                    @if(check_access('po-tracking.approved-bast'))
+                                    @if($is_approved_bast)
                                         <a href="javascript:;" class="dropdown-item text-success" wire:click="$emit('modal-approvebast','{{$item->id}}')" data-toggle="modal" data-target="#modal-potrackingapprovebast-upload" title="Upload"><i class="fa fa-check-circle"></i> {{__('Proccess')}}</a>
                                     @endif
                                 @endif
                                 @if($item->status==2)  {{-- Esar Upload --}}
-                                    @if(check_access('po-tracking.edit-esar'))
+                                    @if($is_edit_esar)
                                         <a href="{{route('po-tracking.generate-esar',$item->id)}}" target="_blank" class="dropdown-item"><i class="fa fa-download"></i> Generate ESAR</a>
                                         <a href="javascript:void(0);" class="dropdown-item text-success" wire:click="$emit('modalesarupload','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload"><i class="fa fa-upload"></i> {{__('Upload Approved ESAR')}}</a>
                                     @endif
                                 @endif
                                 @if($item->status==3) {{-- Finance Acceptance --}}
-                                    @if(check_access('po-tracking.edit-accdoc'))
+                                    @if($is_edit_accdoc)
                                         <a href="javascript:void(0)" class="dropdown-item text-success" wire:click="$emit('modal-acceptancedocs',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingacceptance-upload" title="Upload"><i class="fa fa-upload"></i> {{__('Upload Acceptance & Invoice Docs')}}</a>
                                     @endif
                                 @endif

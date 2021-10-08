@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-12 form-group">
                             <label>Description</label>
-                            <textarea class="form-control" name="" id="" cols="20" rows="5" wire:model.defer="description" required></textarea>
+                            <textarea class="form-control" name="" id="" cols="20" rows="5" wire:model="description" required></textarea>
                         </div>
                     </div>
                 </div>

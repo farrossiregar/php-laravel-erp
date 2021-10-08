@@ -68,7 +68,7 @@ class Insert extends Component
             // 'date_of_birth' => 'required',
             // 'marital_status' => 'required',
             // 'blood_type' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:employees',
             //'join_date' => 'required',
             //'employee_status' => 'required',
             'telepon' => 'required',
@@ -77,8 +77,15 @@ class Insert extends Component
             'department_id' => 'required',
             'user_access_id' => 'required',
             'password' => 'required|string|min:8',
-            'confirm'=>'required|same:password'
+            'confirm'=>'required|same:password',
+
         ]);
+
+        $find_user = User::where('email',$this->email)->first();
+        if($find_user){
+            $find_employee = Employee::where('user_id',$find_user->id)->first();
+            if(!$find_employee) $find_user->delete();
+        }
 
         // insert table users
         $user = new User();

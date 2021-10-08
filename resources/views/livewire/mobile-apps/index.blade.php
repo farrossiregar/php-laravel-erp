@@ -14,36 +14,11 @@
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#drug-test">{{ __('Drug Test') }}</a></li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane show active" id="employee">
-                    <livewire:mobile-apps.employee />
-                </div>
-                <div class="tab-pane" id="commitment-daily">
-                    <livewire:mobile-apps.commitment-daily />
-                </div>
-                <div class="tab-pane" id="health-check">
-                    <livewire:mobile-apps.health-check />
-                </div>
-                <div class="tab-pane" id="vehicle-check">
-                    <livewire:mobile-apps.vehicle-check />
-                </div>
-                <div class="tab-pane" id="ppe-check">
-                    <livewire:mobile-apps.ppe-check />
-                </div>
-                <div class="tab-pane" id="tools-check">
-                    <livewire:mobile-apps.tools-check />
-                </div>
-                <div class="tab-pane" id="speed-warning-alarm">
-                    <livewire:mobile-apps.speed-warning-alarm />
-                </div>
+            
                 <div class="tab-pane" id="preventive-maintenance">
                     <livewire:mobile-apps.preventive-maintenance />
                 </div>
-                <div class="tab-pane" id="drug-test">
-                    <livewire:mobile-apps.drug-test />
-                </div>
-                <div class="tab-pane" id="training-material-and-exam">
-                    <livewire:mobile-apps.training-material />
-                </div>
+                
             </div>
         </div>
     </div>
