@@ -13,6 +13,7 @@ use DB;
 class Dashboard extends Component
 {
     public $start,$end,$year,$datasets,$month;
+    public $sales_name;
     public $labels;
     public $labels2, $datasets2;
     //public $series;
@@ -48,9 +49,9 @@ class Dashboard extends Component
         $this->datasets2 = [];
 
     
-        $rate = \App\Models\BusinessOpportunities::where('status', '1')->get();
-        $won = \App\Models\BusinessOpportunities::where('status', '1')->get();
-        $all = \App\Models\BusinessOpportunities::orderBy('id', 'desc')->get();
+        $rate = \App\Models\BusinessOpportunities::where('status', '1')->where('sales_name', $this->sales_name)->get();
+        $won = \App\Models\BusinessOpportunities::where('status', '1')->where('sales_name', $this->sales_name)->get();
+        $all = \App\Models\BusinessOpportunities::orderBy('id', 'desc')->where('sales_name', $this->sales_name)->get();
 
 
         
@@ -63,7 +64,12 @@ class Dashboard extends Component
         // $this->datasets[0]['borderWidth'] = 1;
         // $this->datasets[0]['data'][] = 55;
         
-        $this->datasets[0]['data'][] = ( count($rate) / count($all) ) * 100;
+        if(count($all) < 1){
+            $this->datasets[0]['data'][] = 0;
+        }else{
+            $this->datasets[0]['data'][] = ( count(@$rate) / count(@$all) ) * 100;
+        }
+        
 
         $this->datasets[1]['label'] = 'Won';
         $this->datasets[1]['backgroundColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF)); // generate warna
@@ -83,10 +89,10 @@ class Dashboard extends Component
         // $this->datasets[0]['data'] = array('55', '11', '20');
 
 
-        $tower = \App\Models\BusinessOpportunities::where('customer_type', 'Tower provider')->where('status', '1')->get();
-        $vendor = \App\Models\BusinessOpportunities::where('customer_type', 'Vendor')->where('status', '1')->get();
-        $operators = \App\Models\BusinessOpportunities::where('customer_type', 'Operators')->where('status', '1')->get();
-        $others = \App\Models\BusinessOpportunities::where('customer_type', 'Others')->where('status', '1')->get();
+        $tower = \App\Models\BusinessOpportunities::where('customer_type', 'Tower provider')->where('status', '1')->where('sales_name', $this->sales_name)->get();
+        $vendor = \App\Models\BusinessOpportunities::where('customer_type', 'Vendor')->where('status', '1')->where('sales_name', $this->sales_name)->get();
+        $operators = \App\Models\BusinessOpportunities::where('customer_type', 'Operators')->where('status', '1')->where('sales_name', $this->sales_name)->get();
+        $others = \App\Models\BusinessOpportunities::where('customer_type', 'Others')->where('status', '1')->where('sales_name', $this->sales_name)->get();
 
         $this->labels2 = array('Tower provider', 'Vendor', 'Operators', 'Others');
 

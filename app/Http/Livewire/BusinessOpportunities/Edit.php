@@ -5,18 +5,24 @@ namespace App\Http\Livewire\BusinessOpportunities;
 use Livewire\Component;
 use Auth;
 
-class Input extends Component
+class Edit extends Component
 {    
+    protected $listeners = [
+        'modaleditbo'=>'edit',
+    ];
+
     public $customer, $project_name, $region, $qty, $unit, $price_or_unit, $estimate_revenue, $duration, $brief_description, $startdate, $enddate, $date, $customer_type, $customer_type2, $show_customer_type2=false;
 
     public function render()
     {
-        return view('livewire.business-opportunities.input');        
+        return view('livewire.business-opportunities.edit');        
     }
 
-    public function updated($propertyName)
+    public function edit($id)
     {
-        if($propertyName=='customer_type')  $this->show_customer_type2 = $this->$propertyName=='Customer lain yang tidak disebutkan diatas:  *Free Text*' ? true : false;
+        $this->selected_id = $id;
+
+        
     }
   
     public function save()
@@ -24,7 +30,7 @@ class Input extends Component
         $user = \Auth::user();
        
 
-        $data                           = new \App\Models\BusinessOpportunities();
+        $data                           = \App\Models\BusinessOpportunities::where('id', $this->selected_id)->first();
         $data->customer                 = $this->customer;
         $data->project_name             = $this->project_name;
         $data->region                   = $this->region;
@@ -37,7 +43,7 @@ class Input extends Component
         $data->brief_description        = $this->brief_description;
         $data->startdate                = $this->startdate;
         $data->enddate                  = $this->enddate;
-        // $data->date                     = $this->date;
+        
         $data->customer_type            = $this->customer_type;
         $data->sales_name               = $user->name;
         
