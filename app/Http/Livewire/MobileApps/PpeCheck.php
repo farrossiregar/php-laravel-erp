@@ -7,10 +7,12 @@ use App\Models\PpeCheck as PpeCheckModel;
 use Livewire\WithPagination;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use App\Models\Region;
+use App\Models\SubRegion;
 
 class PpeCheck extends Component
 {
-    public $date_start,$date_end,$keyword;
+    public $date_start,$date_end,$keyword,$region=[],$sub_region=[],$region_id,$sub_region_id;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
@@ -20,8 +22,21 @@ class PpeCheck extends Component
         
         if($this->keyword) $data->where('employees.name',"LIKE", "%{$this->keyword}%");
         if($this->date_start and $this->date_end) $data = $data->whereBetween('ppe_check.created_at',[$this->date_start,$this->date_end]);
+        if($this->region_id) {
+            $data->where('ppe_check.region_id',$this->region_id);
+            $this->sub_region = SubRegion::where('region_id',$this->region_id)->get();
+        }
+
+        if($this->sub_region_id) {
+            $data->where('ppe_check.sub_region_id',$this->sub_region_id);
+        }
 
         return view('livewire.mobile-apps.ppe-check')->with(['data'=>$data->paginate(100)]);
+    }
+
+    public function mount()
+    {
+        $this->region  = Region::select(['id','region'])->get();
     }
 
     public function downloadExcel()

@@ -58,7 +58,7 @@ class SpeedWarningController extends Controller
         return response()->json(['message'=>'submited'], 200);
     }
 
-    public function data()
+    public function data() 
     {
         $result['code'] = 200;
         $result['message'] = 'success';
@@ -73,6 +73,7 @@ class SpeedWarningController extends Controller
         $result['data'] = $temp;
         $result['today_warning'] = SpeedWarningAlarm::where('employee_id',\Auth::user()->employee->id)->whereDate('created_at',date('Y-m-d'))->count();
         $result['max_speed'] = get_setting('speed_limit');
+        $result['minutes_store_speed'] = 1;
         
         return response()->json($result, 200);
     }

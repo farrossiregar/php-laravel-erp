@@ -6,7 +6,23 @@
         <div class="col-md-2" wire:ignore>
             <input type="text" class="form-control date_ppe_check" placeholder="Date" />
         </div>
-        <div class="col-md-6">
+        <div class="col-md-2" wire:ignore>
+            <select class="form-control" wire:model="region_id" wire:change="$set('sub_region_id',null)">
+                <option value=""> -- Select Region -- </option>
+                @foreach($region as $item)
+                    <option value="{{$item->id}}">{{$item->region}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-control" wire:model="sub_region_id">
+                <option value=""> -- Select Sub Region -- </option>
+                @foreach($sub_region as $item)
+                    <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-2">
             <a href="javascript:void(0)" class="btn btn-sm btn-info" wire:click="downloadExcel"><i class="fa fa-download"></i> Download</a>
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -21,6 +37,8 @@
                     <th>No</th>                                    
                     <th>Employee</th> 
                     <th>Date</th>
+                    <!-- <th>Site ID</th>
+                    <th>Site Name</th> -->
                     <th class="text-center">Employee & PPE</th>
                     <th class="text-center">Banner</th>
                     <th class="text-center">Sertifikasi WAH</th>
@@ -35,6 +53,8 @@
                     <td>{{$k+1}}</td>
                     <td>{{$item->name}}</td>
                     <td>{{date('d-M-Y',strtotime($item->created_at))}}</td>
+                    <!-- <td>{{$item->site_id}}</td>
+                    <td>{{$item->site_name}}</td> -->
                     <td class="text-center">
                         @if($item->ppe_lengkap ==2)
                             <span class="badge badge-warning">Tidak Lengkap</span>

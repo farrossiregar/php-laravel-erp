@@ -50,6 +50,8 @@ class PpeCheckController extends Controller
         $data->banner_lengkap = $request->banner_lengkap;
         $data->banner_alasan_tidak_lengkap = $request->banner_alasan_tidak_lengkap;
         $data->sertifikasi_alasan_tidak_lengkap = $request->sertifikasi_alasan_tidak_lengkap;
+        $data->site_id = $request->site_id;
+        $data->site_name = $request->site_name;
         $data->save();
 
         if($request->foto_dengan_ppe){
@@ -81,7 +83,6 @@ class PpeCheckController extends Controller
             $request->foto_first_aid->storeAs("public/ppe-check/{$data->id}", $name);
             $data->foto_first_aid = "storage/ppe-check/{$data->id}/{$name}";
         }
-
         $data->save();
 
         // find notification
@@ -89,7 +90,9 @@ class PpeCheckController extends Controller
         if($notification){
             $notification->is_read = 1;
             $notification->save();
-        }      
+        }
+        // record history
+        \LogActivity::add('Submit PPE Check');
 
         return response()->json(['message'=>'submited'], 200);
     }
