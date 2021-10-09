@@ -32,6 +32,7 @@
                         <th>No</th>
                         <th>Customer</th> 
                         <th>Project Name</th> 
+                        <th>Quotation Number</th> 
                         <th>Region</th> 
                         <th>Quantity</th> 
                         <th>Price Unit</th> 
@@ -52,6 +53,7 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $item->customer }}</td>
                         <td>{{ $item->project_name }}</td>
+                        <td>{{ $item->project_name }}</td>
                         <td>{{ $item->region }}</td>
                         <td>{{ $item->qty }}</td>
                         <td>Rp,{{ format_idr($item->price_or_unit) }}</td>
@@ -61,7 +63,7 @@
                         <!-- <td>{{ date_format(date_create($item->date), 'd M Y') }}</td> -->
                         <td>
                             @if($item->status == '1')
-                                <label class="badge badge-success" data-toggle="tooltip" title="Won">Won</label>
+                                <label class="badge badge-success" data-toggle="tooltip" title="Successful">Successful</label>
                             @endif
 
                             @if($item->status == '0')
@@ -88,8 +90,8 @@
                             @endif
 
                             @if(check_access('business-opportunities.add'))
-                                @if($item->status == '0')
-                                    <!-- <a href="#" wire:click="$emit('modalrevisidutyroster','{{ $item->id }}')" data-toggle="modal" data-target="#modal-dutyroster-revisidutyroster" title="Add" class="btn btn-warning"><i class="fa fa-plus"></i> {{__('Revisi Duty roster')}}</a> -->
+                                @if($item->status == '' || $item->status == null)
+                                    <a href="#" wire:click="$emit('modaleditbo','{{ $item->id }}')" title="Edit" class="btn btn-primary"><i class="fa fa-edit"></i> {{__('Edit')}}</a>
                                 @endif
                             @endif
                         </td> 

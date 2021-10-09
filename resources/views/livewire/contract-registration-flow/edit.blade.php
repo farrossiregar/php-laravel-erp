@@ -16,6 +16,20 @@
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-12 form-group">
+                                            <label>Quotation Number</label>
+                                            <input type="text" class="form-control" wire:model="quotation_number" readonly/>
+                                            @error('quotation_number')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>PO Number</label>
+                                            <input type="text" class="form-control" wire:model="po_number" readonly/>
+                                            @error('po_number')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6 form-group">
                                             <label>PO Amount</label>
                                             <input type="text" class="form-control" wire:model="po_amount"/>
                                             @error('po_amount')

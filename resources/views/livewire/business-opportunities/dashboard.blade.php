@@ -1,13 +1,13 @@
 <div>
     <div class="row">
-        <!-- <div class="col-md-1">                
-            <select class="form-control" wire:model="year">
-                <option value=""> --- Year --- </option>
-                @foreach(\App\Models\EmployeeNoc::select('year')->groupBy('year')->get() as $item) 
-                <option>{{$item->year}}</option>
+        <div class="col-md-1">                
+            <select class="form-control" wire:model="sales_name">
+                <option value=""> --- Sales --- </option>
+                @foreach(\App\Models\BusinessOpportunities::select('sales_name')->groupBy('sales_name')->get() as $item) 
+                <option value="{{ $item->sales_name }}">{{$item->sales_name}}</option>
                 @endforeach 
             </select>
-        </div> -->
+        </div>
         <!-- <div class="col-md-2" wire:ignore>
             <select class="form-control" style="width:100%;" wire:model="month">
                 <option value=""> --- Month --- </option>
