@@ -87,10 +87,15 @@
                 cancelLabel: 'Clear'
             },
             autoUpdateInput: false,
-        }, function(start, end, label) {
-            @this.set("date_start", start.format('YYYY-MM-DD'));
-            @this.set("date_end", end.format('YYYY-MM-DD'));
-            $('.date_range_commitment_daily').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
+        });
+        $('.date_range_commitment_daily').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+
+            @this.set("date_start", picker.startDate.format('YYYY-MM-DD'));
+            @this.set("date_end", picker.endDate.format('YYYY-MM-DD'));
+        });
+        $('.date_range_commitment_daily').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
         });
     </script>
 </div>

@@ -21,7 +21,12 @@ class PpeCheck extends Component
         $data = PpeCheckModel::select('ppe_check.*','employees.name')->orderBy('ppe_check.is_submit','DESC')->orderBy('ppe_check.updated_at','DESC')->join('employees','employees.id','=','employee_id');
         
         if($this->keyword) $data->where('employees.name',"LIKE", "%{$this->keyword}%");
-        if($this->date_start and $this->date_end) $data = $data->whereBetween('ppe_check.created_at',[$this->date_start,$this->date_end]);
+        if($this->date_start and $this->date_end){
+            if($this->date_start == $this->date_end)
+                $data->whereDate('ppe_check.created_at',$this->date_start);
+            else
+                $data->whereBetween('ppe_check.created_at',[$this->date_start,$this->date_end]);
+        } 
         if($this->region_id) {
             $data->where('ppe_check.region_id',$this->region_id);
             $this->sub_region = SubRegion::where('region_id',$this->region_id)->get();

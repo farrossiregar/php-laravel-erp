@@ -5,22 +5,39 @@ namespace App\Http\Livewire\MobileApps;
 use Livewire\Component;
 use App\Models\HealthCheck as HealthCheckModel;
 use Livewire\WithPagination;
+use App\Models\Region;
+use App\Models\SubRegion;
 
 class HealthCheck extends Component
 {
     use WithPagination;
     
     protected $paginationTheme = 'bootstrap';
-    public $date_start,$date_end,$keyword;
+    public $date_start,$date_end,$keyword,$region=[],$sub_region=[],$region_id,$sub_region_id;
 
     public function render()
     {
         $data = HealthCheckModel::select('employees.name','health_check.*')->orderBy('health_check.is_submit','DESC')->orderBy('health_check.updated_at','DESC')->join('employees','employees.id','=','employee_id');
 
         if($this->keyword) $data->where('employees.name',"LIKE", "%{$this->keyword}%");
-        if($this->date_start and $this->date_end) $data = $data->whereBetween('health_check.created_at',[$this->date_start,$this->date_end]);
-
+        if($this->date_start and $this->date_end){
+            if($this->date_start == $this->date_end)
+                $data->whereDate('health_check.created_at',$this->date_start);
+            else
+                $data->whereBetween('health_check.created_at',[$this->date_start,$this->date_end]);
+        } 
+        if($this->region_id) {
+            $data->where('health_check.region_id',$this->region_id);
+            $this->sub_region = SubRegion::where('region_id',$this->region_id)->get();
+        }
+        if($this->sub_region_id) $data->where('health_check.sub_region_id',$this->sub_region_id);
+        
         return view('livewire.mobile-apps.health-check')->with(['data'=>$data->paginate(100)]);
+    }
+
+    public function mount()
+    {
+        $this->region  = Region::select(['id','region'])->get();
     }
 
     public function downloadExcel()

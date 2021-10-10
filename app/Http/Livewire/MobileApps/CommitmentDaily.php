@@ -19,7 +19,12 @@ class CommitmentDaily extends Component
         $data = ModelsCommitmentDaily::select('employees.name','commitment_dailys.*')->orderBy('commitment_dailys.is_submit','DESC')->orderBy('commitment_dailys.updated_at','DESC')->join('employees','employees.id','=','employee_id');
 
         if($this->keyword) $data->where('employees.name',"LIKE", "%{$this->keyword}%");
-        if($this->date_start and $this->date_end) $data = $data->whereBetween('commitment_dailys.created_at',[$this->date_start,$this->date_end]);
+        if($this->date_start and $this->date_end){
+            if($this->date_start == $this->date_end)
+                $data->whereDate('commitment_dailys.created_at',$this->date_start);
+            else
+                $data->whereBetween('commitment_dailys.created_at',[$this->date_start,$this->date_end]);
+        } 
 
         return view('livewire.mobile-apps.commitment-daily')->with(['data'=>$data->paginate(100)]);
     }

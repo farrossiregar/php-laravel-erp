@@ -6,7 +6,23 @@
         <div class="col-md-2 form-group" wire:ignore>
             <input type="text" class="form-control date_health_check" placeholder="Date" />
         </div>
-        <div class="col-md-5">
+        <div class="col-md-2" wire:ignore>
+            <select class="form-control" wire:model="region_id" wire:change="$set('sub_region_id',null)">
+                <option value=""> -- Select Region -- </option>
+                @foreach($region as $item)
+                    <option value="{{$item->id}}">{{$item->region}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-control" wire:model="sub_region_id">
+                <option value=""> -- Select Sub Region -- </option>
+                @foreach($sub_region as $item)
+                    <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-2">
             <a href="javascript:void(0)" class="btn btn-sm btn-info" wire:click="downloadExcel"><i class="fa fa-download"></i> Download</a>
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -79,11 +95,21 @@
                 locale: {
                     cancelLabel: 'Clear'
                 },
-                autoUpdateInput: false,
+                autoUpdateInput: false
             }, function(start, end, label) {
-                @this.set("date_start", start.format('YYYY-MM-DD'));
-                @this.set("date_end", end.format('YYYY-MM-DD'));
-                $('.date_health_check').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
+                // @this.set("date_start", start.format('YYYY-MM-DD'));
+                // @this.set("date_end", end.format('YYYY-MM-DD'));
+                // $('.date_health_check').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
+            });
+
+            $('.date_health_check').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+
+                @this.set("date_start", picker.startDate.format('YYYY-MM-DD'));
+                @this.set("date_end", picker.endDate.format('YYYY-MM-DD'));
+            });
+            $('.date_health_check').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
             });
         </script>
     @endpush

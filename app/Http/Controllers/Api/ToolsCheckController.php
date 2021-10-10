@@ -82,13 +82,14 @@ class ToolsCheckController extends Controller
             $img = "image_{$item->id}";
             if(isset($request->$img)){
                 $condition = "condition_{$item->id}";
-                if(!isset($request->$condition)){
-                    $error .= "Kondisi {$item->name} harus dipilih.\n" ;
-                }
+                if($request->$condition==0) $error .= "Kondisi {$item->name} harus dipilih.\n" ;
+                
+                $qty = "qty_{$item->id}";
+                if($request->$qty==0) $error .= "QTY {$item->name} harus diisi.\n" ;
             }
         }
         
-        if($error) return response()->json(['message'=>$error], 200);
+        if($error!="") return response()->json(['message'=>$error], 200);
 
         $employee = isset(\Auth::user()->employee->id) ? \Auth::user()->employee : '';
         $project = EmployeeProject::where('employee_id',$employee->id)->first();

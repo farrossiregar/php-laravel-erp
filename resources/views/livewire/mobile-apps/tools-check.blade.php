@@ -51,7 +51,11 @@
                             @foreach(\App\Models\ToolboxCheck::where(['toolbox_id'=>$tool->id,'tools_check_id'=>$item->id])->get() as $upload)
                                 @if($upload->status==1) <span class="badge badge-success" title="QTY : {{$upload->qty}}">Kondisi Baik</span> @endif
                                 @if($upload->status==2) <span class="badge badge-warning" title="QTY : {{$upload->qty}}, Note: {{$upload->note}}">Kondisi Rusak</span> @endif 
-                                <a href="{{asset($upload->image)}}" target="_blank"><i class="fa fa-image"></i></a>
+                                @if($upload->image)
+                                    <a href="{{asset($upload->image)}}" target="_blank"><i class="fa fa-image"></i></a>
+                                @else
+                                    -
+                                @endif
                             @endforeach
                             </td>
                         @endforeach
