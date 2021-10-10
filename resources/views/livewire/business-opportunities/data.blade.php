@@ -33,6 +33,7 @@
                         <th>Customer</th> 
                         <th>Project Name</th> 
                         <th>Quotation Number</th> 
+                        <th>PO Number</th> 
                         <th>Region</th> 
                         <th>Quantity</th> 
                         <th>Price Unit</th> 
@@ -53,9 +54,10 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $item->customer }}</td>
                         <td>{{ $item->project_name }}</td>
-                        <td>{{ $item->project_name }}</td>
+                        <td>{{ $item->quotation_number }}</td>
+                        <td>{{ $item->po_number }}</td>
                         <td>{{ $item->region }}</td>
-                        <td>{{ $item->qty }}</td>
+                        <td>{{ $item->qty }} {{ $item->unit }}</td>
                         <td>Rp,{{ format_idr($item->price_or_unit) }}</td>
                         <td>Rp,{{ format_idr($item->estimate_revenue) }}</td>
                         <td><label class="badge badge-info" data-toggle="tooltip" title="{{ date_format(date_create($item->startdate), 'd M Y') }} - {{ date_format(date_create($item->enddate), 'd M Y') }}">{{ $item->duration }}</label></td>
@@ -82,7 +84,7 @@
                         <td>
                             
                             @if(check_access('business-opportunities.add'))
-                                @if($item->status == '')
+                                @if($item->status == '' && $item->quotation_number != '' && $item->po_number != '')
                                     <a href="javascript:;" wire:click="$emit('modalwonbo','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Won</a>
                                     <a href="javascript:;" wire:click="$emit('modalfailedbo','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Failed</a>
                                 @endif
@@ -92,6 +94,10 @@
                             @if(check_access('business-opportunities.add'))
                                 @if($item->status == '' || $item->status == null)
                                     <a href="#" wire:click="$emit('modaleditbo','{{ $item->id }}')" title="Edit" class="btn btn-primary"><i class="fa fa-edit"></i> {{__('Edit')}}</a>
+                                @endif
+
+                                @if($item->status == '0')
+                                    <a href="#" wire:click="$emit('modaleditbo','{{ $item->id }}')" title="Revisi" class="btn btn-danger"><i class="fa fa-edit"></i> {{__('Revisi')}}</a>
                                 @endif
                             @endif
                         </td> 

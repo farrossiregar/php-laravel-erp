@@ -41,6 +41,8 @@ class Wonbo extends Component
 
         $insertcrf                      = new \App\Models\ContractRegistrationFlow();
         $insertcrf->id_bo               = $this->selected_id;
+        $insertcrf->quotation_number    = $data->quotation_number;
+        $insertcrf->po_number           = $data->po_number;
         $insertcrf->contract_duration   = $data->duration;
         $insertcrf->start_contract      = $data->startdate;
         $insertcrf->end_contract        = $data->enddate;

@@ -66,6 +66,7 @@ class Closecontract extends Component
 
         // session()->flash('message-success',$alert);
         
-        return redirect()->route('contract-registration-flow.index');
+        // return redirect()->route('contract-registration-flow.index');
+        return redirect()->route('business-opportunities.index');
     }
 }

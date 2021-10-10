@@ -1,4 +1,4 @@
-@section('title', __('Business Opportunities - Input'))
+@section('title', __('Contract Registration Flow - Edit'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -64,14 +64,7 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Note</label>
-                                            <!-- <input type="text" class="form-control" wire:model="note"/> -->
-                                            <textarea name="" id="" cols="30" class="form-control" wire:model="remarks" rows="5"></textarea>
-                                            @error('remarks')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
+                                       
                                        
                                     </div>
                                 </div>

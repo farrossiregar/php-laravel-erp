@@ -21,7 +21,6 @@ class Failedbo extends Component
     
     public function render()
     {       
-        // return view('livewire.duty-roster-dophomebase.declinedutyroster');
         return view('livewire.business-opportunities.failedbo');
     }
 
@@ -37,7 +36,7 @@ class Failedbo extends Component
         $data = \App\Models\BusinessOpportunities::where('id', $this->selected_id)->first();
         
         $data->status   = '0';
-        // $data->note     = $this->note;
+        $data->note     = $this->note;
 
         $data->save();
 

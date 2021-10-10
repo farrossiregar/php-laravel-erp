@@ -34,7 +34,7 @@
                     <livewire:business-opportunities.data />
                 </div>
                 <div class="tab-pane" id="contractregistrationflow">
-                    <livewire:business-opportunities.datacrf />
+                    <livewire:contract-registration-flow.data />
                 </div>
             </div>
         </div>
@@ -198,6 +198,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-contractregistrationflow-closecontract" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:contract-registration-flow.closecontract />
+        </div>
+    </div>
+</div>
+
 
 
 @section('page-script')
@@ -286,6 +294,11 @@
     Livewire.on('modalimportteamdimension',(data)=>{
         
         $("#modal-contractregistrationflow-importteamdimension").modal('show');
+    });
+
+    Livewire.on('modalclosecontract',(data)=>{
+        
+        $("#modal-contractregistrationflow-closecontract").modal('show');
     });
 
 @endsection

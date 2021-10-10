@@ -33,11 +33,12 @@
                 <thead>
                     <tr>
                         <th rowspan="2" class="align-middle">No</th>
-                        <th rowspan="2" class="text-center align-middle">Remarks</th>
+                        <th rowspan="2" class="text-center align-middle">Note</th>
                         <th rowspan="2" class="text-center align-middle">Action</th>
                         <th rowspan="2" class="text-center align-middle">Date Created</th> 
                         
-                        <th rowspan="2" class="text-center align-middle">ID Business Opportunity</th>
+                        <th rowspan="2" class="text-center align-middle">Quotation Number</th>
+                        <th rowspan="2" class="text-center align-middle">PO Number</th>
                         <th rowspan="2" class="text-center align-middle">Status</th>
                         <th rowspan="2" class="text-center align-middle">Contract</th>
                         <th rowspan="2" class="text-center align-middle">Project Code - Sub Project Code</th>
@@ -77,15 +78,16 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>
-                            @if(check_access('contract-registration-flow.business-dept-access'))
-                                <input type="checkbox"  wire:click="checkdata({{ $item->id }})" wire:model="data_id.{{ $item->id }}" />
-                            @else
-                                @if($item->remarks == '1')
+                            <!-- if(check_access('contract-registration-flow.business-dept-access')) -->
+                                <!-- <input type="checkbox"  wire:click="checkdata({{ $item->id }})" wire:model="data_id.{{ $item->id }}" /> -->
+                            <!-- else -->
+                                <!-- if($item->remarks == '1')
                                     <a href="javascript:;" class="btn btn-danger"><i class="fa fa-close"></i></a>
-                                @else
+                                else
                                     <a href="javascript:;" class="btn btn-success"><i class="fa fa-check"></i></a>
-                                @endif
-                            @endif
+                                endif -->
+                            <!-- endif -->
+                            {{ $item->remarks }}
                         </td>
                         <td>
                             @if(check_access('contract-registration-flow.business-dept-access'))
@@ -98,13 +100,18 @@
 
                             @if(check_access('contract-registration-flow.business-dept-access'))
                                 @if($item->status == '' || $item->status == null)
-                                    <a href="javascript:;" wire:click="$emit('modaledit','{{ $item->id }}')" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>
+                                    @if($item->project_code == null || $item->sub_project_code == null || $item->po_amount == null)
+                                        <a href="javascript:;" wire:click="$emit('modaledit','{{ $item->id }}')" class="btn btn-primary"><i class="fa fa-plus"></i> Create</a>
+                                    @else
+                                        <a href="javascript:;" wire:click="$emit('modaledit','{{ $item->id }}')" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>
+                                    @endif
                                 @endif
                             @endif
                         </td>
                         <td>{{ date_format(date_create($item->date_create), 'd M Y') }}</td>
                         
-                        <td>{{ $item->id_bo }}</td>
+                        <td>{{ $item->quotation_number }}</td>
+                        <td>{{ $item->po_number }}</td>
                         
                         <td>
                             @if($item->status == null || $item->status == '')
@@ -112,7 +119,7 @@
                             @endif
 
                             @if($item->status == 1)
-                                <label class="badge badge-success" data-toggle="tooltip" title="Closed">Closed</label>
+                                <label class="badge badge-success" data-toggle="tooltip" title="Closed Project">Closed Project</label>
                             @endif
                         </td>
                         

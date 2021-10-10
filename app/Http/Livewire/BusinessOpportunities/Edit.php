@@ -11,7 +11,7 @@ class Edit extends Component
         'modaleditbo'=>'edit',
     ];
 
-    public $customer, $project_name, $region, $qty, $unit, $price_or_unit, $estimate_revenue, $duration, $brief_description, $startdate, $enddate, $date, $customer_type, $customer_type2, $show_customer_type2=false;
+    public $customer, $selected_id, $project_name, $quotation_number, $po_number, $region, $qty, $unit, $price_or_unit, $estimate_revenue, $duration, $brief_description, $startdate, $enddate, $date, $customer_type, $customer_type2, $show_customer_type2=false;
 
     public function render()
     {
@@ -21,7 +21,23 @@ class Edit extends Component
     public function edit($id)
     {
         $this->selected_id = $id;
-
+        
+        $this->data = \App\Models\BusinessOpportunities::where('id', $this->selected_id)->first();
+        
+        $this->customer                 = $this->data->customer;
+        $this->project_name             = $this->data->project_name;
+        $this->quotation_number         = $this->data->quotation_number;
+        $this->po_number                = $this->data->po_number;
+        $this->region                   = $this->data->region;
+        $this->qty                      = $this->data->qty;
+        $this->unit                     = $this->data->unit;
+        $this->price_or_unit            = $this->data->price_or_unit;
+        $this->estimate_revenue         = $this->data->estimate_revenue;
+        $this->duration                 = $this->data->duration;
+        $this->brief_description        = $this->data->brief_description;
+        $this->startdate                = $this->data->startdate;
+        $this->enddate                  = $this->data->enddate;
+        $this->customer_type            = $this->data->customer_type;
         
     }
   
@@ -29,13 +45,14 @@ class Edit extends Component
     {
         $user = \Auth::user();
        
-
         $data                           = \App\Models\BusinessOpportunities::where('id', $this->selected_id)->first();
         $data->customer                 = $this->customer;
         $data->project_name             = $this->project_name;
+        $data->quotation_number         = $this->quotation_number;
+        $data->po_number                = $this->po_number;
         $data->region                   = $this->region;
         $data->qty                      = $this->qty;
-        // $data->unit                      = $this->unit;
+        $data->unit                      = $this->unit;
         $data->price_or_unit            = $this->price_or_unit;
         $data->estimate_revenue         = $this->estimate_revenue;
         $data->duration                 = $this->duration($this->startdate, $this->enddate);
@@ -45,6 +62,10 @@ class Edit extends Component
         $data->enddate                  = $this->enddate;
         
         $data->customer_type            = $this->customer_type;
+        if($data->status == '0'){
+            $data->status            = '';
+        }
+        
         $data->sales_name               = $user->name;
         
         $data->created_at               = date('Y-m-d H:i:s');
@@ -74,10 +95,17 @@ class Edit extends Component
         //     // $waktu = $minuts;
         // }
 
-        if($days > 0){
-            $waktu = $days.' days';
+        $waktu = '';
+        if($months > 0){
+            $waktu .= $months.' month ';
         }else{
-            $waktu = $days.' day';
+            $waktu .= '';
+        }
+
+        if($days > 0){
+            $waktu .= $days.' days';
+        }else{
+            $waktu .= '';
         }
         return $waktu;
     }

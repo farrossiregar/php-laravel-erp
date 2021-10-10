@@ -55,8 +55,8 @@ class Importtoolsbudget extends Component
 
         session()->flash('message-success',"Upload Tools Budget for Contract Registration Flow success");
         
-        return redirect()->route('contract-registration-flow.index');
-
+        // return redirect()->route('contract-registration-flow.index');
+        return redirect()->route('business-opportunities.index');
     }
     
 }

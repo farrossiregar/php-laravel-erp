@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\BusinessOpportunities;
+namespace App\Http\Livewire\VendorManagement;
 
 use Livewire\Component;
 use Auth;
@@ -11,7 +11,7 @@ class Input extends Component
 
     public function render()
     {
-        return view('livewire.business-opportunities.input');        
+        return view('livewire.vendor-management.input');        
     }
 
     public function updated($propertyName)
@@ -48,9 +48,9 @@ class Input extends Component
         $data->save();
 
 
-        session()->flash('message-success',"Business Opportunity Berhasil diinput");
+        session()->flash('message-success',"Supplier Berhasil diinput");
         
-        return redirect()->route('business-opportunities.index');
+        return redirect()->route('vendor-management.index');
     }
 
     public function duration($start_time, $end_time){

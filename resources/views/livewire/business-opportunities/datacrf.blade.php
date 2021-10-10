@@ -33,7 +33,7 @@
                 <thead>
                     <tr>
                         <th rowspan="2" class="align-middle">No</th>
-                        <th rowspan="2" class="text-center align-middle">Remarks</th>
+                        <th rowspan="2" class="text-center align-middle">Note</th>
                         <th rowspan="2" class="text-center align-middle">Action</th>
                         <th rowspan="2" class="text-center align-middle">Date Created</th> 
                         
@@ -77,15 +77,16 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>
-                            @if(check_access('contract-registration-flow.business-dept-access'))
-                                <input type="checkbox"  wire:click="checkdata({{ $item->id }})" wire:model="data_id.{{ $item->id }}" />
-                            @else
-                                @if($item->remarks == '1')
+                            <!-- if(check_access('contract-registration-flow.business-dept-access')) -->
+                                <!-- <input type="checkbox"  wire:click="checkdata({{ $item->id }})" wire:model="data_id.{{ $item->id }}" /> -->
+                            <!-- else -->
+                                <!-- if($item->remarks == '1')
                                     <a href="javascript:;" class="btn btn-danger"><i class="fa fa-close"></i></a>
-                                @else
+                                else
                                     <a href="javascript:;" class="btn btn-success"><i class="fa fa-check"></i></a>
-                                @endif
-                            @endif
+                                endif -->
+                            <!-- endif -->
+                            {{ $item->remarks }}
                         </td>
                         <td>
                             @if(check_access('contract-registration-flow.business-dept-access'))
@@ -108,7 +109,7 @@
                         </td>
                         <td>{{ date_format(date_create($item->date_create), 'd M Y') }}</td>
                         
-                        <td>{{ $item->id_bo }}</td>
+                        <td>{{ $item->quotation_number }}</td>
                         
                         <td>
                             @if($item->status == null || $item->status == '')

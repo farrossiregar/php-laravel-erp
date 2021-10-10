@@ -55,7 +55,8 @@ class Importopexbudget extends Component
 
         session()->flash('message-success',"Upload Opex Budget for Contract Registration Flow success");
         
-        return redirect()->route('contract-registration-flow.index');
+        // return redirect()->route('contract-registration-flow.index');
+        return redirect()->route('business-opportunities.index');
 
     }
     
