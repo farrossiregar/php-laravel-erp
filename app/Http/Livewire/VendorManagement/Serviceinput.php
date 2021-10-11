@@ -5,13 +5,13 @@ namespace App\Http\Livewire\VendorManagement;
 use Livewire\Component;
 use Auth;
 
-class Input extends Component
+class Serviceinput extends Component
 {    
-    public $customer, $project_name, $quotation_number, $po_number, $region, $qty, $unit, $price_or_unit, $estimate_revenue, $duration, $brief_description, $startdate, $enddate, $date, $customer_type, $customer_type2, $show_customer_type2=false;
+    public $supplier_name, $supplier_pic, $supplier_contact, $supplier_email, $supplier_address;
 
     public function render()
     {
-        return view('livewire.vendor-management.input');        
+        return view('livewire.vendor-management.serviceinput');        
     }
 
     public function updated($propertyName)
@@ -24,31 +24,26 @@ class Input extends Component
         $user = \Auth::user();
        
 
-        $data                           = new \App\Models\BusinessOpportunities();
-        $data->customer                 = $this->customer;
-        $data->project_name             = $this->project_name;
-        $data->quotation_number         = $this->quotation_number;
-        $data->po_number                = $this->po_number;
-        $data->region                   = $this->region;
-        $data->qty                      = $this->qty;
-        $data->unit                      = $this->unit;
-        $data->price_or_unit            = str_replace(',', '', str_replace('Rp', '', $this->price_or_unit));
-        $data->estimate_revenue         = str_replace(',', '', str_replace('Rp', '', $this->estimate_revenue));
-        $data->duration                 = $this->duration($this->startdate, $this->enddate);
-        $data->status                   = '';
-        $data->brief_description        = $this->brief_description;
-        $data->startdate                = $this->startdate;
-        $data->enddate                  = $this->enddate;
-        // $data->date                     = $this->date;
-        $data->customer_type            = $this->customer_type;
-        $data->sales_name               = $user->name;
+        $data                                   = new \App\Models\VendorManagement();
+        $data->supplier_name                    = $this->supplier_name;
+        $data->supplier_pic                     = $this->supplier_pic;
+        $data->supplier_contact                 = $this->supplier_contact;
+        $data->supplier_email                   = $this->supplier_email;
+        $data->supplier_address                 = $this->supplier_address;
+        $data->supplier_category                = 'Service Supplier';
+        $data->supplier_registration_date       = date('Y-m-d H:i:s');
+
+        // $data->price_or_unit            = str_replace(',', '', str_replace('Rp', '', $this->price_or_unit));
+        // $data->estimate_revenue         = str_replace(',', '', str_replace('Rp', '', $this->estimate_revenue));
+        // $data->duration                 = $this->duration($this->startdate, $this->enddate);
+       
         
         $data->created_at               = date('Y-m-d H:i:s');
         $data->updated_at               = date('Y-m-d H:i:s');
         $data->save();
 
 
-        session()->flash('message-success',"Supplier Berhasil diinput");
+        session()->flash('message-success',"Supplier Service Berhasil diinput");
         
         return redirect()->route('vendor-management.index');
     }
