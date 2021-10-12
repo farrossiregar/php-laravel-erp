@@ -7,15 +7,18 @@ use App\Models\Employee;
 use App\Models\TroubleTicket;
 use App\Models\TroubleTicketCategory;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+
 class Index extends Component
 {
-    public $trouble_ticket_number,$category,$description,$employee_id,$employee,$show_category_others=false,$trouble_ticket_category_id,$trouble_ticket_category_others;
-    public $type=1,$lokasi,$selected,$risk,$note,$status=3,$reason,$recommendation;
+    use WithFileUploads;
+    public $trouble_ticket_number,$category,$description,$employee_id,$employee,$show_category_others=false,$trouble_ticket_category,$trouble_ticket_category_others;
+    public $type=1,$lokasi_kejadian,$selected,$risk,$note,$status=3,$reason,$recommendation,$tanggal_kejadian,$file;
     public $filter_type;
 
     public function render()
     {
-        $data = TroubleTicket::orderBy('id','DESC');
+        $data = TroubleTicket::with(['pic','employee'])->orderBy('id','DESC');
 
         return view('livewire.trouble-ticket.index')->with(['data'=>$data->paginate(100)]);
     }
@@ -61,13 +64,16 @@ class Index extends Component
 
         if(isset($this->selected->employee->device_token)) push_notification_android($this->selected->employee->device_token,"TT Number #".$this->selected->trouble_ticket_number ." Resolved" ,$description,6);
         
-        session()->flash('message-success',__("Trouble Ticket #{$this->selected->trouble_ticket_number} ".($status==3 ? "Solve" : "Not Solve")));
+        session()->flash('message-success',__("Trouble Ticket #{$this->selected->trouble_ticket_number} ".($this->status==3 ? "Solve" : "Not Solve")));
         
         return redirect()->route('trouble-ticket.index');
     }
 
     public function accept()
     {
+        $this->validate([
+            'risk' => 'required'
+        ]);
         $this->selected->status = 2;
         $this->selected->employee_pic_id = \Auth::user()->employee->id;
         $this->selected->trouble_ticket_number = TroubleTicketHelper::generate_number();
@@ -79,31 +85,61 @@ class Index extends Component
 
         if(isset($this->selected->employee->device_token)) 
             push_notification_android($this->selected->employee->device_token,"TT Number #".$this->selected->trouble_ticket_number ." Pick-up" ,$description,6);
+        
+        session()->flash('message-success',__("Accepted and Generate Trouble Ticket Number #{$this->selected->trouble_ticket_number}"));
+        
+        return redirect()->route('trouble-ticket.index');
     }
 
     public function save()
     {
         $this->validate([
-            'employee_id' => 'required',
             'description' => 'required',
-            'trouble_ticket_category_id' => 'required',
+            'trouble_ticket_category' => 'required',
+            'lokasi_kejadian' => 'required'
         ]);
 
-        if($this->show_category_others){
-            $new_category = new TroubleTicketCategory();
-            $new_category->name = $this->trouble_ticket_category_others;
-            $new_category->employee_id = isset(\Auth::user()->employee->id) ? \Auth::user()->employee->id : '';
-            $new_category->save();
+        $data = new TroubleTicket();
+        $data->employee_id = \Auth::user()->employee->id;
+        $data->trouble_ticket_category = $this->trouble_ticket_category;
+        $data->trouble_ticket_category_others = $this->trouble_ticket_category_others;
+        $data->description = $this->description;
+        $data->tanggal_kejadian = $this->tanggal_kejadian;
+        $data->lokasi = $this->lokasi_kejadian;
+        $data->status = 1;
+        $data->save();
 
-            $this->trouble_ticket_category_id = $new_category->id;
+        if($this->file!="") {
+            $name = "image.".$this->file->extension();
+            $this->file->storePubliclyAs("public/trouble-ticket/{$data->id}", $name);
+            $data->file = "storage/trouble-ticket/{$data->id}/{$name}";
+            $data->save();
         }
 
-        $data = new TroubleTicket();
-        $data->trouble_ticket_number = $this->trouble_ticket_number;
-        $data->employee_id = $this->employee_id;
-        $data->trouble_ticket_category_id = $this->trouble_ticket_category_id;
-        $data->description = $this->description;
-        $data->user_id = \Auth::user()->id;
+        // find IT Support
+        $it = get_user_from_access('trouble-ticket.pickup');
+        foreach($it as $user){
+            push_notification_android($user->device_token,"Trouble Ticket #".\Auth::user()->employee->name ." - ". $this->trouble_ticket_category ,$this->description,6);
+        }
+
+        session()->flash('message-success',__("Trouble Ticket submited"));
+        
+        return redirect()->route('trouble-ticket.index');
+    }
+
+    public function set_closed(TroubleTicket $data)
+    {
+        $data->status = 4;
+        $data->approve_date = date('Y-m-d H:i:s');
         $data->save();
+        
+        $description = "Closed By : ". \Auth::user()->employee->name ."\n";
+
+        if(isset($data->pic->device_token)) 
+            push_notification_android($data->pic->device_token,"TT Number #".$data->trouble_ticket_number ." Closed" ,$description,6);
+
+        session()->flash('message-success',__("Closed Troubled Ticket #{$data->trouble_ticket_number}"));
+        
+        return redirect()->route('trouble-ticket.index');
     }
 }

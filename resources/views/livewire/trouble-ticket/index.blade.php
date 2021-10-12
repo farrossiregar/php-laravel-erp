@@ -40,6 +40,8 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php($employee_id = \Auth::user()->employee->id)
+                            @php($is_field_team = check_access('trouble-ticket.field-team'))
                             @foreach($data as $k => $item)
                                 <tr>
                                     <td style="width: 50px;">{{$k+1}}</td>
@@ -54,12 +56,12 @@
                                             <span class="badge badge-success">Resolved</span>
                                         @endif
                                         @if($item->status==4)
-                                            <span class="badge badge-primary">Close</span>
+                                            <span class="badge badge-primary">Closed</span>
                                         @endif
                                     </td>
                                     <td>
                                         @if($item->status==1)
-                                            @if(check_access('trouble-ticket.field-team'))
+                                            @if($is_field_team)
                                                 <a href="javascript:void(0)" wire:click="set_({{$item->id}})" data-toggle="modal" data-target="#modal_accept" class="badge badge-danger"><i class="fa fa-arrow-right"></i> Proses</a>
                                             @endif
                                         @else 
@@ -97,7 +99,7 @@
                                     </td>
                                     <td>
                                         @if($item->status==2)
-                                            @if(check_access('trouble-ticket.field-team'))
+                                            @if($is_field_team)
                                                 <a href="javascript:void(0)" wire:click="set_({{$item->id}})" data-toggle="modal" data-target="#modal_solved" class="badge badge-danger btn-block"><i class="fa fa-check"></i> Resolve</a>
                                             @endif
                                         @endif
@@ -105,7 +107,16 @@
                                             {{date('d-M-Y H:i',strtotime($item->end_date))}}
                                         @endif
                                     </td>
-                                    <td>
+                                    <td x-data="{open:false}">
+                                        @if($item->employee_id == $employee_id and $item->status==3)
+                                            <template x-if="open==false">
+                                                <a href="javascript:void(0)" class="badge badge-success" x-on:click="open = ! open"><i class="fa fa-check"></i> Closed</a>
+                                            </template>
+                                            <div x-show="open" @click.away="open = false" class="mt-2">
+                                                <a href="javascript:void(0)" class="mr-2 text-danger" x-on:click="open=false"><i class="fa fa-times"></i> Cancel</a>
+                                                <a href="javascript:void(0)" wire:click="set_closed({{$item->id}})" class="text-success"><i class="fa fa-arrow-right"></i> Proccess</a>
+                                            </div>
+                                        @endif
                                         @if($item->approve_date)
                                             {{date('d-M-Y H:i',strtotime($item->approve_date))}}
                                         @endif
@@ -200,15 +211,15 @@
                         </div>
                         <div class="form-group">
                             <label>Lokasi</label>
-                            <select class="form-control" wire:model="lokasi">
+                            <select class="form-control" wire:model="lokasi_kejadian">
+                                <option value=""> -- Select -- </option>
                                 <option>Head Office</option>
                                 <option>Diluar Kantor / Remote</option>
                             </select>
                         </div>
-                        
                         <div class="form-group" x-data="">
                             <label>Kategori Masalah </label>
-                            <select class="form-control" wire:model="trouble_ticket_category_id">
+                            <select class="form-control" wire:model="trouble_ticket_category">
                                 <option value=""> --- Select --- </option>
                                 @foreach(config('vars.kategori_masalah_trouble') as $item)
                                     <option>{{$item}}</option>
@@ -218,7 +229,7 @@
                             <div x-show="$wire.show_category_others" class="mt-2">
                                 <input type="text" class="form-control" wire:model="trouble_ticket_category_others" placeholder="Free Text">
                             </div>
-                            @error('trouble_ticket_category_id')
+                            @error('trouble_ticket_category')
                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                             @enderror
                         </div>
@@ -232,12 +243,12 @@
                         </div>
                         <div class="form-group">
                             <label>Attachment (pdf,docs,image)</label>
-                            <input type="file" class="form-control" wire:model="file" multiple />
+                            <input type="file" class="form-control" wire:model="file" />
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">No</button>
-                        <button type="submit" x-on:click="$('#modal_insert_trouble_ticket').modal('hide')" class="btn btn-danger">Submit</button>
+                        <button type="submit" class="btn btn-danger">Submit</button>
                     </div>
                 </div>
             </form>
