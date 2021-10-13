@@ -6,6 +6,14 @@
         <div class="col-md-2" wire:ignore>
             <input type="text" class="form-control date_range_commitment_daily" placeholder="Date" />
         </div>
+        <div class="col-md-2" wire:ignore>
+            <select class="form-control" wire:model="user_access_id">
+                <option value="">-- Job Role/Access --</option>
+                @foreach(\App\Models\UserAccess::where('is_project',1)->get() as $item)
+                    <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
+            </select>
+        </div>
         <div class="col-md-6">
             <a href="javascript:void(0)" class="btn btn-sm btn-info" wire:click="downloadExcel"><i class="fa fa-download"></i> Download</a>
             <span wire:loading>
@@ -20,6 +28,7 @@
                 <tr style="background:#eee;">
                     <th>No</th>                                    
                     <th>Employee</th>   
+                    <th>Jobe Role/Access</th>   
                     <th class="text-center">Berkomitment Menggunakan PPE/APD</th>
                     <th class="text-center">Bagian PPE/APD yang tidak punya</th>
                     <th class="text-center">Regulasi sanksi dari management</th>
@@ -40,6 +49,7 @@
                     <tr>
                         <td>{{$num}}</td>
                         <td>{{isset($item->name) ? $item->name : ''}}</td>
+                        <td>{{isset($item->employee->access->name) ? $item->employee->access->name : ''}}</td>
                         @if($item->is_submit ==1)
                             <td class="text-center">{!!$item->regulasi_terkait_ppe_apd_menggunakan==1?'<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'!!}</td>
                             <td class="text-center">{{$item->regulasi_terkait_ppe_apd_tidak_punya !='null' ? $item->regulasi_terkait_ppe_apd_tidak_punya : '-'}}</td>

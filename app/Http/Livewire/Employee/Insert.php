@@ -124,22 +124,22 @@ class Insert extends Component
         $employee->sub_region_id = $this->sub_region_id;
         $employee->is_use_android = $this->is_use_android;
         $employee->speed_warning_pic_id = $this->speed_warning_pic_id;
-        
-        $employee->app_site_list = $this->app_site_list;
-        $employee->app_daily_commitment = $this->app_daily_commitment;
-        $employee->app_health_check = $this->app_health_check;
-        $employee->app_vehicle_check = $this->app_vehicle_check;
-        $employee->app_ppe_check = $this->app_ppe_check;
-        $employee->app_tools_check = $this->app_tools_check;
-        $employee->app_location_of_field_team = $this->app_location_of_field_team;
-        $employee->app_speed_warning = $this->app_speed_warning;
-        $employee->app_preventive_maintenance = $this->app_preventive_maintenance;
-        $employee->app_customer_asset = $this->app_customer_asset;
-        $employee->app_work_order = $this->app_work_order;
-        $employee->app_drug_test = $this->app_drug_test;
-        $employee->app_training_material = $this->app_training_material;
-        $employee->app_it_support = $this->app_it_support;
-        
+
+        if($this->app_site_list) $employee->app_site_list = $this->app_site_list;
+        if($this->app_daily_commitment)$employee->app_daily_commitment = $this->app_daily_commitment;
+        if($this->app_health_check) $employee->app_health_check = $this->app_health_check;
+        if($this->app_vehicle_check) $employee->app_vehicle_check = $this->app_vehicle_check;
+        if($this->app_ppe_check) $employee->app_ppe_check = $this->app_ppe_check;
+        if($this->app_tools_check) $employee->app_tools_check = $this->app_tools_check;
+        if($this->app_location_of_field_team) $employee->app_location_of_field_team = $this->app_location_of_field_team;
+        if($this->app_speed_warning) $employee->app_speed_warning = $this->app_speed_warning;
+        if($this->app_preventive_maintenance) $employee->app_preventive_maintenance = $this->app_preventive_maintenance;
+        if($this->app_customer_asset) $employee->app_customer_asset = $this->app_customer_asset;
+        if($this->app_work_order) $employee->app_work_order = $this->app_work_order;
+        if($this->app_drug_test) $employee->app_drug_test = $this->app_drug_test;
+        if($this->app_training_material) $employee->app_training_material = $this->app_training_material;
+        if($this->app_it_support) $employee->app_it_support = $this->app_it_support;
+
         if($this->foto!=""){
             $foto = 'foto'.date('Ymdhis').'.'.$this->foto->extension();
             $this->foto->storePubliclyAs('public/foto/'.$user->id,$foto);

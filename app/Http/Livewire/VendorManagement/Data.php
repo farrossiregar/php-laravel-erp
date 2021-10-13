@@ -4,7 +4,7 @@ namespace App\Http\Livewire\VendorManagement;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\BusinessOpportunities;
+use App\Models\VendorManagement;
 
 class Data extends Component
 {
@@ -20,13 +20,7 @@ class Data extends Component
         //     $this->redirect('/');
         // }
 
-        $data = BusinessOpportunities::orderBy('id', 'DESC');
-        
-        // if($this->keyword) $data = $data->where(function($table){
-        //     foreach(\Illuminate\Support\Facades\Schema::getColumnListing('po_tracking_reimbursement') as $column){
-        //         $table->orWhere($column,'LIKE',"%{$this->keyword}%");
-        //     }
-        // });
+        $data = VendorManagement::orderBy('id', 'DESC');
         
         if($this->status !="") $data->where('status',$this->status);
         // if($this->date_start and $this->date_end) $data = $data->whereBetween('created_at',[$this->date_start,$this->date_end]);

@@ -46,10 +46,18 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-vendormanagement-input" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-vendormanagement-serviceinput" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.input />
+            <livewire:vendor-management.serviceinput />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-vendormanagement-materialinput" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.materialinput />
         </div>
     </div>
 </div>
@@ -62,8 +70,12 @@
 
 
 
-    Livewire.on('modalinputsupplier',(data)=>{
-        $("#modal-vendormanagement-input").modal('show');
+    Livewire.on('modalinputservicesupplier',(data)=>{
+        $("#modal-vendormanagement-serviceinput").modal('show');
+    });
+
+    Livewire.on('modalinputmaterialsupplier',(data)=>{
+        $("#modal-vendormanagement-materialinput").modal('show');
     });
 
     Livewire.on('modalwonbo',(data)=>{

@@ -49,9 +49,6 @@
 
                         <th rowspan="2" class="align-middle">Resource Preparation</th>
                         <th colspan="3" class="text-center">Kick Off Meeting & Socialization</th>
-                        
-
-
                     </tr>
                     <tr>
 

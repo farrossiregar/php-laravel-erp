@@ -164,26 +164,17 @@
                         </a>
                     </div>
                     <div class="col-md-3"></div>
-                    <!-- <div class="col-md-6 item item-department">
-                        <div class="row">
-                            @foreach(\App\Models\Department::get() as $dep)
-                                <div class="sub-item col-md-4" title="{{$dep->name}}" wire:click="set_department({{$dep->id}})" onclick="show_left_menu({{$dep->id}})">
-                                    @if($dep->icon)
-                                        <img src="{{$dep->icon}}" class="ml-3 mb-2" style="width: 30%;margin-top:20px;" />
-                                    @endif
-                                    <p>{{$dep->name}}</p>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div> -->
-                </div>
+                </div> 
             @endif
-
             @if(isset($company_id))
                 <h5 class="text-info"><a href="javascript:void();" class="text-info mr-1" style="font-size:20px;" onclick="history.back()"><i class="fa fa-arrow-left mr-1" title="Back"></i></a> {{isset($_GET['company_name']) ? $_GET['company_name'] : 'Back'}}</h5>
                 <div class="row clearfix mt-3">
                     @foreach(\App\Models\Department::get() as $dep)
-                        <div class="col-lg-2 col-md-2 col-sm-12 px-1" wire:click="set_department({{$dep->id}})" onclick="show_left_menu({{$dep->id}})">    
+                        @if($dep->id==9)
+                            <div class="col-lg-2 col-md-2 col-sm-12 px-1" onclick="window.open('{{route('business-opportunities.index')}}','_self')">                                            
+                        @else
+                            <div class="col-lg-2 col-md-2 col-sm-12 px-1" wire:click="set_department({{$dep->id}})" onclick="show_left_menu({{$dep->id}})">    
+                        @endif
                             <div class="card ng-star-inserted text-center" style="height:200px;border:1px solid #eee">
                                 <div class="body clearfix">
                                     <div class="content3">

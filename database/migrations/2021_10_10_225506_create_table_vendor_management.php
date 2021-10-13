@@ -17,6 +17,9 @@ class CreateTableVendorManagement extends Migration
             $table->id();
             $table->char('supplier_name', 30)->nullable();
             $table->char('supplier_pic', 30)->nullable();
+            $table->char('supplier_contact', 30)->nullable();
+            $table->char('supplier_email', 30)->nullable();
+            $table->char('supplier_address', 30)->nullable();
             $table->char('supplier_category', 30)->nullable();
             $table->char('supplier_registration_date', 30)->nullable();
             $table->char('status', 30)->nullable();
@@ -26,6 +29,11 @@ class CreateTableVendorManagement extends Migration
             $table->char('tools_resource', 100)->nullable();
             $table->char('certification_resource', 100)->nullable();
             $table->char('scoring', 100)->nullable();
+            $table->char('general_information', 100)->nullable();
+            $table->char('team_availability_capability', 100)->nullable();
+            $table->char('tools_facilities', 100)->nullable();
+            $table->char('ehs_quality_management', 100)->nullable();
+            $table->char('commercial_compliance', 100)->nullable();
             $table->timestamps();
         });
 

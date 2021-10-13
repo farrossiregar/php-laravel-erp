@@ -53,18 +53,6 @@
                                 </li>
                             @endforeach
                         </ul>
-                        {{-- <select class="form-control" name="searching_menu">
-                            <option value="">Searching...</option>
-                            @foreach(get_menu(\Auth::user()->user_access_id) as $menu)
-                                <optgroup label="{{$menu['name']}}">
-                                @if(isset($menu['sub_menu']))
-                                    @foreach($menu['sub_menu'] as $sub)
-                                    <option value="{{$sub->id}}" data-link="{{Route::has($sub->link) ? route($sub->link) : ''}}">{{$sub->name}}</option>
-                                    @endforeach
-                                @endif
-                                </optgroup>
-                            @endforeach
-                        </select> --}}
                     </div>
                 </div>
             </form>
@@ -72,8 +60,17 @@
                 <ul class="nav navbar-nav">
                     <li class="d-none d-sm-inline-block d-md-none d-lg-inline-block">
                         @if(\Auth::user()->name)
-                        {{\Auth::user()->name}} {!!isset(\Auth::user()->access->name) ? ' <small>( '. \Auth::user()->access->name .' )</small>' : ''!!}
+                            {{\Auth::user()->name}} {!!isset(\Auth::user()->access->name) ? ' <small>( '. \Auth::user()->access->name .' )</small>' : ''!!}
                         @endif
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown"><i class="icon-support"></i></a>
+                        <ul class="dropdown-menu user-menu menu-icon">
+                            <li class="menu-heading">IT SUPPORT</li>
+                            <li><a href="{{route('trouble-ticket.index')}}"><i class="fa fa-gear"></i> <span>Trouble Ticket</span></a></li>
+                            <li><a href="{{route('incident-report.index')}}"><i class="fa fa-gear"></i> <span>Incident Report</span></a></li>
+                            <li><a href="{{route('application-room-request.index')}}"><i class="fa fa-gear"></i> <span>Application & Room Request</span></a></li>
+                        </ul>
                     </li>
                     <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown"><i class="icon-equalizer"></i></a>

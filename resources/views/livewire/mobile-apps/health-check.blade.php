@@ -1,7 +1,7 @@
 <div>
     <div class=" row">
         <div class="col-md-2">
-            <input type="text" class="form-control" wire:model="keyword" />
+            <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
         </div>
         <div class="col-md-2 form-group" wire:ignore>
             <input type="text" class="form-control date_health_check" placeholder="Date" />
@@ -22,6 +22,14 @@
                 @endforeach
             </select>
         </div>
+        <div class="col-md-2" wire:ignore>
+            <select class="form-control" wire:model="user_access_id">
+                <option value="">-- Job Role/Access --</option>
+                @foreach(\App\Models\UserAccess::where('is_project',1)->get() as $item)
+                    <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
+            </select>
+        </div>
         <div class="col-md-2">
             <a href="javascript:void(0)" class="btn btn-sm btn-info" wire:click="downloadExcel"><i class="fa fa-download"></i> Download</a>
             <span wire:loading>
@@ -36,6 +44,7 @@
                 <tr style="background:#eee;">
                     <th style="width:50px;">No</th>                                    
                     <th>Employee</th> 
+                    <th>Jobe Role/Access</th>   
                     <th>Date</th> 
                     <th>Perusahaan</th> 
                     <th>Lokasi Kantor</th> 
@@ -55,6 +64,7 @@
                         <td>
                             {{isset($item->name) ? $item->name : ''}}
                         </td>
+                        <td>{{isset($item->employee->access->name) ? $item->employee->access->name : ''}}</td>
                         <td>{{date('d-M-Y H:i',strtotime($item->updated_at))}}</td>
                         @if($item->is_submit==1)
                             <td>{{isset($item->company) ? $item->company : ''}}</td>
