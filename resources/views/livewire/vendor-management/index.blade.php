@@ -64,6 +64,51 @@
 
 
 
+<div class="modal fade" id="modal-vendormanagement-importlegal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.importlegal />
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-vendormanagement-importorgchart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.importorgchart />
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-vendormanagement-importtoolsresource" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.importtoolsresource />
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-vendormanagement-importcertificationresource" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.importcertificationresource />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-vendormanagement-servicecriteria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.servicecriteria />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-vendormanagement-materialcriteria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.materialcriteria />
+        </div>
+    </div>
+</div>
+
 
 @section('page-script')
 
@@ -77,6 +122,37 @@
     Livewire.on('modalinputmaterialsupplier',(data)=>{
         $("#modal-vendormanagement-materialinput").modal('show');
     });
+
+
+
+    Livewire.on('modalimportlegal',(data)=>{
+        $("#modal-vendormanagement-importlegal").modal('show');
+    });
+
+    Livewire.on('modalimportorgchart',(data)=>{
+        $("#modal-vendormanagement-importorgchart").modal('show');
+    });
+
+    Livewire.on('modalimporttoolsresource',(data)=>{
+        $("#modal-vendormanagement-importtoolsresource").modal('show');
+    });
+
+    Livewire.on('modalimportcertificationresource',(data)=>{
+        $("#modal-vendormanagement-importcertificationresource").modal('show');
+    });
+
+
+
+    Livewire.on('modalservicecriteria',(data)=>{
+        $("#modal-vendormanagement-servicecriteria").modal('show');
+    });
+
+    Livewire.on('modalmaterialcriteria',(data)=>{
+        $("#modal-vendormanagement-materialcriteria").modal('show');
+    });
+
+
+
 
     Livewire.on('modalwonbo',(data)=>{
         $("#modal-businessopportunities-wonbo").modal('show');
