@@ -7,25 +7,32 @@ use App\Models\DrugTest as DrugTestModel;
 use App\Models\DrugTestUpload;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Arr;
+use App\Models\Region;
+use App\Models\SubRegion;
 
 class DrugTest extends Component
 {
     use WithFileUploads;
 
-    public $employee_pic_id,$employee_id,$status_drug,$file,$title,$remark;
+    public $employee_pic_id,$employee_id,$status_drug,$file,$title,$remark,$region=[],$sub_region=[],$region_id,$sub_region_id;
 
     protected $listeners = ['refresh-page'=>'$refresh'];
 
     public function render()
     {
         $data = DrugTestModel::orderBy('id','DESC');
+        if($this->region_id) {
+            $data->where('drug_test.region_id',$this->region_id);
+            $this->sub_region = SubRegion::where('region_id',$this->region_id)->get();
+        }
+        if($this->sub_region_id) $data->where('drug_test.sub_region_id',$this->sub_region_id);
 
         return view('livewire.mobile-apps.drug-test')->with(['data'=>$data->paginate(100)]);
     }
 
     public function mount()
     {
-
+        $this->region  = Region::select(['id','region'])->get();
     }
 
     public function positif()

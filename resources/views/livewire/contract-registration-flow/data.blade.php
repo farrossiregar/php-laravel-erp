@@ -210,7 +210,6 @@
                                     @endif
                                 @endif
                             @endif
-                            
                         </td>
 
                         <td>
@@ -223,7 +222,6 @@
                                     @endif
                                 @endif
                             @endif
-                            
                         </td>
                         <td>
                             @if($item->revenue)
@@ -235,9 +233,7 @@
                                     @endif
                                 @endif
                             @endif
-                            
                         </td>
-
                         <td>
                             @if($item->resource_preparation)
                                 <a href="<?php echo asset('storage/contract_registration_flow/Reseource_preparation/'.$item->resource_preparation.''); ?>" data-toggle="tooltip" title="Download Resource Preparation"><i class="fa fa-download"></i> {{__('Download Resource Preparation')}}</a>

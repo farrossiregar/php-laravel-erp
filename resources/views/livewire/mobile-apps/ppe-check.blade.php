@@ -3,7 +3,7 @@
         <div class="col-md-2">
             <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
         </div>
-        <div class="col-md-2" wire:ignore>
+        <div class="col-md-1" wire:ignore>
             <input type="text" class="form-control date_ppe_check" placeholder="Date" />
         </div>
         <div class="col-md-2" wire:ignore>
@@ -18,6 +18,14 @@
             <select class="form-control" wire:model="sub_region_id">
                 <option value=""> -- Select Sub Region -- </option>
                 @foreach($sub_region as $item)
+                    <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-2" wire:ignore>
+            <select class="form-control" wire:model="user_access_id">
+                <option value="">-- Job Role/Access --</option>
+                @foreach(\App\Models\UserAccess::where('is_project',1)->get() as $item)
                     <option value="{{$item->id}}">{{$item->name}}</option>
                 @endforeach
             </select>

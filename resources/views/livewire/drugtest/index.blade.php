@@ -13,13 +13,29 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2 form-group">
+                <div class="col-md-1 form-group">
                     <input type="text" class="form-control date_created" placeholder="Date" />
+                </div>
+                <div class="col-md-2" wire:ignore>
+                    <select class="form-control" wire:model="region_id" wire:change="$set('sub_region_id',null)">
+                        <option value=""> -- Select Region -- </option>
+                        @foreach($region as $item)
+                            <option value="{{$item->id}}">{{$item->region}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" wire:model="sub_region_id">
+                        <option value=""> -- Select Sub Region -- </option>
+                        @foreach($sub_region as $item)
+                            <option value="{{$item->id}}">{{$item->name}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="col-md-3">
                     <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_add_drug_test"><i class="fa fa-plus"></i> Drug Test</a>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-2">
                     <span wire:loading>
                         <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                         <span class="sr-only">{{ __('Loading...') }}</span>

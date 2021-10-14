@@ -3,13 +3,29 @@
         <div class="col-md-2">
             <input type="text" class="form-control" />
         </div>
-        <div class="col-md-2 form-group">
+        <div class="col-md-1 form-group">
             <input type="text" class="form-control date_created" placeholder="Date" />
+        </div>
+        <div class="col-md-2" wire:ignore>
+            <select class="form-control" wire:model="region_id" wire:change="$set('sub_region_id',null)">
+                <option value=""> -- Select Region -- </option>
+                @foreach($region as $item)
+                    <option value="{{$item->id}}">{{$item->region}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-control" wire:model="sub_region_id">
+                <option value=""> -- Select Sub Region -- </option>
+                @foreach($sub_region as $item)
+                    <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
+            </select>
         </div>
         <div class="col-md-3">
             <h4><small>Speed Warning :</small> {{get_setting('speed_limit')}} km/h <small><a href="javascript:void(0)" data-toggle="modal" data-target="#modal_speed_warning"><i class="fa fa-edit"></i></a></small></h4>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-1">
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>
