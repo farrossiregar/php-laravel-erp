@@ -30,6 +30,7 @@ class Serviceinput extends Component
         $data->supplier_contact                 = $this->supplier_contact;
         $data->supplier_email                   = $this->supplier_email;
         $data->supplier_address                 = $this->supplier_address;
+        $data->price_offer                      = $this->price_offer;
         $data->supplier_category                = 'Service Supplier';
         $data->supplier_registration_date       = date('Y-m-d H:i:s');
 
