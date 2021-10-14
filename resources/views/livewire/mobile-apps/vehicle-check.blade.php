@@ -76,7 +76,8 @@
             @endforeach
             </tbody>
         </table>
-    </div>
+    </div><br />
+    {{$data->links()}}
 
     <div wire:ignore.self class="modal fade" id="modal_detail_accident_report" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document" x-data>

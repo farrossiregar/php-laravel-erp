@@ -37,7 +37,7 @@
                                                         @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id,'is_show'=>1])->get() as $action)    
                                                             <li class="ml-2">
                                                                 @if(Route::has($action->link))
-                                                                    <a href="{{route($action->link)}}" class="pl-5">{{$action->name}}</a>
+                                                                    <a href="{{route($action->link)}}?project_id={{$menu->client_project_id}}" class="pl-5">{{$action->name}}</a>
                                                                 @else
                                                                     <a href="javascript:void(0)" class="pl-5">{{$action->name}}</a>
                                                                 @endif
@@ -45,7 +45,7 @@
                                                                     <ul>
                                                                         @foreach(\App\Models\ModulesItem::where(['parent_id'=>$action->id])->get() as $sub)
                                                                             @if(Route::has($sub->link))
-                                                                                <li><a href="{{route($sub->link)}}" class="pl-5 custome_li">{{$sub->name}}</a></li>
+                                                                                <li><a href="{{route($sub->link)}}?project_id={{$menu->client_project_id}}" class="pl-5 custome_li">{{$sub->name}}</a></li>
                                                                             @else
                                                                                 <li> <a href="javascript:void(0)" class="pl-5 custome_li">{{$sub->name}}</a></li>
                                                                             @endif
@@ -60,7 +60,7 @@
                                                 @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id,'is_show'=>1])->get() as $action)    
                                                     <li  class="sub__">
                                                         @if(Route::has($action->link))
-                                                            <a href="{{route($action->link)}}" class="pl-5">{{$action->name}}</a>
+                                                            <a href="{{route($action->link)}}?project_id={{$menu->client_project_id}}"" class="pl-5">{{$action->name}}</a>
                                                         @else
                                                             <a href="javascript:void(0)" class="pl-5">{{$action->name}}</a>
                                                         @endif
@@ -68,7 +68,7 @@
                                                             <ul>
                                                                 @foreach(\App\Models\ModulesItem::where(['parent_id'=>$action->id])->get() as $sub)
                                                                     @if(Route::has($sub->link))
-                                                                        <li class="ml-2"> <a href="{{route($sub->link)}}" class="pl-5 custome_li"><i class="fa fa-dot-circle-o"></i> {{$sub->name}}</a></li>
+                                                                        <li class="ml-2"> <a href="{{route($sub->link)}}?project_id={{$menu->client_project_id}}"" class="pl-5 custome_li"><i class="fa fa-dot-circle-o"></i> {{$sub->name}}</a></li>
                                                                     @else
                                                                         <li class="ml-2"> <a href="javascript:void(0)" class="pl-5 custome_li"><i class="fa fa-dot-circle-o"></i>  {{$sub->name}}</a></li>
                                                                     @endif

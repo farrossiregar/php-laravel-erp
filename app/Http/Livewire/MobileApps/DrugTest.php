@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\DrugTest as DrugTestModel;
 use App\Models\DrugTestUpload;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Arr;
 
 class DrugTest extends Component
 {

@@ -6,10 +6,10 @@
         <div class="card">
             <div class="row pt-3 pl-3">
                 <div class="col-md-2">
-                    <select class="form-control" wire:model="employee_id">
+                    <select class="form-control employee_id" wire:model="filter_employee_id">
                         <option value=""> --- Employee --- </option>
                         @foreach(\App\Models\Employee::where('is_use_android',1)->get() as $item)
-                        <option value="{{$item->id}}">{{$item->name}}</option>
+                        <option value="{{$item->id}}">{{$item->nik}} / {{$item->name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="modal_add_drug_test" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="modal_add_drug_test" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form wire:submit.prevent="store_employee">
@@ -98,7 +98,7 @@
                             <select class="form-control" wire:model="employee_pic_id">
                                 <option value=""> --- Select --- </option>
                                 @foreach(\App\Models\Employee::where('is_use_android',1)->get() as $item)
-                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                <option value="{{$item->id}}">{{$item->nik}} / {{$item->name}}</option>
                                 @endforeach
                             </select>
                         </div> --}}
@@ -112,10 +112,10 @@
                         </div>
                         <div class="form-group">
                             <label>Employee</label>
-                            <select class="form-control" wire:model="employee_id">
+                            <select class="form-control insert_employee_id" wire:model="employee_id">
                                 <option value=""> --- Select --- </option>
                                 @foreach(\App\Models\Employee::where('is_use_android',1)->get() as $item)
-                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                <option value="{{$item->id}}">{{$item->nik}} / {{$item->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -135,29 +135,37 @@
             </div>
         </div>
     </div>
-
+    @push('after-scripts')
+        <script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/daterange/daterangepicker.css') }}" />
+        <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.min.js') }}"></script>
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}" />
+        <script>
+            $('.employee_id').select2();
+            $('.employee_id').on('select2:select', function (e) {
+                var data = e.params.data;
+                @this.set('filter_employee_id',data.id)
+            });
+            $('.insert_employee_id').select2();
+            $('.insert_employee_id').on('select2:select', function (e) {
+                var data = e.params.data;
+                @this.set('employee_id',data.id)
+            });
+            $('.date_created').daterangepicker({
+                opens: 'left',
+                locale: {
+                    cancelLabel: 'Clear'
+                },
+                autoUpdateInput: false,
+            }, function(start, end, label) {
+                @this.set("date_start", start.format('YYYY-MM-DD'));
+                @this.set("date_end", end.format('YYYY-MM-DD'));
+                $('.date_created').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
+            });
+            Livewire.on('refresh-page',()=>{
+                $(".modal").modal("hide");
+            });
+        </script>
+    @endpush
 </div>
-
-
-    
-@push('after-scripts')
-<script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/daterange/daterangepicker.css') }}" />
-<script>
-    $('.date_created').daterangepicker({
-        opens: 'left',
-        locale: {
-            cancelLabel: 'Clear'
-        },
-        autoUpdateInput: false,
-    }, function(start, end, label) {
-        @this.set("date_start", start.format('YYYY-MM-DD'));
-        @this.set("date_end", end.format('YYYY-MM-DD'));
-        $('.date_created').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
-    });
-    Livewire.on('refresh-page',()=>{
-        $(".modal").modal("hide");
-    });
-</script>
-@endpush

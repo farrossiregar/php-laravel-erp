@@ -6,9 +6,15 @@ use Livewire\Component;
 use App\Models\VehicleCheck as VehicleCheckModel;
 use App\Models\AccidentReport;
 use App\Models\AccidentReportImage;
+use Livewire\WithPagination;
+use Illuminate\Support\Arr;
+use App\Models\EmployeeProject;
 
 class VehicleCheck extends Component
 {
+    use WithPagination;
+    
+    protected $paginationTheme = 'bootstrap';
     public $employee_id,$site_id,$date,$klasifikasi_insiden,$jenis_insiden,$rincian_kronologis,$nik_and_nama,$foto_insiden=[];
     public $date_start,$date_end,$keyword;
     public function render()
@@ -25,6 +31,13 @@ class VehicleCheck extends Component
             else
                 $data->whereBetween('vehicle_check.created_at',[$this->date_start,$this->date_end]);
         }
+
+        if(check_access('all-project.index'))
+            $client_project_ids = [session()->get('project_id')];
+        else
+            $client_project_ids = Arr::pluck(EmployeeProject::select('client_project_id')->where(['employee_id'=>\Auth::user()->employee->id])->get()->toArray(),'client_project_id');
+        
+        $data->whereIn('vehicle_check.client_project_id',$client_project_ids);
 
         return view('livewire.mobile-apps.vehicle-check')->with(['data'=>$data->paginate(100)]);
     }

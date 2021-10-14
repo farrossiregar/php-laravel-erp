@@ -11,14 +11,20 @@ class Index extends Component
 {
     use WithFileUploads;
 
-    public $employee_pic_id,$employee_id,$status_drug,$file,$title,$remark;
+    public $employee_pic_id,$employee_id,$status_drug,$file,$title,$remark,$filter_employee_id;
 
     protected $listeners = ['refresh-page'=>'$refresh'];
 
     public function render()
     {
+        if(!check_access('drug-test.index')){
+            session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
+            $this->redirect('/');
+        }
+        
         $data = DrugTestModel::orderBy('id','DESC');
-
+        if($this->filter_employee_id) $data->where('employee_id',$this->filter_employee_id);
+        
         return view('livewire.drugtest.index')->with(['data'=>$data->paginate(100)]);
     }
 
