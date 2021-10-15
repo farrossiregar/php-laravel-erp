@@ -38,7 +38,7 @@
                     
                 </div> -->
                 <div class="tab-pane" id="supplierselection">
-                    <livewire:business-opportunities.data />      
+                    <livewire:vendor-management.datasupplierselection /> 
                 </div>
             </div>
         </div>
@@ -110,10 +110,21 @@
 </div>
 
 
+<div class="modal fade" id="modal-vendormanagement-newproject" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.newproject />
+        </div>
+    </div>
+</div>
+
+
 @section('page-script')
 
 
-
+    Livewire.on('modalinputnewproject',(data)=>{
+        $("#modal-vendormanagement-newproject").modal('show');
+    });
 
     Livewire.on('modalinputservicesupplier',(data)=>{
         $("#modal-vendormanagement-serviceinput").modal('show');

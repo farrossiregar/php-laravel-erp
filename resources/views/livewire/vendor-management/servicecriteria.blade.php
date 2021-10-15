@@ -17,35 +17,35 @@
                                     <div class="row">
                                     <div class="col-md-12 form-group">
                                             <label>General Information</label>
-                                            <input type="text" class="form-control" wire:model="general_information"/>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="general_information"/>
                                             @error('supplier_name')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                          <div class="col-md-12 form-group">
                                             <label>Team Availability & Capability</label>
-                                            <input type="text" class="form-control" wire:model="team_availability_capability"/>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="team_availability_capability"/>
                                             @error('team_availability_capability')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>Tools & Facilities</label>
-                                            <input type="text" class="form-control" wire:model="tools_facilities"/>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="tools_facilities"/>
                                             @error('tools_facilities')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>EHS & Quality Management</label>
-                                            <input type="text" class="form-control" wire:model="ehs_quality_management"/>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="ehs_quality_management"/>
                                             @error('ehs_quality_management')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>Commercial Compliance</label>
-                                            <input type="text" class="form-control" wire:model="commercial_compliance"/>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="commercial_compliance"/>
                                             @error('commercial_compliance')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror

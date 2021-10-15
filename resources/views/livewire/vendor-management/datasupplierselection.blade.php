@@ -14,15 +14,12 @@
     </div> -->
 
 
-    @if(check_access('business-opportunities.add'))
+    <!-- if(check_access('business-opportunities.add')) -->
     <div class="col-md-1" style="margin-right: 50px;">
-        <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-serviceinput" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('New Service Supplier')}}</a>
+        <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Create New Project')}}</a>
     </div>
 
-    <div class="col-md-2">
-        <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-materialinput" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('New Material Supplier')}}</a>
-    </div>
-    @endif
+    <!-- endif -->
     
     
     
@@ -34,15 +31,13 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Supplier Name</th> 
-                        <th>Supplier PIC</th> 
-                        <th>Supplier Category</th> 
-                        <th>Legal</th> 
-                        <th>Org Chart</th> 
-                        <th>Tools & Resource</th> 
-                        <th>Certification of Resources</th> 
-                        <th>Scoring</th> 
-                        <th>Supplier Registration Date</th> 
+                        <th>Project Name</th> 
+                        <th>Project PIC</th> 
+                        <th>Project Category</th> 
+                        <th>Supplier 1</th> 
+                        <th>Supplier 2</th> 
+                        <th>Supplier 3</th> 
+                        <th>Created Date</th> 
                         <th>Status</th> 
                         <th>Action</th> 
                     </tr>
@@ -50,6 +45,61 @@
                 <tbody>
                     @foreach($data as $key => $item)
                     <tr>
+                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $item->project_name }}</td>
+                        <td>{{ $item->project_pic }}</td>
+                        <td>{{ $item->project_category }}</td>
+                        <td>
+                            @if($item->supplier2_id)
+                            <h5>Detail Supplier : </h5>
+                            <ul>
+                                <li>Supplier Name : {{ get_detail_supplier($item->supplier1_id)->supplier_name }}</li>
+                                <li>Supplier PIC : {{ get_detail_supplier($item->supplier1_id)->supplier_pic }}</li>
+                                <li>Supplier Email : {{ get_detail_supplier($item->supplier1_id)->supplier_email }}</li>
+                                <li>Price Offering : {{ get_detail_supplier($item->supplier1_id)->supplier_pic }}</li>
+                                <li>Scoring : {{ get_detail_supplier($item->supplier1_id)->scoring }}</li>
+                                <li>Document : {{ get_detail_supplier($item->supplier1_id)->supplier_pic }}</li>
+                            </ul>
+                            @else
+                            <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Add Supplier')}}</a>
+                            @endif
+                        </td>
+                        <td>
+                            @if($item->supplier2_id)
+                            <h5>Detail Supplier : </h5>
+                            <ul>
+                                <li>Supplier Name : {{ get_detail_supplier($item->supplier2_id)->supplier_name }}</li>
+                                <li>Supplier PIC : {{ get_detail_supplier($item->supplier2_id)->supplier_pic }}</li>
+                                <li>Supplier Email : {{ get_detail_supplier($item->supplier2_id)->supplier_email }}</li>
+                                <li>Price Offering : {{ get_detail_supplier($item->supplier2_id)->supplier_pic }}</li>
+                                <li>Scoring : {{ get_detail_supplier($item->supplier2_id)->scoring }}</li>
+                                <li>Document : {{ get_detail_supplier($item->supplier2_id)->supplier_pic }}</li>
+                            </ul>
+                            @else
+                            <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Add Supplier')}}</a>
+                            @endif
+                            
+                        </td>
+                        <td>
+                            @if($item->supplier3_id)
+                            <h5>Detail Supplier : </h5>
+                            <ul>
+                                <li>Supplier Name : {{ get_detail_supplier($item->supplier3_id)->supplier_name }}</li>
+                                <li>Supplier PIC : {{ get_detail_supplier($item->supplier3_id)->supplier_pic }}</li>
+                                <li>Supplier Email : {{ get_detail_supplier($item->supplier3_id)->supplier_email }}</li>
+                                <li>Price Offering : {{ get_detail_supplier($item->supplier3_id)->supplier_pic }}</li>
+                                <li>Scoring : {{ get_detail_supplier($item->supplier3_id)->scoring }}</li>
+                                <li>Document : {{ get_detail_supplier($item->supplier3_id)->supplier_pic }}</li>
+                            </ul>
+                            @else
+                            <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Add Supplier')}}</a>
+                            @endif
+                        </td>
+                        <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
+                        <td>{{ $item->status }}</td>
+                        <td>{{ $item->status }}</td>
+                    </tr>
+                    <!-- <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $item->supplier_name }}</td>
                         <td>{{ $item->supplier_pic }}</td>
@@ -143,7 +193,7 @@
                                 @endif
                             @endif
                         </td>
-                    </tr>
+                    </tr> -->
                     @endforeach
                 </tbody>
             </table>
