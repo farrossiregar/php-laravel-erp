@@ -5,8 +5,8 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Fill Service Criteria of Evaluation</h5>
-                    
+                    <!-- <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Fill Service Criteria of Evaluation</h5> -->
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> General Information</h5>
                 </div>
 
                 <div class="body pt-0">
@@ -16,8 +16,45 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        
                                         <div class="col-md-12 form-group">
+                                            <label>Complete Licence (Company 50% - Personal 20%)</label>
+                                            <!-- <input type="number" min='0' max="100" class="form-control" wire:model="complete_licence"/> -->
+                                            
+                                            <select class="form-control" wire:model="complete_licence" name="" id="">
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+                                            </select>
+                                            @error('ehs_quality_management')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <label>Have HQ Office (20%)</label>
+                                            <!-- <input type="number" min='0' max="100" class="form-control" wire:model="hq_office"/> -->
+                                            <select class="form-control" wire:model="hq_office" name="" id="">
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+                                            </select>
+                                            @error('ehs_quality_management')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-12 form-group">
+                                            <label>Total (10% Point from Total Score)</label>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="total_gi" readonly/>
+                                            @error('ehs_quality_management')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <hr>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <div class="col-md-12 form-group">
+                                            <a href=""><i class="fa fa-download"></i> Download File General information</a>
+                                        </div>
+                                        <!-- <div class="col-md-12 form-group">
                                             <label>General Information (10%)</label>
                                             <input type="number" min='0' max="100" class="form-control" wire:model="general_information"/>
                                             @error('supplier_name')
@@ -51,7 +88,7 @@
                                             @error('commercial_compliance')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div>
+                                        </div> -->
                                         
                                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                                         <script>

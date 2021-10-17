@@ -50,8 +50,9 @@
                         <td>{{ $item->project_pic }}</td>
                         <td>{{ $item->project_category }}</td>
                         <td>
-                            @if($item->supplier2_id)
-                            <h5>Detail Supplier : </h5>
+                            @if($item->supplier1_id)
+                            <b>{{ get_detail_supplier($item->supplier1_id)->supplier_name }}</b> <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a>
+                            <!-- <h5>Detail Supplier : </h5>
                             <ul>
                                 <li>Supplier Name : {{ get_detail_supplier($item->supplier1_id)->supplier_name }}</li>
                                 <li>Supplier PIC : {{ get_detail_supplier($item->supplier1_id)->supplier_pic }}</li>
@@ -59,14 +60,21 @@
                                 <li>Price Offering : {{ get_detail_supplier($item->supplier1_id)->supplier_pic }}</li>
                                 <li>Scoring : {{ get_detail_supplier($item->supplier1_id)->scoring }}</li>
                                 <li>Document : {{ get_detail_supplier($item->supplier1_id)->supplier_pic }}</li>
-                            </ul>
+                            </ul> -->
                             @else
-                            <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Add Supplier')}}</a>
+                            <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Add Supplier')}}</a> -->
+                            <select class="form-control" name="" id="">
+                                <option value=""> -- Select Supplier --</option>
+                                @foreach(\App\Models\Vendormanagement::get() as $key => $item )
+                                <option value="">{{ $item->supplier_name }}</option>
+                                @endforeach
+                            </select>
                             @endif
                         </td>
                         <td>
                             @if($item->supplier2_id)
-                            <h5>Detail Supplier : </h5>
+                            <b>{{ get_detail_supplier($item->supplier2_id)->supplier_name }}</b> <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a>
+                            <!-- <h5>Detail Supplier : </h5>
                             <ul>
                                 <li>Supplier Name : {{ get_detail_supplier($item->supplier2_id)->supplier_name }}</li>
                                 <li>Supplier PIC : {{ get_detail_supplier($item->supplier2_id)->supplier_pic }}</li>
@@ -74,15 +82,22 @@
                                 <li>Price Offering : {{ get_detail_supplier($item->supplier2_id)->supplier_pic }}</li>
                                 <li>Scoring : {{ get_detail_supplier($item->supplier2_id)->scoring }}</li>
                                 <li>Document : {{ get_detail_supplier($item->supplier2_id)->supplier_pic }}</li>
-                            </ul>
+                            </ul> -->
                             @else
-                            <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Add Supplier')}}</a>
+                            <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Add Supplier')}}</a> -->
+                            <select class="form-control" name="" id="">
+                                <option value=""> -- Select Supplier --</option>
+                                @foreach(\App\Models\Vendormanagement::get() as $key => $item )
+                                <option value="">{{ $item->supplier_name }}</option>
+                                @endforeach
+                            </select>
                             @endif
                             
                         </td>
                         <td>
                             @if($item->supplier3_id)
-                            <h5>Detail Supplier : </h5>
+                            {{ get_detail_supplier($item->supplier3_id)->supplier_name }} <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a>
+                            <!-- <h5>Detail Supplier : </h5>
                             <ul>
                                 <li>Supplier Name : {{ get_detail_supplier($item->supplier3_id)->supplier_name }}</li>
                                 <li>Supplier PIC : {{ get_detail_supplier($item->supplier3_id)->supplier_pic }}</li>
@@ -90,14 +105,22 @@
                                 <li>Price Offering : {{ get_detail_supplier($item->supplier3_id)->supplier_pic }}</li>
                                 <li>Scoring : {{ get_detail_supplier($item->supplier3_id)->scoring }}</li>
                                 <li>Document : {{ get_detail_supplier($item->supplier3_id)->supplier_pic }}</li>
-                            </ul>
+                            </ul> -->
                             @else
-                            <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Add Supplier')}}</a>
+                            <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Add Supplier')}}</a> -->
+                            <select class="form-control" name="" id="">
+                                <option value=""> -- Select Supplier --</option>
+                                @foreach(\App\Models\Vendormanagement::get() as $key => $items )
+                                <option value="">{{ $items->supplier_name }}</option>
+                                @endforeach
+                            </select>
                             @endif
                         </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>{{ $item->status }}</td>
-                        <td>{{ $item->status }}</td>
+                        <td>
+                        <a href="javascript:;"  wire:click="$emit('modalviewcomparation','{{ $item->id }}')" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> View Comparation </a>
+                        </td>
                     </tr>
                     <!-- <tr>
                         <td>{{ $key + 1 }}</td>

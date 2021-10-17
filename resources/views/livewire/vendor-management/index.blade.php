@@ -109,11 +109,64 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-vendormanagement-criteriageneralinformation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.criteriageneralinformation />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-vendormanagement-criteriateamavailability" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.criteriateamavailability />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-vendormanagement-criteriatoolsfacility" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.criteriatoolsfacilities />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-vendormanagement-criteriacc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.criteriacc />
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modal-vendormanagement-criteriaehs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.criteriaehs />
+        </div>
+    </div>
+</div>
+
+
+
 
 <div class="modal fade" id="modal-vendormanagement-newproject" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <livewire:vendor-management.newproject />
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal-vendormanagement-viewcomparation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.viewcomparation />
         </div>
     </div>
 </div>
@@ -163,6 +216,32 @@
     });
 
 
+    Livewire.on('modalcriteriageneralinformation',(data)=>{
+        $("#modal-vendormanagement-criteriageneralinformation").modal('show');
+    });
+
+    Livewire.on('modalcriteriateamavailability',(data)=>{
+        $("#modal-vendormanagement-criteriateamavailability").modal('show');
+    });
+
+    Livewire.on('modalcriteriatoolsfacilities',(data)=>{
+        $("#modal-vendormanagement-criteriatoolsfacilities").modal('show');
+    });
+
+    Livewire.on('modalcriteriaehs',(data)=>{
+        $("#modal-vendormanagement-criteriaehs").modal('show');
+    });
+
+    Livewire.on('modalcriteriacc',(data)=>{
+        $("#modal-vendormanagement-criteriacc").modal('show');
+    });
+
+
+    Livewire.on('modalviewcomparation',(data)=>{
+        $("#modal-vendormanagement-viewcomparation").modal('show');
+    });
+
+
 
 
     Livewire.on('modalwonbo',(data)=>{
@@ -172,6 +251,9 @@
     Livewire.on('modalfailedbo',(data)=>{
         $("#modal-businessopportunities-failedbo").modal('show');
     });
+
+
+    
 
 
 @endsection
