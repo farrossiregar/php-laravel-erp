@@ -4,7 +4,12 @@
     <div class="col-lg-12">
         <div class="card">
                
-
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-8">
@@ -51,9 +56,18 @@
                                 
                             </div>
 
+                            @if($supplier_category == 'Service - Company' || $supplier_category == 'Service - Individual')
                             <div class="col-md-6">
                                 <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
-                                    <h5>Team Availability</h5> <a href="#" wire:click="delsupplier2()" title="Update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                                    <h5>Team Availability</h5>
+                                    <div class="row">
+                                        <div class="col-md-8 form-group">
+                                            <input type="number" min='0' max="100" class="form-control" readonly wire:model="general_information"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="#" wire:click="delsupplier2()" title="Update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                                        </div>
+                                    </div>
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-12 form-group">
@@ -93,7 +107,15 @@
 
                             <div class="col-md-6">
                                 <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
-                                    <h5>Tools & Facilities</h5> <a href="#" wire:click="delsupplier2()" title="Update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                                    <h5>Tools & Facilities</h5>
+                                    <div class="row">
+                                        <div class="col-md-8 form-group">
+                                            <input type="number" min='0' max="100" class="form-control" readonly wire:model="general_information"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="#" wire:click="delsupplier2()" title="Update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                                        </div>
+                                    </div>
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-12 form-group">
@@ -116,7 +138,15 @@
 
                             <div class="col-md-6">
                                 <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
-                                    <h5>EHS</h5> <a href="#" wire:click="delsupplier2()" title="Update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                                    <h5>EHS</h5>
+                                    <div class="row">
+                                        <div class="col-md-8 form-group">
+                                            <input type="number" min='0' max="100" class="form-control" readonly wire:model="general_information"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="#" wire:click="delsupplier2()" title="Update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                                        </div>
+                                    </div>
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-12 form-group">
@@ -136,10 +166,19 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
 
                             <div class="col-md-6">
                                 <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
-                                    <h5>Commercial Compliance</h5> <a href="#" wire:click="delsupplier2()" title="Update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                                    <h5>Commercial Compliance</h5>
+                                    <div class="row">
+                                        <div class="col-md-8 form-group">
+                                            <input type="number" min='0' max="100" class="form-control" readonly wire:model="general_information"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="#" wire:click="delsupplier2()" title="Update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                                        </div>
+                                    </div>
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-12 form-group">
@@ -162,11 +201,11 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 480px;">
+                        <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 360px;">
                             <h5>Total Score</h5>
                             <hr>
-                            <h1>
-                                90
+                            <h1 style="font-size: 80px">
+                                {{ $scoring }}
                             </h1>
                         </div>
                     </div>

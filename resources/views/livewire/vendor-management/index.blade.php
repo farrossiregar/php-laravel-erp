@@ -96,7 +96,7 @@
 <div class="modal fade" id="modal-vendormanagement-servicecriteria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.servicecriteria />
+            
         </div>
     </div>
 </div>

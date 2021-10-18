@@ -16,41 +16,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 form-group">
-                                            <label>Team Quantity</label>
-                                            <!-- <input type="number" min='0' max="100" class="form-control" wire:model="team_qty"/> -->
-                                            <select class="form-control" wire:model="team_qty" name="" id="">
-                                                <option value="20"> Team QTY < 5 </option>
-                                                <option value="30"> Team QTY < 5 X < 10 </option>
-                                                <option value="40"> Team QTY > 10 </option>
-
-                                            </select>
-                                            @error('ehs_quality_management')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Company Capability</label>
-                                            <select class="form-control" wire:model="company_capability" name="" id="">
-                                                <option value="20"> 1 Capability Category </option>
-
-                                            </select>
-                                            @error('ehs_quality_management')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-12 form-group">
-                                            <label>Total (10% Point from Total Score)</label>
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="total_gi" readonly/>
-                                            @error('ehs_quality_management')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <hr>
-                                        <br>
-                                        <br>
-                                        <br>
+                                        
                                         <div class="col-md-12 form-group">
                                             <a href=""><i class="fa fa-download"></i> Download File General information</a>
                                         </div>
