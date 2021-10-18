@@ -51,7 +51,9 @@
                         <td>{{ $item->project_category }}</td>
                         <td>
                             @if($item->supplier1_id)
-                            <b>{{ get_detail_supplier($item->supplier1_id)->supplier_name }}</b> <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a>
+                            <b>{{ get_detail_supplier($item->supplier1_id)->supplier_name }}</b> 
+                            <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a>
+                            <a href="#" wire:click="delsupplier1({{ $item->id }})" title="Delete" class="btn btn-danger"><i class="fa fa-trash"></i> </a>
                             <!-- <h5>Detail Supplier : </h5>
                             <ul>
                                 <li>Supplier Name : {{ get_detail_supplier($item->supplier1_id)->supplier_name }}</li>
@@ -63,56 +65,55 @@
                             </ul> -->
                             @else
                             <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Add Supplier')}}</a> -->
-                            <select class="form-control" name="" id="">
+                            <select wire:change="addsupplier1({{ $item->id }})" wire:model="supplier1_id.{{ $item->id }}"  class="form-control" name="" id="">
                                 <option value=""> -- Select Supplier --</option>
-                                @foreach(\App\Models\Vendormanagement::get() as $key => $item )
-                                <option value="">{{ $item->supplier_name }}</option>
-                                @endforeach
+                                <?php
+                                    foreach(\App\Models\Vendormanagement::where('supplier_category', $item->project_category)->get() as $key => $items ){
+                                ?>
+                                <option <?php if($items->id == $item->supplier1_id){ echo "selected"; } ?>value="{{ $items->id }}">{{ $items->supplier_name }}</option>
+                                <?php
+                                    }
+                                ?>
                             </select>
                             @endif
                         </td>
                         <td>
                             @if($item->supplier2_id)
-                            <b>{{ get_detail_supplier($item->supplier2_id)->supplier_name }}</b> <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a>
-                            <!-- <h5>Detail Supplier : </h5>
-                            <ul>
-                                <li>Supplier Name : {{ get_detail_supplier($item->supplier2_id)->supplier_name }}</li>
-                                <li>Supplier PIC : {{ get_detail_supplier($item->supplier2_id)->supplier_pic }}</li>
-                                <li>Supplier Email : {{ get_detail_supplier($item->supplier2_id)->supplier_email }}</li>
-                                <li>Price Offering : {{ get_detail_supplier($item->supplier2_id)->supplier_pic }}</li>
-                                <li>Scoring : {{ get_detail_supplier($item->supplier2_id)->scoring }}</li>
-                                <li>Document : {{ get_detail_supplier($item->supplier2_id)->supplier_pic }}</li>
-                            </ul> -->
+                            <b>{{ get_detail_supplier($item->supplier2_id)->supplier_name }}</b> 
+                            <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a>
+                            <a href="#" wire:click="delsupplier2({{ $item->id }})" title="Delete" class="btn btn-danger"><i class="fa fa-trash"></i> </a>
+  
                             @else
-                            <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Add Supplier')}}</a> -->
-                            <select class="form-control" name="" id="">
+                            
+                            <select wire:change="addsupplier2({{ $item->id }})" wire:model="supplier2_id.{{ $item->id }}"  class="form-control" name="" id="">
                                 <option value=""> -- Select Supplier --</option>
-                                @foreach(\App\Models\Vendormanagement::get() as $key => $item )
-                                <option value="">{{ $item->supplier_name }}</option>
-                                @endforeach
+                                <?php
+                                    foreach(\App\Models\Vendormanagement::where('supplier_category', $item->project_category)->get() as $key => $items ){
+                                ?>
+                                <option <?php if($items->id == $item->supplier2_id){ echo "selected"; } ?>value="{{ $items->id }}">{{ $items->supplier_name }}</option>
+                                <?php
+                                    }
+                                ?>
                             </select>
                             @endif
-                            
                         </td>
                         <td>
                             @if($item->supplier3_id)
-                            {{ get_detail_supplier($item->supplier3_id)->supplier_name }} <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a>
-                            <!-- <h5>Detail Supplier : </h5>
-                            <ul>
-                                <li>Supplier Name : {{ get_detail_supplier($item->supplier3_id)->supplier_name }}</li>
-                                <li>Supplier PIC : {{ get_detail_supplier($item->supplier3_id)->supplier_pic }}</li>
-                                <li>Supplier Email : {{ get_detail_supplier($item->supplier3_id)->supplier_email }}</li>
-                                <li>Price Offering : {{ get_detail_supplier($item->supplier3_id)->supplier_pic }}</li>
-                                <li>Scoring : {{ get_detail_supplier($item->supplier3_id)->scoring }}</li>
-                                <li>Document : {{ get_detail_supplier($item->supplier3_id)->supplier_pic }}</li>
-                            </ul> -->
+                            {{ get_detail_supplier($item->supplier3_id)->supplier_name }} 
+                            <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a>
+                            <a href="#" wire:click="delsupplier3({{ $item->id }})" title="Delete" class="btn btn-danger"><i class="fa fa-trash"></i> </a>
+                           
                             @else
-                            <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Add Supplier')}}</a> -->
-                            <select class="form-control" name="" id="">
+                            
+                            <select wire:change="addsupplier3({{ $item->id }})" wire:model="supplier3_id.{{ $item->id }}"  class="form-control" name="" id="">
                                 <option value=""> -- Select Supplier --</option>
-                                @foreach(\App\Models\Vendormanagement::get() as $key => $items )
-                                <option value="">{{ $items->supplier_name }}</option>
-                                @endforeach
+                                <?php
+                                    foreach(\App\Models\Vendormanagement::where('supplier_category', $item->project_category)->get() as $key => $items ){
+                                ?>
+                                <option <?php if($items->id == $item->supplier3_id){ echo "selected"; } ?>value="{{ $items->id }}">{{ $items->supplier_name }}</option>
+                                <?php
+                                    }
+                                ?>
                             </select>
                             @endif
                         </td>

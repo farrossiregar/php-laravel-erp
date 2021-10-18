@@ -70,13 +70,13 @@
                                         <div class="col-md-4">
                                             @if($supplier2_id)
                                             <?php
-                                                $supplier1 = get_detail_supplier($supplier1_id);
+                                                $supplier2 = get_detail_supplier($supplier2_id);
                                             ?>
-                                            <b>{{ $supplier1['supplier_name'] }}</b>
+                                            <b>{{ $supplier2['supplier_name'] }}</b>
                                             <hr>
                                             <br>
                                             <div class="table-responsive">
-                                                <b>{{ $supplier1['supplier_name'] }}</b>
+                                                <b>{{ $supplier2['supplier_name'] }}</b>
                                                 <table class="table table-striped m-b-0 c_list">
                                                     <thead>
                                                         <tr>
@@ -87,22 +87,22 @@
                                                         <tr>
                                                             <th>PIC</th>
                                                             <th> : </th>
-                                                            <th>{{ $supplier1['supplier_pic'] }}</th>
+                                                            <th>{{ $supplier2['supplier_pic'] }}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Contact</th>
                                                             <th> : </th>
-                                                            <th>{{ $supplier1['supplier_contact'] }}</th>
+                                                            <th>{{ $supplier2['supplier_contact'] }}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Address</th>
                                                             <th> : </th>
-                                                            <th>{{ $supplier1['supplier_address'] }}</th>
+                                                            <th>{{ $supplier2['supplier_address'] }}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Price Offer</th>
                                                             <th> : </th>
-                                                            <th>{{ $supplier1['supplier_address'] }}</th>
+                                                            <th>{{ $supplier2['price_offer'] }}</th>
                                                         </tr>
                                                     </thead>
                                                 </table>
@@ -139,22 +139,22 @@
                                                         <tr>
                                                             <th>PIC</th>
                                                             <th> : </th>
-                                                            <th>{{ $supplier1['supplier_pic'] }}</th>
+                                                            <th>{{ $supplier3['supplier_pic'] }}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Contact</th>
                                                             <th> : </th>
-                                                            <th>{{ $supplier1['supplier_contact'] }}</th>
+                                                            <th>{{ $supplier3['supplier_contact'] }}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Address</th>
                                                             <th> : </th>
-                                                            <th>{{ $supplier1['supplier_address'] }}</th>
+                                                            <th>{{ $supplier3['supplier_address'] }}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Price Offer</th>
                                                             <th> : </th>
-                                                            <th>{{ $supplier1['supplier_address'] }}</th>
+                                                            <th>{{ $supplier3['price_offer'] }}</th>
                                                         </tr>
                                                     </thead>
                                                 </table>

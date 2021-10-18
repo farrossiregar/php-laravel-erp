@@ -44,6 +44,18 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-12 form-group">
+                                            <label>Supplier Category</label>
+                                            
+                                            <select name="" id="" class="form-control" wire:model="supplier_category">
+                                                <option value="">-- Supplier Category --</option>
+                                                <option value="Service - Company">Service - Company</option>
+                                                <option value="Service - Individual">Service - Individual</option>
+                                            </select>
+                                            @error('supplier_category')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-12 form-group">
                                             <label>Price Offering</label>
                                             <input type="text" class="form-control" wire:model="price_offer"/>
                                             @error('price_offer')
