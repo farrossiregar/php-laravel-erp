@@ -43,6 +43,7 @@
             <thead>
                 <tr style="background:#eee;">
                     <th>No</th>                                    
+                    <th>NIK</th> 
                     <th>Employee</th> 
                     <th>Date</th>
                     <th>Plat Nomor</th>
@@ -57,6 +58,7 @@
                 @foreach($data as $k => $item)
                 <tr>
                     <td>{{$k+1}}</td>
+                    <td>{{isset($item->employee->nik) ? $item->employee->nik : ''}}</td>
                     <td>{{$item->name}}</td>
                     <td>{{date('d-M-Y',strtotime($item->created_at))}}</td>
                     @if($item->is_submit==1)
@@ -79,9 +81,11 @@
                             @endif
                         </td>
                         <td>
-                            @foreach(\App\Models\VehicleCheckCleanliness::where('vehicle_check_id',$item->id)->get() as $img)
-                                <a href="{{asset($img->image)}}" target="_blank"><i class="fa fa-image"></i></a>
-                            @endforeach
+                            @if(isset($item->cleanliness))
+                                @foreach($item->cleanliness as $img)
+                                    <a href="{{asset($img->image)}}" target="_blank"><i class="fa fa-image"></i></a>
+                                @endforeach
+                            @endif
                         </td>
                         <td>
                             @if($item->accident_report_id)

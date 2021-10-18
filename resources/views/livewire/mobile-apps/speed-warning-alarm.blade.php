@@ -37,6 +37,7 @@
             <thead>
                 <tr style="background:#eee;">
                     <th style="width:50px;">No</th>                                    
+                    <th>NIK</th>   
                     <th>Employee</th>   
                     <th>Speed (km/h)</th>
                     <th>Date</th>
@@ -49,6 +50,7 @@
                 @foreach($data as $k => $item)
                     <tr>
                         <td>{{$k+1}}</td>
+                        <td>{{isset($item->_employee->nik) ? $item->_employee->nik : ''}}</td>
                         <td>{{isset($item->_employee->name) ? $item->_employee->name : ''}}</td>
                         <td>{{$item->speed}}</td>
                         <td>{{date('d-M-Y',strtotime($item->created_at))}}</td>

@@ -43,6 +43,7 @@
             <thead>
                 <tr style="background:#eee;">
                     <th>No</th>                                    
+                    <th>NIK</th>   
                     <th>Employee</th>   
                     <th>Jobe Role/Access</th>   
                     <th class="text-center">Berkomitment Menggunakan PPE/APD</th>
@@ -64,6 +65,7 @@
                 @foreach($data as $k => $item)
                     <tr>
                         <td>{{$num}}</td>
+                        <td>{{isset($item->employee->nik) ? $item->employee->nik : ''}}</td>
                         <td>{{isset($item->name) ? $item->name : ''}}</td>
                         <td>{{isset($item->employee->access->name) ? $item->employee->access->name : ''}}</td>
                         @if($item->is_submit ==1)

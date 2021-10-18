@@ -20,9 +20,20 @@ class PpeCheck extends Component
 
     public function render()
     {
-        $data = PpeCheckModel::select('ppe_check.*','employees.name')->orderBy('ppe_check.is_submit','DESC')->orderBy('ppe_check.updated_at','DESC')->join('employees','employees.id','=','employee_id');
+        $data = $this->init_data();
+
+        return view('livewire.mobile-apps.ppe-check')->with(['data'=>$data->paginate(100)]);
+    }
+
+    public function init_data()
+    {
+        $data = PpeCheckModel::select('ppe_check.*','employees.name')->with('employee')->orderBy('ppe_check.is_submit','DESC')->orderBy('ppe_check.updated_at','DESC')->join('employees','employees.id','=','employee_id');
         
-        if($this->keyword) $data->where('employees.name',"LIKE", "%{$this->keyword}%");
+        if($this->keyword) $data->where(function($table){
+                $table->where('employees.name',"LIKE", "%{$this->keyword}%")
+                        ->orWhere('employees.nik',$this->keyword);
+            });
+
         if($this->date_start and $this->date_end){
             if($this->date_start == $this->date_end)
                 $data->whereDate('ppe_check.created_at',$this->date_start);
@@ -44,7 +55,7 @@ class PpeCheck extends Component
         
         $data->whereIn('ppe_check.client_project_id',$client_project_ids);
 
-        return view('livewire.mobile-apps.ppe-check')->with(['data'=>$data->paginate(100)]);
+        return $data;
     }
 
     public function mount()
@@ -85,43 +96,42 @@ class PpeCheck extends Component
         $activeSheet->getColumnDimension('K')->setAutoSize(true);
         $activeSheet->getColumnDimension('L')->setAutoSize(true);
         $activeSheet->getColumnDimension('M')->setAutoSize(true);
+        $activeSheet->getColumnDimension('N')->setAutoSize(true);
         $activeSheet
                     ->setCellValue('A4', 'No')
-                    ->setCellValue('B4', 'Employee')
-                    ->setCellValue('C4', 'Date')
-                    ->setCellValue('D4', 'Foto Dengan PPE')
-                    ->setCellValue('E4', 'Foto Banner')
-                    ->setCellValue('F4', 'Foto Sertifikasi WAH')
-                    ->setCellValue('G4', 'Foto Elektrikal')
-                    ->setCellValue('H4', 'Foto First Aid')
-                    ->setCellValue('I4', 'PPE Lengkap')
-                    ->setCellValue('J4', 'PPE alasan tidak lengkap')
-                    ->setCellValue('K4', 'Banner lengkap')
-                    ->setCellValue('L4', 'Banner alasan tidak lengkap')
-                    ->setCellValue('M4', 'Sertifikasi alasan tidak lengkap');
+                    ->setCellValue('B4', 'NIK')
+                    ->setCellValue('C4', 'Employee')
+                    ->setCellValue('D4', 'Date')
+                    ->setCellValue('E4', 'Foto Dengan PPE')
+                    ->setCellValue('F4', 'Foto Banner')
+                    ->setCellValue('G4', 'Foto Sertifikasi WAH')
+                    ->setCellValue('H4', 'Foto Elektrikal')
+                    ->setCellValue('I4', 'Foto First Aid')
+                    ->setCellValue('J4', 'PPE Lengkap')
+                    ->setCellValue('K4', 'PPE alasan tidak lengkap')
+                    ->setCellValue('L4', 'Banner lengkap')
+                    ->setCellValue('M4', 'Banner alasan tidak lengkap')
+                    ->setCellValue('N4', 'Sertifikasi alasan tidak lengkap');
         $num=5;
 
-        $data = PpeCheckModel::select('ppe_check.*','employees.name')->orderBy('ppe_check.id','DESC')->join('employees','employees.id','=','employee_id');
-        
-        if($this->keyword) $data->where('employees.name',"LIKE", "%{$this->keyword}%");
-        if($this->date_start and $this->date_end) $data = $data->whereBetween('ppe_check.created_at',[$this->date_start,$this->date_end]);
+        $data = $this->init_data();
 
         foreach($data->get() as $k => $i){
             $activeSheet
-                ->setCellValue('A'.$num,($k+1));
-
-                $activeSheet->setCellValue('B'.$num,$i->name)
-                            ->setCellValue('C'.$num,date('d-M-Y',strtotime($i->created_at)))
-                            ->setCellValue('D'.$num,$i->foto_dengan_ppe==1 ? "Yes" : "No")
-                            ->setCellValue('E'.$num,$i->foto_banner==1 ? "Yes" : "No")
-                            ->setCellValue('F'.$num,$i->foto_wah==1 ? "Yes" : "No")
-                            ->setCellValue('G'.$num,$i->foto_elektril==1 ? "Yes" : "No")
-                            ->setCellValue('H'.$num,$i->foto_first_aid==1 ? "Yes" : "No")
-                            ->setCellValue('I'.$num,$i->ppe_lengkap==1 ? "Yes" : "No")
-                            ->setCellValue('J'.$num,$i->ppe_alasan_tidak_lengkap)
-                            ->setCellValue('K'.$num,$i->banner_lengkap==1 ? "Yes" : "No")
-                            ->setCellValue('L'.$num,$i->banner_alasan_tidak_lengkap)
-                            ->setCellValue('M'.$num,$i->sertifikasi_alasan_tidak_lengkap);
+                ->setCellValue('A'.$num,($k+1))
+                ->setCellValue('B'.$num,isset($i->employee->nik) ? $i->employee->nik : '')
+                ->setCellValue('C'.$num,$i->name)
+                ->setCellValue('D'.$num,date('d-M-Y',strtotime($i->created_at)))
+                ->setCellValue('E'.$num,$i->foto_dengan_ppe==1 ? "Yes" : "No")
+                ->setCellValue('F'.$num,$i->foto_banner==1 ? "Yes" : "No")
+                ->setCellValue('G'.$num,$i->foto_wah==1 ? "Yes" : "No")
+                ->setCellValue('H'.$num,$i->foto_elektril==1 ? "Yes" : "No")
+                ->setCellValue('I'.$num,$i->foto_first_aid==1 ? "Yes" : "No")
+                ->setCellValue('J'.$num,$i->ppe_lengkap==1 ? "Yes" : "No")
+                ->setCellValue('K'.$num,$i->ppe_alasan_tidak_lengkap)
+                ->setCellValue('L'.$num,$i->banner_lengkap==1 ? "Yes" : "No")
+                ->setCellValue('M'.$num,$i->banner_alasan_tidak_lengkap)
+                ->setCellValue('N'.$num,$i->sertifikasi_alasan_tidak_lengkap);
             $num++;
         }
 

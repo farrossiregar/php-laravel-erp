@@ -43,6 +43,7 @@
             <thead>
                 <tr style="background:#eee;">
                     <th style="width:50px;">No</th>                                    
+                    <th>NIK</th> 
                     <th>Employee</th> 
                     <th>Jobe Role/Access</th>   
                     <th>Date</th> 
@@ -61,9 +62,8 @@
                 @foreach($data as $k => $item)
                     <tr>
                         <td>{{$num}}</td>
-                        <td>
-                            {{isset($item->name) ? $item->name : ''}}
-                        </td>
+                        <td>{{isset($item->employee->nik) ? $item->employee->nik : ''}}</td>
+                        <td>{{isset($item->name) ? $item->name : ''}}</td>
                         <td>{{isset($item->employee->access->name) ? $item->employee->access->name : ''}}</td>
                         <td>{{date('d-M-Y H:i',strtotime($item->updated_at))}}</td>
                         @if($item->is_submit==1)

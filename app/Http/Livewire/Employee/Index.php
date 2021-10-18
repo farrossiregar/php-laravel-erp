@@ -47,7 +47,8 @@ class Index extends Component
         }
         
         $message = "Hallo {$emp->name},\nBerikut username dan password login e-PM anda\n";
-        $message .= "Username : ". $emp->email;
+        $message .= "NIK : ". $emp->nik;
+        $message .= "\nUsername : ". $emp->email;
         $message .= "\nPassword : ". $password;
         $message .= "\nDownload : https://play.google.com/store/apps/details?id=com.pmt.access";
         send_wa(['phone'=> $emp->telepon,'message'=>$message]);

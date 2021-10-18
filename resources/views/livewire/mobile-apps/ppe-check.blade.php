@@ -43,6 +43,7 @@
             <thead>
                 <tr style="background:#eee;">
                     <th>No</th>                                    
+                    <th>NIK</th> 
                     <th>Employee</th> 
                     <th>Date</th>
                     <!-- <th>Site ID</th>
@@ -59,6 +60,7 @@
             @foreach($data as $k => $item)
                 <tr>
                     <td>{{$k+1}}</td>
+                    <td>{{isset($item->employee->nik) ? $item->employee->nik : ''}}</td>
                     <td>{{$item->name}}</td>
                     <td>{{date('d-M-Y',strtotime($item->created_at))}}</td>
                     <!-- <td>{{$item->site_id}}</td>
