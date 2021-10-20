@@ -146,5 +146,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('vendor-management',App\Http\Livewire\VendorManagement\Index::class)->name('vendor-management.index');
     Route::get('vendor-management/general-information/{id}',App\Http\Livewire\VendorManagement\Criteriageneralinformation::class)->name('vendor-management.general-information');
     Route::get('vendor-management/commercial-compliance/{id}',App\Http\Livewire\VendorManagement\Criteriacc::class)->name('vendor-management.commercial-compliance');
+    Route::get('vendor-management/team-availability/{id}',App\Http\Livewire\VendorManagement\Criteriateamavailability::class)->name('vendor-management.team-availability');
+    Route::get('vendor-management/tools-facilities/{id}',App\Http\Livewire\VendorManagement\Criteriatoolsfacilities::class)->name('vendor-management.tools-facilities');
+    Route::get('vendor-management/ehs/{id}',App\Http\Livewire\VendorManagement\Criteriaehs::class)->name('vendor-management.ehs');
     Route::get('vendor-management/preview/{id}',App\Http\Livewire\VendorManagement\Servicecriteria::class)->name('vendor-management.preview');
 });

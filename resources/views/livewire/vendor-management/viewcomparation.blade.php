@@ -20,17 +20,33 @@
                                             <?php
                                                 $supplier1 = get_detail_supplier($supplier1_id);
                                             ?>
-                                            <b>{{ $supplier1['supplier_name'] }}</b>
+                                            <div class="row" style="height: 85px;">
+                                                <div class="col-md-12">
+                                                    <h4>Rp.{{ format_idr($supplier1['price_offer']) }}</h4>
+                                                </div>
+                                                <br>
+                                                @if($supplier1['scoring'])
+                                                    <div class="col-md-12">
+                                                        <span class="btn btn-success"><h5>{{ $supplier1['scoring'] }}</h5></span>
+                                                    </div>
+                                                    
+                                                @endif
+                                            </div>
                                             <hr>
                                             <br>
                                             <div class="table-responsive">
-                                                <b>{{ $supplier1['supplier_name'] }}</b>
+                                                <b>DETAIL SUPPLIER</b>
                                                 <table class="table table-striped m-b-0 c_list">
                                                     <thead>
                                                         <tr>
                                                             <th></th>
                                                             <th></th>
                                                             <th></th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Supplier Name</th>
+                                                            <th> : </th>
+                                                            <th>{{ $supplier1['supplier_name'] }}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>PIC</th>
@@ -47,8 +63,43 @@
                                                             <th> : </th>
                                                             <th>{{ $supplier1['supplier_address'] }}</th>
                                                         </tr>
+                                                       
+                                                    </thead>
+                                                </table>
+                                                <br>
+                                                <br>
+                                                <b>DETAIL SCORE</b>
+                                                <table class="table table-striped m-b-0 c_list">
+                                                    <thead>
                                                         <tr>
-                                                            <th>Price Offer</th>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th></th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>General Information</th>
+                                                            <th> : </th>
+                                                            <th>{{ $supplier1['supplier_name'] }}</th>
+                                                        </tr>
+                                                        @if($supplier1['supplier_category'] == 'Service - Company' || $supplier1['supplier_category'] == 'Service - Individual')
+                                                        <tr>
+                                                            <th>Team Availability</th>
+                                                            <th> : </th>
+                                                            <th>{{ $supplier1['supplier_pic'] }}</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Tools & Facilities</th>
+                                                            <th> : </th>
+                                                            <th>{{ $supplier1['supplier_contact'] }}</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>EHS & Quality Management</th>
+                                                            <th> : </th>
+                                                            <th>{{ $supplier1['supplier_address'] }}</th>
+                                                        </tr>
+                                                        @endif
+                                                        <tr>
+                                                            <th>Commercial Compliance</th>
                                                             <th> : </th>
                                                             <th>{{ $supplier1['supplier_address'] }}</th>
                                                         </tr>
@@ -72,17 +123,33 @@
                                             <?php
                                                 $supplier2 = get_detail_supplier($supplier2_id);
                                             ?>
-                                            <b>{{ $supplier2['supplier_name'] }}</b>
+                                            <div class="row" style="height: 85px;">
+                                                <div class="col-md-12">
+                                                    <h4>Rp.{{ format_idr($supplier2['price_offer']) }}</h4>
+                                                </div>
+                                                <br>
+                                                @if($supplier2['scoring'])
+                                                    <div class="col-md-12">
+                                                        <span class="btn btn-success"><h5>{{ $supplier2['scoring'] }}</h5></span>
+                                                    </div>
+                                                    
+                                                @endif
+                                            </div>
                                             <hr>
                                             <br>
                                             <div class="table-responsive">
-                                                <b>{{ $supplier2['supplier_name'] }}</b>
+                                                <b>DETAIL SUPPLIER </b>
                                                 <table class="table table-striped m-b-0 c_list">
                                                     <thead>
                                                         <tr>
                                                             <th></th>
                                                             <th></th>
                                                             <th></th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Supplier Name</th>
+                                                            <th> : </th>
+                                                            <th>{{ $supplier2['supplier_name'] }}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>PIC</th>
@@ -99,10 +166,45 @@
                                                             <th> : </th>
                                                             <th>{{ $supplier2['supplier_address'] }}</th>
                                                         </tr>
+                                                        
+                                                    </thead>
+                                                </table>
+                                                <br>
+                                                <br>
+                                                <b>DETAIL SCORE</b>
+                                                <table class="table table-striped m-b-0 c_list">
+                                                    <thead>
                                                         <tr>
-                                                            <th>Price Offer</th>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th></th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>General Information</th>
                                                             <th> : </th>
-                                                            <th>{{ $supplier2['price_offer'] }}</th>
+                                                            <th>{{ $supplier2['supplier_name'] }}</th>
+                                                        </tr>
+                                                        @if($supplier2['supplier_category'] == 'Service - Company' || $supplier2['supplier_category'] == 'Service - Individual')
+                                                        <tr>
+                                                            <th>Team Availability</th>
+                                                            <th> : </th>
+                                                            <th>{{ $supplier2['supplier_pic'] }}</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Tools & Facilities</th>
+                                                            <th> : </th>
+                                                            <th>{{ $supplier2['supplier_contact'] }}</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>EHS & Quality Management</th>
+                                                            <th> : </th>
+                                                            <th>{{ $supplier2['supplier_address'] }}</th>
+                                                        </tr>
+                                                        @endif
+                                                        <tr>
+                                                            <th>Commercial Compliance</th>
+                                                            <th> : </th>
+                                                            <th>{{ $supplier2['supplier_address'] }}</th>
                                                         </tr>
                                                     </thead>
                                                 </table>
@@ -124,17 +226,33 @@
                                             <?php
                                                 $supplier3 = get_detail_supplier($supplier3_id);
                                             ?>
-                                            <b>{{ $supplier3['supplier_name'] }}</b>
+                                            <div class="row" style="height: 85px;">
+                                                <div class="col-md-12">
+                                                    <h4>Rp.{{ format_idr($supplier3['price_offer']) }}</h4>
+                                                </div>
+                                                <br>
+                                                @if($supplier3['scoring'])
+                                                    <div class="col-md-12">
+                                                        <span class="btn btn-success"><h5>{{ $supplier3['scoring'] }}</h5></span>
+                                                    </div>
+                                                    
+                                                @endif
+                                            </div>
                                             <hr>
                                             <br>
                                             <div class="table-responsive">
-                                                <b>{{ $supplier3['supplier_name'] }}</b>
+                                                <b>DETAIL SUPPLIER</b>
                                                 <table class="table table-striped m-b-0 c_list">
                                                     <thead>
                                                         <tr>
                                                             <th></th>
                                                             <th></th>
                                                             <th></th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Supplier Name</th>
+                                                            <th> : </th>
+                                                            <th>{{ $supplier3['supplier_name'] }}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>PIC</th>
@@ -151,10 +269,45 @@
                                                             <th> : </th>
                                                             <th>{{ $supplier3['supplier_address'] }}</th>
                                                         </tr>
+                                                      
+                                                    </thead>
+                                                </table>
+                                                <br>
+                                                <br>
+                                                <b>DETAIL SCORE</b>
+                                                <table class="table table-striped m-b-0 c_list">
+                                                    <thead>
                                                         <tr>
-                                                            <th>Price Offer</th>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th></th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>General Information</th>
                                                             <th> : </th>
-                                                            <th>{{ $supplier3['price_offer'] }}</th>
+                                                            <th>{{ $supplier3['supplier_name'] }}</th>
+                                                        </tr>
+                                                        @if($supplier3['supplier_category'] == 'Service - Company' || $supplier3['supplier_category'] == 'Service - Individual')
+                                                        <tr>
+                                                            <th>Team Availability</th>
+                                                            <th> : </th>
+                                                            <th>{{ $supplier3['supplier_pic'] }}</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Tools & Facilities</th>
+                                                            <th> : </th>
+                                                            <th>{{ $supplier3['supplier_contact'] }}</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>EHS & Quality Management</th>
+                                                            <th> : </th>
+                                                            <th>{{ $supplier3['supplier_address'] }}</th>
+                                                        </tr>
+                                                        @endif
+                                                        <tr>
+                                                            <th>Commercial Compliance</th>
+                                                            <th> : </th>
+                                                            <th>{{ $supplier3['supplier_address'] }}</th>
                                                         </tr>
                                                     </thead>
                                                 </table>

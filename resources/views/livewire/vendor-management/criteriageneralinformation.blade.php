@@ -3,8 +3,6 @@
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
-               
-            <div><br></div>
             <div><br></div>
             <div><br></div>
             <div><br></div>
@@ -687,23 +685,3 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="modal-dutyroster-importdutyroster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:duty-roster-dophomebase.importdutyroster />
-        </div>
-    </div>
-</div>
-
-
-
-@section('page-script')
-
-
-    Livewire.on('modalimportnoc',(data)=>{
-        $("#modal-dutyroster-importdutyroster").modal('show');
-    });
-
-
-@endsection

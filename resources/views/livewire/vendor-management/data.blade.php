@@ -133,7 +133,7 @@
                         </td>
                         <td>
 
-                            <!-- if($months < 11 && $days < 1) -->
+                            @if($months < 11 && $days < 1)
                                 @if($item->supplier_category == 'Material Supplier')
                                     <!-- <a href="javascript:;"  wire:click="$emit('modalmaterialcriteria','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Evaluate</a> -->
                                 @endif
@@ -142,17 +142,21 @@
                                     <!-- <a href="javascript:;"  wire:click="$emit('modalservicecriteria','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Evaluate</a> -->
                                 @endif
 
-                                <a href="{{ route('vendor-management.preview',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Evaluate</a>
+                                <!-- <a href="{{ route('vendor-management.preview',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Evaluate</a> -->
                                 <a href="{{ route('vendor-management.general-information',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> General Information</a>
                                 <!-- <a href="javascript:;"  wire:click="$emit('modalcriteriageneralinformation','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> General Information</a> -->
                                 @if($item->supplier_category == 'Service - Company' || $item->supplier_category == 'Service - Individual')
-                                <a href="javascript:;"  wire:click="$emit('modalcriteriateamavailability','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Team Availability</a>
+                                <!-- <a href="javascript:;"  wire:click="$emit('modalcriteriateamavailability','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Team Availability</a>
                                 <a href="javascript:;"  wire:click="$emit('modalcriteriatoolsfacilities','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Tools & Facilities</a>
-                                <a href="javascript:;"  wire:click="$emit('modalcriteriaehs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> EHS</a>
+                                <a href="javascript:;"  wire:click="$emit('modalcriteriaehs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> EHS</a> -->
+
+                                <a href="{{ route('vendor-management.team-availability',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Team Availability</a>
+                                <a href="{{ route('vendor-management.commercial-compliance',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Tools & Facilities</a>
+                                <a href="{{ route('vendor-management.commercial-compliance',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> EHS</a>
                                 @endif
                                 <!-- <a href="javascript:;"  wire:click="$emit('modalcriteriacc','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Commercial Compliance</a> -->
-                                <a href="{{ route('vendor-management.general-information',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Commercial Compliance</a>
-                            <!-- endif -->
+                                <a href="{{ route('vendor-management.commercial-compliance',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Commercial Compliance</a>
+                            @endif
                             
                         </td>
                     </tr>
