@@ -82,7 +82,13 @@
                                 <a href="javascript:;"  wire:click="$emit('modalimportcertificationresource','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
                             @endif
                         </td>
-                        <td>{{ $item->scoring }}</td>
+                        <td>
+                            @if($item->scoring)
+                            <div class="btn btn-success"><b>{{ $item->scoring }}</b></div>
+                            @else
+                            <div class="btn btn-danger"><b>0</b></div>
+                            @endif
+                        </td>
                         <td>
                             <?php
                                 $date_evaluation = date('Y-m-d', strtotime("+90 days", strtotime($item->supplier_registered_date)));

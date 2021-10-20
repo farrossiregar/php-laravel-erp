@@ -52,7 +52,7 @@
                         <td>
                             @if($item->supplier1_id)
                             <b>{{ get_detail_supplier($item->supplier1_id)->supplier_name }}</b> 
-                            <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a>
+                            <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a> -->
                             <a href="#" wire:click="delsupplier1({{ $item->id }})" title="Delete" class="btn btn-danger"><i class="fa fa-trash"></i> </a>
                             <!-- <h5>Detail Supplier : </h5>
                             <ul>
@@ -80,7 +80,7 @@
                         <td>
                             @if($item->supplier2_id)
                             <b>{{ get_detail_supplier($item->supplier2_id)->supplier_name }}</b> 
-                            <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a>
+                            <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a> -->
                             <a href="#" wire:click="delsupplier2({{ $item->id }})" title="Delete" class="btn btn-danger"><i class="fa fa-trash"></i> </a>
   
                             @else
@@ -99,8 +99,8 @@
                         </td>
                         <td>
                             @if($item->supplier3_id)
-                            {{ get_detail_supplier($item->supplier3_id)->supplier_name }} 
-                            <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a>
+                            <b>{{ get_detail_supplier($item->supplier3_id)->supplier_name }} </b>
+                            <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a> -->
                             <a href="#" wire:click="delsupplier3({{ $item->id }})" title="Delete" class="btn btn-danger"><i class="fa fa-trash"></i> </a>
                            
                             @else
