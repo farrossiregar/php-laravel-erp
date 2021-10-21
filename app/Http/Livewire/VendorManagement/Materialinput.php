@@ -7,7 +7,7 @@ use Auth;
 
 class Materialinput extends Component
 {    
-    public $supplier_name, $supplier_pic, $supplier_contact, $supplier_email, $supplier_address;
+    public $supplier_name, $supplier_pic, $supplier_contact, $supplier_email, $supplier_address, $price_offer;
 
     public function render()
     {
@@ -30,6 +30,7 @@ class Materialinput extends Component
         $data->supplier_contact                 = $this->supplier_contact;
         $data->supplier_email                   = $this->supplier_email;
         $data->supplier_address                 = $this->supplier_address;
+        $data->price_offer                      = $this->price_offer;
         $data->supplier_category                = 'Material Supplier';
         $data->supplier_registration_date       = date('Y-m-d H:i:s');
         

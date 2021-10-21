@@ -7,10 +7,14 @@ use App\Models\CommitmentDaily as ModelsCommitmentDaily;
 use Livewire\WithPagination;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Support\Arr;
+use App\Models\EmployeeProject;
+use App\Models\Region;
+use App\Models\SubRegion;
 
 class CommitmentDaily extends Component
 {
-    public $keyword,$date_start,$date_end,$user_access_id;
+    public $keyword,$date_start,$date_end,$user_access_id,$region=[],$sub_region=[],$region_id,$sub_region_id;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     
@@ -30,8 +34,25 @@ class CommitmentDaily extends Component
                 $data->whereBetween('commitment_dailys.created_at',[$this->date_start,$this->date_end]);
         } 
         if($this->user_access_id) $data->where('employees.user_access_id',$this->user_access_id);
+        if($this->region_id) {
+            $data->where('commitment_dailys.region_id',$this->region_id);
+            $this->sub_region = SubRegion::where('region_id',$this->region_id)->get();
+        }
+        if($this->sub_region_id) $data->where('commitment_dailys.sub_region_id',$this->sub_region_id);
+
+        if(check_access('all-project.index'))
+            $client_project_ids = [session()->get('project_id')];
+        else
+            $client_project_ids = Arr::pluck(EmployeeProject::select('client_project_id')->where(['employee_id'=>\Auth::user()->employee->id])->get()->toArray(),'client_project_id');
+        
+        $data->whereIn('commitment_dailys.client_project_id',$client_project_ids);
 
         return view('livewire.mobile-apps.commitment-daily')->with(['data'=>$data->paginate(100)]);
+    }
+
+    public function mount()
+    {
+        $this->region  = Region::select(['id','region'])->get();
     }
 
     public function downloadExcel()

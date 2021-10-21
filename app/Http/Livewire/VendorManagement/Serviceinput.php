@@ -7,7 +7,7 @@ use Auth;
 
 class Serviceinput extends Component
 {    
-    public $supplier_name, $supplier_pic, $supplier_contact, $supplier_email, $supplier_address;
+    public $supplier_name, $supplier_pic, $supplier_contact, $supplier_email, $supplier_address, $supplier_category, $price_offer;
 
     public function render()
     {
@@ -30,7 +30,8 @@ class Serviceinput extends Component
         $data->supplier_contact                 = $this->supplier_contact;
         $data->supplier_email                   = $this->supplier_email;
         $data->supplier_address                 = $this->supplier_address;
-        $data->supplier_category                = 'Service Supplier';
+        $data->price_offer                      = $this->price_offer;
+        $data->supplier_category                = $this->supplier_category;
         $data->supplier_registration_date       = date('Y-m-d H:i:s');
 
         // $data->price_or_unit            = str_replace(',', '', str_replace('Rp', '', $this->price_or_unit));

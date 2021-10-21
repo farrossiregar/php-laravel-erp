@@ -9,10 +9,12 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Models\Region;
 use App\Models\SubRegion;
+use Illuminate\Support\Arr;
+use App\Models\EmployeeProject;
 
 class PpeCheck extends Component
 {
-    public $date_start,$date_end,$keyword,$region=[],$sub_region=[],$region_id,$sub_region_id;
+    public $date_start,$date_end,$keyword,$region=[],$sub_region=[],$region_id,$sub_region_id,$user_access_id;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
@@ -32,9 +34,15 @@ class PpeCheck extends Component
             $this->sub_region = SubRegion::where('region_id',$this->region_id)->get();
         }
 
-        if($this->sub_region_id) {
-            $data->where('ppe_check.sub_region_id',$this->sub_region_id);
-        }
+        if($this->sub_region_id) $data->where('ppe_check.sub_region_id',$this->sub_region_id);
+        if($this->user_access_id) $data->where('employees.user_access_id',$this->user_access_id);
+
+        if(check_access('all-project.index'))
+            $client_project_ids = [session()->get('project_id')];
+        else
+            $client_project_ids = Arr::pluck(EmployeeProject::select('client_project_id')->where(['employee_id'=>\Auth::user()->employee->id])->get()->toArray(),'client_project_id');
+        
+        $data->whereIn('ppe_check.client_project_id',$client_project_ids);
 
         return view('livewire.mobile-apps.ppe-check')->with(['data'=>$data->paginate(100)]);
     }

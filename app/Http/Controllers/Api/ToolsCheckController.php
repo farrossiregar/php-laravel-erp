@@ -105,7 +105,7 @@ class ToolsCheckController extends Controller
         
         $find->region_id = $employee->region_id;
         $find->sub_region_id = $employee->sub_region_id;
-        $find->client_project_id = $project->id;
+        $find->client_project_id = $project->client_project_id;
         
         foreach($toolBox as $item){
             $new = new ToolboxCheck();

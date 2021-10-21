@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\CommitmentDaily;
 use App\Models\EmployeeProject;
+use App\Models\Employee;
 use App\Models\PpeCheck;
 use App\Models\VehicleCheck;
 use App\Models\HealthCheck;
@@ -42,6 +43,16 @@ class Sinkron extends Command
      */
     public function handle()
     {
+        foreach(Employee::select('employees.*')->join('employee_projects','employee_projects.employee_id','=','employees.id')->where('is_use_android',1)->groupBy('employees.id')->get() as $em){
+            if($em->device_token){
+                echo "Employee : {$em->name}\n";
+                echo "Token : {$em->device_token}\n";
+                echo "==============================\n";
+                push_notification_android($em->device_token,"New Update Apps","Update bux fix daily commitment, gps location, speed warning alarm notifications",10);
+            }
+        }
+
+        /*
         $commitmentDaily = CommitmentDaily::whereDate('created_at',date('Y-m-d'))->where('is_submit',0)->get();
         foreach($commitmentDaily as $item){
             $project = EmployeeProject::where('employee_id',$item->employee_id)->first();
@@ -108,7 +119,8 @@ class Sinkron extends Command
             //     $item->sub_region_id = $item->employee->sub_region_id;
             //     $item->save();
             // }
-        }
+            
+        }*/
         // return 0;
     }
 }

@@ -349,3 +349,8 @@ function get_data_flmengineer($id, $type){
     $data = \App\Models\Employee::where('id', $id)->first();
     return $data->$type;
 }
+
+function get_detail_supplier($id){
+    $data = \App\Models\VendorManagement::where('id', $id)->first();
+    return $data;
+}

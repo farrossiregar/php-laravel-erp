@@ -1,12 +1,36 @@
 <div>
     <div class="form-group row">
-        <div class="col-md-2">
+        <div class="form-group col-md-2">
             <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
         </div>
-        <div class="col-md-2 form-group" wire:ignore>
+        <div class="form-group col-md-1" wire:ignore>
             <input type="text" class="form-control date_vehicle_check" placeholder="Date" />
         </div>
-        <div class="col-md-6">
+        <div class="col-md-2" wire:ignore>
+            <select class="form-control" wire:model="region_id" wire:change="$set('sub_region_id',null)">
+                <option value=""> -- Select Region -- </option>
+                @foreach($region as $item)
+                    <option value="{{$item->id}}">{{$item->region}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-control" wire:model="sub_region_id">
+                <option value=""> -- Select Sub Region -- </option>
+                @foreach($sub_region as $item)
+                    <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-2" wire:ignore>
+            <select class="form-control" wire:model="user_access_id">
+                <option value="">-- Job Role/Access --</option>
+                @foreach(\App\Models\UserAccess::where('is_project',1)->get() as $item)
+                    <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-2">
             <a href="javascript:void(0)" class="btn btn-sm btn-info" wire:click="downloadExcel"><i class="fa fa-download"></i> Download</a>
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -76,7 +100,8 @@
             @endforeach
             </tbody>
         </table>
-    </div>
+    </div><br />
+    {{$data->links()}}
 
     <div wire:ignore.self class="modal fade" id="modal_detail_accident_report" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document" x-data>
