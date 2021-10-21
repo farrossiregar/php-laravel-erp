@@ -30,7 +30,7 @@
                                 </select>
                             </li>
                             @foreach(\App\Models\Department::get() as $key_dep => $dep)
-                                @if($key_dep >4) @continue @endif
+                                @if($key_dep >3) @continue @endif
                                 <li class="dropdown">
                                     <a href="javascript:void(0);" class="dropdown-toggle icon-menu text-info px-1" data-toggle="dropdown">{{$dep->name}}</a>
                                     <ul class="dropdown-menu user-menu menu-icon">
@@ -60,7 +60,7 @@
                 <ul class="nav navbar-nav">
                     <li class="d-none d-sm-inline-block d-md-none d-lg-inline-block">
                         @if(\Auth::user()->name)
-                            {{\Auth::user()->name}} {!!isset(\Auth::user()->access->name) ? ' <small>( '. \Auth::user()->access->name .' )</small>' : ''!!}
+                            {{\Auth::user()->name}} {!!isset(\Auth::user()->access->name) ? '<br /><small>( '. \Auth::user()->access->name .' )</small>' : ''!!}
                         @endif
                     </li>
                     <li class="dropdown">
