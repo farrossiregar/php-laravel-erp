@@ -6,7 +6,7 @@
         <div class="navbar-brand">    
             <a href="javascript:void(0);" class="btn-toggle-fullwidth hidden-sm hidden-md hidden-lg" style="display:none;"><i class="fa fa-list"></i></a>
             <a href="/" class="hidden-sm hidden-md" style="font-size:25px;margin-right:10px"><i class="fa fa-list"></i></a>
-            @if(get_setting('logo'))<a href="/"><img src="{{ get_setting('logo') }}" alt="Lucid Logo" class="img-responsive logo"></a>@endif
+            @if(get_setting('logo'))<a href="/"><img src="{{ get_setting('logo') }}" alt="" class="img-responsive logo"></a>@endif
         </div>
         <div class="navbar-right">
             <form id="navbar-search" class="col-md-9 navbar-form px-0">
@@ -34,7 +34,7 @@
                                 <li class="dropdown">
                                     <a href="javascript:void(0);" class="dropdown-toggle icon-menu text-info px-1" data-toggle="dropdown">{{$dep->name}}</a>
                                     <ul class="dropdown-menu user-menu menu-icon">
-                                        @foreach(\App\Models\Module::select('modules.*')->join('client_projects','client_projects.id','=','modules.client_project_id')
+                                        @foreach(\App\Models\Module::select('modules.*')->with('client_project')->join('client_projects','client_projects.id','=','modules.client_project_id')
                                             ->where(['department_id'=>$dep->id])->groupBy('client_project_id')->where(function($table){
                                             if(session()->get('company_id')) $table->where('client_projects.company_id',session()->get('company_id'));
                                         })->get() as $menu)

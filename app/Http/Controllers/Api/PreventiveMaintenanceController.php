@@ -12,7 +12,7 @@ class PreventiveMaintenanceController extends Controller
     public function history()
     {
         $data = [];
-        $param = PreventiveMaintenance::orderBy('id','DESC')->get();
+        $param = PreventiveMaintenance::where('employee_id',\Auth::user()->employee->id)->orderBy('id','DESC')->get();
         
         foreach($param as $k => $item){
             $data[$k]['id'] = $item->id;

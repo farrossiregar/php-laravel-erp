@@ -65,12 +65,10 @@ class ItSupportController extends Controller
             if($is_pic and $item->status ==1){
                 $param[$k]['is_pick'] = 1;
             }
-
             $param[$k]['is_solved'] = 0;
             if($is_pic and $item->status ==2){
                 $param[$k]['is_solved'] = 1;
             }
-
             $param[$k]['is_closed'] = 0;
             if(!$is_pic and $item->status ==3){
                 $param[$k]['is_closed'] = 1;
