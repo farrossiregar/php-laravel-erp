@@ -65,37 +65,7 @@ class Criteriageneralinformation extends Component
             $dataownernpwp->save();
 
 
-            $update                         = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
             
-            if($this->owner_licence_ktp && $this->owner_licence_npwp){
-                if($update->supplier_category == 'Service - Company'){
-                    $update->ci_complete_licence = '70';
-                }else{
-                    $update->ci_complete_licence = '50';
-                }
-
-                if($update->general_information == '' || $update->general_information == NULL){
-                    $update->general_information = 0 + $update->ci_complete_licence;
-                }else{
-                    $update->general_information = $update->general_information + $update->ci_complete_licence;
-                }
-            }
-
-            if($this->hq_add){
-                $update->ci_hq = '20';
-                if($update->general_information == '' || $update->general_information == NULL){
-                    $update->general_information = 0 + $update->ci_hq;
-                }else{
-                    $update->general_information = $update->general_information + $update->ci_hq;
-                }
-            }
-
-            if($update->scoring == '' || $update->scoring == NULL){
-                $update->scoring = 0 + ($update->general_information * 0.1);
-            }else{
-                $update->scoring = $update->scoring + ($update->general_information * 0.1);
-            }
-            $update->save();
         }else{
             $data                                       = new \App\Models\VendorManagementgi();
             $data->id_supplier                          = $this->selected_id;
@@ -210,42 +180,42 @@ class Criteriageneralinformation extends Component
             $data->save();
 
 
-            $update                         = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-            
-            if($this->owner_licence_ktp && $this->owner_licence_npwp){
-                if($update->supplier_category == 'Service - Company'){
-                    $update->ci_complete_licence = '70';
-                }else{
-                    $update->ci_complete_licence = '50';
-                }
-
-                if($update->general_information == '' || $update->general_information == NULL){
-                    $update->general_information = 0 + $update->ci_complete_licence;
-                }else{
-                    $update->general_information = $update->general_information + $update->ci_complete_licence;
-                }
-            }
-
-            if($this->hq_add){
-                $update->ci_hq = '20';
-                if($update->general_information == '' || $update->general_information == NULL){
-                    $update->general_information = 0 + $update->ci_hq;
-                }else{
-                    $update->general_information = $update->general_information + $update->ci_hq;
-                }
-            }
-
-            if($update->scoring == '' || $update->scoring == NULL){
-                $update->scoring = 0 + ($update->general_information * 0.1);
-            }else{
-                $update->scoring = $update->scoring + ($update->general_information * 0.1);
-            }
-            $update->save();
         }
         
     
         
         
+        $update                         = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+            
+        if($this->owner_licence_ktp && $this->owner_licence_npwp){
+            if($update->supplier_category == 'Service - Company'){
+                $update->ci_complete_licence = '70';
+            }else{
+                $update->ci_complete_licence = '50';
+            }
+
+            if($update->general_information == '' || $update->general_information == NULL){
+                $update->general_information = 0 + $update->ci_complete_licence;
+            }else{
+                $update->general_information = $update->general_information + $update->ci_complete_licence;
+            }
+        }
+
+        if($this->hq_add){
+            $update->ci_hq = '20';
+            if($update->general_information == '' || $update->general_information == NULL){
+                $update->general_information = 0 + $update->ci_hq;
+            }else{
+                $update->general_information = $update->general_information + $update->ci_hq;
+            }
+        }
+
+        if($update->scoring == '' || $update->scoring == NULL){
+            $update->scoring = 0 + ($update->general_information * 0.1);
+        }else{
+            $update->scoring = $update->scoring + ($update->general_information * 0.1);
+        }
+        $update->save();
 
 
         session()->flash('message-success',"Criteria General Information Successfully Evaluate!!!");

@@ -109,6 +109,13 @@ class Criteriacc extends Component
 
         $updatesupplier = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         $updatesupplier->commercial_compliance = $this->value1 + $this->value2 + $this->value3 + $this->value4;
+
+        if($updatesupplier->scoring == '' || $updatesupplier->scoring == NULL){
+            $updatesupplier->scoring = 0 + (($this->value1 + $this->value2 + $this->value3 + $this->value4) * 0.25);
+        }else{
+            $updatesupplier->scoring = $updatesupplier->scoring + (($this->value1 + $this->value2 + $this->value3 + $this->value4) * 0.25);
+        }
+
         $updatesupplier->save();
 
         session()->flash('message-success',"Criteria Commercial Compliance Successfully Evaluate!!!");
