@@ -3,53 +3,118 @@
 namespace App\Http\Livewire\VendorManagement;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use Auth;
 
 class Criteriacc extends Component
 {    
-    protected $listeners = [
-        'modalcriteriacc'=>'criteriacc',
-    ];
-    public $selected_id, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
+    // protected $listeners = [
+    //     'modalcriteriacc'=>'criteriacc',
+    // ];
+
+
+    use WithPagination;
+    public $selected_id, $value1, $value2, $value3, $value4, $note1, $note2, $note3, $note4, $data, $datavm;
+    protected $paginationTheme = 'bootstrap';
 
     public function render()
     {
+        
         return view('livewire.vendor-management.criteriacc');        
     }
 
-    public function criteriacc($id)
-    {
+
+    public function mount($id){
         $this->selected_id = $id;
-        
+
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        
-        $this->general_information                  = $this->data->general_information;
-        $this->team_availability_capability         = $this->data->team_availability_capability;
-        $this->tools_facilities                     = $this->data->tools_facilities;
-        $this->ehs_quality_management               = $this->data->ehs_quality_management;
-        $this->commercial_compliance                = $this->data->commercial_compliance;
-        
-        
+        $this->datavm = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->first();
+        $datavm2 = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id);
+        $this->value1 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '1')->first()->value;
+        $this->value2 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '2')->first()->value;
+        $this->value3 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '3')->first()->value;
+        $this->value4 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '4')->first()->value;
+
+
+        $this->note1 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '1')->first()->note;
+        $this->note2 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '2')->first()->note;
+        $this->note3 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '3')->first()->note;
+        $this->note4 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '4')->first()->note;
+
+        // dd($this->note2);
     }
+
+    // public function criteriacc($id)
+    // {
+        
+    // }
   
     public function save()
     {
         $user = \Auth::user();
        
 
-        $data                                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        $data->general_information                  = $this->general_information;
-        $data->team_availability_capability         = $this->team_availability_capability;
-        $data->tools_facilities                     = $this->tools_facilities;
-        $data->ehs_quality_management               = $this->ehs_quality_management;
-        $data->commercial_compliance                = $this->commercial_compliance;
-        
-        $data->save();
+        $check = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->first();
+        if($check){
+            $data1                   = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '1')->first();
+            $data1->value            = $this->value1;
+            $data1->note             = $this->note1;
+            $data1->save();
 
+
+            $data2                   = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '2')->first();
+            $data2->value            = $this->value2;
+            $data2->note             = $this->note2;
+            $data2->save();
+
+            $data3                   = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '3')->first();
+            $data3->value            = $this->value3;
+            $data3->note             = $this->note3;
+            $data3->save();
+
+            $data4                   = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '4')->first();
+            $data4->value            = $this->value4;
+            $data4->note             = $this->note4;
+            $data4->save();
+        }else{
+            $data                   = new \App\Models\VendorManagementcc();
+            $data->id_supplier      = $this->selected_id;
+            $data->id_detail        = '1';
+            $data->value            = $this->value1;
+            $data->note             = $this->note1;
+            $data->save();
+
+            $data                   = new \App\Models\VendorManagementcc();
+            $data->id_supplier      = $this->selected_id;
+            $data->id_detail        = '2';
+            $data->value           = $this->value2;
+            $data->note            = $this->note2;
+            $data->save();
+
+            $data                   = new \App\Models\VendorManagementcc();
+            $data->id_supplier      = $this->selected_id;
+            $data->id_detail        = '3';
+            $data->value           = $this->value3;
+            $data->note            = $this->note3;
+            $data->save();
+
+            $data                   = new \App\Models\VendorManagementcc();
+            $data->id_supplier      = $this->selected_id;
+            $data->id_detail        = '4';
+            $data->value           = $this->value4;
+            $data->note            = $this->note4;
+            $data->save();
+        }
+        
+
+        $updatesupplier = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        $updatesupplier->commercial_compliance = $this->value1 + $this->value2 + $this->value3 + $this->value4;
+        $updatesupplier->save();
 
         session()->flash('message-success',"Criteria Commercial Compliance Successfully Evaluate!!!");
         
-        return redirect()->route('vendor-management.index');
+        // return redirect()->route('vendor-management.index');
+        return view('livewire.vendor-management.criteriacc');
     }
 
     public function duration($start_time, $end_time){

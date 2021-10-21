@@ -14,6 +14,8 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="row">
+                            <form wire:submit.prevent="save">
+                            @csrf
                             <div class="col-md-12">
                                 <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
                                     
@@ -56,8 +58,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="owner_name"/>
+                                                @error('owner_name')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -73,8 +75,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="owner_licence_ktp"/>
+                                                @error('owner_licence_ktp')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -84,8 +86,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="owner_licence_npwp"/>
+                                                @error('owner_licence_npwp')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -95,8 +97,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="est_year"/>
+                                                @error('est_year')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -106,9 +108,9 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <textarea name="" id="" cols="30" rows="6"  class="form-control" wire:model="hq_office"></textarea>
+                                                <textarea name="" id="" cols="30" rows="6"  class="form-control" wire:model="hq_add"></textarea>
                                                 
-                                                @error('ehs_quality_management')
+                                                @error('hq_add')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -118,9 +120,9 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <textarea name="" id="" cols="30" rows="6"  class="form-control" wire:model="hq_office"></textarea>
+                                                <textarea name="" id="" cols="30" rows="6"  class="form-control" wire:model="branch_add"></textarea>
                                                 
-                                                @error('ehs_quality_management')
+                                                @error('branch_add')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -130,8 +132,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="telp_office"/>
+                                                @error('telp_office')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -140,15 +142,20 @@
                                             <label><b>Commercial Contact Name :</b> </label>
                                         </div>
                                         <div class="col-md-8">
-                                            
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" wire:model="com_name"/>
+                                                @error('com_name')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <p>Phone Handphone :</p>
+                                            <p>Phone / Handphone :</p>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="com_phone"/>
+                                                @error('com_phone')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -158,8 +165,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="com_email"/>
+                                                @error('com_email')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -169,15 +176,20 @@
                                             <label><b>Technical Contact Name :</b> </label>
                                         </div>
                                         <div class="col-md-8">
-                                            
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" wire:model="tech_name"/>
+                                                @error('tech_name')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <p>Phone Handphone :</p>
+                                            <p>Phone / Handphone :</p>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="tech_phone"/>
+                                                @error('tech_phone')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -187,8 +199,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="email" min='0' max="100" class="form-control" wire:model="tech_email"/>
+                                                @error('tech_email')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -198,8 +210,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <textarea name="" id="" cols="30" rows="6" class="form-control" wire:model="notas_gi"></textarea>
+                                                @error('notas_gi')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -226,8 +238,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="main_cust"/>
+                                                @error('main_cust')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -237,8 +249,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="gov_client"/>
+                                                @error('gov_client')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -248,8 +260,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="other_cust"/>
+                                                @error('other_cust')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -259,8 +271,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="inv_amount_3"/>
+                                                @error('inv_amount_3')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -270,8 +282,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="inv_amount_2"/>
+                                                @error('inv_amount_2')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -281,8 +293,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="inv_amount_1"/>
+                                                @error('inv_amount_1')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -291,45 +303,80 @@
                                             <p>Balance 2017 (IDR) :</p>
                                         </div>
                                         <div class="col-md-8">
-                                            <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
-                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                @enderror
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="Asset" wire:model="balance_asset_3"/>
+                                                        @error('balance_asset_3')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="Liability" wire:model="balance_liab_3"/>
+                                                        @error('balance_liab_3')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
                                             </div>
+                                            
                                         </div>
                                         <div class="col-md-4">
                                             <p>Balance 2018 (IDR) :</p>
                                         </div>
                                         <div class="col-md-8">
-                                            <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
-                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                @enderror
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="Asset" wire:model="balance_asset_2"/>
+                                                        @error('balance_asset_2')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="Liability" wire:model="balance_liab_2"/>
+                                                        @error('balance_liab_2')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <p>Balance 2019 (IDR) :</p>
                                         </div>
                                         <div class="col-md-8">
-                                            <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
-                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                @enderror
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="Asset" wire:model="balance_asset_1"/>
+                                                        @error('balance_asset_1')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="Liability" wire:model="balance_liab_1"/>
+                                                        @error('balance_liab_1')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <p>Notas (Remarks) :</p>
                                         </div>
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
-                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                @enderror
-                                            </div>
+                                        <div class="form-group">
+                                            <textarea name="" id="" cols="30" rows="6" class="form-control" wire:model="notas_fs"></textarea>
+                                            @error('notas_fs')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
                                         </div>
                                     </div>
                                     
@@ -354,8 +401,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="fin_name"/>
+                                                @error('fin_name')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -365,8 +412,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="fin_pos"/>
+                                                @error('fin_pos')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -376,8 +423,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="fin_hp"/>
+                                                @error('fin_hp')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -387,8 +434,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="bank_name"/>
+                                                @error('bank_name')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -398,8 +445,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="bank_addr"/>
+                                                @error('bank_addr')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -409,8 +456,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="country"/>
+                                                @error('country')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -420,8 +467,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="curr"/>
+                                                @error('curr')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -431,8 +478,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="bank_acc_owner"/>
+                                                @error('bank_acc_owner')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -442,8 +489,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="bank_acc_num"/>
+                                                @error('bank_acc_num')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -453,8 +500,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="text" class="form-control" wire:model="swift_code"/>
+                                                @error('swift_code')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -464,8 +511,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <textarea name="" id="" cols="30" rows="6" class="form-control" wire:model="notas_bi"></textarea>
+                                                @error('notas_bi')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -493,8 +540,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="number" class="form-control" wire:model="employees_qty"/>
+                                                @error('employees_qty')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -504,8 +551,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="number" class="form-control" wire:model="mngr_qty"/>
+                                                @error('mngr_qty')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -515,8 +562,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="number" class="form-control" wire:model="spv_qty"/>
+                                                @error('spv_qty')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -526,8 +573,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="number" class="form-control" wire:model="engineer_qty"/>
+                                                @error('engineer_qty')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -537,8 +584,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="number" class="form-control" wire:model="tech_qty"/>
+                                                @error('tech_qty')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -548,8 +595,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="number" class="form-control" wire:model="adm_qty"/>
+                                                @error('adm_qty')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -559,8 +606,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                                @error('ehs_quality_management')
+                                                <input type="number" class="form-control" wire:model="other_qty"/>
+                                                @error('other_qty')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -571,6 +618,12 @@
                                 
                             </div>
 
+                            <div class="col-md-12">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
+                                </div>
+                            </div>
+                            <br>
                             <!-- if($supplier_category == 'Service - Company' || $supplier_category == 'Service - Individual') -->
                             <!-- <div class="col-md-6">
                                 <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
@@ -625,7 +678,7 @@
                             
                             <!-- endif -->
 
-                            
+                            </form>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -637,13 +690,13 @@
                                             <h5>Total Score</h5>
                                         </div>
                                         <div class="col-md-3">
-                                            <a href="#" wire:click="delsupplier2()" title="Update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                                            
                                         </div>
                                     </div>
                                     
                                     <hr>
                                     <h1 style="font-size: 65px">
-                                        90
+                                        {{ $data['general_information'] }}
                                     </h1>
                                 </div>
                             </div>
@@ -651,8 +704,8 @@
                                 <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 180px;">
                                     <h5>Complete Licence Score (70)</h5>
                                     <hr>
-                                    <h1 style="font-size: 80px">
-                                        
+                                    <h1 style="font-size: 45px">
+                                        {{ $data['ci_complete_licence'] }}
                                     </h1>
                                 </div>
                             </div>
@@ -661,8 +714,8 @@
                                 <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 180px;">
                                     <h5>Have HQ Office (20)</h5>
                                     <hr>
-                                    <h1 style="font-size: 80px">
-                                        
+                                    <h1 style="font-size: 45px">
+                                        {{ $data['ci_hq'] }}
                                     </h1>
                                 </div>
                             </div>
@@ -671,7 +724,7 @@
                                 <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 180px;">
                                     <h5>Have Branch Office (0)</h5>
                                     <hr>
-                                    <h1 style="font-size: 80px">
+                                    <h1 style="font-size: 45px">
                                         
                                     </h1>
                                 </div>
