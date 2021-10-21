@@ -5,40 +5,22 @@ namespace App\Http\Livewire\VendorManagement;
 use Livewire\Component;
 use Auth;
 
-class Servicecriteria extends Component
+class Criteriateamavailability extends Component
 {    
     protected $listeners = [
-        'modalservicecriteria'=>'servicecriteria',
+        'modalcriteriateamavailability'=>'criteriateamavailability',
     ];
-    public $selected_id, $supplier_category, $scoring, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
+    public $selected_id, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
 
     public function render()
     {
-        
-        return view('livewire.vendor-management.servicecriteria');        
+        return view('livewire.vendor-management.criteriateamavailability');        
     }
 
-    public function mount($id)
+    public function criteriateamavailability($id)
     {
         $this->selected_id = $id;
         
-        $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        
-        $this->scoring                              = $this->data->scoring;
-        $this->general_information                  = $this->data->general_information;
-        $this->team_availability_capability         = $this->data->team_availability_capability;
-        $this->tools_facilities                     = $this->data->tools_facilities;
-        $this->ehs_quality_management               = $this->data->ehs_quality_management;
-        $this->commercial_compliance                = $this->data->commercial_compliance;
-        $this->supplier_category                    = $this->data->supplier_category;
-        
-        
-    }
-
-    public function servicecriteria($id)
-    {
-        $this->selected_id = $id;
-        dd($this->selected_id);
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         
         $this->general_information                  = $this->data->general_information;
@@ -46,7 +28,6 @@ class Servicecriteria extends Component
         $this->tools_facilities                     = $this->data->tools_facilities;
         $this->ehs_quality_management               = $this->data->ehs_quality_management;
         $this->commercial_compliance                = $this->data->commercial_compliance;
-        $this->supplier_category                    = $this->data->supplier_category;
         
         
     }
@@ -66,7 +47,7 @@ class Servicecriteria extends Component
         $data->save();
 
 
-        session()->flash('message-success',"Supplier Service Successfully Evaluate!!!");
+        session()->flash('message-success',"Criteria Team Availability Successfully Evaluate!!!");
         
         return redirect()->route('vendor-management.index');
     }

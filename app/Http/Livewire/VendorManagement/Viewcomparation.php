@@ -5,18 +5,36 @@ namespace App\Http\Livewire\VendorManagement;
 use Livewire\Component;
 use Auth;
 
-class Serviceinput extends Component
+class Viewcomparation extends Component
 {    
-    public $supplier_name, $supplier_pic, $supplier_contact, $supplier_email, $supplier_address, $supplier_category, $price_offer;
+    protected $listeners = [
+        'modalviewcomparation'=>'viewcomparation',
+    ];
+
+    public $selected_id, $supplier1_id, $supplier2_id, $supplier3_id;
 
     public function render()
     {
-        return view('livewire.vendor-management.serviceinput');        
+        return view('livewire.vendor-management.viewcomparation');        
     }
 
-    public function updated($propertyName)
+    public function viewcomparation($id)
     {
-        if($propertyName=='customer_type')  $this->show_customer_type2 = $this->$propertyName=='Customer lain yang tidak disebutkan diatas:  *Free Text*' ? true : false;
+        $this->selected_id = $id;
+        
+        $this->data = \App\Models\VendorManagementCreateProject::where('id', $this->selected_id)->first();
+        
+        $this->supplier1_id                  = $this->data->supplier1_id;
+        $this->supplier2_id                  = $this->data->supplier2_id;
+        $this->supplier3_id                  = $this->data->supplier3_id;
+
+        // $this->general_information                  = $this->data->general_information;
+        // $this->team_availability_capability         = $this->data->team_availability_capability;
+        // $this->tools_facilities                     = $this->data->tools_facilities;
+        // $this->ehs_quality_management               = $this->data->ehs_quality_management;
+        // $this->commercial_compliance                = $this->data->commercial_compliance;
+        
+        
     }
   
     public function save()
@@ -31,20 +49,15 @@ class Serviceinput extends Component
         $data->supplier_email                   = $this->supplier_email;
         $data->supplier_address                 = $this->supplier_address;
         $data->price_offer                      = $this->price_offer;
-        $data->supplier_category                = $this->supplier_category;
+        $data->supplier_category                = 'Material Supplier';
         $data->supplier_registration_date       = date('Y-m-d H:i:s');
-
-        // $data->price_or_unit            = str_replace(',', '', str_replace('Rp', '', $this->price_or_unit));
-        // $data->estimate_revenue         = str_replace(',', '', str_replace('Rp', '', $this->estimate_revenue));
-        // $data->duration                 = $this->duration($this->startdate, $this->enddate);
-       
         
-        $data->created_at               = date('Y-m-d H:i:s');
-        $data->updated_at               = date('Y-m-d H:i:s');
+        $data->created_at                       = date('Y-m-d H:i:s');
+        $data->updated_at                       = date('Y-m-d H:i:s');
         $data->save();
 
 
-        session()->flash('message-success',"Supplier Service Berhasil diinput");
+        session()->flash('message-success',"Supplier Material / Tools Berhasil diinput");
         
         return redirect()->route('vendor-management.index');
     }

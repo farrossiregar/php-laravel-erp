@@ -5,7 +5,7 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Input Service Supplier</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Add Supplier</h5>
                 </div>
 
                 <div class="body pt-0">
@@ -15,73 +15,19 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
+                                        
                                         <div class="col-md-12 form-group">
-                                            <label>Supplier Name</label>
-                                            <input type="text" class="form-control" wire:model="supplier_name"/>
-                                            @error('supplier_name')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Supplier PIC</label>
-                                            <input type="text" class="form-control" wire:model="supplier_pic"/>
-                                            @error('supplier_pic')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Supplier Contact</label>
-                                            <input type="text" class="form-control" wire:model="supplier_contact"/>
-                                            @error('supplier_contact')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Supplier Email</label>
-                                            <input type="email" class="form-control" wire:model="supplier_email"/>
-                                            @error('supplier_email')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Supplier Category</label>
-                                            
-                                            <select name="" id="" class="form-control" wire:model="supplier_category">
-                                                <option value="">-- Supplier Category --</option>
-                                                <option value="Service - Company">Service - Company</option>
-                                                <option value="Service - Individual">Service - Individual</option>
-                                            </select>
-                                            @error('supplier_category')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Price Offering</label>
-                                            <input type="text" class="form-control" wire:model="price_offer"/>
-                                            @error('price_offer')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Supplier Address</label>
-                                            <textarea class="form-control" wire:model="supplier_address" rows="8" required></textarea>
-                                            @error('supplier_address')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
-                                        <!-- <div class="col-md-12 form-group">
-                                            <label>Category</label>
-                                            <select class="form-control" wire:model="unit">
+                                            <label>Supplier</label>
+                                            <select class="form-control" wire:model="project_category">
                                                 <option value="">-- Category --</option>
                                                 <option value="sites">Service - Company</option>
                                                 <option value="team">Service - Individual</option>
                                                 <option value="km">Material/Tools Supplier</option>
                                             </select>
-                                            @error('unit')
+                                            @error('project_category')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div> -->
+                                        </div>
                                   
                                         <!-- <div class="col-md-12 form-group">
                                             <label>Region</label>

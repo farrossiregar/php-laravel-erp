@@ -1,150 +1,236 @@
-@section('title', __('Vendor Management - Input'))
+@section('title', __('Vendor Management - Evaluate'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
-            <div class="tab-content">      
-                <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Fill Service Criteria of Evaluation</h5>
-                </div>
-
-                <div class="body pt-0">
-                    <div class="form-group">
-                        <form wire:submit.prevent="save">
-                            @csrf
-                            <div class="row">
-                                <div class="col-md-12">
+               
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
+                                    <h5>General Information</h5> 
+                                    
                                     <div class="row">
-                                    <div class="col-md-12 form-group">
-                                            <label>General Information</label>
-                                            <input type="text" class="form-control" wire:model="general_information"/>
-                                            @error('supplier_name')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
+                                        <div class="col-md-8 form-group">
+                                            <input type="number" min='0' max="100" class="form-control" readonly wire:model="general_information"/>
                                         </div>
-                                         <div class="col-md-12 form-group">
-                                            <label>Team Availability & Capability</label>
-                                            <input type="text" class="form-control" wire:model="team_availability_capability"/>
-                                            @error('team_availability_capability')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
+                                        <div class="col-md-4">
+                                            <a href="#" wire:click="delsupplier2()" title="Update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
                                         </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
                                         <div class="col-md-12 form-group">
-                                            <label>Tools & Facilities</label>
-                                            <input type="text" class="form-control" wire:model="tools_facilities"/>
-                                            @error('tools_facilities')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>EHS & Quality Management</label>
-                                            <input type="text" class="form-control" wire:model="ehs_quality_management"/>
+                                            <label>Complete Licence (Company 50% - Personal 20%)</label>
+                                            <!-- <input type="number" min='0' max="100" class="form-control" wire:model="complete_licence"/> -->
+                                            
+                                            <select class="form-control" wire:model="complete_licence" name="" id="">
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+                                            </select>
                                             @error('ehs_quality_management')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                         <div class="col-md-12 form-group">
-                                            <label>Commercial Compliance</label>
-                                            <input type="text" class="form-control" wire:model="commercial_compliance"/>
-                                            @error('commercial_compliance')
+                                            <label>Have HQ Office (20%)</label>
+                                            <!-- <input type="number" min='0' max="100" class="form-control" wire:model="hq_office"/> -->
+                                            <select class="form-control" wire:model="hq_office" name="" id="">
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+                                            </select>
+                                            @error('ehs_quality_management')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        
-                                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                                        <script>
-
-                                            // Jquery Dependency
-
-                                            
-                                            $("input[data-type='currency']").on({
-                                                keyup: function() {
-                                                formatCurrency($(this));
-                                                },
-                                                blur: function() { 
-                                                formatCurrency($(this), "blur");
-                                                }
-                                            });
-
-
-                                            function formatNumber(n) {
-                                                // format number 1000000 to 1,234,567
-                                                return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                                            }
-
-
-                                            function formatCurrency(input, blur) {
-                                                var input_val = input.val();
-                                                if (input_val === "") { return; }
-                                                var original_len = input_val.length;
-                                                var caret_pos = input.prop("selectionStart");
-                                                if (input_val.indexOf(".") >= 0) {
-                                                    var decimal_pos = input_val.indexOf(".");
-
-                                                    // split number by decimal point
-                                                    var left_side = input_val.substring(0, decimal_pos);
-                                                    var right_side = input_val.substring(decimal_pos);
-
-                                                    // add commas to left side of number
-                                                    left_side = formatNumber(left_side);
-
-                                                    // validate right side
-                                                    right_side = formatNumber(right_side);
-                                                 
-                                                    input_val = "Rp" + left_side;
-
-                                                } else {
-                                                    
-                                                    input_val = formatNumber(input_val);
-                                                    input_val = "Rp" + input_val;
-                                                   
-                                                }
-                                                
-                                                // send updated string to input
-                                                input.val(input_val);
-
-                                                // put caret back in the right position
-                                                var updated_len = input_val.length;
-                                                caret_pos = updated_len - original_len + caret_pos;
-                                                input[0].setSelectionRange(caret_pos, caret_pos);
-                                            }
-
-
-
-                                        </script>
-                             
-                                        <!-- <div class="col-md-6 form-group">
-                                            <label>Start Duration</label>
-                                            <input type="date" class="form-control" wire:model="startdate" required/>
-                                            @error('startdate')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label>End Duration</label>
-                                            <input type="date" class="form-control" wire:model="enddate" required/>
-                                            @error('enddate')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div> -->
-                                   
-                                       
-                                        
-                                       
-                                       
                                     </div>
                                 </div>
                                 
-                                <div class="col-md-12 form-group">
-                                    <hr />
-                                    <!-- <a href="{{route('accident-report.index')}}" class="mr-2"><i class="fa fa-arrow-left"></i> {{ __('Back') }}</a> -->
-                                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
+                            </div>
+
+                            @if($supplier_category == 'Service - Company' || $supplier_category == 'Service - Individual')
+                            <div class="col-md-6">
+                                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
+                                    <h5>Team Availability</h5>
+                                    <div class="row">
+                                        <div class="col-md-8 form-group">
+                                            <input type="number" min='0' max="100" class="form-control" readonly wire:model="general_information"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="#" wire:click="delsupplier2()" title="Update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <label>Team Quantity</label>
+                                            <!-- <input type="number" min='0' max="100" class="form-control" wire:model="team_qty"/> -->
+                                            <select class="form-control" wire:model="team_qty" name="" id="">
+                                                <option value="20"> Team QTY < 5 </option>
+                                                <option value="30"> Team QTY < 5 X < 10 </option>
+                                                <option value="40"> Team QTY > 10 </option>
+
+                                            </select>
+                                            @error('team_qty')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <label>Company Capability</label>
+                                            <select class="form-control" wire:model="company_capability" name="" id="">
+                                                <option value="20"> 1 Capability Category </option>
+
+                                            </select>
+                                            @error('company_capability')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-12 form-group">
+                                            <label>Total (10% Point from Total Score)</label>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="total_gi" readonly/>
+                                            @error('ehs_quality_management')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </form>
+
+                            <div class="col-md-6">
+                                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
+                                    <h5>Tools & Facilities</h5>
+                                    <div class="row">
+                                        <div class="col-md-8 form-group">
+                                            <input type="number" min='0' max="100" class="form-control" readonly wire:model="general_information"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="#" wire:click="delsupplier2()" title="Update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <label>General Information (10%)</label>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="general_information"/>
+                                            @error('supplier_name')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                         <div class="col-md-12 form-group">
+                                            <label>Team Availability & Capability (25%)</label>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="team_availability_capability"/>
+                                            @error('team_availability_capability')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
+                                    <h5>EHS</h5>
+                                    <div class="row">
+                                        <div class="col-md-8 form-group">
+                                            <input type="number" min='0' max="100" class="form-control" readonly wire:model="general_information"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="#" wire:click="delsupplier2()" title="Update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <label>General Information (10%)</label>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="general_information"/>
+                                            @error('supplier_name')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                         <div class="col-md-12 form-group">
+                                            <label>Team Availability & Capability (25%)</label>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="team_availability_capability"/>
+                                            @error('team_availability_capability')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
+                            <div class="col-md-6">
+                                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
+                                    <h5>Commercial Compliance</h5>
+                                    <div class="row">
+                                        <div class="col-md-8 form-group">
+                                            <input type="number" min='0' max="100" class="form-control" readonly wire:model="general_information"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="#" wire:click="delsupplier2()" title="Update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <label>General Information (10%)</label>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="general_information"/>
+                                            @error('supplier_name')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                         <div class="col-md-12 form-group">
+                                            <label>Team Availability & Capability (25%)</label>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="team_availability_capability"/>
+                                            @error('team_availability_capability')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 360px;">
+                            <h5>Total Score</h5>
+                            <hr>
+                            <h1 style="font-size: 80px">
+                                {{ $scoring }}
+                            </h1>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal-dutyroster-importdutyroster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:duty-roster-dophomebase.importdutyroster />
+        </div>
+    </div>
+</div>
+
+
+
+@section('page-script')
+
+
+    Livewire.on('modalimportnoc',(data)=>{
+        $("#modal-dutyroster-importdutyroster").modal('show');
+    });
+
+
+@endsection

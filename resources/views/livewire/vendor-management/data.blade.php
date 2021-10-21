@@ -82,7 +82,13 @@
                                 <a href="javascript:;"  wire:click="$emit('modalimportcertificationresource','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
                             @endif
                         </td>
-                        <td>{{ $item->scoring }}</td>
+                        <td>
+                            @if($item->scoring)
+                            <div class="btn btn-success"><b>{{ $item->scoring }}</b></div>
+                            @else
+                            <div class="btn btn-danger"><b>0</b></div>
+                            @endif
+                        </td>
                         <td>
                             <?php
                                 $date_evaluation = date('Y-m-d', strtotime("+90 days", strtotime($item->supplier_registered_date)));
@@ -133,15 +139,31 @@
                         </td>
                         <td>
 
-                            @if($months < 1 && $days < 1)
+                            @if($months < 11 && $days < 1)
                                 @if($item->supplier_category == 'Material Supplier')
-                                    <a href="javascript:;"  wire:click="$emit('modalmaterialcriteria','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Evaluate</a>
+                                    <!-- <a href="javascript:;"  wire:click="$emit('modalmaterialcriteria','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Evaluate</a> -->
                                 @endif
 
-                                @if($item->supplier_category == 'Service Supplier')
-                                    <a href="javascript:;"  wire:click="$emit('modalservicecriteria','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Evaluate</a>
+                                @if($item->supplier_category == 'Service - Company' || $item->supplier_category == 'Service - Individual')
+                                    <!-- <a href="javascript:;"  wire:click="$emit('modalservicecriteria','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Evaluate</a> -->
                                 @endif
+
+                                <!-- <a href="{{ route('vendor-management.preview',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Evaluate</a> -->
+                                <a href="{{ route('vendor-management.general-information',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> General Information</a>
+                                <!-- <a href="javascript:;"  wire:click="$emit('modalcriteriageneralinformation','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> General Information</a> -->
+                                @if($item->supplier_category == 'Service - Company' || $item->supplier_category == 'Service - Individual')
+                                <!-- <a href="javascript:;"  wire:click="$emit('modalcriteriateamavailability','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Team Availability</a>
+                                <a href="javascript:;"  wire:click="$emit('modalcriteriatoolsfacilities','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Tools & Facilities</a>
+                                <a href="javascript:;"  wire:click="$emit('modalcriteriaehs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> EHS</a> -->
+
+                                <a href="{{ route('vendor-management.team-availability',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Team Availability</a>
+                                <a href="{{ route('vendor-management.commercial-compliance',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Tools & Facilities</a>
+                                <a href="{{ route('vendor-management.commercial-compliance',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> EHS</a>
+                                @endif
+                                <!-- <a href="javascript:;"  wire:click="$emit('modalcriteriacc','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Commercial Compliance</a> -->
+                                <a href="{{ route('vendor-management.commercial-compliance',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Commercial Compliance</a>
                             @endif
+                            
                         </td>
                     </tr>
                     @endforeach

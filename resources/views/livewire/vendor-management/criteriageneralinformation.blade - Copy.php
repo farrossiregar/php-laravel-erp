@@ -5,7 +5,8 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Fill Material Criteria of Evaluation</h5>
+                    <!-- <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Fill Service Criteria of Evaluation</h5> -->
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> General Information</h5>
                 </div>
 
                 <div class="body pt-0">
@@ -15,41 +16,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 form-group">
-                                            <label>General Information</label>
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="general_information"/>
-                                            @error('general_information')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <!-- <div class="col-md-12 form-group">
-                                            <label>Team Availability & Capability</label>
-                                            <input type="text" class="form-control" wire:model="team_availability_capability"/>
-                                            @error('team_availability_capability')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Tools & Facilities</label>
-                                            <input type="text" class="form-control" wire:model="tools_facilities"/>
-                                            @error('tools_facilities')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>EHS & Quality Management</label>
-                                            <input type="text" class="form-control" wire:model="ehs_quality_management"/>
-                                            @error('ehs_quality_management')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div> -->
-                                        <div class="col-md-12 form-group">
-                                            <label>Commercial Compliance</label>
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="commercial_compliance"/>
-                                            @error('commercial_compliance')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
+                                       
                                         
                                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                                         <script>
@@ -128,8 +95,9 @@
                                             @enderror
                                         </div> -->
                                    
+                                       
                                         
-                                        
+                                       
                                        
                                     </div>
                                 </div>
