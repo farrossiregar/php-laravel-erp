@@ -1,17 +1,24 @@
 <div class="row">
     <div class="col-md-2">
-        <input type="date" class="form-control" wire:model="date" />
+        <input type="text" class="form-control" placeholder="Supplier Name" wire:model="supplier_name" />
     </div>
 
-<!--     
-    <div class="col-md-1">                
-        <select class="form-control" wire:model="year">
-            <option value=""> --- Year --- </option>
-            @foreach(\App\Models\EmployeeNoc::select('year')->groupBy('year')->get() as $item) 
-            <option>{{$item->year}}</option>
-            @endforeach 
+    
+    <div class="col-md-2">
+        <select name="" id="" class="form-control" wire:model="supplier_category">
+            <option value=""> -- Select Supplier Category -- </option>
+            <option value=""> Material Supplier </option>
+            <option value="Service - Individual"> Service Supplier - Individual </option>
+            <option value="Service - Company"> Service Supplier - Company </option>
         </select>
-    </div> -->
+    </div>
+
+    <div class="col-md-2">
+        <select name="" id="" class="form-control" wire:model="sort">
+            <option value="1"> Latest </option>
+            <option value="2"> Highest Score </option>
+        </select>
+    </div>
 
 
     @if(check_access('business-opportunities.add'))
