@@ -15,7 +15,7 @@ class Criteriateamavailability extends Component
     
     public $id_detail, $team;
     public $service_type1, $service_type2, $service_type3, $service_type4, $service_type5, $service_type6, $service_type7, $service_type8, $service_type9, $service_type10, $service_type11, $service_type12, $service_type13, $service_type14;
-    // public $team1, $team2, $team3, $team4, $team5, $team6, $team7, $team8, $team9, $team10, $team11, $team12, $team13, $team14;
+    public $team1, $team2, $team3, $team4, $team5, $team6, $team7, $team8, $team9, $team10, $team11, $team12, $team13, $team14;
     public $eng1, $eng2, $eng3, $eng4, $eng5, $eng6, $eng7, $eng8, $eng9, $eng10, $eng11, $eng12, $eng13, $eng14;
     public $rigger1, $rigger2, $rigger3, $rigger4, $rigger5, $rigger6, $rigger7, $rigger8, $rigger9, $rigger10, $rigger11, $rigger12, $rigger13, $rigger14;
     public $tech1, $tech2, $tech3, $tech4, $tech5, $tech6, $tech7, $tech8, $tech9, $tech10, $tech11, $tech12, $tech13, $tech14;
@@ -58,20 +58,22 @@ class Criteriateamavailability extends Component
     public function mount($id){
         $this->selected_id = $id;
 
-         
-        for($i = 1; $i < 15; $i++){
-            // $team[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
-            // $this->idteam[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
-            $team = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
-            if($team){
-                $this->team[$i] = (int)$team;
-            }else{
-                $this->team[$i] = '';
-            }
-            
-            // dd($this->team);
-            // $this->test = '88';
+        $check = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->first();
+        if($check){
+            for($i = 1; $i < 15; $i++){
+                // $team[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
+                // $this->idteam[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
+                $team = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
+                if($team){
+                    $this->team[$i] = (int)$team;
+                }else{
+                    $this->team[$i] = '';
+                }
+                
+                // dd($this->team);
+                // $this->test = '88';
 
+            }
         }
 
 
@@ -106,9 +108,8 @@ class Criteriateamavailability extends Component
                     $data->other                                = $this->valueconcat('other', $i);
                     $data->year                                 = $this->valueconcat('year', $i);
                     $data->invoice                              = $this->valueconcat('invoice', $i);
-                    dd($this->valueconcat('team', $i));
-                    $data->save();
                     
+                    $data->save();
                 }
                
             }else{
@@ -117,7 +118,7 @@ class Criteriateamavailability extends Component
                     $data->id_supplier                          = $this->selected_id;
                     $data->id_detail                            = $i;
                     $data->id_detail_title                      = $this->valueconcat('service_type', $i);
-                    $data->team                                 = $this->valueconcat('team.', $i);
+                    // $data->team                                 = $this->valueconcat('team', $i);
                     $data->eng                                  = $this->valueconcat('eng', $i);
                     $data->tech                                 = $this->valueconcat('tech', $i);
                     $data->rigger                               = $this->valueconcat('rigger', $i);
@@ -125,7 +126,7 @@ class Criteriateamavailability extends Component
                     $data->other                                = $this->valueconcat('other', $i);
                     $data->year                                 = $this->valueconcat('year', $i);
                     $data->invoice                              = $this->valueconcat('invoice', $i);
-                    dd($this->valueconcat('team', $i));
+                    
                     $data->save();
                 }
             }
@@ -144,6 +145,14 @@ class Criteriateamavailability extends Component
         return $this->$fields;
     }
     
+    public function addteam($id)
+    {
+        $check = \App\Models\VendorManagementta::where('id_supplier',$id)->where('id_detail', $id)->first();
+        $check->team = $this->valueconcat('team', $i);
+        $check->save();
+        
+        // return redirect()->route('vendor-management.index');
+    }
     
     public function duration($start_time, $end_time){
         

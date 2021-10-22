@@ -177,11 +177,11 @@
                                                                     }
                                                             ?>
                                                             <!-- <input type="text" class="form-control" placeholder="<?php echo $countteam; ?>" value="<?php echo $countteam; ?>" wire:model="team{{ $i }}"> -->
-                                                            <input type="number" class="form-control" placeholder="Team" wire:model="team.{{$i}}">
+                                                            <input type="number" wire:change="addteam({{ $i }})" class="form-control" placeholder="Team" wire:model="team{{$i}}">
                                                             <?php
                                                                 }else{
                                                             ?>
-                                                                <input type="number" class="form-control" placeholder="Team" wire:model="team.{{$i}}">
+                                                                <input type="number" class="form-control" placeholder="Team" wire:model="team{{$i}}">
                                                                 
                                                             <?php
                                                                 }
