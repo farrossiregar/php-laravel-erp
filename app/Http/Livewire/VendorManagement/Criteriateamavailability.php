@@ -187,9 +187,10 @@ class Criteriateamavailability extends Component
             $score = 20;
         }
 
-        if(count($sumcap) == 1){
+        $sc = 14 - count($sumcap);
+        if($sc == 1){
             $scorecap = 40;
-        }elseif(count($sumcap) == 2){
+        }elseif($sc == 2){
             $scorecap = 50;
         }else{
             $scorecap = 60;
@@ -197,6 +198,7 @@ class Criteriateamavailability extends Component
         // dd($score);
         $update->ta_team_qty = $score;
         $update->ta_capability = $scorecap;
+        $update->team_availability_capability = $score + $scorecap;
         $update->save();
         // dd((int)$sumteam->countteam);
         
