@@ -18,6 +18,8 @@ class Criteriageneralinformation extends Component
     public $main_cust, $gov_client, $other_cust, $inv_amount_3, $inv_amount_2, $inv_amount_1, $balance_asset_3, $balance_asset_2, $balance_asset_1, $balance_liab_3, $balance_liab_2, $balance_liab_1, $notas_fs;
     public $fin_name, $fin_pos, $fin_hp, $bank_name, $bank_addr, $country, $curr, $bank_acc_owner, $bank_acc_num, $swift_code, $notas_bi;
     public $employees_qty, $mngr_qty, $spv_qty, $engineer_qty, $tech_qty, $adm_qty, $other_qty;
+
+    public $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $value11, $value12, $value13, $value14;
     public function render()
     {
         return view('livewire.vendor-management.criteriageneralinformation');        
@@ -34,12 +36,14 @@ class Criteriageneralinformation extends Component
         $this->selected_id = $id;
         
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        $this->datavm = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->first();
+        $datavm = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id);
 
 
-        $this->owner_name = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_group', '1')->where('id_detail', '1')->first()->value;
-        $this->owner_licence_ktp = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_group', '1')->where('id_detail', '2')->first()->value;
-        $this->owner_licence_npwp = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_group', '1')->where('id_detail', '3')->first()->value;
+        // $this->owner_name = $datavm->where('id_detail_title', 'owner_name')->first()->value;
+        
+        // $this->owner_licence_ktp = $datavm->where('id_detail_title', 'owner_licence_ktp')->first()->value;
+        // dd($this->owner_licence_ktp);
+        // $this->owner_licence_npwp = $datavm->where('id_detail_title', 'owner_licence_npwp')->first()->value;
         
         
         
@@ -51,18 +55,18 @@ class Criteriageneralinformation extends Component
         $user = \Auth::user();
        
         $check                                       = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->first();
-        if($check){ 
-            $dataowner                  = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_group', '1')->where('id_detail', '1')->first();
-            $dataowner->value           = $this->owner_name;
-            $dataowner->save();
+        if(!$check){ 
+            // $dataowner                  = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_group', '1')->where('id_detail', '1')->first();
+            // $dataowner->value           = $this->owner_name;
+            // $dataowner->save();
 
-            $dataownerktp                  = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_group', '1')->where('id_detail', '2')->first();
-            $dataownerktp->value           = $this->owner_licence_ktp;
-            $dataownerktp->save();
+            // $dataownerktp                  = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_group', '1')->where('id_detail', '2')->first();
+            // $dataownerktp->value           = $this->owner_licence_ktp;
+            // $dataownerktp->save();
 
-            $dataownernpwp                  = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_group', '1')->where('id_detail', '3')->first();
-            $dataownernpwp->value           = $this->owner_licence_npwp;
-            $dataownernpwp->save();
+            // $dataownernpwp                  = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_group', '1')->where('id_detail', '3')->first();
+            // $dataownernpwp->value           = $this->owner_licence_npwp;
+            // $dataownernpwp->save();
 
 
             
@@ -221,6 +225,20 @@ class Criteriageneralinformation extends Component
         session()->flash('message-success',"Criteria General Information Successfully Evaluate!!!");
         
         return view('livewire.vendor-management.criteriageneralinformation'); 
+    }
+
+    public function updatedata($field, $id){
+        $check = \App\Models\VendorManagementgi::where('id_supplier',$this->selected_id)->where('id_detail_title', $field)->first();
+        $check->value = $this->valueconcat($id);
+        $check->save();
+
+
+        return view('livewire.vendor-management.criteriageneralinformation');    
+    }
+
+    public function valueconcat($i){
+        $fields = 'value'.$i;
+        return $this->$fields;
     }
 
     public function duration($start_time, $end_time){

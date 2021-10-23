@@ -24,8 +24,12 @@
                                     
                                     <div class="row">
                                         <div class="col-md-4 form-group">
+                                            <!-- <input type="number" min='0' max="100" class="form-control" readonly wire:model="general_information"/> -->
                                             <h5>General Information</h5> 
                                         </div>
+                                        <!-- <div class="col-md-4">
+                                            <a href="#" wire:click="delsupplier2()" title="Update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                                        </div> -->
                                     </div>
                                     <hr>
                                     <div class="row">
@@ -52,460 +56,269 @@
                                             @enderror
                                         </div> -->
                                         <div class="col-md-4">
-                                            <div class="row">
-                                                <div class="col-md-12" style="margin-bottom: 10px;">
-                                                    <div class="form-group">
-                                                        <label >Supplier Owner Name :</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12" style="margin-bottom: 10px;">
-                                                    <div class="form-group">
-                                                        <label><b>Supplier Owner Licence KTP :</b> </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12" style="margin-bottom: 8px;">
-                                                    <div class="form-group">
-                                                        <label><b>Supplier Owner Licence NPWP :</b> </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12" style="margin-bottom: 10px;">
-                                                    <div class="form-group">
-                                                        <label>Establish year :</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12" style="height: 150px; overflow:hidden;">
-                                                    <div class="form-group" >
-                                                        <label>HQ Address :</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12" style="height: 140px; overflow:hidden;">
-                                                    <div class="form-group">
-                                                    <label>Branch Address :</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12" style="margin-bottom: 10px;">
-                                                    <div class="form-group">
-                                                    <label>Telephone - office :</label>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12" style="margin-bottom: 10px;">
-                                                    <div class="form-group">
-                                                        <label>Commercial Contact Name :</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12" style="margin-bottom: 10px;">
-                                                    <div class="form-group">
-                                                    <p>Phone / Handphone:</p>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12" style="margin-bottom: 10px;">
-                                                    <div class="form-group">
-                                                        <p>Email :</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12" style="margin-bottom: 10px;">
-                                                    <div class="form-group">
-                                                    <label>Technical Contact Name :</label>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12" style="margin-bottom: 10px;">
-                                                    <div class="form-group">
-                                                    <p>Phone / Handphone:</p>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12" style="margin-bottom: 10px;">
-                                                    <div class="form-group">
-                                                    <p>Email :</p>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12" style="margin-bottom: 10px;">
-                                                    <div class="form-group">
-                                                        <label>Notas :</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
+                                            <label>Supplier Owner Name :</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            if(count($check_data) > 0){
-                                                               
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'owner_name')->first();
-                                                                
-                                                                $count = $get_data['value'];      
-                                                        ?>
-                                                            <input type="text" wire:change="updatedata('owner_name', '1')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value1"/>
-                                                        <?php
-                                                            }else{
-                                                        ?>
-                                                            <input type="text" class="form-control" wire:model="value1"/>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        
-                                                        @error('value1')
-                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                        @enderror
-                                                    </div>
-                                                </div>
+                                            <div class="form-group">
+                                                <?php
+                                                    if($check_data){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'owner_name')->first();
+                                                        $count = $owner_name = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('owner_name')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="owner_name"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    <input type="text" class="form-control" wire:model="owner_name"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
+                                                @error('owner_name')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
                                             </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'owner_licence_ktp')->first();
-                                                                $count = $get_data['value'];      
-                                                        ?>
-                                                            <input type="text" wire:change="updatedata('owner_licence_ktp', '2')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value2"/>
-                                                        <?php
-                                                            }else{
-                                                        ?>
-                                                            <input type="text" class="form-control" wire:model="value2"/>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        
-                                                        @error('owner_licence_ktp')
-                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'owner_licence_npwp')->first();
-                                                                $count = $get_data['value'];
-                                                                
-                                                        ?>
-                                                            
-                                                            <input type="text" wire:change="updatedata('owner_licence_npwp', '3')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value3"/>
-                                                        <?php
-                                                            }else{
-                                                        ?>
-                                                            <input type="text" class="form-control" wire:model="value3"/>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        <!-- <input type="text" class="form-control" wire:model="owner_licence_npwp"/> -->
-                                                        @error('owner_licence_npwp')
-                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'est_year')->first();
-                                                                $count = $get_data['value'];
-                                                                
-                                                        ?>
-                                                            
-                                                            <input type="text" wire:change="updatedata('est_year', '4')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value4"/>
-                                                        <?php
-                                                            }else{
-                                                        ?>
-                                                            <input type="text" class="form-control" wire:model="value4"/>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        <!-- <input type="text" class="form-control" wire:model="est_year"/> -->
-                                                        @error('est_year')
-                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'hq_add')->first();
-                                                                $count = $get_data['value'];
-                                                                
-                                                        ?>
-                                                            
-                                                            <!-- <input type="text" wire:change="updatedata('hq_add')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="est_year"/> -->
-                                                            <textarea wire:change="updatedata('hq_add', '5')"  name="" id="" cols="30" rows="6" placeholder="{{ $count }}" class="form-control" wire:model="value5"><?php echo $count; ?></textarea>
-                                                        <?php
-                                                            }else{
-                                                        ?>
-                                                            <!-- <input type="text" class="form-control" wire:model="est_year"/> -->
-                                                            <textarea name="" id="" cols="30" rows="6"  class="form-control" wire:model="value5"></textarea>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        
-                                                        
-                                                        @error('hq_add')
-                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'branch_add')->first();
-                                                                $count = $get_data['value'];
-                                                                
-                                                        ?>
-                                                            <textarea wire:change="updatedata('branch_add', '6')"  name="" id="" cols="30" rows="6" placeholder="{{ $count }}" class="form-control" wire:model="value6"><?php echo $count; ?></textarea>
-                                                        <?php
-                                                            }else{
-                                                        ?>
-                                                            <textarea name="" id="" cols="30" rows="6"  class="form-control" wire:model="value6"></textarea>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        
-                                                        
-                                                        @error('branch_add')
-                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'telp_office')->first();
-                                                                $count = $get_data['value'];
-                                                        ?>
-                                                            <input wire:change="updatedata('telp_office', '7')" type="text" placeholder="{{ $count }}" class="form-control" wire:model="value7"/>
-                                                        <?php
-                                                            }else{
-                                                        ?>
-                                                            <input type="text" class="form-control" wire:model="value7"/>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        
-                                                        @error('telp_office')
-                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'com_name')->first();
-                                                                $count = $get_data['value'];
-                                                        ?>
-                                                            <input wire:change="updatedata('com_name', '8')" type="text" placeholder="{{ $count }}" class="form-control" wire:model="value8"/>
-                                                        <?php
-                                                            }else{
-                                                        ?>
-                                                            <input type="text" class="form-control" wire:model="value8"/>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        
-                                                        @error('com_name')
-                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'com_phone')->first();
-                                                                $count = $get_data['value'];
-                                                        ?>
-                                                            <input wire:change="updatedata('com_phone', '9')" type="text" placeholder="{{ $count }}" class="form-control" wire:model="value9"/>
-                                                        <?php
-                                                            }else{
-                                                        ?>
-                                                            <input type="text" class="form-control" wire:model="value9"/>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        
-                                                        @error('com_phone')
-                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'com_email')->first();
-                                                                $count = $get_data['value'];
-                                                        ?>
-                                                            <input wire:change="updatedata('com_email', '10')" type="email" placeholder="{{ $count }}" class="form-control" wire:model="value10"/>
-                                                        <?php
-                                                            }else{
-                                                        ?>
-                                                            <input type="text" class="form-control" wire:model="value10"/>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        
-                                                        @error('com_email')
-                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'tech_name')->first();
-                                                                $count = $get_data['value'];
-                                                        ?>
-                                                            <input wire:change="updatedata('tech_name', '11')" type="text" placeholder="{{ $count }}" class="form-control" wire:model="value11"/>
-                                                        <?php
-                                                            }else{
-                                                        ?>
-                                                            <input type="text" class="form-control" wire:model="value11"/>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        
-                                                        @error('tech_name')
-                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'tech_phone')->first();
-                                                                $count = $get_data['value'];
-                                                        ?>
-                                                            <input wire:change="updatedata('tech_phone', '12')" type="text" placeholder="{{ $count }}" class="form-control" wire:model="value12"/>
-                                                        <?php
-                                                            }else{
-                                                        ?>
-                                                            <input type="text" class="form-control" wire:model="value12"/>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        
-                                                        @error('tech_phone')
-                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'tech_email')->first();
-                                                                $count = $get_data['value'];
-                                                        ?>
-                                                            <input wire:change="updatedata('tech_email', '13')" type="email" placeholder="{{ $count }}" class="form-control" wire:model="value13"/>
-                                                        <?php
-                                                            }else{
-                                                        ?>
-                                                            <input type="email" min='0' max="100" class="form-control" wire:model="value13"/>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        
-                                                        @error('tech_email')
-                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'notas_gi')->first();
-                                                                $count = $get_data['value'];
-                                                                
-                                                        ?>
-                                                            <textarea wire:change="updatedata('notas_gi', '14')"  name="" id="" cols="30" rows="6" placeholder="{{ $count }}" class="form-control" wire:model="value14"><?php echo $count; ?></textarea>
-                                                        <?php
-                                                            }else{
-                                                        ?>
-                                                            <textarea name="" id="" cols="30" rows="6" class="form-control" wire:model="value14"></textarea>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        
-                                                        @error('notas_gi')
-                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                         </div>
-                                       
-                                       
+                                        <div class="col-md-4">
+                                            <label><b>Supplier Owner Licence :</b> </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>KTP :</p>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <?php
+                                                    if($check_data){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'owner_licence_ktp')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('owner_licence_ktp')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="owner_licence_ktp"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    <input type="text" class="form-control" wire:model="owner_licence_ktp"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="text" class="form-control" wire:model="owner_licence_ktp"/> -->
+                                                @error('owner_licence_ktp')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>NPWP :</p>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <?php
+                                                    if($check_data){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'owner_licence_npwp')->first();
+                                                        $count = $get_data['value'];
+                                                        
+                                                ?>
+                                                    
+                                                    <input type="text" wire:change="updatedata('owner_licence_npwp')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="owner_licence_npwp"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    <input type="text" class="form-control" wire:model="owner_licence_npwp"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="text" class="form-control" wire:model="owner_licence_npwp"/> -->
+                                                @error('owner_licence_npwp')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Establish Year :</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <?php
+                                                    if($check_data){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'est_year')->first();
+                                                        $count = $get_data['value'];
+                                                        
+                                                ?>
+                                                    
+                                                    <input type="text" wire:change="updatedata('est_year')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="est_year"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    <input type="text" class="form-control" wire:model="est_year"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="text" class="form-control" wire:model="est_year"/> -->
+                                                @error('est_year')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>HQ Address :</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <?php
+                                                    if($check_data){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'hq_add')->first();
+                                                        $count = $get_data['value'];
+                                                        
+                                                ?>
+                                                    
+                                                    <!-- <input type="text" wire:change="updatedata('hq_add')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="est_year"/> -->
+                                                    <textarea wire:change="updatedata('hq_add')"  name="" id="" cols="30" rows="6" placeholder="{{ $count }}" class="form-control" wire:model="hq_add"><?php echo $count; ?></textarea>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    <!-- <input type="text" class="form-control" wire:model="est_year"/> -->
+                                                    <textarea name="" id="" cols="30" rows="6"  class="form-control" wire:model="hq_add"></textarea>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
+                                                
+                                                @error('hq_add')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Branch Office Address :</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <?php
+                                                    if($check_data){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'branch_add')->first();
+                                                        $count = $get_data['value'];
+                                                        
+                                                ?>
+                                                    <textarea wire:change="updatedata('branch_add')"  name="" id="" cols="30" rows="6" placeholder="{{ $count }}" class="form-control" wire:model="hq_add"><?php echo $count; ?></textarea>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    <textarea name="" id="" cols="30" rows="6"  class="form-control" wire:model="branch_add"></textarea>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
+                                                
+                                                @error('branch_add')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Telephone - Office :</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" wire:model="telp_office"/>
+                                                @error('telp_office')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label><b>Commercial Contact Name :</b> </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" wire:model="com_name"/>
+                                                @error('com_name')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>Phone / Handphone :</p>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" wire:model="com_phone"/>
+                                                @error('com_phone')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>Email :</p>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" wire:model="com_email"/>
+                                                @error('com_email')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label><b>Technical Contact Name :</b> </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" wire:model="tech_name"/>
+                                                @error('tech_name')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>Phone / Handphone :</p>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" wire:model="tech_phone"/>
+                                                @error('tech_phone')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>Email :</p>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <input type="email" min='0' max="100" class="form-control" wire:model="tech_email"/>
+                                                @error('tech_email')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label><b>Notas :</b> </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <?php
+                                                    if($check_data){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'notas_gi')->first();
+                                                        $count = $get_data['value'];
+                                                        
+                                                ?>
+                                                    <textarea wire:change="updatedata('notas_gi')"  name="" id="" cols="30" rows="6" placeholder="{{ $count }}" class="form-control" wire:model="notas_gi"><?php echo $count; ?></textarea>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    <textarea name="" id="" cols="30" rows="6" class="form-control" wire:model="notas_gi"></textarea>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
+                                                @error('notas_gi')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 
