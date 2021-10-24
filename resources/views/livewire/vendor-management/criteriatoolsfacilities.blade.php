@@ -1,180 +1,473 @@
-@section('title', __('Vendor Management - Input'))
+@section('title', __('Vendor Management - Evaluate Commercial Compliance'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
-            <div class="tab-content">      
-                <div class="header row">
-                    <!-- <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Fill Service Criteria of Evaluation</h5> -->
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> General Information</h5>
-                </div>
-
-                <div class="body pt-0">
-                    <div class="form-group">
-                        <form wire:submit.prevent="save">
-                            @csrf
-                            <div class="row">
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <form wire:submit.prevent="save">
+                                @csrf
                                 <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-12 form-group">
-                                            <label>Complete Licence (Company 50% - Personal 20%)</label>
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="complete_licence"/>
-                                            @error('ehs_quality_management')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Have HQ Office (20%)</label>
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="hq_office"/>
-                                            @error('ehs_quality_management')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-12 form-group">
-                                            <label>Total (10% Point from Total Score)</label>
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="total_gi" readonly/>
-                                            @error('ehs_quality_management')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
+                                    <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
+                                        
+                                        
+                                        <div class="row">
+                                            <div class="col-md-4 form-group">
+                                            
+                                                <h5>Tools & Facilities</h5> 
+                                            </div>
+                                            
                                         </div>
                                         <hr>
-                                        <br>
-                                        <br>
-                                        <br>
-                                        <div class="col-md-12 form-group">
-                                            <a href=""><i class="fa fa-download"></i> Download File General information</a>
-                                        </div>
-                                        <!-- <div class="col-md-12 form-group">
-                                            <label>General Information (10%)</label>
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="general_information"/>
-                                            @error('supplier_name')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                         <div class="col-md-12 form-group">
-                                            <label>Team Availability & Capability (25%)</label>
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="team_availability_capability"/>
-                                            @error('team_availability_capability')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Tools & Facilities (20%)</label>
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="tools_facilities"/>
-                                            @error('tools_facilities')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>EHS & Quality Management (20%)</label>
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="ehs_quality_management"/>
-                                            @error('ehs_quality_management')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Commercial Compliance (25%)</label>
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="commercial_compliance"/>
-                                            @error('commercial_compliance')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div> -->
-                                        
-                                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                                        <script>
+                                       
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <label>Standard Rigger Tools</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" wire:model="value1"/>
+                                                </div>
+                                            </div>
 
-                                            // Jquery Dependency
-
-                                            
-                                            $("input[data-type='currency']").on({
-                                                keyup: function() {
-                                                formatCurrency($(this));
-                                                },
-                                                blur: function() { 
-                                                formatCurrency($(this), "blur");
-                                                }
-                                            });
-
-
-                                            function formatNumber(n) {
-                                                // format number 1000000 to 1,234,567
-                                                return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                                            }
-
-
-                                            function formatCurrency(input, blur) {
-                                                var input_val = input.val();
-                                                if (input_val === "") { return; }
-                                                var original_len = input_val.length;
-                                                var caret_pos = input.prop("selectionStart");
-                                                if (input_val.indexOf(".") >= 0) {
-                                                    var decimal_pos = input_val.indexOf(".");
-
-                                                    // split number by decimal point
-                                                    var left_side = input_val.substring(0, decimal_pos);
-                                                    var right_side = input_val.substring(decimal_pos);
-
-                                                    // add commas to left side of number
-                                                    left_side = formatNumber(left_side);
-
-                                                    // validate right side
-                                                    right_side = formatNumber(right_side);
-                                                 
-                                                    input_val = "Rp" + left_side;
-
-                                                } else {
-                                                    
-                                                    input_val = formatNumber(input_val);
-                                                    input_val = "Rp" + input_val;
-                                                   
-                                                }
+                                            <div class="col-md-2">
+                                                <label>Vehicle</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" wire:model="value1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" wire:model="value1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" wire:model="value1"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 
-                                                // send updated string to input
-                                                input.val(input_val);
+                                            </div>
 
-                                                // put caret back in the right position
-                                                var updated_len = input_val.length;
-                                                caret_pos = updated_len - original_len + caret_pos;
-                                                input[0].setSelectionRange(caret_pos, caret_pos);
-                                            }
+                                            <div class="col-md-2">
+                                                <label>Standard Rigger Tools</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" wire:model="value1"/>
+                                                </div>
+                                            </div>
 
+                                            <div class="col-md-2">
+                                                <label>Standard Rigger Tools</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" wire:model="value1"/>
+                                                </div>
+                                            </div>
 
+                                            <div class="col-md-2">
+                                                <label>Standard Rigger Tools</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" wire:model="value1"/>
+                                                </div>
+                                            </div>
 
-                                        </script>
-                             
-                                        <!-- <div class="col-md-6 form-group">
-                                            <label>Start Duration</label>
-                                            <input type="date" class="form-control" wire:model="startdate" required/>
-                                            @error('startdate')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
+                                            <div class="col-md-2">
+                                                <label>Standard Rigger Tools</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" wire:model="value1"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>Standard Rigger Tools</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" wire:model="value1"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>Generator</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" wire:model="value1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" wire:model="value1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" wire:model="value1"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label>Special Tools</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" wire:model="value1"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <p>Site Master</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" wire:model="value1"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <p>Site Master</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" wire:model="value1"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <p>Site Master</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" wire:model="value1"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <p>Site Master</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" wire:model="value1"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <p>Site Master</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" wire:model="value1"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label for="">Warehouse</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" wire:model="value1"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label for="">Warehouse</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" wire:model="value1"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label for="">Remarks</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="">Unit</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <textarea type="text" class="form-control" wire:model="value1"></textarea>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6 form-group">
-                                            <label>End Duration</label>
-                                            <input type="date" class="form-control" wire:model="enddate" required/>
-                                            @error('enddate')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
+
+                                        <!-- <div class="row">
+                                            
+                                            <div class="col-md-4">
+                                                <label>Price Compliance <span style="padding: 3px 7px; background-color: #007bff; border-radius: 10px; color: white; font-size: 12px;"  tabindex="0" data-toggle="tooltip" title="Score : High (>30% = 0), Medium (10%-20% = 20), Low (< 10% = 50)">?</span> :</label>
+                                                
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-6 form-group">
+                                                        <select name="" id="" class="form-control" wire:model="value1">
+                                                            <option value=""></option>
+                                                            <option value="50">Low (< 10% )</option>
+                                                            <option value="20">Medium ( 10% s/d 30% )</option>
+                                                            <option value="0">High (> 30% )</option>
+                                                        </select>
+                                                        
+                                                        @error('value1')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <input type="text" min='0' max="100" class="form-control" wire:model="note1"/>
+                                                        @error('note1')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Lead Time Compliance <span style="padding: 3px 7px; background-color: #007bff; border-radius: 10px; color: white; font-size: 12px;"  tabindex="0" data-toggle="tooltip" title="Score : High (>30% = 0), Medium (10%-20% = 20), Low (< 10% = 50)">?</span> :</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-6 form-group">
+                                                        <select name="" id="" class="form-control" wire:model="value2">
+                                                            <option value=""></option>
+                                                            <option value="0">Low</option>
+                                                            <option value="10">Medium</option>
+                                                            <option value="30">High</option>
+                                                        </select>
+                                                        
+                                                        @error('value2')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <input type="text" min='0' max="100" class="form-control" wire:model="note2"/>
+                                                        @error('note2')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label>Payment Term Compliance <span style="padding: 3px 7px; background-color: #007bff; border-radius: 10px; color: white; font-size: 12px;"  tabindex="0" data-toggle="tooltip" title="Score : High = 30, Medium = 10, Low = 0">?</span> :</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-6 form-group">
+                                                        <select name="" id="" class="form-control" wire:model="value3">
+                                                            <option value=""></option>
+                                                            <option value="0">Low ( >=45 days )</option>
+                                                            <option value="10">Medium ( 30 days )</option>
+                                                            <option value="20">High ( < 15 days )</option>
+                                                        </select>
+                                                        
+                                                        @error('value3')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <input type="text" min='0' max="100" class="form-control" wire:model="note3"/>
+                                                        @error('note3')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label>Special Requirement <span style="padding: 3px 7px; background-color: #007bff; border-radius: 10px; color: white; font-size: 12px;"  tabindex="0" data-toggle="tooltip" title="">?</span> :</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-6 form-group">
+                                                        
+
+                                                        <input type="number" min='0' max="50" class="form-control" wire:model="value4"/>
+                                                        
+                                                        @error('value4')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <input type="text" min='0' max="100" class="form-control" wire:model="note4"/>
+                                                        @error('note4')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
                                         </div> -->
-                                   
-                                       
-                                        
-                                       
-                                       
                                     </div>
-                                </div>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
+                                        </div>
+                                        
+                                    </div>
+                                </div> 
                                 
-                                <div class="col-md-12 form-group">
-                                    <hr />
-                                    <!-- <a href="{{route('accident-report.index')}}" class="mr-2"><i class="fa fa-arrow-left"></i> {{ __('Back') }}</a> -->
-                                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 180px;">
+                                    <div class="row">
+                                        <div class="col-md-9 form-group">
+                                            <h5>Total Score</h5>
+                                        </div>
+                                        <!-- <div class="col-md-3">
+                                            
+                                        </div> -->
+                                    </div>
+                                    
+                                    <hr>
+                                    <h1 style="font-size: 65px">
+                                        {{ @$value1 + @$value2 + @$value3 + @$value4 }}
+                                    </h1>
                                 </div>
                             </div>
-                        </form>
+                            <div class="col-md-12">
+                                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
+                                    <h5>Laptop</h5>
+                                    <hr>
+                                    <h1 style="font-size: 50px">
+                                        {{ @$value1 }}
+                                    </h1>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
+                                    <h5>Vehicle</h5>
+                                    <hr>
+                                    <h1 style="font-size: 50px">
+                                        {{ @$value1 }}
+                                    </h1>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
+                                    <h5>Generators</h5>
+                                    <hr>
+                                    <h1 style="font-size: 50px">
+                                        {{ @$value1 }}
+                                    </h1>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
+                                    <h5>Special Tools</h5>
+                                    <hr>
+                                    <h1 style="font-size: 50px">
+                                        {{ @$value1 }}
+                                    </h1>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
+                                    <h5>Warehouse</h5>
+                                    <hr>
+                                    <h1 style="font-size: 50px">
+                                        {{ @$value1 }}
+                                    </h1>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
+                                    <h5>DOP</h5>
+                                    <hr>
+                                    <h1 style="font-size: 50px">
+                                        {{ @$value1 }}
+                                    </h1>
+                                </div>
+                            </div>
+
+                        </div>
+                        
                     </div>
+                    
                 </div>
             </div>
         </div>
     </div>
 </div>
+

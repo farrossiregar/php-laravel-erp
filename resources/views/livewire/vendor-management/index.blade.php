@@ -126,7 +126,7 @@
 <div class="modal fade" id="modal-vendormanagement-criteriatoolsfacility" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.criteriatoolsfacilities />
+            
         </div>
     </div>
 </div>
@@ -144,7 +144,7 @@
 <div class="modal fade" id="modal-vendormanagement-criteriaehs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.criteriaehs />
+            
         </div>
     </div>
 </div>
@@ -165,6 +165,14 @@
     <div class="modal-dialog modal-lg" role="document" style="max-width:70%;">
         <div class="modal-content">
             <livewire:vendor-management.viewcomparation />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-vendormanagement-detailscore" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.detailscore />
         </div>
     </div>
 </div>
@@ -211,6 +219,10 @@
 
     Livewire.on('modalmaterialcriteria',(data)=>{
         $("#modal-vendormanagement-materialcriteria").modal('show');
+    });
+
+    Livewire.on('modaldetailscore',(data)=>{
+        $("#modal-vendormanagement-detailscore").modal('show');
     });
 
     

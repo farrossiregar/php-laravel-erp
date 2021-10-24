@@ -84,13 +84,7 @@ class Criteriateamavailability extends Component
     public function save()
     {
         $user = \Auth::user();
-        // $j = 1;
-        // // dd($this->service_type.$j);
-        
-            // $team = $this->team;
-            // $teams[$i] = $team.$i;
-            // $service_type[$i] = $this->service_type.$i;
-            // dd('ok');
+      
             $check = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->first();
             // dd($check);
             if(!$check){
@@ -168,7 +162,8 @@ class Criteriateamavailability extends Component
 
         $sumteam = \App\Models\VendorManagementta::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->groupBy('id_supplier')->first();
         // $sumcap = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->whereNotNull('year')->get();
-        $sumcap = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('year', NULL)->orwhere('year', '0')->get();
+        // $sumcap = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('year', NULL)->orwhere('year', 0)->get();
+        $sumcap = count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('year', NULL)->get()) + count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('year', '0')->get());
         // dd(count($sumcap));
         $update = \App\Models\VendorManagement::where('id',$this->selected_id)->first();
         if($update->supplier_category != 'Material Supplier'){
@@ -187,13 +182,20 @@ class Criteriateamavailability extends Component
             $score = 20;
         }
 
-        $sc = 14 - count($sumcap);
+        $sc = 14 - $sumcap;
+
+        // dd($sumcap);
         if($sc == 1){
             $scorecap = 40;
         }elseif($sc == 2){
             $scorecap = 50;
         }else{
-            $scorecap = 60;
+            if($sc > 2){
+                $scorecap = 60;
+            }else{
+                $scorecap = 0;
+            }
+            
         }
         // dd($score);
         $update->ta_team_qty = $score;

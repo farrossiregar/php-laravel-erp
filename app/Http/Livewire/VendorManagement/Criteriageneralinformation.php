@@ -20,6 +20,10 @@ class Criteriageneralinformation extends Component
     public $employees_qty, $mngr_qty, $spv_qty, $engineer_qty, $tech_qty, $adm_qty, $other_qty;
 
     public $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $value11, $value12, $value13, $value14;
+    // public $service_type1, $service_type2, $service_type3, $service_type4, $service_type5, $service_type6, $service_type7, $service_type8, $service_type9, $service_type10, $service_type11, $service_type12, $service_type13, $service_type14;
+    public $value15, $value16, $value17, $value18, $value19, $value20, $value21, $value22, $value23, $value24, $value25, $value26, $value27;
+    public $value28, $value29, $value30, $value31, $value32, $value33, $value34, $value35, $value36, $value37, $value38;
+    public $value39, $value40, $value41, $value42, $value43, $value44, $value45;
     public function render()
     {
         return view('livewire.vendor-management.criteriageneralinformation');        
@@ -38,160 +42,36 @@ class Criteriageneralinformation extends Component
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         $datavm = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id);
 
-
-        // $this->owner_name = $datavm->where('id_detail_title', 'owner_name')->first()->value;
-        
-        // $this->owner_licence_ktp = $datavm->where('id_detail_title', 'owner_licence_ktp')->first()->value;
-        // dd($this->owner_licence_ktp);
-        // $this->owner_licence_npwp = $datavm->where('id_detail_title', 'owner_licence_npwp')->first()->value;
-        
-        
-        
         
     }
   
     public function save()
     {
         $user = \Auth::user();
-       
+        
         $check                                       = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->first();
         if(!$check){ 
-            // $dataowner                  = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_group', '1')->where('id_detail', '1')->first();
-            // $dataowner->value           = $this->owner_name;
-            // $dataowner->save();
-
-            // $dataownerktp                  = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_group', '1')->where('id_detail', '2')->first();
-            // $dataownerktp->value           = $this->owner_licence_ktp;
-            // $dataownerktp->save();
-
-            // $dataownernpwp                  = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_group', '1')->where('id_detail', '3')->first();
-            // $dataownernpwp->value           = $this->owner_licence_npwp;
-            // $dataownernpwp->save();
-
+            for($i = 1; $i < 46; $i++){
+                $data                                       = new \App\Models\VendorManagementgi();
+                $data->id_supplier                          = $this->selected_id;
+                $data->id_detail                            = $i;
+                // $data->id_detail_title                      = $this->valueconcat('service_type', $i);
+                $data->value                                 = $this->valueconcat('value', $i);
+                $data->save();
+            }
 
             
-        }else{
-            $data                                       = new \App\Models\VendorManagementgi();
-            $data->id_supplier                          = $this->selected_id;
-            $data->id_detail_group                      = '1';
-            $data->id_detail_title                      = 'owner_name';
-            $data->id_detail                            = '1';
-            $data->value                                = $this->owner_name;
-            $data->save();
-
-            $data                                       = new \App\Models\VendorManagementgi();
-            $data->id_supplier                          = $this->selected_id;
-            $data->id_detail_group                      = '1';
-            $data->id_detail_title                      = 'owner_licence_ktp';
-            $data->id_detail                            = '2';
-            $data->value                                = $this->owner_licence_ktp;
-            $data->save();
-
-            $data                                       = new \App\Models\VendorManagementgi();
-            $data->id_supplier                          = $this->selected_id;
-            $data->id_detail_group                      = '1';
-            $data->id_detail_title                      = 'owner_licence_npwp';
-            $data->id_detail                            = '3';
-            $data->value                                = $this->owner_licence_npwp;
-            $data->save();
-
-            $data                                       = new \App\Models\VendorManagementgi();
-            $data->id_supplier                          = $this->selected_id;
-            $data->id_detail_group                      = '1';
-            $data->id_detail_title                      = 'est_year';
-            $data->id_detail                            = '4';
-            $data->value                                = $this->est_year;
-            $data->save();
-
-            $data                                       = new \App\Models\VendorManagementgi();
-            $data->id_supplier                          = $this->selected_id;
-            $data->id_detail_group                      = '1';
-            $data->id_detail_title                      = 'hq_add';
-            $data->id_detail                            = '5';
-            $data->value                                = $this->hq_add;
-            $data->save();
-
-            $data                                       = new \App\Models\VendorManagementgi();
-            $data->id_supplier                          = $this->selected_id;
-            $data->id_detail_group                      = '1';
-            $data->id_detail_title                      = 'branch_add';
-            $data->id_detail                            = '6';
-            $data->value                                = $this->branch_add;
-            $data->save(); 
-
-            $data                                       = new \App\Models\VendorManagementgi();
-            $data->id_supplier                          = $this->selected_id;
-            $data->id_detail_group                      = '1';
-            $data->id_detail_title                      = 'telp_office';
-            $data->id_detail                            = '7';
-            $data->value                                = $this->telp_office;
-            $data->save();
-
-            $data                                       = new \App\Models\VendorManagementgi();
-            $data->id_supplier                          = $this->selected_id;
-            $data->id_detail_group                      = '1';
-            $data->id_detail_title                      = 'com_name';
-            $data->id_detail                            = '8';
-            $data->value                                = $this->com_name;
-            $data->save();
-
-            $data                                       = new \App\Models\VendorManagementgi();
-            $data->id_supplier                          = $this->selected_id;
-            $data->id_detail_group                      = '1';
-            $data->id_detail_title                      = 'com_phone';
-            $data->id_detail                            = '9';
-            $data->value                                = $this->com_phone;
-            $data->save();
-
-            $data                                       = new \App\Models\VendorManagementgi();
-            $data->id_supplier                          = $this->selected_id;
-            $data->id_detail_group                      = '1';
-            $data->id_detail_title                      = 'com_email';
-            $data->id_detail                            = '10';
-            $data->value                                = $this->com_email;
-            $data->save();
-
-            $data                                       = new \App\Models\VendorManagementgi();
-            $data->id_supplier                          = $this->selected_id;
-            $data->id_detail_group                      = '1';
-            $data->id_detail_title                      = 'tech_name';
-            $data->id_detail                            = '11';
-            $data->value                                = $this->tech_name;
-            $data->save();
-
-            $data                                       = new \App\Models\VendorManagementgi();
-            $data->id_supplier                          = $this->selected_id;
-            $data->id_detail_group                      = '1';
-            $data->id_detail_title                      = 'tech_phone';
-            $data->id_detail                            = '12';
-            $data->value                                = $this->tech_phone;
-            $data->save();
-
-            $data                                       = new \App\Models\VendorManagementgi();
-            $data->id_supplier                          = $this->selected_id;
-            $data->id_detail_group                      = '1';
-            $data->id_detail_title                      = 'tech_email';
-            $data->id_detail                            = '13';
-            $data->value                                = $this->tech_email;
-            $data->save();
-
-            $data                                       = new \App\Models\VendorManagementgi();
-            $data->id_supplier                          = $this->selected_id;
-            $data->id_detail_group                      = '1';
-            $data->id_detail_title                      = 'notas_gi';
-            $data->id_detail                            = '14';
-            $data->value                                = $this->notas_gi;
-            $data->save();
-
-
         }
-        
     
         
         
-        $update                         = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-            
-        if($this->owner_licence_ktp && $this->owner_licence_npwp){
+        $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        $checkktp                     = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 2)->first();
+        $checknpwp                    = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 3)->first();
+
+        
+
+        if($checkktp->value != NULL && $checkktp->npwp != NULL){
             if($update->supplier_category == 'Service - Company'){
                 $update->ci_complete_licence = '70';
             }else{
@@ -201,11 +81,12 @@ class Criteriageneralinformation extends Component
             if($update->general_information == '' || $update->general_information == NULL){
                 $update->general_information = 0 + $update->ci_complete_licence;
             }else{
-                $update->general_information = $update->general_information + $update->ci_complete_licence;
+                // $update->general_information = $update->general_information + $update->ci_complete_licence;
+                $update->general_information = 0 + $update->ci_complete_licence;
             }
         }
 
-        if($this->hq_add){
+        if(\App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 5)->first()){
             $update->ci_hq = '20';
             if($update->general_information == '' || $update->general_information == NULL){
                 $update->general_information = 0 + $update->ci_hq;
@@ -228,16 +109,18 @@ class Criteriageneralinformation extends Component
     }
 
     public function updatedata($field, $id){
-        $check = \App\Models\VendorManagementgi::where('id_supplier',$this->selected_id)->where('id_detail_title', $field)->first();
-        $check->value = $this->valueconcat($id);
+        $check = \App\Models\VendorManagementgi::where('id_supplier',$this->selected_id)->where('id_detail', $id)->first();
+        
+        $check->value = $this->valueconcat($field, $id);
         $check->save();
 
-
-        return view('livewire.vendor-management.criteriageneralinformation');    
+        session()->flash('message-success',"Criteria General Information Successfully Update!!!");
+        return view('livewire.vendor-management.criteriageneralinformation');  
+        
     }
 
-    public function valueconcat($i){
-        $fields = 'value'.$i;
+    public function valueconcat($field, $i){
+        $fields = $field.$i;
         return $this->$fields;
     }
 
@@ -250,13 +133,6 @@ class Criteriageneralinformation extends Component
         $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
         $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
         
-        // if($hours > 0){
-        //     $waktu = $hours.'.'.$minuts.' hours';
-        //     // $waktu = $hours;
-        // }else{
-        //     $waktu = $minuts.' minute';
-        //     // $waktu = $minuts;
-        // }
 
         $waktu = '';
         if($months > 0){

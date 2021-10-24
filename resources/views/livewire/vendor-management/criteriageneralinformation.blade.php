@@ -29,33 +29,12 @@
                                     </div>
                                     <hr>
                                     <div class="row">
-                                        <!-- <div class="col-md-12 form-group">
-                                            <label>Complete Licence (Company 50% - Personal 20%)</label>
-                                            
-                                            <select class="form-control" wire:model="complete_licence" name="" id="">
-                                                <option value="1">Yes</option>
-                                                <option value="0">No</option>
-                                            </select>
-                                            @error('ehs_quality_management')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Have HQ Office (20%)</label>
-                                            
-                                            <select class="form-control" wire:model="hq_office" name="" id="">
-                                                <option value="1">Yes</option>
-                                                <option value="0">No</option>
-                                            </select>
-                                            @error('ehs_quality_management')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div> -->
                                         <div class="col-md-4">
                                             <div class="row">
                                                 <div class="col-md-12" style="margin-bottom: 10px;">
                                                     <div class="form-group">
                                                         <label >Supplier Owner Name :</label>
+                                                        <input type="hidden" class="form-control" value="Owner Name" wire:model="service_type1">
                                                     </div>
                                                 </div>
                                             </div>
@@ -63,6 +42,7 @@
                                                 <div class="col-md-12" style="margin-bottom: 10px;">
                                                     <div class="form-group">
                                                         <label><b>Supplier Owner Licence KTP :</b> </label>
+                                                        <input type="hidden" class="form-control" value="owner_licence_ktp" wire:model="service_type2">
                                                     </div>
                                                 </div>
                                             </div>
@@ -70,6 +50,7 @@
                                                 <div class="col-md-12" style="margin-bottom: 8px;">
                                                     <div class="form-group">
                                                         <label><b>Supplier Owner Licence NPWP :</b> </label>
+                                                        <input type="hidden" class="form-control" value="owner_licence_npwp" wire:model="service_type3">
                                                     </div>
                                                 </div>
                                             </div>
@@ -77,6 +58,7 @@
                                                 <div class="col-md-12" style="margin-bottom: 10px;">
                                                     <div class="form-group">
                                                         <label>Establish year :</label>
+                                                        <input type="hidden" class="form-control" value="est_year" wire:model="service_type4">
                                                     </div>
                                                 </div>
                                             </div>
@@ -84,6 +66,7 @@
                                                 <div class="col-md-12" style="height: 150px; overflow:hidden;">
                                                     <div class="form-group" >
                                                         <label>HQ Address :</label>
+                                                        <input type="hidden" class="form-control" value="hq_add" wire:model="service_type5">
                                                     </div>
                                                 </div>
                                             </div>
@@ -91,6 +74,7 @@
                                                 <div class="col-md-12" style="height: 140px; overflow:hidden;">
                                                     <div class="form-group">
                                                     <label>Branch Address :</label>
+                                                    <input type="hidden" class="form-control" value="branch_add" wire:model="service_type6">
                                                     </div>
                                                 </div>
                                             </div>
@@ -98,6 +82,7 @@
                                                 <div class="col-md-12" style="margin-bottom: 10px;">
                                                     <div class="form-group">
                                                     <label>Telephone - office :</label>
+                                                    <input type="hidden" class="form-control" value="telp_office" wire:model="service_type7">
                                                 </div>
                                                 </div>
                                             </div>
@@ -105,6 +90,7 @@
                                                 <div class="col-md-12" style="margin-bottom: 10px;">
                                                     <div class="form-group">
                                                         <label>Commercial Contact Name :</label>
+                                                        <input type="hidden" class="form-control" value="com_name" wire:model="service_type8">
                                                     </div>
                                                 </div>
                                             </div>
@@ -112,6 +98,7 @@
                                                 <div class="col-md-12" style="margin-bottom: 10px;">
                                                     <div class="form-group">
                                                     <p>Phone / Handphone:</p>
+                                                    <input type="hidden" class="form-control" value="com_phone" wire:model="service_type9">
                                                 </div>
                                                 </div>
                                             </div>
@@ -119,6 +106,7 @@
                                                 <div class="col-md-12" style="margin-bottom: 10px;">
                                                     <div class="form-group">
                                                         <p>Email :</p>
+                                                        <input type="hidden" class="form-control" value="com_email" wire:model="service_type10">
                                                     </div>
                                                 </div>
                                             </div>
@@ -126,6 +114,7 @@
                                                 <div class="col-md-12" style="margin-bottom: 10px;">
                                                     <div class="form-group">
                                                     <label>Technical Contact Name :</label>
+                                                    <input type="hidden" class="form-control" value="tech_name" wire:model="service_type11">
                                                 </div>
                                                 </div>
                                             </div>
@@ -133,6 +122,7 @@
                                                 <div class="col-md-12" style="margin-bottom: 10px;">
                                                     <div class="form-group">
                                                     <p>Phone / Handphone:</p>
+                                                    <input type="hidden" class="form-control" value="tech_phone" wire:model="service_type12">
                                                 </div>
                                                 </div>
                                             </div>
@@ -140,13 +130,15 @@
                                                 <div class="col-md-12" style="margin-bottom: 10px;">
                                                     <div class="form-group">
                                                     <p>Email :</p>
-                                                </div>
+                                                    <input type="hidden" class="form-control" value="tech_email" wire:model="service_type13">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12" style="margin-bottom: 10px;">
                                                     <div class="form-group">
                                                         <label>Notas :</label>
+                                                        <input type="hidden" class="form-control" value="notas_gi" wire:model="service_type14">
                                                     </div>
                                                 </div>
                                             </div>
@@ -159,11 +151,11 @@
                                                         <?php
                                                             if(count($check_data) > 0){
                                                                
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'owner_name')->first();
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '1')->first();
                                                                 
                                                                 $count = $get_data['value'];      
                                                         ?>
-                                                            <input type="text" wire:change="updatedata('owner_name', '1')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value1"/>
+                                                            <input type="text" wire:change="updatedata('value', '1')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value1"/>
                                                         <?php
                                                             }else{
                                                         ?>
@@ -184,10 +176,10 @@
                                                     <div class="form-group">
                                                         <?php
                                                             if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'owner_licence_ktp')->first();
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '2')->first();
                                                                 $count = $get_data['value'];      
                                                         ?>
-                                                            <input type="text" wire:change="updatedata('owner_licence_ktp', '2')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value2"/>
+                                                            <input type="text" wire:change="updatedata('value', '2')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value2"/>
                                                         <?php
                                                             }else{
                                                         ?>
@@ -208,12 +200,12 @@
                                                     <div class="form-group">
                                                         <?php
                                                             if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'owner_licence_npwp')->first();
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '3')->first();
                                                                 $count = $get_data['value'];
                                                                 
                                                         ?>
                                                             
-                                                            <input type="text" wire:change="updatedata('owner_licence_npwp', '3')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value3"/>
+                                                            <input type="text" wire:change="updatedata('value', '3')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value3"/>
                                                         <?php
                                                             }else{
                                                         ?>
@@ -234,12 +226,12 @@
                                                     <div class="form-group">
                                                         <?php
                                                             if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'est_year')->first();
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '4')->first();
                                                                 $count = $get_data['value'];
                                                                 
                                                         ?>
                                                             
-                                                            <input type="text" wire:change="updatedata('est_year', '4')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value4"/>
+                                                            <input type="text" wire:change="updatedata('value', '4')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value4"/>
                                                         <?php
                                                             }else{
                                                         ?>
@@ -260,13 +252,13 @@
                                                     <div class="form-group">
                                                         <?php
                                                             if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'hq_add')->first();
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '5')->first();
                                                                 $count = $get_data['value'];
                                                                 
                                                         ?>
                                                             
                                                             <!-- <input type="text" wire:change="updatedata('hq_add')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="est_year"/> -->
-                                                            <textarea wire:change="updatedata('hq_add', '5')"  name="" id="" cols="30" rows="6" placeholder="{{ $count }}" class="form-control" wire:model="value5"><?php echo $count; ?></textarea>
+                                                            <textarea wire:change="updatedata('value', '5')"  name="" id="" cols="30" rows="6" placeholder="{{ $count }}" class="form-control" wire:model="value5"><?php echo $count; ?></textarea>
                                                         <?php
                                                             }else{
                                                         ?>
@@ -289,11 +281,11 @@
                                                     <div class="form-group">
                                                         <?php
                                                             if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'branch_add')->first();
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '6')->first();
                                                                 $count = $get_data['value'];
                                                                 
                                                         ?>
-                                                            <textarea wire:change="updatedata('branch_add', '6')"  name="" id="" cols="30" rows="6" placeholder="{{ $count }}" class="form-control" wire:model="value6"><?php echo $count; ?></textarea>
+                                                            <textarea wire:change="updatedata('value', '6')"  name="" id="" cols="30" rows="6" placeholder="{{ $count }}" class="form-control" wire:model="value6"><?php echo $count; ?></textarea>
                                                         <?php
                                                             }else{
                                                         ?>
@@ -315,10 +307,10 @@
                                                     <div class="form-group">
                                                         <?php
                                                             if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'telp_office')->first();
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '7')->first();
                                                                 $count = $get_data['value'];
                                                         ?>
-                                                            <input wire:change="updatedata('telp_office', '7')" type="text" placeholder="{{ $count }}" class="form-control" wire:model="value7"/>
+                                                            <input wire:change="updatedata('value', '7')" type="text" placeholder="{{ $count }}" class="form-control" wire:model="value7"/>
                                                         <?php
                                                             }else{
                                                         ?>
@@ -339,10 +331,10 @@
                                                     <div class="form-group">
                                                         <?php
                                                             if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'com_name')->first();
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '8')->first();
                                                                 $count = $get_data['value'];
                                                         ?>
-                                                            <input wire:change="updatedata('com_name', '8')" type="text" placeholder="{{ $count }}" class="form-control" wire:model="value8"/>
+                                                            <input wire:change="updatedata('value', '8')" type="text" placeholder="{{ $count }}" class="form-control" wire:model="value8"/>
                                                         <?php
                                                             }else{
                                                         ?>
@@ -363,10 +355,10 @@
                                                     <div class="form-group">
                                                         <?php
                                                             if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'com_phone')->first();
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '9')->first();
                                                                 $count = $get_data['value'];
                                                         ?>
-                                                            <input wire:change="updatedata('com_phone', '9')" type="text" placeholder="{{ $count }}" class="form-control" wire:model="value9"/>
+                                                            <input wire:change="updatedata('value', '9')" type="text" placeholder="{{ $count }}" class="form-control" wire:model="value9"/>
                                                         <?php
                                                             }else{
                                                         ?>
@@ -387,10 +379,10 @@
                                                     <div class="form-group">
                                                         <?php
                                                             if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'com_email')->first();
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '10')->first();
                                                                 $count = $get_data['value'];
                                                         ?>
-                                                            <input wire:change="updatedata('com_email', '10')" type="email" placeholder="{{ $count }}" class="form-control" wire:model="value10"/>
+                                                            <input wire:change="updatedata('value', '10')" type="email" placeholder="{{ $count }}" class="form-control" wire:model="value10"/>
                                                         <?php
                                                             }else{
                                                         ?>
@@ -411,10 +403,10 @@
                                                     <div class="form-group">
                                                         <?php
                                                             if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'tech_name')->first();
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '11')->first();
                                                                 $count = $get_data['value'];
                                                         ?>
-                                                            <input wire:change="updatedata('tech_name', '11')" type="text" placeholder="{{ $count }}" class="form-control" wire:model="value11"/>
+                                                            <input wire:change="updatedata('value', '11')" type="text" placeholder="{{ $count }}" class="form-control" wire:model="value11"/>
                                                         <?php
                                                             }else{
                                                         ?>
@@ -435,10 +427,10 @@
                                                     <div class="form-group">
                                                         <?php
                                                             if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'tech_phone')->first();
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '12')->first();
                                                                 $count = $get_data['value'];
                                                         ?>
-                                                            <input wire:change="updatedata('tech_phone', '12')" type="text" placeholder="{{ $count }}" class="form-control" wire:model="value12"/>
+                                                            <input wire:change="updatedata('value', '12')" type="text" placeholder="{{ $count }}" class="form-control" wire:model="value12"/>
                                                         <?php
                                                             }else{
                                                         ?>
@@ -459,10 +451,10 @@
                                                     <div class="form-group">
                                                         <?php
                                                             if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'tech_email')->first();
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '13')->first();
                                                                 $count = $get_data['value'];
                                                         ?>
-                                                            <input wire:change="updatedata('tech_email', '13')" type="email" placeholder="{{ $count }}" class="form-control" wire:model="value13"/>
+                                                            <input wire:change="updatedata('value', '13')" type="email" placeholder="{{ $count }}" class="form-control" wire:model="value13"/>
                                                         <?php
                                                             }else{
                                                         ?>
@@ -483,11 +475,11 @@
                                                     <div class="form-group">
                                                         <?php
                                                             if(count($check_data) > 0){
-                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail_title', 'notas_gi')->first();
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '14')->first();
                                                                 $count = $get_data['value'];
                                                                 
                                                         ?>
-                                                            <textarea wire:change="updatedata('notas_gi', '14')"  name="" id="" cols="30" rows="6" placeholder="{{ $count }}" class="form-control" wire:model="value14"><?php echo $count; ?></textarea>
+                                                            <textarea wire:change="updatedata('value', '14')"  name="" id="" cols="30" rows="6" placeholder="{{ $count }}" class="form-control" wire:model="value14"><?php echo $count; ?></textarea>
                                                         <?php
                                                             }else{
                                                         ?>
@@ -528,8 +520,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="main_cust"/>
-                                                @error('main_cust')
+                                                <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '15')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '15')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value15"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    <input type="text" class="form-control" wire:model="value15"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
+                                                @error('value15')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -539,8 +544,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="gov_client"/>
-                                                @error('gov_client')
+                                                <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '16')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '16')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value16"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    <input type="text" class="form-control" wire:model="value16"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
+                                                @error('value16')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -550,8 +568,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="other_cust"/>
-                                                @error('other_cust')
+                                                <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '17')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '17')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value17"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    <input type="text" class="form-control" wire:model="value17"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
+                                                @error('value17')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -561,8 +592,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="inv_amount_3"/>
-                                                @error('inv_amount_3')
+                                                <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '18')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '18')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value18"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    <input type="text" class="form-control" wire:model="value18"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
+                                                @error('value18')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -572,8 +616,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="inv_amount_2"/>
-                                                @error('inv_amount_2')
+                                                <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '19')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '19')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value19"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    <input type="text" class="form-control" wire:model="value19"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
+                                                @error('value19')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -583,8 +640,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="inv_amount_1"/>
-                                                @error('inv_amount_1')
+                                                <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '20')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '20')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value20"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    <input type="text" class="form-control" wire:model="value20"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
+                                                @error('value20')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -596,16 +666,42 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" placeholder="Asset" wire:model="balance_asset_3"/>
-                                                        @error('balance_asset_3')
+                                                        <?php
+                                                            if(count($check_data) > 0){
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '21')->first();
+                                                                $count = $get_data['value'];      
+                                                        ?>
+                                                            <input type="text" wire:change="updatedata('value', '21')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value21"/>
+                                                        <?php
+                                                            }else{
+                                                        ?>
+                                                            <input type="text" class="form-control" wire:model="value21"/>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                        
+                                                        @error('value21')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                         @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" placeholder="Liability" wire:model="balance_liab_3"/>
-                                                        @error('balance_liab_3')
+                                                        <?php
+                                                            if(count($check_data) > 0){
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '22')->first();
+                                                                $count = $get_data['value'];      
+                                                        ?>
+                                                            <input type="text" wire:change="updatedata('value', '22')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value22"/>
+                                                        <?php
+                                                            }else{
+                                                        ?>
+                                                            <input type="text" class="form-control" placeholder="Liability" wire:model="value22"/>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                        
+                                                        @error('value22')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                         @enderror
                                                     </div>
@@ -620,16 +716,42 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" placeholder="Asset" wire:model="balance_asset_2"/>
-                                                        @error('balance_asset_2')
+                                                        <?php
+                                                            if(count($check_data) > 0){
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '23')->first();
+                                                                $count = $get_data['value'];      
+                                                        ?>
+                                                            <input type="text" wire:change="updatedata('value', '23')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value23"/>
+                                                        <?php
+                                                            }else{
+                                                        ?>
+                                                            <input type="text" class="form-control" placeholder="Asset" wire:model="value23"/>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                        
+                                                        @error('value23')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                         @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" placeholder="Liability" wire:model="balance_liab_2"/>
-                                                        @error('balance_liab_2')
+                                                        <?php
+                                                            if(count($check_data) > 0){
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '24')->first();
+                                                                $count = $get_data['value'];      
+                                                        ?>
+                                                            <input type="text" wire:change="updatedata('value', '24')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value24"/>
+                                                        <?php
+                                                            }else{
+                                                        ?>
+                                                            <input type="text" class="form-control" placeholder="Liability" wire:model="value24"/>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                        
+                                                        @error('value24')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                         @enderror
                                                     </div>
@@ -643,16 +765,42 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" placeholder="Asset" wire:model="balance_asset_1"/>
-                                                        @error('balance_asset_1')
+                                                    <?php
+                                                            if(count($check_data) > 0){
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '25')->first();
+                                                                $count = $get_data['value'];      
+                                                        ?>
+                                                            <input type="text" wire:change="updatedata('value', '25')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value25"/>
+                                                        <?php
+                                                            }else{
+                                                        ?>
+                                                            <input type="text" class="form-control" placeholder="Asset" wire:model="value25"/>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                        
+                                                        @error('value25')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                         @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" placeholder="Liability" wire:model="balance_liab_1"/>
-                                                        @error('balance_liab_1')
+                                                    <?php
+                                                            if(count($check_data) > 0){
+                                                                $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '26')->first();
+                                                                $count = $get_data['value'];      
+                                                        ?>
+                                                            <input type="text" wire:change="updatedata('value', '26')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value26"/>
+                                                        <?php
+                                                            }else{
+                                                        ?>
+                                                            <input type="text" class="form-control" placeholder="Liability" wire:model="value26"/>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                        
+                                                        @error('value26')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                         @enderror
                                                     </div>
@@ -664,8 +812,23 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <textarea name="" id="" cols="30" rows="6" class="form-control" wire:model="notas_fs"></textarea>
-                                                @error('notas_fs')
+                                                <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '27')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <!-- <input type="text" wire:change="updatedata('value', '27')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value27"/> -->
+                                                    <textarea wire:change="updatedata('value', '27')"   name="" id="" cols="30" rows="6" class="form-control" wire:model="value27" placeholder="{{ $count }}">{{ $count }}</textarea>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <textarea name="" id="" cols="30" rows="6" class="form-control" wire:model="value27"></textarea>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
+                                                @error('value27')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
@@ -693,7 +856,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="fin_name"/>
+                                                <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '28')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '28')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value28"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value28"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
                                                 @error('fin_name')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -704,7 +881,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="fin_pos"/>
+                                                <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '29')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '29')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value29"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value29"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
                                                 @error('fin_pos')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -715,7 +906,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="fin_hp"/>
+                                            <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '30')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '30')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value30"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value30"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
                                                 @error('fin_hp')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -726,7 +931,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="bank_name"/>
+                                                <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '31')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '31')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value31"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value31"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
                                                 @error('bank_name')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -737,7 +956,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="bank_addr"/>
+                                                <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '32')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '32')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value32"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value32"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="text" class="form-control" wire:model="bank_addr"/> -->
                                                 @error('bank_addr')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -748,7 +981,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="country"/>
+                                            <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '33')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '33')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value33"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value33"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="text" class="form-control" wire:model="country"/> -->
                                                 @error('country')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -759,7 +1006,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="curr"/>
+                                                <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '34')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '34')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value34"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value34"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="text" class="form-control" wire:model="curr"/> -->
                                                 @error('curr')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -770,7 +1031,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="bank_acc_owner"/>
+                                                <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '35')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '35')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value35"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value35"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="text" class="form-control" wire:model="bank_acc_owner"/> -->
                                                 @error('bank_acc_owner')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -781,7 +1056,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="bank_acc_num"/>
+                                            <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '36')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '36')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value36"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value36"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="text" class="form-control" wire:model="bank_acc_num"/> -->
                                                 @error('bank_acc_num')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -792,7 +1081,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" wire:model="swift_code"/>
+                                                <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '37')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '37')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value37"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value37"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="text" class="form-control" wire:model="swift_code"/> -->
                                                 @error('swift_code')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -803,7 +1106,22 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <textarea name="" id="" cols="30" rows="6" class="form-control" wire:model="notas_bi"></textarea>
+                                            <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '38')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <!-- <input type="text" wire:change="updatedata('value', '38')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value38"/> -->
+                                                    <textarea wire:change="updatedata('value', '38')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value38"></textarea>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    <textarea name="" id="" cols="30" rows="6" class="form-control" wire:model="value38"></textarea>
+                                                    
+                                                <?php
+                                                    }
+                                                ?>
+                                                
                                                 @error('notas_bi')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -832,7 +1150,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="number" class="form-control" wire:model="employees_qty"/>
+                                            <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '39')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '39')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value39"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value39"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="number" class="form-control" wire:model="employees_qty"/> -->
                                                 @error('employees_qty')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -843,7 +1175,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="number" class="form-control" wire:model="mngr_qty"/>
+                                                <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '40')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '40')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value40"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value40"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="number" class="form-control" wire:model="mngr_qty"/> -->
                                                 @error('mngr_qty')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -854,7 +1200,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="number" class="form-control" wire:model="spv_qty"/>
+                                            <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '41')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '41')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value41"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value41"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="number" class="form-control" wire:model="spv_qty"/> -->
                                                 @error('spv_qty')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -865,7 +1225,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="number" class="form-control" wire:model="engineer_qty"/>
+                                            <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '42')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '42')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value42"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value42"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="number" class="form-control" wire:model="engineer_qty"/> -->
                                                 @error('engineer_qty')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -876,7 +1250,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="number" class="form-control" wire:model="tech_qty"/>
+                                            <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '43')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '43')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value43"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value43"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="number" class="form-control" wire:model="tech_qty"/> -->
                                                 @error('tech_qty')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -887,7 +1275,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="number" class="form-control" wire:model="adm_qty"/>
+                                            <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '44')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '44')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value44"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value44"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="number" class="form-control" wire:model="adm_qty"/> -->
                                                 @error('adm_qty')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -898,7 +1300,21 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <input type="number" class="form-control" wire:model="other_qty"/>
+                                            <?php
+                                                    if(count($check_data) > 0){
+                                                        $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '45')->first();
+                                                        $count = $get_data['value'];      
+                                                ?>
+                                                    <input type="text" wire:change="updatedata('value', '45')"  class="form-control" placeholder="{{ $count }}" class="form-control" wire:model="value45"/>
+                                                <?php
+                                                    }else{
+                                                ?>
+                                                    
+                                                    <input type="text" class="form-control" wire:model="value45"/>
+                                                <?php
+                                                    }
+                                                ?>
+                                                <!-- <input type="number" class="form-control" wire:model="other_qty"/> -->
                                                 @error('other_qty')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -911,7 +1327,7 @@
                             </div>
 
                             <div class="col-md-12">
-                                @if(!$check_data)
+                                @if(count($check_data) < 1)
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                 </div>
