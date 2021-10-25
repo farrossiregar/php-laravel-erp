@@ -1300,7 +1300,7 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                            <?php
+                                                <?php
                                                     if(count($check_data) > 0){
                                                         $get_data = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '45')->first();
                                                         $count = $get_data['value'];      

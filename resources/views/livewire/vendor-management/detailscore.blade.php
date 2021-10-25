@@ -5,14 +5,25 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-eye"></i> Detail Score</h5>
+                    <div class="col-md-8">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-eye"></i> Detail Score</h5>
+                    </div>
+                    <div class="col-md-4">
+                        <form wire:submit.prevent="save">
+                            @csrf
+                            <!-- <a href="javascript:;"  wire:click="$emit('downloadevaluasi','{{ $selected_id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-download"></i> Download Evaluasi</a> -->
+                            <button type="submit" class="btn btn-info close-modal"><i class="fa fa-download"></i> Download Scoring</button>
+                            
+                        </form>
+                    </div>
+                    
                 </div>
 
                 <hr>
                 <div class="body pt-0">
                     <div class="form-group">
-                        <form wire:submit.prevent="save">
-                            @csrf
+                        <!-- <form wire:submit.prevent="save"> -->
+                            
                             <div class="row">
                                 <div class="col-md-12 form-group">
                                     <div class="row">
@@ -44,7 +55,7 @@
                                             <input type="number" min='0' max="100" class="form-control" wire:model="tools_facilities" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <a href="{{ route('vendor-management.commercial-compliance',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Tools & Facilities</a>
+                                            <a href="{{ route('vendor-management.tools-facilities',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Tools & Facilities</a>
                                         </div>
                                     </div>
                                     <br>
@@ -137,14 +148,14 @@
                              
                                     </div>
                                 </div>
-                                
+<!--                                 
                                 <div class="col-md-12 form-group">
                                     <hr />
-                                    <!-- <a href="{{route('accident-report.index')}}" class="mr-2"><i class="fa fa-arrow-left"></i> {{ __('Back') }}</a> -->
+                                    
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
-                                </div>
+                                </div> -->
                             </div>
-                        </form>
+                        <!-- </form> -->
                     </div>
                 </div>
             </div>
