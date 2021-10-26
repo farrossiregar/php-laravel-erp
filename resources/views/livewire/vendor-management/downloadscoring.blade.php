@@ -67,9 +67,16 @@
                 <td><b>01. General Information</b></td>
                 <td ><b> Company Legality Compliance </b></td>
                 <td><b>{{ $vendor_management['general_information'] }}</b></td>
+                
+                @if($vendor_management['supplier_category'] != 'Material Supplier')
                 <td><b>10%</b></td>
                 <td ><b><?php echo ($vendor_management['general_information'] * 10) / 100 ?></b></td>
+                @else
+                <td><b>40%</b></td>
+                <td ><b><?php echo ($vendor_management['general_information'] * 40) / 100 ?></b></td>
+                @endif
             </tr>
+            @if($vendor_management['supplier_category'] != 'Material Supplier')
             <tr>
                 <td><b>02. Team Availability</b></td>
                 <td ><b> Quantity & Quality to support work  </b></td>
@@ -91,12 +98,22 @@
                 <td><b>20%</b></td>
                 <td ><b><?php echo ($vendor_management['ehs_quality_management'] * 20) / 100 ?></b></td>
             </tr>
+            @endif
             <tr>
+                @if($vendor_management['supplier_category'] != 'Material Supplier')
                 <td><b>05. Commercial Compliance</b></td>
+                @else
+                <td><b>02. Commercial Compliance</b></td>
+                @endif
                 <td ><b> Competitive Pricing, Lead Time, and Payment Term  </b></td>
                 <td><b>{{ $vendor_management['commercial_compliance'] }}</b></td>
+                @if($vendor_management['supplier_category'] != 'Material Supplier')
                 <td><b>25%</b></td>
                 <td ><b><?php echo ($vendor_management['commercial_compliance'] * 25) / 100 ?></b></td>
+                @else
+                <td><b>60%</b></td>
+                <td ><b><?php echo ($vendor_management['commercial_compliance'] * 60) / 100 ?></b></td>
+                @endif
             </tr>
             <tr>
                 <td colspan="2"></td>

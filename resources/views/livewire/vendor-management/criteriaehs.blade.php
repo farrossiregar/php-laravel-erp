@@ -31,98 +31,98 @@
                                        
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <label>Standard Rigger Tools</label>
+                                                <label>Company Structure - Organization, Diagram</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <select name="" id="" class="form-control" wire:model="value1">
                                                         <option value=""></option>
-                                                        <option value="">Have</option>
-                                                        <option value="">Not Have</option>
+                                                        <option value="1">Have</option>
+                                                        <option value="0">Not Have</option>
                                                     </select>
                                                     
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label>Standard Rigger Tools</label>
+                                                <label>Project Management - Organization, Diagram or Process</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <select name="" id="" class="form-control" wire:model="value1">
+                                                    <select name="" id="" class="form-control" wire:model="value2">
                                                         <option value=""></option>
-                                                        <option value="">Have</option>
-                                                        <option value="">Not Have</option>
+                                                        <option value="1">Have</option>
+                                                        <option value="0">Not Have</option>
                                                     </select>
                                                     
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label>Standard Rigger Tools</label>
+                                                <label>Quality Management - Diagram or Process</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <select name="" id="" class="form-control" wire:model="value1">
+                                                    <select name="" id="" class="form-control" wire:model="value3">
                                                         <option value=""></option>
-                                                        <option value="">Have</option>
-                                                        <option value="">Not Have</option>
+                                                        <option value="1">Have</option>
+                                                        <option value="0">Not Have</option>
                                                     </select>
                                                     
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label>Standard Rigger Tools</label>
+                                                <label>Training Management - Diagram or Process</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <select name="" id="" class="form-control" wire:model="value1">
+                                                    <select name="" id="" class="form-control" wire:model="value4">
                                                         <option value=""></option>
-                                                        <option value="">Have</option>
-                                                        <option value="">Not Have</option>
+                                                        <option value="1">Have</option>
+                                                        <option value="0">Not Have</option>
                                                     </select>
                                                     
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label>Standard Rigger Tools</label>
+                                                <label>Project Reporting - Diagram or Process</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <select name="" id="" class="form-control" wire:model="value1">
+                                                    <select name="" id="" class="form-control" wire:model="value5">
                                                         <option value=""></option>
-                                                        <option value="">Have</option>
-                                                        <option value="">Not Have</option>
+                                                        <option value="1">Have</option>
+                                                        <option value="0">Not Have</option>
                                                     </select>
                                                     
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label>Standard Rigger Tools</label>
+                                                <label>Documentation management - Diagram or Process</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <select name="" id="" class="form-control" wire:model="value1">
+                                                    <select name="" id="" class="form-control" wire:model="value6">
                                                         <option value=""></option>
-                                                        <option value="">Have</option>
-                                                        <option value="">Not Have</option>
+                                                        <option value="1">Have</option>
+                                                        <option value="0">Not Have</option>
                                                     </select>
                                                     
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label>Standard Rigger Tools</label>
+                                                <label>Others</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <select name="" id="" class="form-control" wire:model="value1">
+                                                    <select name="" id="" class="form-control" wire:model="value7">
                                                         <option value=""></option>
-                                                        <option value="">Have</option>
-                                                        <option value="">Not Have</option>
+                                                        <option value="1">Have</option>
+                                                        <option value="0">Not Have</option>
                                                     </select>
                                                     
                                                 </div>
@@ -148,74 +148,74 @@
                                        
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <label>Standard Rigger Tools</label>
+                                                <label>Working at High (TKPK TK1)</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <input type="number" class="form-control">
+                                                    <input type="number" class="form-control"  wire:model="value8">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label>Standard Rigger Tools</label>
+                                                <label>Working at High (TKBT TK2)</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <input type="number" class="form-control">
+                                                    <input type="number" class="form-control" wire:model="value9">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label>Standard Rigger Tools</label>
+                                                <label>Basic Electrical</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <input type="number" class="form-control">
+                                                    <input type="number" class="form-control" wire:model="value10">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label>Standard Rigger Tools</label>
+                                                <label>First Aid </label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <input type="number" class="form-control">
+                                                    <input type="number" class="form-control" wire:model="value11">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label>Standard Rigger Tools</label>
+                                                <label>K3</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <input type="number" class="form-control">
+                                                    <input type="number" class="form-control" wire:model="value12">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label>Standard Rigger Tools</label>
+                                                <label>Huawei Pass ID - L0 </label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <input type="number" class="form-control">
+                                                    <input type="number" class="form-control" wire:model="value13">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label>Standard Rigger Tools</label>
+                                                <label>Huawei Pass ID - L1</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <input type="number" class="form-control">
+                                                    <input type="number" class="form-control" wire:model="value14">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label>Standard Rigger Tools</label>
+                                                <label>Others … </label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <input type="number" class="form-control">
+                                                    <input type="number" class="form-control" wire:model="value15">
                                                 </div>
                                             </div>
 
@@ -253,7 +253,7 @@
                                     
                                     <hr>
                                     <h1 style="font-size: 65px">
-                                        {{ @$value1 + @$value2 + @$value3 + @$value4 }}
+                                        {{ $data['ehs_quality_management'] }}
                                     </h1>
                                 </div>
                             </div>
@@ -263,7 +263,7 @@
                                     <h5>Company Structure</h5>
                                     <hr>
                                     <h1 style="font-size: 50px">
-                                        {{ @$value1 }}
+                                    {{ $data['ehs_company_structure'] }}
                                     </h1>
                                 </div>
                             </div>
@@ -272,7 +272,7 @@
                                     <h5>Quality Management</h5>
                                     <hr>
                                     <h1 style="font-size: 50px">
-                                        {{ @$value1 }}
+                                    {{ $data['ehs_qualitymanagement'] }}
                                     </h1>
                                 </div>
                             </div>
@@ -282,7 +282,7 @@
                                     <h5>Training Management</h5>
                                     <hr>
                                     <h1 style="font-size: 50px">
-                                        {{ @$value1 }}
+                                        {{ $data['ehs_training_management'] }}
                                     </h1>
                                 </div>
                             </div>
@@ -292,7 +292,7 @@
                                     <h5>Project Reporting</h5>
                                     <hr>
                                     <h1 style="font-size: 50px">
-                                        {{ @$value1 }}
+                                        {{ $data['ehs_project_management'] }}
                                     </h1>
                                 </div>
                             </div>
@@ -302,7 +302,7 @@
                                     <h5>Documentation Management</h5>
                                     <hr>
                                     <h1 style="font-size: 50px">
-                                        {{ @$value1 }}
+                                    {{ $data['ehs_documentation'] }}
                                     </h1>
                                 </div>
                             </div>
@@ -312,7 +312,7 @@
                                     <h5>Cerificate Category</h5>
                                     <hr>
                                     <h1 style="font-size: 50px">
-                                        {{ @$value1 }}
+                                    {{ $data['ehs_certificate'] }}
                                     </h1>
                                 </div>
                             </div>
