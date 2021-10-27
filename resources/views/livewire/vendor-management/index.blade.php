@@ -177,6 +177,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-vendormanagement-summarynoteimprovementpoint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.summarynoteimprovementpoint />
+        </div>
+    </div>
+</div>
+
 
 @section('page-script')
 
@@ -223,6 +231,10 @@
 
     Livewire.on('modaldetailscore',(data)=>{
         $("#modal-vendormanagement-detailscore").modal('show');
+    });
+
+    Livewire.on('modalsummarynoteimprovementpoint',(data)=>{
+        $("#modal-vendormanagement-summarynoteimprovementpoint").modal('show');
     });
 
     

@@ -1045,7 +1045,7 @@
                                                 <?php
                                                     }
                                                 ?>
-                                                <!-- <input type="text" class="form-control" wire:model="bank_acc_owner"/> -->
+                                                
                                                 @error('bank_acc_owner')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror

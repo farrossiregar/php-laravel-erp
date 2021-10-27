@@ -49,6 +49,8 @@
                         <th>Tools & Resource</th> 
                         <th>Certification of Resources</th> 
                         <th>Scoring</th> 
+                        <th>Summary Note</th> 
+                        <th>Improvement Point</th> 
                         <th>Supplier Registration Date</th> 
                         <th>Status</th> 
                         <!-- <th>Action</th>  -->
@@ -99,6 +101,14 @@
                             @endif
                         </td>
                         <td>
+                            <?php if($item->summary_note){ echo substr($item->summary_note, 0, 40).'...'; } ?>
+                            <a href="javascript:;"  wire:click="$emit('modalimportcertificationresource','{{ $item->id }}')" title="Edit" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                        </td>
+                        <td>
+                            <?php if($item->improvement_point){ echo substr($item->improvement_point, 0, 40).'...'; } ?>
+                            <a href="javascript:;"  wire:click="$emit('modalimportcertificationresource','{{ $item->id }}')" title="Edit" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                        </td>
+                        <td>
                             <?php
                                 $date_evaluation = date('Y-m-d', strtotime("+90 days", strtotime($item->supplier_registered_date)));
                                 // echo $date_evaluation;
@@ -137,6 +147,7 @@
                             
                             <label class="badge <?php echo $badgetype; ?>" data-toggle="tooltip" title="<?php echo $badgetitle; ?>">{{ date_format(date_create($item->supplier_registered_date), 'd M Y') }}</label>
                         </td>
+                        
                         <td>
                             @if($item->status == null || $item->status == '')
                                 <label class="badge badge-warning" data-toggle="tooltip" title="On Going">On Going</label>
