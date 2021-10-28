@@ -160,6 +160,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-vendormanagement-summarynoteimprovementpoint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.summarynoteimprovementpoint />
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="modal-vendormanagement-viewcomparation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document" style="max-width:70%;">
@@ -219,7 +227,11 @@
         $("#modal-vendormanagement-importcertificationresource").modal('show');
     });
 
+    Livewire.on('modalsummarynoteimprovementpoint',(data)=>{
+        $("#modal-vendormanagement-summarynoteimprovementpoint").modal('show');
+    });
 
+    
 
     Livewire.on('modalservicecriteria',(data)=>{
         $("#modal-vendormanagement-servicecriteria").modal('show');

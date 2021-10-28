@@ -102,7 +102,7 @@
                         </td>
                         <td>
                             <?php if($item->summary_note){ echo substr($item->summary_note, 0, 40).'...'; } ?>
-                            <a href="javascript:;"  wire:click="$emit('modalimportcertificationresource','{{ $item->id }}')" title="Edit" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                            <a href="javascript:;"  wire:click="$emit('modalsummarynoteimprovementpoint','{{ $item->id }}')" title="Edit" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                         </td>
                         <td>
                             <?php if($item->improvement_point){ echo substr($item->improvement_point, 0, 40).'...'; } ?>

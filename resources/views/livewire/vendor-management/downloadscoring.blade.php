@@ -133,21 +133,15 @@
             <tr>
                 <td colspan="2">
                     <b>Summary Note :</b>
-                    <ol>
-                        <li>Supplier have less asset, such as working tools, special tools, etc</li>
-                        <li>Team Quantity are still small, only 1 team available to handle the project </li>
-                        <li>Have high willingnes to complete job and also do the complete docmentation </li>
-                        <li>Compare with other supplier, this supplier are one that can follow project model by shopping list, and agree with term payment model </li>
-                    </ol>
+                    <br>
+                    <?php echo $vendor_management['summary_note']; ?>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <b>Summary Note :</b>
-                    <ol>
-                        <li>Lacking on proper feedback on administration part, like price compliance, email confirmation</li>
-                        <li>If in future, we want to expand more business with them, need to make sure they have proper management team</li>
-                    </ol>
+                    <b>Improvement Point :</b>
+                    <br>
+                    <?php echo $vendor_management['improvement_point']; ?>
                 </td>
             </tr>
             <tr>
