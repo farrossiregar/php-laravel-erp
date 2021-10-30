@@ -1,6 +1,10 @@
 <div class="row">
     <div class="col-md-2">
-        <input type="date" class="form-control" wire:model="date" />
+        <input type="date" class="form-control" placeholder="Project Name" wire:model="date" />
+    </div>
+
+    <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Project Name" wire:model="supplier_name" />
     </div>
 
 <!--     

@@ -5,45 +5,45 @@ namespace App\Http\Livewire\VendorManagement;
 use Livewire\Component;
 use Auth;
 
-class Criteriatoolsfacilities extends Component
+class Historitoolsfacilities extends Component
 {    
-    protected $listeners = [
-        'modalcriteriatoolsfacilities'=>'criteriatoolsfacilities',
-    ];
+    // protected $listeners = [
+    //     'modalcriteriatoolsfacilities'=>'criteriatoolsfacilities',
+    // ];
     public $selected_id, $data, $datavm, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
 
-    public $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $value11, $value12, $value13, $value14;
-    public $value15, $value16, $value17, $value18, $value19, $value20, $value21, $value22, $value23;
+    // public $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $value11, $value12, $value13, $value14;
+    // public $value15, $value16, $value17, $value18, $value19, $value20, $value21, $value22, $value23;
 
     public function render()
     {
-        return view('livewire.vendor-management.criteriatoolsfacilities');        
+        return view('livewire.vendor-management.historitoolsfacilities');        
     }
 
-    public function criteriatoolsfacilities($id)
-    {
-        $this->selected_id = $id;
+    // public function criteriatoolsfacilities($id)
+    // {
+    //     $this->selected_id = $id;
         
-        $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+    //     $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         
-        $this->general_information                  = $this->data->general_information;
-        $this->team_availability_capability         = $this->data->team_availability_capability;
-        $this->tools_facilities                     = $this->data->tools_facilities;
-        $this->ehs_quality_management               = $this->data->ehs_quality_management;
-        $this->commercial_compliance                = $this->data->commercial_compliance;
+    //     $this->general_information                  = $this->data->general_information;
+    //     $this->team_availability_capability         = $this->data->team_availability_capability;
+    //     $this->tools_facilities                     = $this->data->tools_facilities;
+    //     $this->ehs_quality_management               = $this->data->ehs_quality_management;
+    //     $this->commercial_compliance                = $this->data->commercial_compliance;
         
         
-    }
+    // }
 
-    public function mount($id)
-    {
-        $this->selected_id = $id;
+    // public function mount($id)
+    // {
+    //     $this->selected_id = $id;
         
-        $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        $datavm = \App\Models\VendorManagementtf::where('id_supplier', $this->selected_id);
+    //     $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+    //     $datavm = \App\Models\VendorManagementtf::where('id_supplier', $this->selected_id);
 
         
-    }
+    // }
   
     public function save()
     {

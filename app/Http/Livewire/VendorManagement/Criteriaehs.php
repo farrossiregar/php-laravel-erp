@@ -10,7 +10,9 @@ class Criteriaehs extends Component
     protected $listeners = [
         'modalcriteriaehs'=>'criteriaehs',
     ];
-    public $selected_id, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
+    public $selected_id, $data, $datavm, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
+
+    public $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $value11, $value12, $value13, $value14, $value15;
 
     public function render()
     {
@@ -31,25 +33,65 @@ class Criteriaehs extends Component
         
         
     }
+
+    public function mount($id)
+    {
+        $this->selected_id = $id;
+        
+        $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        $datavm = \App\Models\VendorManagementehs::where('id_supplier', $this->selected_id);
+
+        
+    }
   
     public function save()
     {
         $user = \Auth::user();
        
 
-        $data                                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        $data->general_information                  = $this->general_information;
-        $data->team_availability_capability         = $this->team_availability_capability;
-        $data->tools_facilities                     = $this->tools_facilities;
-        $data->ehs_quality_management               = $this->ehs_quality_management;
-        $data->commercial_compliance                = $this->commercial_compliance;
-        
-        $data->save();
+        $check                                       = \App\Models\VendorManagementehs::where('id_supplier', $this->selected_id)->first();
+        if(!$check){ 
+            for($i = 1; $i < 16; $i++){
+                $data                                       = new \App\Models\VendorManagementehs();
+                $data->id_supplier                          = $this->selected_id;
+                $data->id_detail                            = $i;
+                // $data->id_detail_title                      = $this->valueconcat('service_type', $i);
+                $data->value                                 = $this->valueconcat('value', $i);
+                $data->save();
+            }
+        }
+
+        $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        $update->ehs_company_structure = '';
+        $update->ehs_company_structure = '';
+        $update->ehs_project_management = '';
+        $update->ehs_qualitymanagement = '';
+        $update->ehs_training = '';
+        $update->ehs_reporting = '';
+        $update->ehs_documentation = '';
+        $update->ehs_certificate = '';
+        $update->save();
 
 
         session()->flash('message-success',"Criteria EHS & Quality Management Successfully Evaluate!!!");
         
-        return redirect()->route('vendor-management.index');
+        return view('livewire.vendor-management.criteriaehs');  
+    }
+
+    public function updatedata($field, $id){
+        $check = \App\Models\VendorManagementehs::where('id_supplier',$this->selected_id)->where('id_detail', $id)->first();
+        
+        $check->value = $this->valueconcat($field, $id);
+        $check->save();
+
+        session()->flash('message-success',"Criteria EHS & Quality Management Successfully Evaluate!!!");
+        return view('livewire.vendor-management.criteriaehs');  
+        
+    }
+
+    public function valueconcat($field, $i){
+        $fields = $field.$i;
+        return $this->$fields;
     }
 
     public function duration($start_time, $end_time){

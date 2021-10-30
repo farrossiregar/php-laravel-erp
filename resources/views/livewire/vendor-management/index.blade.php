@@ -110,7 +110,7 @@
 <div class="modal fade" id="modal-vendormanagement-criteriageneralinformation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.criteriageneralinformation />
+            
         </div>
     </div>
 </div>
@@ -118,7 +118,7 @@
 <div class="modal fade" id="modal-vendormanagement-criteriateamavailability" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.criteriateamavailability />
+            
         </div>
     </div>
 </div>
@@ -126,7 +126,7 @@
 <div class="modal fade" id="modal-vendormanagement-criteriatoolsfacility" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.criteriatoolsfacilities />
+            
         </div>
     </div>
 </div>
@@ -134,7 +134,7 @@
 <div class="modal fade" id="modal-vendormanagement-criteriacc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.criteriacc />
+            
         </div>
     </div>
 </div>
@@ -144,7 +144,7 @@
 <div class="modal fade" id="modal-vendormanagement-criteriaehs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.criteriaehs />
+            
         </div>
     </div>
 </div>
@@ -160,11 +160,35 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-vendormanagement-summarynoteimprovementpoint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.summarynoteimprovementpoint />
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="modal-vendormanagement-viewcomparation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document" style="max-width:70%;">
         <div class="modal-content">
             <livewire:vendor-management.viewcomparation />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-vendormanagement-detailscore" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.detailscore />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-vendormanagement-summarynoteimprovementpoint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.summarynoteimprovementpoint />
         </div>
     </div>
 </div>
@@ -203,7 +227,11 @@
         $("#modal-vendormanagement-importcertificationresource").modal('show');
     });
 
+    Livewire.on('modalsummarynoteimprovementpoint',(data)=>{
+        $("#modal-vendormanagement-summarynoteimprovementpoint").modal('show');
+    });
 
+    
 
     Livewire.on('modalservicecriteria',(data)=>{
         $("#modal-vendormanagement-servicecriteria").modal('show');
@@ -211,6 +239,14 @@
 
     Livewire.on('modalmaterialcriteria',(data)=>{
         $("#modal-vendormanagement-materialcriteria").modal('show');
+    });
+
+    Livewire.on('modaldetailscore',(data)=>{
+        $("#modal-vendormanagement-detailscore").modal('show');
+    });
+
+    Livewire.on('modalsummarynoteimprovementpoint',(data)=>{
+        $("#modal-vendormanagement-summarynoteimprovementpoint").modal('show');
     });
 
     

@@ -1,17 +1,24 @@
 <div class="row">
     <div class="col-md-2">
-        <input type="date" class="form-control" wire:model="date" />
+        <input type="text" class="form-control" placeholder="Supplier Name" wire:model="supplier_name" />
     </div>
 
-<!--     
-    <div class="col-md-1">                
-        <select class="form-control" wire:model="year">
-            <option value=""> --- Year --- </option>
-            @foreach(\App\Models\EmployeeNoc::select('year')->groupBy('year')->get() as $item) 
-            <option>{{$item->year}}</option>
-            @endforeach 
+    
+    <div class="col-md-2">
+        <select name="" id="" class="form-control" wire:model="supplier_category">
+            <option value=""> -- Select Supplier Category -- </option>
+            <option value=""> Material Supplier </option>
+            <option value="Service - Individual"> Service Supplier - Individual </option>
+            <option value="Service - Company"> Service Supplier - Company </option>
         </select>
-    </div> -->
+    </div>
+
+    <div class="col-md-2">
+        <select name="" id="" class="form-control" wire:model="sort">
+            <option value="1"> Latest </option>
+            <option value="2"> Highest Score </option>
+        </select>
+    </div>
 
 
     @if(check_access('business-opportunities.add'))
@@ -42,9 +49,11 @@
                         <th>Tools & Resource</th> 
                         <th>Certification of Resources</th> 
                         <th>Scoring</th> 
+                        <th>Summary Note</th> 
+                        <th>Improvement Point</th> 
                         <th>Supplier Registration Date</th> 
                         <th>Status</th> 
-                        <th>Action</th> 
+                        <!-- <th>Action</th>  -->
                     </tr>
                 </thead>
                 <tbody>
@@ -84,10 +93,20 @@
                         </td>
                         <td>
                             @if($item->scoring)
-                            <div class="btn btn-success"><b>{{ $item->scoring }}</b></div>
+                            <!-- <div class="btn btn-success"><b>{{ $item->scoring }}</b></div> -->
+                                <label class="badge badge-success" data-toggle="tooltip" title="<?php echo $item->scoring; ?>" ><label style="font-size: 20px; padding: 3px 0;"><b>{{ $item->scoring }}</b></label></label>
+                                <a href="javascript:;"  wire:click="$emit('modaldetailscore','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-eye"></i></a>
                             @else
-                            <div class="btn btn-danger"><b>0</b></div>
+                                <label class="badge badge-danger" data-toggle="tooltip" title="0"><label style="font-size: 20px; padding: 3px 0;">0</label></label>
                             @endif
+                        </td>
+                        <td>
+                            <?php if($item->summary_note){ echo substr($item->summary_note, 0, 40).'...'; } ?>
+                            <a href="javascript:;"  wire:click="$emit('modalsummarynoteimprovementpoint','{{ $item->id }}')" title="Edit" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                        </td>
+                        <td>
+                            <?php if($item->improvement_point){ echo substr($item->improvement_point, 0, 40).'...'; } ?>
+                            <a href="javascript:;"  wire:click="$emit('modalimportcertificationresource','{{ $item->id }}')" title="Edit" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                         </td>
                         <td>
                             <?php
@@ -128,6 +147,7 @@
                             
                             <label class="badge <?php echo $badgetype; ?>" data-toggle="tooltip" title="<?php echo $badgetitle; ?>">{{ date_format(date_create($item->supplier_registered_date), 'd M Y') }}</label>
                         </td>
+                        
                         <td>
                             @if($item->status == null || $item->status == '')
                                 <label class="badge badge-warning" data-toggle="tooltip" title="On Going">On Going</label>
@@ -149,19 +169,19 @@
                                 @endif
 
                                 <!-- <a href="{{ route('vendor-management.preview',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Evaluate</a> -->
-                                <a href="{{ route('vendor-management.general-information',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> General Information</a>
+                                <!-- <a href="{{ route('vendor-management.general-information',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> General Information</a> -->
                                 <!-- <a href="javascript:;"  wire:click="$emit('modalcriteriageneralinformation','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> General Information</a> -->
                                 @if($item->supplier_category == 'Service - Company' || $item->supplier_category == 'Service - Individual')
                                 <!-- <a href="javascript:;"  wire:click="$emit('modalcriteriateamavailability','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Team Availability</a>
                                 <a href="javascript:;"  wire:click="$emit('modalcriteriatoolsfacilities','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Tools & Facilities</a>
                                 <a href="javascript:;"  wire:click="$emit('modalcriteriaehs','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> EHS</a> -->
 
-                                <a href="{{ route('vendor-management.team-availability',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Team Availability</a>
+                                <!-- <a href="{{ route('vendor-management.team-availability',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Team Availability</a>
                                 <a href="{{ route('vendor-management.commercial-compliance',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Tools & Facilities</a>
-                                <a href="{{ route('vendor-management.commercial-compliance',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> EHS</a>
+                                <a href="{{ route('vendor-management.commercial-compliance',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> EHS</a> -->
                                 @endif
                                 <!-- <a href="javascript:;"  wire:click="$emit('modalcriteriacc','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> Commercial Compliance</a> -->
-                                <a href="{{ route('vendor-management.commercial-compliance',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Commercial Compliance</a>
+                                <!-- <a href="{{ route('vendor-management.commercial-compliance',['id'=>$item->id]) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Commercial Compliance</a> -->
                             @endif
                             
                         </td>

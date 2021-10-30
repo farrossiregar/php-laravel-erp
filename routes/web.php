@@ -150,4 +150,5 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('vendor-management/tools-facilities/{id}',App\Http\Livewire\VendorManagement\Criteriatoolsfacilities::class)->name('vendor-management.tools-facilities');
     Route::get('vendor-management/ehs/{id}',App\Http\Livewire\VendorManagement\Criteriaehs::class)->name('vendor-management.ehs');
     Route::get('vendor-management/preview/{id}',App\Http\Livewire\VendorManagement\Servicecriteria::class)->name('vendor-management.preview');
+    
 });
