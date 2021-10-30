@@ -4,13 +4,15 @@ namespace App\Http\Livewire\MobileApps;
 
 use Livewire\Component;
 use App\Models\PreventiveMaintenance as PreventiveMaintenanceModel;
+use Livewire\WithPagination;
 
 class PreventiveMaintenance extends Component
 {
+    use WithPagination;
+    
+    protected $paginationTheme = 'bootstrap';
     public $site_id,$description,$due_date,$project_id,$site_report,$site_owner,$work_order_number;
-    
     protected $listeners = ['refresh-page'=>'$refresh'];
-    
     public function render()
     {
         $data = PreventiveMaintenanceModel::orderBy('id','DESC');

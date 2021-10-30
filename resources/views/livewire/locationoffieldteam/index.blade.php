@@ -37,12 +37,10 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php($num=$data->firstItem())
                             @foreach($data as $k => $item)
                                 <tr>
-                                    <td>
-                                        {{$k+1}}
-                                        {{$item->id}}
-                                    </td>
+                                    <td>{{$num}}</td>
                                     <td><a href="javascript:void(0)" class="text-danger" style="font-size:18px;"><i class="fa fa-map-marker"></i></a> {{isset($item->_employee->name) ? $item->_employee->name : ''}}</td>
                                     <td>
                                         @if(isset($item->_employee->region->region))
@@ -54,6 +52,7 @@
                                     <td>{{$item->long}}</td>
                                     <td>{{$item->created_at}}</td>
                                 </tr>
+                                @php($num++)
                             @endforeach
                             @if($data->count() ==0)
                             <tr>
@@ -62,7 +61,8 @@
                             @endif
                         </tbody>
                     </table>
-                </div>
+                </div><br >
+                {{$data->links()}}
             </div>
         </div>
     </div>

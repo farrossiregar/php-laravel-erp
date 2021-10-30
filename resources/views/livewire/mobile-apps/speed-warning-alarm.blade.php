@@ -44,6 +44,7 @@
                     <th>Time</th>
                     <th>Latitude</th>
                     <th>Longitude</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -57,16 +58,20 @@
                         <td>{{date('H:i',strtotime($item->created_at))}}</td>
                         <td>{{$item->lat}}</td>
                         <td>{{$item->long}}</td>
+                        <td>
+                            <a href="https://www.google.com.sa/maps/search/{{$item->lat}},{{$item->long}}/data=!3m1!1e3" class="text-danger" target="_blank"><i class="fa fa-map-marker"></i></a>
+                        </td>
                     </tr>
                 @endforeach
                 @if($data->count() ==0)
-                <tr>
-                    <td colspan="5" class="text-center"><i>empty</i></td>
-                </tr>
+                    <tr>
+                        <td colspan="5" class="text-center"><i>empty</i></td>
+                    </tr>
                 @endif
             </tbody>
         </table>
-    </div>
+    </div><br />
+    {{$data->links()}}
     <div wire:ignore.self class="modal fade" id="modal_speed_warning" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

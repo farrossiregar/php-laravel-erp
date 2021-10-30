@@ -20,6 +20,13 @@ class CommitmentDaily extends Component
     
     public function render()
     {
+        $data = $this->init_data();
+
+        return view('livewire.mobile-apps.commitment-daily')->with(['data'=>$data->paginate(100)]);
+    }
+
+    public function init_data()
+    {
         $data = ModelsCommitmentDaily::with(['employee.access'])
                                 ->select('employees.name','commitment_dailys.*')
                                 ->orderBy('commitment_dailys.is_submit','DESC')
@@ -50,7 +57,7 @@ class CommitmentDaily extends Component
         
         $data->whereIn('commitment_dailys.client_project_id',$client_project_ids);
 
-        return view('livewire.mobile-apps.commitment-daily')->with(['data'=>$data->paginate(100)]);
+        return $data;
     }
 
     public function mount()
@@ -112,10 +119,7 @@ class CommitmentDaily extends Component
         $activeSheet->getColumnDimension('O')->setAutoSize(true);
         $num=5;
 
-        $data = ModelsCommitmentDaily::with(['employee.access'])->select('employees.name','commitment_dailys.*')->orderBy('commitment_dailys.id','DESC')->join('employees','employees.id','=','employee_id');
-
-        if($this->keyword) $data->where('employees.name',"LIKE", "%{$this->keyword}%");
-        if($this->date_start and $this->date_end) $data = $data->whereBetween('commitment_dailys.created_at',[$this->date_start,$this->date_end]);
+        $data = $this->init_data();
         foreach($data->get() as $k => $i){
             $activeSheet
                 ->setCellValue('A'.$num,($k+1))

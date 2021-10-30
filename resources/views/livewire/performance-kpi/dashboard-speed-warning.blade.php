@@ -40,7 +40,7 @@
                             @if($total ==0) 
                                 <td class="bg-success text-center" style="color:white;">0%</td> 
                             @else
-                                @php($persentase  = floor($total/$employee*100))
+                                @php($persentase  = @floor($total/$employee*100))
                                 @if($persentase < 50)
                                     <td class="bg-success text-center" style="color:white;">{{$persentase}}%</td>
                                 @elseif($persentase >= 50 and $persentase <=99)
@@ -49,6 +49,7 @@
                                     <td class="bg-danger text-center" style="color:white;">{{$persentase}}%</td>
                                 @endif
                             @endif
+                            <td></td>
                         </tr>
                     @endforeach
                 @endforeach    
