@@ -14,17 +14,6 @@ class Historigeneralinformation extends Component
     public $date; 
 
     public $selected_id, $data, $datavm;
-
-    // public $owner_name, $owner_licence_ktp, $owner_licence_npwp, $est_year, $hq_add, $branch_add, $telp_office, $com_name, $com_phone, $com_email, $tech_name, $tech_phone, $tech_email, $notas_gi;
-    // public $main_cust, $gov_client, $other_cust, $inv_amount_3, $inv_amount_2, $inv_amount_1, $balance_asset_3, $balance_asset_2, $balance_asset_1, $balance_liab_3, $balance_liab_2, $balance_liab_1, $notas_fs;
-    // public $fin_name, $fin_pos, $fin_hp, $bank_name, $bank_addr, $country, $curr, $bank_acc_owner, $bank_acc_num, $swift_code, $notas_bi;
-    // public $employees_qty, $mngr_qty, $spv_qty, $engineer_qty, $tech_qty, $adm_qty, $other_qty;
-
-    // public $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $value11, $value12, $value13, $value14;
-    // // public $service_type1, $service_type2, $service_type3, $service_type4, $service_type5, $service_type6, $service_type7, $service_type8, $service_type9, $service_type10, $service_type11, $service_type12, $service_type13, $service_type14;
-    // public $value15, $value16, $value17, $value18, $value19, $value20, $value21, $value22, $value23, $value24, $value25, $value26, $value27;
-    // public $value28, $value29, $value30, $value31, $value32, $value33, $value34, $value35, $value36, $value37, $value38;
-    // public $value39, $value40, $value41, $value42, $value43, $value44, $value45;
     public function render()
     {
         
@@ -34,10 +23,11 @@ class Historigeneralinformation extends Component
   
     public function save()
     {
+        
         $user = \Auth::user();
         
-        $check                                       = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->first();
-        if(!$check){ 
+        // $check                                       = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->first();
+        // if(!$check){ 
             for($i = 1; $i < 46; $i++){
                 $data                                       = new \App\Models\VendorManagementgi();
                 $data->id_supplier                          = $this->selected_id;
@@ -48,7 +38,7 @@ class Historigeneralinformation extends Component
             }
 
             
-        }
+        // }
     
         
         

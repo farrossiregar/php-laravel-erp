@@ -2,8 +2,8 @@
     <div class="row">
         <div class="col-md-8">
             <div class="row">
-                <form wire:submit.prevent="save">
-                @csrf
+                <!-- <form wire:submit.prevent="save"> -->
+                
                 <div class="col-md-12">
                     <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
                         <?php
@@ -1324,11 +1324,19 @@
                 <br>
                 
 
-                </form>
+                <!-- </form> -->
             </div>
         </div>
         <div class="col-md-4">
             <div class="row">
+                <?php
+           
+                    $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+                    $checkktp                     = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', 2)->first();
+                    $checknpwp                    = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', 3)->first();
+                    $checkhq                      = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', 5)->first();
+                    // print_r($checkktp);
+                ?>
                 <div class="col-md-12">
                     <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 180px;">
                         <div class="row">
@@ -1342,7 +1350,25 @@
                         
                         <hr>
                         <h1 style="font-size: 65px">
-                            <!-- $data['general_information'] -->
+                            <?php
+                                if($checkktp->value != NULL && $checknpwp->value != NULL){
+                                    if($update->supplier_category == 'Service - Company'){
+                                        $cls = '70';
+                                    }else{
+                                        $cls = '50';
+                                    }
+                                }else{
+                                    $cls = 0;
+                                }
+
+                                if($checkhq->value != '' || $checkhq->value != NULL){
+                                    $hq = '20';
+                                }else{
+                                    $hq = '0';
+                                }
+
+                                echo 0 + $cls + $hq;
+                            ?>
                         </h1>
                     </div>
                 </div>
@@ -1351,7 +1377,19 @@
                         <h5>Complete Licence Score (70)</h5>
                         <hr>
                         <h1 style="font-size: 45px">
-                            
+                            <?php
+                                if($checkktp->value != NULL && $checknpwp->value != NULL){
+                                    if($update->supplier_category == 'Service - Company'){
+                                        $cls = '70';
+                                    }else{
+                                        $cls = '50';
+                                    }
+
+                                    echo $cls;
+                                }else{
+                                    echo 0;
+                                }
+                            ?>
                         </h1>
                     </div>
                 </div>
@@ -1361,7 +1399,14 @@
                         <h5>Have HQ Office (20)</h5>
                         <hr>
                         <h1 style="font-size: 45px">
-                            
+                            <?php
+                                if($checkhq->value != '' || $checkhq->value != NULL){
+                                    $hq = '20';
+                                }else{
+                                    $hq = '0';
+                                }
+                                echo $hq;
+                            ?>
                         </h1>
                     </div>
                 </div>

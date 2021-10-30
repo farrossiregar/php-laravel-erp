@@ -26,62 +26,86 @@
                             
                             <div class="row">
                                 <div class="col-md-12 form-group">
+                                    @if($supplier_category != 'Material Supplier')
                                     <div class="row">
-                                        <div class="col-md-4  form-group"><label>General Information</label></div>
+                                        <div class="col-md-4  form-group"><label>General Information (10%)</label></div>
                                         <div class="col-md-4 form-group">
                                             <input type="number" min='0' max="100" class="form-control" wire:model="general_information" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <a href="{{ route('vendor-management.general-information',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> General Information</a>
+                                            <a href="{{ route('vendor-management.general-information',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>
                                     
-                                    @if($supplier_category != 'Material Supplier')
                                     <div class="row">
-                                        <div class="col-md-4  form-group"><label>Team Availability</label></div>
+                                        <div class="col-md-4  form-group"><label>Team Availability (25%)</label></div>
                                         <div class="col-md-4 form-group">
                                             <input type="number" min='0' max="100" class="form-control" wire:model="team_availability_capability" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <a href="{{ route('vendor-management.team-availability',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Team Availability</a>
+                                            <a href="{{ route('vendor-management.team-availability',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>
 
                                     <div class="row">
-                                        <div class="col-md-4 form-group"><label>Tools Facilities</label></div>
+                                        <div class="col-md-4 form-group"><label>Tools Facilities (20%)</label></div>
                                         <div class="col-md-4 form-group">
                                             <input type="number" min='0' max="100" class="form-control" wire:model="tools_facilities" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <a href="{{ route('vendor-management.tools-facilities',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Tools & Facilities</a>
+                                            <a href="{{ route('vendor-management.tools-facilities',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>
 
                                     <div class="row">
-                                        <div class="col-md-4 form-group"><label>EHS & Quality Management</label></div>
+                                        <div class="col-md-4 form-group"><label>EHS & Quality Management (20%)</label></div>
                                         <div class="col-md-4 form-group">
                                             <input type="number" min='0' max="100" class="form-control" wire:model="ehs_quality_management" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <a href="{{ route('vendor-management.ehs',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> EHS & Management Quality</a>
+                                            <a href="{{ route('vendor-management.ehs',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>
-                                    @endif
+                                    
 
                                     <div class="row">
-                                        <div class="col-md-4 form-group"><label>Commercial Compliance</label></div>
+                                        <div class="col-md-4 form-group"><label>Commercial Compliance (25%)</label></div>
                                         <div class="col-md-4 form-group">
                                             <input type="number" min='0' max="100" class="form-control" wire:model="commercial_compliance" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                        <a href="{{ route('vendor-management.commercial-compliance',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> Commercial Compliance</a>
+                                        <a href="{{ route('vendor-management.commercial-compliance',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>
+
+                                    @else
+                                    <div class="row">
+                                        <div class="col-md-4  form-group"><label>General Information (40%)</label></div>
+                                        <div class="col-md-4 form-group">
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="general_information" readonly/>
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <a href="{{ route('vendor-management.general-information',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                    <div class="row">
+                                        <div class="col-md-4 form-group"><label>Commercial Compliance (60%)</label></div>
+                                        <div class="col-md-4 form-group">
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="commercial_compliance" readonly/>
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                        <a href="{{ route('vendor-management.commercial-compliance',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    @endif
                                     
                                         
                                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

@@ -32,7 +32,6 @@ class Criteriageneralinformation extends Component
     public function criteriageneralinformation($id)
     {
         $this->selected_id = $id;
-       
     }
 
     public function mount($id)
@@ -47,31 +46,31 @@ class Criteriageneralinformation extends Component
   
     public function save()
     {
-        $user = \Auth::user();
         
-        $check                                       = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->first();
-        if(!$check){ 
-            for($i = 1; $i < 46; $i++){
-                $data                                       = new \App\Models\VendorManagementgi();
-                $data->id_supplier                          = $this->selected_id;
-                $data->id_detail                            = $i;
-                // $data->id_detail_title                      = $this->valueconcat('service_type', $i);
-                $data->value                                 = $this->valueconcat('value', $i);
-                $data->save();
+        for($i = 1; $i < 46; $i++){
+            $data                                       = new \App\Models\VendorManagementgi();
+            $check                                       = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->orderBy('id', 'desc')->first();
+            if($check){ 
+                $data->id                               = ($check->id + 1);
             }
-
-            
+            $data->id_supplier                          = @$this->selected_id;
+            $data->id_detail                            = $i;
+            // $data->id_detail_title                      = $this->valueconcat('service_type', $i);
+            $data->id_detail_title                      = date('Y-m-d H:i:s');
+            $data->value                                 = @$this->valueconcat('value', $i);
+            $data->save();
         }
-    
+
         
-        
+
         $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        $checkktp                     = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 2)->first();
-        $checknpwp                    = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 3)->first();
+        $checkktp                     = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 2)->whereDate('created_at', date('Y-m-d') )->first();
+        $checknpwp                    = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 3)->whereDate('created_at', date('Y-m-d') )->first();
+        $checkhq                    = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 5)->whereDate('created_at', date('Y-m-d') )->first();
 
         
 
-        if($checkktp->value != NULL && $checkktp->npwp != NULL){
+        if($checkktp->value != NULL && $checknpwp->value != NULL){
             if($update->supplier_category == 'Service - Company'){
                 $update->ci_complete_licence = '70';
             }else{
@@ -86,19 +85,19 @@ class Criteriageneralinformation extends Component
             }
         }
 
-        if(\App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 5)->first()){
+        if($checkhq->value != NULL && $checkhq->value != NULL){
             $update->ci_hq = '20';
             if($update->general_information == '' || $update->general_information == NULL){
                 $update->general_information = 0 + $update->ci_hq;
             }else{
-                $update->general_information = $update->general_information + $update->ci_hq;
+                $update->general_information = 0 + $update->ci_hq;
             }
         }
 
         if($update->scoring == '' || $update->scoring == NULL){
             $update->scoring = 0 + ($update->general_information * 0.1);
         }else{
-            $update->scoring = $update->scoring + ($update->general_information * 0.1);
+            $update->scoring = 0 + ($update->general_information * 0.1);
         }
         $update->save();
 
