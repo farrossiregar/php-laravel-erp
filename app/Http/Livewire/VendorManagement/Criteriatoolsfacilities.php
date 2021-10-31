@@ -20,20 +20,20 @@ class Criteriatoolsfacilities extends Component
         return view('livewire.vendor-management.criteriatoolsfacilities');        
     }
 
-    public function criteriatoolsfacilities($id)
-    {
-        $this->selected_id = $id;
+    // public function criteriatoolsfacilities($id)
+    // {
+    //     $this->selected_id = $id;
         
-        $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+    //     $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         
-        $this->general_information                  = $this->data->general_information;
-        $this->team_availability_capability         = $this->data->team_availability_capability;
-        $this->tools_facilities                     = $this->data->tools_facilities;
-        $this->ehs_quality_management               = $this->data->ehs_quality_management;
-        $this->commercial_compliance                = $this->data->commercial_compliance;
+    //     $this->general_information                  = $this->data->general_information;
+    //     $this->team_availability_capability         = $this->data->team_availability_capability;
+    //     $this->tools_facilities                     = $this->data->tools_facilities;
+    //     $this->ehs_quality_management               = $this->data->ehs_quality_management;
+    //     $this->commercial_compliance                = $this->data->commercial_compliance;
         
         
-    }
+    // }
 
     public function mount($id)
     {
@@ -50,8 +50,8 @@ class Criteriatoolsfacilities extends Component
         $user = \Auth::user();
        
 
-        $check                                       = \App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->first();
-        if(!$check){ 
+        // $check                                       = \App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->first();
+        // if(!$check){ 
             for($i = 1; $i < 24; $i++){
                 $data                                       = new \App\Models\VendorManagementtf();
                 $data->id_supplier                          = $this->selected_id;
@@ -60,7 +60,7 @@ class Criteriatoolsfacilities extends Component
                 $data->value                                 = $this->valueconcat('value', $i);
                 $data->save();
             }
-        }
+        // }
 
         $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         if($this->value2){

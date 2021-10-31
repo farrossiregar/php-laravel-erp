@@ -36,8 +36,11 @@
                                             ?>
                                             
                                             <div class="row">
-                                                <div class="col-md-4 form-group">
+                                                <div class="col-md-10 form-group">
                                                     <h5>General Information</h5> 
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                                 </div>
                                             </div>
                                             <hr>
@@ -1378,11 +1381,7 @@
                                         
                                     </div>
 
-                                    <div class="col-md-12">
-                                        <div class="col-md-12">
-                                            <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
-                                        </div>
-                                    </div>
+                                    
                                     <br>
                                     
 

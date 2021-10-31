@@ -10,9 +10,10 @@
                 <?php
                     
                     $tabdata = \App\Models\VendorManagementtf::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
+                    
                     foreach($tabdata as $key => $item){
                 ?>
-                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#historigi<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}<?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
+                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#historitf<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}<?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
                 <?php
                     }
                 ?>
@@ -32,9 +33,12 @@
                                             
                                             
                                             <div class="row">
-                                                <div class="col-md-4 form-group">
+                                                <div class="col-md-10 form-group">
                                                 
                                                     <h5>Tools & Facilities</h5> 
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                                 </div>
                                                 
                                             </div>
@@ -300,11 +304,6 @@
 
                                         </div>
                                     
-                                        @if(count($check_data) < 1)
-                                        <div class="col-md-12">
-                                            <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
-                                        </div>
-                                        @endif
                                     </div> 
                                     
                                 </form>
@@ -325,7 +324,7 @@
                                         
                                         <hr>
                                         <h1 style="font-size: 65px">
-                                            {{ $data['tools_facilities'] }}
+                                            
                                         </h1>
                                     </div>
                                 </div>
@@ -334,7 +333,7 @@
                                         <h5>Laptop</h5>
                                         <hr>
                                         <h1 style="font-size: 50px">
-                                            {{ $data['tf_laptop'] }}
+                                            
                                         </h1>
                                     </div>
                                 </div>
@@ -344,7 +343,7 @@
                                         <h5>Vehicle</h5>
                                         <hr>
                                         <h1 style="font-size: 50px">
-                                            {{ $data['tf_vehicle'] }}
+                                            
                                         </h1>
                                     </div>
                                 </div>
@@ -354,7 +353,7 @@
                                         <h5>Generators</h5>
                                         <hr>
                                         <h1 style="font-size: 50px">
-                                        {{ $data['tf_generator'] }}
+                                        
                                         </h1>
                                     </div>
                                 </div>
@@ -364,7 +363,7 @@
                                         <h5>Special Tools</h5>
                                         <hr>
                                         <h1 style="font-size: 50px">
-                                            {{ $data['tf_special_tools'] }}
+                                            
                                         </h1>
                                     </div>
                                 </div>
@@ -374,7 +373,7 @@
                                         <h5>Warehouse</h5>
                                         <hr>
                                         <h1 style="font-size: 50px">
-                                        {{ $data['tf_warehouse'] }}
+                                        
                                         </h1>
                                     </div>
                                 </div>
@@ -384,7 +383,7 @@
                                         <h5>DOP</h5>
                                         <hr>
                                         <h1 style="font-size: 50px">
-                                        {{ $data['tf_dop'] }}
+                                        
                                         </h1>
                                     </div>
                                 </div>
@@ -399,7 +398,7 @@
                     $tabdata = \App\Models\VendorManagementtf::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
                     foreach($tabdata as $item){
                 ?>
-                <div class="tab-pane" id="historigi<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
+                <div class="tab-pane" id="historitf<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
                     @livewire('vendor-management.historitoolsfacilities', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
 
                 </div>

@@ -65,19 +65,19 @@ class Criteriateamavailability extends Component
 
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
 
-        $check = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->first();
-        if($check){
-            for($i = 1; $i < 15; $i++){
-                // $team[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
-                // $this->idteam[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
-                $team = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
-                if($team){
-                    $this->team[$i] = (int)$team;
-                }else{
-                    $this->team[$i] = '';
-                }
-            }
-        }
+        // $check = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->first();
+        // if($check){
+        //     for($i = 1; $i < 15; $i++){
+        //         // $team[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
+        //         // $this->idteam[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
+        //         $team = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
+        //         if($team){
+        //             $this->team[$i] = (int)$team;
+        //         }else{
+        //             $this->team[$i] = '';
+        //         }
+        //     }
+        // }
     }
   
 
@@ -85,9 +85,9 @@ class Criteriateamavailability extends Component
     {
         $user = \Auth::user();
       
-            $check = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->first();
-            // dd($check);
-            if(!$check){
+            // $check = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->first();
+            // // dd($check);
+            // if(!$check){
                 for($i = 1; $i < 15; $i++){
                     $data                                       = new \App\Models\VendorManagementta();
                     $data->id_supplier                          = $this->selected_id;
@@ -105,7 +105,7 @@ class Criteriateamavailability extends Component
                     $data->save();
                 }
                
-            }
+            // }
             
 
             // $sumteam = \App\Models\VendorManagementta::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->groupBy('id_supplier')->first();

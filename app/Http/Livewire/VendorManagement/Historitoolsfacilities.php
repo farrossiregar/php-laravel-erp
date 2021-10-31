@@ -10,7 +10,7 @@ class Historitoolsfacilities extends Component
     // protected $listeners = [
     //     'modalcriteriatoolsfacilities'=>'criteriatoolsfacilities',
     // ];
-    public $selected_id, $data, $datavm, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
+    public $selected_id, $date, $data, $datavm, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
 
     // public $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $value11, $value12, $value13, $value14;
     // public $value15, $value16, $value17, $value18, $value19, $value20, $value21, $value22, $value23;

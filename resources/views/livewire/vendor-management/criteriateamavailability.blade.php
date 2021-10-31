@@ -176,13 +176,10 @@
                                                                 
                                                                 <?php
                                                                     for($i = 1; $i < 15; $i++){
-                                                                        // print_r($idteam[$i]);
-                                                                        // echo $team[$i];
-                                                                        
                                                                 ?>
                                                                 <div class="row" style="margin-bottom: 16px;">
                                                                     <div class="col-md-12 -form-group">
-                                                                        <?php
+                                                                        <!-- <?php
                                                                             if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
                                                                                 $teamcount = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($teamcount){
@@ -191,7 +188,6 @@
                                                                                     $countteam = 0;
                                                                                 }
                                                                         ?>
-                                                                        <!-- <input type="text" class="form-control" placeholder="<?php echo $countteam; ?>" value="<?php echo $countteam; ?>" wire:model="team{{ $i }}"> -->
                                                                         <input type="number" wire:change="updatedata('team', {{ $i }})" class="form-control" placeholder="{{ $countteam }}" wire:model="team{{$i}}">
                                                                         <?php
                                                                             }else{
@@ -200,8 +196,8 @@
                                                                             
                                                                         <?php
                                                                             }
-                                                                        ?>
-                                                                        
+                                                                        ?> -->
+                                                                        <input type="number" class="form-control" placeholder="Team" wire:model="team{{$i}}">
                                                                         
 
                                                                     </div>
@@ -215,9 +211,7 @@
                                                     </div>
                                                     <div class="col-md-8">
                                                         <div class="row">
-                                                            <!-- <div class="col-md-4"></div>
-                                                            <div class="col-md-4"><label for="">Composition Per Team</label></div>
-                                                            <div class="col-md-4"></div> -->
+                                                          
                                                             <div class="col-md-2 form-group"><label for="">Engineer</label></div>
                                                             <div class="col-md-2 form-group"><label for="">Tech</label></div>
                                                             <div class="col-md-2 form-group"><label for="">Rigger</label></div>
@@ -232,7 +226,7 @@
                                                                 ?>
                                                                 <div class="row">
                                                                     <div class="col-md-2 form-group">
-                                                                        <?php
+                                                                        <!-- <?php
                                                                             if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
                                                                                 $check_eng = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($check_eng){
@@ -245,17 +239,18 @@
                                                                         <?php
                                                                             }else{
                                                                         ?>
-                                                                            <input type="number" class="form-control" placeholder="Team" wire:model="eng{{$i}}">
+                                                                            <input type="number" class="form-control" placeholder="Engineer" wire:model="eng{{$i}}">
                                                                         <?php
                                                                             }
-                                                                        ?>
-                                                                        <!-- <input type="number"  placeholder="Engineer" class="form-control" wire:model="<?php echo 'eng'.$i ?>"/> -->
+                                                                        ?> -->
+                                                                        <input type="number" class="form-control" placeholder="Engineer" wire:model="eng{{$i}}">
+                                                                        
                                                                         @error('eng'.$i)
                                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                                         @enderror
                                                                     </div>
                                                                     <div class="col-md-2 form-group">
-                                                                        <?php
+                                                                        <!-- <?php
                                                                             if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
                                                                                 $check_tech = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($check_tech){
@@ -271,7 +266,8 @@
                                                                             <input type="number" class="form-control" placeholder="Technician" wire:model="tech{{$i}}">
                                                                         <?php
                                                                             }
-                                                                        ?>
+                                                                        ?> -->
+                                                                        <input type="number" class="form-control" placeholder="Technician" wire:model="tech{{$i}}">
                                                                         <!-- <div class="input-group mb-3">
                                                                             <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
                                                                             <div class="input-group-append">
@@ -284,7 +280,7 @@
                                                                         @enderror
                                                                     </div>
                                                                     <div class="col-md-2 form-group">
-                                                                        <?php
+                                                                        <!-- <?php
                                                                             if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
                                                                                 $check_rigger = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($check_rigger){
@@ -300,15 +296,15 @@
                                                                             <input type="number" class="form-control" placeholder="Rigger" wire:model="rigger{{$i}}">
                                                                         <?php
                                                                             }
-                                                                        ?>
-
+                                                                        ?> -->
+                                                                        <input type="number" class="form-control" placeholder="Rigger" wire:model="rigger{{$i}}">
                                                                         <!-- <input type="number" placeholder="Rigger" class="form-control" wire:model="<?php echo 'rigger'.$i ?>"/> -->
                                                                         @error('rigger'.$i)
                                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                                         @enderror
                                                                     </div>
                                                                     <div class="col-md-2 form-group">
-                                                                        <?php
+                                                                        <!-- <?php
                                                                             if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
                                                                                 $check_helper = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($check_helper){
@@ -324,15 +320,15 @@
                                                                             <input type="number" class="form-control" placeholder="Helper" wire:model="helper{{$i}}">
                                                                         <?php
                                                                             }
-                                                                        ?>
+                                                                        ?> -->
 
-                                                                        <!-- <input type="number" placeholder="Helper" class="form-control" wire:model="<?php echo 'helper'.$i ?>"/> -->
+                                                                        <input type="number" class="form-control" placeholder="Helper" wire:model="helper{{$i}}">
                                                                         @error('helper'.$i)
                                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                                         @enderror
                                                                     </div>
                                                                     <div class="col-md-2 form-group">
-                                                                        <?php
+                                                                        <!-- <?php
                                                                             if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
                                                                                 $check_other = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($check_other){
@@ -348,9 +344,9 @@
                                                                             <input type="number" class="form-control" placeholder="Other" wire:model="other{{$i}}">
                                                                         <?php
                                                                             }
-                                                                        ?>
+                                                                        ?> -->
 
-                                                                        <!-- <input type="number" placeholder="Other" class="form-control" wire:model="<?php echo 'other'.$i ?>"/> -->
+                                                                        <input type="number" class="form-control" placeholder="Other" wire:model="other{{$i}}">
                                                                         @error('other'.$i)
                                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                                         @enderror
@@ -510,7 +506,9 @@
                                                                                 }
                                                                             ?>
                                                                         </select> -->
-                                                                        <?php
+
+
+                                                                        <!-- <?php
                                                                             if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
                                                                                 $check_year = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($check_year){
@@ -526,7 +524,8 @@
                                                                             <input type="number" class="form-control" placeholder="Year" wire:model="other{{$i}}">
                                                                         <?php
                                                                             }
-                                                                        ?>
+                                                                        ?> -->
+                                                                        <input type="number" class="form-control" placeholder="Year" wire:model="year{{$i}}">
                                                                         @error('year'.$i)
                                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                                         @enderror
@@ -548,7 +547,7 @@
                                                                 <div class="row">
                                                                     <div class="col-md-6 form-group">
                                                                         <!-- <input type="number" min='0' max="100" placeholder="Invoice" class="form-control" wire:model="<?php echo 'invoice'.$i ?>"/> -->
-                                                                        <?php
+                                                                        <!-- <?php
                                                                             if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
                                                                                 $check_invoice = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($check_invoice){
@@ -561,10 +560,11 @@
                                                                         <?php
                                                                             }else{
                                                                         ?>
-                                                                            <input type="number" class="form-control" placeholder="invoice" wire:model="other{{$i}}">
+                                                                            <input type="number" class="form-control" placeholder="invoice" wire:model="invoice{{$i}}">
                                                                         <?php
                                                                             }
-                                                                        ?>
+                                                                        ?> -->
+                                                                        <input type="number" class="form-control" placeholder="invoice" wire:model="invoice{{$i}}">
                                                                         @error('invoice'.$i)
                                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                                         @enderror
@@ -579,9 +579,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                                    
-
-                                        
                                                 </div>
                                             </div>
                                         </div>
