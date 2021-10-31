@@ -165,9 +165,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <div class="row">
-                            <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
-                        </div>
+                     
                         
                     </div>
                 </div> 
