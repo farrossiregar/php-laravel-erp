@@ -9,27 +9,15 @@
             <div>
                 <br>
             </div>
-            <div>
-                <br>
-            </div>
-            <div>
-                <br>
-            </div>
-            <div>
-                <br>
-            </div>
-            <div>
-                <br>
-            </div>
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
                 <?php
                     
                     $tabdata = \App\Models\VendorManagementgi::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
-                    foreach($tabdata as $item){
+                    foreach($tabdata as $key => $item){
 
                 ?>
-                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#historigi<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}</a></li>
+                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#historigi<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}<?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
                 <?php
                     }
                 ?>

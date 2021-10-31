@@ -30,16 +30,16 @@ class Criteriacc extends Component
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         $this->datavm = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->first();
         $datavm2 = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id);
-        $this->value1 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '1')->first()->value;
-        $this->value2 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '2')->first()->value;
-        $this->value3 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '3')->first()->value;
-        $this->value4 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '4')->first()->value;
+        // $this->value1 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '1')->first()->value;
+        // $this->value2 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '2')->first()->value;
+        // $this->value3 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '3')->first()->value;
+        // $this->value4 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '4')->first()->value;
 
 
-        $this->note1 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '1')->first()->note;
-        $this->note2 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '2')->first()->note;
-        $this->note3 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '3')->first()->note;
-        $this->note4 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '4')->first()->note;
+        // $this->note1 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '1')->first()->note;
+        // $this->note2 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '2')->first()->note;
+        // $this->note3 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '3')->first()->note;
+        // $this->note4 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '4')->first()->note;
 
         // dd($this->note2);
     }
@@ -55,56 +55,22 @@ class Criteriacc extends Component
        
 
         $check = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->first();
-        if($check){
-            $data1                   = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '1')->first();
-            $data1->value            = $this->value1;
-            $data1->note             = $this->note1;
-            $data1->save();
-
-
-            $data2                   = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '2')->first();
-            $data2->value            = $this->value2;
-            $data2->note             = $this->note2;
-            $data2->save();
-
-            $data3                   = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '3')->first();
-            $data3->value            = $this->value3;
-            $data3->note             = $this->note3;
-            $data3->save();
-
-            $data4                   = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '4')->first();
-            $data4->value            = $this->value4;
-            $data4->note             = $this->note4;
-            $data4->save();
-        }else{
+       
+        for($i = 1; $i < 5; $i++){
             $data                   = new \App\Models\VendorManagementcc();
+            $check = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->orderBy('id', 'desc')->first();
+            if($check){
+                $data->id           = ($check->id + 1);
+                
+            }
             $data->id_supplier      = $this->selected_id;
-            $data->id_detail        = '1';
-            $data->value            = $this->value1;
-            $data->note             = $this->note1;
-            $data->save();
-
-            $data                   = new \App\Models\VendorManagementcc();
-            $data->id_supplier      = $this->selected_id;
-            $data->id_detail        = '2';
-            $data->value           = $this->value2;
-            $data->note            = $this->note2;
-            $data->save();
-
-            $data                   = new \App\Models\VendorManagementcc();
-            $data->id_supplier      = $this->selected_id;
-            $data->id_detail        = '3';
-            $data->value           = $this->value3;
-            $data->note            = $this->note3;
-            $data->save();
-
-            $data                   = new \App\Models\VendorManagementcc();
-            $data->id_supplier      = $this->selected_id;
-            $data->id_detail        = '4';
-            $data->value           = $this->value4;
-            $data->note            = $this->note4;
+            $data->id_detail        = $i;
+            $data->value            = $this->valueconcat('value', $i);
+            $data->note             = $this->valueconcat('note', $i);
             $data->save();
         }
+
+           
         
 
         $updatesupplier = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
@@ -120,8 +86,13 @@ class Criteriacc extends Component
 
         session()->flash('message-success',"Criteria Commercial Compliance Successfully Evaluate!!!");
         
-        // return redirect()->route('vendor-management.index');
+        
         return view('livewire.vendor-management.criteriacc');
+    }
+
+    public function valueconcat($field, $i){
+        $fields = $field.$i;
+        return $this->$fields;
     }
 
     public function duration($start_time, $end_time){
@@ -132,15 +103,7 @@ class Criteriacc extends Component
         $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
         $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
         $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
-        
-        // if($hours > 0){
-        //     $waktu = $hours.'.'.$minuts.' hours';
-        //     // $waktu = $hours;
-        // }else{
-        //     $waktu = $minuts.' minute';
-        //     // $waktu = $minuts;
-        // }
-
+  
         $waktu = '';
         if($months > 0){
             $waktu .= $months.' month ';

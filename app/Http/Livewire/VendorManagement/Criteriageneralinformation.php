@@ -7,11 +7,7 @@ use Auth;
 
 class Criteriageneralinformation extends Component
 {    
-    // protected $listeners = [
-    //     'modalcriteriageneralinformation'=>'criteriageneralinformation',
-    // ];
-    
-
+   
     public $selected_id, $data, $datavm;
 
     public $owner_name, $owner_licence_ktp, $owner_licence_npwp, $est_year, $hq_add, $branch_add, $telp_office, $com_name, $com_phone, $com_email, $tech_name, $tech_phone, $tech_email, $notas_gi;

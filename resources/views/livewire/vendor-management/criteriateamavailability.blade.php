@@ -6,18 +6,15 @@
             <div><br></div>
             <div><br></div>
             <div><br></div>
-            <div><br></div>
-            <div><br></div>
-            <div><br></div>
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
                 <?php
                     
                     $tabdata = \App\Models\VendorManagementta::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
-                    foreach($tabdata as $item){
+                    foreach($tabdata as $key => $item){
 
                 ?>
-                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#historita<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}</a></li>
+                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#historita<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }} <?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
                 <?php
                     }
                 ?>
@@ -35,10 +32,15 @@
                                                 
                                                 
                                                 <div class="row">
-                                                    <div class="col-md-4 form-group">
+                                                    <div class="col-md-10 form-group">
                                                     
                                                         <h5>Team Availability</h5> 
                                                     </div>
+                                                    <div class="col-md-2">
+                                                        <div class="col-md-12">
+                                                            <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
+                                                        </div>
+                                                    </div>  
                                                     
                                                 </div>
                                                 <hr>
@@ -583,19 +585,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
-                                            <?php
-                                                
-                                                $check = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->first();
-                                                if(!$check){
-                                            ?>
-                                            <div class="col-md-12">
-                                                <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
-                                            </div>
-                                            <?php
-                                                }
-                                            ?>
-                                        </div>                            
+                                                                 
                                     </div>
                                 </form>
                             </div>
@@ -654,7 +644,7 @@
                     foreach($tabdata as $item){
                 ?>
                 <div class="tab-pane" id="historita<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
-                    <!-- livewire('vendor-management.historiteamavailability', ['date' => $item->created_at, 'selected_id' => $this->selected_id]) -->
+                    @livewire('vendor-management.historiteamavailability', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
                 </div>
                 <?php
                     }

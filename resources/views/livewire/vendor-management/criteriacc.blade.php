@@ -5,20 +5,15 @@
         <div class="card">
             <div><br></div>
             <div><br></div>
-            <div><br></div>
-            <div><br></div>
-            <div><br></div>
-            <div><br></div>
-            <div><br></div>
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
                 <?php
                     
                     $tabdata = \App\Models\VendorManagementcc::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
-                    foreach($tabdata as $item){
+                    foreach($tabdata as $key => $item){
 
                 ?>
-                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#historicc<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}</a></li>
+                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#historicc<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}<?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
                 <?php
                     }
                 ?>
@@ -37,9 +32,15 @@
                                                     
                                                     
                                                     <div class="row">
-                                                        <div class="col-md-4 form-group">
+                                                        <div class="col-md-10 form-group">
                                                         
                                                             <h5>Commercial Compliance</h5> 
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="row">
+                                                                <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
+                                                            </div>
+                                                            
                                                         </div>
                                                         
                                                     </div>
@@ -152,12 +153,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-12">
-                                                    <div class="row">
-                                                        <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
-                                                    </div>
-                                                    
-                                                </div>
+                                                
                                             </div> 
                                             
                                         </form>
@@ -233,9 +229,8 @@
                     $tabdata = \App\Models\VendorManagementcc::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
                     foreach($tabdata as $item){
                 ?>
-                <div class="tab-pane" id="historigi<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
-                
-                    <!-- livewire('vendor-management.historigeneralinformation', ['date' => $item->created_at, 'selected_id' => $this->selected_id]) -->
+                <div class="tab-pane" id="historicc<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
+                    @livewire('vendor-management.historicc', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
                 </div>
                 <?php
                     }
