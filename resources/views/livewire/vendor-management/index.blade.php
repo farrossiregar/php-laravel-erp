@@ -145,13 +145,22 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-vendormanagement-summarynoteimprovementpoint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-vendormanagement-summarynote" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.summarynoteimprovementpoint />
+            <livewire:vendor-management.summarynote />
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal-vendormanagement-improvementpoint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.improvementpoint />
+        </div>
+    </div>
+</div>
+
 
 
 <div class="modal fade" id="modal-vendormanagement-viewcomparation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -170,13 +179,14 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-vendormanagement-summarynoteimprovementpoint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-vendormanagement-initialscore" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.summarynoteimprovementpoint />
+            <livewire:vendor-management.initialscore />
         </div>
     </div>
 </div>
+
 
 
 @section('page-script')
@@ -212,8 +222,12 @@
         $("#modal-vendormanagement-importcertificationresource").modal('show');
     });
 
-    Livewire.on('modalsummarynoteimprovementpoint',(data)=>{
-        $("#modal-vendormanagement-summarynoteimprovementpoint").modal('show');
+    Livewire.on('modalsummarynote',(data)=>{
+        $("#modal-vendormanagement-summarynote").modal('show');
+    });
+
+    Livewire.on('modalimprovementpoint',(data)=>{
+        $("#modal-vendormanagement-improvementpoint").modal('show');
     });
 
     
@@ -228,6 +242,10 @@
 
     Livewire.on('modaldetailscore',(data)=>{
         $("#modal-vendormanagement-detailscore").modal('show');
+    });
+
+    Livewire.on('modalinitialscore',(data)=>{
+        $("#modal-vendormanagement-initialscore").modal('show');
     });
 
     Livewire.on('modalsummarynoteimprovementpoint',(data)=>{
