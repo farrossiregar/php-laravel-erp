@@ -8,10 +8,7 @@ use Auth;
 
 class Criteriacc extends Component
 {    
-    // protected $listeners = [
-    //     'modalcriteriacc'=>'criteriacc',
-    // ];
-
+ 
 
     use WithPagination;
     public $selected_id, $value1, $value2, $value3, $value4, $note1, $note2, $note3, $note4, $data, $datavm;
@@ -44,10 +41,7 @@ class Criteriacc extends Component
         // dd($this->note2);
     }
 
-    // public function criteriacc($id)
-    // {
-        
-    // }
+    
   
     public function save()
     {
@@ -74,13 +68,19 @@ class Criteriacc extends Component
         
 
         $updatesupplier = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        $updatesupplier->commercial_compliance = $this->value1 + $this->value2 + $this->value3 + $this->value4;
-
-        if($updatesupplier->scoring == '' || $updatesupplier->scoring == NULL){
-            $updatesupplier->scoring = 0 + (($this->value1 + $this->value2 + $this->value3 + $this->value4) * 0.25);
+        if($this->value4){
+            $value4 = 20;
         }else{
-            $updatesupplier->scoring = $updatesupplier->scoring + (($this->value1 + $this->value2 + $this->value3 + $this->value4) * 0.25);
+            $value4 = 0;
         }
+        $updatesupplier->commercial_compliance = $this->value1 + $this->value2 + $this->value3 + $value4;
+
+        // if($updatesupplier->scoring == '' || $updatesupplier->scoring == NULL){
+            
+        //     $updatesupplier->scoring = 0 + (($this->value1 + $this->value2 + $this->value3 + $value4) * 0.25);
+        // }else{
+        //     $updatesupplier->scoring = $updatesupplier->scoring + (($this->value1 + $this->value2 + $this->value3 + $this->value4) * 0.25);
+        // }
 
         $updatesupplier->save();
 

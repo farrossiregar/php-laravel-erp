@@ -7,19 +7,16 @@
             <div><br></div>
             <div><br></div>
             <ul class="nav nav-tabs">
+                @if(!\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->get())
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
-                <?php
-                    
-                    $tabdata = \App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
-                    foreach($tabdata as $key => $item){
-
-                ?>
-                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#historiehs<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}<?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
-                <?php
-                    }
-                ?>
+                @else
+                    @foreach(\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $key => $item)
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#historiehs<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}<?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
+                    @endforeach
+                @endif
             </ul>
             <div class="tab-content">
+                @if(!\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->get())
                 <div class="tab-pane active show" id="newevaluation">  
                     <div class="row">
                         <div class="col-md-12">
@@ -133,7 +130,10 @@
                                                         </div>
 
                                                         <div class="col-md-4">
-                                                            <label>Others</label>
+                                                            <!-- <label>Others</label> -->
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" placeholder="Others" wire:model="service_type7">
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-8">
                                                             <div class="form-group">
@@ -284,6 +284,15 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
+                                                <h5>Project Management</h5>
+                                                <hr>
+                                                <h1 style="font-size: 50px">
+                                                {{ $data['ehs_project_management'] }}
+                                                </h1>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
                                                 <h5>Quality Management</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
@@ -340,17 +349,13 @@
                     </div>
                     
                 </div>
-
-                <?php
-                    $tabdata = \App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
-                    foreach($tabdata as $item){
-                ?>
-                <div class="tab-pane" id="historiehs<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
-                    @livewire('vendor-management.historiehs', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
-                </div>
-                <?php
-                    }
-                ?>  
+                @else
+                    @foreach(\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $item)
+                        <div class="tab-pane active show" id="historiehs<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
+                            @livewire('vendor-management.historiehs', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
+                        </div>
+                    @endforeach
+                @endif
 
             </div>
         </div>

@@ -19,96 +19,68 @@ class Historicc extends Component
 
     public function render()
     {
+        
         return view('livewire.vendor-management.historicc');        
     }
 
+    public function mount(){
+        $this->value1 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '1')->first()->value;
+        $this->value2 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '2')->first()->value;
+        $this->value3 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '3')->first()->value;
+        $this->value4 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '4')->first()->value;
 
-    
+
+        $this->note1 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '1')->first()->note;
+        $this->note2 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '2')->first()->note;
+        $this->note3 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '3')->first()->note;
+        $this->note4 = @\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '4')->first()->note;
+
+    }
   
-    // public function save()
-    // {
-    //     $user = \Auth::user();
+
+
+    public function save()
+    {
+        $user = \Auth::user();
        
 
-    //     $check = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->first();
-    //     if($check){
-    //         $data1                   = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '1')->first();
-    //         $data1->value            = $this->value1;
-    //         $data1->note             = $this->note1;
-    //         $data1->save();
+        $check = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->first();
+       
+        for($i = 1; $i < 5; $i++){
+            $data                   = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
+            $data->id_supplier      = $this->selected_id;
+            $data->id_detail        = $i;
+            $data->value            = $this->valueconcat('value', $i);
+            $data->note             = $this->valueconcat('note', $i);
+            $data->save();
+        }
 
+         
+        
+        $updatesupplier = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        if($this->value4){
+            $value4 = 20;
+        }else{
+            $value4 = 0;
+        }
+        $updatesupplier->commercial_compliance = $this->value1 + $this->value2 + $this->value3 + $value4;
 
-    //         $data2                   = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '2')->first();
-    //         $data2->value            = $this->value2;
-    //         $data2->note             = $this->note2;
-    //         $data2->save();
+        // if($updatesupplier->scoring == '' || $updatesupplier->scoring == NULL){
+            
+        //     $updatesupplier->scoring = 0 + (($this->value1 + $this->value2 + $this->value3 + $value4) * 0.25);
+        // }else{
+        //     $updatesupplier->scoring = $updatesupplier->scoring + (($this->value1 + $this->value2 + $this->value3 + $this->value4) * 0.25);
+        // }
 
-    //         $data3                   = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '3')->first();
-    //         $data3->value            = $this->value3;
-    //         $data3->note             = $this->note3;
-    //         $data3->save();
+        $updatesupplier->save();
 
-    //         $data4                   = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->where('id_detail', '4')->first();
-    //         $data4->value            = $this->value4;
-    //         $data4->note             = $this->note4;
-    //         $data4->save();
-    //     }else{
-    //         $data                   = new \App\Models\VendorManagementcc();
-    //         $data->id_supplier      = $this->selected_id;
-    //         $data->id_detail        = '1';
-    //         $data->value            = $this->value1;
-    //         $data->note             = $this->note1;
-    //         $data->save();
-
-    //         $data                   = new \App\Models\VendorManagementcc();
-    //         $data->id_supplier      = $this->selected_id;
-    //         $data->id_detail        = '2';
-    //         $data->value           = $this->value2;
-    //         $data->note            = $this->note2;
-    //         $data->save();
-
-    //         $data                   = new \App\Models\VendorManagementcc();
-    //         $data->id_supplier      = $this->selected_id;
-    //         $data->id_detail        = '3';
-    //         $data->value           = $this->value3;
-    //         $data->note            = $this->note3;
-    //         $data->save();
-
-    //         $data                   = new \App\Models\VendorManagementcc();
-    //         $data->id_supplier      = $this->selected_id;
-    //         $data->id_detail        = '4';
-    //         $data->value           = $this->value4;
-    //         $data->note            = $this->note4;
-    //         $data->save();
-    //     }
         
 
-    //     $updatesupplier = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-    //     $updatesupplier->commercial_compliance = $this->value1 + $this->value2 + $this->value3 + $this->value4;
-
-    //     if($updatesupplier->scoring == '' || $updatesupplier->scoring == NULL){
-    //         $updatesupplier->scoring = 0 + (($this->value1 + $this->value2 + $this->value3 + $this->value4) * 0.25);
-    //     }else{
-    //         $updatesupplier->scoring = $updatesupplier->scoring + (($this->value1 + $this->value2 + $this->value3 + $this->value4) * 0.25);
-    //     }
-
-    //     $updatesupplier->save();
-
-    //     session()->flash('message-success',"Criteria Commercial Compliance Successfully Evaluate!!!");
+        session()->flash('message-success',"Criteria Commercial Compliance Successfully Evaluate!!!");
         
-    //     return view('livewire.vendor-management.criteriacc');
-    // }
-
-    // public function updatedata($field, $id){
-    //     $check = \App\Models\VendorManagementgi::where('id_supplier',$this->selected_id)->where('id_detail', $id)->first();
         
-    //     $check->value = $this->valueconcat($field, $id);
-    //     $check->save();
-
-    //     session()->flash('message-success',"Criteria General Information Successfully Update!!!");
-    //     return view('livewire.vendor-management.criteriageneralinformation');  
-        
-    // }
+        return view('livewire.vendor-management.criteriacc');
+    }
 
     public function valueconcat($field, $i){
         $fields = $field.$i;

@@ -13,26 +13,27 @@ class Criteriaehs extends Component
     public $selected_id, $data, $datavm, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
 
     public $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $value11, $value12, $value13, $value14, $value15;
+    public $service_type7;
 
     public function render()
     {
         return view('livewire.vendor-management.criteriaehs');        
     }
 
-    public function criteriaehs($id)
-    {
-        $this->selected_id = $id;
+    // public function criteriaehs($id)
+    // {
+    //     $this->selected_id = $id;
         
-        $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+    //     $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         
-        $this->general_information                  = $this->data->general_information;
-        $this->team_availability_capability         = $this->data->team_availability_capability;
-        $this->tools_facilities                     = $this->data->tools_facilities;
-        $this->ehs_quality_management               = $this->data->ehs_quality_management;
-        $this->commercial_compliance                = $this->data->commercial_compliance;
+    //     $this->general_information                  = $this->data->general_information;
+    //     $this->team_availability_capability         = $this->data->team_availability_capability;
+    //     $this->tools_facilities                     = $this->data->tools_facilities;
+    //     $this->ehs_quality_management               = $this->data->ehs_quality_management;
+    //     $this->commercial_compliance                = $this->data->commercial_compliance;
         
         
-    }
+    // }
 
     public function mount($id)
     {
@@ -48,29 +49,36 @@ class Criteriaehs extends Component
     {
         $user = \Auth::user();
        
-
-        // $check                                       = \App\Models\VendorManagementehs::where('id_supplier', $this->selected_id)->first();
-        // if(!$check){ 
-            for($i = 1; $i < 16; $i++){
-                $data                                       = new \App\Models\VendorManagementehs();
-                $data->id_supplier                          = $this->selected_id;
-                $data->id_detail                            = $i;
-                // $data->id_detail_title                      = $this->valueconcat('service_type', $i);
-                $data->value                                 = $this->valueconcat('value', $i);
-                $data->save();
+        for($i = 1; $i < 16; $i++){
+            $data                                       = new \App\Models\VendorManagementehs();
+            $data->id_supplier                          = $this->selected_id;
+            $data->id_detail                            = $i;
+            if($i == 7){
+                $data->id_detail_title                      = $this->service_type7;
             }
-        // }
+            $data->value                                 = $this->valueconcat('value', $i);
+            $data->save();
+        }
+        $update                             = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        $update->ehs_company_structure      = ($this->value1 == 1 ? 10 : 0);
+        $update->ehs_project_management     = ($this->value2 == 1 ? 10 : 0);
+        $update->ehs_qualitymanagement      = ($this->value3 == 1 ? 5 : 0);
+        $update->ehs_training               = ($this->value4 == 1 ? 5 : 0);
+        $update->ehs_reporting              = ($this->value5 == 1 ? 10 : 0);
+        $update->ehs_documentation          = ($this->value6 == 1 ? 10 : 0);
 
-        // $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        // $update->ehs_company_structure = '';
-        // $update->ehs_company_structure = '';
-        // $update->ehs_project_management = '';
-        // $update->ehs_qualitymanagement = '';
-        // $update->ehs_training = '';
-        // $update->ehs_reporting = '';
-        // $update->ehs_documentation = '';
-        // $update->ehs_certificate = '';
-        // $update->save();
+        $value8 = (($this->value8) ? 10 : 0);
+        $value9 = (($this->value9) ? 10 : 0);
+        $value10 = (($this->value10) ? 10 : 0);
+        $value11 = (($this->value11) ? 5 : 0);
+        $value12 = (($this->value12) ? 5 : 0);
+        $value13 = (($this->value13) ? 5 : 0);
+        $value14 = (($this->value14) ? 5 : 0);
+
+        $update->ehs_certificate            = $value8 + $value9 + $value10 + $value11 + $value12 + $value13 + $value14;
+
+        $update->ehs_quality_management =  $update->ehs_company_structure + $update->ehs_project_management + $update->ehs_qualitymanagement + $update->ehs_training + $update->ehs_reporting + $update->ehs_documentation + $update->ehs_certificate;
+        $update->save();
 
 
         session()->flash('message-success',"Criteria EHS & Quality Management Successfully Evaluate!!!");

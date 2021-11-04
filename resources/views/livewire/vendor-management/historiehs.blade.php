@@ -1,16 +1,22 @@
 <div class="row">
     <div class="col-md-8">
         <div class="row">
-            <!-- <form wire:submit.prevent="save"> -->
-                <!-- csrf -->
+            <form wire:submit.prevent="save">
+                @csrf
                 <div class="col-md-12">
                     <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
                         
                         
                         <div class="row">
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-10 form-group">
                             
                                 <h5>Quality Management</h5> 
+                            </div>
+                            <div class="col-md-2">
+                                <div class="row">
+                                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
+                                </div>
+                                
                             </div>
                             
                         </div>
@@ -27,7 +33,7 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <select name="" id="" class="form-control">
+                                    <select name="" id="" class="form-control" wire:model="value1">
                                         <option <?php if($count == ""){ echo 'selected'; } ?> value=""></option>
                                         <option <?php if($count == "1"){ echo 'selected'; } ?> value="1">Have</option>
                                         <option <?php if($count == "0"){ echo 'selected'; } ?> value="0">Not Have</option>
@@ -46,10 +52,12 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <select name="" id="" class="form-control" >
-                                        <option <?php if($count == ""){ echo 'selected'; } ?> value=""></option>
-                                        <option <?php if($count == "1"){ echo 'selected'; } ?> value="1">Have</option>
-                                        <option <?php if($count == "0"){ echo 'selected'; } ?> value="0">Not Have</option>
+                                    
+                                    
+                                    <select  name="" id="" class="form-control" wire:model="value2">
+                                        <option  <?php if($count == ""){ echo 'selected'; } ?> value="" ></option>
+                                        <option  <?php if($count == "1"){ echo 'selected'; } ?> value="1"  >Have</option>
+                                        <option  <?php if($count == "0"){ echo 'selected'; } ?> value="0"  >Not Have</option>
                                     </select>
                                     
                                 </div>
@@ -65,7 +73,7 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <select name="" id="" class="form-control" >
+                                    <select name="" id="" class="form-control" wire:model="value3">
                                         <option <?php if($count == ""){ echo 'selected'; } ?> value=""></option>
                                         <option <?php if($count == "1"){ echo 'selected'; } ?> value="1">Have</option>
                                         <option <?php if($count == "0"){ echo 'selected'; } ?> value="0">Not Have</option>
@@ -84,7 +92,7 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <select name="" id="" class="form-control" >
+                                    <select name="" id="" class="form-control" wire:model="value4">
                                         <option <?php if($count == ""){ echo 'selected'; } ?> value=""></option>
                                         <option <?php if($count == "1"){ echo 'selected'; } ?> value="1">Have</option>
                                         <option <?php if($count == "0"){ echo 'selected'; } ?> value="0">Not Have</option>
@@ -102,7 +110,7 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <select name="" id="" class="form-control" >
+                                    <select name="" id="" class="form-control" wire:model="value5">
                                         <option <?php if($count == ""){ echo 'selected'; } ?> value=""></option>
                                         <option <?php if($count == "1"){ echo 'selected'; } ?> value="1">Have</option>
                                         <option <?php if($count == "0"){ echo 'selected'; } ?> value="0">Not Have</option>
@@ -121,7 +129,7 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <select name="" id="" class="form-control" >
+                                    <select name="" id="" class="form-control" wire:model="value6">
                                         <option <?php if($count == ""){ echo 'selected'; } ?> value=""></option>
                                         <option <?php if($count == "1"){ echo 'selected'; } ?> value="1">Have</option>
                                         <option <?php if($count == "0"){ echo 'selected'; } ?> value="0">Not Have</option>
@@ -131,7 +139,9 @@
                             </div>
 
                             <div class="col-md-4">
-                                <label>Others</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Others" wire:model="service_type7">
+                                </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="form-group">
@@ -140,7 +150,7 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <select name="" id="" class="form-control" >
+                                    <select name="" id="" class="form-control" wire:model="value7">
                                         <option <?php if($count == ""){ echo 'selected'; } ?> value=""></option>
                                         <option <?php if($count == "1"){ echo 'selected'; } ?> value="1">Have</option>
                                         <option <?php if($count == "0"){ echo 'selected'; } ?> value="0">Not Have</option>
@@ -178,7 +188,7 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <input type="number" class="form-control" placeholder="{{$count}}" wire:model="value8">
+                                    <input type="number" class="form-control" wire:model="value8">
                                 </div>
                             </div>
 
@@ -192,7 +202,7 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <input type="number" class="form-control" placeholder="{{$count}}" wire:model="value9">
+                                    <input type="number" class="form-control" wire:model="value9">
                                 </div>
                             </div>
 
@@ -206,7 +216,7 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <input type="number" class="form-control" placeholder="{{$count}}" wire:model="value10">
+                                    <input type="number" class="form-control"  wire:model="value10">
                                 </div>
                             </div>
 
@@ -220,7 +230,7 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <input type="number" class="form-control" placeholder="{{$count}}" wire:model="value11">
+                                    <input type="number" class="form-control" wire:model="value11">
                                 </div>
                             </div>
 
@@ -234,7 +244,7 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <input type="number" class="form-control" placeholder="{{$count}}" wire:model="value12">
+                                    <input type="number" class="form-control" wire:model="value12">
                                 </div>
                             </div>
 
@@ -248,7 +258,7 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <input type="number" class="form-control" placeholder="{{$count}}" wire:model="value13">
+                                    <input type="number" class="form-control" wire:model="value13">
                                 </div>
                             </div>
 
@@ -262,12 +272,15 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <input type="number" class="form-control" placeholder="{{$count}}" wire:model="value14">
+                                    <input type="number" class="form-control" wire:model="value14">
                                 </div>
                             </div>
 
                             <div class="col-md-4">
-                                <label>Others … </label>
+                                <!-- <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Others" wire:model="title15">
+                                </div> -->
+                                <label for="">{{$service_type7}}</label>
                             </div>
                             <div class="col-md-8">
                                 <div class="form-group">
@@ -276,7 +289,7 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <input type="number" class="form-control" placeholder="{{$count}}" wire:model="value15">
+                                    <input type="number" class="form-control"  wire:model="value15">
                                 </div>
                             </div>
 
@@ -293,7 +306,7 @@
                     </div>
                 </div> 
                 
-            <!-- </form> -->
+            </form>
         </div>
     </div>
     <div class="col-md-4">
@@ -311,7 +324,7 @@
                     
                     <hr>
                     <h1 style="font-size: 65px">
-                        
+                        {{ $data['ehs_quality_management'] }}
                     </h1>
                 </div>
             </div>
@@ -321,7 +334,16 @@
                     <h5>Company Structure</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    
+                    {{ $data['ehs_company_structure'] }}
+                    </h1>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
+                    <h5>Project Management</h5>
+                    <hr>
+                    <h1 style="font-size: 50px">
+                    {{ $data['ehs_project_management'] }}
                     </h1>
                 </div>
             </div>
@@ -330,7 +352,7 @@
                     <h5>Quality Management</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    
+                    {{ $data['ehs_qualitymanagement'] }}
                     </h1>
                 </div>
             </div>
@@ -340,7 +362,7 @@
                     <h5>Training Management</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                        
+                        {{ $data['ehs_training_management'] }}
                     </h1>
                 </div>
             </div>
@@ -350,7 +372,7 @@
                     <h5>Project Reporting</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                        
+                        {{ $data['ehs_project_management'] }}
                     </h1>
                 </div>
             </div>
@@ -360,7 +382,7 @@
                     <h5>Documentation Management</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    
+                    {{ $data['ehs_documentation'] }}
                     </h1>
                 </div>
             </div>
@@ -370,7 +392,7 @@
                     <h5>Cerificate Category</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    
+                    {{ $data['ehs_certificate'] }}
                     </h1>
                 </div>
             </div>
