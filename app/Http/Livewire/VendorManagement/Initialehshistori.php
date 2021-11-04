@@ -5,7 +5,7 @@ namespace App\Http\Livewire\VendorManagement;
 use Livewire\Component;
 use Auth;
 
-class Initialehs extends Component
+class Initialehshistori extends Component
 {    
     protected $listeners = [
         'modalinitialehs'=>'initialehs',
