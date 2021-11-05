@@ -20,6 +20,9 @@ class Index extends Component
     {
         $data = TroubleTicket::with(['pic','employee'])->orderBy('id','DESC');
 
+        if(!check_access('trouble-ticket.pickup')) 
+            $data->where('employee_id',\Auth::user()->employee->id);
+
         return view('livewire.trouble-ticket.index')->with(['data'=>$data->paginate(100)]);
     }
 

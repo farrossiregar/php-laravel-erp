@@ -19,10 +19,27 @@ class VehicleCheck extends Component
     protected $paginationTheme = 'bootstrap';
     public $employee_id,$site_id,$date,$klasifikasi_insiden,$jenis_insiden,$rincian_kronologis,$nik_and_nama,$foto_insiden=[];
     public $date_start,$date_end,$keyword,$user_access_id,$region=[],$sub_region=[],$region_id,$sub_region_id;
+    public $selected_id;
     public function render()
     {
         $data = $this->data_();
         return view('livewire.mobile-apps.vehicle-check')->with(['data'=>$data->paginate(100)]);
+    }
+
+    public function set_id(VehicleCheckModel $data)
+    {
+        $this->selected_id = $data;
+    }
+
+    public function delete()
+    {
+        if($this->selected_id){
+            $this->selected_id->delete();;
+        }
+
+        $this->reset(['selected_id']);
+        $this->emit('message-success','Data berhasil di hapus');
+        $this->emit('refresh-page');
     }
 
     public function data_()

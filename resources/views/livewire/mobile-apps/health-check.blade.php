@@ -62,7 +62,12 @@
                 @foreach($data as $k => $item)
                     <tr>
                         <td>{{$num}}</td>
-                        <td>{{isset($item->employee->nik) ? $item->employee->nik : ''}}</td>
+                        <td>
+                            @if($item->is_submit==0)
+                                <a href="javascript:void()" data-toggle="modal" class="text-danger" data-target="#modal_delete_hc" wire:click="set_id({{$item->id}})"><i class="fa fa-trash"></i></a>
+                            @endif
+                            {{isset($item->employee->nik) ? $item->employee->nik : ''}}
+                        </td>
                         <td>{{isset($item->name) ? $item->name : ''}}</td>
                         <td>{{isset($item->employee->access->name) ? $item->employee->access->name : ''}}</td>
                         <td>{{date('d-M-Y H:i',strtotime($item->updated_at))}}</td>
@@ -98,8 +103,33 @@
     </div>
     <br />
     {{$data->links()}}
+    <div class="modal fade" x-data="" wire:ignore.self id="modal_delete_hc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form wire:submit.prevent="delete">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-trash"></i> Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true close-btn">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <P>Apakah anda ingin menghapus data ini ?</P>
+                        </div>
+                    </div>
+                    <div class="modal-footer" wire:loading.remove wire:target="save">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     @push('after-scripts')
         <script>
+            Livewire.on('refresh-page',()=>{
+                $("#modal_delete_hc").modal('hide');
+            });
             $('.date_health_check').daterangepicker({
                 opens: 'left',
                 locale: {

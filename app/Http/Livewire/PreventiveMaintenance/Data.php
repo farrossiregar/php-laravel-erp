@@ -76,6 +76,8 @@ class Data extends Component
 
     public function upload_report()
     {
+        \LogActivity::add('Preventive Maintenance Upload Report');
+
         $this->validate([
             'file_report' => 'required|mimes:xlsx, csv, xls, doc, docx, pdf, image',
             'description_report' => 'required'
@@ -98,6 +100,8 @@ class Data extends Component
 
     public function store()
     {
+        \LogActivity::add('Preventive Maintenance Insert');
+
         $this->validate([
             'site_id' => 'required',
             'description' => 'required'
@@ -142,6 +146,8 @@ class Data extends Component
 
     public function import()
     {
+        \LogActivity::add('Preventive Maintenance Import');
+
         $this->validate([
             'file'=>'required|mimes:xlsx|max:51200' // 50MB maksimal
         ]);
@@ -222,6 +228,8 @@ class Data extends Component
 
     public function downloadExcel()
     {
+        \LogActivity::add('Preventive Maintenance Download Excel');
+
         $objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         // Set document properties
         $objPHPExcel->getProperties()->setCreator("PMT System")

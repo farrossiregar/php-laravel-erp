@@ -16,7 +16,8 @@ class HealthCheck extends Component
     
     protected $paginationTheme = 'bootstrap';
     public $date_start,$date_end,$keyword,$region=[],$sub_region=[],$region_id,$sub_region_id,$user_access_id;
-
+    public $selected_id;
+    
     public function render()
     {
         $data = HealthCheckModel::with(['employee.access'])->select('employees.name','health_check.*')->orderBy('health_check.is_submit','DESC')->orderBy('health_check.updated_at','DESC')->join('employees','employees.id','=','employee_id');
@@ -51,6 +52,22 @@ class HealthCheck extends Component
     public function mount()
     {
         $this->region  = Region::select(['id','region'])->get();
+    }
+
+    public function set_id(HealthCheckModel $data)
+    {
+        $this->selected_id = $data;
+    }
+
+    public function delete()
+    {
+        if($this->selected_id){
+            $this->selected_id->delete();;
+        }
+
+        $this->reset(['selected_id']);
+        $this->emit('message-success','Data berhasil di hapus');
+        $this->emit('refresh-page');
     }
 
     public function downloadExcel()

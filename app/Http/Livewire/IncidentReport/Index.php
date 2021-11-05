@@ -24,6 +24,9 @@ class Index extends Component
                 $table->orWhere($column,'LIKE',"%{$this->keyword}%");
             }
         });
+        
+        if(!check_access('incident-report.is-pic'))  $data->where('employee_id',\Auth::user()->employee->id);
+
         return view('livewire.incident-report.index')->with(['data'=>$data->paginate(100)]);
     }
 

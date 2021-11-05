@@ -82,13 +82,13 @@ class ToolsCheckController extends Controller
             $img = "image_{$item->id}";
             $condition = "condition_{$item->id}";
             if(isset($request->$img)){
-                if($request->$condition==0) $error .= "Kondisi {$item->name} harus dipilih.\n" ;
-                
+                if($request->$condition==0) $error .= "Kondisi {$item->name} harus dipilih.\n" ; 
                 $qty = "qty_{$item->id}";
                 if($request->$qty==0) $error .= "QTY {$item->name} harus diisi.\n" ;
             }
-            if($request->$condition!=0 and !isset($request->$img)) 
-                $error .= "Foto {$item->name} harus diisi";
+            // if($request->$condition!=0 and !isset($request->$img)){
+            //     $error .= "Foto {$item->name} harus diisi\n";
+            // } 
         }
         
         if($error!="") return response()->json(['message'=>$error], 200);

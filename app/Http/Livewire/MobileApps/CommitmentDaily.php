@@ -15,6 +15,7 @@ use App\Models\SubRegion;
 class CommitmentDaily extends Component
 {
     public $keyword,$date_start,$date_end,$user_access_id,$region=[],$sub_region=[],$region_id,$sub_region_id;
+    public $selected_id;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     
@@ -58,6 +59,22 @@ class CommitmentDaily extends Component
         $data->whereIn('commitment_dailys.client_project_id',$client_project_ids);
 
         return $data;
+    }
+    
+    public function set_id(ModelsCommitmentDaily $data)
+    {
+        $this->selected_id = $data;
+    }
+
+    public function delete()
+    {
+        if($this->selected_id){
+            $this->selected_id->delete();;
+        }
+
+        $this->reset(['selected_id']);
+        $this->emit('message-success','Data berhasil di hapus');
+        $this->emit('refresh-page');
     }
 
     public function mount()

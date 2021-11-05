@@ -15,6 +15,7 @@ use App\Models\EmployeeProject;
 class PpeCheck extends Component
 {
     public $date_start,$date_end,$keyword,$region=[],$sub_region=[],$region_id,$sub_region_id,$user_access_id;
+    public $selected_id;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
@@ -56,6 +57,22 @@ class PpeCheck extends Component
         $data->whereIn('ppe_check.client_project_id',$client_project_ids);
 
         return $data;
+    }
+
+    public function set_id(PpeCheckModel $data)
+    {
+        $this->selected_id = $data;
+    }
+
+    public function delete()
+    {
+        if($this->selected_id){
+            $this->selected_id->delete();;
+        }
+
+        $this->reset(['selected_id']);
+        $this->emit('message-success','Data berhasil di hapus');
+        $this->emit('refresh-page');
     }
 
     public function mount()
@@ -121,17 +138,32 @@ class PpeCheck extends Component
                 ->setCellValue('A'.$num,($k+1))
                 ->setCellValue('B'.$num,isset($i->employee->nik) ? $i->employee->nik : '')
                 ->setCellValue('C'.$num,$i->name)
-                ->setCellValue('D'.$num,date('d-M-Y',strtotime($i->created_at)))
-                ->setCellValue('E'.$num,$i->foto_dengan_ppe==1 ? "Yes" : "No")
-                ->setCellValue('F'.$num,$i->foto_banner==1 ? "Yes" : "No")
-                ->setCellValue('G'.$num,$i->foto_wah==1 ? "Yes" : "No")
-                ->setCellValue('H'.$num,$i->foto_elektril==1 ? "Yes" : "No")
-                ->setCellValue('I'.$num,$i->foto_first_aid==1 ? "Yes" : "No")
-                ->setCellValue('J'.$num,$i->ppe_lengkap==1 ? "Yes" : "No")
-                ->setCellValue('K'.$num,$i->ppe_alasan_tidak_lengkap)
-                ->setCellValue('L'.$num,$i->banner_lengkap==1 ? "Yes" : "No")
-                ->setCellValue('M'.$num,$i->banner_alasan_tidak_lengkap)
-                ->setCellValue('N'.$num,$i->sertifikasi_alasan_tidak_lengkap);
+                ->setCellValue('D'.$num,date('d-M-Y',strtotime($i->created_at)));
+            if($i->is_submit==1){
+                $activeSheet
+                    ->setCellValue('E'.$num,$i->foto_dengan_ppe==1 ? "Yes" : "No")
+                    ->setCellValue('F'.$num,$i->foto_banner==1 ? "Yes" : "No")
+                    ->setCellValue('G'.$num,$i->foto_wah==1 ? "Yes" : "No")
+                    ->setCellValue('H'.$num,$i->foto_elektril==1 ? "Yes" : "No")
+                    ->setCellValue('I'.$num,$i->foto_first_aid==1 ? "Yes" : "No")
+                    ->setCellValue('J'.$num,$i->ppe_lengkap==1 ? "Yes" : "No")
+                    ->setCellValue('K'.$num,$i->ppe_alasan_tidak_lengkap)
+                    ->setCellValue('L'.$num,$i->banner_lengkap==1 ? "Yes" : "No")
+                    ->setCellValue('M'.$num,$i->banner_alasan_tidak_lengkap)
+                    ->setCellValue('N'.$num,$i->sertifikasi_alasan_tidak_lengkap);
+            }else{
+                $activeSheet
+                    ->setCellValue('E'.$num,'-')
+                    ->setCellValue('F'.$num,'-')
+                    ->setCellValue('G'.$num,'-')
+                    ->setCellValue('H'.$num,'-')
+                    ->setCellValue('I'.$num,'-')
+                    ->setCellValue('J'.$num,'-')
+                    ->setCellValue('K'.$num,'-')
+                    ->setCellValue('L'.$num,'-')
+                    ->setCellValue('M'.$num,'-')
+                    ->setCellValue('N'.$num,'-');
+            }
             $num++;
         }
 

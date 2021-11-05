@@ -30,7 +30,7 @@
                                 </select>
                             </li>
                             @foreach(\App\Models\Department::get() as $key_dep => $dep)
-                                @if($key_dep >3) @continue @endif
+                                @if($key_dep >2) @continue @endif
                                 <li class="dropdown">
                                     <a href="javascript:void(0);" class="dropdown-toggle icon-menu text-info px-1" data-toggle="dropdown">{{$dep->name}}</a>
                                     <ul class="dropdown-menu user-menu menu-icon">
