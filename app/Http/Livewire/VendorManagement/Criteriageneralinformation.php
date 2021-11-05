@@ -7,11 +7,19 @@ use Auth;
 
 class Criteriageneralinformation extends Component
 {    
-    protected $listeners = [
-        'modalcriteriageneralinformation'=>'criteriageneralinformation',
-    ];
-    public $selected_id, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
+   
+    public $selected_id, $data, $datavm;
 
+    public $owner_name, $owner_licence_ktp, $owner_licence_npwp, $est_year, $hq_add, $branch_add, $telp_office, $com_name, $com_phone, $com_email, $tech_name, $tech_phone, $tech_email, $notas_gi;
+    public $main_cust, $gov_client, $other_cust, $inv_amount_3, $inv_amount_2, $inv_amount_1, $balance_asset_3, $balance_asset_2, $balance_asset_1, $balance_liab_3, $balance_liab_2, $balance_liab_1, $notas_fs;
+    public $fin_name, $fin_pos, $fin_hp, $bank_name, $bank_addr, $country, $curr, $bank_acc_owner, $bank_acc_num, $swift_code, $notas_bi;
+    public $employees_qty, $mngr_qty, $spv_qty, $engineer_qty, $tech_qty, $adm_qty, $other_qty;
+
+    public $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $value11, $value12, $value13, $value14;
+    // public $service_type1, $service_type2, $service_type3, $service_type4, $service_type5, $service_type6, $service_type7, $service_type8, $service_type9, $service_type10, $service_type11, $service_type12, $service_type13, $service_type14;
+    public $value15, $value16, $value17, $value18, $value19, $value20, $value21, $value22, $value23, $value24, $value25, $value26, $value27;
+    public $value28, $value29, $value30, $value31, $value32, $value33, $value34, $value35, $value36, $value37, $value38;
+    public $value39, $value40, $value41, $value42, $value43, $value44, $value45;
     public function render()
     {
         return view('livewire.vendor-management.criteriageneralinformation');        
@@ -20,36 +28,95 @@ class Criteriageneralinformation extends Component
     public function criteriageneralinformation($id)
     {
         $this->selected_id = $id;
+    }
+
+    public function mount($id)
+    {
+        $this->selected_id = $id;
         
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        
-        $this->general_information                  = $this->data->general_information;
-        $this->team_availability_capability         = $this->data->team_availability_capability;
-        $this->tools_facilities                     = $this->data->tools_facilities;
-        $this->ehs_quality_management               = $this->data->ehs_quality_management;
-        $this->commercial_compliance                = $this->data->commercial_compliance;
-        
+        $datavm = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id);
+
         
     }
   
     public function save()
     {
-        $user = \Auth::user();
-       
-
-        $data                                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        $data->general_information                  = $this->general_information;
-        $data->team_availability_capability         = $this->team_availability_capability;
-        $data->tools_facilities                     = $this->tools_facilities;
-        $data->ehs_quality_management               = $this->ehs_quality_management;
-        $data->commercial_compliance                = $this->commercial_compliance;
         
-        $data->save();
+        for($i = 1; $i < 46; $i++){
+            $data                                       = new \App\Models\VendorManagementgi();
+            $check                                       = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->orderBy('id', 'desc')->first();
+            if($check){ 
+                $data->id                               = ($check->id + 1);
+            }
+            $data->id_supplier                          = @$this->selected_id;
+            $data->id_detail                            = $i;
+            // $data->id_detail_title                      = $this->valueconcat('service_type', $i);
+            $data->id_detail_title                      = date('Y-m-d H:i:s');
+            $data->value                                 = @$this->valueconcat('value', $i);
+            $data->save();
+        }
+
+        
+
+        $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        $checkktp                     = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 2)->whereDate('created_at', date('Y-m-d') )->first();
+        $checknpwp                    = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 3)->whereDate('created_at', date('Y-m-d') )->first();
+        $checkhq                    = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 5)->whereDate('created_at', date('Y-m-d') )->first();
+
+        
+
+        if($checkktp->value != NULL && $checknpwp->value != NULL){
+            if($update->supplier_category == 'Service - Company'){
+                $update->ci_complete_licence = '70';
+            }else{
+                $update->ci_complete_licence = '50';
+            }
+
+            if($update->general_information == '' || $update->general_information == NULL){
+                $update->general_information = 0 + $update->ci_complete_licence;
+            }else{
+                // $update->general_information = $update->general_information + $update->ci_complete_licence;
+                $update->general_information = 0 + $update->ci_complete_licence;
+            }
+        }
+
+        if($checkhq->value != NULL && $checkhq->value != NULL){
+            $update->ci_hq = '20';
+            if($update->general_information == '' || $update->general_information == NULL){
+                $update->general_information = 0 + $update->ci_hq;
+            }else{
+                $update->general_information = 0 + $update->ci_hq;
+            }
+        }
+
+        if($update->scoring == '' || $update->scoring == NULL){
+            $update->scoring = 0 + ($update->general_information * 0.1);
+        }else{
+            $update->scoring = 0 + ($update->general_information * 0.1);
+        }
+        $update->save();
 
 
         session()->flash('message-success',"Criteria General Information Successfully Evaluate!!!");
         
-        return redirect()->route('vendor-management.index');
+        return view('livewire.vendor-management.criteriageneralinformation'); 
+    }
+
+    public function updatedata($field, $id){
+        $check = \App\Models\VendorManagementgi::where('id_supplier',$this->selected_id)->where('id_detail', $id)->first();
+        
+        $check->value = $this->valueconcat($field, $id);
+        $check->save();
+
+        session()->flash('message-success',"Criteria General Information Successfully Update!!!");
+        return view('livewire.vendor-management.criteriageneralinformation');  
+        
+    }
+
+    public function valueconcat($field, $i){
+        $fields = $field.$i;
+        return $this->$fields;
     }
 
     public function duration($start_time, $end_time){
@@ -61,13 +128,6 @@ class Criteriageneralinformation extends Component
         $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
         $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
         
-        // if($hours > 0){
-        //     $waktu = $hours.'.'.$minuts.' hours';
-        //     // $waktu = $hours;
-        // }else{
-        //     $waktu = $minuts.' minute';
-        //     // $waktu = $minuts;
-        // }
 
         $waktu = '';
         if($months > 0){

@@ -43,6 +43,7 @@
             <thead>
                 <tr style="background:#eee;">
                     <th>No</th>                                    
+                    <th>NIK</th> 
                     <th>Employee</th> 
                     <th>Date</th>
                     <th>Plat Nomor</th>
@@ -57,6 +58,7 @@
                 @foreach($data as $k => $item)
                 <tr>
                     <td>{{$k+1}}</td>
+                    <td>{{isset($item->employee->nik) ? $item->employee->nik : ''}}</td>
                     <td>{{$item->name}}</td>
                     <td>{{date('d-M-Y',strtotime($item->created_at))}}</td>
                     @if($item->is_submit==1)
@@ -79,9 +81,11 @@
                             @endif
                         </td>
                         <td>
-                            @foreach(\App\Models\VehicleCheckCleanliness::where('vehicle_check_id',$item->id)->get() as $img)
-                                <a href="{{asset($img->image)}}" target="_blank"><i class="fa fa-image"></i></a>
-                            @endforeach
+                            @if(isset($item->cleanliness))
+                                @foreach($item->cleanliness as $img)
+                                    <a href="{{asset($img->image)}}" target="_blank"><i class="fa fa-image"></i></a>
+                                @endforeach
+                            @endif
                         </td>
                         <td>
                             @if($item->accident_report_id)
@@ -102,6 +106,29 @@
         </table>
     </div><br />
     {{$data->links()}}
+
+    <div class="modal fade" x-data="" wire:ignore.self id="modal_delete_vc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form wire:submit.prevent="delete">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-trash"></i> Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true close-btn">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <P>Apakah anda ingin menghapus data ini ?</P>
+                        </div>
+                    </div>
+                    <div class="modal-footer" wire:loading.remove wire:target="save">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div wire:ignore.self class="modal fade" id="modal_detail_accident_report" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document" x-data>

@@ -6,21 +6,6 @@
             <div>
                 <br>
             </div>
-            <div>
-                <br>
-            </div>
-            <div>
-                <br>
-            </div>
-            <div>
-                <br>
-            </div>
-            <div>
-                <br>
-            </div>
-            <div>
-                <br>
-            </div>
             <ul class="nav nav-tabs">
                 <!-- <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li> -->
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newsupplierregistration">{{ __('New Supplier Registration') }}</a></li>
@@ -110,7 +95,7 @@
 <div class="modal fade" id="modal-vendormanagement-criteriageneralinformation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.criteriageneralinformation />
+            
         </div>
     </div>
 </div>
@@ -118,7 +103,7 @@
 <div class="modal fade" id="modal-vendormanagement-criteriateamavailability" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.criteriateamavailability />
+            
         </div>
     </div>
 </div>
@@ -126,7 +111,7 @@
 <div class="modal fade" id="modal-vendormanagement-criteriatoolsfacility" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.criteriatoolsfacilities />
+            
         </div>
     </div>
 </div>
@@ -134,7 +119,7 @@
 <div class="modal fade" id="modal-vendormanagement-criteriacc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.criteriacc />
+            
         </div>
     </div>
 </div>
@@ -144,7 +129,7 @@
 <div class="modal fade" id="modal-vendormanagement-criteriaehs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:vendor-management.criteriaehs />
+            
         </div>
     </div>
 </div>
@@ -160,6 +145,23 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-vendormanagement-summarynote" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.summarynote />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-vendormanagement-improvementpoint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.improvementpoint />
+        </div>
+    </div>
+</div>
+
+
 
 <div class="modal fade" id="modal-vendormanagement-viewcomparation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document" style="max-width:70%;">
@@ -168,6 +170,23 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal-vendormanagement-detailscore" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.detailscore />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-vendormanagement-initialscore" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.initialscore />
+        </div>
+    </div>
+</div>
+
 
 
 @section('page-script')
@@ -203,7 +222,15 @@
         $("#modal-vendormanagement-importcertificationresource").modal('show');
     });
 
+    Livewire.on('modalsummarynote',(data)=>{
+        $("#modal-vendormanagement-summarynote").modal('show');
+    });
 
+    Livewire.on('modalimprovementpoint',(data)=>{
+        $("#modal-vendormanagement-improvementpoint").modal('show');
+    });
+
+    
 
     Livewire.on('modalservicecriteria',(data)=>{
         $("#modal-vendormanagement-servicecriteria").modal('show');
@@ -211,6 +238,18 @@
 
     Livewire.on('modalmaterialcriteria',(data)=>{
         $("#modal-vendormanagement-materialcriteria").modal('show');
+    });
+
+    Livewire.on('modaldetailscore',(data)=>{
+        $("#modal-vendormanagement-detailscore").modal('show');
+    });
+
+    Livewire.on('modalinitialscore',(data)=>{
+        $("#modal-vendormanagement-initialscore").modal('show');
+    });
+
+    Livewire.on('modalsummarynoteimprovementpoint',(data)=>{
+        $("#modal-vendormanagement-summarynoteimprovementpoint").modal('show');
     });
 
     

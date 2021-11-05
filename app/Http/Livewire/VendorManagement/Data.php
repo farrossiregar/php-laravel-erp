@@ -8,7 +8,7 @@ use App\Models\VendorManagement;
 
 class Data extends Component
 {
-    public $date_start,$date_end,$keyword,$status;
+    public $supplier_name, $supplier_category, $sort;
 
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -20,9 +20,20 @@ class Data extends Component
         //     $this->redirect('/');
         // }
 
-        $data = VendorManagement::orderBy('id', 'DESC');
+        $data = VendorManagement::whereNotNull('created_at');
         
-        if($this->status !="") $data->where('status',$this->status);
+        
+        if($this->supplier_category) $data->where('supplier_category',$this->supplier_category);
+        if($this->supplier_name) $ata = $data->where('supplier_name', 'like', '%' . $this->supplier_name . '%');
+        if($this->sort){
+            if($this->sort == '1'){
+                $ata = $data->orderBy('created_at', 'DESC');
+            }
+            
+            if($this->sort == '2'){
+                $ata = $data->orderBy('scoring', 'DESC');
+            }
+        }
         // if($this->date_start and $this->date_end) $data = $data->whereBetween('created_at',[$this->date_start,$this->date_end]);
 
         return view('livewire.vendor-management.data')->with(['data'=>$data->paginate(100)]);

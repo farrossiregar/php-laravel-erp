@@ -149,5 +149,12 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('vendor-management/team-availability/{id}',App\Http\Livewire\VendorManagement\Criteriateamavailability::class)->name('vendor-management.team-availability');
     Route::get('vendor-management/tools-facilities/{id}',App\Http\Livewire\VendorManagement\Criteriatoolsfacilities::class)->name('vendor-management.tools-facilities');
     Route::get('vendor-management/ehs/{id}',App\Http\Livewire\VendorManagement\Criteriaehs::class)->name('vendor-management.ehs');
+
+    Route::get('vendor-management/initial-general-information/{id}',App\Http\Livewire\VendorManagement\Initialgeneralinformation::class)->name('vendor-management.initial-general-information');
+    // Route::get('vendor-management/initial-commercial-compliance/{id}',App\Http\Livewire\VendorManagement\Initialcc::class)->name('vendor-management.initial-commercial-compliance');
+    Route::get('vendor-management/initial-team-availability/{id}',App\Http\Livewire\VendorManagement\Initialteamavailability::class)->name('vendor-management.initial-team-availability');
+    Route::get('vendor-management/initial-tools-facilities/{id}',App\Http\Livewire\VendorManagement\Initialtoolsfacilities::class)->name('vendor-management.initial-tools-facilities');
+    Route::get('vendor-management/initial-ehs/{id}',App\Http\Livewire\VendorManagement\Initialehs::class)->name('vendor-management.initial-ehs');
     Route::get('vendor-management/preview/{id}',App\Http\Livewire\VendorManagement\Servicecriteria::class)->name('vendor-management.preview');
+    
 });

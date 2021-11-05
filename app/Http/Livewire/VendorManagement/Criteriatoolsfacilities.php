@@ -10,25 +10,38 @@ class Criteriatoolsfacilities extends Component
     protected $listeners = [
         'modalcriteriatoolsfacilities'=>'criteriatoolsfacilities',
     ];
-    public $selected_id, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
+    public $selected_id, $data, $datavm, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
+
+    public $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $value11, $value12, $value13, $value14;
+    public $value15, $value16, $value17, $value18, $value19, $value20, $value21, $value22, $value23;
 
     public function render()
     {
         return view('livewire.vendor-management.criteriatoolsfacilities');        
     }
 
-    public function criteriatoolsfacilities($id)
+    // public function criteriatoolsfacilities($id)
+    // {
+    //     $this->selected_id = $id;
+        
+    //     $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        
+    //     $this->general_information                  = $this->data->general_information;
+    //     $this->team_availability_capability         = $this->data->team_availability_capability;
+    //     $this->tools_facilities                     = $this->data->tools_facilities;
+    //     $this->ehs_quality_management               = $this->data->ehs_quality_management;
+    //     $this->commercial_compliance                = $this->data->commercial_compliance;
+        
+        
+    // }
+
+    public function mount($id)
     {
         $this->selected_id = $id;
         
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        
-        $this->general_information                  = $this->data->general_information;
-        $this->team_availability_capability         = $this->data->team_availability_capability;
-        $this->tools_facilities                     = $this->data->tools_facilities;
-        $this->ehs_quality_management               = $this->data->ehs_quality_management;
-        $this->commercial_compliance                = $this->data->commercial_compliance;
-        
+        $datavm = \App\Models\VendorManagementtf::where('id_supplier', $this->selected_id);
+
         
     }
   
@@ -37,19 +50,90 @@ class Criteriatoolsfacilities extends Component
         $user = \Auth::user();
        
 
-        $data                                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        $data->general_information                  = $this->general_information;
-        $data->team_availability_capability         = $this->team_availability_capability;
-        $data->tools_facilities                     = $this->tools_facilities;
-        $data->ehs_quality_management               = $this->ehs_quality_management;
-        $data->commercial_compliance                = $this->commercial_compliance;
+        // $check                                       = \App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->first();
+        // if(!$check){ 
+            for($i = 1; $i < 24; $i++){
+                $data                                       = new \App\Models\VendorManagementtf();
+                $data->id_supplier                          = $this->selected_id;
+                $data->id_detail                            = $i;
+                // $data->id_detail_title                      = $this->valueconcat('service_type', $i);
+                $data->value                                 = $this->valueconcat('value', $i);
+                $data->save();
+            }
+        // }
+
+        $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        if($this->value2){
+            $vehicles1 = 5;
+        }else{
+            $vehicles1 = 0;
+        }
+
+        if($this->value3){
+            $vehicles2 = 5;
+        }else{
+            $vehicles2 = 0;
+        }
+
+        if($this->value4){
+            $vehicles3 = 5;
+        }else{
+            $vehicles3 = 0;
+        }
+
+        $sumspecialtools = count(\App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->where('value', NULL)->get()) + count(\App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->where('value', '0')->get());
+        // dd($sumspecialtools);
+
+        $specialtools = 7 - $sumspecialtools;
         
-        $data->save();
+
+        $update->tf_laptop = 10;
+        $update->tf_vehicle = $vehicles1 + $vehicles2 + $vehicles3;
+        $update->tf_generator = 10;
+
+        if($specialtools == 1){
+            $update->tf_special_tools = 10;
+        }elseif($specialtools == 2){
+            $update->tf_special_tools = 15;
+        }else{
+            if($specialtools > 2){
+                $update->tf_special_tools = 20;
+            }else{
+                $update->tf_special_tools = 0;
+            }
+        }
+
+        if($this->value21){
+            $update->tf_warehouse = 10;
+        }else{
+            $update->tf_warehouse = 0;
+        }
+
+        $update->tools_facilities = $update->tf_laptop + $update->tf_vehicle + $update->tf_generator + $update->tf_special_tools + $update->tf_warehouse;
+
+        $update->save();
 
 
         session()->flash('message-success',"Criteria Tools & Facilities Successfully Evaluate!!!");
         
-        return redirect()->route('vendor-management.index');
+        // return redirect()->route('vendor-management.index');
+        return view('livewire.vendor-management.criteriatoolsfacilities'); 
+    }
+
+    public function updatedata($field, $id){
+        $check = \App\Models\VendorManagementtf::where('id_supplier',$this->selected_id)->where('id_detail', $id)->first();
+        
+        $check->value = $this->valueconcat($field, $id);
+        $check->save();
+
+        session()->flash('message-success',"Criteria Tools & Facilities Successfully Update!!!");
+        return view('livewire.vendor-management.criteriatoolsfacilities'); 
+        
+    }
+
+    public function valueconcat($field, $i){
+        $fields = $field.$i;
+        return $this->$fields;
     }
 
     public function duration($start_time, $end_time){

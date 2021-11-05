@@ -55,6 +55,7 @@
             <thead>
                 <tr style="background:#eee;">
                     <th>No</th>                                    
+                    <th>NIK</th> 
                     <th>Employee</th> 
                     <th>Year</th>
                     <th>Month</th>
@@ -67,22 +68,26 @@
                 @foreach($data as $k => $item)
                     <tr>
                         <td>{{$k+1}}</td>
+                        <td>{{isset($item->_employee->nik) ? $item->_employee->nik : ''}}</td>
                         <td>{{$item->name}}</td>
                         <td>{{$item->tahun}}</td>
                         <td>{{$item->bulan}}</td>
-                        @foreach($toolboxs as $tool)
-                            <td class="text-center">
-                            @foreach(\App\Models\ToolboxCheck::where(['toolbox_id'=>$tool->id,'tools_check_id'=>$item->id])->get() as $upload)
-                                @if($upload->status==1) <span class="badge badge-success" title="QTY : {{$upload->qty}}">Kondisi Baik</span> @endif
-                                @if($upload->status==2) <span class="badge badge-warning" title="QTY : {{$upload->qty}}, Note: {{$upload->note}}">Kondisi Rusak</span> @endif 
-                                @if($upload->image)
-                                    <a href="{{asset($upload->image)}}" target="_blank"><i class="fa fa-image"></i></a>
-                                @else
-                                    -
-                                @endif
+                        @if(isset($item->toolsboxCheck))
+                            @foreach($toolboxs as $tool)
+                                @php($upload = $item->toolsboxCheck->where('toolbox_id',$tool->id)->first())
+                                <td>
+                                    @if($upload)
+                                        @if($upload->status==1) <span class="badge badge-success" title="QTY : {{$upload->qty}}">Kondisi Baik</span> @endif
+                                        @if($upload->status==2) <span class="badge badge-warning" title="QTY : {{$upload->qty}}, Note: {{$upload->note}}">Kondisi Rusak</span> @endif 
+                                        @if($upload->image)
+                                            <a href="{{asset($upload->image)}}" target="_blank"><i class="fa fa-image"></i></a>
+                                        @else
+                                            -
+                                        @endif
+                                    @endif
+                                </td>
                             @endforeach
-                            </td>
-                        @endforeach
+                        @endif
                     </tr>
                 @endforeach
             </tbody>

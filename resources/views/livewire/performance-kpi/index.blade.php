@@ -15,7 +15,7 @@
                 <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','ppe_check')" data-toggle="tab" href="#ppe-check">{{ __('PPE Check') }}</a></li>
                 <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','tools_check')" data-toggle="tab" href="#tools-check">{{ __('Tools Check') }}</a></li>
                 <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','speed_warning')" data-toggle="tab" href="#speed-warning-alarm">{{ __('Speed Warning Alarm') }}</a></li>
-                <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','preventive_maintenance')" data-toggle="tab" href="#preventive-maintenance">{{ __('Preventive Maintenance') }}</a></li>
+                <!-- <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','preventive_maintenance')" data-toggle="tab" href="#preventive-maintenance">{{ __('Preventive Maintenance') }}</a></li> -->
                 <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','drug_test')" data-toggle="tab" href="#drug-test">{{ __('Drug Test') }}</a></li>
             </ul>
             <div class="tab-content">
@@ -56,11 +56,11 @@
                         @livewire('mobile-apps.speed-warning-alarm')
                     @endif
                 </div>
-                <div class="tab-pane {{ $view_index=='preventive_maintenance' ? 'active' : ''}}" id="preventive-maintenance">
+                <!-- <div class="tab-pane {{ $view_index=='preventive_maintenance' ? 'active' : ''}}" id="preventive-maintenance">
                     @if($view_index=='preventive_maintenance')
                         @livewire('mobile-apps.preventive-maintenance')
                     @endif
-                </div>
+                </div> -->
                 <div class="tab-pane {{ $view_index=='drug_test' ? 'active' : ''}}" id="drug-test">
                     @if($view_index=='drug_test')
                         @livewire('mobile-apps.drug-test')

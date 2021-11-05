@@ -50,7 +50,7 @@
                                             <a href="javascript:;" title="
                                             @if(isset($item->group->employee))
                                                 @foreach($item->group->employee as $em)
-                                                    @if($em->employee->name){{$em->employee->name}}, @endif
+                                                    @if(isset($em->employee->name)){{$em->employee->name}}, @endif
                                                 @endforeach
                                             @endif
                                             ">{{$item->group->name}}</a>

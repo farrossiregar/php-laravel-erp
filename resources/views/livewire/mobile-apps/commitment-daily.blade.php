@@ -43,6 +43,7 @@
             <thead>
                 <tr style="background:#eee;">
                     <th>No</th>                                    
+                    <th>NIK</th>   
                     <th>Employee</th>   
                     <th>Jobe Role/Access</th>   
                     <th class="text-center">Berkomitment Menggunakan PPE/APD</th>
@@ -64,6 +65,12 @@
                 @foreach($data as $k => $item)
                     <tr>
                         <td>{{$num}}</td>
+                        <td>
+                            @if($item->is_submit==0)
+                                <a href="javascript:void()" data-toggle="modal" class="text-danger" data-target="#modal_delete_vc" wire:click="set_id({{$item->id}})"><i class="fa fa-trash"></i></a>
+                            @endif
+                            {{isset($item->employee->nik) ? $item->employee->nik : ''}}
+                        </td>
                         <td>{{isset($item->name) ? $item->name : ''}}</td>
                         <td>{{isset($item->employee->access->name) ? $item->employee->access->name : ''}}</td>
                         @if($item->is_submit ==1)
@@ -104,9 +111,41 @@
             </tbody>
         </table>
     </div>
+
+    <div class="modal fade" x-data="" wire:ignore.self id="modal_delete_vc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form wire:submit.prevent="delete">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-trash"></i> Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true close-btn">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <P>Apakah anda ingin menghapus data ini ?</P>
+                        </div>
+                    </div>
+                    <div class="modal-footer" wire:loading.remove wire:target="save">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <br />
     {{$data->links()}}
+    @push('after-scripts')
+        <script>
+            Livewire.on('refresh-page',()=>{
+                $("#modal_delete_vc").modal('hide');
+            });
+        </script>
+    @endpush
     <script>
+        
         $('.date_range_commitment_daily').daterangepicker({
             opens: 'left',
             locale: {

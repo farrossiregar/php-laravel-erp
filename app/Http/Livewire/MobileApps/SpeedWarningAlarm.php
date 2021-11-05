@@ -7,14 +7,17 @@ use App\Models\SpeedWarningAlarm as ModelSpeedWarningAlarm;
 use Illuminate\Support\Arr;
 use App\Models\EmployeeProject;
 use App\Models\Region;
+use Livewire\WithPagination;
 use App\Models\SubRegion;
 
 class SpeedWarningAlarm extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
     public $speed_limit,$employee_id,$date_start,$date_end,$region=[],$sub_region=[],$region_id,$sub_region_id;
     public function render()
     {
-        $data = ModelSpeedWarningAlarm::orderBy('id');
+        $data = ModelSpeedWarningAlarm::with(['_employee'])->orderBy('speed_warning_alarms.id','DESC');
 
         if($this->employee_id) $data->where('employee_id',$this->employee_id);
         if($this->date_start and $this->date_end) $data = $data->whereBetween('created_at',[$this->date_start,$this->date_end]);
@@ -31,6 +34,11 @@ class SpeedWarningAlarm extends Component
         $data->whereIn('speed_warning_alarms.client_project_id',$client_project_ids);
 
         return view('livewire.mobile-apps.speed-warning-alarm')->with(['data'=>$data->paginate(100)]);
+    } 
+
+    public function updatingEmployeeId()
+    {
+        $this->resetPage();
     }
 
     public function mount()

@@ -48,7 +48,10 @@ class Sinkron extends Command
                 echo "Employee : {$em->name}\n";
                 echo "Token : {$em->device_token}\n";
                 echo "==============================\n";
-                push_notification_android($em->device_token,"New Update Apps","Update bux fix daily commitment, gps location, speed warning alarm notifications",10);
+                $msg = "Update PMT e-PM Application\n
+                - update speed warning with notification with sound\n
+                - update preventive maintenance layout\n";
+                push_notification_android($em->device_token,"New Update Apps",$msg,10);
             }
         }
 

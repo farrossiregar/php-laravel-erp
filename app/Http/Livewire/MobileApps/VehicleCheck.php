@@ -19,13 +19,43 @@ class VehicleCheck extends Component
     protected $paginationTheme = 'bootstrap';
     public $employee_id,$site_id,$date,$klasifikasi_insiden,$jenis_insiden,$rincian_kronologis,$nik_and_nama,$foto_insiden=[];
     public $date_start,$date_end,$keyword,$user_access_id,$region=[],$sub_region=[],$region_id,$sub_region_id;
+    public $selected_id;
     public function render()
     {
-        $data = VehicleCheckModel::select('employees.name','vehicle_check.*')->orderBy('vehicle_check.id','DESC')->join('employees','employees.id','=','vehicle_check.employee_id');
+        $data = $this->data_();
+        return view('livewire.mobile-apps.vehicle-check')->with(['data'=>$data->paginate(100)]);
+    }
+
+    public function set_id(VehicleCheckModel $data)
+    {
+        $this->selected_id = $data;
+    }
+
+    public function delete()
+    {
+        if($this->selected_id){
+            $this->selected_id->delete();;
+        }
+
+        $this->reset(['selected_id']);
+        $this->emit('message-success','Data berhasil di hapus');
+        $this->emit('refresh-page');
+    }
+
+    public function data_()
+    {
+        $data = VehicleCheckModel::select('employees.name','vehicle_check.*')
+                    ->with(['employee','cleanliness'])
+                    ->orderBy('vehicle_check.id','DESC')
+                    ->join('employees','employees.id','=','vehicle_check.employee_id');
         
-        if($this->keyword) 
-            $data->where('employees.name',"LIKE", "%{$this->keyword}%")
-                ->orWhere('plat_nomor','LIKE', "%{$this->keyword}%");
+        if($this->keyword) {
+            $data->where(function($table){ 
+                $table->where('employees.name',"LIKE", "%{$this->keyword}%")
+                        ->orWhere('plat_nomor','LIKE', "%{$this->keyword}%")
+                        ->orWhere('employees.nik',$this->keyword); 
+            });
+        } 
 
         if($this->date_start and $this->date_end){
             if($this->date_start == $this->date_end)
@@ -48,7 +78,7 @@ class VehicleCheck extends Component
         
         $data->whereIn('vehicle_check.client_project_id',$client_project_ids);
 
-        return view('livewire.mobile-apps.vehicle-check')->with(['data'=>$data->paginate(100)]);
+        return $data;
     }
 
     public function mount()
@@ -86,14 +116,15 @@ class VehicleCheck extends Component
         $activeSheet->getRowDimension('1')->setRowHeight(34);
         $activeSheet->getStyle('B1')->getFont()->setSize(16);
         $activeSheet->getStyle('B1')->getAlignment()->setWrapText(false);
-        $activeSheet->getStyle('A4:F4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('c2d7f3');
+        $activeSheet->getStyle('A4:G4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('c2d7f3');
         $activeSheet
                     ->setCellValue('A4', 'No')
-                    ->setCellValue('B4', 'Employee')
-                    ->setCellValue('C4', 'Date')
-                    ->setCellValue('D4', 'Plat Nomor')
-                    ->setCellValue('E4', 'Stiker Safety Driving')
-                    ->setCellValue('F4', 'Accident Report');
+                    ->setCellValue('B4', 'NIK')
+                    ->setCellValue('C4', 'Employee')
+                    ->setCellValue('D4', 'Date')
+                    ->setCellValue('E4', 'Plat Nomor')
+                    ->setCellValue('F4', 'Stiker Safety Driving')
+                    ->setCellValue('G4', 'Accident Report');
 
         $activeSheet->getColumnDimension('A')->setWidth(5);
         $activeSheet->getColumnDimension('B')->setAutoSize(true);
@@ -101,28 +132,26 @@ class VehicleCheck extends Component
         $activeSheet->getColumnDimension('D')->setAutoSize(true);
         $activeSheet->getColumnDimension('E')->setAutoSize(true);
         $activeSheet->getColumnDimension('F')->setAutoSize(true);
+        $activeSheet->getColumnDimension('G')->setAutoSize(true);
         $num=5;
 
-        $data = VehicleCheckModel::select('employees.name','vehicle_check.*')->orderBy('vehicle_check.id','DESC')->join('employees','employees.id','=','vehicle_check.employee_id');
-        
-        if($this->keyword) $data->where('employees.name',"LIKE", "%{$this->keyword}%");
-        if($this->date_start and $this->date_end) $data = $data->whereBetween('vehicle_check.created_at',[$this->date_start,$this->date_end]);
+        $data = $this->data_();
+
         foreach($data->get() as $k => $i){
             $activeSheet
                 ->setCellValue('A'.$num,($k+1))
-                ->setCellValue('B'.$num,$i->name)
-                ->setCellValue('C'.$num,date('d-M-Y H:i',strtotime($i->created_at)));
+                ->setCellValue('B'.$num,isset($i->employee->nik) ? $i->employee->nik : '')
+                ->setCellValue('C'.$num,$i->name)
+                ->setCellValue('D'.$num,date('d-M-Y H:i',strtotime($i->created_at)));
 
             if($i->is_submit ==1){
-                $activeSheet->setCellValue('D'.$num,$i->plat_nomor)
-                            ->setCellValue('E'.$num,$i->stiker_safety_driving==1 ? "Ya" : "Tidak ", ($i->sticker_note!="" ? " - ( ".$i->sticker_note .")" : ''))
-                            ->setCellValue('F'.$num,$i->accident_report_id==1?"Ya" : "Tidak")
-                            ;
+                $activeSheet->setCellValue('E'.$num,$i->plat_nomor)
+                            ->setCellValue('F'.$num,$i->stiker_safety_driving==1 ? "Ya" : "Tidak ", ($i->sticker_note!="" ? " - ( ".$i->sticker_note .")" : ''))
+                            ->setCellValue('G'.$num,$i->accident_report_id==1?"Ya" : "Tidak");
             }else{
-                $activeSheet->setCellValue('D'.$num,"-")
-                            ->setCellValue('E'.$num,"-")
+                $activeSheet->setCellValue('E'.$num,"-")
                             ->setCellValue('F'.$num,"-")
-                            ;
+                            ->setCellValue('G'.$num,"-");
             }
             
             $num++;

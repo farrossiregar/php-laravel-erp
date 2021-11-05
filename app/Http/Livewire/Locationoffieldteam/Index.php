@@ -4,10 +4,13 @@ namespace App\Http\Livewire\Locationoffieldteam;
 
 use Livewire\Component;
 use App\Models\LocationOfFieldTeam as modelLocation;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
     public $region_id,$keyword;
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
 
     public function render()
     {

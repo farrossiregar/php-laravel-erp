@@ -60,6 +60,7 @@
             </tbody>
         </table>
     </div>
+    {{$data->links()}}
 
     <div wire:ignore.self class="modal fade" id="modal_download_report" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

@@ -57,7 +57,7 @@
                                     <a href="javascript:;" wire:click="$emit('modaldeclineroomrequest','{{ $item->id }}')" class="badge badge-danger"><i class="fa fa-close"></i> Decline</a>
                                 @endif
                             @endif
-
+                            
                             @if(check_access('application-room-request.pmg-approval'))
                                 @if($item->status ==1)
                                     <a href="javascript:;" wire:click="$emit('modalapproveroomrequest','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>

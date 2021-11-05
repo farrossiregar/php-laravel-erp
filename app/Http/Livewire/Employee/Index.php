@@ -20,19 +20,19 @@ class Index extends Component
     
     public function render()
     {
-        $data = Employee::with('company','department','access','employee_project.project')->orderBy('employees.id','DESC');
+        $data = Employee::select('employees.*')->with('company','department','access','employee_project.project')->orderBy('employees.id','DESC')
+            ->leftJoin('employee_projects','employee_projects.employee_id','=','employees.id')->groupBy('employees.id');
 
         if($this->department_id) $data->where('department_id',$this->department_id);
-        if($this->project_id) $data->join('employee_projects','employee_projects.employee_id','=','employees.id')->where('employee_projects.client_project_id',$this->project_id)->groupBy('employees.id');
-
+        if($this->project_id) $data->where('employee_projects.client_project_id',$this->project_id);
         if($this->keyword) $data = $data->where(function($table){
             foreach(\Illuminate\Support\Facades\Schema::getColumnListing('employees') as $column){
-                $table->orWhere($column,'LIKE',"%{$this->keyword}%");
+                $table->orWhere('employees.'.$column,'LIKE',"%{$this->keyword}%");
             }
         });
 
         if($this->user_access_id) $data = $data->where('user_access_id',$this->user_access_id);
-
+        if(isset($_GET['debug'])) dd($data->get()->toSql());
         return view('livewire.employee.index')->with(['data'=>$data->paginate(100)]);
     }
 
@@ -47,7 +47,8 @@ class Index extends Component
         }
         
         $message = "Hallo {$emp->name},\nBerikut username dan password login e-PM anda\n";
-        $message .= "Username : ". $emp->email;
+        $message .= "NIK : ". $emp->nik;
+        $message .= "\nUsername : ". $emp->email;
         $message .= "\nPassword : ". $password;
         $message .= "\nDownload : https://play.google.com/store/apps/details?id=com.pmt.access";
         send_wa(['phone'=> $emp->telepon,'message'=>$message]);

@@ -1,6 +1,10 @@
 <div class="row">
     <div class="col-md-2">
-        <input type="date" class="form-control" wire:model="date" />
+        <input type="date" class="form-control" placeholder="Project Name" wire:model="date" />
+    </div>
+
+    <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Project Name" wire:model="supplier_name" />
     </div>
 
 <!--     
@@ -38,7 +42,7 @@
                         <th>Supplier 2</th> 
                         <th>Supplier 3</th> 
                         <th>Created Date</th> 
-                        <th>Status</th> 
+                        <!-- <th>Status</th>  -->
                         <th>Action</th> 
                     </tr>
                 </thead>
@@ -52,20 +56,13 @@
                         <td>
                             @if($item->supplier1_id)
                             <b>{{ get_detail_supplier($item->supplier1_id)->supplier_name }}</b> 
-                            <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a> -->
-                            <a href="#" wire:click="delsupplier1({{ $item->id }})" title="Delete" class="btn btn-danger"><i class="fa fa-trash"></i> </a>
-                            <!-- <h5>Detail Supplier : </h5>
-                            <ul>
-                                <li>Supplier Name : {{ get_detail_supplier($item->supplier1_id)->supplier_name }}</li>
-                                <li>Supplier PIC : {{ get_detail_supplier($item->supplier1_id)->supplier_pic }}</li>
-                                <li>Supplier Email : {{ get_detail_supplier($item->supplier1_id)->supplier_email }}</li>
-                                <li>Price Offering : {{ get_detail_supplier($item->supplier1_id)->supplier_pic }}</li>
-                                <li>Scoring : {{ get_detail_supplier($item->supplier1_id)->scoring }}</li>
-                                <li>Document : {{ get_detail_supplier($item->supplier1_id)->supplier_pic }}</li>
-                            </ul> -->
+                            
+                            <a href="#" wire:click="delsupplier1({{ $item->id }})" title="Delete" ><i style="color: #dc3545;" class="fa fa-trash fa-2x"></i> </a>
+                           
                             @else
                             <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Add Supplier')}}</a> -->
-                            <select wire:change="addsupplier1({{ $item->id }})" wire:model="supplier1_id.{{ $item->id }}"  class="form-control" name="" id="">
+                            <a href="javascript:;"  wire:click="$emit('modalviewcomparation','{{ $item->id }}')" title="Detail Comparation"><i style="color: #007bff;" class="fa fa-plus fa-2x"></i> </a>
+                            <!-- <select wire:change="addsupplier1({{ $item->id }})" wire:model="supplier1_id.{{ $item->id }}"  class="form-control" name="" id="">
                                 <option value=""> -- Select Supplier --</option>
                                 <?php
                                     foreach(\App\Models\Vendormanagement::where('supplier_category', $item->project_category)->get() as $key => $items ){
@@ -74,18 +71,18 @@
                                 <?php
                                     }
                                 ?>
-                            </select>
+                            </select> -->
                             @endif
                         </td>
                         <td>
                             @if($item->supplier2_id)
                             <b>{{ get_detail_supplier($item->supplier2_id)->supplier_name }}</b> 
                             <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a> -->
-                            <a href="#" wire:click="delsupplier2({{ $item->id }})" title="Delete" class="btn btn-danger"><i class="fa fa-trash"></i> </a>
+                            <a href="#" wire:click="delsupplier2({{ $item->id }})" title="Delete" ><i style="color: #dc3545;" class="fa fa-trash fa-2x"></i> </a>
   
                             @else
-                            
-                            <select wire:change="addsupplier2({{ $item->id }})" wire:model="supplier2_id.{{ $item->id }}"  class="form-control" name="" id="">
+                            <a href="javascript:;"  wire:click="$emit('modalviewcomparation','{{ $item->id }}')" title="Detail Comparation"><i style="color: #007bff;" class="fa fa-plus fa-2x"></i> </a>
+                            <!-- <select wire:change="addsupplier2({{ $item->id }})" wire:model="supplier2_id.{{ $item->id }}"  class="form-control" name="" id="">
                                 <option value=""> -- Select Supplier --</option>
                                 <?php
                                     foreach(\App\Models\Vendormanagement::where('supplier_category', $item->project_category)->get() as $key => $items ){
@@ -94,18 +91,18 @@
                                 <?php
                                     }
                                 ?>
-                            </select>
+                            </select> -->
                             @endif
                         </td>
                         <td>
                             @if($item->supplier3_id)
                             <b>{{ get_detail_supplier($item->supplier3_id)->supplier_name }} </b>
                             <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a> -->
-                            <a href="#" wire:click="delsupplier3({{ $item->id }})" title="Delete" class="btn btn-danger"><i class="fa fa-trash"></i> </a>
+                            <a href="#" wire:click="delsupplier3({{ $item->id }})" title="Delete" ><i style="color: #dc3545;" class="fa fa-trash fa-2x"></i> </a>
                            
                             @else
-                            
-                            <select wire:change="addsupplier3({{ $item->id }})" wire:model="supplier3_id.{{ $item->id }}"  class="form-control" name="" id="">
+                            <a href="javascript:;"  wire:click="$emit('modalviewcomparation','{{ $item->id }}')" title="Detail Comparation"><i style="color: #007bff;" class="fa fa-plus fa-2x"></i> </a>
+                            <!-- <select wire:change="addsupplier3({{ $item->id }})" wire:model="supplier3_id.{{ $item->id }}"  class="form-control" name="" id="">
                                 <option value=""> -- Select Supplier --</option>
                                 <?php
                                     foreach(\App\Models\Vendormanagement::where('supplier_category', $item->project_category)->get() as $key => $items ){
@@ -114,13 +111,13 @@
                                 <?php
                                     }
                                 ?>
-                            </select>
+                            </select> -->
                             @endif
                         </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
-                        <td>{{ $item->status }}</td>
+                        <!-- <td>{{ $item->status }}</td> -->
                         <td>
-                        <a href="javascript:;"  wire:click="$emit('modalviewcomparation','{{ $item->id }}')" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> View Comparation </a>
+                            <a href="javascript:;"  wire:click="$emit('modalviewcomparation','{{ $item->id }}')" title="Detail Comparation"><i style="color: #007bff;" class="fa fa-eye fa-2x"></i> </a>
                         </td>
                     </tr>
                     <!-- <tr>

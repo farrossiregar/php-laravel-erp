@@ -2,6 +2,16 @@
 
 use Illuminate\Support\Facades\DB;
 
+function setInterval($f, $milliseconds)
+{
+    $seconds=(int)$milliseconds/1000;
+    while(true)
+    {
+        $f();
+        sleep($seconds);
+    }
+}
+
 function table_history($table='',$key="",$type="",$value=""){
     if($table){
         $data = new \App\Models\TableHistory();

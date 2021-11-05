@@ -15,10 +15,18 @@ use App\Models\SubRegion;
 class CommitmentDaily extends Component
 {
     public $keyword,$date_start,$date_end,$user_access_id,$region=[],$sub_region=[],$region_id,$sub_region_id;
+    public $selected_id;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     
     public function render()
+    {
+        $data = $this->init_data();
+
+        return view('livewire.mobile-apps.commitment-daily')->with(['data'=>$data->paginate(100)]);
+    }
+
+    public function init_data()
     {
         $data = ModelsCommitmentDaily::with(['employee.access'])
                                 ->select('employees.name','commitment_dailys.*')
@@ -26,7 +34,10 @@ class CommitmentDaily extends Component
                                 ->orderBy('commitment_dailys.updated_at','DESC')
                                 ->join('employees','employees.id','=','employee_id');
 
-        if($this->keyword) $data->where('employees.name',"LIKE", "%{$this->keyword}%");
+        if($this->keyword) $data->where(function($table){
+                                $table->where('employees.name',"LIKE", "%{$this->keyword}%")
+                                    ->orWhere('employees.nik',$this->keyword);
+                            });
         if($this->date_start and $this->date_end){
             if($this->date_start == $this->date_end)
                 $data->whereDate('commitment_dailys.created_at',$this->date_start);
@@ -47,7 +58,23 @@ class CommitmentDaily extends Component
         
         $data->whereIn('commitment_dailys.client_project_id',$client_project_ids);
 
-        return view('livewire.mobile-apps.commitment-daily')->with(['data'=>$data->paginate(100)]);
+        return $data;
+    }
+    
+    public function set_id(ModelsCommitmentDaily $data)
+    {
+        $this->selected_id = $data;
+    }
+
+    public function delete()
+    {
+        if($this->selected_id){
+            $this->selected_id->delete();;
+        }
+
+        $this->reset(['selected_id']);
+        $this->emit('message-success','Data berhasil di hapus');
+        $this->emit('refresh-page');
     }
 
     public function mount()
@@ -109,10 +136,7 @@ class CommitmentDaily extends Component
         $activeSheet->getColumnDimension('O')->setAutoSize(true);
         $num=5;
 
-        $data = ModelsCommitmentDaily::with(['employee.access'])->select('employees.name','commitment_dailys.*')->orderBy('commitment_dailys.id','DESC')->join('employees','employees.id','=','employee_id');
-
-        if($this->keyword) $data->where('employees.name',"LIKE", "%{$this->keyword}%");
-        if($this->date_start and $this->date_end) $data = $data->whereBetween('commitment_dailys.created_at',[$this->date_start,$this->date_end]);
+        $data = $this->init_data();
         foreach($data->get() as $k => $i){
             $activeSheet
                 ->setCellValue('A'.$num,($k+1))
