@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\IncidentReport;
 
 use IncidentReportHelper;
-use App\Models\Employee;
 use App\Models\IncidentReport;
 use Livewire\Component;
 use App\Mail\IncidentReportMail;
