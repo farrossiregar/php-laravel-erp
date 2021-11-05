@@ -1,4 +1,4 @@
-@section('title', __('Vendor Management - Evaluate EHS'))
+@section('title', __('Vendor Management - Initial EHS'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -7,7 +7,7 @@
             <div><br></div>
             <div><br></div>
             <ul class="nav nav-tabs">
-                @if(!\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->get())
+            @if(!\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->get())
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
                 @else
                     @foreach(\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $key => $item)
@@ -16,7 +16,7 @@
                 @endif
             </ul>
             <div class="tab-content">
-                @if(!\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->get())
+            @if(!\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->get())
                 <div class="tab-pane active show" id="newevaluation">  
                     <div class="row">
                         <div class="col-md-12">
@@ -293,7 +293,7 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
-                                                <h5>Quality Management</h5>
+                                            <h5>Quality Management</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
                                                 {{ $data['ehs_qualitymanagement'] }}
@@ -355,7 +355,7 @@
                             @livewire('vendor-management.historiehs', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
                         </div>
                     @endforeach
-                @endif
+                @endif 
 
             </div>
         </div>

@@ -6,7 +6,7 @@
             <div class="tab-content">      
                 <div class="header row">
                     <div class="col-md-8">
-                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-eye"></i> Evaluation Score</h5>
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-eye"></i> Initial Score</h5>
                     </div>
                     <div class="col-md-4">
                         <form wire:submit.prevent="save">
@@ -70,18 +70,7 @@
                                         </div>
                                     </div>
                                     <br>
-                                    
-
-                                    <div class="row">
-                                        <div class="col-md-4 form-group"><label>Commercial Compliance (25%)</label></div>
-                                        <div class="col-md-4 form-group">
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="commercial_compliance" readonly/>
-                                        </div>
-                                        <div class="col-md-4 form-group">
-                                        <a href="{{ route('vendor-management.commercial-compliance',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
-                                        </div>
-                                    </div>
-                                    <br>
+                   
 
                                     @else
                                     <div class="row">
@@ -95,16 +84,6 @@
                                     </div>
                                     <br>
 
-                                    <div class="row">
-                                        <div class="col-md-4 form-group"><label>Commercial Compliance (60%)</label></div>
-                                        <div class="col-md-4 form-group">
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="commercial_compliance" readonly/>
-                                        </div>
-                                        <div class="col-md-4 form-group">
-                                        <a href="{{ route('vendor-management.commercial-compliance',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
-                                        </div>
-                                    </div>
-                                    <br>
                                     @endif
                                     
                                         

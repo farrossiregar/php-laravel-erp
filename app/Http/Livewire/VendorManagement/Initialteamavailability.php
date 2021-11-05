@@ -6,10 +6,10 @@ use Livewire\Component;
 use Auth;
 use DB;
 
-class Criteriateamavailability extends Component
+class Initialteamavailability extends Component
 {    
     // protected $listeners = [
-    //     'modalcriteriateamavailability'=>'criteriateamavailability',
+    //     'modalinitialteamavailability'=>'initialteamavailability',
     // ];
     public $selected_id, $data, $datavm;
 
@@ -41,10 +41,10 @@ class Criteriateamavailability extends Component
         //     // $this->test = '88';
 
         // }
-        return view('livewire.vendor-management.criteriateamavailability');        
+        return view('livewire.vendor-management.initialteamavailability');        
     }
 
-    // public function criteriateamavailability($id)
+    // public function initialteamavailability($id)
     // {
     //     $this->selected_id = $id;
         
@@ -204,7 +204,7 @@ class Criteriateamavailability extends Component
         $update->save();
         // dd((int)$sumteam->countteam);
         
-        return view('livewire.vendor-management.criteriateamavailability');        
+        return view('livewire.vendor-management.initialteamavailability');        
     }
 
     

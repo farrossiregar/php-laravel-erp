@@ -1,4 +1,4 @@
-@section('title', __('Vendor Management - Evaluate General Information'))
+@section('title', __('Vendor Management - Initial General Information'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">

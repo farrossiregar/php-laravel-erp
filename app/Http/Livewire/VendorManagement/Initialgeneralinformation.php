@@ -5,7 +5,7 @@ namespace App\Http\Livewire\VendorManagement;
 use Livewire\Component;
 use Auth;
 
-class Criteriageneralinformation extends Component
+class Initialgeneralinformation extends Component
 {    
    
     public $selected_id, $data, $datavm;
@@ -22,10 +22,10 @@ class Criteriageneralinformation extends Component
     public $value39, $value40, $value41, $value42, $value43, $value44, $value45;
     public function render()
     {
-        return view('livewire.vendor-management.criteriageneralinformation');        
+        return view('livewire.vendor-management.initialgeneralinformation');        
     }
 
-    public function criteriageneralinformation($id)
+    public function initialgeneralinformation($id)
     {
         $this->selected_id = $id;
     }
@@ -100,7 +100,7 @@ class Criteriageneralinformation extends Component
 
         session()->flash('message-success',"Criteria General Information Successfully Evaluate!!!");
         
-        return view('livewire.vendor-management.criteriageneralinformation'); 
+        return view('livewire.vendor-management.initialgeneralinformation'); 
     }
 
     public function updatedata($field, $id){
@@ -110,7 +110,7 @@ class Criteriageneralinformation extends Component
         $check->save();
 
         session()->flash('message-success',"Criteria General Information Successfully Update!!!");
-        return view('livewire.vendor-management.criteriageneralinformation');  
+        return view('livewire.vendor-management.initialgeneralinformation');  
         
     }
 

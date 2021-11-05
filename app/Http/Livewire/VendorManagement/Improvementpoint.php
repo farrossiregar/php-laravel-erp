@@ -7,11 +7,11 @@ use Livewire\WithFileUploads;
 use Auth;
 use DB;
 
-class Summarynoteimprovementpoint extends Component
+class Improvementpoint extends Component
 {
 
     protected $listeners = [
-        'modalsummarynoteimprovementpoint'=>'summarynoteimprovementpoint',
+        'modalimprovementpoint'=>'improvementpoint',
     ];
 
     use WithFileUploads;
@@ -27,11 +27,11 @@ class Summarynoteimprovementpoint extends Component
         // }
         
         
-        return view('livewire.vendor-management.summarynoteimprovementpoint');
+        return view('livewire.vendor-management.improvementpoint');
         
     }
 
-    public function summarynoteimprovementpoint($id)
+    public function improvementpoint($id)
     {
         $this->selected_id = $id;
     }

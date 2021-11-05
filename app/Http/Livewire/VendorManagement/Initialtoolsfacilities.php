@@ -5,10 +5,10 @@ namespace App\Http\Livewire\VendorManagement;
 use Livewire\Component;
 use Auth;
 
-class Criteriatoolsfacilities extends Component
+class Initialtoolsfacilities extends Component
 {    
     protected $listeners = [
-        'modalcriteriatoolsfacilities'=>'criteriatoolsfacilities',
+        'modalinitialtoolsfacilities'=>'initialtoolsfacilities',
     ];
     public $selected_id, $data, $datavm, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
 
@@ -17,10 +17,10 @@ class Criteriatoolsfacilities extends Component
 
     public function render()
     {
-        return view('livewire.vendor-management.criteriatoolsfacilities');        
+        return view('livewire.vendor-management.initialtoolsfacilities');        
     }
 
-    // public function criteriatoolsfacilities($id)
+    // public function initialtoolsfacilities($id)
     // {
     //     $this->selected_id = $id;
         
@@ -117,7 +117,7 @@ class Criteriatoolsfacilities extends Component
         session()->flash('message-success',"Criteria Tools & Facilities Successfully Evaluate!!!");
         
         // return redirect()->route('vendor-management.index');
-        return view('livewire.vendor-management.criteriatoolsfacilities'); 
+        return view('livewire.vendor-management.initialtoolsfacilities'); 
     }
 
     public function updatedata($field, $id){
@@ -127,7 +127,7 @@ class Criteriatoolsfacilities extends Component
         $check->save();
 
         session()->flash('message-success',"Criteria Tools & Facilities Successfully Update!!!");
-        return view('livewire.vendor-management.criteriatoolsfacilities'); 
+        return view('livewire.vendor-management.initialtoolsfacilities'); 
         
     }
 

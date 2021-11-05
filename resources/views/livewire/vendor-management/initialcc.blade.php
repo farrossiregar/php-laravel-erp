@@ -1,4 +1,4 @@
-@section('title', __('Vendor Management - Evaluate Commercial Compliance'))
+@section('title', __('Vendor Management - Initial Commercial Compliance'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -6,21 +6,19 @@
             <div><br></div>
             <div><br></div>
             <ul class="nav nav-tabs">
-                <?php
-                    $tabdata = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->first();
-                    // print_r($tabdata);
-                ?>
-                @if(!\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->first())
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
-                @else
-                    @foreach(\App\Models\VendorManagementcc::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $key => $item)
-                        <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#historicc<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}<?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
-                    @endforeach
-                @endif
-            </ul>
+                <?php
+                    
+                    $tabdata = \App\Models\VendorManagementcc::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
+                    foreach($tabdata as $key => $item){
 
+                ?>
+                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#historicc<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}<?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
+                <?php
+                    }
+                ?>
+            </ul>
             <div class="tab-content">
-                @if(!\App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->first())
                 <div class="tab-pane active show" id="newevaluation">  
                     <div class="row">
                         <div class="col-md-12">
@@ -31,15 +29,20 @@
                                             @csrf
                                             <div class="col-md-12">
                                                 <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
+                                                    
+                                                    
                                                     <div class="row">
                                                         <div class="col-md-10 form-group">
+                                                        
                                                             <h5>Commercial Compliance</h5> 
                                                         </div>
                                                         <div class="col-md-2">
                                                             <div class="row">
                                                                 <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                                             </div>
+                                                            
                                                         </div>
+                                                        
                                                     </div>
                                                     <hr>
                                                     <div class="row">
@@ -53,7 +56,7 @@
                                                                 <div class="col-md-6 form-group">
                                                                     <select name="" id="" class="form-control" wire:model="value1">
                                                                         <option value=""></option>
-                                                                        <option value="30">Low (< 10% )</option>
+                                                                        <option value="50">Low (< 10% )</option>
                                                                         <option value="20">Medium ( 10% s/d 30% )</option>
                                                                         <option value="0">High (> 30% )</option>
                                                                     </select>
@@ -131,7 +134,10 @@
                                                         <div class="col-md-8">
                                                             <div class="row">
                                                                 <div class="col-md-6 form-group">
+                                                                    
+
                                                                     <input type="number" min='0' max="50" class="form-control" wire:model="value4"/>
+                                                                    
                                                                     @error('value4')
                                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                                     @enderror
@@ -143,10 +149,13 @@
                                                                     @enderror
                                                                 </div>
                                                             </div>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>
+                                                
                                             </div> 
+                                            
                                         </form>
                                     </div>
                                 </div>
@@ -165,13 +174,6 @@
                                                 
                                                 <hr>
                                                 <h1 style="font-size: 65px">
-                                                <?php
-                                                if($value4){
-                                                    $value4 = 20;
-                                                }else{
-                                                    $value4 = 0;
-                                                }
-                                                ?>
                                                     {{ @$value1 + @$value2 + @$value3 + @$value4 }}
                                                 </h1>
                                             </div>
@@ -223,13 +225,16 @@
                         </div>
                     </div>
                 </div>
-                @else
-                    @foreach(\App\Models\VendorManagementcc::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $item)
-                    <div class="tab-pane  active show" id="historicc<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
-                        @livewire('vendor-management.historicc', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
-                    </div>
-                    @endforeach
-                @endif
+                <?php
+                    $tabdata = \App\Models\VendorManagementcc::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
+                    foreach($tabdata as $item){
+                ?>
+                <div class="tab-pane" id="historicc<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
+                    @livewire('vendor-management.historicc', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
+                </div>
+                <?php
+                    }
+                ?>  
 
             </div>
         </div>

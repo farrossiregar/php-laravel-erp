@@ -5,10 +5,10 @@ namespace App\Http\Livewire\VendorManagement;
 use Livewire\Component;
 use Auth;
 
-class Criteriaehs extends Component
+class Initialehs extends Component
 {    
     protected $listeners = [
-        'modalcriteriaehs'=>'criteriaehs',
+        'modalinitialehs'=>'initialehs',
     ];
     public $selected_id, $data, $datavm, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
 
@@ -17,10 +17,10 @@ class Criteriaehs extends Component
 
     public function render()
     {
-        return view('livewire.vendor-management.criteriaehs');        
+        return view('livewire.vendor-management.initialehs');        
     }
 
-    // public function criteriaehs($id)
+    // public function initialehs($id)
     // {
     //     $this->selected_id = $id;
         
@@ -93,7 +93,7 @@ class Criteriaehs extends Component
         $check->save();
 
         session()->flash('message-success',"Criteria EHS & Quality Management Successfully Evaluate!!!");
-        return view('livewire.vendor-management.criteriaehs');  
+        return view('livewire.vendor-management.initialehs');  
         
     }
 
