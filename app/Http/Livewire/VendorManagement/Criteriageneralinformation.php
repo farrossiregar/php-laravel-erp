@@ -19,7 +19,7 @@ class Criteriageneralinformation extends Component
     // public $service_type1, $service_type2, $service_type3, $service_type4, $service_type5, $service_type6, $service_type7, $service_type8, $service_type9, $service_type10, $service_type11, $service_type12, $service_type13, $service_type14;
     public $value15, $value16, $value17, $value18, $value19, $value20, $value21, $value22, $value23, $value24, $value25, $value26, $value27;
     public $value28, $value29, $value30, $value31, $value32, $value33, $value34, $value35, $value36, $value37, $value38;
-    public $value39, $value40, $value41, $value42, $value43, $value44, $value45;
+    public $value39, $value40, $value41, $value42, $value43, $value44, $value45, $value46, $value47;
     public function render()
     {
         return view('livewire.vendor-management.criteriageneralinformation');        
@@ -42,8 +42,14 @@ class Criteriageneralinformation extends Component
   
     public function save()
     {
-        
-        for($i = 1; $i < 46; $i++){
+        $suppcat = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        if($suppcat == 'Service - Company'){
+            $rowdata = 48;
+        }else{
+            $rowdata = 46;
+        }
+
+        for($i = 1; $i < $rowdata; $i++){
             $data                                       = new \App\Models\VendorManagementgi();
             $check                                       = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->orderBy('id', 'desc')->first();
             if($check){ 

@@ -10,19 +10,18 @@
                 <br>
             </div>
             <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
-                <?php
-                    
-                    $tabdata = \App\Models\VendorManagementgi::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
-                    foreach($tabdata as $key => $item){
 
-                ?>
-                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#historigi<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}<?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
-                <?php
-                    }
-                ?>
+            @if(count(\App\Models\VendorManagementgi::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
+                
+                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
+                @else
+                    @foreach(\App\Models\VendorManagementgi::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $key => $item)
+                        <li class="nav-item"><a class="nav-link  active show" data-toggle="tab" href="#historigi<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}<?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
+                    @endforeach
+                @endif
             </ul>
             <div class="tab-content">
+            @if(count(\App\Models\VendorManagementgi::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
                 <div class="tab-pane active show" id="newevaluation">  
                     <div class="row">
                         <div class="col-md-8">
@@ -1443,23 +1442,13 @@
                     </div>
                     
                 </div>
-                <?php
-                    $tabdata = \App\Models\VendorManagementgi::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
-                    foreach($tabdata as $item){
-                ?>
-                <div class="tab-pane" id="historigi<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
-                    
-                    <!-- livewire:vendor-management.historigeneralinformation -->
-                    
-                    <!-- livewire:vendor-management.historigeneralinformation  :date=" $item->created_at " -->
-                    
-                    <!-- livewire('vendor-management.historigeneralinformation') -->
-
-                    @livewire('vendor-management.historigeneralinformation', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
-                </div>
-                <?php
-                    }
-                ?>       
+                @else
+                    @foreach(\App\Models\VendorManagementgi::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $item)
+                    <div class="tab-pane  active show" id="historigi<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
+                        @livewire('vendor-management.historigeneralinformation', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
+                    </div>
+                    @endforeach
+                @endif      
             </div>
         </div>
 

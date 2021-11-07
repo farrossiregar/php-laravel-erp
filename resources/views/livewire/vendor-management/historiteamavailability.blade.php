@@ -1,16 +1,21 @@
 <div class="row">
     <div class="col-md-8">
         <div class="row">
-            <!-- <form wire:submit.prevent="save"> -->
-            
+            <form wire:submit.prevent="save">
+            @csrf
             <div class="row">
                 <div class="col-md-12">
                     <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
                         <div class="row">
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-10 form-group">
                             
                                 <h5>Team Availability</h5> 
                             </div>
+                            <div class="col-md-2">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
+                                </div>
+                            </div>  
                             
                         </div>
                         <hr>
@@ -136,7 +141,8 @@
 
                                         <div class="row">
                                             <div class="col-md-12 form-group">
-                                                <p>Other Service:  Outsourcing FO team </p>
+                                                <!-- <p>Other Service:  Outsourcing FO team </p> -->
+                                                <input type="text" class="form-control" placeholder="Other Service" wire:model="service_type14">
                                                 <input type="hidden" class="form-control" value="Other Service:  Outsourcing FO team" wire:model="service_type2">
                                             </div>
                                         </div>
@@ -150,7 +156,7 @@
                                         ?>
                                         <div class="row" style="margin-bottom: 16px;">
                                             <div class="col-md-12 -form-group">
-                                                <?php
+                                                <!-- <?php
                                                     if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
                                                         $teamcount = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($teamcount){
@@ -159,7 +165,7 @@
                                                             $countteam = 0;
                                                         }
                                                 ?>
-                                                <!-- <input type="text" class="form-control" placeholder="<?php echo $countteam; ?>" value="<?php echo $countteam; ?>" wire:model="team{{ $i }}"> -->
+                                                
                                                 <input type="number" wire:change="updatedata('team', {{ $i }})" class="form-control" placeholder="{{ $countteam }}" wire:model="team{{$i}}">
                                                 <?php
                                                     }else{
@@ -168,8 +174,8 @@
                                                     
                                                 <?php
                                                     }
-                                                ?>
-                                                
+                                                ?> -->
+                                                <input type="number" class="form-control" wire:model="team{{$i}}">
                                                 
 
                                             </div>
@@ -197,7 +203,7 @@
                                         ?>
                                         <div class="row">
                                             <div class="col-md-2 form-group">
-                                                <?php
+                                                <!-- <?php
                                                     if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
                                                         $check_eng = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($check_eng){
@@ -213,14 +219,15 @@
                                                     <input type="number" class="form-control" placeholder="Team" wire:model="eng{{$i}}">
                                                 <?php
                                                     }
-                                                ?>
+                                                ?> -->
+                                                <input type="number" class="form-control" wire:model="eng{{$i}}">
                                                 <!-- <input type="number"  placeholder="Engineer" class="form-control" wire:model="<?php echo 'eng'.$i ?>"/> -->
                                                 @error('eng'.$i)
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
                                             <div class="col-md-2 form-group">
-                                                <?php
+                                                <!-- <?php
                                                     if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
                                                         $check_tech = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($check_tech){
@@ -236,7 +243,8 @@
                                                     <input type="number" class="form-control" placeholder="Technician" wire:model="tech{{$i}}">
                                                 <?php
                                                     }
-                                                ?>
+                                                ?> -->
+                                                <input type="number" class="form-control" wire:model="tech{{$i}}">
                                                 <!-- <div class="input-group mb-3">
                                                     <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
                                                     <div class="input-group-append">
@@ -249,7 +257,7 @@
                                                 @enderror
                                             </div>
                                             <div class="col-md-2 form-group">
-                                                <?php
+                                                <!-- <?php
                                                     if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
                                                         $check_rigger = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($check_rigger){
@@ -265,15 +273,15 @@
                                                     <input type="number" class="form-control" placeholder="Rigger" wire:model="rigger{{$i}}">
                                                 <?php
                                                     }
-                                                ?>
-
+                                                ?> -->
+                                                <input type="number" class="form-control" wire:model="rigger{{$i}}">
                                                 <!-- <input type="number" placeholder="Rigger" class="form-control" wire:model="<?php echo 'rigger'.$i ?>"/> -->
                                                 @error('rigger'.$i)
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
                                             </div>
                                             <div class="col-md-2 form-group">
-                                                <?php
+                                                <!-- <?php
                                                     if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
                                                         $check_helper = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($check_helper){
@@ -289,7 +297,9 @@
                                                     <input type="number" class="form-control" placeholder="Helper" wire:model="helper{{$i}}">
                                                 <?php
                                                     }
-                                                ?>
+                                                ?> -->
+
+                                                <input type="number" class="form-control" wire:model="helper{{$i}}">
 
                                                 <!-- <input type="number" placeholder="Helper" class="form-control" wire:model="<?php echo 'helper'.$i ?>"/> -->
                                                 @error('helper'.$i)
@@ -297,7 +307,7 @@
                                                 @enderror
                                             </div>
                                             <div class="col-md-2 form-group">
-                                                <?php
+                                                <!-- <?php
                                                     if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
                                                         $check_other = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($check_other){
@@ -313,9 +323,9 @@
                                                     <input type="number" class="form-control" placeholder="Other" wire:model="other{{$i}}">
                                                 <?php
                                                     }
-                                                ?>
+                                                ?> -->
 
-                                                <!-- <input type="number" placeholder="Other" class="form-control" wire:model="<?php echo 'other'.$i ?>"/> -->
+                                                <input type="number" class="form-control" wire:model="other{{$i}}">
                                                 @error('other'.$i)
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -447,7 +457,10 @@
 
                                         <div class="row">
                                             <div class="col-md-12 form-group">
-                                                <p>Other Service:  Outsourcing FO team </p>
+                                                <?php
+                                                    $id_detail_title = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->where('id_detail', '14')->first()->id_detail_title;
+                                                ?>
+                                                <p>{{$id_detail_title}}</p>
                                                 <input type="hidden" class="form-control" value="Other Service:  Outsourcing FO team" wire:model="service_type2">
                                             </div>
                                         </div>
@@ -472,7 +485,7 @@
                                                         }
                                                     ?>
                                                 </select> -->
-                                                <?php
+                                                <!-- <?php
                                                     if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
                                                         $check_year = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($check_year){
@@ -485,10 +498,11 @@
                                                 <?php
                                                     }else{
                                                 ?>
-                                                    <input type="number" class="form-control" placeholder="Year" wire:model="other{{$i}}">
+                                                    <input type="number" class="form-control" placeholder="Year" wire:model="year{{$i}}">
                                                 <?php
                                                     }
-                                                ?>
+                                                ?> -->
+                                                <input type="number" class="form-control"  wire:model="year{{$i}}">
                                                 @error('year'.$i)
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -510,7 +524,7 @@
                                         <div class="row">
                                             <div class="col-md-6 form-group">
                                                 <!-- <input type="number" min='0' max="100" placeholder="Invoice" class="form-control" wire:model="<?php echo 'invoice'.$i ?>"/> -->
-                                                <?php
+                                                <!-- <?php
                                                     if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
                                                         $check_invoice = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($check_invoice){
@@ -523,10 +537,12 @@
                                                 <?php
                                                     }else{
                                                 ?>
-                                                    <input type="number" class="form-control" placeholder="invoice" wire:model="other{{$i}}">
+                                                    <input type="number" class="form-control" placeholder="invoice" wire:model="invoice{{$i}}">
                                                 <?php
                                                     }
-                                                ?>
+                                                ?> -->
+
+                                                <input type="number" class="form-control"  wire:model="invoice{{$i}}">
                                                 @error('invoice'.$i)
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                 @enderror
@@ -551,7 +567,7 @@
                 
                 </div>                            
             </div>
-            <!-- </form> -->
+            </form>
         </div>
     </div>
     

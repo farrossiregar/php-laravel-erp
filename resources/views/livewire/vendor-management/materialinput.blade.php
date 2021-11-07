@@ -57,6 +57,31 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
+                                        <div class="col-md-12 form-group">
+                                            <label>Project</label>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" placeholder="Search Project Name"  wire:model="project_name"/>
+                                                    @error('project_name')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-6">
+                                                    
+                                                    <select name="" id="" class="form-control" wire:model="project_id">
+                                                        <option value=""></option>
+                                                        @foreach($dataproject as $item)
+                                                        <option value="{{ $item->id }}"><b>{{ $item->name }}</b> -  {{ $item->project_code }} - {{ $item->region_code }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('dataproject')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+                                        
 
                                         <!-- <div class="col-md-12 form-group">
                                             <label>Category</label>
