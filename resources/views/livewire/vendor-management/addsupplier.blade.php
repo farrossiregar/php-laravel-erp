@@ -9,15 +9,82 @@
                 </div>
 
                 <div class="body pt-0">
+                    
                     <div class="form-group">
                         <form wire:submit.prevent="save">
                             @csrf
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        
-                                        <div class="col-md-12 form-group">
-                                            <label>Supplier</label>
+                                        <input type="text" class="form-control" placeholder="Search Supplier Name"  wire:model="suppliername"/>
+                                        @error('project_name')
+                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="row">
+                                
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped m-b-0 c_list">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Supplier Name</th> 
+                                                        <th>Supplier PIC</th> 
+                                                        <th>Price Offer</th> 
+                                                        <th>Initial</th> 
+                                                        <th>Evaluation</th> 
+                                                        <th>Action</th> 
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($datasupplier as $key => $item)
+                                                    <tr>
+                                                        <td>{{$key + 1}}</td>
+                                                        <td>{{ $item->supplier_name }}</td> 
+                                                        <td>{{ $item->supplier_pic }}</td> 
+                                                        <td>Rp, {{ format_idr($item->price_offer) }}</td> 
+                                                        <td>
+                                                            @if($item->initial)
+                                                                <a href="javascript:;" title="Upload">
+                                                                    <label class="badge badge-success"  style="cursor: pointer;" data-toggle="tooltip" title="<?php echo $item->initial; ?>" ><label style="font-size: 18px; padding: 3px 0; cursor: pointer;"><b>{{ $item->initial }}</b></label></label>
+                                                                </a>
+                                                            @else
+                                                                <label class="badge badge-danger" data-toggle="tooltip" title="0"><label style="font-size: 20px; padding: 3px 0;">0</label></label>
+                                                            @endif
+                                                            
+                                                        </td>
+                                                        <td>
+                                                            @if($item->scoring)
+                                                                <a href="javascript:;"  title="Upload">
+                                                                    <label class="badge badge-success"  style="cursor: pointer;" data-toggle="tooltip" title="<?php echo $item->scoring; ?>" ><label style="font-size: 18px; padding: 3px 0; cursor: pointer;"><b>{{ $item->scoring }}</b></label></label>
+                                                                </a>
+                                                            @else
+                                                                <label class="badge badge-danger" data-toggle="tooltip" title="0"><label style="font-size: 20px; padding: 3px 0;">0</label></label>
+                                                            @endif
+                                                        
+                                                        </td> 
+                                                        <td>
+                                                        
+                                                            <a href="" wire:click="choosesupp({{ $item->id }}, {{$supptype}}, {{$project_id}})"><i class="fa fa-search fa-2x" style="color: #007bff;"></i></a>
+                                                        </td> 
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- <div class="col-md-6 form-group">
+                                            <input type="text" class="form-control" placeholder="Search Supplier Name"  wire:model="project_name"/>
+                                            @error('project_name')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6 form-group">
                                             <select class="form-control" wire:model="project_category">
                                                 <option value="">-- Category --</option>
                                                 <option value="sites">Service - Company</option>
@@ -27,7 +94,7 @@
                                             @error('project_category')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div>
+                                        </div> -->
                                   
                                         <!-- <div class="col-md-12 form-group">
                                             <label>Region</label>
@@ -165,11 +232,11 @@
                                     </div>
                                 </div>
                                 
-                                <div class="col-md-12 form-group">
+                                <!-- <div class="col-md-12 form-group">
                                     <hr />
-                                    <!-- <a href="{{route('accident-report.index')}}" class="mr-2"><i class="fa fa-arrow-left"></i> {{ __('Back') }}</a> -->
+                                    
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
-                                </div>
+                                </div> -->
                             </div>
                         </form>
                     </div>

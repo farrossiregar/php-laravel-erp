@@ -30,6 +30,7 @@
     
     <div class="col-md-12">
         <br><br>
+        
         <div class="table-responsive">
             <table class="table table-striped m-b-0 c_list">
                 <thead>
@@ -61,7 +62,7 @@
                            
                             @else
                             <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Add Supplier')}}</a> -->
-                            <a href="javascript:;"  wire:click="$emit('modalviewcomparation','{{ $item->id }}')" title="Detail Comparation"><i style="color: #007bff;" class="fa fa-plus fa-2x"></i> </a>
+                            <a href="javascript:;"  wire:click="$emit('modaladdsupplier',['{{ $item->project_category }}', '1', '{{$item->id}}'])" title="Detail Comparation"><i style="color: #007bff;" class="fa fa-plus fa-2x"></i> </a>
                             <!-- <select wire:change="addsupplier1({{ $item->id }})" wire:model="supplier1_id.{{ $item->id }}"  class="form-control" name="" id="">
                                 <option value=""> -- Select Supplier --</option>
                                 <?php
@@ -81,7 +82,7 @@
                             <a href="#" wire:click="delsupplier2({{ $item->id }})" title="Delete" ><i style="color: #dc3545;" class="fa fa-trash fa-2x"></i> </a>
   
                             @else
-                            <a href="javascript:;"  wire:click="$emit('modalviewcomparation','{{ $item->id }}')" title="Detail Comparation"><i style="color: #007bff;" class="fa fa-plus fa-2x"></i> </a>
+                            <a href="javascript:;"  wire:click="$emit('modaladdsupplier',['{{ $item->project_category }}', '2', '{{$item->id}}'])" title="Detail Comparation"><i style="color: #007bff;" class="fa fa-plus fa-2x"></i> </a>
                             <!-- <select wire:change="addsupplier2({{ $item->id }})" wire:model="supplier2_id.{{ $item->id }}"  class="form-control" name="" id="">
                                 <option value=""> -- Select Supplier --</option>
                                 <?php
@@ -98,10 +99,10 @@
                             @if($item->supplier3_id)
                             <b>{{ get_detail_supplier($item->supplier3_id)->supplier_name }} </b>
                             <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a> -->
-                            <a href="#" wire:click="delsupplier3({{ $item->id }})" title="Delete" ><i style="color: #dc3545;" class="fa fa-trash fa-2x"></i> </a>
+                            <a href="#" wire:click="delsupplier3({{ $item->project_category }})" title="Delete" ><i style="color: #dc3545;" class="fa fa-trash fa-2x"></i> </a>
                            
                             @else
-                            <a href="javascript:;"  wire:click="$emit('modalviewcomparation','{{ $item->id }}')" title="Detail Comparation"><i style="color: #007bff;" class="fa fa-plus fa-2x"></i> </a>
+                            <a href="javascript:;"  wire:click="$emit('modaladdsupplier',['{{ $item->project_category }}', '3', '{{$item->id}}'])" title="Detail Comparation"><i style="color: #007bff;" class="fa fa-plus fa-2x"></i> </a>
                             <!-- <select wire:change="addsupplier3({{ $item->id }})" wire:model="supplier3_id.{{ $item->id }}"  class="form-control" name="" id="">
                                 <option value=""> -- Select Supplier --</option>
                                 <?php

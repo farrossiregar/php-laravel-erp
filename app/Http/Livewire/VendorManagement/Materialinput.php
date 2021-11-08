@@ -4,13 +4,20 @@ namespace App\Http\Livewire\VendorManagement;
 
 use Livewire\Component;
 use Auth;
+use DB;
 
 class Materialinput extends Component
 {    
-    public $supplier_name, $supplier_pic, $supplier_contact, $supplier_email, $supplier_address, $price_offer;
+    public $supplier_name, $supplier_pic, $supplier_contact, $supplier_email, $supplier_address, $price_offer, $project_name, $project_id, $dataproject;
 
     public function render()
     {
+        $dataproject = \App\Models\ProjectEpl::orderBy('projects.id', 'desc')
+                                    ->select('projects.*', 'region.region_code')
+                                    ->join(env('DB_DATABASE').'.region', env('DB_DATABASE_EPL_PMT').'.projects.region_id', '=', env('DB_DATABASE').'.region.id' );
+       
+        if($this->project_name) $dataproject->where('projects.name', 'like', '%' . $this->project_name . '%');
+        $this->dataproject = $dataproject->get();
         return view('livewire.vendor-management.materialinput');        
     }
 

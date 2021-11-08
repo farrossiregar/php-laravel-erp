@@ -15,7 +15,7 @@ class Summarynote extends Component
     ];
 
     use WithFileUploads;
-    public $file, $selected_id;
+    public $file, $selected_id, $data, $summary_note;
 
     
     public function render()
@@ -34,26 +34,20 @@ class Summarynote extends Component
     public function summarynote($id)
     {
         $this->selected_id = $id;
+        $data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        $this->summary_note = $data->summary_note;
     }
     
     public function save()
     {
 
-        $this->validate([
-            'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
-        ]);
-
-        if($this->file){
-            $legal = 'vm-legal'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/Vendor_Management/Legal/',$legal);
-
-            $data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-            $data->legal         = $legal;
+     
+        $data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        $data->summary_note         = $this->summary_note;
             
-            $data->save();
-        }
+        $data->save();
 
-        session()->flash('message-success',"Upload Legal for Vendor Management success");
+        session()->flash('message-success',"Update Summary Note for Vendor Management success");
         
         // return redirect()->route('contract-registration-flow.index');
         return redirect()->route('vendor-management.index');

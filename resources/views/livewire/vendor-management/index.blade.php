@@ -187,6 +187,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-vendormanagement-addsupp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:vendor-management.addsupplier />
+        </div>
+    </div>
+</div>
+
 
 
 @section('page-script')
@@ -278,6 +286,10 @@
 
     Livewire.on('modalviewcomparation',(data)=>{
         $("#modal-vendormanagement-viewcomparation").modal('show');
+    });
+
+    Livewire.on('modaladdsupplier',(data)=>{
+        $("#modal-vendormanagement-addsupp").modal('show');
     });
 
 

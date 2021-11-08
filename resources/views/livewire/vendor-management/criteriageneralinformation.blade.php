@@ -10,19 +10,19 @@
                 <br>
             </div>
             <ul class="nav nav-tabs">
+               
+                @if(count(\App\Models\VendorManagementgi::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
+                
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
-                <?php
-                    
-                    $tabdata = \App\Models\VendorManagementgi::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
-                    foreach($tabdata as $key => $item){
-
-                ?>
-                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#historigi<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}<?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
-                <?php
-                    }
-                ?>
+                @else
+                    @foreach(\App\Models\VendorManagementgi::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $key => $item)
+                        <li class="nav-item"><a class="nav-link  active show" data-toggle="tab" href="#historigi<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}<?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
+                    @endforeach
+                @endif
             </ul>
             <div class="tab-content">
+                <!-- if(!\App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->get()) -->
+                @if(count(\App\Models\VendorManagementgi::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
                 <div class="tab-pane active show" id="newevaluation">  
                     <div class="row">
                         <div class="col-md-8">
@@ -46,6 +46,53 @@
                                             <hr>
                                             <div class="row">
                                                 <div class="col-md-4">
+                                                <?php
+                                                    $supptype = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+                                                    // echo $supptype->supplier_category;
+                                                    
+                                                ?>
+                                                    @if($supptype->supplier_category == 'Service - Company')
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="margin-bottom: 10px;">
+                                                            <div class="form-group">
+                                                                <label >Company Name :</label>
+                                                                <input type="hidden" class="form-control" value="Owner Name" wire:model="service_type1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="margin-bottom: 10px;">
+                                                            <div class="form-group">
+                                                                <label >Business Name :</label>
+                                                                <input type="hidden" class="form-control" value="Owner Name" wire:model="service_type1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="margin-bottom: 10px;">
+                                                            <div class="form-group">
+                                                                <label><b>Business Licence TDP :</b> </label>
+                                                                <input type="hidden" class="form-control" value="owner_licence_ktp" wire:model="service_type2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="margin-bottom: 8px;">
+                                                            <div class="form-group">
+                                                                <label><b>Business Licence SIUP :</b> </label>
+                                                                <input type="hidden" class="form-control" value="owner_licence_npwp" wire:model="service_type3">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="margin-bottom: 8px;">
+                                                            <div class="form-group">
+                                                                <label><b>Business Licence NPWP :</b> </label>
+                                                                <input type="hidden" class="form-control" value="owner_licence_npwp" wire:model="service_type3">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @else
                                                     <div class="row">
                                                         <div class="col-md-12" style="margin-bottom: 10px;">
                                                             <div class="form-group">
@@ -70,6 +117,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    @endif
+                                                    
                                                     <div class="row">
                                                         <div class="col-md-12" style="margin-bottom: 10px;">
                                                             <div class="form-group">
@@ -161,6 +210,67 @@
                                                     
                                                 </div>
                                                 <div class="col-md-8">
+                                                    @if($supptype->supplier_category == 'Service - Company')
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                             
+                                                                <input type="text" class="form-control" wire:model="value1"/>
+                                                                @error('value1')
+                                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                              
+                                                                <input type="text" class="form-control" wire:model="value2"/>
+                                                                @error('owner_licence_ktp')
+                                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                
+                                                                <input type="text" class="form-control" wire:model="value3"/>
+                                                                @error('owner_licence_npwp')
+                                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                
+                                                                <input type="text" class="form-control" wire:model="value46"/>
+                                                                @error('value46')
+                                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                
+                                                                <input type="text" class="form-control" wire:model="value47"/>
+                                                                @error('value47')
+                                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @else
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="form-group">
@@ -236,6 +346,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    @endif
+                                                    
 
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -707,7 +819,7 @@
                                                                     }
                                                                 ?> -->
 
-                                                                <input type="text" class="form-control" wire:model="value21"/>
+                                                                <input type="text" placeholder="Asset" class="form-control" wire:model="value21"/>
                                                                 
                                                                 @error('value21')
                                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -1443,23 +1555,13 @@
                     </div>
                     
                 </div>
-                <?php
-                    $tabdata = \App\Models\VendorManagementgi::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
-                    foreach($tabdata as $item){
-                ?>
-                <div class="tab-pane" id="historigi<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
-                    
-                    <!-- livewire:vendor-management.historigeneralinformation -->
-                    
-                    <!-- livewire:vendor-management.historigeneralinformation  :date=" $item->created_at " -->
-                    
-                    <!-- livewire('vendor-management.historigeneralinformation') -->
-
-                    @livewire('vendor-management.historigeneralinformation', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
-                </div>
-                <?php
-                    }
-                ?>       
+                @else
+                    @foreach(\App\Models\VendorManagementgi::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $item)
+                    <div class="tab-pane  active show" id="historigi<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
+                        @livewire('vendor-management.historigeneralinformation', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
+                    </div>
+                    @endforeach
+                @endif    
             </div>
         </div>
 

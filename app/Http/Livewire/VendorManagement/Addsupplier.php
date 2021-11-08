@@ -11,17 +11,51 @@ class Addsupplier extends Component
         'modaladdsupplier'=>'addsupplier',
     ];
 
-    public $selected_id, $project_name, $project_pic, $project_category, $supplier1_id, $supplier2_id, $supplier3_id;
+    public $selected_id, $project_name, $project_pic, $project_category, $supplier1_id, $supplier2_id, $supplier3_id, $suppliername, $datasupplier, $supplier_category, $data, $supptype, $project_id;
 
     public function render()
     {
+
+        $datasupplier = \App\Models\VendorManagement::orderBy('id', 'desc')->where('supplier_category', $this->selected_id);
+
+        if($this->suppliername) $datasupplier->where('supplier_name', 'like', '%' . $this->suppliername . '%');
+        $this->datasupplier = $datasupplier->get();
+
+        // dd($this->datasupplier);
         return view('livewire.vendor-management.addsupplier');        
     }
 
     public function addsupplier($id){
-        $this->selected_id = $id;
+        $this->selected_id = $id[0];
+        $this->supptype = $id[1];
+        $this->project_id = $id[2];
+        
+        
+
     }
    
+
+    public function choosesupp($id, $supptype, $project_id)
+    {
+        $check = \App\Models\VendorManagementCreateProject::where('id',$project_id)->first();
+        // dd($supptype);
+        if($supptype == 1){
+            $check->supplier1_id = $id;
+        }
+
+        if($supptype == 2){
+            $check->supplier2_id = $id;
+        }
+
+        if($supptype == 3){
+            $check->supplier3_id = $id;
+        }
+        // $d = json_encode($this->supplier1_id);
+        // $check->supplier1_id = substr($d, 6, 1);
+        $check->save();
+        
+        return redirect()->route('vendor-management.index');
+    }
   
     public function save()
     {

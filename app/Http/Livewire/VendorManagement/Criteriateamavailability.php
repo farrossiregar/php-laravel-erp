@@ -44,17 +44,7 @@ class Criteriateamavailability extends Component
         return view('livewire.vendor-management.criteriateamavailability');        
     }
 
-    // public function criteriateamavailability($id)
-    // {
-    //     $this->selected_id = $id;
-        
-    //     $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        
-    //     for($i = 1; $i < 15; $i++){
-    //         $this->team[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where()->first();
-    //     }
-        
-    // }
+
 
     public function mount($id){
         // $sumcap = \App\Models\VendorManagementta::where('id_supplier', $id)->where('year', NULL)->orwhere('year', '0')->get();
@@ -85,32 +75,26 @@ class Criteriateamavailability extends Component
     {
         $user = \Auth::user();
       
-            // $check = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->first();
-            // // dd($check);
-            // if(!$check){
-                for($i = 1; $i < 15; $i++){
-                    $data                                       = new \App\Models\VendorManagementta();
-                    $data->id_supplier                          = $this->selected_id;
-                    $data->id_detail                            = $i;
-                    $data->id_detail_title                      = $this->valueconcat('service_type', $i);
-                    $data->team                                 = $this->valueconcat('team', $i);
-                    $data->eng                                  = $this->valueconcat('eng', $i);
-                    $data->tech                                 = $this->valueconcat('tech', $i);
-                    $data->rigger                               = $this->valueconcat('rigger', $i);
-                    $data->helper                               = $this->valueconcat('helper', $i);
-                    $data->other                                = $this->valueconcat('other', $i);
-                    $data->year                                 = $this->valueconcat('year', $i);
-                    $data->invoice                              = $this->valueconcat('invoice', $i);
-                    
-                    $data->save();
-                }
-               
-            // }
+        for($i = 1; $i < 15; $i++){
+            $data                                       = new \App\Models\VendorManagementta();
+            $data->id_supplier                          = $this->selected_id;
+            $data->id_detail                            = $i;
+            if($i == 14){
+                // $data->id_detail_title                      = $this->valueconcat('service_type', $i);
+                $data->id_detail_title                      = $this->service_type14;
+            }
             
-
-            // $sumteam = \App\Models\VendorManagementta::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->groupBy('id_supplier')->first();
+            $data->team                                 = $this->valueconcat('team', $i);
+            $data->eng                                  = $this->valueconcat('eng', $i);
+            $data->tech                                 = $this->valueconcat('tech', $i);
+            $data->rigger                               = $this->valueconcat('rigger', $i);
+            $data->helper                               = $this->valueconcat('helper', $i);
+            $data->other                                = $this->valueconcat('other', $i);
+            $data->year                                 = $this->valueconcat('year', $i);
+            $data->invoice                              = $this->valueconcat('invoice', $i);
             
-        
+            $data->save();
+        }
 
         session()->flash('message-success',"Criteria Team Availability Successfully Evaluate!!!");
         

@@ -15,7 +15,7 @@ class Improvementpoint extends Component
     ];
 
     use WithFileUploads;
-    public $file, $selected_id;
+    public $file, $selected_id, $improvement_point;
 
     
     public function render()
@@ -34,26 +34,22 @@ class Improvementpoint extends Component
     public function improvementpoint($id)
     {
         $this->selected_id = $id;
+        $data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        $this->improvement_point = $data->improvement_point;
     }
     
     public function save()
     {
 
-        $this->validate([
-            'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
-        ]);
-
-        if($this->file){
-            $legal = 'vm-legal'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/Vendor_Management/Legal/',$legal);
-
-            $data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-            $data->legal         = $legal;
+      
+     
+        $data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        $data->improvement_point         = $this->improvement_point;
             
-            $data->save();
-        }
+        $data->save();
 
-        session()->flash('message-success',"Upload Legal for Vendor Management success");
+        session()->flash('message-success',"Update Improvement Point for Vendor Management success");
+        
         
         // return redirect()->route('contract-registration-flow.index');
         return redirect()->route('vendor-management.index');
