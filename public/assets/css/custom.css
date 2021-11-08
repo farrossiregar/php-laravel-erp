@@ -18,3 +18,12 @@
 .nav-tabs-new2>li>a{
     padding:7px 10px !important;
 }
+.show-form-filter{
+    position: absolute;
+    transform: translate3d(15px, 35px, 0px);
+    top: 60px;
+    left: 0px;
+    will-change: transform;
+    display: block;
+    width: 250px;
+}

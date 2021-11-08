@@ -26,9 +26,19 @@ class PpeCheck extends Component
         return view('livewire.mobile-apps.ppe-check')->with(['data'=>$data->paginate(100)]);
     }
 
+    public function clear_filter()
+    {
+        $this->reset(['keyword','date_start','date_end','user_access_id','region_id','sub_region_id']);
+        $this->emit('clear_daterange');
+    }
+    
     public function init_data()
     {
-        $data = PpeCheckModel::select('ppe_check.*','employees.name')->with('employee')->orderBy('ppe_check.is_submit','DESC')->orderBy('ppe_check.updated_at','DESC')->join('employees','employees.id','=','employee_id');
+        $data = PpeCheckModel::select('ppe_check.*','employees.name')
+                                ->with(['employee','region','sub_region'])
+                                ->orderBy('ppe_check.is_submit','DESC')
+                                ->orderBy('ppe_check.updated_at','DESC')
+                                ->join('employees','employees.id','=','employee_id');
         
         if($this->keyword) $data->where(function($table){
                 $table->where('employees.name',"LIKE", "%{$this->keyword}%")
@@ -48,7 +58,6 @@ class PpeCheck extends Component
 
         if($this->sub_region_id) $data->where('ppe_check.sub_region_id',$this->sub_region_id);
         if($this->user_access_id) $data->where('employees.user_access_id',$this->user_access_id);
-
         if(check_access('all-project.index'))
             $client_project_ids = [session()->get('project_id')];
         else
@@ -99,7 +108,7 @@ class PpeCheck extends Component
         $activeSheet->getRowDimension('1')->setRowHeight(34);
         $activeSheet->getStyle('B1')->getFont()->setSize(16);
         $activeSheet->getStyle('B1')->getAlignment()->setWrapText(false);
-        $activeSheet->getStyle('A4:N4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('c2d7f3');
+        $activeSheet->getStyle('A4:P4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('c2d7f3');
         $activeSheet->getColumnDimension('A')->setWidth(5);
         $activeSheet->getColumnDimension('B')->setAutoSize(true);
         $activeSheet->getColumnDimension('C')->setAutoSize(true);
@@ -114,21 +123,25 @@ class PpeCheck extends Component
         $activeSheet->getColumnDimension('L')->setAutoSize(true);
         $activeSheet->getColumnDimension('M')->setAutoSize(true);
         $activeSheet->getColumnDimension('N')->setAutoSize(true);
+        $activeSheet->getColumnDimension('O')->setAutoSize(true);
+        $activeSheet->getColumnDimension('P')->setAutoSize(true);
         $activeSheet
                     ->setCellValue('A4', 'No')
-                    ->setCellValue('B4', 'NIK')
-                    ->setCellValue('C4', 'Employee')
-                    ->setCellValue('D4', 'Date')
-                    ->setCellValue('E4', 'Foto Dengan PPE')
-                    ->setCellValue('F4', 'Foto Banner')
-                    ->setCellValue('G4', 'Foto Sertifikasi WAH')
-                    ->setCellValue('H4', 'Foto Elektrikal')
-                    ->setCellValue('I4', 'Foto First Aid')
-                    ->setCellValue('J4', 'PPE Lengkap')
-                    ->setCellValue('K4', 'PPE alasan tidak lengkap')
-                    ->setCellValue('L4', 'Banner lengkap')
-                    ->setCellValue('M4', 'Banner alasan tidak lengkap')
-                    ->setCellValue('N4', 'Sertifikasi alasan tidak lengkap');
+                    ->setCellValue('B4', 'Region')
+                    ->setCellValue('C4', 'Sub Region')
+                    ->setCellValue('D4', 'NIK')
+                    ->setCellValue('E4', 'Employee')
+                    ->setCellValue('F4', 'Date')
+                    ->setCellValue('G4', 'Foto Dengan PPE')
+                    ->setCellValue('H4', 'Foto Banner')
+                    ->setCellValue('I4', 'Foto Sertifikasi WAH')
+                    ->setCellValue('J4', 'Foto Elektrikal')
+                    ->setCellValue('K4', 'Foto First Aid')
+                    ->setCellValue('L4', 'PPE Lengkap')
+                    ->setCellValue('M4', 'PPE alasan tidak lengkap')
+                    ->setCellValue('N4', 'Banner lengkap')
+                    ->setCellValue('O4', 'Banner alasan tidak lengkap')
+                    ->setCellValue('P4', 'Sertifikasi alasan tidak lengkap');
         $num=5;
 
         $data = $this->init_data();
@@ -136,6 +149,8 @@ class PpeCheck extends Component
         foreach($data->get() as $k => $i){
             $activeSheet
                 ->setCellValue('A'.$num,($k+1))
+                ->setCellValue('B'.$num,isset($i->region->region) ? $i->region->region : '')
+                ->setCellValue('B'.$num,isset($i->sub_region->name) ? $i->sub_region->name : '')
                 ->setCellValue('B'.$num,isset($i->employee->nik) ? $i->employee->nik : '')
                 ->setCellValue('C'.$num,$i->name)
                 ->setCellValue('D'.$num,date('d-M-Y',strtotime($i->created_at)));

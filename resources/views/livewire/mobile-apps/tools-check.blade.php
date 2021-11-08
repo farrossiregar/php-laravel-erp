@@ -1,47 +1,57 @@
 <div>
     <div class="form-group row">
-        <div class="col-md-2">
-            <input type="text" class="form-control" placeholder="Searching..." />
-        </div>
-        <div class="col-md-1">
-            <select class="form-control" wire:model="tahun">
-                <option value=""> --- Year --- </option>
-                @foreach(\App\Models\ToolsCheck::groupBy('tahun')->get() as $y)
-                    <option>{{$y->tahun}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-1">
-            <select class="form-control" wire:model="bulan">
-                <option value=""> --- Month --- </option>
-                @foreach(\App\Models\ToolsCheck::groupBy('bulan')->get() as $m)
-                    <option>{{$m->bulan}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-2" wire:ignore>
-            <select class="form-control" wire:model="region_id" wire:change="$set('sub_region_id',null)">
-                <option value=""> -- Select Region -- </option>
-                @foreach($region as $item)
-                    <option value="{{$item->id}}">{{$item->region}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-2">
-            <select class="form-control" wire:model="sub_region_id">
-                <option value=""> -- Select Sub Region -- </option>
-                @foreach($sub_region as $item)
-                    <option value="{{$item->id}}">{{$item->name}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-2" wire:ignore>
-            <select class="form-control" wire:model="user_access_id">
-                <option value="">-- Job Role/Access --</option>
-                @foreach(\App\Models\UserAccess::where('is_project',1)->get() as $item)
-                    <option value="{{$item->id}}">{{$item->name}}</option>
-                @endforeach
-            </select>
+        <div class="pl-3 py-2 form-group" wire:ignore x-data="{open_dropdown:false}" @click.away="open_dropdown = false">
+            <a href="javascript:void(0)" x-on:click="open_dropdown = ! open_dropdown" class="dropdown-toggle">
+                 Searching <i class="fa fa-search-plus"></i>
+            </a>
+            <div class="dropdown-menu show-form-filter" x-show="open_dropdown">
+                <form class="p-2">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Searching..." />
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" wire:model="tahun">
+                            <option value=""> --- Year --- </option>
+                            @foreach(\App\Models\ToolsCheck::groupBy('tahun')->get() as $y)
+                                <option>{{$y->tahun}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" wire:model="bulan">
+                            <option value=""> --- Month --- </option>
+                            @foreach(\App\Models\ToolsCheck::groupBy('bulan')->get() as $m)
+                                <option>{{$m->bulan}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group" wire:ignore>
+                        <select class="form-control" wire:model="region_id" wire:change="$set('sub_region_id',null)">
+                            <option value=""> -- Select Region -- </option>
+                            @foreach($region as $item)
+                                <option value="{{$item->id}}">{{$item->region}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" wire:model="sub_region_id">
+                            <option value=""> -- Select Sub Region -- </option>
+                            @foreach($sub_region as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group" wire:ignore>
+                        <select class="form-control" wire:model="user_access_id">
+                            <option value="">-- Job Role/Access --</option>
+                            @foreach(\App\Models\UserAccess::where('is_project',1)->get() as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <a href="javascript:void(0)" wire:click="clear_filter()"><small>Clear filter</small></a>
+                </form>
+            </div>
         </div>
         <div class="col-md-2">
             <span wire:loading>
@@ -55,6 +65,8 @@
             <thead>
                 <tr style="background:#eee;">
                     <th>No</th>                                    
+                    <th>Region</th> 
+                    <th>Sub Region</th> 
                     <th>NIK</th> 
                     <th>Employee</th> 
                     <th>Year</th>
@@ -68,6 +80,8 @@
                 @foreach($data as $k => $item)
                     <tr>
                         <td>{{$k+1}}</td>
+                        <td>{{isset($item->region->region) ? $item->region->region : ''}}</td>
+                        <td>{{isset($item->sub_region->name) ? $item->sub_region->name : ''}}</td>
                         <td>{{isset($item->_employee->nik) ? $item->_employee->nik : ''}}</td>
                         <td>{{$item->name}}</td>
                         <td>{{$item->tahun}}</td>

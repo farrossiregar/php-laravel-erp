@@ -25,7 +25,6 @@ class ToolsCheck extends Component
         
         if($this->tahun) $data->where('tahun',$this->tahun);
         if($this->bulan) $data->where('bulan',$this->bulan);
-
         if($this->region_id) {
             $data->where('tools_check.region_id',$this->region_id);
             $this->sub_region = SubRegion::where('region_id',$this->region_id)->get();

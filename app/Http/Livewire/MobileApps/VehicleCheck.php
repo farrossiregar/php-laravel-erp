@@ -33,9 +33,7 @@ class VehicleCheck extends Component
 
     public function delete()
     {
-        if($this->selected_id){
-            $this->selected_id->delete();;
-        }
+        if($this->selected_id) $this->selected_id->delete();;
 
         $this->reset(['selected_id']);
         $this->emit('message-success','Data berhasil di hapus');
@@ -45,7 +43,7 @@ class VehicleCheck extends Component
     public function data_()
     {
         $data = VehicleCheckModel::select('employees.name','vehicle_check.*')
-                    ->with(['employee','cleanliness'])
+                    ->with(['employee','cleanliness','region','sub_region'])
                     ->orderBy('vehicle_check.id','DESC')
                     ->join('employees','employees.id','=','vehicle_check.employee_id');
         
@@ -116,15 +114,17 @@ class VehicleCheck extends Component
         $activeSheet->getRowDimension('1')->setRowHeight(34);
         $activeSheet->getStyle('B1')->getFont()->setSize(16);
         $activeSheet->getStyle('B1')->getAlignment()->setWrapText(false);
-        $activeSheet->getStyle('A4:G4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('c2d7f3');
+        $activeSheet->getStyle('A4:I4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('c2d7f3');
         $activeSheet
                     ->setCellValue('A4', 'No')
-                    ->setCellValue('B4', 'NIK')
-                    ->setCellValue('C4', 'Employee')
-                    ->setCellValue('D4', 'Date')
-                    ->setCellValue('E4', 'Plat Nomor')
-                    ->setCellValue('F4', 'Stiker Safety Driving')
-                    ->setCellValue('G4', 'Accident Report');
+                    ->setCellValue('B4', 'Region')
+                    ->setCellValue('C4', 'Sub Region')
+                    ->setCellValue('D4', 'NIK')
+                    ->setCellValue('E4', 'Employee')
+                    ->setCellValue('F4', 'Date')
+                    ->setCellValue('G4', 'Plat Nomor')
+                    ->setCellValue('H4', 'Stiker Safety Driving')
+                    ->setCellValue('I4', 'Accident Report');
 
         $activeSheet->getColumnDimension('A')->setWidth(5);
         $activeSheet->getColumnDimension('B')->setAutoSize(true);
@@ -133,6 +133,8 @@ class VehicleCheck extends Component
         $activeSheet->getColumnDimension('E')->setAutoSize(true);
         $activeSheet->getColumnDimension('F')->setAutoSize(true);
         $activeSheet->getColumnDimension('G')->setAutoSize(true);
+        $activeSheet->getColumnDimension('H')->setAutoSize(true);
+        $activeSheet->getColumnDimension('I')->setAutoSize(true);
         $num=5;
 
         $data = $this->data_();
@@ -140,18 +142,20 @@ class VehicleCheck extends Component
         foreach($data->get() as $k => $i){
             $activeSheet
                 ->setCellValue('A'.$num,($k+1))
-                ->setCellValue('B'.$num,isset($i->employee->nik) ? $i->employee->nik : '')
-                ->setCellValue('C'.$num,$i->name)
-                ->setCellValue('D'.$num,date('d-M-Y H:i',strtotime($i->created_at)));
+                ->setCellValue('B'.$num,isset($i->region->region) ? $i->region->region : '')
+                ->setCellValue('C'.$num,isset($i->sub_region->name) ? $i->sub_region->name : '')
+                ->setCellValue('D'.$num,isset($i->employee->nik) ? $i->employee->nik : '')
+                ->setCellValue('E'.$num,$i->name)
+                ->setCellValue('F'.$num,date('d-M-Y H:i',strtotime($i->created_at)));
 
             if($i->is_submit ==1){
-                $activeSheet->setCellValue('E'.$num,$i->plat_nomor)
-                            ->setCellValue('F'.$num,$i->stiker_safety_driving==1 ? "Ya" : "Tidak ", ($i->sticker_note!="" ? " - ( ".$i->sticker_note .")" : ''))
-                            ->setCellValue('G'.$num,$i->accident_report_id==1?"Ya" : "Tidak");
+                $activeSheet->setCellValue('G'.$num,$i->plat_nomor)
+                            ->setCellValue('H'.$num,$i->stiker_safety_driving==1 ? "Ya" : "Tidak ", ($i->sticker_note!="" ? " - ( ".$i->sticker_note .")" : ''))
+                            ->setCellValue('I'.$num,$i->accident_report_id==1?"Ya" : "Tidak");
             }else{
-                $activeSheet->setCellValue('E'.$num,"-")
-                            ->setCellValue('F'.$num,"-")
-                            ->setCellValue('G'.$num,"-");
+                $activeSheet->setCellValue('G'.$num,"-")
+                            ->setCellValue('H'.$num,"-")
+                            ->setCellValue('I'.$num,"-");
             }
             
             $num++;

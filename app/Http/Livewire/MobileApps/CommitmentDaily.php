@@ -25,10 +25,16 @@ class CommitmentDaily extends Component
 
         return view('livewire.mobile-apps.commitment-daily')->with(['data'=>$data->paginate(100)]);
     }
-
+    
+    public function clear_filter()
+    {
+        $this->reset(['keyword','date_start','date_end','user_access_id','region_id','sub_region_id']);
+        $this->emit('clear_daterange');
+    }
+    
     public function init_data()
     {
-        $data = ModelsCommitmentDaily::with(['employee.access'])
+        $data = ModelsCommitmentDaily::with(['employee','employee.access','region','sub_region'])
                                 ->select('employees.name','commitment_dailys.*')
                                 ->orderBy('commitment_dailys.is_submit','DESC')
                                 ->orderBy('commitment_dailys.updated_at','DESC')

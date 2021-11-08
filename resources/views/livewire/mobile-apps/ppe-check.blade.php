@@ -1,37 +1,47 @@
 <div>
     <div class="form-group row">
+        <div class="pl-3 py-2 form-group" wire:ignore x-data="{open_dropdown:false}" @click.away="open_dropdown = false">
+            <a href="javascript:void(0)" x-on:click="open_dropdown = ! open_dropdown" class="dropdown-toggle">
+                 Searching <i class="fa fa-search-plus"></i>
+            </a>
+            <div class="dropdown-menu show-form-filter" x-show="open_dropdown">
+                <form class="p-2">
+                    <div class="form-group">
+                        <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
+                    </div>
+                    <div class="form-group" wire:ignore>
+                        <input type="text" class="form-control date_ppe_check" placeholder="Date" />
+                    </div>
+                    <div class="form-group" wire:ignore>
+                        <select class="form-control" wire:model="region_id" wire:change="$set('sub_region_id',null)">
+                            <option value=""> -- Select Region -- </option>
+                            @foreach($region as $item)
+                                <option value="{{$item->id}}">{{$item->region}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" wire:model="sub_region_id">
+                            <option value=""> -- Select Sub Region -- </option>
+                            @foreach($sub_region as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group" wire:ignore>
+                        <select class="form-control" wire:model="user_access_id">
+                            <option value="">-- Job Role/Access --</option>
+                            @foreach(\App\Models\UserAccess::where('is_project',1)->get() as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <a href="javascript:void(0)" wire:click="clear_filter()"><small>Clear filter</small></a>
+                </form>
+            </div>
+        </div>
         <div class="col-md-2">
-            <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
-        </div>
-        <div class="col-md-1" wire:ignore>
-            <input type="text" class="form-control date_ppe_check" placeholder="Date" />
-        </div>
-        <div class="col-md-2" wire:ignore>
-            <select class="form-control" wire:model="region_id" wire:change="$set('sub_region_id',null)">
-                <option value=""> -- Select Region -- </option>
-                @foreach($region as $item)
-                    <option value="{{$item->id}}">{{$item->region}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-2">
-            <select class="form-control" wire:model="sub_region_id">
-                <option value=""> -- Select Sub Region -- </option>
-                @foreach($sub_region as $item)
-                    <option value="{{$item->id}}">{{$item->name}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-2" wire:ignore>
-            <select class="form-control" wire:model="user_access_id">
-                <option value="">-- Job Role/Access --</option>
-                @foreach(\App\Models\UserAccess::where('is_project',1)->get() as $item)
-                    <option value="{{$item->id}}">{{$item->name}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-2">
-            <a href="javascript:void(0)" class="btn btn-sm btn-info" wire:click="downloadExcel"><i class="fa fa-download"></i> Download</a>
+            <a href="javascript:void(0)" class="btn btn-info" wire:click="downloadExcel"><i class="fa fa-download"></i> Download</a>
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>
@@ -43,6 +53,8 @@
             <thead>
                 <tr style="background:#eee;">
                     <th>No</th>                                    
+                    <th>Region</th> 
+                    <th>Sub Region</th> 
                     <th>NIK</th> 
                     <th>Employee</th> 
                     <th>Date</th>
@@ -60,6 +72,8 @@
             @foreach($data as $k => $item)
                 <tr>
                     <td>{{$k+1}}</td>
+                    <td>{{isset($item->region->region) ? $item->region->region : ''}}</td></td>
+                    <td>{{isset($item->sub_region->name) ? $item->sub_region->name : ''}}</td></td>
                     <td>
                         @if($item->is_submit==0)
                             <a href="javascript:void()" data-toggle="modal" class="text-danger" data-target="#modal_delete_pc" wire:click="set_id({{$item->id}})"><i class="fa fa-trash"></i></a>
@@ -138,13 +152,6 @@
             </form>
         </div>
     </div>
-    @push('after-scripts')
-        <script>
-            Livewire.on('refresh-page',()=>{
-                $("#modal_delete_pc").modal('hide');
-            });
-        </script>
-    @endpush
     <script>
         $('.date_ppe_check').daterangepicker({
             opens: 'left',

@@ -20,7 +20,7 @@ class HealthCheck extends Component
     
     public function render()
     {
-        $data = HealthCheckModel::with(['employee.access'])->select('employees.name','health_check.*')->orderBy('health_check.is_submit','DESC')->orderBy('health_check.updated_at','DESC')->join('employees','employees.id','=','employee_id');
+        $data = HealthCheckModel::with(['employee.access','region','sub_region'])->select('employees.name','health_check.*')->orderBy('health_check.is_submit','DESC')->orderBy('health_check.updated_at','DESC')->join('employees','employees.id','=','employee_id');
 
         if($this->keyword) $data->where(function($table){
             $table->where('employees.name',"LIKE", "%{$this->keyword}%")
@@ -47,6 +47,12 @@ class HealthCheck extends Component
         $data->whereIn('health_check.client_project_id',$client_project_ids);
         
         return view('livewire.mobile-apps.health-check')->with(['data'=>$data->paginate(100)]);
+    }
+
+    public function clear_filter()
+    {
+        $this->reset(['keyword','date_start','date_end','user_access_id','region_id','sub_region_id']);
+        $this->emit('clear_daterange');
     }
 
     public function mount()
@@ -89,21 +95,23 @@ class HealthCheck extends Component
         $activeSheet->getRowDimension('1')->setRowHeight(34);
         $activeSheet->getStyle('B1')->getFont()->setSize(16);
         $activeSheet->getStyle('B1')->getAlignment()->setWrapText(false);
-        $activeSheet->getStyle('A4:M4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('c2d7f3');
+        $activeSheet->getStyle('A4:O4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('c2d7f3');
         $activeSheet
                     ->setCellValue('A4', 'No')
-                    ->setCellValue('B4', 'NIK')
-                    ->setCellValue('C4', 'Employee')
-                    ->setCellValue('D4', 'Jobe Role/Access')
-                    ->setCellValue('E4', 'Date')
-                    ->setCellValue('F4', 'Perusahaan')
-                    ->setCellValue('G4', 'Lokasi Kantor')
-                    ->setCellValue('H4', 'Department')
-                    ->setCellValue('I4', 'Status Bekerja Hari ini')
-                    ->setCellValue('J4', 'Kondisi Badan')
-                    ->setCellValue('K4', 'Tinggal Dengan Keluarga Terkonfirmasi Covid 19')
-                    ->setCellValue('L4', 'Apakah anda bepergian keluar kota')
-                    ->setCellValue('M4', 'Apakah anda ada mengunjungi keluarga yang sedang dirawat di rumah sakit dalam 3 hari terakhir');
+                    ->setCellValue('B4', 'Region')
+                    ->setCellValue('C4', 'Sub Region')
+                    ->setCellValue('D4', 'NIK')
+                    ->setCellValue('E4', 'Employee')
+                    ->setCellValue('F4', 'Jobe Role/Access')
+                    ->setCellValue('G4', 'Date')
+                    ->setCellValue('H4', 'Perusahaan')
+                    ->setCellValue('I4', 'Lokasi Kantor')
+                    ->setCellValue('J4', 'Department')
+                    ->setCellValue('K4', 'Status Bekerja Hari ini')
+                    ->setCellValue('L4', 'Kondisi Badan')
+                    ->setCellValue('M4', 'Tinggal Dengan Keluarga Terkonfirmasi Covid 19')
+                    ->setCellValue('N4', 'Apakah anda bepergian keluar kota')
+                    ->setCellValue('O4', 'Apakah anda ada mengunjungi keluarga yang sedang dirawat di rumah sakit dalam 3 hari terakhir');
 
         $activeSheet->getColumnDimension('A')->setWidth(5);
         $activeSheet->getColumnDimension('B')->setAutoSize(true);
@@ -118,6 +126,8 @@ class HealthCheck extends Component
         $activeSheet->getColumnDimension('K')->setAutoSize(true);
         $activeSheet->getColumnDimension('L')->setAutoSize(true);
         $activeSheet->getColumnDimension('M')->setAutoSize(true);
+        $activeSheet->getColumnDimension('N')->setAutoSize(true);
+        $activeSheet->getColumnDimension('O')->setAutoSize(true);
         $num=5;
 
         $data = HealthCheckModel::with(['employee.access'])->select('employees.name','health_check.*')->orderBy('health_check.id','DESC')->join('employees','employees.id','=','employee_id');
@@ -132,29 +142,31 @@ class HealthCheck extends Component
         foreach($data->get() as $k => $i){
             $activeSheet
                 ->setCellValue('A'.$num,($k+1))
-                ->setCellValue('B'.$num,isset($i->employee->nik) ? $i->employee->nik : '')
-                ->setCellValue('C'.$num,$i->name)
-                ->setCellValue('D'.$num,isset($i->employee->access->name) ? $i->employee->access->name : '')
-                ->setCellValue('E'.$num,date('d-M-Y H:i',strtotime($i->created_at)));
+                ->setCellValue('B'.$num,isset($i->region->region) ? $i->region->region : '')
+                ->setCellValue('C'.$num,isset($i->sub_region->name) ? $i->sub_region->name : '')
+                ->setCellValue('D'.$num,isset($i->employee->nik) ? $i->employee->nik : '')
+                ->setCellValue('E'.$num,$i->name)
+                ->setCellValue('F'.$num,isset($i->employee->access->name) ? $i->employee->access->name : '')
+                ->setCellValue('G'.$num,date('d-M-Y H:i',strtotime($i->created_at)));
 
             if($i->is_submit ==1){
-                $activeSheet->setCellValue('F'.$num,$i->company)
-                            ->setCellValue('G'.$num,$i->lokasi_kantor)
-                            ->setCellValue('H'.$num,$i->department)
-                            ->setCellValue('I'.$num,$i->status_bekerja)
-                            ->setCellValue('J'.$num,$i->kondisi_badan==1?"Sehat" : "Sakit")
-                            ->setCellValue('K'.$num,$i->tinggal_serumah_covid==1 ? "Yes" : "No")
-                            ->setCellValue('L'.$num,$i->bepergian_keluar_kota==1?"Ya":"Tidak")
-                            ->setCellValue('M'.$num,$i->mengunjungi_keluarga==1?"Ya":"Tidak");
+                $activeSheet->setCellValue('H'.$num,$i->company)
+                            ->setCellValue('I'.$num,$i->lokasi_kantor)
+                            ->setCellValue('J'.$num,$i->department)
+                            ->setCellValue('K'.$num,$i->status_bekerja)
+                            ->setCellValue('L'.$num,$i->kondisi_badan==1?"Sehat" : "Sakit")
+                            ->setCellValue('M'.$num,$i->tinggal_serumah_covid==1 ? "Yes" : "No")
+                            ->setCellValue('N'.$num,$i->bepergian_keluar_kota==1?"Ya":"Tidak")
+                            ->setCellValue('O'.$num,$i->mengunjungi_keluarga==1?"Ya":"Tidak");
             }else{
-                $activeSheet->setCellValue('F'.$num,"-")
-                            ->setCellValue('G'.$num,"-")
-                            ->setCellValue('G'.$num,"-")
+                $activeSheet->setCellValue('H'.$num,"-")
                             ->setCellValue('I'.$num,"-")
                             ->setCellValue('J'.$num,"-")
                             ->setCellValue('K'.$num,"-")
                             ->setCellValue('L'.$num,"-")
-                            ->setCellValue('M'.$num,"-");
+                            ->setCellValue('M'.$num,"-")
+                            ->setCellValue('N'.$num,"-")
+                            ->setCellValue('O'.$num,"-");
             }
             
             $num++;
