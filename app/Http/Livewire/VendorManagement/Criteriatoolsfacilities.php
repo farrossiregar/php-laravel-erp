@@ -20,27 +20,13 @@ class Criteriatoolsfacilities extends Component
         return view('livewire.vendor-management.criteriatoolsfacilities');        
     }
 
-    // public function criteriatoolsfacilities($id)
-    // {
-    //     $this->selected_id = $id;
-        
-    //     $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        
-    //     $this->general_information                  = $this->data->general_information;
-    //     $this->team_availability_capability         = $this->data->team_availability_capability;
-    //     $this->tools_facilities                     = $this->data->tools_facilities;
-    //     $this->ehs_quality_management               = $this->data->ehs_quality_management;
-    //     $this->commercial_compliance                = $this->data->commercial_compliance;
-        
-        
-    // }
 
     public function mount($id)
     {
         $this->selected_id = $id;
         
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        $datavm = \App\Models\VendorManagementtf::where('id_supplier', $this->selected_id);
+        
 
         
     }
@@ -50,46 +36,47 @@ class Criteriatoolsfacilities extends Component
         $user = \Auth::user();
        
 
-        // $check                                       = \App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->first();
-        // if(!$check){ 
-            for($i = 1; $i < 24; $i++){
-                $data                                       = new \App\Models\VendorManagementtf();
-                $data->id_supplier                          = $this->selected_id;
-                $data->id_detail                            = $i;
-                // $data->id_detail_title                      = $this->valueconcat('service_type', $i);
-                $data->value                                 = $this->valueconcat('value', $i);
-                $data->save();
-            }
-        // }
+        for($i = 1; $i < 23; $i++){
+            $data                                       = new \App\Models\VendorManagementtf();
+            $data->id_supplier                          = $this->selected_id;
+            $data->id_detail                            = $i;
+            // $data->id_detail_title                   = $this->valueconcat('service_type', $i);
+            $data->value                                = $this->valueconcat('value', $i);
+            $data->save();
+        }
 
         $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        if($this->value2){
-            $vehicles1 = 5;
-        }else{
-            $vehicles1 = 0;
-        }
 
-        if($this->value3){
-            $vehicles2 = 5;
-        }else{
-            $vehicles2 = 0;
-        }
+        // $sumspecialtools = count(\App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->where('value', NULL)->get()) + count(\App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->where('value', '0')->get());
 
-        if($this->value4){
-            $vehicles3 = 5;
-        }else{
-            $vehicles3 = 0;
-        }
-
-        $sumspecialtools = count(\App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->where('value', NULL)->get()) + count(\App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->where('value', '0')->get());
         // dd($sumspecialtools);
-
-        $specialtools = 7 - $sumspecialtools;
+        // $specialtools = 7 - $sumspecialtools;
         
+        $val13 = ($this->value13 != '' ? 1 : 0);
+        $val14 = ($this->value14 != '' ? 1 : 0);
+        $val15 = ($this->value15 != '' ? 1 : 0);
+        $val16 = ($this->value16 != '' ? 1 : 0);
+        $val17 = ($this->value17 != '' ? 1 : 0);
+        $val18 = ($this->value18 != '' ? 1 : 0);
+        $val19 = ($this->value19 != '' ? 1 : 0);
 
-        $update->tf_laptop = 10;
-        $update->tf_vehicle = $vehicles1 + $vehicles2 + $vehicles3;
-        $update->tf_generator = 10;
+        $specialtools = $val13 + $val14 + $val15 + $val16 + $val17 + $val18 + $val19;
+
+        $update->tf_laptop = (isset($this->value1) ? 10 : 0);
+        // $update->tf_vehicle = $vehicles1 + $vehicles2 + $vehicles3;
+        if($this->value2 == '' && $this->value3 == '' && $this->value4 == ''){
+            $update->tf_vehicle = 0;
+        }else{
+            $update->tf_vehicle = 10;
+        }
+
+        if($this->value10 == '' && $this->value11 == '' && $this->value12 == ''){
+            $update->tf_generator = 0;
+        }else{
+            $update->tf_generator = 15;
+        }
+
+        
 
         if($specialtools == 1){
             $update->tf_special_tools = 10;
@@ -109,7 +96,13 @@ class Criteriatoolsfacilities extends Component
             $update->tf_warehouse = 0;
         }
 
-        $update->tools_facilities = $update->tf_laptop + $update->tf_vehicle + $update->tf_generator + $update->tf_special_tools + $update->tf_warehouse;
+        if($this->value22){
+            $update->tf_dop = 5;
+        }else{
+            $update->tf_dop = 0;
+        }
+
+        $update->tools_facilities = $update->tf_laptop + $update->tf_vehicle + $update->tf_generator + $update->tf_special_tools + $update->tf_warehouse + $update->tf_warehouse;
 
         $update->save();
 

@@ -65,7 +65,7 @@
 
                                         <div class="row">
                                             <div class="col-md-12 form-group">
-                                                <p>Network Planning / Optimization</p>
+                                                <p style="font-size: 13px;">Network Planning / Optimization</p>
                                                 <input type="hidden" class="form-control" value="Network Planning / Optimization" wire:model="service_type3">
                                             </div>
                                         </div>
@@ -119,7 +119,7 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-12 form-group">
+                                            <div class="col-md-12 form-group" >
                                                 <p>Training & Certification</p>
                                                 <input type="hidden" class="form-control" value="Training & Certification" wire:model="service_type2">
                                             </div>
@@ -133,14 +133,14 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-12 form-group">
+                                            <div class="col-md-12 " >
                                                 <p>Materials</p>
                                                 <input type="hidden" class="form-control" value="Materials" wire:model="service_type2">
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-12 form-group">
+                                            <div class="col-md-12" >
                                                 <!-- <p>Other Service:  Outsourcing FO team </p> -->
                                                 <input type="text" class="form-control" placeholder="Other Service" wire:model="service_type14">
                                                 <input type="hidden" class="form-control" value="Other Service:  Outsourcing FO team" wire:model="service_type2">
@@ -460,7 +460,7 @@
                                                 <?php
                                                     $id_detail_title = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->where('id_detail', '14')->first()->id_detail_title;
                                                 ?>
-                                                <p>{{$id_detail_title}}</p>
+                                                <p>Other : <b>{{$id_detail_title}}</b> </p>
                                                 <input type="hidden" class="form-control" value="Other Service:  Outsourcing FO team" wire:model="service_type2">
                                             </div>
                                         </div>
@@ -588,7 +588,7 @@
                     
                     <hr>
                     <h1 style="font-size: 65px">
-                        
+                        {{$data['team_availability_capability']}}
                     </h1>
                 </div>
             </div>
@@ -597,7 +597,7 @@
                     <h5>Team Availability</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                       
+                    {{$data['ta_team_qty']}}
                     </h1>
                 </div>
             </div>
@@ -607,7 +607,7 @@
                     <h5>Company Availability</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                        
+                    {{$data['ta_capability']}}
                     </h1>
                 </div>
             </div>

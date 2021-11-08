@@ -5,9 +5,9 @@ namespace App\Http\Livewire\VendorManagement;
 use Livewire\Component;
 use Auth;
 
-class Historitoolsfacilities extends Component
+class Historiinittoolsfacilities extends Component
 {    
-
+    
     public $selected_id, $date, $data, $datavm, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
 
     public $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $value11, $value12, $value13, $value14;
@@ -66,7 +66,6 @@ class Historitoolsfacilities extends Component
         }
 
         $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-
         // $sumspecialtools = count(\App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->where('value', NULL)->get()) + count(\App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->where('value', '0')->get());
 
         // dd($sumspecialtools);

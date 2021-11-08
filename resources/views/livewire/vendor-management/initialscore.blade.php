@@ -30,10 +30,10 @@
                                     <div class="row">
                                         <div class="col-md-4  form-group"><label>General Information (10%)</label></div>
                                         <div class="col-md-4 form-group">
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="general_information" readonly/>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="initial_general_information" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <a href="{{ route('vendor-management.general-information',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            <a href="{{ route('vendor-management.initial-general-information',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>
@@ -41,10 +41,10 @@
                                     <div class="row">
                                         <div class="col-md-4  form-group"><label>Team Availability (25%)</label></div>
                                         <div class="col-md-4 form-group">
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="team_availability_capability" readonly/>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="initial_team_availability_capability" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <a href="{{ route('vendor-management.team-availability',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            <a href="{{ route('vendor-management.initial-team-availability',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>
@@ -52,10 +52,10 @@
                                     <div class="row">
                                         <div class="col-md-4 form-group"><label>Tools Facilities (20%)</label></div>
                                         <div class="col-md-4 form-group">
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="tools_facilities" readonly/>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="initial_tools_facilities" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <a href="{{ route('vendor-management.tools-facilities',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            <a href="{{ route('vendor-management.initial-tools-facilities',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>
@@ -63,10 +63,10 @@
                                     <div class="row">
                                         <div class="col-md-4 form-group"><label>EHS & Quality Management (20%)</label></div>
                                         <div class="col-md-4 form-group">
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="ehs_quality_management" readonly/>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="initial_ehs_quality_management" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <a href="{{ route('vendor-management.ehs',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            <a href="{{ route('vendor-management.initial-ehs',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>
@@ -76,10 +76,10 @@
                                     <div class="row">
                                         <div class="col-md-4  form-group"><label>General Information (40%)</label></div>
                                         <div class="col-md-4 form-group">
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="general_information" readonly/>
+                                            <input type="number" min='0' max="100" class="form-control" wire:model="initial_general_information" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <a href="{{ route('vendor-management.general-information',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            <a href="{{ route('vendor-management.initial-general-information',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>

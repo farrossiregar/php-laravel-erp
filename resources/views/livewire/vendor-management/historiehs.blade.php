@@ -280,7 +280,7 @@
                                 <!-- <div class="form-group">
                                     <input type="text" class="form-control" placeholder="Others" wire:model="title15">
                                 </div> -->
-                                <label for="">{{$service_type7}}</label>
+                                <label for="">Other : {{$service_type7}}</label>
                             </div>
                             <div class="col-md-8">
                                 <div class="form-group">
