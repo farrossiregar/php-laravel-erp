@@ -480,7 +480,7 @@
                                                                 <div class="row">
                                                                     <div class="col-md-12 form-group">
                                                                         
-                                                                        <p>{{$id_detail_title}}</p>
+                                                                        <p>Others...</p>
                                                                         
                                                                     </div>
                                                                 </div>
