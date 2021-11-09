@@ -33,7 +33,10 @@
                                             <input type="number" min='0' max="100" class="form-control" wire:model="general_information" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
+                                            
                                             <a href="{{ route('vendor-management.general-information',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            
+                                            
                                         </div>
                                     </div>
                                     <br>

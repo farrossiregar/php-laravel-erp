@@ -46,7 +46,6 @@ class Criteriatoolsfacilities extends Component
         }
 
         $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-
         // $sumspecialtools = count(\App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->where('value', NULL)->get()) + count(\App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->where('value', '0')->get());
 
         // dd($sumspecialtools);

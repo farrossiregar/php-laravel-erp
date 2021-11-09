@@ -28,9 +28,9 @@ class Initialteamavailability extends Component
     public function render()
     {
         // for($i = 1; $i < 15; $i++){
-        //     // $team[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
-        //     // $this->idteam[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
-        //     $team = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
+        //     // $team[$i] = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
+        //     // $this->idteam[$i] = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
+        //     $team = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
         //     if($team){
         //         $this->team[$i] = (int)$team;
         //     }else{
@@ -44,33 +44,23 @@ class Initialteamavailability extends Component
         return view('livewire.vendor-management.initialteamavailability');        
     }
 
-    // public function initialteamavailability($id)
-    // {
-    //     $this->selected_id = $id;
-        
-    //     $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        
-    //     for($i = 1; $i < 15; $i++){
-    //         $this->team[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where()->first();
-    //     }
-        
-    // }
+
 
     public function mount($id){
-        // $sumcap = \App\Models\VendorManagementta::where('id_supplier', $id)->where('year', NULL)->orwhere('year', '0')->get();
-        // $sumcap = \App\Models\VendorManagementta::where('id_supplier', $id)->where('year', '1')->get();
+        // $sumcap = \App\Models\VendorManagementtainit::where('id_supplier', $id)->where('year', NULL)->orwhere('year', '0')->get();
+        // $sumcap = \App\Models\VendorManagementtainit::where('id_supplier', $id)->where('year', '1')->get();
         // dd($sumcap);
 
         $this->selected_id = $id;
 
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
 
-        // $check = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->first();
+        // $check = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->first();
         // if($check){
         //     for($i = 1; $i < 15; $i++){
-        //         // $team[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
-        //         // $this->idteam[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
-        //         $team = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
+        //         // $team[$i] = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
+        //         // $this->idteam[$i] = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
+        //         $team = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
         //         if($team){
         //             $this->team[$i] = (int)$team;
         //         }else{
@@ -85,33 +75,26 @@ class Initialteamavailability extends Component
     {
         $user = \Auth::user();
       
-            // $check = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->first();
-            // // dd($check);
-            // if(!$check){
-                for($i = 1; $i < 15; $i++){
-                    $data                                       = new \App\Models\VendorManagementta();
-                    $data->id_supplier                          = $this->selected_id;
-                    $data->id_detail                            = $i;
-                    $data->id_detail_title                      = $this->valueconcat('service_type', $i);
-                    $data->team                                 = $this->valueconcat('team', $i);
-                    $data->eng                                  = $this->valueconcat('eng', $i);
-                    $data->tech                                 = $this->valueconcat('tech', $i);
-                    $data->rigger                               = $this->valueconcat('rigger', $i);
-                    $data->helper                               = $this->valueconcat('helper', $i);
-                    $data->other                                = $this->valueconcat('other', $i);
-                    $data->year                                 = $this->valueconcat('year', $i);
-                    $data->invoice                              = $this->valueconcat('invoice', $i);
-                    
-                    $data->save();
-                }
-               
-            // }
+        for($i = 1; $i < 15; $i++){
+            $data                                       = new \App\Models\VendorManagementtainit();
+            $data->id_supplier                          = $this->selected_id;
+            $data->id_detail                            = $i;
+            if($i == 14){
+                // $data->id_detail_title                      = $this->valueconcat('service_type', $i);
+                $data->id_detail_title                      = $this->service_type14;
+            }
+            $data->team                                 = $this->valueconcat('team', $i);
+            $data->eng                                  = $this->valueconcat('eng', $i);
+            $data->tech                                 = $this->valueconcat('tech', $i);
+            $data->rigger                               = $this->valueconcat('rigger', $i);
+            $data->helper                               = $this->valueconcat('helper', $i);
+            $data->other                                = $this->valueconcat('other', $i);
+            $data->year                                 = $this->valueconcat('year', $i);
+            $data->invoice                              = $this->valueconcat('invoice', $i);
             
-
-            // $sumteam = \App\Models\VendorManagementta::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->groupBy('id_supplier')->first();
-            
-        
-
+            $data->save();
+        }      
+         
         session()->flash('message-success',"Criteria Team Availability Successfully Evaluate!!!");
         
         // return redirect()->route('vendor-management.index');
@@ -124,7 +107,7 @@ class Initialteamavailability extends Component
     
     public function updatedata($field, $id)
     {
-        $check = \App\Models\VendorManagementta::where('id_supplier',$this->selected_id)->where('id_detail', $id)->first();
+        $check = \App\Models\VendorManagementtainit::where('id_supplier',$this->selected_id)->where('id_detail', $id)->first();
         // dd($check);
         if($field == 'team'){
             $check->team = $this->valueconcat('team', $id);
@@ -160,10 +143,10 @@ class Initialteamavailability extends Component
         
         $check->save();
 
-        $sumteam = \App\Models\VendorManagementta::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->groupBy('id_supplier')->first();
-        // $sumcap = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->whereNotNull('year')->get();
-        // $sumcap = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('year', NULL)->orwhere('year', 0)->get();
-        $sumcap = count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('year', NULL)->get()) + count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('year', '0')->get());
+        $sumteam = \App\Models\VendorManagementtainit::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->groupBy('id_supplier')->first();
+        // $sumcap = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->whereNotNull('year')->get();
+        // $sumcap = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('year', NULL)->orwhere('year', 0)->get();
+        $sumcap = count(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('year', NULL)->get()) + count(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('year', '0')->get());
         // dd(count($sumcap));
         $update = \App\Models\VendorManagement::where('id',$this->selected_id)->first();
         if($update->supplier_category != 'Material Supplier'){

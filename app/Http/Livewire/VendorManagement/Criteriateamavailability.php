@@ -83,7 +83,6 @@ class Criteriateamavailability extends Component
                 // $data->id_detail_title                      = $this->valueconcat('service_type', $i);
                 $data->id_detail_title                      = $this->service_type14;
             }
-            
             $data->team                                 = $this->valueconcat('team', $i);
             $data->eng                                  = $this->valueconcat('eng', $i);
             $data->tech                                 = $this->valueconcat('tech', $i);

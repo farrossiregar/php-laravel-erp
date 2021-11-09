@@ -19,7 +19,7 @@ class Initialgeneralinformation extends Component
     // public $service_type1, $service_type2, $service_type3, $service_type4, $service_type5, $service_type6, $service_type7, $service_type8, $service_type9, $service_type10, $service_type11, $service_type12, $service_type13, $service_type14;
     public $value15, $value16, $value17, $value18, $value19, $value20, $value21, $value22, $value23, $value24, $value25, $value26, $value27;
     public $value28, $value29, $value30, $value31, $value32, $value33, $value34, $value35, $value36, $value37, $value38;
-    public $value39, $value40, $value41, $value42, $value43, $value44, $value45;
+    public $value39, $value40, $value41, $value42, $value43, $value44, $value45, $value46, $value47;
     public function render()
     {
         return view('livewire.vendor-management.initialgeneralinformation');        
@@ -35,66 +35,99 @@ class Initialgeneralinformation extends Component
         $this->selected_id = $id;
         
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        $datavm = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id);
+        // $datavm = \App\Models\VendorManagementgiinit::where('id_supplier', $this->selected_id);
 
         
+        // $this->service_type7 = \App\Models\VendorManagementgiinit::where('id_supplier', $this->selected_id)->where('id_detail', '7')->first()->id_detail_title;
     }
   
     public function save()
-    {
-        
-        for($i = 1; $i < 46; $i++){
-            $data                                       = new \App\Models\VendorManagementgi();
-            $check                                       = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->orderBy('id', 'desc')->first();
-            if($check){ 
-                $data->id                               = ($check->id + 1);
-            }
-            $data->id_supplier                          = @$this->selected_id;
+    {     
+        $suppcat = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        if($suppcat->supplier_category == 'Service - Company'){
+            $rowdata = 48;
+        }else{
+            $rowdata = 46;
+        }
+
+        for($i = 1; $i < $rowdata; $i++){
+            $data                                       = new \App\Models\VendorManagementgiinit();
+            $data->id_supplier                          = $this->selected_id;
             $data->id_detail                            = $i;
-            // $data->id_detail_title                      = $this->valueconcat('service_type', $i);
-            $data->id_detail_title                      = date('Y-m-d H:i:s');
-            $data->value                                 = @$this->valueconcat('value', $i);
+            $data->value                                = $this->valueconcat('value', $i);
             $data->save();
         }
 
-        
+        $updatescoring                = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        $updatescoring->scoring       = $updatescoring->scoring - $updatescoring->general_information;                      
+        $updatescoring->save();                      
 
         $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        $checkktp                     = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 2)->whereDate('created_at', date('Y-m-d') )->first();
-        $checknpwp                    = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 3)->whereDate('created_at', date('Y-m-d') )->first();
-        $checkhq                    = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 5)->whereDate('created_at', date('Y-m-d') )->first();
+        $checkktp                     = \App\Models\VendorManagementgiinit::where('id_supplier', $this->selected_id)->where('id_detail', 2)->first();
+        $checknpwp                    = \App\Models\VendorManagementgiinit::where('id_supplier', $this->selected_id)->where('id_detail', 3)->first();
+        $checkhq                      = \App\Models\VendorManagementgiinit::where('id_supplier', $this->selected_id)->where('id_detail', 5)->first();
+        $checkbranch                  = \App\Models\VendorManagementgiinit::where('id_supplier', $this->selected_id)->where('id_detail', 6)->first();
 
         
-
-        if($checkktp->value != NULL && $checknpwp->value != NULL){
-            if($update->supplier_category == 'Service - Company'){
+        if($update->supplier_category == 'Service - Company'){
+            if($this->value3 != '' && $this->value46 != '' && $this->value47 != ''){
                 $update->ci_complete_licence = '70';
             }else{
-                $update->ci_complete_licence = '50';
+                if($this->value3 == '' && $this->value46 == '' && $this->value47 == ''){
+                    $update->ci_complete_licence = '0';
+                }else{
+                    $update->ci_complete_licence = '50';
+                }
             }
-
-            if($update->general_information == '' || $update->general_information == NULL){
-                $update->general_information = 0 + $update->ci_complete_licence;
+        }else{
+            if($this->value2 != '' && $this->value3 != ''){
+                $update->ci_complete_licence = '50';
             }else{
-                // $update->general_information = $update->general_information + $update->ci_complete_licence;
-                $update->general_information = 0 + $update->ci_complete_licence;
+                if($this->value2 == '' && $this->value3 == ''){
+                    $update->ci_complete_licence = '0';
+                }else{
+                    $update->ci_complete_licence = '20';
+                }
             }
         }
+
+        // if($update->supplier_category == 'Service - Company'){
+        //     $update->ci_complete_licence = '70';
+        // }else{
+        //     $update->ci_complete_licence = '50';
+        // }
+
+        // if($update->general_information == '' || $update->general_information == NULL){
+        //     $update->general_information = 0 + $update->ci_complete_licence;
+        // }else{
+        //     // $update->general_information = $update->general_information + $update->ci_complete_licence;
+        //     $update->general_information = 0 + $update->ci_complete_licence;
+        // }
+        
 
         if($checkhq->value != NULL && $checkhq->value != NULL){
             $update->ci_hq = '20';
-            if($update->general_information == '' || $update->general_information == NULL){
-                $update->general_information = 0 + $update->ci_hq;
-            }else{
-                $update->general_information = 0 + $update->ci_hq;
-            }
+
         }
 
-        if($update->scoring == '' || $update->scoring == NULL){
-            $update->scoring = 0 + ($update->general_information * 0.1);
-        }else{
-            $update->scoring = 0 + ($update->general_information * 0.1);
+        if($checkbranch->value != NULL && $checkbranch->value != NULL){
+            $update->ci_branch = '10';
+        
         }
+
+        // if($update->scoring == '' || $update->scoring == NULL){
+        //     $update->scoring = 0 + ($update->general_information * 0.1);
+        // }else{
+        //     $update->scoring = $update->scoring + ($update->general_information * 0.1);
+        // }
+
+        $update->general_information = $update->ci_complete_licence + $update->ci_hq + $update->ci_branch;
+        if($update->supplier_category == 'Material Supplier'){
+            $update->scoring = $update->scoring + ($update->general_information * 0.4);
+        }else{
+            $update->scoring = $update->scoring + ($update->general_information * 0.1);
+        }
+        
         $update->save();
 
 
@@ -104,7 +137,7 @@ class Initialgeneralinformation extends Component
     }
 
     public function updatedata($field, $id){
-        $check = \App\Models\VendorManagementgi::where('id_supplier',$this->selected_id)->where('id_detail', $id)->first();
+        $check = \App\Models\VendorManagementgiinit::where('id_supplier',$this->selected_id)->where('id_detail', $id)->first();
         
         $check->value = $this->valueconcat($field, $id);
         $check->save();

@@ -7,16 +7,16 @@
             <div><br></div>
             <div><br></div>
             <ul class="nav nav-tabs">
-            @if(!\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->get())
+                @if(count(\App\Models\VendorManagementehsinit::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
                 @else
-                    @foreach(\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $key => $item)
+                    @foreach(\App\Models\VendorManagementehsinit::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $key => $item)
                     <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#historiehs<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}<?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
                     @endforeach
                 @endif
             </ul>
             <div class="tab-content">
-            @if(!\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->get())
+                @if(count(\App\Models\VendorManagementehsinit::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
                 <div class="tab-pane active show" id="newevaluation">  
                     <div class="row">
                         <div class="col-md-12">
@@ -268,7 +268,7 @@
                                                 
                                                 <hr>
                                                 <h1 style="font-size: 65px">
-                                                    {{ $data['ehs_quality_management'] }}
+                                                    {{ $data['initial_ehs_quality_management'] }}
                                                 </h1>
                                             </div>
                                         </div>
@@ -278,7 +278,7 @@
                                                 <h5>Company Structure</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                {{ $data['ehs_company_structure'] }}
+                                                {{ $data['initial_ehs_company_structure'] }}
                                                 </h1>
                                             </div>
                                         </div>
@@ -287,7 +287,7 @@
                                                 <h5>Project Management</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                {{ $data['ehs_project_management'] }}
+                                                {{ $data['initial_ehs_project_management'] }}
                                                 </h1>
                                             </div>
                                         </div>
@@ -296,7 +296,7 @@
                                             <h5>Quality Management</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                {{ $data['ehs_qualitymanagement'] }}
+                                                {{ $data['initial_ehs_qualitymanagement'] }}
                                                 </h1>
                                             </div>
                                         </div>
@@ -306,7 +306,7 @@
                                                 <h5>Training Management</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                    {{ $data['ehs_training_management'] }}
+                                                    {{ $data['initial_ehs_training_management'] }}
                                                 </h1>
                                             </div>
                                         </div>
@@ -316,7 +316,7 @@
                                                 <h5>Project Reporting</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                    {{ $data['ehs_project_management'] }}
+                                                    {{ $data['initial_ehs_project_management'] }}
                                                 </h1>
                                             </div>
                                         </div>
@@ -326,7 +326,7 @@
                                                 <h5>Documentation Management</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                {{ $data['ehs_documentation'] }}
+                                                {{ $data['initial_ehs_documentation'] }}
                                                 </h1>
                                             </div>
                                         </div>
@@ -336,7 +336,7 @@
                                                 <h5>Cerificate Category</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                {{ $data['ehs_certificate'] }}
+                                                {{ $data['initial_ehs_certificate'] }}
                                                 </h1>
                                             </div>
                                         </div>
@@ -350,9 +350,9 @@
                     
                 </div>
                 @else
-                    @foreach(\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $item)
+                    @foreach(\App\Models\VendorManagementehsinit::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $item)
                         <div class="tab-pane active show" id="historiehs<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
-                            @livewire('vendor-management.historiehs', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
+                            @livewire('vendor-management.historiinitehs', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
                         </div>
                     @endforeach
                 @endif 

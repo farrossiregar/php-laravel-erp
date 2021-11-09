@@ -7,19 +7,16 @@
             <div><br></div>
             <div><br></div>
             <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
-                <?php
-                    
-                    $tabdata = \App\Models\VendorManagementta::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
-                    foreach($tabdata as $key => $item){
-
-                ?>
-                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#historita<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }} <?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
-                <?php
-                    }
-                ?>
+                @if(count(\App\Models\VendorManagementtainit::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
+                @else
+                    @foreach(\App\Models\VendorManagementtainit::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $key => $item)
+                        <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#historita<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }} <?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
+                    @endforeach
+                @endif
             </ul>
             <div class="tab-content">
+                @if(count(\App\Models\VendorManagementtainit::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
                 <div class="tab-pane active show" id="newevaluation">  
                     <div class="row">
                         <div class="col-md-8">
@@ -90,7 +87,7 @@
 
                                                                 <div class="row">
                                                                     <div class="col-md-12 form-group">
-                                                                        <p>Network Planning / Optimization</p>
+                                                                    <p style="font-size: 13px;">Network Planning / Optimization</p>
                                                                         <input type="hidden" class="form-control" value="Network Planning / Optimization" wire:model="service_type3">
                                                                     </div>
                                                                 </div>
@@ -166,7 +163,8 @@
 
                                                                 <div class="row">
                                                                     <div class="col-md-12 form-group">
-                                                                        <p>Other Service:  Outsourcing FO team </p>
+                                                                        <!-- <p>Other Service:  Outsourcing FO team </p> -->
+                                                                        <input type="text" class="form-control" placeholder="Other Service" wire:model="service_type14">
                                                                         <input type="hidden" class="form-control" value="Other Service:  Outsourcing FO team" wire:model="service_type2">
                                                                     </div>
                                                                 </div>
@@ -180,8 +178,8 @@
                                                                 <div class="row" style="margin-bottom: 16px;">
                                                                     <div class="col-md-12 -form-group">
                                                                         <!-- <?php
-                                                                            if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
-                                                                                $teamcount = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
+                                                                            if(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
+                                                                                $teamcount = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($teamcount){
                                                                                     $countteam = $teamcount->team;
                                                                                 }else{
@@ -227,8 +225,8 @@
                                                                 <div class="row">
                                                                     <div class="col-md-2 form-group">
                                                                         <!-- <?php
-                                                                            if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
-                                                                                $check_eng = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
+                                                                            if(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
+                                                                                $check_eng = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($check_eng){
                                                                                     $count = $check_eng->eng;
                                                                                 }else{
@@ -251,8 +249,8 @@
                                                                     </div>
                                                                     <div class="col-md-2 form-group">
                                                                         <!-- <?php
-                                                                            if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
-                                                                                $check_tech = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
+                                                                            if(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
+                                                                                $check_tech = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($check_tech){
                                                                                     $count = $check_tech->tech;
                                                                                 }else{
@@ -281,8 +279,8 @@
                                                                     </div>
                                                                     <div class="col-md-2 form-group">
                                                                         <!-- <?php
-                                                                            if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
-                                                                                $check_rigger = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
+                                                                            if(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
+                                                                                $check_rigger = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($check_rigger){
                                                                                     $count = $check_rigger->rigger;
                                                                                 }else{
@@ -305,8 +303,8 @@
                                                                     </div>
                                                                     <div class="col-md-2 form-group">
                                                                         <!-- <?php
-                                                                            if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
-                                                                                $check_helper = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
+                                                                            if(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
+                                                                                $check_helper = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($check_helper){
                                                                                     $count = $check_helper->helper;
                                                                                 }else{
@@ -329,8 +327,8 @@
                                                                     </div>
                                                                     <div class="col-md-2 form-group">
                                                                         <!-- <?php
-                                                                            if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
-                                                                                $check_other = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
+                                                                            if(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
+                                                                                $check_other = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($check_other){
                                                                                     $count = $check_other->other;
                                                                                 }else{
@@ -481,8 +479,9 @@
 
                                                                 <div class="row">
                                                                     <div class="col-md-12 form-group">
-                                                                        <p>Other Service:  Outsourcing FO team </p>
-                                                                        <input type="hidden" class="form-control" value="Other Service:  Outsourcing FO team" wire:model="service_type2">
+                                                                        
+                                                                        <p>Others</p>
+                                                                        
                                                                     </div>
                                                                 </div>
                                                                 
@@ -509,8 +508,8 @@
 
 
                                                                         <!-- <?php
-                                                                            if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
-                                                                                $check_year = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
+                                                                            if(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
+                                                                                $check_year = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($check_year){
                                                                                     $count = $check_year->year;
                                                                                 }else{
@@ -548,8 +547,8 @@
                                                                     <div class="col-md-6 form-group">
                                                                         <!-- <input type="number" min='0' max="100" placeholder="Invoice" class="form-control" wire:model="<?php echo 'invoice'.$i ?>"/> -->
                                                                         <!-- <?php
-                                                                            if(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
-                                                                                $check_invoice = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
+                                                                            if(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
+                                                                                $check_invoice = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
                                                                                 if($check_invoice){
                                                                                     $count = $check_invoice->invoice;
                                                                                 }else{
@@ -635,17 +634,14 @@
                     </div>
                     
                 </div>
-
-                <?php
-                    $tabdata = \App\Models\VendorManagementta::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
-                    foreach($tabdata as $item){
-                ?>
-                <div class="tab-pane" id="historita<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
-                    @livewire('vendor-management.historiteamavailability', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
-                </div>
-                <?php
-                    }
-                ?>     
+                @else
+                
+                @foreach(\App\Models\VendorManagementtainit::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $item)
+                    <div class="tab-pane active show" id="historita<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
+                        @livewire('vendor-management.historiinitteamavailability', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
+                    </div>
+                @endforeach
+            @endif   
             </div>
         </div>
     </div>
