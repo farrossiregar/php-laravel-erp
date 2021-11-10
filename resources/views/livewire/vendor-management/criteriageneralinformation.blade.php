@@ -907,31 +907,33 @@
                                         
                                         <hr>
                                         <h1 style="font-size: 65px">
+
                                         </h1>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 180px;">
-                                        <h5>Complete Licence Score (70)</h5>
+                                        <h5>Complete Licence Score</h5>
                                         <hr>
                                         <h1 style="font-size: 45px">
-                                            <!-- {{ $data['ci_complete_licence'] }} -->
+                                            
                                         </h1>
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
                                     <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 180px;">
-                                        <h5>Have HQ Office (20)</h5>
+                                        <h5>Have HQ Office</h5>
                                         <hr>
                                         <h1 style="font-size: 45px">
+
                                         </h1>
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
                                     <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 180px;">
-                                        <h5>Have Branch Office (0)</h5>
+                                        <h5>Have Branch Office</h5>
                                         <hr>
                                         <h1 style="font-size: 45px">
                                             

@@ -119,7 +119,7 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-12 form-group" >
+                                            <div class="col-md-12 form-group">
                                                 <p>Training & Certification</p>
                                                 <input type="hidden" class="form-control" value="Training & Certification" wire:model="service_type2">
                                             </div>
@@ -133,14 +133,14 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-12 " >
+                                            <div class="col-md-12 form-group">
                                                 <p>Materials</p>
                                                 <input type="hidden" class="form-control" value="Materials" wire:model="service_type2">
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-12" >
+                                            <div class="col-md-12 form-group">
                                                 <!-- <p>Other Service:  Outsourcing FO team </p> -->
                                                 <input type="text" class="form-control" placeholder="Other Service" wire:model="service_type14">
                                                 <input type="hidden" class="form-control" value="Other Service:  Outsourcing FO team" wire:model="service_type2">
@@ -152,13 +152,12 @@
                                         
                                         <?php
                                             for($i = 1; $i < 15; $i++){
-                    
                                         ?>
                                         <div class="row" style="margin-bottom: 16px;">
                                             <div class="col-md-12 -form-group">
                                                 <!-- <?php
-                                                    if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
-                                                        $teamcount = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
+                                                    if(\App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
+                                                        $teamcount = \App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($teamcount){
                                                             $countteam = $teamcount->team;
                                                         }else{
@@ -189,6 +188,7 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="row">
+
                                     <div class="col-md-2 form-group"><label for="">Engineer</label></div>
                                     <div class="col-md-2 form-group"><label for="">Tech</label></div>
                                     <div class="col-md-2 form-group"><label for="">Rigger</label></div>
@@ -204,8 +204,8 @@
                                         <div class="row">
                                             <div class="col-md-2 form-group">
                                                 <!-- <?php
-                                                    if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
-                                                        $check_eng = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
+                                                    if(\App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
+                                                        $check_eng = \App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($check_eng){
                                                             $count = $check_eng->eng;
                                                         }else{
@@ -228,8 +228,8 @@
                                             </div>
                                             <div class="col-md-2 form-group">
                                                 <!-- <?php
-                                                    if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
-                                                        $check_tech = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
+                                                    if(\App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
+                                                        $check_tech = \App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($check_tech){
                                                             $count = $check_tech->tech;
                                                         }else{
@@ -258,8 +258,8 @@
                                             </div>
                                             <div class="col-md-2 form-group">
                                                 <!-- <?php
-                                                    if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
-                                                        $check_rigger = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
+                                                    if(\App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
+                                                        $check_rigger = \App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($check_rigger){
                                                             $count = $check_rigger->rigger;
                                                         }else{
@@ -282,8 +282,8 @@
                                             </div>
                                             <div class="col-md-2 form-group">
                                                 <!-- <?php
-                                                    if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
-                                                        $check_helper = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
+                                                    if(\App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
+                                                        $check_helper = \App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($check_helper){
                                                             $count = $check_helper->helper;
                                                         }else{
@@ -308,8 +308,8 @@
                                             </div>
                                             <div class="col-md-2 form-group">
                                                 <!-- <?php
-                                                    if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
-                                                        $check_other = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
+                                                    if(\App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
+                                                        $check_other = \App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($check_other){
                                                             $count = $check_other->other;
                                                         }else{
@@ -338,12 +338,15 @@
                                             }
                                         ?>
                                     </div>
+
+
                                 </div>
                                 
                             </div>
                             
                         </div>
                     </div>
+
                 </div>
 
 
@@ -458,7 +461,7 @@
                                         <div class="row">
                                             <div class="col-md-12 form-group">
                                                 <?php
-                                                    $id_detail_title = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->where('id_detail', '14')->first()->id_detail_title;
+                                                    $id_detail_title = \App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->where('id_detail', '14')->first()->id_detail_title;
                                                 ?>
                                                 <p>Other : <b>{{$id_detail_title}}</b> </p>
                                                 <input type="hidden" class="form-control" value="Other Service:  Outsourcing FO team" wire:model="service_type2">
@@ -486,8 +489,8 @@
                                                     ?>
                                                 </select> -->
                                                 <!-- <?php
-                                                    if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
-                                                        $check_year = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
+                                                    if(\App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
+                                                        $check_year = \App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($check_year){
                                                             $count = $check_year->year;
                                                         }else{
@@ -525,8 +528,8 @@
                                             <div class="col-md-6 form-group">
                                                 <!-- <input type="number" min='0' max="100" placeholder="Invoice" class="form-control" wire:model="<?php echo 'invoice'.$i ?>"/> -->
                                                 <!-- <?php
-                                                    if(\App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
-                                                        $check_invoice = \App\Models\VendorManagementta::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
+                                                    if(\App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->get()){
+                                                        $check_invoice = \App\Models\VendorManagementtainit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', $i)->first();
                                                         if($check_invoice){
                                                             $count = $check_invoice->invoice;
                                                         }else{
@@ -557,15 +560,10 @@
                                     </div>
                                 </div>
                             </div>
-                                            
-
-                
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12">
-                
-                </div>                            
+                          
             </div>
             </form>
         </div>
@@ -588,7 +586,7 @@
                     
                     <hr>
                     <h1 style="font-size: 65px">
-                        {{$data['team_availability_capability']}}
+                        {{$data['initial_team_availability_capability']}}
                     </h1>
                 </div>
             </div>
@@ -597,7 +595,7 @@
                     <h5>Team Availability</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    {{$data['ta_team_qty']}}
+                    {{$data['initial_ta_team_qty']}}
                     </h1>
                 </div>
             </div>
@@ -607,7 +605,7 @@
                     <h5>Company Availability</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    {{$data['ta_capability']}}
+                    {{$data['initial_ta_capability']}}
                     </h1>
                 </div>
             </div>

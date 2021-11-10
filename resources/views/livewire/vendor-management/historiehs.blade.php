@@ -97,6 +97,7 @@
                                         <option <?php if($count == "1"){ echo 'selected'; } ?> value="1">Have</option>
                                         <option <?php if($count == "0"){ echo 'selected'; } ?> value="0">Not Have</option>
                                     </select>
+
                                 </div>
                             </div>
 
@@ -216,7 +217,7 @@
                                         $count = $get_data['value'];   
                                         
                                     ?>
-                                    <input type="number" class="form-control"  wire:model="value10">
+                                    <input type="number" class="form-control" wire:model="value10">
                                 </div>
                             </div>
 
@@ -277,9 +278,6 @@
                             </div>
 
                             <div class="col-md-4">
-                                <!-- <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Others" wire:model="title15">
-                                </div> -->
                                 <label for="">Other : {{$service_type7}}</label>
                             </div>
                             <div class="col-md-8">
@@ -309,6 +307,8 @@
             </form>
         </div>
     </div>
+
+    
     <div class="col-md-4">
         <div class="row">
             <div class="col-md-12">
@@ -362,7 +362,7 @@
                     <h5>Training Management</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                        {{ $data['ehs_training_management'] }}
+                        {{ $data['ehs_training'] }}
                     </h1>
                 </div>
             </div>

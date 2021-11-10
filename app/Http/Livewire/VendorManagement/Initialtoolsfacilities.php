@@ -7,9 +7,9 @@ use Auth;
 
 class Initialtoolsfacilities extends Component
 {    
-    protected $listeners = [
-        'modalinitialtoolsfacilities'=>'initialtoolsfacilities',
-    ];
+    // protected $listeners = [
+    //     'modalinitialtoolsfacilities'=>'initialtoolsfacilities',
+    // ];
     public $selected_id, $data, $datavm, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
 
     public $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $value11, $value12, $value13, $value14;
@@ -27,7 +27,7 @@ class Initialtoolsfacilities extends Component
         
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         
-
+        
         
     }
   
@@ -44,6 +44,10 @@ class Initialtoolsfacilities extends Component
             $data->value                                = $this->valueconcat('value', $i);
             $data->save();
         }
+
+        // $updatescoring                = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        // $updatescoring->initial       = $updatescoring->initial - ($updatescoring->initial_tools_facilities * 0.25);                      
+        // $updatescoring->save(); 
 
         $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         // $sumspecialtools = count(\App\Models\VendorManagementtfinit::where('id_supplier', $this->selected_id)->where('value', NULL)->get()) + count(\App\Models\VendorManagementtfinit::where('id_supplier', $this->selected_id)->where('value', '0')->get());
@@ -68,6 +72,15 @@ class Initialtoolsfacilities extends Component
         }else{
             $update->initial_tf_vehicle = 10;
         }
+
+        // $update->initial_tf_standard = ($this->value5 != '' ? 1 : 0);
+        // $update->initial_tf_safety = ($this->value6 != '' ? 1 : 0);
+
+        // if($this->value7 == '' && $this->value8 == '' && $this->value9 == ''){
+        //     $update->initial_tf_compassgpsangle = 0;
+        // }else{
+        //     $update->initial_tf_compassgpsangle = 10;
+        // }
 
         if($this->value10 == '' && $this->value11 == '' && $this->value12 == ''){
             $update->initial_tf_generator = 0;
@@ -101,8 +114,9 @@ class Initialtoolsfacilities extends Component
             $update->initial_tf_dop = 0;
         }
 
-        $update->tools_facilities = $update->initial_tf_laptop + $update->initial_tf_vehicle + $update->initial_tf_generator + $update->initial_tf_special_tools + $update->initial_tf_warehouse + $update->initial_tf_warehouse;
+        $update->initial_tools_facilities = $update->initial_tf_laptop + $update->initial_tf_vehicle + $update->initial_tf_generator + $update->initial_tf_special_tools + $update->initial_tf_warehouse + $update->initial_tf_dop;
 
+        $update->initial = $update->initial + ($update->initial_tools_facilities * 0.2);
         $update->save();
 
 
@@ -118,7 +132,7 @@ class Initialtoolsfacilities extends Component
         $check->value = $this->valueconcat($field, $id);
         $check->save();
 
-        session()->flash('message-success',"Criteria Tools & Facilities Successfully Update!!!");
+        session()->flash('message-success',"Initial Tools & Facilities Successfully Update!!!");
         return view('livewire.vendor-management.initialtoolsfacilities'); 
         
     }

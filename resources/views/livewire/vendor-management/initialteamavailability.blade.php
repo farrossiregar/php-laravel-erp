@@ -26,8 +26,6 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
-                                                
-                                                
                                                 <div class="row">
                                                     <div class="col-md-10 form-group">
                                                     
@@ -186,6 +184,7 @@
                                                                                     $countteam = 0;
                                                                                 }
                                                                         ?>
+                                                                        
                                                                         <input type="number" wire:change="updatedata('team', {{ $i }})" class="form-control" placeholder="{{ $countteam }}" wire:model="team{{$i}}">
                                                                         <?php
                                                                             }else{
@@ -480,7 +479,7 @@
                                                                 <div class="row">
                                                                     <div class="col-md-12 form-group">
                                                                         
-                                                                        <p>Others</p>
+                                                                        <p>Others...</p>
                                                                         
                                                                     </div>
                                                                 </div>
@@ -505,8 +504,6 @@
                                                                                 }
                                                                             ?>
                                                                         </select> -->
-
-
                                                                         <!-- <?php
                                                                             if(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->get()){
                                                                                 $check_year = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
