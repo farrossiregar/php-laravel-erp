@@ -150,26 +150,24 @@ class PpeCheck extends Component
             $activeSheet
                 ->setCellValue('A'.$num,($k+1))
                 ->setCellValue('B'.$num,isset($i->region->region) ? $i->region->region : '')
-                ->setCellValue('B'.$num,isset($i->sub_region->name) ? $i->sub_region->name : '')
-                ->setCellValue('B'.$num,isset($i->employee->nik) ? $i->employee->nik : '')
-                ->setCellValue('C'.$num,$i->name)
-                ->setCellValue('D'.$num,date('d-M-Y',strtotime($i->created_at)));
+                ->setCellValue('C'.$num,isset($i->sub_region->name) ? $i->sub_region->name : '')
+                ->setCellValue('D'.$num,isset($i->employee->nik) ? $i->employee->nik : '')
+                ->setCellValue('E'.$num,$i->name)
+                ->setCellValue('F'.$num,date('d-M-Y',strtotime($i->created_at)));
             if($i->is_submit==1){
                 $activeSheet
-                    ->setCellValue('E'.$num,$i->foto_dengan_ppe==1 ? "Yes" : "No")
-                    ->setCellValue('F'.$num,$i->foto_banner==1 ? "Yes" : "No")
-                    ->setCellValue('G'.$num,$i->foto_wah==1 ? "Yes" : "No")
-                    ->setCellValue('H'.$num,$i->foto_elektril==1 ? "Yes" : "No")
-                    ->setCellValue('I'.$num,$i->foto_first_aid==1 ? "Yes" : "No")
-                    ->setCellValue('J'.$num,$i->ppe_lengkap==1 ? "Yes" : "No")
-                    ->setCellValue('K'.$num,$i->ppe_alasan_tidak_lengkap)
-                    ->setCellValue('L'.$num,$i->banner_lengkap==1 ? "Yes" : "No")
-                    ->setCellValue('M'.$num,$i->banner_alasan_tidak_lengkap)
-                    ->setCellValue('N'.$num,$i->sertifikasi_alasan_tidak_lengkap);
+                    ->setCellValue('G'.$num,$i->foto_dengan_ppe==1 ? "Yes" : "No")
+                    ->setCellValue('H'.$num,$i->foto_banner==1 ? "Yes" : "No")
+                    ->setCellValue('I'.$num,$i->foto_wah==1 ? "Yes" : "No")
+                    ->setCellValue('J'.$num,$i->foto_elektril==1 ? "Yes" : "No")
+                    ->setCellValue('K'.$num,$i->foto_first_aid==1 ? "Yes" : "No")
+                    ->setCellValue('L'.$num,$i->ppe_lengkap==1 ? "Yes" : "No")
+                    ->setCellValue('M'.$num,$i->ppe_alasan_tidak_lengkap)
+                    ->setCellValue('N'.$num,$i->banner_lengkap==1 ? "Yes" : "No")
+                    ->setCellValue('O'.$num,$i->banner_alasan_tidak_lengkap)
+                    ->setCellValue('P'.$num,$i->sertifikasi_alasan_tidak_lengkap);
             }else{
                 $activeSheet
-                    ->setCellValue('E'.$num,'-')
-                    ->setCellValue('F'.$num,'-')
                     ->setCellValue('G'.$num,'-')
                     ->setCellValue('H'.$num,'-')
                     ->setCellValue('I'.$num,'-')
@@ -177,7 +175,9 @@ class PpeCheck extends Component
                     ->setCellValue('K'.$num,'-')
                     ->setCellValue('L'.$num,'-')
                     ->setCellValue('M'.$num,'-')
-                    ->setCellValue('N'.$num,'-');
+                    ->setCellValue('N'.$num,'-')
+                    ->setCellValue('O'.$num,'-')
+                    ->setCellValue('P'.$num,'-');
             }
             $num++;
         }

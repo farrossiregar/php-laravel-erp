@@ -108,6 +108,10 @@
                             <td>{{$item->purpose}}</td>
                         </tr>
                         <tr>
+                            <th>Time</th>
+                            <td>{{date('H:i',strtotime($item->start_date))}} - {{date('H:i',strtotime($item->end_date))}}</td>
+                        </tr>
+                        <tr>
                             <th>Participant</th>
                             <td>{{$item->participant}}</td>
                         </tr>
