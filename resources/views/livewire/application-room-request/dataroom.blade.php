@@ -88,11 +88,8 @@
                             ?>
                         </td>
                         <td>
-                            @if($item->type_request == 'Room')
-                                {{ date_format(date_create($item->start_booking), 'd M Y') }} {{ date_format(date_create($item->start_booking), 'H:i') }} - {{ date_format(date_create($item->end_booking), 'H:i') }}
-                            @endif
+                            {{ date_format(date_create($item->start_booking), 'd M Y') }} {{ date_format(date_create($item->start_booking), 'H:i') }} - {{ date_format(date_create($item->end_booking), 'H:i') }}
                         </td>
-
                         <td>{{ $item->purpose }}</td>
                         <td>{{ $item->participant }}</td>
                         <td>

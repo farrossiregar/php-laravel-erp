@@ -13,6 +13,7 @@ class Importroomrequest extends Component
     use WithFileUploads;
     public $nik,$employee_id, $employee_name, $departement, $lokasi, $type_request, $request_room_detail;
     public $purpose, $participant, $start_date_booking, $start_time_booking, $end_date_booking, $end_time_booking;
+    protected $listeners = ['set_selected_date'];
 
     public function render()
     {
@@ -21,22 +22,16 @@ class Importroomrequest extends Component
         $this->nik = $user->employee->nik;
         $this->employee_name = $user->name;
         $this->departement = get_position($user->user_access_id);
-        // dd($user);
-        // if(!check_access('accident-report.index')){
-        //     session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
-        //     $this->redirect('/');
-        // }
-        
-        
-        // return view('livewire.duty-roster-dophomebase.importdutyroster');
-        return view('livewire.application-room-request.importroomrequest');
-        
+    
+        return view('livewire.application-room-request.importroomrequest');        
+    }
+    public function set_selected_date($date)
+    {
+        $this->start_date_booking = date('Y-m-d',strtotime($date));
     }
 
-  
     public function save()
     {
-
         $check = \App\Models\ApplicationRoomRequest::whereDate('start_booking', $this->start_date_booking)
                                                     ->where(DB::Raw('substring(start_booking, 12, 8)'), '>=', $this->start_time_booking.':00')
                                                     ->where(DB::Raw('substring(end_booking, 12, 8)'), '<=', $this->end_time_booking.':00')

@@ -96,6 +96,8 @@ class ToolsCheckController extends Controller
         $employee = isset(\Auth::user()->employee->id) ? \Auth::user()->employee : '';
         $project = EmployeeProject::where('employee_id',$employee->id)->first();
 
+        if(!$project) return response()->json(['message'=>"Project not found."], 200);
+        
         $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
         if(!$find){
             $find = new ToolsCheck();

@@ -7,6 +7,7 @@ use App\Models\PreventiveMaintenance;
 
 class Dashboard extends Component
 {
+    public $date_start,$date_end;
     public function render()
     {
         $data = PreventiveMaintenance::select("pm2.*",
@@ -19,6 +20,13 @@ class Dashboard extends Component
                             )
                                 ->from('preventive_maintenance','pm2')
                             ->with(['region','sub_region'])->groupBy('region_id','sub_region_id','site_type','pm_type');
+
+        if($this->date_start and $this->date_end){
+            if($this->date_start == $this->date_end)
+                $data->whereDate('pm2.created_at',$this->date_start);
+            else
+                $data->whereBetween('pm2.created_at',[$this->date_start,$this->date_end]);
+        }
 
         if(!check_access('preventive-maintenance.show-all-region')) $data->where('admin_project_id',\Auth::user()->employee->id);
 

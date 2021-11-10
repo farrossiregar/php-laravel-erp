@@ -1,21 +1,5 @@
 <div>
-
-    
     <style>
-
-        /* body {
-            margin-top: 40px;
-            text-align: center;
-            font-size: 14px;
-            font-family: "Helvetica Nueue",Arial,Verdana,sans-serif;
-            background-color: #DDDDDD;
-            } */
-
-        /* #wrap {
-            width: 1100px;
-            margin: 0 auto;
-            } */
-
         #external-events {
             float: left;
             width: 150px;
@@ -47,21 +31,16 @@
         #external-events p input {
             margin: 0;
             vertical-align: middle;
-            }
+        }
 
         #calendar {
-    /* 		float: right; */
             margin: 0 auto;
             width: 900px;
             background-color: #FFFFFF;
             border-radius: 6px;
             box-shadow: 0 1px 2px #C3C3C3;
-            }
-
+        }
     </style>
-
-
-
     <div class="row">
         <div class="col-md-1">                
             <select class="form-control" wire:model="year">
@@ -99,43 +78,93 @@
         <div class="col-md-6" style="height: 300px">
             <canvas id="chBar"></canvas>
         </div>
-
         <div class="col-md-6" style="height: 300px">
             <canvas id="chBar1"></canvas>
         </div>
-    </div>
-    
-    
-    <div class="col-md-8">
-        <div id='wrap' class="col-md-8" style="margin: 5px;">
-            <div id='calendar' class="col-md-12" onclick="return false;"></div>
+        <div class="col-md-6 mt-3" wire:ignore>
+            <div id='wrap' style="margin: 5px;">
+                <div id='calendar' class="col-md-12" onclick="return false;"></div>
+            </div>
+        </div>
+        <div class="col-md-4 mt-3">
+            <div class="row">
+                <div class="col-md-8">
+                    <h5>Room Request <span class="text-danger">{{$date_active}}</span></h5>
+                </div>
+                <div class="col-md-4 text-right">
+                    <a href="#" data-toggle="modal" data-target="#modal-roomrequest-importroomrequest" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Room Request')}}</a>
+                </div>
+            </div>
+            <hr />
+            @foreach($data_room as $item)
+                <div class="border rounded mb-3">
+                    <table class="table mb-0">
+                        <tr>
+                            <th>Room</th>
+                            <td>{{$item->request_room_detail}}</td>
+                        </tr>
+                        <tr>
+                            <th>Purpose</th>
+                            <td>{{$item->purpose}}</td>
+                        </tr>
+                        <tr>
+                            <th>Participant</th>
+                            <td>{{$item->participant}}</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td>
+                                @if($item->status == '1')
+                                <label class="badge badge-warning mb-0" data-toggle="tooltip" title="Waiting PMG Approval">Waiting PMG Approval</label>
+                            @endif
+
+                            @if($item->status == '2')
+                                <label class="badge badge-success mb-0" data-toggle="tooltip" title="Approved">Approved</label>
+                            @endif
+
+                            @if($item->status == '0')
+                                <label class="badge badge-danger mb-0" data-toggle="tooltip" title="{{ $item->note }}">Decline</label>
+                            @endif
+
+                            @if($item->status == '' || $item->status == 'null')
+                                <label class="badge badge-warning mb-0" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
+                            @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Department</th>
+                            <td>{{ $item->departement }}</td>
+                        </tr>
+                        <tr>
+                            <th>Requested By</th>
+                            <td>
+                                {{ $item->employee_name }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Created At</th>
+                            <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
+                        </tr>
+                    </table>
+                </div>
+            @endforeach
+            @if($data_room->count()==0)
+                <code>Room request empty.</code>
+            @endif
         </div>
     </div>
 </div>
 
 @push('after-scripts')
-<!-- section('page-script') -->
-
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <script>
-
         $(document).ready(function() {
-            // alert('ok');
             var date = new Date();
             var d = date.getDate();
             var m = date.getMonth();
             var y = date.getFullYear();
 
-            /*  className colors
-
-            className: default(transparent), important(red), chill(pink), success(green), info(blue)
-
-            */
-
-
             /* initialize the external events
             -----------------------------------------------------------------*/
-
             $('#external-events div.external-event').each(function() {
 
                 // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
@@ -153,18 +182,11 @@
                     revert: true,      // will cause the event to go back to its
                     revertDuration: 0  //  original position after the drag
                 });
-
             });
-
 
             var titles = {!!$title!!};
             var startdates = {!!$startdate!!};
             var enddates = {!!$enddate!!};
-            
-            // var startdate = ['2021-08-29', '2021-09-19'];
-            // var enddate = ['2021-08-29', '2021-09-20'];
-            // var title = ['Wedding Farros & Mutia', 'Hari ini sama besok'];
-            
             var events = [];
             var coolor = [];
             for(var i = 0; i < startdates.length; i++) 
@@ -175,12 +197,10 @@
                         end: startdates[i]['start_booking'].substring(0, 10),
                         className: 'info'
                 });
-                // console.log(events);
             }
             
             /* initialize the calendar
             -----------------------------------------------------------------*/
-
             var calendar =  $('#calendar').fullCalendar({
                 header: {
                     left: 'title',
@@ -191,7 +211,6 @@
                 firstDay: 1, //  1(Monday) this can be changed to 0(Sunday) for the USA system
                 selectable: true,
                 defaultView: 'month',
-
                 axisFormat: 'h:mm',
                 columnFormat: {
                     month: 'ddd',    // Mon
@@ -207,98 +226,19 @@
                 allDaySlot: false,
                 selectHelper: true,
                 select: function(start, end, allDay) {
-                    // var title = prompt('Event Title:');
-                    // if (title) {
-                    //     calendar.fullCalendar('renderEvent',
-                    //         {
-                    //             title: title,
-                    //             start: start,
-                    //             end: end,
-                    //             allDay: allDay
-                    //         },
-                    //         true // make the event "stick"
-                    //     );
-                    // }
-                    // calendar.fullCalendar('unselect');
+                    Livewire.emit('set_selected_date',start);
                 },
                 droppable: true, // this allows things to be dropped onto the calendar !!!
                 drop: function(date, allDay) { // this function is called when something is dropped
-
-                    // // retrieve the dropped element's stored Event Object
-                    // var originalEventObject = $(this).data('eventObject');
-
-                    // // we need to copy it, so that multiple events don't have a reference to the same object
-                    // var copiedEventObject = $.extend({}, originalEventObject);
-
-                    // // assign it the date that was reported
-                    // copiedEventObject.start = date;
-                    // copiedEventObject.allDay = allDay;
-
-                    // // render the event on the calendar
-                    // // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                    // $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-                    // // is the "remove after drop" checkbox checked?
-                    // if ($('#drop-remove').is(':checked')) {
-                    //     // if so, remove the element from the "Draggable Events" list
-                    //     $(this).remove();
-                    // }
-
                 },
-
-               
-                // events: [
-                //     {
-                //         title: 'All Day Event',
-                //         start: new Date(y, m, 1)
-                //     },
-                //     {
-                //         id: 999,
-                //         title: 'Repeating Event',
-                //         start: new Date(y, m, d-3, 16, 0),
-                //         allDay: false,
-                //         className: 'info'
-                //     },
-                //     {
-                //         title: 'Meeting',
-                //         start: new Date(y, m, d, 10, 30),
-                //         allDay: false,
-                //         className: 'important'
-                //     },
-                //     {
-                //         title: 'Lunch',
-                //         start: new Date(y, m, d, 12, 0),
-                //         end: new Date(y, m, d, 14, 0),
-                //         allDay: false,
-                //         className: 'important'
-                //     },
-                //     {
-                //         title: 'Birthday Party',
-                //         start: new Date(y, m, d+1, 19, 0),
-                //         end: new Date(y, m, d+1, 22, 30),
-                //         allDay: false,
-                //     },
-                //     {
-                //         title: 'Click for Google',
-                //         // start: new Date(y, m, 28),
-                //         start: '2021-09-27',
-                //         end: new Date(y, m, 29),
-                //         url: 'http://google.com/',
-                //         className: 'success'
-                //     }
-                // ],
                 events: events,
             });
-            
-
         });
 
     </script>
 <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
 <link href="{{ asset('assets/fullcalendar-master/assets/css/fullcalendar.css') }}" rel='stylesheet' />
 <link href="{{ asset('assets/fullcalendar-master/assets/css/fullcalendar.print.css') }}" rel='stylesheet' media='print' />
-<!-- <script src="{{ asset('assets/fullcalendar-master/assets/js/jquery-1.10.2.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/fullcalendar-master/assets/js/jquery-ui.custom.min.js') }}" type="text/javascript"></script> -->
 <script src="{{ asset('assets/fullcalendar-master/assets/js/fullcalendar.js') }}" type="text/javascript"></script>
 <script>
     var labels = {!!$labels!!};
@@ -375,7 +315,6 @@
                 }
             });
         }
-
 
         if (chBar1) {
             new Chart(chBar1, {

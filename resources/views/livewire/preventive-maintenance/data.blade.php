@@ -58,7 +58,6 @@
             </thead>
             <tbody>
                 @php($is_upload_report = check_access('preventive-maintenance.upload-report'))
-
                 @foreach($data as $k => $item)
                     <tr>
                         <td>{{$k+1}}</td>
@@ -106,7 +105,6 @@
         </table>
     </div>
     {{$data->links()}}
-
     <div wire:ignore.self class="modal fade" id="modal_upload_report" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -231,9 +229,11 @@
                                         <option>6M</option>
                                     @endif
                                     @if($site_type=='TMG')
-                                        <option>1M</option>
-                                        <option>3M</option>
-                                        <option>6M</option>
+                                        <option>TMG 1M</option>
+                                        <option>TMG 3M</option>
+                                        <option>TMG 6M</option>
+                                        <option>RAN 3M</option>
+                                        <option>RAN 6M</option>
                                     @endif
                                 </select>
                             </div>
@@ -291,11 +291,8 @@
         </div>
     </div>
     @push('after-scripts')
-        <script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.min.js') }}"></script>
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/daterange/daterangepicker.css') }}" />
         <script>
             $(".select2").select2();
             $('.select2').on('select2:select', function (e) {

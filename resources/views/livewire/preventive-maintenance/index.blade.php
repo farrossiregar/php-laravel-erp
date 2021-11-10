@@ -1,6 +1,11 @@
 
 @section('title', 'Preventive Maintenance')
 <div class="row clearfix">
+    @push('after-scripts')
+        <script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/daterange/daterangepicker.css') }}" />
+    @endpush
     <div class="col-lg-12">
         <div class="card">
             <ul class="nav nav-tabs-new2">
@@ -25,4 +30,5 @@
             </div>
         </div>
     </div>
+    
 </div>

@@ -4,11 +4,8 @@ namespace App\Http\Livewire\ApplicationRoomRequest;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\PoTrackingPds;
-use App\Models\PoTrackingNonms;
-use Auth;
+use App\Models\ApplicationRoomRequest;
 use DB;
-
 
 class Dashboard extends Component
 {
@@ -20,19 +17,29 @@ class Dashboard extends Component
     public $datasetsapp;
     public $title;
     public $startdate;
-    public $enddate;
+    public $enddate,$date_active,$data_room;
     protected $paginationTheme = 'bootstrap';
-
+    protected $listeners = ['set_selected_date'];
     public function render()
     {
         $this->generate_chart();
         return view('livewire.application-room-request.dashboard');
     }
+
+    public function set_selected_date($date)
+    {
+        $this->date_active = date('d/M/Y',strtotime($date));
+        $this->data_room = ApplicationRoomRequest::where('type_request','room')->whereDate('start_booking',date('Y-m-d',strtotime($date)))->get();
+    }
+
+    public function mount()
+    {
+        $this->date_active = date('d/M/Y');
+        $this->data_room = ApplicationRoomRequest::where('type_request','room')->whereDate('start_booking',date('Y-m-d'))->get();
+    }
     
-    // public function updated($propertyName)
     public function updated()
     {
-        // if($propertyName=='year') $this->month = '';
         $this->generate_chart();
     }
     

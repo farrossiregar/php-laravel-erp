@@ -91,8 +91,8 @@
                                 @php($upload = $item->toolsboxCheck->where('toolbox_id',$tool->id)->first())
                                 <td>
                                     @if($upload)
-                                        @if($upload->status==1) <span class="badge badge-success" title="QTY : {{$upload->qty}}">Kondisi Baik</span> @endif
-                                        @if($upload->status==2) <span class="badge badge-warning" title="QTY : {{$upload->qty}}, Note: {{$upload->note}}">Kondisi Rusak</span> @endif 
+                                        @if($upload->status==1) <span class="text-success" title="Kondisi Baik, QTY : {{$upload->qty}}"><i class="fa fa-check"></i> {{$upload->qty}}</span> @endif
+                                        @if($upload->status==2) <span class="text-danger" title="Kondisi Rusak QTY : {{$upload->qty}}, Note: {{$upload->note}}"><i class="fa fa-warning"></i> {{$upload->qty}}</span> @endif 
                                         @if($upload->image)
                                             <a href="{{asset($upload->image)}}" target="_blank"><i class="fa fa-image"></i></a>
                                         @else

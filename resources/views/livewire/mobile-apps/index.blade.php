@@ -10,15 +10,12 @@
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#ppe-check">{{ __('PPE Check') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tools-check">{{ __('Tools Check') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#speed-warning-alarm">{{ __('Speed Warning Alarm') }}</a></li>
-                <!-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#preventive-maintenance">{{ __('Preventive Maintenance') }}</a></li> -->
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#drug-test">{{ __('Drug Test') }}</a></li>
             </ul>
             <div class="tab-content">
-            
                 <div class="tab-pane" id="preventive-maintenance">
                     <livewire:mobile-apps.preventive-maintenance />
                 </div>
-                
             </div>
         </div>
     </div>
