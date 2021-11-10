@@ -21,7 +21,8 @@ class ToolsCheck extends Component
     {
         $data = ToolsCheckModel::select('tools_check.*','employees.name')
                             ->with('_employee')
-                            ->orderBy('tools_check.id','DESC')->join('employees','employees.id','=','employee_id');
+                            ->orderBy('tools_check.updated_at','DESC')
+                            ->join('employees','employees.id','=','employee_id');
         
         if($this->tahun) $data->where('tahun',$this->tahun);
         if($this->bulan) $data->where('bulan',$this->bulan);

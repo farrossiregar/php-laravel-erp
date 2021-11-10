@@ -43,6 +43,9 @@ class Sinkron extends Command
      */
     public function handle()
     {
+        $msg = "This testing notification ".date('Y-m-d H:i:s')."\n";
+        push_notification_android('dZcCN3jiRz61ym255Zvjtb:APA91bE9QTXJT_BHp9ItTysMoEY1wJ9zX8I3Wcw0w5kEjrC9kPukTIGvpDjKPAGe-4cJBpA5kIyOfHh1zPART60k_xUuuuzRymq67xtygMKJ4Ba9Nd5UOy-NVTiPfuH5ZotGLUOj1iSx',"Testing Notification",$msg,10);
+        return;
         foreach(Employee::select('employees.*')->join('employee_projects','employee_projects.employee_id','=','employees.id')->where('is_use_android',1)->groupBy('employees.id')->get() as $em){
             if($em->device_token){
                 echo "Employee : {$em->name}\n";

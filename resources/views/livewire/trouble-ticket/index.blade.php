@@ -37,6 +37,7 @@
                                 <th>Pickup Date</th> 
                                 <th>Resolved Date</th> 
                                 <th>Closed Date</th> 
+                                <th>Noted</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -121,6 +122,7 @@
                                             {{date('d-M-Y H:i',strtotime($item->approve_date))}}
                                         @endif
                                     </td>
+                                    <td>{{$item->note}}</td>
                                 </tr>
                             @endforeach
                         </tbody>

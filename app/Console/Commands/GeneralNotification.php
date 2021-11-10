@@ -101,28 +101,28 @@ class GeneralNotification extends Command
                         }
                     }
                 }
-            }
+            
+                $vehicle = Notification::where(['employee_id'=>$em->id,'type'=>3])->whereDate('created_at',date('Y-m-d'))->first();
+                if(!$vehicle){
+                    $vehicle = new Notification();
+                    $vehicle->employee_id = $em->id;
+                    $vehicle->type = 3; // Vechicle Check
+                    $vehicle->title = 'Vehicle Check';
+                    $vehicle->description = "Sudahkah anda melakukan Vehicle Check hari ini";
+                    $vehicle->save();
 
-            $vehicle = Notification::where(['employee_id'=>$em->id,'type'=>3])->whereDate('created_at',date('Y-m-d'))->first();
-            if(!$vehicle){
-                $vehicle = new Notification();
-                $vehicle->employee_id = $em->id;
-                $vehicle->type = 3; // Vechicle Check
-                $vehicle->title = 'Vehicle Check';
-                $vehicle->description = "Sudahkah anda melakukan Vehicle Check hari ini";
-                $vehicle->save();
+                    $find = VehicleCheck::where('employee_id',$em->id)->whereDate('created_at',date('Y-m-d'))->first();
+                    if(!$find){
+                        $data = new VehicleCheck();
+                        $data->employee_id = $em->id;
+                        if($project) $data->client_project_id = $project->client_project_id; 
+                        $data->region_id = $em->region_id;
+                        $data->sub_region_id = $em->sub_region_id;
+                        $data->save();
 
-                $find = VehicleCheck::where('employee_id',$em->id)->whereDate('created_at',date('Y-m-d'))->first();
-                if(!$find){
-                    $data = new VehicleCheck();
-                    $data->employee_id = $em->id;
-                    if($project) $data->client_project_id = $project->client_project_id; 
-                    $data->region_id = $em->region_id;
-                    $data->sub_region_id = $em->sub_region_id;
-                    $data->save();
-
-                    if($em->device_token){
-                        push_notification_android($em->device_token,$vehicle->title,$vehicle->description,3);
+                        if($em->device_token){
+                            push_notification_android($em->device_token,$vehicle->title,$vehicle->description,3);
+                        }
                     }
                 }
             }
@@ -150,6 +150,7 @@ class GeneralNotification extends Command
                     }
                 }
             }
+            
         }
 	
         return 0;
