@@ -29,7 +29,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <?php
-                                        $get_data = \App\Models\VendorManagementehs::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '1')->first();    
+                                        $get_data = \App\Models\VendorManagementehsinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '1')->first();    
                                         $count = $get_data['value'];   
                                         
                                     ?>
@@ -48,7 +48,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <?php
-                                        $get_data = \App\Models\VendorManagementehs::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '2')->first();    
+                                        $get_data = \App\Models\VendorManagementehsinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '2')->first();    
                                         $count = $get_data['value'];   
                                         
                                     ?>
@@ -69,7 +69,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <?php
-                                        $get_data = \App\Models\VendorManagementehs::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '3')->first();    
+                                        $get_data = \App\Models\VendorManagementehsinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '3')->first();    
                                         $count = $get_data['value'];   
                                         
                                     ?>
@@ -88,7 +88,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <?php
-                                        $get_data = \App\Models\VendorManagementehs::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '4')->first();    
+                                        $get_data = \App\Models\VendorManagementehsinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '4')->first();    
                                         $count = $get_data['value'];   
                                         
                                     ?>
@@ -106,7 +106,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <?php
-                                        $get_data = \App\Models\VendorManagementehs::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '5')->first();    
+                                        $get_data = \App\Models\VendorManagementehsinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '5')->first();    
                                         $count = $get_data['value'];   
                                         
                                     ?>
@@ -125,7 +125,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <?php
-                                        $get_data = \App\Models\VendorManagementehs::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '6')->first();    
+                                        $get_data = \App\Models\VendorManagementehsinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '6')->first();    
                                         $count = $get_data['value'];   
                                         
                                     ?>
@@ -146,7 +146,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <?php
-                                        $get_data = \App\Models\VendorManagementehs::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '7')->first();    
+                                        $get_data = \App\Models\VendorManagementehsinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '7')->first();    
                                         $count = $get_data['value'];   
                                         
                                     ?>
@@ -184,7 +184,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <?php
-                                        $get_data = \App\Models\VendorManagementehs::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '8')->first();    
+                                        $get_data = \App\Models\VendorManagementehsinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '8')->first();    
                                         $count = $get_data['value'];   
                                         
                                     ?>
@@ -198,7 +198,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <?php
-                                        $get_data = \App\Models\VendorManagementehs::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '9')->first();    
+                                        $get_data = \App\Models\VendorManagementehsinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '9')->first();    
                                         $count = $get_data['value'];   
                                         
                                     ?>
@@ -212,7 +212,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <?php
-                                        $get_data = \App\Models\VendorManagementehs::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '10')->first();    
+                                        $get_data = \App\Models\VendorManagementehsinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '10')->first();    
                                         $count = $get_data['value'];   
                                         
                                     ?>
@@ -226,7 +226,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <?php
-                                        $get_data = \App\Models\VendorManagementehs::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '11')->first();    
+                                        $get_data = \App\Models\VendorManagementehsinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '11')->first();    
                                         $count = $get_data['value'];   
                                         
                                     ?>
@@ -240,7 +240,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <?php
-                                        $get_data = \App\Models\VendorManagementehs::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '12')->first();    
+                                        $get_data = \App\Models\VendorManagementehsinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '12')->first();    
                                         $count = $get_data['value'];   
                                         
                                     ?>
@@ -254,7 +254,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <?php
-                                        $get_data = \App\Models\VendorManagementehs::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '13')->first();    
+                                        $get_data = \App\Models\VendorManagementehsinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '13')->first();    
                                         $count = $get_data['value'];   
                                         
                                     ?>
@@ -268,7 +268,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <?php
-                                        $get_data = \App\Models\VendorManagementehs::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '14')->first();    
+                                        $get_data = \App\Models\VendorManagementehsinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '14')->first();    
                                         $count = $get_data['value'];   
                                         
                                     ?>
@@ -285,7 +285,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                 <?php
-                                        $get_data = \App\Models\VendorManagementehs::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '15')->first();    
+                                        $get_data = \App\Models\VendorManagementehsinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '15')->first();    
                                         $count = $get_data['value'];   
                                         
                                     ?>
@@ -324,7 +324,7 @@
                     
                     <hr>
                     <h1 style="font-size: 65px">
-                        {{ $data['ehs_quality_management'] }}
+                        {{ $data['initial_ehs_quality_management'] }}
                     </h1>
                 </div>
             </div>
@@ -334,7 +334,7 @@
                     <h5>Company Structure</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    {{ $data['ehs_company_structure'] }}
+                    {{ $data['initial_ehs_company_structure'] }}
                     </h1>
                 </div>
             </div>
@@ -343,7 +343,7 @@
                     <h5>Project Management</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    {{ $data['ehs_project_management'] }}
+                    {{ $data['initial_ehs_project_management'] }}
                     </h1>
                 </div>
             </div>
@@ -352,7 +352,7 @@
                     <h5>Quality Management</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    {{ $data['ehs_qualitymanagement'] }}
+                    {{ $data['initial_ehs_qualitymanagement'] }}
                     </h1>
                 </div>
             </div>
@@ -362,7 +362,7 @@
                     <h5>Training Management</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                        {{ $data['ehs_training_management'] }}
+                        {{ $data['initial_ehs_training_management'] }}
                     </h1>
                 </div>
             </div>
@@ -372,7 +372,7 @@
                     <h5>Project Reporting</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                        {{ $data['ehs_project_management'] }}
+                        {{ $data['initial_ehs_project_management'] }}
                     </h1>
                 </div>
             </div>
@@ -382,7 +382,7 @@
                     <h5>Documentation Management</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    {{ $data['ehs_documentation'] }}
+                    {{ $data['initial_ehs_documentation'] }}
                     </h1>
                 </div>
             </div>
@@ -392,7 +392,7 @@
                     <h5>Cerificate Category</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    {{ $data['ehs_certificate'] }}
+                    {{ $data['initial_ehs_certificate'] }}
                     </h1>
                 </div>
             </div>

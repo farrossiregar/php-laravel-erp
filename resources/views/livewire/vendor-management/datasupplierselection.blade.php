@@ -99,7 +99,7 @@
                             @if($item->supplier3_id)
                             <b>{{ get_detail_supplier($item->supplier3_id)->supplier_name }} </b>
                             <!-- <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-newproject" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> </a> -->
-                            <a href="#" wire:click="delsupplier3({{ $item->project_category }})" title="Delete" ><i style="color: #dc3545;" class="fa fa-trash fa-2x"></i> </a>
+                            <a href="#" wire:click="delsupplier3({{ $item->id }})" title="Delete" ><i style="color: #dc3545;" class="fa fa-trash fa-2x"></i> </a>
                            
                             @else
                             <a href="javascript:;"  wire:click="$emit('modaladdsupplier',['{{ $item->project_category }}', '3', '{{$item->id}}'])" title="Detail Comparation"><i style="color: #007bff;" class="fa fa-plus fa-2x"></i> </a>

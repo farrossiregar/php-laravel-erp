@@ -24,6 +24,7 @@ class Detailscore extends Component
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         
         $this->supplier_category                    = $this->data->supplier_category;
+        // dd($this->selected_id);
         $this->general_information                  = $this->data->general_information;
         $this->team_availability_capability         = $this->data->team_availability_capability;
         $this->tools_facilities                     = $this->data->tools_facilities;

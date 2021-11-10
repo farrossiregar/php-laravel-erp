@@ -7,7 +7,7 @@
                 <div class="col-md-12">
                     <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
                         <?php
-                            $check_data = \App\Models\VendorManagementgi::where('id_supplier', $selected_id)->get();
+                            $check_data = \App\Models\VendorManagementgiinit::where('id_supplier', $selected_id)->get();
                         ?>
 
                         <div class="row">
@@ -873,9 +873,9 @@
                 <?php
            
                     $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-                    $checkktp                     = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', 2)->first();
-                    $checknpwp                    = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', 3)->first();
-                    $checkhq                      = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', 5)->first();
+                    $checkktp                     = \App\Models\VendorManagementgiinit::where('id_supplier', $this->selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', 2)->first();
+                    $checknpwp                    = \App\Models\VendorManagementgiinit::where('id_supplier', $this->selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', 3)->first();
+                    $checkhq                      = \App\Models\VendorManagementgiinit::where('id_supplier', $this->selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', 5)->first();
                     // print_r($checkktp);
                 ?>
                 <div class="col-md-12">

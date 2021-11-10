@@ -33,7 +33,12 @@
                                             <input type="number" min='0' max="100" class="form-control" wire:model="general_information" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <a href="{{ route('vendor-management.general-information',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            <?php
+                                                $urlgi = route('vendor-management.general-information',['id'=>'ids']);
+                                                $urlgi = str_replace('ids', $selected_id, $urlgi);
+
+                                            ?>
+                                            <a href="<?php echo $urlgi; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>
@@ -44,7 +49,12 @@
                                             <input type="number" min='0' max="100" class="form-control" wire:model="team_availability_capability" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <a href="{{ route('vendor-management.team-availability',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            <?php
+                                                $urlta = route('vendor-management.team-availability',['id'=>'ids']);
+                                                $urlta = str_replace('ids', $selected_id, $urlta);
+
+                                            ?>
+                                            <a href="<?php echo $urlta; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>
@@ -55,7 +65,12 @@
                                             <input type="number" min='0' max="100" class="form-control" wire:model="tools_facilities" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <a href="{{ route('vendor-management.tools-facilities',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            <?php
+                                                $urltf = route('vendor-management.tools-facilities',['id'=>'ids']);
+                                                $urltf = str_replace('ids', $selected_id, $urltf);
+
+                                            ?>
+                                            <a href="<?php echo $urltf; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>
@@ -66,7 +81,12 @@
                                             <input type="number" min='0' max="100" class="form-control" wire:model="ehs_quality_management" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <a href="{{ route('vendor-management.ehs',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            <?php
+                                                $urlehs = route('vendor-management.ehs',['id'=>'ids']);
+                                                $urlehs = str_replace('ids', $selected_id, $urlehs);
+
+                                            ?>
+                                            <a href="<?php echo $urlehs; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>
@@ -78,7 +98,12 @@
                                             <input type="number" min='0' max="100" class="form-control" wire:model="commercial_compliance" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                        <a href="{{ route('vendor-management.commercial-compliance',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            <?php
+                                                $urlcc = route('vendor-management.commercial-compliance',['id'=>'ids']);
+                                                $urlcc = str_replace('ids', $selected_id, $urlcc);
+
+                                            ?>
+                                            <a href="<?php echo $urlcc; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>
@@ -90,7 +115,12 @@
                                             <input type="number" min='0' max="100" class="form-control" wire:model="general_information" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                            <a href="{{ route('vendor-management.general-information',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            <?php
+                                                $urlgi = route('vendor-management.general-information',['id'=>'ids']);
+                                                $urlgi = str_replace('ids', $selected_id, $urlgi);
+
+                                            ?>
+                                            <a href="<?php echo $urlgi; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>
@@ -101,7 +131,12 @@
                                             <input type="number" min='0' max="100" class="form-control" wire:model="commercial_compliance" readonly/>
                                         </div>
                                         <div class="col-md-4 form-group">
-                                        <a href="{{ route('vendor-management.commercial-compliance',['id'=>'6']) }}" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            <?php
+                                                $urlcc = route('vendor-management.commercial-compliance',['id'=>'ids']);
+                                                $urlcc = str_replace('ids', $selected_id, $urlcc);
+
+                                            ?>
+                                            <a href="<?php echo $urlcc; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
                                         </div>
                                     </div>
                                     <br>

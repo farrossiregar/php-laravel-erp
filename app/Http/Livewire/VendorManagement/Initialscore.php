@@ -10,7 +10,7 @@ class Initialscore extends Component
     protected $listeners = [
         'modalinitialscore'=>'initialscore',
     ];
-    public $selected_id, $data,$supplier_category, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
+    public $selected_id, $data, $supplier_category, $initial_general_information, $initial_team_availability_capability, $initial_tools_facilities, $initial_ehs_quality_management;
 
     public function render()
     {
@@ -24,11 +24,11 @@ class Initialscore extends Component
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         
         $this->supplier_category                    = $this->data->supplier_category;
-        $this->general_information                  = $this->data->general_information;
-        $this->team_availability_capability         = $this->data->team_availability_capability;
-        $this->tools_facilities                     = $this->data->tools_facilities;
-        $this->ehs_quality_management               = $this->data->ehs_quality_management;
-        $this->commercial_compliance                = $this->data->commercial_compliance;
+        $this->initial_general_information                  = $this->data->initial_general_information;
+        $this->initial_team_availability_capability         = $this->data->initial_team_availability_capability;
+        $this->initial_tools_facilities                     = $this->data->initial_tools_facilities;
+        $this->initial_ehs_quality_management               = $this->data->initial_ehs_quality_management;
+        // $this->commercial_compliance                = $this->data->commercial_compliance;
         
         
     }

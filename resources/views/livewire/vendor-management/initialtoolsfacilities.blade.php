@@ -6,19 +6,16 @@
             <div><br></div>
             <div><br></div>
             <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
-                <?php
-                    
-                    $tabdata = \App\Models\VendorManagementtf::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
-                    
-                    foreach($tabdata as $key => $item){
-                ?>
-                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#historitf<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}<?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
-                <?php
-                    }
-                ?>
+            @if(count(\App\Models\VendorManagementtfinit::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
+                @else
+                    @foreach(\App\Models\VendorManagementtfinit::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $key => $item)
+                        <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#historitf<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">{{ date_format(date_create($item->created_at), 'd M Y') }}<?php if($key == 0){ echo "<span style='color: red;'>*</span>"; } ?></a></li>
+                    @endforeach
+                @endif
             </ul>
             <div class="tab-content">
+                @if(count(\App\Models\VendorManagementtfinit::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
                 <div class="tab-pane active show" id="newevaluation">  
                     <div class="row">
                         <div class="col-md-8">
@@ -26,7 +23,7 @@
                                 <form wire:submit.prevent="save">
                                     @csrf
                                     <?php
-                                        $check_data = \App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->get();
+                                        $check_data = \App\Models\VendorManagementtfinit::where('id_supplier', $this->selected_id)->get();
                                     ?>
                                     <div class="col-md-12">
                                         <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
@@ -53,7 +50,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value1"/>
+                                                        <input type="number" class="form-control" wire:model="value1"/>
                                                     </div>
                                                 </div>
 
@@ -67,17 +64,17 @@
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" wire:model="value2"/>
+                                                                <input type="number" class="form-control" placeholder="Car" wire:model="value2"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" wire:model="value3"/>
+                                                                <input type="number" class="form-control"  placeholder="Pick-Up" wire:model="value3"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" wire:model="value4"/>
+                                                                <input type="number" class="form-control" placeholder="4WD"  wire:model="value4"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -92,7 +89,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value5"/>
+                                                        <input type="number" class="form-control" wire:model="value5"/>
                                                     </div>
                                                 </div>
 
@@ -104,7 +101,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value6"/>
+                                                        <input type="number" class="form-control" wire:model="value6"/>
                                                     </div>
                                                 </div>
 
@@ -116,7 +113,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value7"/>
+                                                        <input type="number" class="form-control" wire:model="value7"/>
                                                     </div>
                                                 </div>
 
@@ -128,7 +125,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value8"/>
+                                                        <input type="number" class="form-control" wire:model="value8"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
@@ -139,7 +136,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value9"/>
+                                                        <input type="number" class="form-control" wire:model="value9"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
@@ -152,17 +149,17 @@
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" wire:model="value10"/>
+                                                                <input type="number" class="form-control" placeholder="5 KVA"  wire:model="value10"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" wire:model="value11"/>
+                                                                <input type="number" class="form-control"  placeholder="7 KVA" wire:model="value11"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" wire:model="value12"/>
+                                                                <input type="number" class="form-control"  placeholder=">10 KVA" wire:model="value12"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -173,11 +170,11 @@
                                                     <label>Special Tools</label>
                                                 </div>
                                                 <div class="col-md-1">
-                                                    <label for="">Unit</label>
+                                                    <!-- <label for="">Unit</label> -->
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value13"/>
+                                                        <!-- <input type="number" class="form-control" wire:model="value13"/> -->
                                                     </div>
                                                 </div>
 
@@ -189,7 +186,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value14"/>
+                                                        <input type="number" class="form-control" wire:model="value13"/>
                                                     </div>
                                                 </div>
 
@@ -201,7 +198,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value15"/>
+                                                        <input type="number" class="form-control" wire:model="value14"/>
                                                     </div>
                                                 </div>
 
@@ -213,7 +210,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value16"/>
+                                                        <input type="number" class="form-control" wire:model="value15"/>
                                                     </div>
                                                 </div>
 
@@ -225,7 +222,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value17"/>
+                                                        <input type="number" class="form-control" wire:model="value16"/>
                                                     </div>
                                                 </div>
 
@@ -237,7 +234,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value18"/>
+                                                        <input type="number" class="form-control" wire:model="value17"/>
                                                     </div>
                                                 </div>
 
@@ -249,7 +246,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value19"/>
+                                                        <input type="number" class="form-control" wire:model="value18"/>
                                                     </div>
                                                 </div>
 
@@ -261,7 +258,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value20"/>
+                                                        <input type="number" class="form-control" wire:model="value19"/>
                                                     </div>
                                                 </div>
 
@@ -273,7 +270,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value21"/>
+                                                        <input type="number" class="form-control" wire:model="value20"/>
                                                     </div>
                                                 </div>
 
@@ -285,7 +282,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" wire:model="value22"/>
+                                                        <input type="number" class="form-control" wire:model="value21"/>
                                                     </div>
                                                 </div>
 
@@ -297,7 +294,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <textarea rows="6" type="text" class="form-control" wire:model="value23"></textarea>
+                                                        <textarea rows="6" type="text" class="form-control" wire:model="value22"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -394,17 +391,13 @@
                     </div>
                     
                 </div>
-                <?php
-                    $tabdata = \App\Models\VendorManagementtf::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get();
-                    foreach($tabdata as $item){
-                ?>
-                <div class="tab-pane" id="historitf<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
-                    @livewire('vendor-management.historitoolsfacilities', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
-
-                </div>
-                <?php
-                    }
-                ?>       
+                @else
+                    @foreach(\App\Models\VendorManagementtfinit::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $item)
+                    <div class="tab-pane active show" id="historitf<?php echo date_format(date_create($item->created_at), 'dMY'); ?>">
+                        @livewire('vendor-management.historiinittoolsfacilities', ['date' => $item->created_at, 'selected_id' => $this->selected_id])
+                    </div>
+                    @endforeach
+                @endif      
             </div>
         </div>
     </div>

@@ -160,13 +160,15 @@
                             @endif
                         </td>
                         <td>
-                            @if($item->scoring)
+                            @if($item->initial)
                             <!-- <div class="btn btn-success"><b>{{ $item->scoring }}</b></div> -->
                                 <a href="javascript:;"  wire:click="$emit('modalinitialscore','{{ $item->id }}')" title="Upload">
-                                    <label class="badge badge-success"  style="cursor: pointer;" data-toggle="tooltip" title="<?php echo $item->scoring; ?>" ><label style="font-size: 18px; padding: 3px 0; cursor: pointer;"><b>{{ $item->scoring }}</b></label></label>
+                                    <label class="badge badge-success"  style="cursor: pointer;" data-toggle="tooltip" title="<?php echo $item->initial; ?>" ><label style="font-size: 18px; padding: 3px 0; cursor: pointer;"><b>{{ $item->initial }}</b></label></label>
                                 </a>
                             @else
-                                <label class="badge badge-danger" data-toggle="tooltip" title="0"><label style="font-size: 20px; padding: 3px 0;">0</label></label>
+                                <a href="javascript:;"  wire:click="$emit('modalinitialscore','{{ $item->id }}')" title="Upload">
+                                    <label class="badge badge-danger" style="cursor: pointer;" data-toggle="tooltip" title="0"><label style="font-size: 20px; padding: 3px 0;">0</label></label>
+                                </a>
                             @endif
                         </td>
                         <td>
@@ -178,7 +180,9 @@
                                 <!-- <label class="badge badge-success" data-toggle="tooltip" title="<?php echo $item->scoring; ?>" ><label style="font-size: 18px; padding: 3px 0;"><b>{{ $item->scoring }}</b></label></label>
                                 <a href="javascript:;"  wire:click="$emit('modaldetailscore','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-eye"></i></a> -->
                             @else
-                                <label class="badge badge-danger" data-toggle="tooltip" title="0"><label style="font-size: 20px; padding: 3px 0;">0</label></label>
+                                <a href="javascript:;"  wire:click="$emit('modaldetailscore','{{ $item->id }}')" title="Upload">
+                                    <label class="badge badge-danger" style="cursor: pointer;" data-toggle="tooltip" title="0"><label style="font-size: 20px; padding: 3px 0;">0</label></label>
+                                </a>
                             @endif
                         </td>
                         <td>

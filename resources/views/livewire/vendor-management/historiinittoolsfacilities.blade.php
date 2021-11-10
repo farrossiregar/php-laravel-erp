@@ -4,7 +4,7 @@
             <form wire:submit.prevent="save">
                 @csrf
                 <?php
-                    $check_data = \App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->get();
+                    $check_data = \App\Models\VendorManagementtfinit::where('id_supplier', $this->selected_id)->get();
                 ?>
                 <div class="col-md-12">
                     <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
@@ -34,7 +34,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <?php
-                                        // //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '1')->first();
+                                        // //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '1')->first();
                                         // // $count = $get_data['value'];       
                                     ?>
                                     
@@ -53,7 +53,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <?php
-                                                // //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '2')->first();
+                                                // //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '2')->first();
                                                 // // $count = $get_data['value'];       
                                             ?>
                                             <input type="number" class="form-control" wire:model="value2"/>
@@ -62,7 +62,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <?php
-                                                // //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '3')->first();
+                                                // //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '3')->first();
                                                 // // $count = $get_data['value'];       
                                             ?>
                                             <input type="number" class="form-control" wire:model="value3"/>
@@ -71,7 +71,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <?php
-                                                // //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '4')->first();
+                                                // //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '4')->first();
                                                 // // $count = $get_data['value'];       
                                             ?>
                                             <input type="number" class="form-control" wire:model="value4"/>
@@ -90,7 +90,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <?php
-                                        // //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '5')->first();
+                                        // //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '5')->first();
                                         // // $count = $get_data['value'];       
                                     ?>
                                     <input type="number" class="form-control" wire:model="value5"/>
@@ -106,7 +106,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                 <?php
-                                        //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '6')->first();
+                                        //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '6')->first();
                                         // $count = $get_data['value'];       
                                     ?>
                                     <input type="number" class="form-control" wire:model="value6"/>
@@ -122,7 +122,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                 <?php
-                                        //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '7')->first();
+                                        //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '7')->first();
                                         // $count = $get_data['value'];       
                                     ?>
                                     <input type="number" class="form-control" wire:model="value7"/>
@@ -138,7 +138,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                 <?php
-                                        //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '8')->first();
+                                        //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '8')->first();
                                         // $count = $get_data['value'];       
                                     ?>
                                     <input type="number" class="form-control" wire:model="value8"/>
@@ -153,7 +153,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                 <?php
-                                        //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '9')->first();
+                                        //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '9')->first();
                                         // $count = $get_data['value'];       
                                     ?>
                                     <input type="number" class="form-control" wire:model="value9"/>
@@ -170,7 +170,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <?php
-                                                //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '10')->first();
+                                                //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '10')->first();
                                                 // $count = $get_data['value'];       
                                             ?>
                                             <input type="number" class="form-control" wire:model="value10"/>
@@ -179,7 +179,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                         <?php
-                                                //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '11')->first();
+                                                //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '11')->first();
                                                 // $count = $get_data['value'];       
                                             ?>
                                             <input type="number" class="form-control" wire:model="value11"/>
@@ -188,7 +188,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                         <?php
-                                                //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '12')->first();
+                                                //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '12')->first();
                                                 // $count = $get_data['value'];       
                                             ?>
                                             <input type="number" class="form-control" wire:model="value12"/>
@@ -207,7 +207,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <?php
-                                        //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '13')->first();
+                                        //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '13')->first();
                                         // $count = $get_data['value'];       
                                     ?>
                                     <!-- <input type="number" class="form-control" wire:model=""/> -->
@@ -223,7 +223,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                 <?php
-                                        //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '14')->first();
+                                        //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '14')->first();
                                         // $count = $get_data['value'];       
                                     ?>
                                     <input type="number" class="form-control" wire:model="value13"/>
@@ -239,7 +239,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                 <?php
-                                        //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '15')->first();
+                                        //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '15')->first();
                                         // $count = $get_data['value'];       
                                     ?>
                                     <input type="number" class="form-control" wire:model="value14"/>
@@ -255,7 +255,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                 <?php
-                                        //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '16')->first();
+                                        //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '16')->first();
                                         // $count = $get_data['value'];       
                                     ?>
                                     <input type="number" class="form-control" wire:model="value15"/>
@@ -271,7 +271,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                 <?php
-                                        //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '17')->first();
+                                        //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '17')->first();
                                         // $count = $get_data['value'];       
                                     ?>
                                     <input type="number" class="form-control" wire:model="value16"/>
@@ -287,7 +287,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                 <?php
-                                        //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '18')->first();
+                                        //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '18')->first();
                                         // $count = $get_data['value'];       
                                     ?>
                                     <input type="number" class="form-control" wire:model="value17"/>
@@ -303,7 +303,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                 <?php
-                                        //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '19')->first();
+                                        //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '19')->first();
                                         // $count = $get_data['value'];       
                                     ?>
                                     <input type="number" class="form-control" wire:model="value18"/>
@@ -319,7 +319,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                 <?php
-                                        //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '20')->first();
+                                        //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '20')->first();
                                         // $count = $get_data['value'];       
                                     ?>
                                     <input type="number" class="form-control" wire:model="value19"/>
@@ -335,7 +335,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                 <?php
-                                        //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '21')->first();
+                                        //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '21')->first();
                                         // $count = $get_data['value'];       
                                     ?>
                                     <input type="number" class="form-control"  wire:model="value20"/>
@@ -351,7 +351,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                 <?php
-                                        //$get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '22')->first();
+                                        //$get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '22')->first();
                                         // $count = $get_data['value'];       
                                     ?>
                                     <input type="number" class="form-control"  wire:model="value21"/>
@@ -367,7 +367,7 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                 <?php
-                                        // $get_data = \App\Models\VendorManagementtf::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '23')->first();
+                                        // $get_data = \App\Models\VendorManagementtfinit::where('id_supplier', $selected_id)->whereDate('created_at', date_format(date_create($date), 'Y-m-d') )->where('id_detail', '23')->first();
                                         // // $count = $get_data['value'];       
                                     ?>
                                     <textarea rows="6" type="text" class="form-control" wire:model="value22"></textarea>
@@ -395,7 +395,7 @@
                     
                     <hr>
                     <h1 style="font-size: 65px">
-                        {{ $data['tools_facilities'] }}
+                        {{ $data['initial_tools_facilities'] }}
                     </h1>
                 </div>
             </div>
@@ -404,7 +404,7 @@
                     <h5>Laptop</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                        {{ $data['tf_laptop'] }}
+                        {{ $data['initial_tf_laptop'] }}
                     </h1>
                 </div>
             </div>
@@ -414,7 +414,7 @@
                     <h5>Vehicle</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    {{ $data['tf_vehicle'] }}
+                    {{ $data['initial_tf_vehicle'] }}
                     </h1>
                 </div>
             </div>
@@ -424,7 +424,7 @@
                     <h5>Generators</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    {{ $data['tf_generator'] }}
+                    {{ $data['initial_tf_generator'] }}
                     </h1>
                 </div>
             </div>
@@ -434,7 +434,7 @@
                     <h5>Special Tools</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    {{ $data['tf_special_tools'] }}
+                    {{ $data['initial_tf_special_tools'] }}
                     </h1>
                 </div>
             </div>
@@ -444,7 +444,7 @@
                     <h5>Warehouse</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    {{ $data['tf_warehouse'] }}
+                    {{ $data['initial_tf_warehouse'] }}
                     </h1>
                 </div>
             </div>
@@ -454,7 +454,7 @@
                     <h5>DOP</h5>
                     <hr>
                     <h1 style="font-size: 50px">
-                    {{ $data['tf_dop'] }}
+                    {{ $data['initial_tf_dop'] }}
                     </h1>
                 </div>
             </div>

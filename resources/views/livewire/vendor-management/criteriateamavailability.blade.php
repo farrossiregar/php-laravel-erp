@@ -87,7 +87,7 @@
 
                                                                 <div class="row">
                                                                     <div class="col-md-12 form-group">
-                                                                        <p>Network Planning / Optimization</p>
+                                                                    <p style="font-size: 13px;">Network Planning / Optimization</p>
                                                                         <input type="hidden" class="form-control" value="Network Planning / Optimization" wire:model="service_type3">
                                                                     </div>
                                                                 </div>
@@ -480,7 +480,7 @@
                                                                 <div class="row">
                                                                     <div class="col-md-12 form-group">
                                                                         
-                                                                        <p>{{$id_detail_title}}</p>
+                                                                        <p>Others...</p>
                                                                         
                                                                     </div>
                                                                 </div>

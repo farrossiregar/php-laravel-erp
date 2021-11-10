@@ -41,6 +41,10 @@ class Historiteamavailability extends Component
         //     // $this->test = '88';
 
         // }
+
+        $sumteam = \App\Models\VendorManagementta::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->groupBy('id_supplier')->first();
+        // dd($sumteam);
+
         return view('livewire.vendor-management.historiteamavailability');        
     }
 
@@ -175,10 +179,13 @@ class Historiteamavailability extends Component
         $this->invoice13 = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', '13')->first()->invoice;
         $this->invoice14 = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', '14')->first()->invoice;
         
+        $this->service_type14 = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', '14')->first()->id_detail_title;
 
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
 
         $this->service_type7 = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', '7')->first()->id_detail_title;
+
+
     }
 
 
@@ -205,13 +212,55 @@ class Historiteamavailability extends Component
             $data->save();
         }
 
-            // $sumteam = \App\Models\VendorManagementta::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->groupBy('id_supplier')->first();
-            
+        $sumteam = \App\Models\VendorManagementta::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->groupBy('id_supplier')->first();
+        $sumcap = count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->where('year', NULL)->get()) + count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->where('year', '0')->get());
         
+        $update = \App\Models\VendorManagement::where('id',$this->selected_id)->first();
+        if($update->supplier_category != 'Material Supplier'){
+            if((int)$sumteam->countteam < 5){
+                $score = 20;
+            }
+
+            if((int)$sumteam->countteam > 5 && (int)$sumteam->countteam < 10){
+                $score = 30;
+            }
+
+            if((int)$sumteam->countteam >= 10){
+                $score = 40;
+            }
+        }else{
+            $score = 20;
+        }
+
+        $sc = 13 - $sumcap;
+
+        
+        if($sc == 1){
+            $scorecap = 40;
+        }elseif($sc == 2){
+            $scorecap = 50;
+        }else{
+            if($sc > 2){
+                $scorecap = 60;
+            }else{
+                $scorecap = 0;
+            }
+            
+        }
+        
+        $update->ta_team_qty = $score;
+        $update->ta_capability = $scorecap;
+        $update->team_availability_capability = $score + $scorecap;
+        $update->save();
+
+            
+            
+         
 
         session()->flash('message-success',"Criteria Team Availability Successfully Evaluate!!!");
         
         // return redirect()->route('vendor-management.index');
+        return view('livewire.vendor-management.historiteamavailability');     
     }
 
     public function valueconcat($field, $i){
@@ -257,10 +306,12 @@ class Historiteamavailability extends Component
         
         $check->save();
 
-        $sumteam = \App\Models\VendorManagementta::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->groupBy('id_supplier')->first();
+        $sumteam = \App\Models\VendorManagementta::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->groupBy('id_supplier')->first();
+        // $sumteam = \App\Models\VendorManagementta::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->groupBy('id_supplier')->first();
         // $sumcap = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->whereNotNull('year')->get();
         // $sumcap = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('year', NULL)->orwhere('year', 0)->get();
-        $sumcap = count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('year', NULL)->get()) + count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('year', '0')->get());
+        $sumcap = count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->where('year', NULL)->get()) + count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->where('year', '0')->get());
+        // $sumcap = count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('year', NULL)->get()) + count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('year', '0')->get());
         // dd(count($sumcap));
         $update = \App\Models\VendorManagement::where('id',$this->selected_id)->first();
         if($update->supplier_category != 'Material Supplier'){
@@ -279,7 +330,7 @@ class Historiteamavailability extends Component
             $score = 20;
         }
 
-        $sc = 14 - $sumcap;
+        $sc = 13 - $sumcap;
 
         // dd($sumcap);
         if($sc == 1){
@@ -314,13 +365,6 @@ class Historiteamavailability extends Component
         $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
         $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
         
-        // if($hours > 0){
-        //     $waktu = $hours.'.'.$minuts.' hours';
-        //     // $waktu = $hours;
-        // }else{
-        //     $waktu = $minuts.' minute';
-        //     // $waktu = $minuts;
-        // }
 
         $waktu = '';
         if($months > 0){
