@@ -13,9 +13,9 @@ class AddProjectToVendorManagement extends Migration
      */
     public function up()
     {
-        Schema::table('vendor_management', function (Blueprint $table) {
-            $table->char('project_id', 20)->nullable();
-        });
+        // Schema::table('vendor_management', function (Blueprint $table) {
+        //     $table->char('project_id', 20)->nullable();
+        // });
     }
 
     /**

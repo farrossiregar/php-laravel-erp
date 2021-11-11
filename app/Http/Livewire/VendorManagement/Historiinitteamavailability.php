@@ -9,7 +9,7 @@ use DB;
 class Historiinitteamavailability extends Component
 {    
     // protected $listeners = [
-    //     'modalcriteriateamavailability'=>'criteriateamavailability',
+    //     'modalinitialteamavailability'=>'modalinitialteamavailability',
     // ];
     public $selected_id, $date, $data, $datavm;
 
@@ -185,31 +185,42 @@ class Historiinitteamavailability extends Component
     }
 
 
-
-
     public function save()
     {
         $user = \Auth::user();
+        
         for($i = 1; $i < 15; $i++){
             $data                                       = \App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first();
             $data->id_supplier                          = $this->selected_id;
             $data->id_detail                            = $i;
-            $data->id_detail_title                      = $this->valueconcat('service_type', $i);
+            if($i == 14){
+                // $data->id_detail_title                      = $this->valueconcat('service_type', $i);
+                $data->id_detail_title                      = $this->service_type14;
+            }
             $data->team                                 = $this->valueconcat('team', $i);
             $data->eng                                  = $this->valueconcat('eng', $i);
             $data->tech                                 = $this->valueconcat('tech', $i);
-            
             $data->rigger                               = $this->valueconcat('rigger', $i);
             $data->helper                               = $this->valueconcat('helper', $i);
             $data->other                                = $this->valueconcat('other', $i);
-            $data->year                                 = $this->valueconcat('year', $i);
+            if($this->valueconcat('year', $i) == '' || $this->valueconcat('year', $i) == '0'){
+                $data->year                                 = NULL;
+            }else{
+                $data->year                                 = $this->valueconcat('year', $i);
+            }
+            
             $data->invoice                              = $this->valueconcat('invoice', $i);
             
             $data->save();
         }
 
+        $updatescoring                = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        $updatescoring->initial       = $updatescoring->initial - ($updatescoring->initial_team_availability_capability * 0.25);                      
+        $updatescoring->save(); 
+        
+
         $sumteam = \App\Models\VendorManagementtainit::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->groupBy('id_supplier')->first();
-        $sumcap = count(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->where('year', NULL)->get()) + count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->where('year', '0')->get());
+        $sumcap = count(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->where('year', NULL)->get()) + count(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->where('year', '0')->get())  + count(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->where('year', '')->get());
         
         $update = \App\Models\VendorManagement::where('id',$this->selected_id)->first();
         if($update->supplier_category != 'Material Supplier'){
@@ -244,9 +255,12 @@ class Historiinitteamavailability extends Component
             
         }
         
-        $update->ta_team_qty = $score;
-        $update->ta_capability = $scorecap;
-        $update->team_availability_capability = $score + $scorecap;
+        $update->initial_ta_team_qty = $score;
+        $update->initial_ta_capability = $scorecap;
+        $update->initial_team_availability_capability = $score + $scorecap;
+
+
+        $update->initial = $update->initial + ($update->initial_team_availability_capability * 0.25);
         $update->save();
 
             
@@ -342,9 +356,9 @@ class Historiinitteamavailability extends Component
             
         }
         // dd($score);
-        $update->ta_team_qty = $score;
-        $update->ta_capability = $scorecap;
-        $update->team_availability_capability = $score + $scorecap;
+        $update->initial_ta_team_qty = $score;
+        $update->initial_ta_capability = $scorecap;
+        $update->initial_team_availability_capability = $score + $scorecap;
         $update->save();
         // dd((int)$sumteam->countteam);
         

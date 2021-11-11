@@ -58,9 +58,9 @@ class Criteriageneralinformation extends Component
             $data->save();
         }
 
-        $updatescoring                = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        $updatescoring->scoring       = $updatescoring->scoring - $updatescoring->general_information;                      
-        $updatescoring->save();                      
+        // $updatescoring                = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        // $updatescoring->scoring       = $updatescoring->scoring - $updatescoring->general_information;                      
+        // $updatescoring->save();                      
 
         $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         $checkktp                     = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', 2)->first();
@@ -114,12 +114,7 @@ class Criteriageneralinformation extends Component
             $update->ci_branch = '10';
         
         }
-
-        // if($update->scoring == '' || $update->scoring == NULL){
-        //     $update->scoring = 0 + ($update->general_information * 0.1);
-        // }else{
-        //     $update->scoring = $update->scoring + ($update->general_information * 0.1);
-        // }
+        
 
         $update->general_information = $update->ci_complete_licence + $update->ci_hq + $update->ci_branch;
         if($update->supplier_category == 'Material Supplier'){

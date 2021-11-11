@@ -17,17 +17,6 @@ class Historiehs extends Component
 
     public function render()
     {
-        // dd(\App\Models\VendorManagementehs::where('id_supplier', $this->selected_id)->get());
-        // $this->value;
-        // foreach(\App\Models\VendorManagementehs::where('id_supplier', $this->selected_id)->get() as $item){
-        //     // $team[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
-        //     // $this->idteam[$i] = \App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->team;
-        //     // $this->value[$i] = \App\Models\VendorManagementehs::where('id_supplier', $this->selected_id)->where('id_detail', $i)->first()->value;
-        //     $this->value[$item->id_detail] = $item->value;
-            
-        // }
-        // dd($this->value);
-        
         return view('livewire.vendor-management.historiehs');        
     }
 
@@ -52,6 +41,7 @@ class Historiehs extends Component
         $this->value15 = \App\Models\VendorManagementehs::where('id_supplier', $this->selected_id)->where('id_detail', '15')->first()->value;
         
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        // $datavm = \App\Models\VendorManagementehsinit::where('id_supplier', $this->selected_id);
 
         $this->service_type7 = \App\Models\VendorManagementehs::where('id_supplier', $this->selected_id)->where('id_detail', '7')->first()->id_detail_title;
     }
@@ -71,6 +61,10 @@ class Historiehs extends Component
             $data->value                                 = $this->valueconcat('value', $i);
             $data->save();
         }
+
+        $updatescoring                = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        $updatescoring->scoring       = $updatescoring->scoring - ($updatescoring->ehs_quality_management * 0.2);                      
+        $updatescoring->save(); 
 
         
 
@@ -93,6 +87,8 @@ class Historiehs extends Component
         $update->ehs_certificate            = $value8 + $value9 + $value10 + $value11 + $value12 + $value13 + $value14;
 
         $update->ehs_quality_management =  $update->ehs_company_structure + $update->ehs_project_management + $update->ehs_qualitymanagement + $update->ehs_training + $update->ehs_reporting + $update->ehs_documentation + $update->ehs_certificate;
+
+        $update->scoring = $update->scoring + ($update->ehs_quality_management * 0.2);
         $update->save();
 
 
@@ -127,14 +123,6 @@ class Historiehs extends Component
         $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
         $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
         
-        // if($hours > 0){
-        //     $waktu = $hours.'.'.$minuts.' hours';
-        //     // $waktu = $hours;
-        // }else{
-        //     $waktu = $minuts.' minute';
-        //     // $waktu = $minuts;
-        // }
-
         $waktu = '';
         if($months > 0){
             $waktu .= $months.' month ';

@@ -18,8 +18,7 @@ class Historigeneralinformation extends Component
 
     public $selected_id, $data, $datavm;
     public function render()
-    {
-        
+    {        
         return view('livewire.vendor-management.historigeneralinformation');        
     }
 
@@ -157,11 +156,6 @@ class Historigeneralinformation extends Component
         
         }
 
-        // if($update->scoring == '' || $update->scoring == NULL){
-        //     $update->scoring = 0 + ($update->general_information * 0.1);
-        // }else{
-        //     $update->scoring = $update->scoring + ($update->general_information * 0.1);
-        // }
 
         $update->general_information = $update->ci_complete_licence + $update->ci_hq + $update->ci_branch;
         if($update->supplier_category == 'Material Supplier'){

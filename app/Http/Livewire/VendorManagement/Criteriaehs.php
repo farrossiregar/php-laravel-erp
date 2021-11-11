@@ -7,9 +7,9 @@ use Auth;
 
 class Criteriaehs extends Component
 {    
-    protected $listeners = [
-        'modalcriteriaehs'=>'criteriaehs',
-    ];
+    // protected $listeners = [
+    //     'modalcriteriaehs'=>'criteriaehs',
+    // ];
     public $selected_id, $data, $datavm, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
 
     public $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $value11, $value12, $value13, $value14, $value15;
@@ -40,7 +40,7 @@ class Criteriaehs extends Component
         $this->selected_id = $id;
         
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        $datavm = \App\Models\VendorManagementehs::where('id_supplier', $this->selected_id);
+        // $datavm = \App\Models\VendorManagementehs::where('id_supplier', $this->selected_id);
 
         
     }
@@ -56,9 +56,17 @@ class Criteriaehs extends Component
             if($i == 7){
                 $data->id_detail_title                      = $this->service_type7;
             }
+
             $data->value                                 = $this->valueconcat('value', $i);
             $data->save();
         }
+        
+        // $updatescoring                = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        // $updatescoring->scoring       = $updatescoring->scoring - ($updatescoring->ehs_quality_management * 0.2);                      
+        // $updatescoring->save(); 
+
+
+
         $update                             = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         $update->ehs_company_structure      = ($this->value1 == 1 ? 10 : 0);
         $update->ehs_project_management     = ($this->value2 == 1 ? 10 : 0);
@@ -78,6 +86,8 @@ class Criteriaehs extends Component
         $update->ehs_certificate            = $value8 + $value9 + $value10 + $value11 + $value12 + $value13 + $value14;
 
         $update->ehs_quality_management =  $update->ehs_company_structure + $update->ehs_project_management + $update->ehs_qualitymanagement + $update->ehs_training + $update->ehs_reporting + $update->ehs_documentation + $update->ehs_certificate;
+
+        $update->scoring = $update->scoring + ($update->ehs_quality_management * 0.2);
         $update->save();
 
 
@@ -90,6 +100,7 @@ class Criteriaehs extends Component
         $check = \App\Models\VendorManagementehs::where('id_supplier',$this->selected_id)->where('id_detail', $id)->first();
         
         $check->value = $this->valueconcat($field, $id);
+        
         $check->save();
 
         session()->flash('message-success',"Criteria EHS & Quality Management Successfully Evaluate!!!");

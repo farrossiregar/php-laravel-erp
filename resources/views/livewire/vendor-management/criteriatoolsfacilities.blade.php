@@ -35,7 +35,9 @@
                                                     <h5>Tools & Facilities</h5> 
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
+                                                    <div class="col-md-12">
+                                                        <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
+                                                    </div>
                                                 </div>
                                                 
                                             </div>
@@ -174,7 +176,7 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     <div class="form-group">
-                                                        <!-- <input type="number" class="form-control" wire:model="value13"/> -->
+                                                        
                                                     </div>
                                                 </div>
 
@@ -314,9 +316,7 @@
                                             <div class="col-md-9 form-group">
                                                 <h5>Total Score</h5>
                                             </div>
-                                            <!-- <div class="col-md-3">
-                                                
-                                            </div> -->
+
                                         </div>
                                         
                                         <hr>
