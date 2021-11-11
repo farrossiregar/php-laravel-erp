@@ -39,8 +39,7 @@ class PpeCheckController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $data = PpeCheck::where('employee_id',\Auth::user()->employee->id)->orderBy('id','DESC')->first();
+        $data = PpeCheck::where('employee_id',\Auth::user()->employee->id)->whereDate('created_at',date('Y-m-d'))->orderBy('id','DESC')->first();
         if(!$data) $data = new PpeCheck(); 
 
         $data->employee_id = isset(\Auth::user()->employee->id) ? \Auth::user()->employee->id : '';
