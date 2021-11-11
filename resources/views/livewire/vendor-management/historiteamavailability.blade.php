@@ -119,7 +119,7 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-12 form-group" >
+                                            <div class="col-md-12 form-group">
                                                 <p>Training & Certification</p>
                                                 <input type="hidden" class="form-control" value="Training & Certification" wire:model="service_type2">
                                             </div>
@@ -133,14 +133,14 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-12 " >
+                                            <div class="col-md-12 form-group">
                                                 <p>Materials</p>
                                                 <input type="hidden" class="form-control" value="Materials" wire:model="service_type2">
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-12" >
+                                            <div class="col-md-12 form-group">
                                                 <!-- <p>Other Service:  Outsourcing FO team </p> -->
                                                 <input type="text" class="form-control" placeholder="Other Service" wire:model="service_type14">
                                                 <input type="hidden" class="form-control" value="Other Service:  Outsourcing FO team" wire:model="service_type2">
@@ -152,7 +152,6 @@
                                         
                                         <?php
                                             for($i = 1; $i < 15; $i++){
-                    
                                         ?>
                                         <div class="row" style="margin-bottom: 16px;">
                                             <div class="col-md-12 -form-group">
@@ -189,6 +188,7 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="row">
+
                                     <div class="col-md-2 form-group"><label for="">Engineer</label></div>
                                     <div class="col-md-2 form-group"><label for="">Tech</label></div>
                                     <div class="col-md-2 form-group"><label for="">Rigger</label></div>
@@ -338,12 +338,15 @@
                                             }
                                         ?>
                                     </div>
+
+
                                 </div>
                                 
                             </div>
                             
                         </div>
                     </div>
+
                 </div>
 
 
@@ -556,16 +559,11 @@
                                         ?>
                                     </div>
                                 </div>
-                            </div>
-                                            
-
-                
+                            </div>               
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12">
-                
-                </div>                            
+                                            
             </div>
             </form>
         </div>

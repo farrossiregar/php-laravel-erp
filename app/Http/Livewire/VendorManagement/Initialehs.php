@@ -7,9 +7,9 @@ use Auth;
 
 class Initialehs extends Component
 {    
-    protected $listeners = [
-        'modalinitialehs'=>'initialehs',
-    ];
+    // protected $listeners = [
+    //     'modalinitialehs'=>'initialehs',
+    // ];
     public $selected_id, $data, $datavm, $general_information, $team_availability_capability, $tools_facilities, $ehs_quality_management, $commercial_compliance;
 
     public $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9, $value10, $value11, $value12, $value13, $value14, $value15;
@@ -40,7 +40,7 @@ class Initialehs extends Component
         $this->selected_id = $id;
         
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        $datavm = \App\Models\VendorManagementehsinit::where('id_supplier', $this->selected_id);
+        // $datavm = \App\Models\VendorManagementehsinit::where('id_supplier', $this->selected_id);
 
         
     }
@@ -56,9 +56,17 @@ class Initialehs extends Component
             if($i == 7){
                 $data->id_detail_title                      = $this->service_type7;
             }
+
             $data->value                                 = $this->valueconcat('value', $i);
             $data->save();
         }
+
+        // $updatescoring                = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        // $updatescoring->initial       = $updatescoring->initial - ($updatescoring->initial_ehs_quality_management * 0.2);                      
+        // $updatescoring->save(); 
+
+
+
         $update                             = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         $update->initial_ehs_company_structure      = ($this->value1 == 1 ? 10 : 0);
         $update->initial_ehs_project_management     = ($this->value2 == 1 ? 10 : 0);
@@ -78,21 +86,24 @@ class Initialehs extends Component
         $update->initial_ehs_certificate            = $value8 + $value9 + $value10 + $value11 + $value12 + $value13 + $value14;
 
         $update->initial_ehs_quality_management =  $update->initial_ehs_company_structure + $update->initial_ehs_project_management + $update->initial_ehs_qualitymanagement + $update->initial_ehs_training + $update->initial_ehs_reporting + $update->initial_ehs_documentation + $update->initial_ehs_certificate;
+
+        $update->initial = $update->initial + ($update->initial_ehs_quality_management * 0.2);
         $update->save();
 
 
         session()->flash('message-success',"Criteria EHS & Quality Management Successfully Evaluate!!!");
         
-        return view('livewire.vendor-management.historiinitehs');  
+        return view('livewire.vendor-management.initialehs');  
     }
 
     public function updatedata($field, $id){
         $check = \App\Models\VendorManagementehsinit::where('id_supplier',$this->selected_id)->where('id_detail', $id)->first();
         
         $check->value = $this->valueconcat($field, $id);
+
         $check->save();
 
-        session()->flash('message-success',"Criteria EHS & Quality Management Successfully Evaluate!!!");
+        session()->flash('message-success',"Initial EHS & Quality Management Successfully Evaluate!!!");
         return view('livewire.vendor-management.initialehs');  
         
     }

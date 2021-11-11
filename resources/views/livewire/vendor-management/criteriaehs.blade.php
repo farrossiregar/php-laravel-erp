@@ -7,7 +7,7 @@
             <div><br></div>
             <div><br></div>
             <ul class="nav nav-tabs">
-                @if(!\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->get())
+                @if(count(\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
                 @else
                     @foreach(\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->groupBy(DB::Raw('date(created_at)'))->orderBy(DB::Raw('date(created_at)'), 'desc')->get() as $key => $item)
@@ -16,7 +16,7 @@
                 @endif
             </ul>
             <div class="tab-content">
-                @if(!\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->get())
+                @if(count(\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
                 <div class="tab-pane active show" id="newevaluation">  
                     <div class="row">
                         <div class="col-md-12">
@@ -130,7 +130,6 @@
                                                         </div>
 
                                                         <div class="col-md-4">
-                                                            <!-- <label>Others</label> -->
                                                             <div class="form-group">
                                                                 <input type="text" class="form-control" placeholder="Others" wire:model="service_type7">
                                                             </div>
@@ -170,7 +169,7 @@
                                                         </div>
                                                         <div class="col-md-8">
                                                             <div class="form-group">
-                                                                <input type="number" class="form-control"  wire:model="value8">
+                                                                <input type="number" class="form-control" wire:model="value8">
                                                             </div>
                                                         </div>
 
@@ -268,7 +267,7 @@
                                                 
                                                 <hr>
                                                 <h1 style="font-size: 65px">
-                                                    {{ $data['ehs_quality_management'] }}
+                                                    
                                                 </h1>
                                             </div>
                                         </div>
@@ -278,7 +277,7 @@
                                                 <h5>Company Structure</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                {{ $data['ehs_company_structure'] }}
+                                                
                                                 </h1>
                                             </div>
                                         </div>
@@ -287,7 +286,7 @@
                                                 <h5>Project Management</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                {{ $data['ehs_project_management'] }}
+                                                
                                                 </h1>
                                             </div>
                                         </div>
@@ -296,7 +295,7 @@
                                                 <h5>Quality Management</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                {{ $data['ehs_qualitymanagement'] }}
+                                                
                                                 </h1>
                                             </div>
                                         </div>
@@ -306,7 +305,7 @@
                                                 <h5>Training Management</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                    {{ $data['ehs_training_management'] }}
+                                                    
                                                 </h1>
                                             </div>
                                         </div>
@@ -316,7 +315,7 @@
                                                 <h5>Project Reporting</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                    {{ $data['ehs_project_management'] }}
+                                                    
                                                 </h1>
                                             </div>
                                         </div>
@@ -326,7 +325,7 @@
                                                 <h5>Documentation Management</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                {{ $data['ehs_documentation'] }}
+                                                
                                                 </h1>
                                             </div>
                                         </div>
@@ -336,7 +335,7 @@
                                                 <h5>Cerificate Category</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                {{ $data['ehs_certificate'] }}
+                                                
                                                 </h1>
                                             </div>
                                         </div>

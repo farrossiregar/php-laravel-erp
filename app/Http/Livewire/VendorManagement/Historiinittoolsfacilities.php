@@ -65,6 +65,10 @@ class Historiinittoolsfacilities extends Component
             $data->save();
         }
 
+        $updatescoring                = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        $updatescoring->initial       = $updatescoring->initial - ($updatescoring->initial_tools_facilities * 0.2);                      
+        $updatescoring->save(); 
+
         $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         // $sumspecialtools = count(\App\Models\VendorManagementtfinit::where('id_supplier', $this->selected_id)->where('value', NULL)->get()) + count(\App\Models\VendorManagementtfinit::where('id_supplier', $this->selected_id)->where('value', '0')->get());
 
@@ -88,6 +92,15 @@ class Historiinittoolsfacilities extends Component
         }else{
             $update->initial_tf_vehicle = 10;
         }
+
+        // $update->initial_tf_standard = ($this->value5 != '' ? 1 : 0);
+        // $update->initial_tf_safety = ($this->value6 != '' ? 1 : 0);
+
+        // if($this->value7 == '' && $this->value8 == '' && $this->value9 == ''){
+        //     $update->initial_tf_compassgpsangle = 0;
+        // }else{
+        //     $update->initial_tf_compassgpsangle = 10;
+        // }
 
         if($this->value10 == '' && $this->value11 == '' && $this->value12 == ''){
             $update->initial_tf_generator = 0;
@@ -121,8 +134,9 @@ class Historiinittoolsfacilities extends Component
             $update->initial_tf_dop = 0;
         }
 
-        $update->tools_facilities = $update->initial_tf_laptop + $update->initial_tf_vehicle + $update->initial_tf_generator + $update->initial_tf_special_tools + $update->initial_tf_warehouse + $update->initial_tf_warehouse;
+        $update->initial_tools_facilities = $update->initial_tf_laptop + $update->initial_tf_vehicle + $update->initial_tf_generator + $update->initial_tf_special_tools + $update->initial_tf_warehouse + $update->initial_tf_dop;
 
+        $update->initial = $update->initial + ($update->initial_tools_facilities * 0.2);
         $update->save();
 
 

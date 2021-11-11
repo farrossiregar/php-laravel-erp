@@ -89,15 +89,74 @@ class Initialteamavailability extends Component
             $data->rigger                               = $this->valueconcat('rigger', $i);
             $data->helper                               = $this->valueconcat('helper', $i);
             $data->other                                = $this->valueconcat('other', $i);
-            $data->year                                 = $this->valueconcat('year', $i);
+            if($this->valueconcat('year', $i) == '' || $this->valueconcat('year', $i) == '0'){
+                $data->year                                 = NULL;
+            }else{
+                $data->year                                 = $this->valueconcat('year', $i);
+            }
+            
             $data->invoice                              = $this->valueconcat('invoice', $i);
             
             $data->save();
         }      
-         
-        session()->flash('message-success',"Criteria Team Availability Successfully Evaluate!!!");
+
+        // $updatescoring                = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        // $updatescoring->initial       = $updatescoring->initial - ($updatescoring->initial_team_availability_capability * 0.25);                      
+        // $updatescoring->save(); 
+        
+
+        $sumteam = \App\Models\VendorManagementtainit::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->groupBy('id_supplier')->first();
+        $sumcap = count(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->where('year', NULL)->get()) + count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->where('year', '0')->get())  + count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->where('year', '')->get());
+        
+        $update = \App\Models\VendorManagement::where('id',$this->selected_id)->first();
+        if($update->supplier_category != 'Material Supplier'){
+            if((int)$sumteam->countteam < 5){
+                $score = 20;
+            }
+
+            if((int)$sumteam->countteam > 5 && (int)$sumteam->countteam < 10){
+                $score = 30;
+            }
+
+            if((int)$sumteam->countteam >= 10){
+                $score = 40;
+            }
+        }else{
+            $score = 20;
+        }
+
+        $sc = 13 - $sumcap;
+
+        
+        if($sc == 1){
+            $scorecap = 40;
+        }elseif($sc == 2){
+            $scorecap = 50;
+        }else{
+            if($sc > 2){
+                $scorecap = 60;
+            }else{
+                $scorecap = 0;
+            }
+            
+        }
+        
+        $update->initial_ta_team_qty = $score;
+        $update->initial_ta_capability = $scorecap;
+        $update->initial_team_availability_capability = $score + $scorecap;
+        
+
+        $update->initial = $update->initial + ($update->initial_team_availability_capability * 0.25);
+        $update->save();
+
+            
+            
+        
+
+        session()->flash('message-success',"Initial Team Availability Successfully Evaluate!!!");
         
         // return redirect()->route('vendor-management.index');
+        return view('livewire.vendor-management.initialteamavailability');     
     }
 
     public function valueconcat($field, $i){
@@ -165,7 +224,7 @@ class Initialteamavailability extends Component
             $score = 20;
         }
 
-        $sc = 14 - $sumcap;
+        $sc = 13 - $sumcap;
 
         // dd($sumcap);
         if($sc == 1){
@@ -181,9 +240,9 @@ class Initialteamavailability extends Component
             
         }
         // dd($score);
-        $update->ta_team_qty = $score;
-        $update->ta_capability = $scorecap;
-        $update->team_availability_capability = $score + $scorecap;
+        $update->initial_ta_team_qty = $score;
+        $update->initial_ta_capability = $scorecap;
+        $update->initial_team_availability_capability = $score + $scorecap;
         $update->save();
         // dd((int)$sumteam->countteam);
         
@@ -200,13 +259,6 @@ class Initialteamavailability extends Component
         $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
         $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
         
-        // if($hours > 0){
-        //     $waktu = $hours.'.'.$minuts.' hours';
-        //     // $waktu = $hours;
-        // }else{
-        //     $waktu = $minuts.' minute';
-        //     // $waktu = $minuts;
-        // }
 
         $waktu = '';
         if($months > 0){

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\PpeCheck;
 use App\Models\Notification;
+use App\Models\EmployeeProject;
 use Illuminate\Http\Request;
  
 class PpeCheckController extends Controller
@@ -39,10 +40,15 @@ class PpeCheckController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $data = PpeCheck::where('employee_id',\Auth::user()->employee->id)->orderBy('id','DESC')->first();
+        $data = PpeCheck::where('employee_id',\Auth::user()->employee->id)->whereDate('created_at',date('Y-m-d'))->orderBy('id','DESC')->first();
         if(!$data) $data = new PpeCheck(); 
+        $em = \Auth::user()->employee;
 
+        $project = EmployeeProject::where('employee_id',$em->id)->first();
+
+        if($project) $data->client_project_id = $project->client_project_id; 
+        $data->region_id = $em->region_id;
+        $data->sub_region_id = $em->sub_region_id;
         $data->employee_id = isset(\Auth::user()->employee->id) ? \Auth::user()->employee->id : '';
         $data->is_submit = 1;
         $data->ppe_lengkap = $request->ppe_lengkap;

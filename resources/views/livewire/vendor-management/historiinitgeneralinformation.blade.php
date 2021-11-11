@@ -891,73 +891,36 @@
                         
                         <hr>
                         <h1 style="font-size: 65px">
-                            <?php
-                                if($checkktp->value != NULL && $checknpwp->value != NULL){
-                                    if($update->supplier_category == 'Service - Company'){
-                                        $cls = '70';
-                                    }else{
-                                        $cls = '50';
-                                    }
-                                }else{
-                                    $cls = 0;
-                                }
-
-                                if($checkhq->value != '' || $checkhq->value != NULL){
-                                    $hq = '20';
-                                }else{
-                                    $hq = '0';
-                                }
-
-                                echo 0 + $cls + $hq;
-                            ?>
+                            {{ $data['initial_general_information'] }}
                         </h1>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 180px;">
-                        <h5>Complete Licence Score (70)</h5>
+                        <h5>Complete Licence Score</h5>
                         <hr>
                         <h1 style="font-size: 45px">
-                            <?php
-                                if($checkktp->value != NULL && $checknpwp->value != NULL){
-                                    if($update->supplier_category == 'Service - Company'){
-                                        $cls = '70';
-                                    }else{
-                                        $cls = '50';
-                                    }
-
-                                    echo $cls;
-                                }else{
-                                    echo 0;
-                                }
-                            ?>
+                            {{ $data['initial_ci_complete_licence'] }}
                         </h1>
                     </div>
                 </div>
 
                 <div class="col-md-12">
                     <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 180px;">
-                        <h5>Have HQ Office (20)</h5>
+                        <h5>Have HQ Office</h5>
                         <hr>
                         <h1 style="font-size: 45px">
-                            <?php
-                                if($checkhq->value != '' || $checkhq->value != NULL){
-                                    $hq = '20';
-                                }else{
-                                    $hq = '0';
-                                }
-                                echo $hq;
-                            ?>
+                            {{ $data['initial_ci_hq'] }}
                         </h1>
                     </div>
                 </div>
 
                 <div class="col-md-12">
                     <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 180px;">
-                        <h5>Have Branch Office (0)</h5>
+                        <h5>Have Branch Office</h5>
                         <hr>
                         <h1 style="font-size: 45px">
-                            
+                        {{ $data['initial_ci_branch'] }}
                         </h1>
                     </div>
                 </div>

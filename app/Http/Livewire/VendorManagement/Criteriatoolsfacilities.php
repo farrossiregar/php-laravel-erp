@@ -45,6 +45,10 @@ class Criteriatoolsfacilities extends Component
             $data->save();
         }
 
+        // $updatescoring                = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        // $updatescoring->scoring       = $updatescoring->scoring - ($updatescoring->tools_facilities * 0.25);                      
+        // $updatescoring->save(); 
+
         $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         // $sumspecialtools = count(\App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->where('value', NULL)->get()) + count(\App\Models\VendorManagementtf::where('id_supplier', $this->selected_id)->where('value', '0')->get());
 
@@ -68,6 +72,15 @@ class Criteriatoolsfacilities extends Component
         }else{
             $update->tf_vehicle = 10;
         }
+
+        // $update->tf_standard = ($this->value5 != '' ? 1 : 0);
+        // $update->tf_safety = ($this->value6 != '' ? 1 : 0);
+
+        // if($this->value7 == '' && $this->value8 == '' && $this->value9 == ''){
+        //     $update->tf_compassgpsangle = 0;
+        // }else{
+        //     $update->tf_compassgpsangle = 10;
+        // }
 
         if($this->value10 == '' && $this->value11 == '' && $this->value12 == ''){
             $update->tf_generator = 0;
@@ -103,6 +116,7 @@ class Criteriatoolsfacilities extends Component
 
         $update->tools_facilities = $update->tf_laptop + $update->tf_vehicle + $update->tf_generator + $update->tf_special_tools + $update->tf_warehouse + $update->tf_warehouse;
 
+        $update->scoring = $update->scoring + ($update->tools_facilities * 0.2);
         $update->save();
 
 

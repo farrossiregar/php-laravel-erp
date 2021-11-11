@@ -130,7 +130,6 @@
                                                         </div>
 
                                                         <div class="col-md-4">
-                                                            <!-- <label>Others</label> -->
                                                             <div class="form-group">
                                                                 <input type="text" class="form-control" placeholder="Others" wire:model="service_type7">
                                                             </div>
@@ -170,7 +169,7 @@
                                                         </div>
                                                         <div class="col-md-8">
                                                             <div class="form-group">
-                                                                <input type="number" class="form-control"  wire:model="value8">
+                                                                <input type="number" class="form-control" wire:model="value8">
                                                             </div>
                                                         </div>
 
@@ -268,7 +267,7 @@
                                                 
                                                 <hr>
                                                 <h1 style="font-size: 65px">
-                                                    {{ $data['initial_ehs_quality_management'] }}
+                                                    
                                                 </h1>
                                             </div>
                                         </div>
@@ -278,7 +277,7 @@
                                                 <h5>Company Structure</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                {{ $data['initial_ehs_company_structure'] }}
+                                                
                                                 </h1>
                                             </div>
                                         </div>
@@ -287,7 +286,7 @@
                                                 <h5>Project Management</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                {{ $data['initial_ehs_project_management'] }}
+                                                
                                                 </h1>
                                             </div>
                                         </div>
@@ -296,7 +295,7 @@
                                             <h5>Quality Management</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                {{ $data['initial_ehs_qualitymanagement'] }}
+                                                
                                                 </h1>
                                             </div>
                                         </div>
@@ -306,7 +305,7 @@
                                                 <h5>Training Management</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                    {{ $data['initial_ehs_training_management'] }}
+                                                    
                                                 </h1>
                                             </div>
                                         </div>
@@ -316,7 +315,7 @@
                                                 <h5>Project Reporting</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                    {{ $data['initial_ehs_project_management'] }}
+                                                    
                                                 </h1>
                                             </div>
                                         </div>
@@ -326,7 +325,7 @@
                                                 <h5>Documentation Management</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                {{ $data['initial_ehs_documentation'] }}
+                                                
                                                 </h1>
                                             </div>
                                         </div>
@@ -336,7 +335,7 @@
                                                 <h5>Cerificate Category</h5>
                                                 <hr>
                                                 <h1 style="font-size: 50px">
-                                                {{ $data['initial_ehs_certificate'] }}
+                                                
                                                 </h1>
                                             </div>
                                         </div>

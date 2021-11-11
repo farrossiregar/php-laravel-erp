@@ -19,7 +19,6 @@ class Historiinitgeneralinformation extends Component
     public $selected_id, $data, $datavm;
     public function render()
     {
-        
         return view('livewire.vendor-management.historiinitgeneralinformation');        
     }
 
@@ -77,10 +76,10 @@ class Historiinitgeneralinformation extends Component
         $this->value47 = @\App\Models\VendorManagementgiinit::where('id_supplier', $this->selected_id)->where('id_detail', '47')->first()->value;
         
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        // $datavm = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id);
+        // $datavm = \App\Models\VendorManagementgiinit::where('id_supplier', $this->selected_id);
 
 
-        // $this->service_type7 = \App\Models\VendorManagementgi::where('id_supplier', $this->selected_id)->where('id_detail', '7')->first()->id_detail_title;
+        // $this->service_type7 = \App\Models\VendorManagementgiinit::where('id_supplier', $this->selected_id)->where('id_detail', '7')->first()->id_detail_title;
     }
   
     public function save()
@@ -101,7 +100,7 @@ class Historiinitgeneralinformation extends Component
         }
     
         $updatescoring                = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        $updatescoring->scoring       = $updatescoring->scoring - $updatescoring->general_information;                      
+        $updatescoring->scoring       = $updatescoring->initial - $updatescoring->initial_general_information;                      
         $updatescoring->save(); 
         
         $update                       = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
@@ -113,61 +112,56 @@ class Historiinitgeneralinformation extends Component
         
         if($update->supplier_category == 'Service - Company'){
             if($this->value3 != '' && $this->value46 != '' && $this->value47 != ''){
-                $update->ci_complete_licence = '70';
+                $update->initial_ci_complete_licence = '70';
             }else{
                 if($this->value3 == '' && $this->value46 == '' && $this->value47 == ''){
-                    $update->ci_complete_licence = '0';
+                    $update->initial_ci_complete_licence = '0';
                 }else{
-                    $update->ci_complete_licence = '50';
+                    $update->initial_ci_complete_licence = '50';
                 }
             }
         }else{
             if($this->value2 != '' && $this->value3 != ''){
-                $update->ci_complete_licence = '50';
+                $update->initial_ci_complete_licence = '50';
             }else{
                 if($this->value2 == '' && $this->value3 == ''){
-                    $update->ci_complete_licence = '0';
+                    $update->initial_ci_complete_licence = '0';
                 }else{
-                    $update->ci_complete_licence = '20';
+                    $update->initial_ci_complete_licence = '20';
                 }
             }
         }
         
         // if($update->supplier_category == 'Service - Company'){
-        //     $update->ci_complete_licence = '70';
+        //     $update->initial_ci_complete_licence = '70';
         // }else{
-        //     $update->ci_complete_licence = '50';
+        //     $update->initial_ci_complete_licence = '50';
         // }
 
-        // if($update->general_information == '' || $update->general_information == NULL){
-        //     $update->general_information = 0 + $update->ci_complete_licence;
+        // if($update->initial_general_information == '' || $update->initial_general_information == NULL){
+        //     $update->initial_general_information = 0 + $update->initial_ci_complete_licence;
         // }else{
-        //     // $update->general_information = $update->general_information + $update->ci_complete_licence;
-        //     $update->general_information = 0 + $update->ci_complete_licence;
+        //     // $update->initial_general_information = $update->initial_general_information + $update->initial_ci_complete_licence;
+        //     $update->initial_general_information = 0 + $update->initial_ci_complete_licence;
         // }
     
 
         if($checkhq->value != NULL && $checkhq->value != NULL){
-            $update->ci_hq = '20';
+            $update->initial_ci_hq = '20';
 
         }
 
         if($checkbranch->value != NULL && $checkbranch->value != NULL){
-            $update->ci_branch = '10';
+            $update->initial_ci_branch = '10';
         
         }
 
-        // if($update->scoring == '' || $update->scoring == NULL){
-        //     $update->scoring = 0 + ($update->general_information * 0.1);
-        // }else{
-        //     $update->scoring = $update->scoring + ($update->general_information * 0.1);
-        // }
 
-        $update->general_information = $update->ci_complete_licence + $update->ci_hq + $update->ci_branch;
+        $update->initial_general_information = $update->initial_ci_complete_licence + $update->initial_ci_hq + $update->initial_ci_branch;
         if($update->supplier_category == 'Material Supplier'){
-            $update->scoring = $update->scoring + ($update->general_information * 0.4);
+            $update->initial = $update->initial + ($update->initial_general_information * 0.4);
         }else{
-            $update->scoring = $update->scoring + ($update->general_information * 0.1);
+            $update->initial = $update->initial + ($update->initial_general_information * 0.1);
         }
         
         $update->save();
@@ -175,7 +169,7 @@ class Historiinitgeneralinformation extends Component
 
         session()->flash('message-success',"Criteria General Information Successfully Evaluate!!!");
         
-        return view('livewire.vendor-management.criteriageneralinformation'); 
+        return view('livewire.vendor-management.initialgeneralinformation'); 
     }
 
     public function updatedata($field, $id){
@@ -185,7 +179,7 @@ class Historiinitgeneralinformation extends Component
         $check->save();
 
         session()->flash('message-success',"Criteria General Information Successfully Update!!!");
-        return view('livewire.vendor-management.criteriageneralinformation');  
+        return view('livewire.vendor-management.initialgeneralinformation');  
         
     }
 

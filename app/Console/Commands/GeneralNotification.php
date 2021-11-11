@@ -146,7 +146,7 @@ class GeneralNotification extends Command
                     $data->save();
 
                     if($em->device_token){
-                        push_notification_android($em->device_token,$vehicle->title,$vehicle->description,4);
+                        push_notification_android($em->device_token,$health->title,$health->description,4);
                     }
                 }
             }
