@@ -83,15 +83,15 @@
                             @endif
                         </td>
                         <td>
-                            @if($item->stiker_safety_driving==1)
+                            @if($item->foto_stiker_safety_driving)
                                 Ya
                             @else
                                 Tidak {{$item->sticker_note!="" ? "( ".$item->sticker_note .")" : ''}}
                             @endif
                         </td>
                         <td>
-                            @if($item->stiker_safety_driving)
-                                <a href="{{asset($item->stiker_safety_driving)}}" target="_blank"><i class="fa fa-image"></i></a>
+                            @if($item->foto_stiker_safety_driving)
+                                <a href="{{asset($item->foto_stiker_safety_driving)}}" target="_blank"><i class="fa fa-image"></i></a>
                             @endif
                         </td>
                         <td>

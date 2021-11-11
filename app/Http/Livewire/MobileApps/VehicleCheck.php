@@ -44,7 +44,7 @@ class VehicleCheck extends Component
     {
         $data = VehicleCheckModel::select('employees.name','vehicle_check.*')
                     ->with(['employee','cleanliness','region','sub_region'])
-                    ->orderBy('vehicle_check.id','DESC')
+                    ->orderBy('vehicle_check.is_submit','DESC')
                     ->join('employees','employees.id','=','vehicle_check.employee_id');
         
         if($this->keyword) {
