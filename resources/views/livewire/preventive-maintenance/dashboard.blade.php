@@ -10,9 +10,9 @@
             </span>
         </div>
     </div>
-    {{-- <div>
-        <canvas id="chart" style="height:400px;"></canvas>
-    </div> --}}
+    <div>
+        <canvas id="chart" style="height:200px;"></canvas>
+    </div>
     <div class="table-responsive">
         <table class="table m-b-0 c_list">
             <thead>
@@ -111,21 +111,21 @@
             };
 
             const config = {
-                type: 'bar',
+                type: 'horizontalBar',
                 data: data,
                 options: {
                     indexAxis: 'y',
                     // Elements options apply to all of the options unless overridden in a dataset
                     // In this case, we are setting the border of each horizontal bar to be 2px wide
                     elements: {
-                    bar: {
-                        borderWidth: 2,
-                    }
+                        bar: {
+                            borderWidth: 2,
+                        }
                     },
-                    responsive: true,
+                    // responsive: true,
                     plugins: {
                     legend: {
-                        position: 'left',
+                        position: 'right',
                     },
                     title: {
                         display: true,
@@ -133,7 +133,7 @@
                     }
                     }
                 },
-                };
+            };
 
             var chart="";
             var ctx = document.getElementById('chart').getContext('2d');

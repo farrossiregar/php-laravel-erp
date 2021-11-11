@@ -15,6 +15,7 @@
                 @if(check_access('preventive-maintenance.raw-data'))
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data">{{ __('Data') }}</a></li>
                 @endif
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#setting">{{ __('Setting SOW') }}</a></li>
             </ul>
             <div class="tab-content">
                 @if(check_access('preventive-maintenance.dashboard'))
@@ -27,8 +28,10 @@
                         @livewire('preventive-maintenance.data')
                     </div>
                 @endif
+                <div class="tab-pane" id="setting">
+                    @livewire('preventive-maintenance.setting')
+                </div>
             </div>
         </div>
-    </div>
-    
+    </div>    
 </div>
