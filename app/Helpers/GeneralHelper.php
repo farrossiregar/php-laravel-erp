@@ -2,6 +2,14 @@
 
 use Illuminate\Support\Facades\DB;
 
+function get_setting_sow($item)
+{
+    $data = \App\Models\PreventiveMaintenanceSow::where(['region_id'=>$item->region_id,'sub_region_id'=>$item->sub_region_id,'pm_type'=>$item->pm_type,'site_type'=>$item->site_type])->first();
+    if($data) return $data->sow;
+
+    return 0;
+}
+
 function setInterval($f, $milliseconds)
 {
     $seconds=(int)$milliseconds/1000;

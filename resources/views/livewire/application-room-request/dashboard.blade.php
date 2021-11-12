@@ -86,8 +86,8 @@
                 <div id='calendar' class="col-md-12" onclick="return false;"></div>
             </div>
         </div>
-        <div class="col-md-4 mt-3">
-            <div class="row">
+        <div class="col-md-6 mt-3">
+            <div class="row mb-3">
                 <div class="col-md-8">
                     <h5>Room Request <span class="text-danger">{{$date_active}}</span></h5>
                 </div>
@@ -95,66 +95,54 @@
                     <a href="#" data-toggle="modal" data-target="#modal-roomrequest-importroomrequest" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Room Request')}}</a>
                 </div>
             </div>
-            <hr />
-            @foreach($data_room as $item)
-                <div class="border rounded mb-3">
-                    <table class="table mb-0">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead>
                         <tr>
+                            <th>No</th>
                             <th>Room</th>
-                            <td>{{$item->request_room_detail}}</td>
-                        </tr>
-                        <tr>
                             <th>Purpose</th>
-                            <td>{{$item->purpose}}</td>
-                        </tr>
-                        <tr>
                             <th>Time</th>
-                            <td>{{date('H:i',strtotime($item->start_date))}} - {{date('H:i',strtotime($item->end_date))}}</td>
-                        </tr>
-                        <tr>
                             <th>Participant</th>
-                            <td>{{$item->participant}}</td>
-                        </tr>
-                        <tr>
                             <th>Status</th>
+                            <th>Department</th>
+                            <th>Requested By</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($data_room as $key => $item)
+                        <tr>
+                            <td>{{$key+1}}</td>
+                            <td>{{$item->request_room_detail}}</td>
+                            <td>{{$item->purpose}}</td>
+                            <td>{{date('H:i',strtotime($item->start_date))}} - {{date('H:i',strtotime($item->end_date))}}</td>
+                            <td>{{$item->participant}}</td>
                             <td>
                                 @if($item->status == '1')
-                                <label class="badge badge-warning mb-0" data-toggle="tooltip" title="Waiting PMG Approval">Waiting PMG Approval</label>
-                            @endif
-
-                            @if($item->status == '2')
-                                <label class="badge badge-success mb-0" data-toggle="tooltip" title="Approved">Approved</label>
-                            @endif
-
-                            @if($item->status == '0')
-                                <label class="badge badge-danger mb-0" data-toggle="tooltip" title="{{ $item->note }}">Decline</label>
-                            @endif
-
-                            @if($item->status == '' || $item->status == 'null')
-                                <label class="badge badge-warning mb-0" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
-                            @endif
+                                    <label class="badge badge-warning mb-0" data-toggle="tooltip" title="Waiting PMG Approval">Waiting PMG Approval</label>
+                                @endif
+                                @if($item->status == '2')
+                                    <label class="badge badge-success mb-0" data-toggle="tooltip" title="Approved">Approved</label>
+                                @endif
+                                @if($item->status == '0')
+                                    <label class="badge badge-danger mb-0" data-toggle="tooltip" title="{{ $item->note }}">Decline</label>
+                                @endif
+                                @if($item->status == '' || $item->status == 'null')
+                                    <label class="badge badge-warning mb-0" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
+                                @endif
                             </td>
-                        </tr>
-                        <tr>
-                            <th>Department</th>
                             <td>{{ $item->departement }}</td>
-                        </tr>
-                        <tr>
-                            <th>Requested By</th>
-                            <td>
-                                {{ $item->employee_name }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Created At</th>
+                            <td>{{ $item->employee_name }}</td>
                             <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         </tr>
-                    </table>
-                </div>
-            @endforeach
-            @if($data_room->count()==0)
-                <code>Room request empty.</code>
-            @endif
+                    @endforeach
+                    </tbody>
+                </table>
+                @if($data_room->count()==0)
+                    <code>Room request empty.</code>
+                @endif
+            </div>
         </div>
     </div>
 </div>
