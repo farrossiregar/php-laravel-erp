@@ -156,5 +156,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('vendor-management/initial-tools-facilities/{id}',App\Http\Livewire\VendorManagement\Initialtoolsfacilities::class)->name('vendor-management.initial-tools-facilities');
     Route::get('vendor-management/initial-ehs/{id}',App\Http\Livewire\VendorManagement\Initialehs::class)->name('vendor-management.initial-ehs');
     Route::get('vendor-management/preview/{id}',App\Http\Livewire\VendorManagement\Servicecriteria::class)->name('vendor-management.preview');
+   
     
+    Route::get('duty-roster-regiontools',App\Http\Livewire\DutyRosterRegiontools\Index::class)->name('duty-roster-regiontools.index');
 });
