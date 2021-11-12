@@ -83,7 +83,6 @@ class Data extends Component
             'description_report' => 'required'
         ]);
         if($this->file_report){
-            
             $name = date('ymdhis') .".".$this->file_report->extension();
             $data = new PreventiveMaintenanceUpload();
             $this->file_report->storeAs("public/preventive-maintenance/{$this->selected->id}", $name);
@@ -91,6 +90,9 @@ class Data extends Component
             $data->description = $this->description_report;
             $data->preventive_maintenance = $this->selected->id;
             $data->save();
+
+            $this->selected->is_upload_report = 1;
+            $this->selected->save();
         }
 
         session()->flash('message-success','Report Uploaded.');
@@ -122,7 +124,6 @@ class Data extends Component
         $data->admin_project_id = \Auth::user()->employee->id;
         if($this->project_id) $data->project_id = $this->project_id;
         $data->status = 0;
-        
         $data->save();
 
         if(isset($data->employee->device_token)){

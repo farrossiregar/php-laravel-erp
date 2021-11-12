@@ -1,11 +1,14 @@
 <div>
     <div x-data="{ insert:false }">
         <span x-show="insert==false">
-            {{get_setting_sow($data)}}
+            <a href="javascript:void(0)" @click="insert = true">{{get_setting_sow($data)}}</a>
         </span>
-        <span x-show="insert">
-            <input type="text" class="form-control" style="width:100px;" wire:keydown.enter="save" x-on:keydown.enter="insert = false" x- wire:model="sow" />
+        <span x-show="insert" @click.away="insert = false">
+            <input type="number" class="form-control" style="width:80px;" wire:keydown.enter="save" x-on:keydown.enter="insert = false" x- wire:model="sow" />
         </span>
-        <a href="javascript:void(0)" @click="insert = true"><i class="fa fa-edit"></i></a>
     </div>
+    <span wire:loading>
+        <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+        <span class="sr-only">{{ __('Loading...') }}</span>
+    </span>
 </div>

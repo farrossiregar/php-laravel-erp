@@ -14,7 +14,8 @@ class AddFieldTableToPreventiveMaintenanceSow extends Migration
     public function up()
     {
         Schema::table('preventive_maintenance_sow', function (Blueprint $table) {
-            
+            $table->string('site_type',100)->nullable();
+            $table->string('pm_type',100)->nullable();
         });
     }
 

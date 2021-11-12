@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddFieldDurationToTrainingMaterial extends Migration
+class AddFieldIsUploadReportToPreventiveMaintenance extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddFieldDurationToTrainingMaterial extends Migration
      */
     public function up()
     {
-        Schema::table('training_material', function (Blueprint $table) {
-            $table->string('duration',6)->nullable();
+        Schema::table('preventive_maintenance', function (Blueprint $table) {
+            $table->boolean('is_upload_report')->default(0)->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class AddFieldDurationToTrainingMaterial extends Migration
      */
     public function down()
     {
-        Schema::table('training_material', function (Blueprint $table) {
+        Schema::table('preventive_maintenance', function (Blueprint $table) {
             //
         });
     }

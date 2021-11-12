@@ -1,15 +1,4 @@
 <div>
-    <div class="row mb-3">
-        <div class="col-md-2">
-            <a href="" class="btn btn-info"><i class="fa fa-plus"></i> SOW</a>
-        </div>
-        <div>
-            <span wire:loading>
-                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-                <span class="sr-only">{{ __('Loading...') }}</span>
-            </span>
-        </div>
-    </div>
     <div class="table-responsive">
         <table class="table m-b-0 c_list">
             <thead>

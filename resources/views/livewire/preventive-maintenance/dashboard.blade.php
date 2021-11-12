@@ -10,8 +10,21 @@
             </span>
         </div>
     </div>
-    <div>
-        <canvas id="chart" style="height:200px;"></canvas>
+    <div class="row">
+        <div class="col-md-10">
+            <canvas id="chart" style="height:400px;"></canvas>
+        </div>
+        <div class="col-md-2 text-center">
+            <h6>Summary SOW (Monthly Target)</h6>
+            <hr />
+            <h6>Submitted</h6>
+            <h1>{{$total_submitted}}</h1>
+            <h6>Approved EID</h6>
+            <h1>{{$total_approved_eid}}</h1>
+            <hr />
+            <h6>{{floor(($total_pm / $total_submitted) * 100)}}% Submitted</h6>
+            <h6>{{floor(($total_submitted / $total_approved_eid) * 100)}}% Approved EID</h6>   
+        </div>
     </div>
     <div class="table-responsive">
         <table class="table m-b-0 c_list">
@@ -37,27 +50,29 @@
             <tbody>
                 @foreach($data as $item)
                     @if(!isset($item->region->region)) @continue @endif
+                    @php($sow = get_setting_sow($item))
+                    @php($daily_target=floor($sow / 24))
                     <tr>
                         <td>{{isset($item->region->region) ? $item->region->region : ''}}</td>
                         <td>{{isset($item->sub_region->name) ? $item->sub_region->name : ''}}</td>
                         <td>{{$item->site_type}}</td>
                         <td>{{$item->pm_type}}</td>
-                        <td class="text-center">{{$item->sow}}</td>
-                        <td class="text-center">{{$item->daily}}</td>
+                        <td class="text-center">{{$sow}}</td>
+                        <td class="text-center">{{$daily_target}}</td>
                         <td class="text-center">{{$item->open}}</td>
                         <td class="text-center">{{$item->in_progress}}</td>
                         <td class="text-center">{{$item->submitted}}</td>
-                        <td class="text-center">0</td>
+                        <td class="text-center">{{$item->approved_ied}}</td>
                         <td class="text-center">
-                            @if(!empty($item->daily) and !empty($item->submitted))
-                                {{@floor(($item->submitted/$item->daily)*100)}}%
+                            @if(!empty($daily_target) and !empty($item->submitted))
+                                {{@floor(($item->submitted/$daily_target)*100)}}%
                             @else 
                                 0%
                             @endif
                         </td>
                         <td class="text-center">
-                            @if($item->sow and $item->total_submitted)
-                                {{@floor(($item->total_submitted / $item->sow)*100)}}%
+                            @if($sow and $item->total_submitted)
+                                {{@floor(($item->total_submitted / $sow)*100)}}%
                             @else 
                                 0%
                             @endif
@@ -91,29 +106,18 @@
         <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
         <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
         <script>
-            const labels = ['Januari','Februari','Maret','April','Mei','Juni'];
+            var labels = {!!$labels!!};
+            var series = {!!$series!!};
             const data = {
                 labels: labels,
-                datasets: [
-                    {
-                        label: 'Dataset 1',
-                        data: [10,20,30,40],
-                        borderColor: "rgb(255, 99, 132)",
-                        backgroundColor: "rgb(255, 99, 132)"//Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
-                    },
-                    {
-                        label: 'Dataset 2',
-                        data: [15,25,35,45],
-                        borderColor: 'rgb(54, 162, 235)',
-                        backgroundColor: 'rgb(54, 162, 235)',
-                    }
-                ]
+                datasets: series
             };
 
             const config = {
                 type: 'horizontalBar',
                 data: data,
                 options: {
+                    maintainAspectRatio: false,
                     indexAxis: 'y',
                     // Elements options apply to all of the options unless overridden in a dataset
                     // In this case, we are setting the border of each horizontal bar to be 2px wide

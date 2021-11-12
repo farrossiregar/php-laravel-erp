@@ -30,10 +30,10 @@
                             <label>Room</label>
                             <select class="form-control" wire:model="request_room_detail" required>
                                 <option value=""> -- Room Detail -- </option>
-                                <option  value="hrd">Ruang HRD</option>
-                                <option  value="server">Ruang Server IT & Jaringan</option>
-                                <option  value="finance">Ruang Finance</option>
-                                <option  value="informasi">Tempat penyimpanan data & informasi sensitif</option>
+                                <option>Ruang Meeting Yogyakarta (Lt.1)</option>
+                                <option>Ruang Meeting Semarang (Lt. 1)</option>
+                                <option>Ruang Meeting Pekanbaru (Lt. 3)</option>
+                                <option>Ruang Meeting Medan (Lt. 4)</option>
                             </select>
                         </div>
                     </div>
