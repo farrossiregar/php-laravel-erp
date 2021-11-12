@@ -75,6 +75,11 @@
                                     @if($autologin and !empty($item->user_id))
                                         <a href="#" class="text-success pr-2" onclick="autologin('{{ route('users.autologin',['id'=>$item->user_id]) }}','{{$item->name}}')" title="Autologin"><i class="fa fa-sign-in"></i></a>
                                     @endif
+                                    
+                                    @if($item->device)
+                                        <a href="javascript:void(0)"><i class="fa fa-mobile-phone"></i></a>
+                                    @endif
+
                                     @if($edit)
                                         <a href="{{route('employee.edit',['id'=>$item->id])}}">{{$item->name}}</a>
                                     @else

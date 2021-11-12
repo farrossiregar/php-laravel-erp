@@ -25,6 +25,13 @@ class UserController extends Controller
         return response($response, 200);
     }
     
+    public function storeDeviceInfo(Request $r)
+    {
+        Employee::find(\Auth::user()->employee->id)->update(['device'=>isset($r->device_info) ? $r->device_info : '']);
+        
+        return response(['status'=>200,'message'=>'success'], 200);
+    }
+
     public function login(Request $r){
         
         if($r->email =="" or $r->password == "") return response(['status'=>401,'message'=>'Unauthorised : '. $r->email. ' : '. $r->password], 200);
@@ -41,7 +48,7 @@ class UserController extends Controller
 
             if(\Auth::user()->employee->is_use_android==0) return response(['status'=>401,'message'=>'Unauthorised : '. $r->email. ' : '. $r->password], 200);
 
-            Employee::find(\Auth::user()->employee->id)->update(['device_token'=>$r->device_token]);
+            Employee::find(\Auth::user()->employee->id)->update(['device_token'=>$r->device_token,'device'=>isset($r->device_info) ? $r->device_info : '']);
             
             $data = $this->get_var_();
             
