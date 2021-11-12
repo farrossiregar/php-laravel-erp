@@ -18,6 +18,7 @@ class Data extends Component
     public $keyword,$site_id,$description,$due_date,$project_id,$site_report,$site_owner,$regions=[],$sub_regions=[],$employees;
     public $site_category,$site_type,$site_name,$region_id,$pm_type,$cluster,$sub_cluster,$sub_region_id,$employee_id,$file,$selected,$file_report,$description_report;
     public $reports=[];
+    public $date_start,$date_end;
     protected $listeners = ['refresh-page'=>'$refresh'];
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -59,6 +60,13 @@ class Data extends Component
             });
         }
             
+        if($this->date_start and $this->date_end){
+            if($this->date_start == $this->date_end)
+                $data->whereDate('created_at',$this->date_start);
+            else
+                $data->whereBetween('created_at',[$this->date_start,$this->date_end]);
+        }
+        
         return $data;
     }
 

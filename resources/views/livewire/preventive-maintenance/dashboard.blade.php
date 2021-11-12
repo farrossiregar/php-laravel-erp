@@ -3,6 +3,11 @@
         <div class="col-md-2">
             <input type="text" class="form-control date_range" placeholder="Date" />
         </div>
+        <!-- <div class="col-md-2">
+            <select class="form-control">
+                <option value=""></option> 
+            </select>
+        </div> -->
         <div>
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -22,8 +27,21 @@
             <h6>Approved EID</h6>
             <h1>{{$total_approved_eid}}</h1>
             <hr />
-            <h6>{{floor(($total_pm / $total_submitted) * 100)}}% Submitted</h6>
-            <h6>{{floor(($total_submitted / $total_approved_eid) * 100)}}% Approved EID</h6>   
+            <h6>
+                @if($total_sow and $total_submitted)
+                    {{floor(@($total_sow / $total_submitted) * 100)}}%
+                @else
+                    0%
+                @endif 
+                Submitted</h6>
+            <h6>
+                @if($total_sow and $total_approved_eid)
+                    {{(@($total_approved_eid / $total_sow) * 100)}}% 
+                @else
+                    0%
+                @endif
+                Approved EID
+            </h6>   
         </div>
     </div>
     <div class="table-responsive">
@@ -106,42 +124,59 @@
         <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
         <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
         <script>
+            var chart = "";
             var labels = {!!$labels!!};
             var series = {!!$series!!};
-            const data = {
+            var data = {
                 labels: labels,
                 datasets: series
             };
 
-            const config = {
-                type: 'horizontalBar',
-                data: data,
-                options: {
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    // Elements options apply to all of the options unless overridden in a dataset
-                    // In this case, we are setting the border of each horizontal bar to be 2px wide
-                    elements: {
-                        bar: {
-                            borderWidth: 2,
+            chart_(data);
+
+            Livewire.on('init-chart',(data)=>{
+                console.log(data);
+                labels = JSON.parse(data.labels);
+                series = JSON.parse(data.series);
+                var data = {
+                    labels: labels,
+                    datasets: series
+                };
+                chart_(data);
+            });
+
+            function chart_(data){
+                if(chart!=="") chart.destroy();
+                const config = {
+                    type: 'horizontalBar',
+                    data: data,
+                    options: {
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        // Elements options apply to all of the options unless overridden in a dataset
+                        // In this case, we are setting the border of each horizontal bar to be 2px wide
+                        elements: {
+                            bar: {
+                                borderWidth: 2,
+                            }
+                        },
+                        // responsive: true,
+                        plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Chart.js Horizontal Bar Chart'
+                        }
                         }
                     },
-                    // responsive: true,
-                    plugins: {
-                    legend: {
-                        position: 'right',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Chart.js Horizontal Bar Chart'
-                    }
-                    }
-                },
-            };
+                };
 
-            var chart="";
-            var ctx = document.getElementById('chart').getContext('2d');
-            chart = new Chart(ctx, config);
+                var ctx = document.getElementById('chart').getContext('2d');
+                chart = new Chart(ctx, config);
+            }
+            
         </script>
     @endpush
 </div>
