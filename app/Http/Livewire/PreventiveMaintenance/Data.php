@@ -8,7 +8,6 @@ use App\Models\PreventiveMaintenanceUpload;
 use App\Models\Region;
 use App\Models\SubRegion;
 use App\Models\Employee;
-use App\Models\ClientProject;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 
@@ -35,7 +34,11 @@ class Data extends Component
         
         $this->project_id = session()->get('project_id');
         if($this->project_id){
-            $this->regions = Region::join('client_project_region','client_project_region.region_id','=','region.id')->select('region.id','region.region')->where('client_project_region.client_project_id',$this->project_id)->groupBy('region.id')->get();
+            $this->regions = Region::join('client_project_region','client_project_region.region_id','=','region.id')
+                                    ->select('region.id','region.region')
+                                    ->where('client_project_region.client_project_id',$this->project_id)
+                                    ->groupBy('region.id')
+                                    ->get();
         }
         
         $this->employees = Employee::select(['id','nik','name'])->where('user_access_id',85)->get(); // TE Engineer
@@ -59,7 +62,9 @@ class Data extends Component
                         ->orWhereRelation('employee','nik','LIKE',"%{$this->keyword}%");
             });
         }
-            
+
+        if($this->region_id) $data->where('region_id',$this->region_id);
+        if($this->sub_region_id) $data->where('sub_region_id',$this->sub_region_id);
         if($this->date_start and $this->date_end){
             if($this->date_start == $this->date_end)
                 $data->whereDate('created_at',$this->date_start);
@@ -172,7 +177,7 @@ class Data extends Component
             $total_failed = 0;
             $total_success = 0;
             foreach($sheetData as $key => $i){
-                if($key=-0) continue;
+                if($key==0) continue;
                 $site_id = $i[1];
                 $site_name = $i[2];
                 $description = $i[3];
@@ -184,7 +189,11 @@ class Data extends Component
                 $cluster = $i[9];
                 $sub_cluster = $i[10];
                 $nik = $i[11];
-                
+                $assign_date = $i[12];
+                $pickup_date = $i[13];
+                $submit_date = $i[14];
+                $status = strtolower($i[15]);
+                $note = $i[16];
                 if($site_id=="" || $nik == "") continue;
 
                 $employee = Employee::where(['nik'=>$nik])->first(); 
@@ -201,31 +210,49 @@ class Data extends Component
                     $region_id = Region::where('region',$region)->first();
                     if($region_id) {
                         $data->region_id  = $region_id->id;
-                        $sub_region_id = SubRegion::where(['name'=>$sub_region,'region_id'=>$region_id->id])->first();
+                        $sub_region_id = SubRegion::where('region_id',$region_id->id)->where(function($table) use($sub_region){
+                            $table->where('sub_region_code',$sub_region)->orWhere('name',$sub_region);
+                        })->first();
                         if($sub_region_id) $data->sub_region_id = $sub_region_id->id;
                     }
                     
-                    $data->cluster  = $this->cluster;
-                    $data->sub_cluster  = $this->sub_cluster;
+                    $data->cluster  = $cluster;
+                    $data->sub_cluster  = $sub_cluster;
                     $data->employee_id  = $employee->id;
                     $data->admin_project_id = \Auth::user()->employee->id;
                     $data->status = 0;
-                    if($this->project_id) $data->project_id = $this->project_id;
-                    $data->save();
 
-                    if(isset($data->employee->device_token)){
-                        $message = "Site ID : {$data->site_id}\nSite Name : {$data->site_name}\n";
-                        $message .= "Description : {$data->description}\n";
-                        $message .= "Site Category : {$data->site_category}\n";
-                        $message .= "Site Type : {$data->site_type}\n";
-                        $message .= "PM Type : {$data->pm_type}\n";
-                        $message .= "Region : ".(isset($data->region->region) ? $data->region->region : '')."\n";
-                        $message .= "Admin Project : ".(isset($data->admin->name) ? $data->admin->name : '')."\n";
-                        push_notification_android($data->employee->device_token,'Preventive Maintenance Open',$message,7);
+                    if($this->project_id) $data->project_id = $this->project_id;
+
+                    if($assign_date) $data->created_at =  date('Y-m-d',strtotime($assign_date));
+                    if($pickup_date) $data->start_date =  date('Y-m-d',strtotime($pickup_date));
+                    if($submit_date) $data->end_date =  date('Y-m-d',strtotime($submit_date));
+                    
+                    if($status=='open'){
+                        $data->status = 0;
                     }
+                    if($status=='on progress'){
+                        $data->status = 1;
+                    }
+                    if($status=='submitted'){
+                        $data->status = 2;
+                    }
+                    $data->note = $note;
+                    $data->save(['timestamps' => false]);
+
+                    // if(isset($data->employee->device_token)){
+                    //     $message = "Site ID : {$data->site_id}\nSite Name : {$data->site_name}\n";
+                    //     $message .= "Description : {$data->description}\n";
+                    //     $message .= "Site Category : {$data->site_category}\n";
+                    //     $message .= "Site Type : {$data->site_type}\n";
+                    //     $message .= "PM Type : {$data->pm_type}\n";
+                    //     $message .= "Region : ".(isset($data->region->region) ? $data->region->region : '')."\n";
+                    //     $message .= "Admin Project : ".(isset($data->admin->name) ? $data->admin->name : '')."\n";
+                    //     push_notification_android($data->employee->device_token,'Preventive Maintenance Open',$message,7);
+                    // }
                     // insert history
-                    table_history('employee_id',$data->id,'preventive_maintenance',$data->employee);
-                    table_history('admin_project_id',$data->id,'preventive_maintenance',\Auth::user()->employee);
+                    //table_history('employee_id',$data->id,'preventive_maintenance',$data->employee);
+                    //table_history('admin_project_id',$data->id,'preventive_maintenance',\Auth::user()->employee);
                 }
             }
         }

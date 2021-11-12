@@ -3,6 +3,7 @@
         <table class="table m-b-0 c_list">
             <thead>
                 <tr style="background:#eee;">
+                    <th>No</th>
                     <th>Region</th>
                     <th>Sub Region</th>   
                     <th>Site Type</th>   
@@ -11,9 +12,10 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($data as $item)
+                @foreach($data as $k=> $item)
                     @if(!isset($item->region->region)) @continue @endif
                     <tr>
+                        <td>{{$k+1}}</td>
                         <td>{{isset($item->region->region) ? $item->region->region : ''}}</td>
                         <td>{{isset($item->sub_region->name) ? $item->sub_region->name : ''}}</td>
                         <td>{{$item->site_type}}</td>

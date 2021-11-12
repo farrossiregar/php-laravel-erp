@@ -6,7 +6,23 @@
         <div class="col-md-1 form-group">
             <input type="text" class="form-control date_created" placeholder="Date" />
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2" wire:ignore>
+            <select class="form-control" wire:model="region_id">
+                <option value=""> -- Region -- </option>
+                @foreach($regions as $item)
+                    <option value="{{$item->id}}">{{$item->region}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-control" wire:model="sub_region_id">
+                <option value=""> -- Sub Region -- </option>
+                @foreach($sub_regions as $item)
+                    <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-5">
             <div class="btn-group" role="group">
                 <button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Action
@@ -23,8 +39,6 @@
                     @endif
                 </div>
             </div>    
-        </div>
-        <div class="col-md-5">
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>

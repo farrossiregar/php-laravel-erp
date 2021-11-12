@@ -1,13 +1,16 @@
 <div>
     <div class="row mb-3">
-        <div class="col-md-2">
+        <div class="col-md-1">
             <input type="text" class="form-control date_range" placeholder="Date" />
         </div>
-        <!-- <div class="col-md-2">
-            <select class="form-control">
-                <option value=""></option> 
+        <div class="col-md-2" wire:ignore>
+            <select class="form-control" wire:model="sub_region_id">
+                <option value=""> -- Sub Region -- </option>
+                @foreach($sub_region as $item)
+                    <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
             </select>
-        </div> -->
+        </div>
         <div>
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -29,11 +32,12 @@
             <hr />
             <h6>
                 @if($total_sow and $total_submitted)
-                    {{floor(@($total_sow / $total_submitted) * 100)}}%
+                    {{round((($total_sow / $total_submitted) * 100),)}}%
                 @else
                     0%
                 @endif 
-                Submitted</h6>
+                Submitted
+            </h6>
             <h6>
                 @if($total_sow and $total_approved_eid)
                     {{(@($total_approved_eid / $total_sow) * 100)}}% 
