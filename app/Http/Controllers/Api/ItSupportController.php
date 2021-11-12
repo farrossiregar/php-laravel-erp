@@ -43,6 +43,7 @@ class ItSupportController extends Controller
             $param[$k]['employee'] = isset($item->employee->name) ? $item->employee->name : '';
             $param[$k]['nik'] = isset($item->employee->nik) ? $item->employee->nik : '-';
             $param[$k]['telepon'] = isset($item->employee->telepon) ? $item->employee->telepon : '-';
+            $param[$k]['telpon'] = isset($item->employee->telepon) ? $item->employee->telepon : '-';
             $param[$k]['department'] = isset($item->employee->department->name) ? $item->employee->department->name : '-';
             $param[$k]['email'] = isset($item->employee->email) ? $item->employee->email : '-';
             $param[$k]['tanggal_kejadian'] = date('d-M-Y',strtotime($item->tanggal_kejadian));
@@ -60,7 +61,6 @@ class ItSupportController extends Controller
             $param[$k]['note'] = $item->note;
             $param[$k]['type_risk'] = $item->type_risk;
             $param[$k]['is_pic'] = $is_pic == true ? 1 : 0;
-            
             $param[$k]['is_pick'] = 0;
             if($is_pic and $item->status ==1){
                 $param[$k]['is_pick'] = 1;
@@ -106,8 +106,7 @@ class ItSupportController extends Controller
         
         $description = "Resolved By : ". \Auth::user()->employee->name ."\n";
 
-        if(isset($data->employee->device_token)) 
-            push_notification_android($data->employee->device_token,"TT Number #".$data->trouble_ticket_number ." Resolved" ,$description,6);
+        if(isset($data->employee->device_token)) push_notification_android($data->employee->device_token,"TT Number #".$data->trouble_ticket_number ." Resolved" ,$description,6);
 
         return response()->json(['message'=>'success'], 200);
     }
