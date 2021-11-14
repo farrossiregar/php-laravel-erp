@@ -19,6 +19,6 @@ class Index extends Component
 
     public function mount()
     {
-        session()->put('project_id',$this->project_id);
+        if(isset($this->project_id)) session()->put('project_id',$this->project_id);
     }
 }
