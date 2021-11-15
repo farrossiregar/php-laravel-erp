@@ -8,7 +8,7 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label> Decline Application & Room Request ?</label>
+            <label> Decline Commitment Letter ?</label>
         </div>
         <div class="form-group">
             <label>Note</label>

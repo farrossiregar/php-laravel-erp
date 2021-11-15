@@ -34,41 +34,31 @@ class Decline extends Component
     public function save()
     {
         
-        $data = \App\Models\ApplicationRoomRequest::where('id', $this->selected_id)->first();
+        $data = \App\Models\CommitmentLetter::where('id', $this->selected_id)->first();
         
         $data->status   = '0';
         $data->note     = $this->note;
 
         $data->save();
 
-        if($data->type_request == 'Application'){
-            $message = "*Dear User ".$data->employee_name."*\n\n";
-            $message .= "*Pengajuan Application Access dengan id ".$this->selected_id." tidak disetujui *\n\n";
-            $alert = "Berhasil, Pengajuan Application Access is Decline !!!";
-        }
+        // $notif = check_access_data('duty-roster-dophomebase.notif-decline', '');
+        // $nameuser = [];
+        // $emailuser = [];
+        // $phoneuser = [];
+        // foreach($notif as $no => $itemuser){
+        //     $nameuser[$no] = $itemuser->name;
+        //     $emailuser[$no] = $itemuser->email;
+        //     $phoneuser[$no] = $itemuser->telepon;
 
-        if($data->type_request == 'Room'){
-            $message = "*Dear User ".$nameuser."*\n\n";
-            $message .= "*Pengajuan Room Access dengan id ".$this->selected_id." tidak disetujui *\n\n";
-            $alert = "Berhasil, Pengajuan Room Access is Decline !!!";
-        }
+        //     $message = "*Dear HRD GA *\n\n";
+        //     $message .= "*Duty Roster DOP - Homebase dengan id ".$this->selected_id." perlu direvisi *\n\n";
+        //     send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
 
-        $notif = check_access_data('application-room-request.notif-user', '');
-        $nameuser = [];
-        $emailuser = [];
-        $phoneuser = [];
-        foreach($notif as $no => $itemuser){
-            $nameuser[$no] = $itemuser->name;
-            $emailuser[$no] = $itemuser->email;
-            $phoneuser[$no] = $itemuser->telepon;
+        //     // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
+        // }
 
-            send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
-
-            // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
-        }
-
-        session()->flash('message-success',$alert);
+        session()->flash('message-success',"Berhasil, Commitment Letter is Decline !!!");
         
-        return redirect()->route('application-room-request.index');
+        return redirect()->route('commitment-letter.index');
     }
 }

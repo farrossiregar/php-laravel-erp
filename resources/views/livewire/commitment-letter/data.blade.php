@@ -50,17 +50,17 @@
                         <td>
 
                             @if($item->bcg == '' || $item->bcg == NULL )
-                                <a href="javascript:;" wire:click="$emit('modalimportbcg','{{ $item->id }}')"><i class="fa fa-upload"></i></a>
+                                <a href="javascript:;" wire:click="$emit('modalimportbcg','{{ $item->id }}')"><i class="fa fa-upload fa-2x"></i></a>
                             @else
-                                <a href="<?php echo asset('storage/Commitment_Letter/BCG/'.$item->bcg); ?>"><i class="fa fa-download"></i></a>
+                                <a href="<?php echo asset('storage/Commitment_Letter/BCG/'.$item->bcg); ?>"><i class="fa fa-download fa-2x" style="color: #28a745;"></i></a>
                             @endif
                         </td>
                         <td>
                             
                             @if($item->cyber_security == '' || $item->cyber_security == NULL )
-                                <a href="javascript:;" wire:click="$emit('modalimportcybersecurity','{{ $item->id }}')"><i class="fa fa-upload"></i></a>
+                                <a href="javascript:;" wire:click="$emit('modalimportcybersecurity','{{ $item->id }}')"><i class="fa fa-upload fa-2x"></i></a>
                             @else
-                                <a href="<?php echo asset('storage/Commitment_Letter/Cyber_Security/'.$item->cyber_security); ?>"><i class="fa fa-download"></i></a>
+                                <a href="<?php echo asset('storage/Commitment_Letter/Cyber_Security/'.$item->cyber_security); ?>"><i class="fa fa-download fa-2x" style="color: #28a745;"></i></a>
                             @endif
                         </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
@@ -71,6 +71,13 @@
                                 <label class="badge badge-warning" data-toggle="tooltip" title="Unsigned">Unsigned</label>
                             @endif
 
+                            @if($item->status == '1')
+                                <label class="badge badge-success" data-toggle="tooltip" title="Done">Done</label>
+                            @endif
+
+                            @if($item->status == '0')
+                                <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Decline</label>
+                            @endif
                         </td>
                         <td>
                             <!-- if(check_access('accident-report.input')) -->
