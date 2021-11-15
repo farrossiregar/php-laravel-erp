@@ -4,9 +4,7 @@ namespace App\Http\Livewire\CommitmentLetter;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\PoTrackingPds;
-use App\Models\AccidentReport;
-use App\Models\RegionTools;
+use App\Models\CommitmentLetter;
 use Auth;
 use DB;
 
@@ -26,17 +24,15 @@ class Dashboard extends Component
         
         // $this->generate_chart();
 
-        $data = RegionTools::orderBy('id', 'desc');
-
+        $data = CommitmentLetter::orderBy('id', 'desc')
+                                ->groupBy('region');
+        // dd($data->get());
                         
         return view('livewire.commitment-letter.dashboard')->with(['data'=>$data->paginate(50)]);
         
     }
 
-    public function mount()
-    {
-        $this->employees = AccidentReport::select(['employees.id','employees.name'])->join('employees','employees.id','=','accident_report.employee_id')->whereNotNull('employee_id')->groupBy('employee_id')->get();
-    }
+ 
 
     // public function updated()
     // {
