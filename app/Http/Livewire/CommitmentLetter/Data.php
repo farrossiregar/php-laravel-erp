@@ -5,7 +5,7 @@ namespace App\Http\Livewire\CommitmentLetter;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\AccidentReport;
-use App\Models\RegionToolsHistory;
+use App\Models\CommitmentLetter;
 
 class Data extends Component
 {
@@ -20,16 +20,15 @@ class Data extends Component
         //     $this->redirect('/');
         // }
         
-        $data = RegionToolsHistory::orderBy('id', 'desc');
+        $data = CommitmentLetter::orderBy('id', 'desc');
         // if($this->date) $ata = $data->whereDate('date',$this->date);
         // if($this->employee_id) $ata = $data->where('employee_id',$this->employee_id);
-        // if($this->keyword) $data->where(function($table){
-        //     $table->where("site_id","LIKE","%{$this->keyword}%")
-        //             ->orWhere('klasifikasi_insiden',"LIKE","%{$this->keyword}%")
-        //             ->orWhere('jenis_insiden',"LIKE","%{$this->keyword}%")
-        //             ->orWhere('rincian_kronologis',"LIKE","%{$this->keyword}%")
-        //             ->orWhere('nik_and_nama',"LIKE","%{$this->keyword}%");
-        // });
+        if($this->keyword) $data->where(function($table){
+            $table->where("company_name","LIKE","%{$this->keyword}%")
+                    ->orWhere('project',"LIKE","%{$this->keyword}%")
+                    ->orWhere('region',"LIKE","%{$this->keyword}%")
+                    ->orWhere('employee_name',"LIKE","%{$this->keyword}%");
+        });
                         
         return view('livewire.commitment-letter.data')->with(['data'=>$data->paginate(50)]);
     }

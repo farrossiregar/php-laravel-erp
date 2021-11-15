@@ -20,88 +20,71 @@
 </div>
 
 
-<div class="modal fade" id="modal-regiontools-inputtools" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="modal-commitmentletter-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:duty-roster-regiontools.inputtools />
+            <livewire:commitment-letter.add />
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal-regiontools-edittools" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="modal-commitmentletter-importbcg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <!-- livewire:duty-roster-regiontools.edittools /> -->
+            <livewire:commitment-letter.importbcg />
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal-regiontools-inputdistribution" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="modal-commitmentletter-importcybersecurity" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <!-- livewire:duty-roster-regiontools.inputdistribution /> -->
+            <livewire:commitment-letter.importcybersecurity />
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal-regiontools-editdatadistribution" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="modal-commitmentletter-approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <!-- livewire:duty-roster-regiontools.editdatadistribution /> -->
+            <livewire:commitment-letter.approve />
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal-regiontools-returntools" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="modal-commitmentletter-decline" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <!-- livewire:duty-roster-regiontools.returntools /> -->
+            <livewire:commitment-letter.decline />
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal-regiontools-approvaldistribution" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <!-- livewire:duty-roster-regiontools.approvaldistribution /> -->
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-regiontools-approvaldreturn" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <!-- livewire:duty-roster-regiontools.approvaldreturn /> -->
-        </div>
-    </div>
-</div>
 
 @section('page-script')
-    Livewire.on('modalinputtools',(data)=>{
-        $("#modal-regiontools-inputtools").modal('show');
+    Livewire.on('modaladdcommitmentletter',(data)=>{
+        $("#modal-commitmentletter-add").modal('show');
     });
 
-    Livewire.on('modaledittools',(data)=>{
-        $("#modal-regiontools-edittools").modal('show');
+    Livewire.on('modalimportbcg',(data)=>{
+        console.log(data);
+        $("#modal-commitmentletter-importbcg").modal('show');
     });
 
-    Livewire.on('modalinputdistribution',(data)=>{
-        $("#modal-regiontools-inputdistribution").modal('show');
+    Livewire.on('modalimportcybersecurity',(data)=>{
+        console.log(data);
+        $("#modal-commitmentletter-importcybersecurity").modal('show');
     });
 
-    Livewire.on('modaleditdatadistribution',(data)=>{
-        $("#modal-regiontools-editdatadistribution").modal('show');
+    Livewire.on('modalapprovecommitmentletter',(data)=>{
+        console.log(data);
+        $("#modal-commitmentletter-approve").modal('show');
     });
 
-    Livewire.on('modalreturntools',(data)=>{
-        $("#modal-regiontools-returntools").modal('show');
+    Livewire.on('modaldeclinecommitmentletter',(data)=>{
+        console.log(data);
+        $("#modal-commitmentletter-decline").modal('show');
     });
 
-    Livewire.on('modalapprovaldistribution',(data)=>{
-        $("#modal-regiontools-approvaldistribution").modal('show');
-    });
-
-    Livewire.on('modalapprovalreturn',(data)=>{
-        $("#modal-regiontools-approvalreturn").modal('show');
-    });
+   
 @endsection

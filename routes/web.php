@@ -160,5 +160,5 @@ Route::group(['middleware' => ['auth']], function(){
     
     Route::get('duty-roster-regiontools',App\Http\Livewire\DutyRosterRegiontools\Index::class)->name('duty-roster-regiontools.index');
     
-    Route::get('commitment-letter',App\Http\Livewire\DutyRosterRegiontools\Index::class)->name('commitment-letter.index');
+    Route::get('commitment-letter',App\Http\Livewire\CommitmentLetter\Index::class)->name('commitment-letter.index');
 });

@@ -1,19 +1,14 @@
 <div class="row">
+
+
     <div class="col-md-2">
-        <select onclick="" class="form-control" required wire:model="employee_id">
-            <option value=""> --- Employee / Field Team --- </option>
-            @foreach($employees as $user)
-            <option value="{{$user->id}}">{{$user->name}}</option>
-            @endforeach
-        </select>
-    </div>
-    <div class="col-md-3">
         <input type="text" class="form-control" placeholder="Keyword" wire:model="keyword" />
     </div>
     
     <!-- if(check_access('accident-report.input')) -->
     <div class="col-md-2">
-        <a href="{{ route('accident-report.insert') }}" title="Add" class="btn btn-primary"><i class="fa fa-arrow-down"></i> Distribute Tools</a>
+        
+        <a href="javascript:;" wire:click="$emit('modaladdcommitmentletter')" class="btn btn-info"><i class="fa fa-plus"></i> Add Commitment Letter </a>
     </div>
     <!-- endif -->
 
@@ -24,53 +19,71 @@
                 <thead>
                     <tr>
                         <th>No</th> 
-                        <th>Tools</th> 
-                        <th>Qty</th> 
-                        <th>Due Date</th> 
-                        <th>FT PIC</th> 
-                        <th>FT Region</th> 
-                        <th>Condition</th> 
-                        <th>Date Borrowed</th> 
-                        <th>Date Return</th> 
+                        <th>Company Name</th> 
+                        <th>Project</th> 
+                        <th>Region</th> 
+                        <th>Region / Area</th> 
+                        <th>KTP ID</th> 
+                        <th>NIK PMT</th> 
+                        <th>Leader</th> 
+                        <th>Employee Name</th> 
+                        <th>BCG</th> 
+                        <th>Cyber Security</th> 
+                        <th>Date Create</th> 
                         <th>Status</th> 
                         <th>Action</th> 
-                        
-                        
+
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td>{{ $item->tools_name }}</td>
-                        <td>{{ $item->qty }}</td>
-                        <td>{{ $item->due_date }}</td>
-                        <td>{{ $item->ft_pic }}</td>
-                        <td>{{ $item->ft_region }}</td>
-                        <td>{{ $item->condition }}</td>
-                        <td>{{ date_format(date_create($item->date_borrow), 'd M Y') }}</td>
-                        <td>{{ date_format(date_create($item->date_return), 'd M Y') }}</td>
+                        <td>{{ $item->company_name }}</td>
+                        <td>{{ $item->project }}</td>
+                        <td>{{ $item->region }}</td>
+                        <td>{{ $item->region_area }}</td>
+                        <td>{{ $item->ktp_id }}</td>
+                        <td>{{ $item->nik_pmt }}</td>
+                        <td>{{ $item->leader }}</td>
+                        <td>{{ $item->employee_name }}</td>
                         <td>
-                            @if($item->status == '1')
-                                <label class="badge badge-info" data-toggle="tooltip" title="Borrowed">Borrowed</label>
-                            @endif
 
-                            @if($item->status == '0')
-                                <label class="badge badge-primary" data-toggle="tooltip" title="Returned">Returned</label>
+                            @if($item->bcg == '' || $item->bcg == NULL )
+                                <a href="javascript:;" wire:click="$emit('modalimportbcg','{{ $item->id }}')"><i class="fa fa-upload fa-2x"></i></a>
+                            @else
+                                <a href="<?php echo asset('storage/Commitment_Letter/BCG/'.$item->bcg); ?>"><i class="fa fa-download fa-2x" style="color: #28a745;"></i></a>
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('accident-report.insert') }}" title="Add" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a> <!-- Return Tools from Field Team -->
-
-                            <a href="{{ route('accident-report.insert') }}" title="Add" class="btn btn-primary"><i class="fa fa-arrow-up"></i> Return</a> <!-- Return Tools from Field Team -->
                             
-                            <!-- Approve Distribution to Field Team -->
-                            <a href="{{ route('accident-report.insert') }}" title="Add" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                            <a href="{{ route('accident-report.insert') }}" title="Add" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                            @if($item->cyber_security == '' || $item->cyber_security == NULL )
+                                <a href="javascript:;" wire:click="$emit('modalimportcybersecurity','{{ $item->id }}')"><i class="fa fa-upload fa-2x"></i></a>
+                            @else
+                                <a href="<?php echo asset('storage/Commitment_Letter/Cyber_Security/'.$item->cyber_security); ?>"><i class="fa fa-download fa-2x" style="color: #28a745;"></i></a>
+                            @endif
+                        </td>
+                        <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
+                        <td>
+                            @if($item->bcg != '' && $item->cyber_security != '')
+                                <label class="badge badge-success" data-toggle="tooltip" title="Signed">Signed</label>
+                            @else
+                                <label class="badge badge-warning" data-toggle="tooltip" title="Unsigned">Unsigned</label>
+                            @endif
 
-                            <!-- Approve Return Tools to Logistic -->
-                            <a href="{{ route('accident-report.insert') }}" title="Add" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                            <a href="{{ route('accident-report.insert') }}" title="Add" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                            @if($item->status == '1')
+                                <label class="badge badge-success" data-toggle="tooltip" title="Done">Done</label>
+                            @endif
+
+                            @if($item->status == '0')
+                                <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Decline</label>
+                            @endif
+                        </td>
+                        <td>
+                            <!-- if(check_access('accident-report.input')) -->
+                            <a href="javascript:;" wire:click="$emit('modalapprovecommitmentletter','{{ $item->id }}')" title="Add" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                            <a href="javascript:;" wire:click="$emit('modaldeclinecommitmentletter','{{ $item->id }}')" title="Add" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                            <!-- endif -->
                         </td>
                     </tr>
                     @endforeach
