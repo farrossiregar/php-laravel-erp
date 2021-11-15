@@ -20,9 +20,6 @@
     </div>
     @endif
     
-    
-    
-    
     <div class="col-md-12">
         <br><br>
         <div class="table-responsive">

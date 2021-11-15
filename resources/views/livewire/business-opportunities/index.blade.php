@@ -3,24 +3,6 @@
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
-            <div>
-                <br>
-            </div>
-            <div>
-                <br>
-            </div>
-            <div>
-                <br>
-            </div>
-            <div>
-                <br>
-            </div>
-            <div>
-                <br>
-            </div>
-            <div>
-                <br>
-            </div>
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#businessopportunity">{{ __('New Business Opportunity') }}</a></li>
