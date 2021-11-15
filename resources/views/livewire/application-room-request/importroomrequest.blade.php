@@ -11,10 +11,6 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-3 form-group">
-                            <label>Date</label>
-                            <input type="date" class="form-control" wire:model="start_date_booking" required/>
-                        </div>
-                        <div class="col-md-3 form-group">
                             <label>Start Time</label>
                             <input type="time" class="form-control" wire:model="start_time_booking" required/>
                         </div>

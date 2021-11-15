@@ -10,7 +10,7 @@ use DB;
 class Dashboard extends Component
 {
     use WithPagination;
-    public $date, $month, $year;
+    public $date, $month, $year,$employee_id;
     public $labels;
     public $datasets;
     public $labelsapp;
@@ -26,6 +26,17 @@ class Dashboard extends Component
         return view('livewire.application-room-request.dashboard');
     }
 
+    public function cancel_room(ApplicationRoomRequest $data)
+    {
+        \LogActivity::add('Cancel Room');
+
+        $data->status = 3;
+        $data->save();
+        $this->data_room = ApplicationRoomRequest::where('type_request','room')->whereDate('start_booking',date('Y-m-d'))->get();
+
+        $this->emit('message-success',"Request successfully canceled");
+    }
+
     public function set_selected_date($date)
     {
         $this->date_active = date('d/M/Y',strtotime($date));
@@ -35,6 +46,7 @@ class Dashboard extends Component
     public function mount()
     {
         $this->date_active = date('d/M/Y');
+        $this->employee_id = \Auth::user()->id;
         $this->data_room = ApplicationRoomRequest::where('type_request','room')->whereDate('start_booking',date('Y-m-d'))->get();
     }
     

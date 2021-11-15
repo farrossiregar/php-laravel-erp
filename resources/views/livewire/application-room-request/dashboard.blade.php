@@ -114,9 +114,13 @@
                     @foreach($data_room as $key => $item)
                         <tr>
                             <td>{{$key+1}}</td>
-                            <td>{{$item->request_room_detail}}</td>
+                            <td>
+                                @if($item->status==2 and $item->employee_id = $employee_id and date('Y-m-d') <= date('Y-m-d',strtotime($item->start_booking)))
+                                    <a href="javascript:void(0)()" wire:click="cancel_room({{$item->id}})" class="text-danger"><i class="fa fa-times"></i></a>
+                                @endif
+                                {{$item->request_room_detail}}</td>
                             <td>{{$item->purpose}}</td>
-                            <td>{{date('H:i',strtotime($item->start_date))}} - {{date('H:i',strtotime($item->end_date))}}</td>
+                            <td>{{date('H:i',strtotime($item->start_booking))}} - {{date('H:i',strtotime($item->end_booking))}}</td>
                             <td>{{$item->participant}}</td>
                             <td>
                                 @if($item->status == '1')
@@ -124,6 +128,9 @@
                                 @endif
                                 @if($item->status == '2')
                                     <label class="badge badge-success mb-0" data-toggle="tooltip" title="Approved">Approved</label>
+                                @endif
+                                @if($item->status == 3)
+                                    <label class="badge badge-warning mb-0" data-toggle="tooltip" title="Cancel Room Request">Cancel</label>
                                 @endif
                                 @if($item->status == '0')
                                     <label class="badge badge-danger mb-0" data-toggle="tooltip" title="{{ $item->note }}">Decline</label>

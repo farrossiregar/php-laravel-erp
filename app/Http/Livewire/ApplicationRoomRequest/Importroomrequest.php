@@ -25,6 +25,12 @@ class Importroomrequest extends Component
     
         return view('livewire.application-room-request.importroomrequest');        
     }
+
+    public function mount()
+    {
+        $this->start_date_booking = date('Y-m-d');
+    }
+
     public function set_selected_date($date)
     {
         $this->start_date_booking = date('Y-m-d',strtotime($date));
