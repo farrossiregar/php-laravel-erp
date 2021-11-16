@@ -7,7 +7,6 @@
                 <div class="header row">
                     <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Edit Contract Registration Flow</h5>
                 </div>
-
                 <div class="body pt-0">
                     <div class="form-group">
                         <form wire:submit.prevent="save">

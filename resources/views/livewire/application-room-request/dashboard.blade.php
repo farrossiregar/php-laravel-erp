@@ -127,7 +127,7 @@
                                     <label class="badge badge-warning mb-0" data-toggle="tooltip" title="Waiting PMG Approval">Waiting PMG Approval</label>
                                 @endif
                                 @if($item->status == '2')
-                                    <label class="badge badge-success mb-0" data-toggle="tooltip" title="Approved">Approved</label>
+                                    <label class="badge badge-success mb-0" data-toggle="tooltip" title="Approved">Booked</label>
                                 @endif
                                 @if($item->status == 3)
                                     <label class="badge badge-warning mb-0" data-toggle="tooltip" title="Cancel Room Request">Cancel</label>

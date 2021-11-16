@@ -27,3 +27,8 @@
     display: block;
     width: 250px;
 }
+
+.badge.badge-success.badge-active {background:#22af46;color:white}
+.badge.badge-danger.badge-active {background:#DE484C;color:white}
+.badge.badge-warning.badge-active {background:#22af46;color:white}
+.badge.badge-info.badge-active {background:#22af46;color:white}

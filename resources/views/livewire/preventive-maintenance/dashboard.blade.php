@@ -66,7 +66,7 @@
                     <th>Open</th>
                     <th>In Progress</th>
                     <th>Submitted</th>
-                    <th>Approved IED</th>
+                    <th>Approved EID</th>
                 </tr>
             </thead>
             <tbody>

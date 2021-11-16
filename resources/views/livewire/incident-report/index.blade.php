@@ -55,10 +55,13 @@
                                         @if($item->status==4)
                                             <span class="badge badge-primary">Close</span>
                                         @endif
+                                        @if($item->status==5)
+                                            <span class="badge badge-danger">Unsolved</span>
+                                        @endif
                                     </td>
                                     <td>
                                         @if($item->status==1)
-                                            <a href="javascript:void(0)" wire:click="set_({{$item->id}})" data-toggle="modal" data-target="#modal_accept_incident" class="badge badge-danger"><i class="fa fa-arrow-right"></i> Proses</a>
+                                            <a href="javascript:void(0)" wire:click="set_({{$item->id}})" data-toggle="modal" data-target="#modal_accept_incident" class="badge badge-danger badge-active"><i class="fa fa-arrow-right"></i> Proses</a>
                                         @else    
                                             {{$item->incident_number}}
                                         @endif
@@ -170,7 +173,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" wire:loading.remove wire:target="save">
-                        <button type="button" wire:click="submit_solved(4)" class="btn btn-danger">Unsolved Incident</button>
+                        <button type="button" wire:click="submit_solved(5)" class="btn btn-danger">Unsolved Incident</button>
                         <button type="button" wire:click="submit_solved(3)" class="btn btn-success">Solved Incident</button>
                         <span wire:loading>
                             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>

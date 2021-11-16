@@ -4,6 +4,8 @@ namespace App\Http\Livewire\BusinessOpportunities;
 
 use Livewire\Component;
 use Auth;
+use App\Models\ContractRegistrationFlow;
+use App\Models\BusinessOpportunities;
 
 class Input extends Component
 {    
@@ -24,7 +26,7 @@ class Input extends Component
         $user = \Auth::user();
        
 
-        $data                           = new \App\Models\BusinessOpportunities();
+        $data                           = new BusinessOpportunities();
         $data->customer                 = $this->customer;
         $data->project_name             = $this->project_name;
         $data->quotation_number         = $this->quotation_number;
@@ -39,13 +41,23 @@ class Input extends Component
         $data->brief_description        = $this->brief_description;
         $data->startdate                = $this->startdate;
         $data->enddate                  = $this->enddate;
-        // $data->date                     = $this->date;
         $data->customer_type            = $this->customer_type;
         $data->sales_name               = $user->name;
-        
-        $data->created_at               = date('Y-m-d H:i:s');
-        $data->updated_at               = date('Y-m-d H:i:s');
+        if($this->quotation_number!="" and $this->po_number!=""){
+            $data->status=1;
+        }
         $data->save();
+
+        if($data->status==1){
+            $insertcrf                      = new ContractRegistrationFlow();
+            $insertcrf->id_bo               = $this->selected_id;
+            $insertcrf->quotation_number    = $data->quotation_number;
+            $insertcrf->po_number           = $data->po_number;
+            $insertcrf->contract_duration   = $data->duration;
+            $insertcrf->start_contract      = $data->startdate;
+            $insertcrf->end_contract        = $data->enddate;
+            $insertcrf->save();
+        }
 
 
         session()->flash('message-success',"Business Opportunity Berhasil diinput");

@@ -78,6 +78,8 @@ class CommitmentDailyController extends Controller
             $notification->save();
         }
 
+        \LogActivity::add('[apps] Commitment Daily Store');
+
         return response()->json(['message'=>'submited','data'=>$commitment_daily], 200);
     }
 

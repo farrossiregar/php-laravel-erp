@@ -6,7 +6,7 @@
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#businessopportunity">{{ __('New Business Opportunity') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#contractregistrationflow">{{ __('Contract Registration Flow') }}</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#contractregistrationflow">{{ __('Contract Registration') }}</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active show " id="dashboard">

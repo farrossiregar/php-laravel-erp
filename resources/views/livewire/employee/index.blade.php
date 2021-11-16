@@ -77,7 +77,7 @@
                                     @endif
                                     
                                     @if($item->device)
-                                        <a href="javascript:void(0)"><i class="fa fa-mobile-phone"></i></a>
+                                        <a href="javascript:void(0)" wire:click="set_device({{$item->id}})" data-toggle="modal" data-target="#modal_device_info"><i class="fa fa-mobile-phone"></i></a>
                                     @endif
 
                                     @if($edit)
@@ -132,6 +132,35 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_device_info" wire:ignore.self tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form method="POST" action="">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-mobile-phone"></i> Device Info</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true close-btn">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @if($device_selected_)
+                            <table class="table">
+                                @foreach(json_decode($device_selected_) as $header => $value)
+                                    <tr>
+                                        <th>{{$header}}</th>
+                                        <td>{{$value}}</td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 @if($is_delete)
 <div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -140,6 +169,8 @@
     </div>
 </div>
 @endif
+
+
 <div class="modal fade" id="modal_autologin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

@@ -4,8 +4,7 @@ namespace App\Http\Livewire\ApplicationRoomRequest;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
-use DB;
+use App\Models\ApplicationRoomRequest;
 
 class Importapprequest extends Component
 {
@@ -27,12 +26,11 @@ class Importapprequest extends Component
 
     public function save()
     {
-        $check = \App\Models\ApplicationRoomRequest::
-                                                    where('request_room_detail', $this->request_room_detail)
+        $check = ApplicationRoomRequest::where('request_room_detail', $this->request_room_detail)
                                                     ->where('employee_id', $this->employee_id)
                                                     ->get();
-        if(count($check) < 1){
-            $datamaster                             = new \App\Models\ApplicationRoomRequest();
+        // if(count($check) < 1){
+            $datamaster                             = new ApplicationRoomRequest();
             $datamaster->employee_id                = $this->employee_id;
             $datamaster->employee_name              = $this->employee_name;
             $datamaster->departement                = $this->departement;
@@ -43,18 +41,15 @@ class Importapprequest extends Component
             $datamaster->end_booking                = '';
             $datamaster->purpose                    = $this->description;
             $datamaster->participant                = '';
-            $datamaster->status                     = '';
+            $datamaster->status                     = 0;
             $datamaster->note                       = '';
-            $datamaster->created_at                 = date('Y-m-d H:i:s');
-            $datamaster->updated_at                 = date('Y-m-d H:i:s');
-            
             $datamaster->save();
             session()->flash('message-success',"Success, <strong>Request Successfully Added</strong>");
             return redirect()->route('application-room-request.index');
-        }else{
-            session()->flash('message-danger',"Failed, <strong>Request Failed, Application Access already granted</strong>");
-            return redirect()->route('application-room-request.index');
-        }
+        // }else{
+        //     session()->flash('message-error',"Failed, <strong>Request Failed, Application Access already granted</strong>");
+        //     return redirect()->route('application-room-request.index');
+        // }
            
 
     }

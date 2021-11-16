@@ -2,24 +2,11 @@
     <div class="col-md-2">
         <input type="date" class="form-control" wire:model="date" />
     </div>
-
-<!--     
-    <div class="col-md-1">                
-        <select class="form-control" wire:model="year">
-            <option value=""> --- Year --- </option>
-            @foreach(\App\Models\EmployeeNoc::select('year')->groupBy('year')->get() as $item) 
-            <option>{{$item->year}}</option>
-            @endforeach 
-        </select>
-    </div> -->
-
-
     @if(check_access('business-opportunities.add'))
     <div class="col-md-2">
         <a href="#" data-toggle="modal" data-target="#modal-businessopportunities-input" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input New Opportunity')}}</a>
     </div>
     @endif
-    
     <div class="col-md-12">
         <br><br>
         <div class="table-responsive">
@@ -59,22 +46,17 @@
                         <td>Rp,{{ format_idr($item->estimate_revenue) }}</td>
                         <td><label class="badge badge-info" data-toggle="tooltip" title="{{ date_format(date_create($item->startdate), 'd M Y') }} - {{ date_format(date_create($item->enddate), 'd M Y') }}">{{ $item->duration }}</label></td>
                         <td>{{ $item->brief_description }}</td>
-                        <!-- <td>{{ date_format(date_create($item->date), 'd M Y') }}</td> -->
                         <td>
                             @if($item->status == '1')
                                 <label class="badge badge-success" data-toggle="tooltip" title="Successful">Successful</label>
                             @endif
-
                             @if($item->status == '0')
-                                <label class="badge badge-danger" data-toggle="tooltip" title="Failed">Failed</label>
+                                <label class="badge badge-danger" data-toggle="tooltip" title="Failed">Unsuccessful</label>
                             @endif
-
                             @if($item->status == '' || $item->status == 'null')
-                                <label class="badge badge-warning" data-toggle="tooltip" title="On going">On going</label>
+                                <label class="badge badge-warning" data-toggle="tooltip" title="On going">Opportunity</label>
                             @endif
                         </td> 
-                        
-                        
                         <td>{{ $item->customer_type }}</td>
                         <td>{{ $item->sales_name }}</td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
@@ -90,11 +72,11 @@
 
                             @if(check_access('business-opportunities.add'))
                                 @if($item->status == '' || $item->status == null)
-                                    <a href="#" wire:click="$emit('modaleditbo','{{ $item->id }}')" title="Edit" class="btn btn-primary"><i class="fa fa-edit"></i> {{__('Edit')}}</a>
+                                    <a href="#" wire:click="$emit('modaleditbo','{{ $item->id }}')" title="Edit" class="badge badge-info badge-active"><i class="fa fa-edit"></i> {{__('Edit')}}</a>
                                 @endif
 
                                 @if($item->status == '0')
-                                    <a href="#" wire:click="$emit('modaleditbo','{{ $item->id }}')" title="Revisi" class="btn btn-danger"><i class="fa fa-edit"></i> {{__('Revisi')}}</a>
+                                    <a href="#" wire:click="$emit('modaleditbo','{{ $item->id }}')" title="Revisi" class="badge badge-info badge-active"><i class="fa fa-edit"></i> {{__('Revisi')}}</a>
                                 @endif
                             @endif
                         </td> 

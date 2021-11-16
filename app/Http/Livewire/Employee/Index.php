@@ -17,6 +17,7 @@ class Index extends Component
     protected $listeners = ['emit-delete-hide' => '$refresh'];
     
     public $keyword,$user_access_id,$department_sub_id,$department_id,$project_id;
+    public $device_selected_;
     
     public function render()
     {
@@ -34,6 +35,11 @@ class Index extends Component
         if($this->user_access_id) $data = $data->where('user_access_id',$this->user_access_id);
         if(isset($_GET['debug'])) dd($data->get()->toSql());
         return view('livewire.employee.index')->with(['data'=>$data->paginate(100)]);
+    }
+
+    public function set_device(Employee $employee)
+    {
+        $this->device_selected_ = $employee->device;
     }
 
     public function generate_login_password(Employee $emp)

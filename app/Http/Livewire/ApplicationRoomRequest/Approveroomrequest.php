@@ -50,8 +50,6 @@ class Approveroomrequest extends Component
                 $nameuser[$no] = $itemuser->name;
                 $emailuser[$no] = $itemuser->email;
                 $phoneuser[$no] = $itemuser->telepon;
-
-                
                 $message .= "*Pengajuan Application Access dengan id ".$this->selected_id." menunggu konfirmasi *\n\n";
                 // send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
 
@@ -62,7 +60,6 @@ class Approveroomrequest extends Component
 
             return redirect()->route('application-room-request.index');
         }
-
 
         if($data->type_request == 'room'){
             $data = \App\Models\ApplicationRoomRequest::where('id', $this->selected_id)->first();
@@ -90,8 +87,6 @@ class Approveroomrequest extends Component
             session()->flash('message-success',"Berhasil, Pengajuan Room Access is Approved !!!");
             
             return redirect()->route('application-room-request.index');
-        }
-
-        
+        }        
     }
 }

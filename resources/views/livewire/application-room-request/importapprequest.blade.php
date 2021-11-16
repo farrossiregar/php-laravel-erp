@@ -10,26 +10,6 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label>NIK</label>
-                            <input type="text" class="form-control" wire:model="nik" readonly/>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Employee Name</label>
-                            <input type="text" class="form-control" wire:model="employee_name" readonly/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label>Department</label>
-                            <input type="text" class="form-control" wire:model="departement" readonly/>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Location</label>
-                            <input type="text" class="form-control" wire:model="lokasi" readonly/>
-                        </div>
-                    </div>
                     <div wire:ignore class="row" x-data="{request_room_detail_: ''}">
                         <div id="app_detail" class="col-md-12 form-group">
                             <label>Application</label>
@@ -38,6 +18,7 @@
                                 <option>Email</option>
                                 <option>ePL</option>
                                 <option>eOPex</option>
+                                <option>ERP</option>
                                 <option>Others</option>
                             </select>
                         </div>

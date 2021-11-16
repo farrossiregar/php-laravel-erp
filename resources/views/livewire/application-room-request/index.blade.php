@@ -6,8 +6,6 @@
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data-app">{{ __('App Request') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data-room">{{ __('Room Request') }}</a></li>
-
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active show " id="dashboard">
@@ -15,9 +13,6 @@
                 </div>
                 <div class="tab-pane" id="data-app">
                     <livewire:application-room-request.data />
-                </div>
-                <div class="tab-pane" id="data-room">
-                    <livewire:application-room-request.dataroom />
                 </div>
             </div>
         </div>
@@ -32,20 +27,10 @@
     </div>
 </div>
 
-
 <div class="modal fade" id="modal-roomrequest-importapprequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <livewire:application-room-request.importapprequest />
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="modal-roomrequest-approveroomrequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:application-room-request.approveroomrequest />
         </div>
     </div>
 </div>

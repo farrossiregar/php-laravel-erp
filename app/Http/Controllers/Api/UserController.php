@@ -32,7 +32,9 @@ class UserController extends Controller
         return response(['status'=>200,'message'=>'success'], 200);
     }
 
-    public function login(Request $r){
+    public function login(Request $r)
+    {    
+        \LogActivity::add('[apps] Login');
         
         if($r->email =="" or $r->password == "") return response(['status'=>401,'message'=>'Unauthorised : '. $r->email. ' : '. $r->password], 200);
         
@@ -52,6 +54,8 @@ class UserController extends Controller
             
             $data = $this->get_var_();
             
+            \LogActivity::add('[apps] Login Success');
+
             return response(['status'=>200,'message'=>'success','data'=> $data], 200);
         }
         else{
@@ -105,6 +109,8 @@ class UserController extends Controller
             $user->save();
             $result['data'] = 'Password berhasil dirubah !';
         }
+
+        \LogActivity::add('[apps] Change Password');
         
         return response()->json($result, 200);
     }
@@ -120,6 +126,9 @@ class UserController extends Controller
             $employee->address = $r->address;
             $employee->save();
         }
+
+        \LogActivity::add('[apps] Update Profile');
+
         return response()->json(['message' =>'success'], 200);
     }
     
@@ -142,6 +151,8 @@ class UserController extends Controller
 
     public function checkToken()
     {
+        \LogActivity::add('[apps] Check Token');
+        
         return response()->json(['message'=>'success','data'=>$this->get_var_()], 200);
     }
 }

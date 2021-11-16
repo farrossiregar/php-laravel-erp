@@ -4,6 +4,8 @@ namespace App\Http\Livewire\BusinessOpportunities;
 
 use Livewire\Component;
 use Auth;
+use App\Models\BusinessOpportunities;
+use App\Models\ContractRegistrationFlow;
 
 class Edit extends Component
 {    
@@ -22,7 +24,7 @@ class Edit extends Component
     {
         $this->selected_id = $id;
         
-        $this->data = \App\Models\BusinessOpportunities::where('id', $this->selected_id)->first();
+        $this->data = BusinessOpportunities::where('id', $this->selected_id)->first();
         
         $this->customer                 = $this->data->customer;
         $this->project_name             = $this->data->project_name;
@@ -38,14 +40,12 @@ class Edit extends Component
         $this->startdate                = $this->data->startdate;
         $this->enddate                  = $this->data->enddate;
         $this->customer_type            = $this->data->customer_type;
-        
     }
   
     public function save()
     {
         $user = \Auth::user();
-       
-        $data                           = \App\Models\BusinessOpportunities::where('id', $this->selected_id)->first();
+        $data                           = BusinessOpportunities::where('id', $this->selected_id)->first();
         $data->customer                 = $this->customer;
         $data->project_name             = $this->project_name;
         $data->quotation_number         = $this->quotation_number;
@@ -60,41 +60,50 @@ class Edit extends Component
         $data->brief_description        = $this->brief_description;
         $data->startdate                = $this->startdate;
         $data->enddate                  = $this->enddate;
-        
         $data->customer_type            = $this->customer_type;
         if($data->status == '0'){
             $data->status            = '';
         }
-        
         $data->sales_name               = $user->name;
-        
-        $data->created_at               = date('Y-m-d H:i:s');
-        $data->updated_at               = date('Y-m-d H:i:s');
+        if($this->quotation_number!="" and $this->po_number!=""){
+            $data->status=1;
+        }
         $data->save();
-
+        
+        if($data->status==1){
+            $insertcrf                      = new ContractRegistrationFlow();
+            $insertcrf->id_bo               = $this->selected_id;
+            $insertcrf->quotation_number    = $data->quotation_number;
+            $insertcrf->po_number           = $data->po_number;
+            $insertcrf->contract_duration   = $data->duration;
+            $insertcrf->start_contract      = $data->startdate;
+            $insertcrf->end_contract        = $data->enddate;
+            $insertcrf->save();
+        }
 
         session()->flash('message-success',"Business Opportunity Berhasil diinput");
         
         return redirect()->route('business-opportunities.index');
     }
 
-    public function duration($start_time, $end_time){
-        
+    public function failed()
+    {
+        $this->data->status=0;
+        $this->data->note = $this->note;
+        $this->data->save();
+
+        session()->flash('message-success',"Berhasil, Business Opportunity status is updated to Failed !!!");
+        return redirect()->route('business-opportunities.index');
+    }
+
+    public function duration($start_time, $end_time)
+    {    
         $diff = abs(strtotime($end_time) - strtotime($start_time));
         $years   = floor($diff / (365*60*60*24)); 
         $months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
         $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
         $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
         $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
-        
-        // if($hours > 0){
-        //     $waktu = $hours.'.'.$minuts.' hours';
-        //     // $waktu = $hours;
-        // }else{
-        //     $waktu = $minuts.' minute';
-        //     // $waktu = $minuts;
-        // }
-
         $waktu = '';
         if($months > 0){
             $waktu .= $months.' month ';
