@@ -43,6 +43,7 @@ class SpeedWarningAlarm extends Component
 
     public function mount()
     {
+        \LogActivity::add('[web] Performance KPI Speed Warning');
         $this->speed_limit = get_setting('speed_limit');
         $this->region  = Region::select(['id','region'])->get();
     }

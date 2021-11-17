@@ -34,6 +34,7 @@ class CommitmentDaily extends Component
     
     public function init_data()
     {
+        \LogActivity::add('[web] Performance KPI DC');
         $data = ModelsCommitmentDaily::with(['employee','employee.access','region','sub_region'])
                                 ->select('employees.name','commitment_dailys.*')
                                 ->orderBy('commitment_dailys.is_submit','DESC')

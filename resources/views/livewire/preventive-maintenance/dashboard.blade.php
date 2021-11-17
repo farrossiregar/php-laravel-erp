@@ -32,7 +32,7 @@
             <hr />
             <h6>
                 @if($total_sow and $total_submitted)
-                    {{round((($total_sow / $total_submitted) * 100),1)}}%
+                    {{round((($total_submitted/$total_sow) * 100),1)}}%
                 @else
                     0%
                 @endif 

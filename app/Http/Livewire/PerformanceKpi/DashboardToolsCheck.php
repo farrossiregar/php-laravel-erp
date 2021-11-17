@@ -17,6 +17,7 @@ class DashboardToolsCheck extends Component
 
     public function mount()
     {
+        \LogActivity::add('[web] Performance KPI Dashboard Tools');
         if(check_access('all-project.index'))
             $client_project_ids = [session()->get('project_id')];
         else 

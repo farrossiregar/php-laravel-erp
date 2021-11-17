@@ -17,6 +17,7 @@ class DashboardPpeCheck extends Component
 
     public function mount()
     {
+        \LogActivity::add('[web] Performance KPI Dashboard PPE');
         if(check_access('all-project.index'))
             $client_project_ids = [session()->get('project_id')];
         else

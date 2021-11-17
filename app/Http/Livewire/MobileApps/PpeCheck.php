@@ -34,6 +34,7 @@ class PpeCheck extends Component
     
     public function init_data()
     {
+        \LogActivity::add('[web] Performance KPI PPE Check');
         $data = PpeCheckModel::select('ppe_check.*','employees.name')
                                 ->with(['employee','region','sub_region'])
                                 ->orderBy('ppe_check.is_submit','DESC')

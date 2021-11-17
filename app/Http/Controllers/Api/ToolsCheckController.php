@@ -88,9 +88,6 @@ class ToolsCheckController extends Controller
                 $qty = "qty_{$item->id}";
                 if($request->$qty==0) $error .= "QTY {$item->name} harus diisi.\n" ;
             }
-            // if($request->$condition!=0 and !isset($request->$img)){
-            //     $error .= "Foto {$item->name} harus diisi\n";
-            // } 
         }
         
         if($error!="") return response()->json(['message'=>$error], 200);
@@ -140,7 +137,7 @@ class ToolsCheckController extends Controller
             
             $new->tools_check_id = $find->id;
             $new->toolbox_id = $item->id;
-            if($project) $new->client_project_id = $project->id;
+            if($project) $new->client_project_id = $project->client_project_id;
             if($employee){
                 $new->employee_id = isset($employee->id) ? $employee->id : '';
                 $new->region_id = $employee->region_id;

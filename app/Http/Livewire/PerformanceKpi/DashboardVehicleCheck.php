@@ -18,6 +18,7 @@ class DashboardVehicleCheck extends Component
 
     public function mount()
     {
+        \LogActivity::add('[web] Performance KPI Dashboard Vehicle Check');
         if(check_access('all-project.index'))
             $client_project_ids = [session()->get('project_id')];
         else

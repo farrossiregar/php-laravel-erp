@@ -32,6 +32,7 @@ class DrugTest extends Component
 
     public function mount()
     {
+        \LogActivity::add('[web] Performance KPI Drug Test');
         $this->region  = Region::select(['id','region'])->get();
     }
 

@@ -49,6 +49,13 @@ class Data extends Component
         if($propertyName == 'region_id') $this->sub_regions = SubRegion::where('region_id',$this->region_id)->get();
     }
 
+    public function updatedFileReport()
+    {
+        $this->validate([
+            'file_report' => 'required|file|mimes:xlsx,csv,xls,doc,docx,pdf,image|max:51200', // 50MB Max
+        ]);
+    }
+
     public function init_data()
     {
         $data = PreventiveMaintenanceModel::with(['employee','region','sub_region'])->orderBy('id','DESC');
@@ -89,10 +96,9 @@ class Data extends Component
 
     public function upload_report()
     {
-        \LogActivity::add('Preventive Maintenance Upload Report');
-
+        \LogActivity::add('[web] PM Upload Report');
         $this->validate([
-            'file_report' => 'required|mimes:xlsx, csv, xls, doc, docx, pdf, image',
+            'file_report' => 'required|file|mimes:xlsx, csv, xls, doc, docx, pdf, image',
             'description_report' => 'required'
         ]);
         if($this->file_report){
@@ -105,6 +111,7 @@ class Data extends Component
             $data->save();
 
             $this->selected->is_upload_report = 1;
+            $this->selected->upload_report_date = date('Y-m-d');
             $this->selected->save();
         }
 
@@ -115,8 +122,7 @@ class Data extends Component
 
     public function store()
     {
-        \LogActivity::add('Preventive Maintenance Insert');
-
+        \LogActivity::add('[web] PM Store');
         $this->validate([
             'site_id' => 'required',
             'description' => 'required'
@@ -160,8 +166,7 @@ class Data extends Component
 
     public function import()
     {
-        \LogActivity::add('Preventive Maintenance Import');
-
+        \LogActivity::add('[web] PM Import');
         $this->validate([
             'file'=>'required|mimes:xlsx|max:51200' // 50MB maksimal
         ]);
@@ -265,7 +270,7 @@ class Data extends Component
 
     public function downloadExcel()
     {
-        \LogActivity::add('Preventive Maintenance Download Excel');
+        \LogActivity::add('[web] PM Download');
 
         $objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         // Set document properties
@@ -355,7 +360,7 @@ class Data extends Component
         }
 
         // Rename worksheet
-        $activeSheet->setTitle('Commitment Daily');
+        $activeSheet->setTitle('Preventive Maintenance');
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
         $objPHPExcel->setActiveSheetIndex(0);
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, "Xlsx");

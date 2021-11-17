@@ -81,6 +81,7 @@ class VehicleCheck extends Component
 
     public function mount()
     {
+        \LogActivity::add('[web] Performance KPI Vehicle Check');
         $this->region  = Region::select(['id','region'])->get();
     }
 

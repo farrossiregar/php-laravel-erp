@@ -42,9 +42,10 @@ class ToolsCheck extends Component
         
         return view('livewire.mobile-apps.tools-check')->with(['data'=>$data->paginate(100)]);
     }
-
+ 
     public function mount()
     {
+        \LogActivity::add('[web] Performance KPI Tools Check');
         $this->toolboxs = Toolbox::orderBy('name')->get();
         $this->region  = Region::select(['id','region'])->get();
     }

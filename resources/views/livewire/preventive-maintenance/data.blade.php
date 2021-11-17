@@ -155,11 +155,11 @@
                     </div>
                     @if(isset($selected->is_upload_report) and $selected->is_upload_report==0)
                         <div class="modal-footer">
-                            <span wire:loading wire:target="file">
+                            <span wire:loading>
                                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-                                <span class="sr-only">{{ __('Loading...') }}</span> Loading...
+                                <span class="sr-only">{{ __('Please wait checking your file...') }}</span> Please wait checking your file...
                             </span>
-                                <button type="submit" wire:loading.remove wire:target="file" class="btn btn-success"><i class="fa fa-save"></i> Upload</button>
+                            <button type="submit" wire:loading.remove wire:target="file_report" class="btn btn-success"><i class="fa fa-save"></i> Upload</button>
                         </div>
                     @endif
                 </form>

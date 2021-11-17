@@ -14,6 +14,8 @@ use App\Models\RegionCluster;
 use App\Models\ClientProjectRegion;
 use Illuminate\Support\Arr;
 use App\Models\LogActivity;
+use Livewire\WithPagination;
+
 
 class Edit extends Component
 {
@@ -23,6 +25,8 @@ class Edit extends Component
     public $app_site_list,$app_daily_commitment,$app_health_check,$app_vehicle_check,$app_ppe_check,$app_tools_check,$app_location_of_field_team,$app_speed_warning,$app_preventive_maintenance,$app_customer_asset,$app_work_order,$app_drug_test,$app_training_material,$app_it_support;
     public $is_project=0,$sub_department_id;
     use WithFileUploads;
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
     public function render()
     {
         $history = LogActivity::where('user_id',$this->data->user_id)->orderBy('id','DESC')->paginate(100);

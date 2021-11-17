@@ -35,11 +35,11 @@
                             @endif
                             <td>{{isset($sub->sub_region->name) ? $sub->sub_region->name : ''}}</td>
                             @php($done = \App\Models\ToolsCheck::where(['is_submit'=>1,'client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->get()->count())
-                            @php($grand_total = \App\Models\Employee::whereIn('user_access',[85,84]])->get()->count())
+                            @php($grand_total = \App\Models\Employee::whereIn('user_access_id',[85,84])->where(['region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id,'employee_projects.client_project_id'=>$p->id])->join('employee_projects','employee_projects.employee_id','=','employees.id')->get()->count())
                             <td class="text-center">{{$grand_total}}</td>
                             <td class="text-center">{{$done}}</td> 
                             @foreach(\App\Models\Toolbox::orderBy('name','ASC')->get() as $tool)
-                                @php($rusak = \App\Models\ToolboxCheck::where(['status'=>2,'client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->get()->count())
+                                @php($rusak = \App\Models\ToolboxCheck::where(['status'=>2,'client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->count())
                                 <td class="text-center">{{$rusak}}</td>
                             @endforeach
                             @if($done ==0) 

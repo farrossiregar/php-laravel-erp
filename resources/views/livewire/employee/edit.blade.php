@@ -14,24 +14,25 @@
                             <tr>
                                 <th>No</th>
                                 <th>Subject</th>
+                                <th>Date</th>
                                 <th>URL</th>
                                 <th>IP</th>
                                 <th>Agent</th>
                                 <th>var</th>
-                                <th>Date</th>
                             </tr>
                             @foreach($history as $key => $item)
                                 <tr>
                                     <td>{{$key+1}}</td>
                                     <td>{{$item->subject}}</td>
+                                    <td>{{$item->created_at}}</td>
                                     <td>{{$item->url}}</td>
                                     <td>{{$item->ip}}</td>
                                     <td>{{$item->agent}}</td>
                                     <td>{{$item->var}}</td>
-                                    <td>{{$item->created_at}}</td>
                                 </tr>
                             @endforeach
                         </table>
+                        {{$history->links()}}
                     </div>
                 </div>
                 <div class="tab-pane show active" id="general">

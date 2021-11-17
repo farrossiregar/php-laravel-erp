@@ -57,6 +57,7 @@ class HealthCheck extends Component
 
     public function mount()
     {
+        \LogActivity::add('[web] Performance KPI HC');
         $this->region  = Region::select(['id','region'])->get();
     }
 

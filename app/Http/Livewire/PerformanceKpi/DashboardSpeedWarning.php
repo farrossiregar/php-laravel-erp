@@ -18,6 +18,7 @@ class DashboardSpeedWarning extends Component
 
     public function mount()
     {
+        \LogActivity::add('[web] Performance KPI Dashboard Speed Warning');
         if(check_access('all-project.index'))
             $client_project_ids = [session()->get('project_id')];
         else

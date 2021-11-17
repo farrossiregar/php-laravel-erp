@@ -18,6 +18,8 @@ class DashboardCommitmentDaily extends Component
 
     public function mount()
     {
+        \LogActivity::add('[web] Performance KPI Dashboard DC');
+
         if(check_access('all-project.index'))
             $client_project_ids = [session()->get('project_id')];
         else

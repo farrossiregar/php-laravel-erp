@@ -22,6 +22,7 @@ class Dashboard extends Component
 
     public function init_data()
     {
+        \LogActivity::add('[web] PM');
 
         $this->total_sow = PreventiveMaintenanceSow::where(function($table){
                                 if($this->date_start and $this->date_end)
@@ -29,7 +30,7 @@ class Dashboard extends Component
                                 else
                                     $table->where(['bulan'=>date('m'),'tahun'=>date('Y')]);
                                 if($this->sub_region_id) $table->where('sub_region_id',$this->sub_region_id);
-                            })->sum('sow'); 
+                            })->whereNotNull('sub_region_id')->sum('sow'); 
 
         $this->total_pm = PreventiveMaintenance::whereMonth('created_at',date('m'))->whereYear('created_at',date('Y'))->count();
         $this->total_submitted = PreventiveMaintenance::where('status',2)
@@ -40,10 +41,10 @@ class Dashboard extends Component
                                                                 else
                                                                     $table->whereBetween('end_date',[$this->date_start,$this->date_end]);
                                                             }else
-                                                                $table->whereMonth('created_at',date('m'))->whereYear('created_at',date('Y'));
+                                                                $table->whereMonth('end_date',date('m'))->whereYear('end_date',date('Y'));
 
                                                             if($this->sub_region_id) $table->where('sub_region_id',$this->sub_region_id);
-                                                        })->count();
+                                                        })->whereNotNull('sub_region_id')->count();
 
         $this->total_approved_eid = PreventiveMaintenance::where(['status'=>2,'is_upload_report'=>1])
                                                             ->where(function($table){
@@ -60,16 +61,17 @@ class Dashboard extends Component
 
         $data = PreventiveMaintenance::select("pm2.*",
                                 \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.created_at)=MONTH(CURRENT_DATE()) and YEAR(pm.created_at)=YEAR(CURRENT_DATE())) as sow"),
-                                \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.created_at)=MONTH(CURRENT_DATE()) and YEAR(pm.created_at)=YEAR(CURRENT_DATE()) and pm.status=2) as total_submitted"),
+                                \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.end_date)=".($this->date_start ? date('m',strtotime($this->date_start)) : date('m'))." and YEAR(pm.end_date)=".($this->date_start ? date('Y',strtotime($this->date_start)) : date('Y'))." and pm.status=2) as total_submitted"),
                                 \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and DATE(pm.created_at)=DATE(CURRENT_DATE())) as daily"),
                                 \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.created_at)=MONTH(CURRENT_DATE()) and pm.status=0) as open"),
                                 \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.created_at)=MONTH(CURRENT_DATE()) and pm.status=1) as in_progress"),
-                                \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and DATE(pm.end_date)=DATE(CURRENT_DATE()) and pm.status=2) as submitted"),
+                                \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and DATE(pm.end_date)=DATE(pm2.end_date) and pm.status=2) as submitted"),
                                 \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.created_at)=MONTH(CURRENT_DATE()) and pm.status=2 and is_upload_report=1) as approved_ied")
                             )
                             ->from('preventive_maintenance','pm2')
-                            ->with(['region','sub_region'])->groupBy('region_id','sub_region_id','site_type','pm_type')
-                            ->whereNotNull('sub_region_id');
+                            ->with(['region','sub_region'])
+                            ->groupBy('region_id','sub_region_id','site_type','pm_type')
+                            ->whereNotNull('pm2.sub_region_id');
         if($this->date_start and $this->date_end){
             if($this->date_start == $this->date_end)
                 $data->whereDate('pm2.created_at',$this->date_start);
@@ -148,21 +150,35 @@ class Dashboard extends Component
                             $table->where('sub_region_id',$this->sub_region_id);
                         else
                             $table->where('sub_region_id',$region->sub_region_id);
-                    })->sum('sow');
+                    })->whereNotNull('sub_region_id')->sum('sow');
                     $this->series[$k]['data'][] = (int)$sum;
                 }else{
-                    $count = PreventiveMaintenance::where(['region_id'=>$region->region_id])->where(function($table)use($region){
+                    $count = PreventiveMaintenance::where(['region_id'=>$region->region_id])->where(function($table)use($region,$k){
                         if($this->date_start and $this->date_end){
                             if($this->date_start == $this->date_end)
                                 $table->whereDate('created_at',$this->date_start);
+                            else{
+                                if($k==1)
+                                    $table->whereBetween('end_date',[$this->date_start,$this->date_end]);
+                                elseif($k==2)
+                                    $table->whereBetween('upload_report_date',[$this->date_start,$this->date_end]);
+                                else
+                                    $table->whereBetween('created_at',[$this->date_start,$this->date_end]);
+                            }
+                        }else{
+                            if($k==1)
+                                $table->whereMonth('end_date',date('m'))->whereYear('end_date',date('Y'));
+                            elseif($k==2)
+                                $table->whereMonth('upload_report_date',date('m'))->whereYear('upload_report_date',date('Y'));
                             else
-                                $table->whereBetween('created_at',[$this->date_start,$this->date_end]);
+                                $table->whereMonth('created_at',date('m'))->whereYear('created_at',date('Y'));
                         }
+
                         if($this->sub_region_id) 
                             $table->where('sub_region_id',$this->sub_region_id);
                         else
                             $table->where('sub_region_id',$region->sub_region_id);
-                    });
+                    })->whereNotNull('sub_region_id');
                     
                     if($k==1) $count = $count->where('status',2);
                     if($k==2) $count = $count->where(['status'=>2,'is_upload_report'=>1]);
