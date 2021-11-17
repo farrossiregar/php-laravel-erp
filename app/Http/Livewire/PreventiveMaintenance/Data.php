@@ -98,7 +98,7 @@ class Data extends Component
     {
         \LogActivity::add('[web] PM Upload Report');
         $this->validate([
-            'file_report' => 'required|file|mimes:xlsx, csv, xls, doc, docx, pdf, image',
+            'file_report' => 'required|file|mimes:xlsx,csv,xls,doc,docx,pdf,image',
             'description_report' => 'required'
         ]);
         if($this->file_report){
