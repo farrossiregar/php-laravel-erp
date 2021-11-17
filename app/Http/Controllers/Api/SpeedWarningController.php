@@ -55,6 +55,8 @@ class SpeedWarningController extends Controller
             send_wa(['message'=>$msg,'phone'=>\Auth::user()->employee->pic_speed->telepon]);
         }
         
+        \LogActivity::add('[apps] Speed Warning Store');
+        
         return response()->json(['message'=>'submited'], 200);
     }
 
@@ -74,6 +76,8 @@ class SpeedWarningController extends Controller
         $result['today_warning'] = SpeedWarningAlarm::where('employee_id',\Auth::user()->employee->id)->whereDate('created_at',date('Y-m-d'))->count();
         $result['max_speed'] = get_setting('speed_limit');
         $result['minutes_store_speed'] = 1;
+        
+        \LogActivity::add('[apps] Speed Warning Data');
         
         return response()->json($result, 200);
     }

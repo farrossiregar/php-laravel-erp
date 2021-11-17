@@ -13,7 +13,7 @@
             </thead>
             <tbody>
                 @foreach($data as $k=> $item)
-                    @if(!isset($item->region->region)) @continue @endif
+                    @if(!isset($item->region->region) or !isset($item->sub_region->name)) @continue @endif
                     <tr>
                         <td>{{$k+1}}</td>
                         <td>{{isset($item->region->region) ? $item->region->region : ''}}</td>

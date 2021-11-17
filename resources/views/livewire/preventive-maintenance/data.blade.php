@@ -104,8 +104,12 @@
                         </td>
                         <td>{{$item->note}}</td>
                         <td>
-                            @if($item->status==2 and $is_upload_report)
+                            @if($item->status==2 and $is_upload_report and $item->is_upload_report==0)
                                 <a href="javascript:void(0)" class="text-success" wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_upload_report"><i class="fa fa-upload"></i></a>
+                            @else
+                                @if($item->is_upload_report==1)
+                                    <a href="javascript:void(0)" class="text-success" wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_upload_report"><i class="fa fa-check"></i></a>
+                                @endif
                             @endif
                         </td>
                     </tr>
@@ -131,15 +135,11 @@
                     </div>
                     <div class="modal-body">
                         @if($reports)
-                            <ol>
-                                @foreach($reports as $item)
-                                    <li>
-                                        <a href="{{asset($item->image)}}"> <i class="fa fa-download"></i> {{$item->description}}</a>
-                                    </li>        
-                                @endforeach
-                            </ol>
-                            <hr />
+                            @foreach($reports as $item)
+                                <p><a href="{{asset($item->image)}}"> <i class="fa fa-download"></i> {{$item->description}}</a></p>        
+                            @endforeach
                         @endif
+                        @if(isset($selected->is_upload_report) and $selected->is_upload_report==0)
                         <div class="form-group">
                             <label>File (xlsx, csv, xls, doc, docs, pdf, image)</label>
                             <input type="file" class="form-control" wire:model="file_report" />
@@ -151,14 +151,17 @@
                             <label>Description</label>
                             <textarea class="form-control" wire:model="description_report"></textarea>
                         </div>
+                        @endif
                     </div>
-                    <div class="modal-footer">
-                        <span wire:loading>
-                            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-                            <span class="sr-only">{{ __('Loading...') }}</span> Loading...
-                        </span>
-                        <button type="submit" wire:loading.remove class="btn btn-success"><i class="fa fa-save"></i> Upload</button>
-                    </div>
+                    @if(isset($selected->is_upload_report) and $selected->is_upload_report==0)
+                        <div class="modal-footer">
+                            <span wire:loading wire:target="file">
+                                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                                <span class="sr-only">{{ __('Loading...') }}</span> Loading...
+                            </span>
+                                <button type="submit" wire:loading.remove wire:target="file" class="btn btn-success"><i class="fa fa-save"></i> Upload</button>
+                        </div>
+                    @endif
                 </form>
             </div>
         </div>

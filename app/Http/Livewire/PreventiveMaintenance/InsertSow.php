@@ -21,13 +21,25 @@ class InsertSow extends Component
 
     public function save()
     {
-        $data = PreventiveMaintenanceSow::where(['region_id'=>$this->data->region_id,'sub_region_id'=>$this->data->sub_region_id,'site_type'=>$this->data->site_type,'pm_type'=>$this->data->pm_type])->first();
-        if(!$data) $data = new PreventiveMaintenanceSow();
-        $data->region_id = $this->data->region_id;
-        $data->sub_region_id = $this->data->sub_region_id;
-        $data->pm_type = $this->data->pm_type;
-        $data->site_type = $this->data->site_type;
+        $data = PreventiveMaintenanceSow::where(['region_id'=>$this->data->region_id,
+                                                    'sub_region_id'=>$this->data->sub_region_id,
+                                                    'site_type'=>$this->data->site_type,
+                                                    'pm_type'=>$this->data->pm_type,
+                                                    'bulan'=>date('m'),
+                                                    'tahun'=>date('Y')])->first();
+        if(!$data) {
+            $data = new PreventiveMaintenanceSow();
+            $data->region_id = $this->data->region_id;
+            $data->sub_region_id = $this->data->sub_region_id;
+            $data->pm_type = $this->data->pm_type;
+            $data->site_type = $this->data->site_type;
+            $data->bulan = date('m');
+            $data->tahun = date('Y');
+        }
+
         $data->sow = $this->sow;
         $data->save();
+
+        \LogActivity::add('[web] Preventive Maintenance Update SOW');
     }
 }

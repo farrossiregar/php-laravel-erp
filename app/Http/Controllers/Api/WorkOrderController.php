@@ -12,6 +12,8 @@ class WorkOrderController extends Controller
 {
     public function notification()
     {
+        \LogActivity::add('[apps] Word Order Notification');
+
         $general_notification = Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereIn('type',[1,2,3])->whereDate('created_at',date('Y-m-d'))->count();
         $general_notification += Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereNotIn('type',[1,2,3])->count();
 
@@ -41,6 +43,8 @@ class WorkOrderController extends Controller
             $key++;
         }
 
+        \LogActivity::add('[apps] Word Order General');
+        
         return response()->json(['message'=>'success','data'=>$data], 200);
     }
 
@@ -53,6 +57,8 @@ class WorkOrderController extends Controller
             $data[$k] = $item;
             $data[$k]['type_doc_name'] = $item->type_doc==1?'STP' : 'Ericson';
         }
+        
+        \LogActivity::add('[apps] Word Order Open');
 
         return response()->json(['message'=>'success','data'=>$data], 200);
     }
@@ -67,6 +73,8 @@ class WorkOrderController extends Controller
             $data[$k]['type_doc_name'] = $item->type_doc==1?'STP' : 'Ericson';
         }
 
+        \LogActivity::add('[apps] Word Order Accepted');
+
         return response()->json(['message'=>'success','data'=>$data], 200);
     }
 
@@ -79,6 +87,8 @@ class WorkOrderController extends Controller
             $data[$k] = $item;
             $data[$k]['type_doc_name'] = $item->type_doc==1?'STP' : 'Ericson';
         }
+
+        \LogActivity::add('[apps] Word Order Closed');
 
         return response()->json(['message'=>'success','data'=>$data], 200);
     }

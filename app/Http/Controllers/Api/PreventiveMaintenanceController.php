@@ -60,6 +60,8 @@ class PreventiveMaintenanceController extends Controller
             $data[$k]['admin_project'] = isset($item->admin->name) ? $item->admin->name : '-';
         }
 
+        \LogActivity::add('[apps] PM Data');
+
         return response()->json(['message'=>'success','data'=>$data], 200);
     }
 
@@ -114,6 +116,8 @@ class PreventiveMaintenanceController extends Controller
             $data->save();
         }
 
+        \LogActivity::add('[apps] PM Complete');
+
         return response()->json(['message'=>'submited','data'=>$data], 200);
     }
 
@@ -135,6 +139,8 @@ class PreventiveMaintenanceController extends Controller
             $message .= "PIC : ".(isset($data->employee->name) ? $data->employee->name : '')."\n";
             push_notification_android($data->admin->device_token,"Preventive Maintenance Pick-up" ,$message,7);
         }
+        
+        \LogActivity::add('[apps] PM Pickup');
 
         return response()->json(['message'=>'success'], 200);
     }
@@ -158,6 +164,8 @@ class PreventiveMaintenanceController extends Controller
             $message .= "PIC : ".(isset($data->employee->name) ? $data->employee->name : '')."\n";
             push_notification_android($data->admin->device_token,"Preventive Maintenance Resolved" ,$message,7);
         }
+        
+        \LogActivity::add('[apps] PM Solved');
 
         return response()->json(['message'=>'success'], 200);
     }

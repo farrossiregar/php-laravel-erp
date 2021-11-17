@@ -43,6 +43,8 @@ class HealthCheckController extends Controller
         $data->save();
 
         $data = HealthCheck::select('health_check.*',\DB::raw("DATE_FORMAT(created_at, \"%d %M %Y\") as tanggal"))->where('id',$data->id)->first();
+        
+        \LogActivity::add('[apps] Health Check Store');
 
         return response()->json(['message'=>'submited','data'=>$data], 200);
     }
@@ -61,6 +63,8 @@ class HealthCheckController extends Controller
             $data[$k] = $item;
             $data[$k]['date'] = date('d-M-Y',strtotime($item['created_at']));
         }
+
+        \LogActivity::add('[apps] Health Check Data');
 
         return response()->json(['message'=>'success','data'=>$data], 200);
     }

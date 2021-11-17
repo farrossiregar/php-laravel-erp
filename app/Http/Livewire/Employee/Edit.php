@@ -13,6 +13,7 @@ use App\Models\Region;
 use App\Models\RegionCluster;
 use App\Models\ClientProjectRegion;
 use Illuminate\Support\Arr;
+use App\Models\LogActivity;
 
 class Edit extends Component
 {
@@ -24,7 +25,9 @@ class Edit extends Component
     use WithFileUploads;
     public function render()
     {
-        return view('livewire.employee.edit');
+        $history = LogActivity::where('user_id',$this->data->user_id)->orderBy('id','DESC')->paginate(100);
+
+        return view('livewire.employee.edit')->with(['history'=>$history]);
     }
 
     public function mount($id)
@@ -83,6 +86,7 @@ class Edit extends Component
         $this->client_project_ids = Arr::pluck(EmployeeProject::select('client_project_id')->where(['employee_id'=>$this->data->id])->get()->toArray(),'client_project_id');
         $this->regions = ClientProjectRegion::select('region.id','region.region')->join('region','region.id','=','client_project_region.region_id')->whereIn('client_project_region.client_project_id',$this->client_project_ids)->groupBy('region.id')->get();
         $this->sub_regions = RegionCluster::where('region_id', $this->data->region_id)->get();
+        
     }
 
     public function updated($propertyName)

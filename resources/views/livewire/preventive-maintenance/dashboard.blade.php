@@ -58,7 +58,7 @@
                     <th rowspan="2">PM Type</th>   
                     <th rowspan="2">SOW ( Monthly Target )</th>
                     <th rowspan="2">Daily Target</th>
-                    <th colspan="4">Monthly Regional Update</th>
+                    <th colspan="4" class="text-center">Monthly Regional Update</th>
                     <th rowspan="2" class="text-center">Daily Achievement %</th>
                     <th rowspan="2" class="text-center">Monthly Achievement %</th>
                 </tr>
@@ -83,7 +83,7 @@
                         <td class="text-center">{{$daily_target}}</td>
                         <td class="text-center">{{$item->open}}</td>
                         <td class="text-center">{{$item->in_progress}}</td>
-                        <td class="text-center">{{$item->submitted}}</td>
+                        <td class="text-center">{{$item->total_submitted}}</td>
                         <td class="text-center">{{$item->approved_ied}}</td>
                         <td class="text-center">
                             @if(!empty($daily_target) and !empty($item->submitted))

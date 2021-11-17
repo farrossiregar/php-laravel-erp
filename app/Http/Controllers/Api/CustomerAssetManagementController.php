@@ -60,6 +60,8 @@ class CustomerAssetManagementController extends Controller
                 'last_update' => date('d-M-Y',strtotime($item->updated_at))
             ];
         }
+        
+        \LogActivity::add('[apps] Customer Asset Data');
 
         return response(['keyword'=>$keyword,'status'=>200,'data'=>$data], 200);
     }

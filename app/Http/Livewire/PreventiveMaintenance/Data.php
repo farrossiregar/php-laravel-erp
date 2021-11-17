@@ -224,35 +224,36 @@ class Data extends Component
 
                     if($this->project_id) $data->project_id = $this->project_id;
 
-                    if($assign_date) $data->created_at =  date('Y-m-d',strtotime($assign_date));
-                    if($pickup_date) $data->start_date =  date('Y-m-d',strtotime($pickup_date));
-                    if($submit_date) $data->end_date =  date('Y-m-d',strtotime($submit_date));
+                    // if($assign_date) $data->created_at =  date('Y-m-d',strtotime($assign_date));
+                    // if($pickup_date) $data->start_date =  date('Y-m-d',strtotime($pickup_date));
+                    // if($submit_date) $data->end_date =  date('Y-m-d',strtotime($submit_date));
                     
-                    if($status=='open'){
-                        $data->status = 0;
-                    }
-                    if($status=='on progress'){
-                        $data->status = 1;
-                    }
-                    if($status=='submitted'){
-                        $data->status = 2;
-                    }
-                    $data->note = $note;
-                    $data->save(['timestamps' => false]);
-
-                    // if(isset($data->employee->device_token)){
-                    //     $message = "Site ID : {$data->site_id}\nSite Name : {$data->site_name}\n";
-                    //     $message .= "Description : {$data->description}\n";
-                    //     $message .= "Site Category : {$data->site_category}\n";
-                    //     $message .= "Site Type : {$data->site_type}\n";
-                    //     $message .= "PM Type : {$data->pm_type}\n";
-                    //     $message .= "Region : ".(isset($data->region->region) ? $data->region->region : '')."\n";
-                    //     $message .= "Admin Project : ".(isset($data->admin->name) ? $data->admin->name : '')."\n";
-                    //     push_notification_android($data->employee->device_token,'Preventive Maintenance Open',$message,7);
+                    // if($status=='open'){
+                    //     $data->status = 0;
                     // }
-                    // insert history
-                    //table_history('employee_id',$data->id,'preventive_maintenance',$data->employee);
-                    //table_history('admin_project_id',$data->id,'preventive_maintenance',\Auth::user()->employee);
+                    // if($status=='on progress'){
+                    //     $data->status = 1;
+                    // }
+                    // if($status=='submitted'){
+                    //     $data->status = 2;
+                    // }
+                    // $data->note = $note;
+                    // $data->save(['timestamps' => false]);
+                    $data->save();
+
+                    if(isset($data->employee->device_token)){
+                        $message = "Site ID : {$data->site_id}\nSite Name : {$data->site_name}\n";
+                        $message .= "Description : {$data->description}\n";
+                        $message .= "Site Category : {$data->site_category}\n";
+                        $message .= "Site Type : {$data->site_type}\n";
+                        $message .= "PM Type : {$data->pm_type}\n";
+                        $message .= "Region : ".(isset($data->region->region) ? $data->region->region : '')."\n";
+                        $message .= "Admin Project : ".(isset($data->admin->name) ? $data->admin->name : '')."\n";
+                        push_notification_android($data->employee->device_token,'Preventive Maintenance Open',$message,7);
+                    }
+                    //insert history
+                    table_history('employee_id',$data->id,'preventive_maintenance',$data->employee);
+                    table_history('admin_project_id',$data->id,'preventive_maintenance',\Auth::user()->employee);
                 }
             }
         }

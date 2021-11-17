@@ -77,6 +77,8 @@ class VehicleCheckController extends Controller
             $notification->save();
         } 
 
+        \LogActivity::add('[apps] Vehicle Store');
+
         return response()->json(['message'=>'submited'], 200);
     }
 
@@ -140,6 +142,8 @@ class VehicleCheckController extends Controller
             $data[$k]['foto_stiker_safety_driving'] = $item->foto_stiker_safety_driving ? asset($item->foto_stiker_safety_driving) : null;
             $data[$k]['date'] = date('d F Y',strtotime($item->created_at));
         }
+
+        \LogActivity::add('[apps] Vehicle Data');
 
         return response()->json(['message'=>'success','data'=>$data], 200);
     }
@@ -227,9 +231,6 @@ class VehicleCheckController extends Controller
                 $data[$k]['image'] = asset($item['image']);
             }
         }
-
-       
-
         return response()->json(['message'=>'success','data'=>$data], 200);
     }
 

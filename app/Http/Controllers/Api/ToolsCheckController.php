@@ -75,6 +75,8 @@ class ToolsCheckController extends Controller
      */
     public function store(Request $request)
     {
+        \LogActivity::add('[apps] Tools Check Store Start');
+
         $toolBox = Toolbox::get();
         // validate toolbox
         $error = '';
@@ -149,6 +151,8 @@ class ToolsCheckController extends Controller
 
         $find->is_submit  = 1;
         $find->save();
+
+        \LogActivity::add('[apps] Tools Check Store End');
 
         return response()->json(['message'=>'submited'], 200);
     }
@@ -244,6 +248,8 @@ class ToolsCheckController extends Controller
             $data[$k] = $item;
             $data[$k]['bulan'] = date('F', mktime(0, 0, 0, $item->bulan, 10));;
         }
+
+        \LogActivity::add('[apps] Tools Check History');
 
         return response()->json(['message'=>'success','data'=>$data], 200);
     }

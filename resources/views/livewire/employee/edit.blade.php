@@ -3,7 +3,35 @@
 <div class="row clearfix">
     <div class="col-md-12">
         <div class="card">
+            <ul class="nav nav-tabs-new2">
+                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#general">{{ __('General') }}</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#history">{{ __('History') }}</a></li>
+            </ul>
             <div class="tab-content">
+                <div class="tab-pane" id="history">
+                    <table class="table">
+                        <tr>
+                            <th>No</th>
+                            <th>Subject</th>
+                            <th>URL</th>
+                            <th>IP</th>
+                            <th>Agent</th>
+                            <th>var</th>
+                            <th>Date</th>
+                        </tr>
+                        @foreach($history as $key => $item)
+                            <tr>
+                                <td>{{$key+1}}</td>
+                                <td>{{$item->subject}}</td>
+                                <td>{{$item->url}}</td>
+                                <td>{{$item->ip}}</td>
+                                <td>{{$item->agent}}</td>
+                                <td>{{$item->var}}</td>
+                                <td>{{$item->created_at}}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
                 <div class="tab-pane show active" id="general">
                     <div class="body">
                         <div class="row">

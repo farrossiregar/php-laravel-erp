@@ -49,6 +49,8 @@ class TrainingMaterialController extends Controller
             }
         }
 
+        \LogActivity::add('[apps] Training Data');
+
         return response()->json(['message'=>'success','data'=>$data], 200);
     }
 

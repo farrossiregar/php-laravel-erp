@@ -75,6 +75,8 @@ class ItSupportController extends Controller
             }   
         }
         
+        \LogActivity::add('[apps] IT Support Data');
+        
         return response()->json(['message'=>'success','data'=>$param], 200);
     }
 
@@ -92,6 +94,8 @@ class ItSupportController extends Controller
 
         if(isset($data->employee->device_token)) 
             push_notification_android($data->employee->device_token,"TT Number #".$data->trouble_ticket_number ." Pick-up" ,$description,6);
+        
+        \LogActivity::add('[apps] IT Support Pickup');
 
         return response()->json(['message'=>'success'], 200);
     }
@@ -108,6 +112,8 @@ class ItSupportController extends Controller
 
         if(isset($data->employee->device_token)) push_notification_android($data->employee->device_token,"TT Number #".$data->trouble_ticket_number ." Resolved" ,$description,6);
 
+        \LogActivity::add('[apps] IT Support Solved');
+
         return response()->json(['message'=>'success'], 200);
     }
 
@@ -122,6 +128,8 @@ class ItSupportController extends Controller
 
         if(isset($data->pic->device_token)) 
             push_notification_android($data->pic->device_token,"TT Number #".$data->trouble_ticket_number ." Closed" ,$description,6);
+
+        \LogActivity::add('[apps] IT Support Closed');
 
         return response()->json(['message'=>'success'], 200);
     }
@@ -150,6 +158,8 @@ class ItSupportController extends Controller
         foreach($it as $user){
             push_notification_android($user->device_token,"Trouble Ticket #".\Auth::user()->employee->name ." - ". $r->problem_category ,$r->description,6);
         }
+
+        \LogActivity::add('[apps] IT Support Store');
 
         return response()->json(['message'=>'submited'], 200);
    }

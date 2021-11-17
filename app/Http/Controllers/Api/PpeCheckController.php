@@ -29,6 +29,8 @@ class PpeCheckController extends Controller
             $data[$k]['foto_first_aid'] = $item->foto_first_aid ? asset($item->foto_first_aid) : null;
         }
 
+        \LogActivity::add('[apps] PPE Check Data');
+
         return response()->json(['message'=>'success','data'=>$data], 200);    
     }
 
@@ -98,55 +100,55 @@ class PpeCheckController extends Controller
             $notification->save();
         }
         // record history
-        \LogActivity::add('Submit PPE Check');
+        \LogActivity::add('[apps] PPE Check Store');
 
         return response()->json(['message'=>'submited'], 200);
     }
 
     public function upload(Request $r)
     {
-        $find = PpeCheck::where('employee_id',\Auth::user()->employee->id)->whereDate('created_at',date('Y-m-d'))->first();
-        if(!$find){
-            $find = new PpeCheck();
-            $find->employee_id = \Auth::user()->employee->id;
-            $find->save();
-        }   
+        // $find = PpeCheck::where('employee_id',\Auth::user()->employee->id)->whereDate('created_at',date('Y-m-d'))->first();
+        // if(!$find){
+        //     $find = new PpeCheck();
+        //     $find->employee_id = \Auth::user()->employee->id;
+        //     $find->save();
+        // }   
 
-        if($r->type==1){
-            if($r->file){
-                $name = "foto_dengan_ppe.".$r->foto_dengan_ppe->extension();
-                $r->foto_dengan_ppe->storeAs("public/ppe-check/{$find->id}", $name);
-                $find->foto_dengan_ppe = "storage/ppe-check/{$find->id}/{$name}";
-                $find->save();
-            }
-        }
+        // if($r->type==1){
+        //     if($r->file){
+        //         $name = "foto_dengan_ppe.".$r->foto_dengan_ppe->extension();
+        //         $r->foto_dengan_ppe->storeAs("public/ppe-check/{$find->id}", $name);
+        //         $find->foto_dengan_ppe = "storage/ppe-check/{$find->id}/{$name}";
+        //         $find->save();
+        //     }
+        // }
 
-        if($r->type==2){
-            if($r->file){
-                $name = "foto_banner.".$r->foto_banner->extension();
-                $r->foto_banner->storeAs("public/ppe-check/{$find->id}", $name);
-                $find->foto_banner = "storage/ppe-check/{$find->id}/{$name}";
-                $find->save();
-            }
-        }
+        // if($r->type==2){
+        //     if($r->file){
+        //         $name = "foto_banner.".$r->foto_banner->extension();
+        //         $r->foto_banner->storeAs("public/ppe-check/{$find->id}", $name);
+        //         $find->foto_banner = "storage/ppe-check/{$find->id}/{$name}";
+        //         $find->save();
+        //     }
+        // }
 
-        if($request->foto_wah) {
-            $name = "foto_wah.".$request->foto_wah->extension();
-            $request->foto_wah->storeAs("public/ppe-check/{$data->id}", $name);
-            $data->foto_wah = "storage/ppe-check/{$data->id}/{$name}";
-        }
+        // if($request->foto_wah) {
+        //     $name = "foto_wah.".$request->foto_wah->extension();
+        //     $request->foto_wah->storeAs("public/ppe-check/{$data->id}", $name);
+        //     $data->foto_wah = "storage/ppe-check/{$data->id}/{$name}";
+        // }
 
-        if($request->foto_elektrikal) {
-            $name = "foto_elektrikal.".$request->foto_wah->extension();
-            $request->foto_elektrikal->storeAs("public/ppe-check/{$data->id}", $name);
-            $data->foto_elektrikal = "storage/ppe-check/{$data->id}/{$name}";
-        }
+        // if($request->foto_elektrikal) {
+        //     $name = "foto_elektrikal.".$request->foto_wah->extension();
+        //     $request->foto_elektrikal->storeAs("public/ppe-check/{$data->id}", $name);
+        //     $data->foto_elektrikal = "storage/ppe-check/{$data->id}/{$name}";
+        // }
 
-        if($request->foto_first_aid) {
-            $name = "foto_first_aid.".$request->foto_first_aid->extension();
-            $request->foto_first_aid->storeAs("public/ppe-check/{$data->id}", $name);
-            $data->foto_first_aid = "storage/ppe-check/{$data->id}/{$name}";
-        }
+        // if($request->foto_first_aid) {
+        //     $name = "foto_first_aid.".$request->foto_first_aid->extension();
+        //     $request->foto_first_aid->storeAs("public/ppe-check/{$data->id}", $name);
+        //     $data->foto_first_aid = "storage/ppe-check/{$data->id}/{$name}";
+        // }
         return response()->json(['message'=>'submited'], 200);
     }
 

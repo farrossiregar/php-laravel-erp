@@ -39,6 +39,8 @@ class SitesController extends Controller
             $data[$k]['cluster_sub_name'] = isset($item->cluster_sub->name) ? $item->cluster_sub->name : '';   
         }
 
+        \LogActivity::add('[apps] Sites Data');
+
         return response()->json(["message"=>"success","data"=>$data], 200);
     }
 }

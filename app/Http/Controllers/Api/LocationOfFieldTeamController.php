@@ -121,6 +121,8 @@ class LocationOfFieldTeamController extends Controller
                 }
             }
         } 
+
+        \LogActivity::add('[apps] Location of Field Team Data');
         
         return response()->json(['message'=>'success','data'=>isset($data)?$data:''], 200);
     }
