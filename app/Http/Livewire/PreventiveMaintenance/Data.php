@@ -16,7 +16,7 @@ class Data extends Component
 {
     use WithFileUploads;
     public $keyword,$site_id,$description,$due_date,$project_id,$site_report,$site_owner,$regions=[],$sub_regions=[],$employees;
-    public $site_category,$site_type,$site_name,$region_id,$pm_type,$cluster,$sub_cluster,$sub_region_id,$employee_id,$file,$selected,$file_report,$description_report;
+    public $site_category,$site_type,$site_name,$region_id,$pm_type,$cluster,$sub_cluster,$sub_region_id,$employee_id,$file,$selected,$file_report=[],$description_report;
     public $reports=[];
     public $date_start,$date_end,$change_pic_id;
     protected $listeners = ['refresh-page'=>'$refresh'];
@@ -58,7 +58,7 @@ class Data extends Component
     public function updatedFileReport()
     {
         $this->validate([
-            'file_report' => 'required|file|mimes:xlsx,csv,xls,doc,docx,pdf,image|max:51200', // 50MB Max
+            'file_report.*' => 'required|file|mimes:xlsx,csv,xls,doc,docx,pdf,image|max:51200', // 50MB Max
         ]);
     }
 
@@ -134,21 +134,22 @@ class Data extends Component
     {
         \LogActivity::add('[web] PM Upload Report');
         $this->validate([
-            'file_report' => 'required|file|mimes:xlsx,csv,xls,doc,docx,pdf,image',
+            'file_report.*' => 'required|file|mimes:xlsx,csv,xls,doc,docx,pdf,image',
             'description_report' => 'required'
         ]);
-        if($this->file_report){
-            $name = date('ymdhis') .".".$this->file_report->extension();
+        foreach($this->file_report as $file){
+            $name = date('ymdhis').PreventiveMaintenanceUpload::count() .".".$file->extension();
             $data = new PreventiveMaintenanceUpload();
-            $this->file_report->storeAs("public/preventive-maintenance/{$this->selected->id}", $name);
+            $file->storeAs("public/preventive-maintenance/{$this->selected->id}", $name);
             $data->image = "storage/preventive-maintenance/{$this->selected->id}/{$name}";
             $data->description = $this->description_report;
             $data->preventive_maintenance = $this->selected->id;
             $data->save();
-
-            $this->selected->is_upload_report = 1;
-            $this->selected->upload_report_date = date('Y-m-d');
-            $this->selected->save();
+            if($this->selected->is_upload_report==0){
+                $this->selected->is_upload_report = 1;
+                $this->selected->upload_report_date = date('Y-m-d');
+                $this->selected->save();
+            }
         }
 
         session()->flash('message-success','Report Uploaded.');

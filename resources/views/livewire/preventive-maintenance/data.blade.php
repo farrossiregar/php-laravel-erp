@@ -180,10 +180,10 @@
                     <div class="modal-body">
                         @if($reports)
                             @foreach($reports as $item)
-                                <p><a href="{{asset($item->image)}}"> <i class="fa fa-download"></i> {{$item->description}}</a></p>        
+                                <a href="{{asset($item->image)}}" class="badge badge-info"> <i class="fa fa-paperclip"></i> {{$item->description}}</a>        
                             @endforeach
+                            <hr />
                         @endif
-                        
                         <div class="form-group">
                             <label>File (xlsx, csv, xls, doc, docs, pdf, image)</label>
                             <input type="file" class="form-control" wire:model="file_report" multiple />
