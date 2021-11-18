@@ -17,7 +17,7 @@ class Add extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $dataproject, $company_name, $project, $region, $region_area, $ktp_id, $nik_pmt, $leader, $employee_name;
+    public $dataproject, $company_name, $project, $region, $region_area, $ktp_id, $nik_pmt, $leader, $employee_name, $employeelist;
     // public $date, $employee_id, $klasifikasi_insiden, $jenis_insiden, $jenis_insiden2, $nikdannama, $rincian,$show_jenis_insiden2=false;
     // public $photo1, $photo2, $photo3, $photo4, $photo5, $photo6, $photo7, $photo8;
     public function render()
@@ -26,10 +26,47 @@ class Add extends Component
         //     session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
         //     $this->redirect('/');
         // }
-        $dataproject = \App\Models\ProjectEpl::orderBy('projects.id', 'desc')
-                                    ->select('projects.*', 'region.region_code')
-                                    ->join(env('DB_DATABASE').'.region', env('DB_DATABASE_EPL_PMT').'.projects.region_id', '=', env('DB_DATABASE').'.region.id' )->get();
+        // $dataproject = \App\Models\ProjectEpl::orderBy('projects.id', 'desc')
+        //                             ->select('projects.*', 'region.region_code')
+        //                             ->join(env('DB_DATABASE').'.region', env('DB_DATABASE_EPL_PMT').'.projects.region_id', '=', env('DB_DATABASE').'.region.id' )->get();
         // dd($dataproject);
+
+        if($this->company_name){ 
+            $this->dataproject = \App\Models\ProjectEpl::orderBy('projects.id', 'desc')
+                                    ->select('projects.*', 'region.region_code')
+                                    ->join(env('DB_DATABASE').'.region', env('DB_DATABASE_EPL_PMT').'.projects.region_id', '=', env('DB_DATABASE').'.region.id' )
+                                    ->where('projects.type', $this->company_name)
+                                    ->get();
+            // $this->projectlist = \App\Models\ProjectEpl::where('id', $this->project)->where('type', $this->company_name)->first();
+            if($this->project){ 
+                $getproject = \App\Models\ProjectEpl::where('id', $this->project)->where('type', $this->company_name)->first();
+                
+                $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
+                $this->employeelist = \App\Models\Employee::where('project', $getproject->id)->get();
+                 // $this->employeelist = check_access_data('commitment-letter.tecme-list', '$getproject->id');
+                // dd($this->employeelist);
+                if($this->employee_name){
+                    $this->ktp_id = \App\Models\Employee::where('id', $this->employee_name)->first()->nik;
+                    $this->nik_pmt = \App\Models\Employee::where('id', $this->employee_name)->first()->nik;
+                }
+                $this->leader = \App\Models\EmployeeProject::where('client_project_id', $getproject->id)->get();
+                // $this->leader = check_access_data('commitment-letter.sm-list', '$getproject->id');
+                // dd($leader);
+            }else{
+                $this->employeelist = [];
+                $this->leader = [];
+            }
+        }else{
+            $this->dataproject = [];
+            $this->project = [];
+            $this->region = [];
+            $this->employeelist = [];
+            $this->employee_name = [];
+            $this->ktp_id = [];
+            $this->nik_pmt = [];
+            $this->leader = [];
+        }
+
         return view('livewire.commitment-letter.add');
     }
 
