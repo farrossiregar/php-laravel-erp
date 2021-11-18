@@ -289,7 +289,7 @@ class Data extends Component
         $activeSheet->getRowDimension('1')->setRowHeight(34);
         $activeSheet->getStyle('B1')->getFont()->setSize(16);
         $activeSheet->getStyle('B1')->getAlignment()->setWrapText(false);
-        $activeSheet->getStyle('A4:R4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('c2d7f3');
+        $activeSheet->getStyle('A4:S4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('c2d7f3');
         $activeSheet
                     ->setCellValue('A4', 'No')
                     ->setCellValue('B4', 'Site ID')
@@ -308,7 +308,8 @@ class Data extends Component
                     ->setCellValue('O4', 'Pickup Date')
                     ->setCellValue('P4', 'Submitted Date')
                     ->setCellValue('Q4', 'Status')
-                    ->setCellValue('R4', 'Note');
+                    ->setCellValue('R4', 'Approved EID')
+                    ->setCellValue('S4', 'Note');
 
         $activeSheet->getColumnDimension('A')->setWidth(5);
         $activeSheet->getColumnDimension('B')->setAutoSize(true);
@@ -327,6 +328,7 @@ class Data extends Component
         $activeSheet->getColumnDimension('O')->setAutoSize(true);
         $activeSheet->getColumnDimension('Q')->setAutoSize(true);
         $activeSheet->getColumnDimension('R')->setAutoSize(true);
+        $activeSheet->getColumnDimension('S')->setAutoSize(true);
         $num=5;
 
         $data = $this->init_data();
@@ -335,6 +337,7 @@ class Data extends Component
             if($i->status==0) $status ='Open';
             if($i->status==1) $status ='On Progress';
             if($i->status==2) $status ='Submitted';
+            if($i->is_upload_report==1) $status = 'Approved EID';
 
             $activeSheet
                 ->setCellValue('A'.$num,($k+1))
@@ -354,7 +357,8 @@ class Data extends Component
                 ->setCellValue('O'.$num,isset($i->start_date) ? date('d-M-Y',strtotime($i->start_date)) : '-')
                 ->setCellValue('P'.$num,isset($i->end_date) ? date('d-M-Y',strtotime($i->end_date)) : '-')
                 ->setCellValue('Q'.$num,$status)
-                ->setCellValue('R'.$num,$i->note);
+                ->setCellValue('R'.$num,($i->is_upload_report==1 ? 'Approved EID' : '-'))
+                ->setCellValue('S'.$num,$i->note);
             
             $num++;
         }

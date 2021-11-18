@@ -67,6 +67,7 @@
                     <th>Pickup Date</th>
                     <th>Submitted Date</th>
                     <th>Status</th>
+                    <th>Approved EID</th>
                     <th>Note</th>
                     <th></th>
             </thead>
@@ -100,6 +101,11 @@
                             @endif
                             @if($item->status==2)
                                 <span class="badge badge-success">Submitted</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if($item->is_upload_report==1)
+                                    <span class="badge badge-success">Approved EID</span>
                             @endif
                         </td>
                         <td>{{$item->note}}</td>
@@ -150,6 +156,9 @@
                         <div class="form-group">
                             <label>Description</label>
                             <textarea class="form-control" wire:model="description_report"></textarea>
+                            @error('description_report')
+                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                            @enderror
                         </div>
                         @endif
                     </div>
