@@ -48,11 +48,11 @@ class Dashboard extends Component
                                                             ->where(function($table){
                                                                 if($this->date_start and $this->date_end){
                                                                     if($this->date_start == $this->date_end)
-                                                                        $table->whereDate('end_date',$this->date_start);
+                                                                        $table->whereDate('upload_report_date',$this->date_start);
                                                                     else
-                                                                        $table->whereBetween('end_date',[$this->date_start,$this->date_end]);
+                                                                        $table->whereBetween('upload_report_date',[$this->date_start,$this->date_end]);
                                                                 }else
-                                                                    $table->whereMonth('created_at',date('m'))->whereYear('created_at',date('Y'));
+                                                                    $table->whereMonth('upload_report_date',date('m'))->whereYear('upload_report_date',date('Y'));
 
                                                                 if($this->sub_region_id) $table->where('sub_region_id',$this->sub_region_id);
                                                             })->count();

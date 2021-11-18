@@ -24,9 +24,7 @@
         </div>
         <div class="col-md-5">
             <div class="btn-group" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Action
-                </button>
+                <button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                     @if(check_access('preventive-maintenance.insert'))
                         <a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#modal_add_preventive_maintenance"><i class="fa fa-plus"></i> Preventive Maintenance</a>
@@ -185,10 +183,10 @@
                                 <p><a href="{{asset($item->image)}}"> <i class="fa fa-download"></i> {{$item->description}}</a></p>        
                             @endforeach
                         @endif
-                        @if(isset($selected->is_upload_report) and $selected->is_upload_report==0)
+                        
                         <div class="form-group">
                             <label>File (xlsx, csv, xls, doc, docs, pdf, image)</label>
-                            <input type="file" class="form-control" wire:model="file_report" />
+                            <input type="file" class="form-control" wire:model="file_report" multiple />
                             @error('file_report')
                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                             @enderror
@@ -200,17 +198,14 @@
                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                             @enderror
                         </div>
-                        @endif
                     </div>
-                    @if(isset($selected->is_upload_report) and $selected->is_upload_report==0)
-                        <div class="modal-footer">
-                            <span wire:loading>
-                                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-                                <span class="sr-only">{{ __('Please wait checking your file...') }}</span> Please wait checking your file...
-                            </span>
-                            <button type="submit" wire:loading.remove wire:target="file_report" class="btn btn-success"><i class="fa fa-save"></i> Upload</button>
-                        </div>
-                    @endif
+                    <div class="modal-footer">
+                        <span wire:loading>
+                            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                            <span class="sr-only">{{ __('Please wait checking your file...') }}</span> Please wait checking your file...
+                        </span>
+                        <button type="submit" wire:loading.remove wire:target="file_report" class="btn btn-success"><i class="fa fa-save"></i> Upload</button>
+                    </div>
                 </form>
             </div>
         </div>
