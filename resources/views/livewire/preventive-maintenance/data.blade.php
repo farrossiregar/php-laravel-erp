@@ -86,7 +86,12 @@
                         <td>{{isset($item->sub_region->name) ? $item->sub_region->name : '-'}}</td>
                         <td>{{ $item->cluster }}</td>
                         <td>{{ $item->sub_cluster }}</td>
-                        <td>{{ isset($item->employee->nik) ? $item->employee->nik : '' }}</td>
+                        <td>
+                            {{ isset($item->employee->nik) ? $item->employee->nik : '' }}
+                            @if($item->status==0)
+                                <a href="javascript:void(0)" wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_change_pic" title="Change PIC"><i class="fa fa-edit"></i></a>
+                            @endif
+                        </td>
                         <td>{{ isset($item->employee->name) ? $item->employee->name : '' }}</td>
                         <td>{{ isset($item->admin->name) ? $item->admin->name : '' }}</td>
                         <td>{{ isset($item->created_at) ? date('d-M-Y',strtotime($item->created_at)) : '-' }}</td>
@@ -129,6 +134,41 @@
         </table>
     </div>
     {{$data->links()}}
+    <div wire:ignore.self class="modal fade" id="modal_change_pic" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form wire:submit.prevent="submit_change_pic">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Dispatch PIC</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true close-btn">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group" wire:ignore>
+                            <select class="form-control select2_pic">
+                                <option value=""> -- Select Employee --- </option>
+                                @foreach($employees as $item)
+                                    <option value="{{$item->id}}">{{$item->nik}} / {{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('change_pic_id')
+                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                        @enderror
+                    </div>
+                    <div class="modal-footer">
+                        <span wire:loading>
+                            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                            <span class="sr-only">{{ __('Please wait...') }}</span> Please wait...
+                        </span>
+                        <button type="submit" wire:loading.remove wire:target="change_pic_id" class="btn btn-success"><i class="fa fa-save"></i> Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div wire:ignore.self class="modal fade" id="modal_upload_report" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -320,24 +360,35 @@
         <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.min.js') }}"></script>
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}" />
         <script>
-            $(".select2").select2();
-            $('.select2').on('select2:select', function (e) {
-                var data = e.params.data;
-                @this.set('employee_id',data.id);
+            Livewire.on('set-pic',()=>{
+                $(".select2_pic").select2();
+                $('.select2_pic').on('select2:select', function (e) {
+                    var data = e.params.data;
+                    @this.set('change_pic_id',data.id);
+                });
             });
-            $('.date_created').daterangepicker({
-                opens: 'left',
-                locale: {
-                    cancelLabel: 'Clear'
-                },
-                autoUpdateInput: false,
-            }, function(start, end, label) {
-                @this.set("date_start", start.format('YYYY-MM-DD'));
-                @this.set("date_end", end.format('YYYY-MM-DD'));
-                $('.date_created').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
-            });
-            Livewire.on('refresh-page',()=>{
-                $(".modal").modal("hide");
+
+            $(document).ready(function() {    
+                $(".select2").select2();
+                $('.select2').on('select2:select', function (e) {
+                    var data = e.params.data;
+                    @this.set('employee_id',data.id);
+                });
+                
+                $('.date_created').daterangepicker({
+                    opens: 'left',
+                    locale: {
+                        cancelLabel: 'Clear'
+                    },
+                    autoUpdateInput: false,
+                }, function(start, end, label) {
+                    @this.set("date_start", start.format('YYYY-MM-DD'));
+                    @this.set("date_end", end.format('YYYY-MM-DD'));
+                    $('.date_created').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
+                });
+                Livewire.on('refresh-page',()=>{
+                    $(".modal").modal("hide");
+                });
             });
         </script>
     @endpush

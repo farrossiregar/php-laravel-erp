@@ -8,6 +8,7 @@ use App\Models\PreventiveMaintenanceUpload;
 use App\Models\Region;
 use App\Models\SubRegion;
 use App\Models\Employee;
+use App\Models\EmployeeProject;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 
@@ -17,7 +18,7 @@ class Data extends Component
     public $keyword,$site_id,$description,$due_date,$project_id,$site_report,$site_owner,$regions=[],$sub_regions=[],$employees;
     public $site_category,$site_type,$site_name,$region_id,$pm_type,$cluster,$sub_cluster,$sub_region_id,$employee_id,$file,$selected,$file_report,$description_report;
     public $reports=[];
-    public $date_start,$date_end;
+    public $date_start,$date_end,$change_pic_id;
     protected $listeners = ['refresh-page'=>'$refresh'];
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -41,7 +42,12 @@ class Data extends Component
                                     ->get();
         }
         
-        $this->employees = Employee::select(['id','nik','name'])->where('user_access_id',85)->get(); // TE Engineer
+        // TE Engineer
+        $this->employees = EmployeeProject::select('employees.*')->where('employee_projects.client_project_id',$this->project_id)
+                                        ->join('employees','employees.id','=','employee_projects.employee_id')
+                                        ->whereIn('user_access_id',[85])
+                                        ->groupBy('employees.id')
+                                        ->get();
     }
 
     public function updated($propertyName)
@@ -82,6 +88,35 @@ class Data extends Component
         return $data;
     }
 
+    public function submit_change_pic()
+    {
+        $this->validate([
+            'change_pic_id' => 'required'
+        ]);
+
+        $this->selected->employee_id = $this->change_pic_id;
+        $this->selected->save();
+        if(isset($this->selected->employee->device_token)){
+            $message = "Site ID : {$this->selected->site_id}\nSite Name : {$this->selected->site_name}\n";
+            $message .= "Description : {$this->selected->description}\n";
+            $message .= "Site Category : {$this->selected->site_category}\n";
+            $message .= "Site Type : {$this->selected->site_type}\n";
+            $message .= "PM Type : {$this->selected->pm_type}\n";
+            $message .= "Region : ".(isset($this->selected->region->region) ? $this->selected->region->region : '')."\n";
+            $message .= "Admin Project : ".(isset($this->selected->admin->name) ? $this->selected->admin->name : '')."\n";
+            //push_notification_android($this->selected->employee->device_token,'Preventive Maintenance Open',$message,7);
+        }
+        // insert history
+        table_history('employee_id',$this->selected->id,'preventive_maintenance',$this->selected->employee);
+        table_history('admin_project_id',$this->selected->id,'preventive_maintenance',\Auth::user()->employee);
+
+        $this->reset(['change_pic_id']);
+        $this->emit('message-success','Dispatch Successfully');
+        $this->emit('refresh-page');
+
+        \LogActivity::add('[web] PM Change PIC');
+    }
+
     public function set_report(PreventiveMaintenanceModel $id,$site_owner)
     {
         $this->site_report = $id;
@@ -92,6 +127,7 @@ class Data extends Component
     {   
         $this->selected = $selected; 
         $this->reports = PreventiveMaintenanceUpload::where('preventive_maintenance',$this->selected->id)->get();
+        $this->emit('set-pic');
     }
 
     public function upload_report()

@@ -22,8 +22,6 @@ class Dashboard extends Component
 
     public function init_data()
     {
-        \LogActivity::add('[web] PM');
-
         $this->total_sow = PreventiveMaintenanceSow::where(function($table){
                                 if($this->date_start and $this->date_end)
                                     $table->where(['bulan'=>date('m',strtotime($this->date_start)),'tahun'=>date('Y',strtotime($this->date_start))]);
@@ -66,7 +64,7 @@ class Dashboard extends Component
                                 \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.created_at)=MONTH(CURRENT_DATE()) and pm.status=0) as open"),
                                 \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.created_at)=MONTH(CURRENT_DATE()) and pm.status=1) as in_progress"),
                                 \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and DATE(pm.end_date)=DATE(pm2.end_date) and pm.status=2) as submitted"),
-                                \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.created_at)=MONTH(CURRENT_DATE()) and pm.status=2 and is_upload_report=1) as approved_ied")
+                                \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.upload_report_date)=MONTH(CURRENT_DATE()) and pm.status=2 and is_upload_report=1) as approved_ied")
                             )
                             ->from('preventive_maintenance','pm2')
                             ->with(['region','sub_region'])
@@ -87,7 +85,7 @@ class Dashboard extends Component
                                                 ->join('sub_region','sub_region.region_id','client_project_region.region_id')
                                                 ->groupBy('sub_region.id')
                                                 ->get();
-                                                
+                           
         return $data;
     }
 
@@ -101,7 +99,7 @@ class Dashboard extends Component
         $this->client_project_id = session()->get('project_id');
         $this->chart();
         
-        \LogActivity::add('[web] Preventive maintenance');
+        \LogActivity::add('[web] PM');
     }
 
     public function chart()
