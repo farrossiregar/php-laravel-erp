@@ -17,7 +17,13 @@
                                     <div class="row">
                                         <div class="col-md-12 form-group">
                                             <label>Company Name</label>
-                                            <input type="text" class="form-control" wire:model="company_name"/>
+                                            <!-- <input type="text" class="form-control" wire:model="company_name"/> -->
+                                            <select onclick="" class="form-control" wire:model="company_name">
+                                                <option value=""> --- Company --- </option>
+                                                <option value="1">HUP</option>
+                                                <option value="2">PMT</option>
+                                                
+                                            </select>
                                             @error('site_id')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
@@ -27,10 +33,10 @@
                                             <select onclick="" class="form-control" wire:model="project">
                                                 <option value=""> --- Project --- </option>
                                                 <?php
-                                                    $dataproject = \App\Models\ProjectEpl::orderBy('projects.id', 'desc')->select('projects.*', 'region.region_code')->join(env('DB_DATABASE').'.region', env('DB_DATABASE_EPL_PMT').'.projects.region_id', '=', env('DB_DATABASE').'.region.id' )->get();
+                                                    // $dataproject = \App\Models\ProjectEpl::orderBy('projects.id', 'desc')->select('projects.*', 'region.region_code')->join(env('DB_DATABASE').'.region', env('DB_DATABASE_EPL_PMT').'.projects.region_id', '=', env('DB_DATABASE').'.region.id' )->get();
                                                 ?>
                                                 @foreach($dataproject as $item)
-                                                <option value="{{ $item->name }} - {{ $item->project_code }}"><b>{{ $item->name }}</b> -  {{ $item->project_code }}</option>
+                                                <option value="{{ $item->id }}"><b>{{ $item->name }}</b> -  {{ $item->project_code }}</option>
                                                 @endforeach
                                             </select>
                                             @error('employee_id')
@@ -39,34 +45,48 @@
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>Region</label>
-                                            
-                                            <select onclick="" class="form-control" wire:model="region">
+                                            <input type="text" class="form-control" wire:model="region" readonly/>
+                                            <!-- <select onclick="" class="form-control" wire:model="region">
                                                 <option value=""> --- Region --- </option>
                                                 @foreach(\App\Models\Region::orderBy('id', 'desc')->get() as $item)
                                                 <option value="{{ $item->region_code }}">{{ $item->region_code }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> -->
                                             @error('date')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>Region Area</label>
-                                            <input type="text" class="form-control" wire:model="region_area"/>
+                                            <input type="text" class="form-control" wire:model="region_area" readonly/>
                                             @error('date')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                         <div class="col-md-12 form-group">
+                                            <label>Employee Name</label>
+                                            
+                                            <select onclick="" class="form-control" wire:model="employee_name">
+                                                <option value=""> --- Employee Name --- </option>
+                                                @foreach($employeelist as $item)
+                                                <!-- foreach(\App\Models\UserEpl::orderBy('id', 'desc')->get() as $item) -->
+                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('employee_name')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-12 form-group">
                                             <label>KTP ID</label>
-                                            <input type="text" class="form-control" wire:model="ktp_id"/>
+                                            <input type="text" class="form-control" wire:model="ktp_id" readonly/>
                                             @error('date')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>NIK PMT</label>
-                                            <input type="text" class="form-control" wire:model="nik_pmt"/>
+                                            <input type="text" class="form-control" wire:model="nik_pmt" readonly/>
                                             @error('date')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
@@ -76,7 +96,8 @@
                                             
                                             <select onclick="" class="form-control" wire:model="leader">
                                                 <option value=""> --- Leader --- </option>
-                                                @foreach(\App\Models\UserEpl::orderBy('id', 'desc')->get() as $item)
+                                                <!-- foreach(\App\Models\UserEpl::orderBy('id', 'desc')->get() as $item) -->
+                                                @foreach($leader as $item)
                                                 <option value="{{ $item->name }}">{{ $item->name }}</option>
                                                 @endforeach
                                             </select>
@@ -84,19 +105,7 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Employee Name</label>
-                                            
-                                            <select onclick="" class="form-control" wire:model="employee_name">
-                                                <option value=""> --- Employee Name --- </option>
-                                                @foreach(\App\Models\UserEpl::orderBy('id', 'desc')->get() as $item)
-                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('employee_name')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
+                                        
                                        
                                     </div>
                                 </div>
