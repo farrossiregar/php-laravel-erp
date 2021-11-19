@@ -331,12 +331,12 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="fancy-checkbox">
-                                            <input type="checkbox" value="1" wire:model="is_manager">
-                                            <span>Set Manager</span>
-                                        </label>
+                                        <div class="form-group col-md-6 mt-4">
+                                            <label class="fancy-checkbox">
+                                                <input type="checkbox" value="1" wire:model="is_manager">
+                                                <span>Set Manager</span>
+                                            </label>
+                                        </div>
                                     </div>
                                     <div  x-data="{open:@entangle('showEditPassword') }" class="mb-2">
                                         <div class="row">

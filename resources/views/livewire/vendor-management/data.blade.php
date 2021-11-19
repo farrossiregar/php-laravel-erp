@@ -132,7 +132,7 @@
                         <td>
                             @if($item->legal)
                                 <!-- <a href="<?php echo asset('storage/Vendor_Management/Legal/'.$item->legal.''); ?>" data-toggle="tooltip" title="Download Legal"><i class="fa fa-download"></i> {{__('Download Legal')}}</a> -->
-                                <a href="<?php echo asset('storage/Vendor_Management/Legal/'.$item->legal.''); ?>" target="_blank" data-toggle="tooltip" title="Download Legal"><i style="color: #22af46;"  class="fa fa-check  fa-2x"></i> </a>
+                                <a href="<?php echo asset('storage/Vendor_Management/Legal/'.$item->legal.''); ?>" target="_blank" data-toggle="tooltip" title="Download Legal"><i style="color: #22af46;"  class="fa fa-check"></i> </a>
                             @else
                                 <!-- <a href="javascript:;"  wire:click="$emit('modalimportlegal','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a> -->
                                 <a href="javascript:;"  wire:click="$emit('modalimportlegal','{{ $item->id }}')" title="Upload" ><i class="fa fa-upload fa-2x"></i> </a>
@@ -140,23 +140,23 @@
                         </td>
                         <td>
                             @if($item->org_chart)
-                                <a href="<?php echo asset('storage/Vendor_Management/Org_chart/'.$item->org_chart.''); ?>" target="_blank" data-toggle="tooltip" title="Download Org Chart"><i style="color: #22af46;"  class="fa fa-check  fa-2x"></i></a>
+                                <a href="<?php echo asset('storage/Vendor_Management/Org_chart/'.$item->org_chart.''); ?>" target="_blank" data-toggle="tooltip" title="Download Org Chart"><i style="color: #22af46;"  class="fa fa-check"></i></a>
                             @else
                                 <a href="javascript:;"  wire:click="$emit('modalimportorgchart','{{ $item->id }}')" title="Upload" ><i class="fa fa-upload fa-2x"></i> </a>
                             @endif
                         </td>
                         <td>
                             @if($item->tools_resource)
-                                <a href="<?php echo asset('storage/Vendor_Management/Tools_Resource/'.$item->tools_resource.''); ?>" target="_blank" data-toggle="tooltip" title="Download Tools Resource"><i style="color: #22af46;"  class="fa fa-check  fa-2x"></i> </a>
+                                <a href="<?php echo asset('storage/Vendor_Management/Tools_Resource/'.$item->tools_resource.''); ?>" target="_blank" data-toggle="tooltip" title="Download Tools Resource"><i style="color: #22af46;"  class="fa fa-check"></i> </a>
                             @else
                                 <a href="javascript:;"  wire:click="$emit('modalimporttoolsresource','{{ $item->id }}')" title="Upload" ><i class="fa fa-upload fa-2x"></i> </a>
                             @endif
                         </td>
                         <td>
                             @if($item->certification_resource)
-                                <a href="<?php echo asset('storage/Vendor_Management/Certification_Resource/'.$item->certification_resource.''); ?>" target="_blank" data-toggle="tooltip" title="Download Certification Resource"><i style="color: #22af46;"  class="fa fa-check  fa-2x"></i> </a>
+                                <a href="<?php echo asset('storage/Vendor_Management/Certification_Resource/'.$item->certification_resource.''); ?>" target="_blank" data-toggle="tooltip" title="Download Certification Resource"><i style="color: #22af46;"  class="fa fa-check"></i> </a>
                             @else
-                                <a href="javascript:;"  wire:click="$emit('modalimportcertificationresource','{{ $item->id }}')" title="Upload" ><i class="fa fa-upload fa-2x"></i> </a>
+                                <a href="javascript:;"  wire:click="$emit('modalimportcertificationresource','{{ $item->id }}')" title="Upload" ><i class="fa fa-upload"></i> </a>
                             @endif
                         </td>
                         <td>
@@ -187,11 +187,11 @@
                         </td>
                         <td>
                             <?php if($item->summary_note){ echo substr($item->summary_note, 0, 25).'...'; } ?>
-                            <a href="javascript:;"  wire:click="$emit('modalsummarynote','{{ $item->id }}')"  style="cursor: pointer;" title="Edit"><i class="fa fa-edit fa-2x"></i> </a>
+                            <a href="javascript:;"  wire:click="$emit('modalsummarynote','{{ $item->id }}')"  style="cursor: pointer;" title="Edit"><i class="fa fa-edit"></i> </a>
                         </td>
                         <td>
                             <?php if($item->improvement_point){ echo substr($item->improvement_point, 0, 25).'...'; } ?>
-                            <a href="javascript:;"  wire:click="$emit('modalimprovementpoint','{{ $item->id }}')"  style="cursor: pointer;" title="Edit"><i class="fa fa-edit fa-2x"></i> </a>
+                            <a href="javascript:;"  wire:click="$emit('modalimprovementpoint','{{ $item->id }}')"  style="cursor: pointer;" title="Edit"><i class="fa fa-edit"></i> </a>
                         </td>
                         
                     </tr>

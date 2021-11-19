@@ -170,7 +170,7 @@
                 <h5 class="text-info"><a href="javascript:void();" class="text-info mr-1" style="font-size:20px;" onclick="history.back()"><i class="fa fa-arrow-left mr-1" title="Back"></i></a> {{isset($_GET['company_name']) ? $_GET['company_name'] : 'Back'}}</h5>
                 <div class="row clearfix mt-3">
                     @foreach(\App\Models\Department::get() as $dep)
-                        @if($dep->id==)
+                        @if($dep->id==8)
                             <div class="col-lg-2 col-md-2 col-sm-12 px-1" onclick="window.open('{{route('vendor-management.index')}}','_self')">                                            
                         @elseif($dep->id==9)
                             <div class="col-lg-2 col-md-2 col-sm-12 px-1" onclick="window.open('{{route('business-opportunities.index')}}','_self')">                                            
