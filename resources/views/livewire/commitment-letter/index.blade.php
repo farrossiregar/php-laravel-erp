@@ -28,6 +28,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-commitmentletter-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:commitment-letter.edit />
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modal-commitmentletter-importbcg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -64,6 +72,10 @@
 @section('page-script')
     Livewire.on('modaladdcommitmentletter',(data)=>{
         $("#modal-commitmentletter-add").modal('show');
+    });
+
+    Livewire.on('modaleditcommitmentletter',(data)=>{
+        $("#modal-commitmentletter-edit").modal('show');
     });
 
     Livewire.on('modalimportbcg',(data)=>{

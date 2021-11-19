@@ -5,7 +5,7 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Input Commitment Letter</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Revise Commitment Letter</h5>
                 </div>
 
                 <div class="body pt-0">
@@ -17,7 +17,7 @@
                                     <div class="row">
                                         <div class="col-md-12 form-group">
                                             <label>Company Name</label>
-                                            
+                                            <!-- <input type="text" class="form-control" wire:model="company_name"/> -->
                                             <select onclick="" class="form-control" wire:model="company_name">
                                                 <option value=""> --- Company --- </option>
                                                 <option value="1">HUP</option>
@@ -32,7 +32,9 @@
                                             <label>Project</label>
                                             <select onclick="" class="form-control" wire:model="project">
                                                 <option value=""> --- Project --- </option>
-
+                                                <?php
+                                                    // $dataproject = \App\Models\ProjectEpl::orderBy('projects.id', 'desc')->select('projects.*', 'region.region_code')->join(env('DB_DATABASE').'.region', env('DB_DATABASE_EPL_PMT').'.projects.region_id', '=', env('DB_DATABASE').'.region.id' )->get();
+                                                ?>
                                                 @foreach($dataproject as $item)
                                                 <option value="{{ $item->id }}"><b>{{ $item->name }}</b> -  {{ $item->project_code }}</option>
                                                 @endforeach
@@ -44,7 +46,7 @@
                                         <div class="col-md-12 form-group">
                                             <label>Region</label>
                                             <input type="text" class="form-control" wire:model="region" readonly/>
-                                            
+               
                                             @error('date')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror

@@ -39,8 +39,16 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td>{{ $item->company_name }}</td>
-                        <td>{{ $item->project }}</td>
+                        <td>
+                            @if($item->company_name == '1')
+                                HUP
+                            @else
+                                PMT
+                            @endif
+                        </td>
+                        <td>
+                           {{ get_project_company($item->project, $item->company_name) }}
+                        </td>
                         <td>{{ $item->region }}</td>
                         <td>{{ $item->region_area }}</td>
                         <td>{{ $item->ktp_id }}</td>
@@ -48,17 +56,22 @@
                         <td>{{ $item->leader }}</td>
                         <td>{{ $item->employee_name }}</td>
                         <td>
-
+                            
                             @if($item->bcg == '' || $item->bcg == NULL )
-                                <a href="javascript:;" wire:click="$emit('modalimportbcg','{{ $item->id }}')"><i class="fa fa-upload fa-2x"></i></a>
+                                @if(check_access('commitment-letter.pic'))
+                                    <a href="javascript:;" wire:click="$emit('modalimportbcg','{{ $item->id }}')"><i class="fa fa-upload fa-2x"></i></a>
+                                @endif
                             @else
                                 <a href="<?php echo asset('storage/Commitment_Letter/BCG/'.$item->bcg); ?>"><i class="fa fa-download fa-2x" style="color: #28a745;"></i></a>
                             @endif
+                            
                         </td>
                         <td>
                             
                             @if($item->cyber_security == '' || $item->cyber_security == NULL )
-                                <a href="javascript:;" wire:click="$emit('modalimportcybersecurity','{{ $item->id }}')"><i class="fa fa-upload fa-2x"></i></a>
+                                @if(check_access('commitment-letter.pic'))
+                                    <a href="javascript:;" wire:click="$emit('modalimportcybersecurity','{{ $item->id }}')"><i class="fa fa-upload fa-2x"></i></a>
+                                @endif
                             @else
                                 <a href="<?php echo asset('storage/Commitment_Letter/Cyber_Security/'.$item->cyber_security); ?>"><i class="fa fa-download fa-2x" style="color: #28a745;"></i></a>
                             @endif
@@ -76,14 +89,24 @@
                             @endif
 
                             @if($item->status == '0')
-                                <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Decline</label>
+                                <label class="badge badge-danger" data-toggle="tooltip" title="{{ $item->note }}">Decline</label>
                             @endif
                         </td>
                         <td>
-                            <!-- if(check_access('accident-report.input')) -->
-                            <a href="javascript:;" wire:click="$emit('modalapprovecommitmentletter','{{ $item->id }}')" title="Add" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                            <a href="javascript:;" wire:click="$emit('modaldeclinecommitmentletter','{{ $item->id }}')" title="Add" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
-                            <!-- endif -->
+                            @if(check_access('commitment-letter.admin'))
+                                @if($item->bcg != '' && $item->cyber_security != '')
+                                    @if($item->status == NULL || $item->status == '')
+                                    <a href="javascript:;" wire:click="$emit('modalapprovecommitmentletter','{{ $item->id }}')" title="Approve" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclinecommitmentletter','{{ $item->id }}')" title="Decline" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                    @endif
+                                @endif
+                            @endif
+
+                            @if(check_access('commitment-letter.pic'))
+                                @if($item->status == '0')
+                                    <a href="javascript:;" wire:click="$emit('modaleditcommitmentletter','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-edit"></i> Revise </a>
+                                @endif
+                            @endif
                         </td>
                     </tr>
                     @endforeach
