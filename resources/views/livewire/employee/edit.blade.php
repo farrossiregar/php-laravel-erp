@@ -332,6 +332,12 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="fancy-checkbox">
+                                            <input type="checkbox" value="1" wire:model="is_manager">
+                                            <span>Set Manager</span>
+                                        </label>
+                                    </div>
                                     <div  x-data="{open:@entangle('showEditPassword') }" class="mb-2">
                                         <div class="row">
                                             <div class="col-12">

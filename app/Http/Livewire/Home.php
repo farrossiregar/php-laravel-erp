@@ -32,7 +32,10 @@ class Home extends Component
     {
         \LogActivity::add('Home');
 
-        if(isset($_GET['company_id'])) $this->company_id = $_GET['company_id'];
+        if(isset($_GET['company_id'])){
+            $this->company_id = $_GET['company_id'];
+            session()->put('company_id',$_GET['company_id']);
+        } 
         // if(session()->get('company_id')) $this->company_id = session()->get('company_id');
     }
 }

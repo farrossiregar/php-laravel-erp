@@ -23,7 +23,7 @@ class Edit extends Component
     public $foto,$foto_ktp,$password,$confirm,$region_id,$company_id,$lokasi_kantor,$is_use_android,$employee_code,$is_noc,$ktp,$domisili,$postcode,$sub_region_id;
     public $showEditPassword=false,$department_id,$showProject=false,$projects=[],$project_id=[],$employee_project=[],$regions=[],$sub_regions=[],$region_cluster_id,$client_project_ids=[],$speed_warning_pic_id;
     public $app_site_list,$app_daily_commitment,$app_health_check,$app_vehicle_check,$app_ppe_check,$app_tools_check,$app_location_of_field_team,$app_speed_warning,$app_preventive_maintenance,$app_customer_asset,$app_work_order,$app_drug_test,$app_training_material,$app_it_support;
-    public $is_project=0,$sub_department_id;
+    public $is_project=0,$sub_department_id,$is_manager;
     use WithFileUploads;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -63,7 +63,7 @@ class Edit extends Component
         $this->employee_project = EmployeeProject::where(['employee_id'=>$this->data->id])->get();
         $this->region_cluster_id = $this->data->region_cluster_id;
         $this->sub_region_id = $this->data->sub_region_id;
-
+        $this->is_manager = $this->data->is_manager;
         $this->app_site_list = $this->data->app_site_list;
         $this->app_daily_commitment = $this->data->app_daily_commitment;
         $this->app_health_check = $this->data->app_health_check;
@@ -215,6 +215,7 @@ class Edit extends Component
         $this->data->app_drug_test = $this->app_drug_test;
         $this->data->app_training_material = $this->app_training_material;
         $this->data->app_it_support = $this->app_it_support;
+        $this->data->is_manager = $this->is_manager;
 
         if($this->foto!=""){
             $foto = 'foto'.date('Ymdhis').'.'.$this->foto->extension();

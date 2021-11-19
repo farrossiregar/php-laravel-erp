@@ -44,8 +44,10 @@ class Input extends Component
         $data->customer_type            = $this->customer_type;
         $data->sales_name               = $user->name;
         if($this->quotation_number!="" and $this->po_number!=""){
-            $data->status=1;
+            $data->status=1; // ketika Quotation number dan PO Number terisi otomatis menjadi won
         }
+        $data->employee_id = \Auth::user()->employee->id;
+        $data->company_id = session()->get('company_id');
         $data->save();
 
         if($data->status==1){

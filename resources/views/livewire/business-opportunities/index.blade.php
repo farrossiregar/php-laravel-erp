@@ -1,4 +1,4 @@
-@section('title', __('Business Opportunities - Index'))
+@section('title', __('Business Opportunities'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -23,23 +23,6 @@
         
     </div>
 </div>
-
-<div class="modal fade" id="modal-businessopportunities-input" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:business-opportunities.input />
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-businessopportunities-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:business-opportunities.edit />
-        </div>
-    </div>
-</div>
-
 
 <div class="modal fade" id="modal-businessopportunities-wonbo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -187,18 +170,7 @@
         </div>
     </div>
 </div>
-
-
-
 @section('page-script')
-
-
-
-
-    Livewire.on('modaleditbo',(data)=>{
-        $("#modal-businessopportunities-edit").modal('show');
-    });
-
     Livewire.on('modalwonbo',(data)=>{
         $("#modal-businessopportunities-wonbo").modal('show');
     });

@@ -126,6 +126,7 @@
         <script src="{{ asset('assets/bundles/jvectormap.bundle.js') }}"></script> <!-- JVectorMap Plugin Js -->
         <script src="{{ asset('assets/bundles/knob.bundle.js') }}"></script>
         <script src="{{ asset('assets/bundles/mainscripts.bundle.js') }}?v=1"></script>
+        <script src="{{ asset('assets/bundles/mainscripts.bundle.js') }}?v=1"></script>
         <style>
             .left-sub-menu {
                 -webkit-transition: all 0.3s ease-in-out;

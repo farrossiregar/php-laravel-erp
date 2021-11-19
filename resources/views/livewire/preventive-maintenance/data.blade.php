@@ -108,7 +108,7 @@
                         </td>
                         <td>
                             @if($item->is_upload_report==1)
-                                    <span class="badge badge-success">Approved EID</span>
+                                <span class="badge badge-success">Approved EID</span>
                             @endif
                         </td>
                         <td>{{$item->note}}</td>
@@ -131,7 +131,9 @@
             </tbody>
         </table>
     </div>
+    
     {{$data->links()}}
+
     <div wire:ignore.self class="modal fade" id="modal_change_pic" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

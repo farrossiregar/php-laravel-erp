@@ -38,33 +38,28 @@
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <label>Project Name</label>
-                                            <input type="text" class="form-control" wire:model="project_name" required/>
+                                            <input type="text" class="form-control project_name_edit" wire:model="project_name" required/>
                                             @error('project_name')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <label>Region</label>
-                                            <select class="form-control" wire:model="region" required>
-                                                <option value="">-- Region --</option>
-                                                @foreach(\App\Models\Region::orderBy('id', 'desc')->get() as $item)
-                                                <option value="{{ $item->region }}">{{ $item->region }}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="text" class="form-control region_name_edit" wire:model="region" />
                                             @error('region')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <div class="row">
-                                                <div class="col-md-8 form-group">
+                                                <div class="col-md-6 form-group">
                                                     <label>Quantity</label>
                                                     <input type="number" class="form-control" wire:model="qty" required/>
                                                     @error('qty')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                     @enderror
                                                 </div>
-                                                <div class="col-md-4 form-group">
+                                                <div class="col-md-6 form-group">
                                                     <label>Unit</label>
                                                     <select class="form-control" wire:model="unit">
                                                         <option value="">-- Unit --</option>
@@ -97,32 +92,13 @@
                                         <script>
                                             function currency(){
                                                 var numb = document.getElementById("estimated_revenue").value;
-                                                // numb.replace('IDR ', '');
-                                                // numb.replace('.', '');
-                                                // var txt = "#div-name-1234-characteristic:561613213213";
-                                                // numb.replace('.00', '');
-                                                // numb = numb.match(/\d/g);
-                                                // numb = numb.join("");
-                                                
-                                                // numb.slice(-3);
-                                                // console.log(numb.replace('.00', ''));
                                                 var formatter = new Intl.NumberFormat('en-US', {
                                                     style: 'currency',
                                                     currency: 'IDR',
                                                 });
-                                                
-                                                // console.log(formatter.format(numb));
-                                                
                                                 document.getElementById("estimated_revenue").value = formatter.format(numb);
                                             }
                                         </script>
-                                        <!-- <div class="col-md-6 form-group">
-                                            <label>Duration</label>
-                                            <input type="number" class="form-control" wire:model="duration"/>
-                                            @error('duration')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div> -->
                                         <div class="col-md-6 form-group">
                                             <label>Start Duration</label>
                                             <input type="date" class="form-control" wire:model="startdate" required/>
@@ -137,20 +113,6 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        <!-- <div class="col-md-6 form-group">
-                                            <label>Start Duration</label>
-                                            <input type="date" class="form-control" wire:model="start_dur"/>
-                                            @error('start_dur')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label>End Duration</label>
-                                            <input type="date" class="form-control" wire:model="end_dur"/>
-                                            @error('end_dur')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div> -->
                                         <div class="col-md-12 form-group">
                                             <label>Brief Description of Project</label>
                                             <textarea class="form-control" wire:model="brief_description" required></textarea>
@@ -169,20 +131,25 @@
                                                 <option value="Others">Others</option>
                                             </select>
                                             @error('customer_type')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>Note</label>
                                             <textarea class="form-control" wire:model="note"></textarea>
+                                            @error('note')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 form-group">
                                     <hr />
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Update</button>
-
-                                    @if($quotation_number)
+                                    @if($quotation_number=="" and $po_number=="")
+                                        <a href="javascript:void(0);" wire:click="cancel" class="btn btn-danger">Cancel</a>
+                                    @endif
+                                    @if($quotation_number and $po_number=="")
                                         <a href="javascript:void(0);" wire:click="failed" class="btn btn-danger">Failed</a>
                                     @endif
                                 </div>
@@ -193,4 +160,35 @@
             </div>
         </div>
     </div>
+    @push('after-scripts')
+        <script type="text/javascript">
+            setTimeout(function(){
+                $(function(){
+                    var data_project_name = [];
+                    @foreach(\App\Models\ClientProject::where('is_project',1)->get() as $item)
+                    data_project_name.push("{{$item->name}}");
+                    @endforeach
+                    $(".project_name_edit").autocomplete({
+                        autoFocus:true,
+                        source: data_project_name,
+                        change: function (event, ui) {
+                            if(ui.item.label != undefined) @this.set('project_name',ui.item.label)
+                        },
+                    })
+
+                    var region_name = [];
+                    @foreach(\App\Models\Region::get() as $item)
+                        region_name.push("{{$item->region}}");
+                    @endforeach
+                    $(".region_name_edit").autocomplete({
+                        autoFocus:true,
+                        source: region_name,
+                        change: function (event, ui) {
+                            if(ui.item.label != undefined) @this.set('region',ui.item.label)
+                        },
+                    });
+                });
+            },2000);
+        </script>
+    @endpush
 </div>

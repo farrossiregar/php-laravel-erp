@@ -12,12 +12,26 @@ class Edit extends Component
     protected $listeners = [
         'modaleditbo'=>'edit',
     ];
-
     public $customer, $selected_id, $project_name, $quotation_number, $po_number, $region, $qty, $unit, $price_or_unit, $estimate_revenue, $duration, $brief_description, $startdate, $enddate, $date, $customer_type, $customer_type2, $show_customer_type2=false;
-
+    public $note;
     public function render()
     {
         return view('livewire.business-opportunities.edit');        
+    }
+
+    public function cancel()
+    {
+        $this->validate([
+            'note'=>'required'
+        ]);
+
+        $this->data->status = 3;
+        $this->data->cancel_note = $this->note;
+        $this->data->cancel_date = date('Y-m-d');
+        $this->data->save();
+
+        session()->flash('message-success',"Business Opportunity Canceled");
+        return redirect()->route('business-opportunities.index');
     }
 
     public function edit($id)
@@ -72,6 +86,8 @@ class Edit extends Component
         
         if($data->status==1){
             $insertcrf                      = new ContractRegistrationFlow();
+            $insertcrf->company_id               = $data->company_id;
+            $insertcrf->employee_id               = $data->employee_id;
             $insertcrf->id_bo               = $this->selected_id;
             $insertcrf->quotation_number    = $data->quotation_number;
             $insertcrf->po_number           = $data->po_number;
@@ -88,8 +104,12 @@ class Edit extends Component
 
     public function failed()
     {
+        $this->validate([
+            'note'=>'required'
+        ]);
         $this->data->status=0;
-        $this->data->note = $this->note;
+        $this->data->failed_note = $this->note;
+        $this->data->failed_date = date('Y-m-d');
         $this->data->save();
 
         session()->flash('message-success',"Berhasil, Business Opportunity status is updated to Failed !!!");
