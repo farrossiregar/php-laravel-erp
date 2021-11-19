@@ -135,21 +135,21 @@
                                 <a href="<?php echo asset('storage/Vendor_Management/Legal/'.$item->legal.''); ?>" target="_blank" data-toggle="tooltip" title="Download Legal"><i style="color: #22af46;"  class="fa fa-check"></i> </a>
                             @else
                                 <!-- <a href="javascript:;"  wire:click="$emit('modalimportlegal','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a> -->
-                                <a href="javascript:;"  wire:click="$emit('modalimportlegal','{{ $item->id }}')" title="Upload" ><i class="fa fa-upload fa-2x"></i> </a>
+                                <a href="javascript:;"  wire:click="$emit('modalimportlegal','{{ $item->id }}')" title="Upload" ><i class="fa fa-upload"></i> </a>
                             @endif
                         </td>
                         <td>
                             @if($item->org_chart)
                                 <a href="<?php echo asset('storage/Vendor_Management/Org_chart/'.$item->org_chart.''); ?>" target="_blank" data-toggle="tooltip" title="Download Org Chart"><i style="color: #22af46;"  class="fa fa-check"></i></a>
                             @else
-                                <a href="javascript:;"  wire:click="$emit('modalimportorgchart','{{ $item->id }}')" title="Upload" ><i class="fa fa-upload fa-2x"></i> </a>
+                                <a href="javascript:;"  wire:click="$emit('modalimportorgchart','{{ $item->id }}')" title="Upload" ><i class="fa fa-upload"></i> </a>
                             @endif
                         </td>
                         <td>
                             @if($item->tools_resource)
                                 <a href="<?php echo asset('storage/Vendor_Management/Tools_Resource/'.$item->tools_resource.''); ?>" target="_blank" data-toggle="tooltip" title="Download Tools Resource"><i style="color: #22af46;"  class="fa fa-check"></i> </a>
                             @else
-                                <a href="javascript:;"  wire:click="$emit('modalimporttoolsresource','{{ $item->id }}')" title="Upload" ><i class="fa fa-upload fa-2x"></i> </a>
+                                <a href="javascript:;"  wire:click="$emit('modalimporttoolsresource','{{ $item->id }}')" title="Upload" ><i class="fa fa-upload"></i> </a>
                             @endif
                         </td>
                         <td>
