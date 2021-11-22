@@ -20,7 +20,8 @@
                                             
                                             <select onclick="" class="form-control" wire:model="name">
                                                 <option value=""> --- Employee Name NOC--- </option>
-                                                @foreach(\App\Models\Employee::get() as $item)
+                                                <!-- foreach(\App\Models\Employee::get() as $item) -->database-tools-noc.noc-list
+                                                @foreach(check_access_data('database-tools-noc.noc-list', '') as $item)
                                                 <option value="{{$item->name}}">{{$item->name}}</option>
                                                 @endforeach
                                             </select>
@@ -31,7 +32,7 @@
 
                                         <div class="col-md-12 form-group">
                                             <label>NIK</label>
-                                            <input type="text" class="form-control" wire:model="nik_pmt" readonly/>
+                                            <input type="text" class="form-control" wire:model="nik" readonly/>
                                             @error('date')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror

@@ -19,6 +19,9 @@ class Addtoolsnoc extends Component
     
     public function render()
     {
+        if($this->name){
+            $this->nik = \App\Models\Employee::where('name', $this->name)->first()->nik;
+        }
         return view('livewire.database-tools-noc.addtoolsnoc');
     }
 
