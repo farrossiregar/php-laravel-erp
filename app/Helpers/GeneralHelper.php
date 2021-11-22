@@ -214,7 +214,8 @@ function check_list_user_acc($link, $project){
 }
 
 function get_project_company($project, $company){
-    $data = \App\Models\ProjectEpl::select('name')->where('id', $project)->where('type', $company)->first();
+    // $data = \App\Models\ProjectEpl::select('name')->where('id', $project)->where('type', $company)->first();
+    $data = \App\Models\ClientProject::select('name')->where('id', $project)->where('company_id', $company)->first();
     if($data){
         return $data->name;
     }else{
