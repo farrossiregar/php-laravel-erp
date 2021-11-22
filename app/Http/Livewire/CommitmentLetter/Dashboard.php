@@ -24,7 +24,7 @@ class Dashboard extends Component
         
         // $this->generate_chart();
 
-        $data = CommitmentLetter::orderBy('id', 'desc')
+        $data = CommitmentLetter::where('status', '1')->orderBy('id', 'desc')
                                 ->groupBy('region');
         // dd($data->get());
                         

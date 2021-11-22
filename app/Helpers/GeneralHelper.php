@@ -196,6 +196,32 @@ function check_access_data($link, $reg = ''){
     }
 }
 
+
+function check_list_user_acc($link, $project){
+    $cek = DB::table('user_access_modules as user_access_modules')
+                    ->where('modules_items.link',$link)
+                    ->where('employees.project',$project)
+                    ->join('modules_items','modules_items.id','=','user_access_modules.module_id')
+                    ->join('modules','modules.id','=','modules_items.module_id')
+                    ->join('employees','employees.user_access_id','=','user_access_modules.user_access_id')
+                    ->get();
+    
+    if($cek){
+        return $cek;
+    }else{
+        return false;
+    }
+}
+
+function get_project_company($project, $company){
+    $data = \App\Models\ProjectEpl::select('name')->where('id', $project)->where('type', $company)->first();
+    if($data){
+        return $data->name;
+    }else{
+        return false;
+    }
+}
+
 function check_access_controller($link){
     $cek = \App\Models\UserAccessModule::select('modules.*')
             ->where('user_access_modules.user_access_id',\Auth::user()->user_access_id)->where('modules_items.link',$link)

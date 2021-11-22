@@ -57,19 +57,30 @@
                                 <td>{{ $item->region }}</td>
                                 <td>
                                     <?php
-                                        $done = App\Models\CommitmentLetter::where('region', $item->region)->where('bcg', '<>', NULL)->where('cyber_security', '<>', NULL)->orderBy('id', 'desc')->groupBy('region')->get();
+                                        $done = App\Models\CommitmentLetter::where('region', $item->region)->where('bcg', '!=', NULL)->where('cyber_security', '!=', NULL)->where('status', '1')->orderBy('id', 'desc')->get();
+                                        
                                         echo count($done);
                                     ?>
                                 </td>
                                 <td>
                                     <?php
-                                        $notdone = App\Models\CommitmentLetter::where('region', $item->region)->where('bcg', NULL)->where('cyber_security',  NULL)->orderBy('id', 'desc')->groupBy('region')->get();
-                                        echo count($notdone);
+                                        $notdone = App\Models\CommitmentLetter::where('region', $item->region)->orderBy('id', 'desc')->get();
+                                        // $notdone = App\Models\CommitmentLetter::where('region', $item->region)->where('bcg', Null)->orwhere('cyber_security', Null)->where('status', '1')->orderBy('id', 'desc')->groupBy('region')->get();
+                                        // $notdone = App\Models\CommitmentLetter::where('region', 'West')->where(function ($query) {
+                                        //                                                                                 $query->where('bcg', Null)
+                                        //                                                                                     ->orwhere('cyber_security', Null);
+                                        //                                                                             })->
+                                        //                                                                             orwhere(function ($query) {
+                                        //                                                                                 $query->where('bcg', Null)
+                                        //                                                                                     ->where('cyber_security', Null);
+                                        //                                                                             })->where('status', '1')->orderBy('id', 'desc')->groupBy('region')->get();
+                                        echo count($notdone) - count($done);
+                                        
                                     ?>
                                 </td>
                                 <td>
                                     <?php
-                                        $grand = App\Models\CommitmentLetter::where('region', $item->region)->get();
+                                        $grand = App\Models\CommitmentLetter::where('region', $item->region)->where('status', '1')->get();
                                         echo count($grand);
                                     ?>
                                 </td>
