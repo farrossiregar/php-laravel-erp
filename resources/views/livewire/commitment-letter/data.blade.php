@@ -23,12 +23,14 @@
                         <th>Project</th> 
                         <th>Region</th> 
                         <th>Region / Area</th> 
+                        <th>Employee Name</th> 
                         <th>KTP ID</th> 
                         <th>NIK PMT</th> 
                         <th>Leader</th> 
-                        <th>Employee Name</th> 
-                        <th>BCG</th> 
-                        <th>Cyber Security</th> 
+                        
+                        <th>Type Commitment Letter</th> 
+                        <!-- <th>BCG</th> 
+                        <th>Cyber Security</th>  -->
                         <th>Date Create</th> 
                         <th>Status</th> 
                         <th>Action</th> 
@@ -51,11 +53,42 @@
                         </td>
                         <td>{{ $item->region }}</td>
                         <td>{{ $item->region_area }}</td>
+                        <td>{{ $item->employee_name }}</td>
                         <td>{{ $item->ktp_id }}</td>
                         <td>{{ $item->nik_pmt }}</td>
                         <td>{{ $item->leader }}</td>
-                        <td>{{ $item->employee_name }}</td>
+                        
                         <td>
+                            <?php
+
+                            if($item->type_letter == '1'){
+                                $titledoc = 'BCG';
+                                $folderdoc = 'BCG';
+                                $filedoc = $item->doc;
+                                $modaldoc = 'modalimportbcg';
+                            }elseif($item->type_letter == '2'){
+                                $titledoc = 'Cyber Security';
+                                $folderdoc = 'Cyber_Security';
+                                $filedoc = $item->doc;
+                                $modaldoc = 'modalimportcybersecurity';
+                            }else{
+                                $titledoc = 'Other : '.$item->type_letter;
+                                $folderdoc = 'Other';
+                                $filedoc = $item->doc;
+                                $modaldoc = 'modalimportdoc';
+                            }
+
+                            ?>
+
+                            @if($item->doc == '' || $item->doc == NULL )
+                                @if(check_access('commitment-letter.pic'))
+                                    <a href="javascript:;" wire:click="$emit('modalimportdoc','{{ $item->id }}')"><i class="fa fa-upload"></i> Upload <?php echo @$titledoc; ?></a>
+                                @endif
+                            @else
+                                <a href="<?php echo asset('storage/Commitment_Letter/'.$folderdoc.'/'.$filedoc); ?>"><i class="fa fa-download" style="color: #28a745;"></i> Download <?php echo @$titledoc; ?></a>
+                            @endif
+                        </td>
+                        <!-- <td>
                             
                             @if($item->bcg == '' || $item->bcg == NULL )
                                 @if(check_access('commitment-letter.pic'))
@@ -75,7 +108,7 @@
                             @else
                                 <a href="<?php echo asset('storage/Commitment_Letter/Cyber_Security/'.$item->cyber_security); ?>"><i class="fa fa-download fa-2x" style="color: #28a745;"></i></a>
                             @endif
-                        </td>
+                        </td> -->
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>
                             @if($item->bcg != '' && $item->cyber_security != '')

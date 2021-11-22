@@ -13,32 +13,48 @@ use DB;
 class Add extends Component
 {
     use WithPagination;
-    public $date, $employee_id;
+    // public $date, $employee_id;
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $dataproject, $company_name, $project, $region, $region_area, $ktp_id, $nik_pmt, $leader, $employee_name, $employeelist, $leaderlist, $regionarealist;
+    public $dataproject, $company_name, $project, $region, $region_area, $ktp_id, $nik_pmt, $leader, $employee_name, $employeelist, $leaderlist, $regionarealist, $type_letter, $inputletter, $title_letter;
 
     public function render()
     {
         
 
         if($this->company_name){ 
-            $this->dataproject = \App\Models\ProjectEpl::orderBy('projects.id', 'desc')
-                                    ->select('projects.*', 'region.region_code')
-                                    ->join(env('DB_DATABASE').'.region', env('DB_DATABASE_EPL_PMT').'.projects.region_id', '=', env('DB_DATABASE').'.region.id' )
-                                    ->where('projects.type', $this->company_name)
+            // $this->dataproject = \App\Models\ProjectEpl::orderBy('projects.id', 'desc')
+            //                         ->select('projects.*', 'region.region_code')
+            //                         ->join(env('DB_DATABASE').'.region', env('DB_DATABASE_EPL_PMT').'.projects.region_id', '=', env('DB_DATABASE').'.region.id' )
+            //                         ->where('projects.type', $this->company_name)
+            //                         ->get();
+
+            $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
+                                    ->where('company_id', $this->company_name)
+                                    ->where('is_project', '1')
                                     ->get();
             
             if($this->project){ 
-                $getproject = \App\Models\ProjectEpl::where('id', $this->project)->where('type', $this->company_name)->first();
                 
+                // $getproject = \App\Models\ProjectEpl::where('id', $this->project)->where('type', $this->company_name)->first();
+                $getproject = \App\Models\ClientProject::where('id', $this->project)
+                                                        ->where('company_id', $this->company_name)
+                                                        ->where('is_project', '1')
+                                                        ->first();
+                
+                                                        // dd($getproject->region_id);
+
                 $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
                 if($this->region){
                     $this->regionarealist = \App\Models\RegionCluster::where('region_id', $getproject->region_id)->orderBy('id', 'desc')->get();
                     
                 }
-                $this->employeelist = check_list_user_acc('commitment-letter.tecme-list', $getproject->id);
+                // $this->employeelist = check_list_user_acc('commitment-letter.tecme-list', $getproject->id);
+                $this->employeelist = \App\Models\Employee::whereIn('user_access_id', [85, 84])
+                                                            ->where('region_id', $getproject->region_id)
+                                                            ->where('project', $this->project)
+                                                            ->get();
                 
                 if($this->employee_name){
                     $this->ktp_id = isset(\App\Models\Employee::where('name', $this->employee_name)->first()->nik) ? \App\Models\Employee::where('name', $this->employee_name)->first()->nik : '' ;
@@ -51,6 +67,16 @@ class Add extends Component
                 $this->employeelist = [];
                 $this->leader = [];
             }
+
+            if($this->type_letter){
+                // dd($this->type_letter);
+                if($this->type_letter == '3'){
+                    $this->inputletter = '1';
+                }else{
+                    $this->inputletter = '0';
+                }
+            }
+
         }else{
             $this->dataproject = [];
             $this->project = [];
@@ -77,10 +103,18 @@ class Add extends Component
         $data->project          = $this->project;
         $data->region           = $this->region;
         $data->region_area      = $this->region_area;
-        $data->ktp_id           = $this->ktp_id;
-        $data->nik_pmt          = $this->nik_pmt;
+        $data->ktp_id           = @$this->ktp_id;
+        $data->nik_pmt          = @$this->nik_pmt;
         $data->leader           = $this->leader;
         $data->employee_name    = $this->employee_name;
+        if($this->type_letter == '3'){
+            $data->type_letter      = $this->title_letter;
+        }else{
+            $data->type_letter      = $this->type_letter;
+        }
+        
+
+        // dd($this);
 
         $data->save();
 

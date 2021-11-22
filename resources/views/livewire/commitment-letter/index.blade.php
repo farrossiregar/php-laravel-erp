@@ -1,4 +1,4 @@
-@section('title', __('Duty Roster Region Tools'))
+@section('title', __('Commitment Letter'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -52,6 +52,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-commitmentletter-importdoc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:commitment-letter.importdoc />
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modal-commitmentletter-approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -86,6 +94,11 @@
     Livewire.on('modalimportcybersecurity',(data)=>{
         console.log(data);
         $("#modal-commitmentletter-importcybersecurity").modal('show');
+    });
+
+    Livewire.on('modalimportdoc',(data)=>{
+        console.log(data);
+        $("#modal-commitmentletter-importdoc").modal('show');
     });
 
     Livewire.on('modalapprovecommitmentletter',(data)=>{
