@@ -1,5 +1,4 @@
-@section('title', __('Vendor Management - Index'))
-@section('parentPageTitle', 'Home')
+@section('title', __('Vendor Management'))
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -7,19 +6,13 @@
                 <br>
             </div>
             <ul class="nav nav-tabs">
-                <!-- <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li> -->
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newsupplierregistration">{{ __('New Supplier Registration') }}</a></li>
-                
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#supplierselection">{{ __('Supplier Selection') }}</a></li>
             </ul>
             <div class="tab-content">
-                <!-- <div class="tab-pane active show " id="dashboard">
-                    
-                </div> -->
                 <div class="tab-pane active show" id="newsupplierregistration">
                     <livewire:vendor-management.data />
                 </div>
-
                 <div class="tab-pane" id="supplierselection">
                     <livewire:vendor-management.datasupplierselection /> 
                 </div>

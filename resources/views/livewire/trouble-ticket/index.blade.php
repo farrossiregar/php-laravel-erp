@@ -20,6 +20,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Request Date</th>          
                                 <th>Status</th>          
                                 <th>Ticket Number</th>    
                                 <th>Nama Pelapor / Requester</th>          
@@ -46,6 +47,7 @@
                             @foreach($data as $k => $item)
                                 <tr>
                                     <td style="width: 50px;">{{$k+1}}</td>
+                                    <td>{{date('d-F-Y',strtotime($item->created_at))}}</td>
                                     <td>
                                         @if($item->status==1)
                                             <span class="badge badge-info">Open</span>

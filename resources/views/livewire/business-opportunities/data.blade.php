@@ -71,16 +71,11 @@
                                     <a href="javascript:;" wire:click="$emit('modalwonbo','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Won</a>
                                     <a href="javascript:;" wire:click="$emit('modalfailedbo','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Failed</a>
                                 @endif
-
                             @endif
-
                             @if(check_access('business-opportunities.add'))
                                 @if($item->status == '' || $item->status == null)
                                     <a href="#" wire:click="$emit('modaleditbo','{{ $item->id }}')" title="Edit" data-toggle="modal" data-target="#modal-businessopportunities-edit" class="badge badge-info badge-active"><i class="fa fa-edit"></i> {{__('Edit')}}</a>
                                 @endif
-                                {{-- @if($item->status == '0')
-                                    <a href="#" wire:click="$emit('modaleditbo','{{ $item->id }}')" title="Revisi" data-toggle="modal" data-target="#modal-businessopportunities-edit" class="badge badge-info badge-active"><i class="fa fa-edit"></i> {{__('Revisi')}}</a>
-                                @endif --}}
                             @endif
                         </td> 
                     </tr>
@@ -90,7 +85,6 @@
         </div>
     </div>
     @push('after-scripts')
-        {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
         <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-ui/jquery-ui.min.css') }}">
         <script type="text/javascript" src="{{ asset('assets/vendor/jquery-ui/jquery-ui.js') }}"></script>
         <style>

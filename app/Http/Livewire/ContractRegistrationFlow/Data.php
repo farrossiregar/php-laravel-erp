@@ -17,6 +17,12 @@ class Data extends Component
     {
         $data = ContractRegistrationFlow::orderBy('id', 'DESC');
 
+        if($this->keyword) $data = $data->where(function($table){
+            foreach(\Illuminate\Support\Facades\Schema::getColumnListing('contract_registration_flow') as $column){
+                $table->orWhere($column,'LIKE',"%{$this->keyword}%");
+            }
+        });
+
         return view('livewire.contract-registration-flow.data')->with(['data'=>$data->paginate(100)]);
     }
 

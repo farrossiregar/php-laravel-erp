@@ -1,26 +1,13 @@
 <div class="row">
+    <div class="col-md-2" wire:ignore>
+        <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
+    </div>
     <div class="col-md-2">
         <input type="date" class="form-control" wire:model="date" />
     </div>
-
-<!--     
-    <div class="col-md-1">                
-        <select class="form-control" wire:model="year">
-            <option value=""> --- Year --- </option>
-            @foreach(\App\Models\EmployeeNoc::select('year')->groupBy('year')->get() as $item) 
-            <option>{{$item->year}}</option>
-            @endforeach 
-        </select>
-    </div> -->
-
-
-    
     <div class="col-md-2">
         <!-- <a href="#" data-toggle="modal" data-target="#modal-contractregistrationflow-input" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input New Opportunity')}}</a> -->
     </div>
-    
-    
-    
     <style>
         td {
             text-align: center;

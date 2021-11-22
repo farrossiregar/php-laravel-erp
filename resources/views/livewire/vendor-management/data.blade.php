@@ -16,13 +16,12 @@
             <option value="2"> Highest Score </option>
         </select>
     </div>
-        <div class="col-md-1" style="margin-right: 50px;">
-            <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-serviceinput" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('New Service Supplier')}}</a>
-        </div>
-        <div class="col-md-2">
-            <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-materialinput" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('New Material Supplier')}}</a>
-        </div>
-    
+    <div class="col-md-1">
+        <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-serviceinput" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('New Service Supplier')}}</a>
+    </div>
+    <div class="col-md-2">
+        <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-materialinput" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('New Material Supplier')}}</a>
+    </div>
     <div class="col-md-12">
         <br><br>
         <div class="table-responsive">
@@ -39,23 +38,23 @@
                         <th rowspan="2">Org Chart</th> 
                         <th rowspan="2">Tools & Resource</th> 
                         <th rowspan="2">Certification of Resources</th> 
-                        <th colspan="5" class="text-center">Initial Score</th> 
-                        <th colspan="6" class="text-center">Evaluation Score</th> 
+                        <th colspan="5" class="text-center" style="background:#22af46">Initial Score</th> 
+                        <th colspan="6" class="text-center"style="background:#BDBA20">Evaluation Score</th> 
                         <th rowspan="2">Summary Note</th> 
                         <th rowspan="2">Improvement Point</th> 
                     </tr>
                     <tr>
-                        <th>General Information(10%)</th>
-                        <th>Team Availability (25%)</th>
-                        <th>Tools Facilities (20%)</th>
-                        <th>EHS & Quality Management (20%)</th>
-                        <th>Total</th>
-                        <th>General Information (10%)</th>
-                        <th>Team Availability (25%)</th>
-                        <th>Tools Facilities (20%)</th>
-                        <th>EHS & Quality Management (20%)</th>
-                        <th>Commercial Compliance (25%)</th>
-                        <th>Total</th>
+                        <th style="background:#d1ecd5b5;">General Information(10%)</th>
+                        <th style="background:#d1ecd5b5;">Team Availability (25%)</th>
+                        <th style="background:#d1ecd5b5;">Tools Facilities (20%)</th>
+                        <th style="background:#d1ecd5b5;">EHS & Quality Management (20%)</th>
+                        <th style="background:#d1ecd5b5;">Total</th>
+                        <th style="background:#f7f6d7">General Information (10%)</th>
+                        <th style="background:#f7f6d7">Team Availability (25%)</th>
+                        <th style="background:#f7f6d7">Tools Facilities (20%)</th>
+                        <th style="background:#f7f6d7">EHS & Quality Management (20%)</th>
+                        <th style="background:#f7f6d7">Commercial Compliance (25%)</th>
+                        <th style="background:#f7f6d7">Total</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -146,30 +145,18 @@
                             @endif
                         </td>
                         <td class="text-center">
-                            <a href="javasctipt:void(0)" wire:click="$emit('set-id',{{$item->id}})" data-toggle="modal" data-target="#modal_intial_general_information">{{$item->initial_general_information?$item->initial_general_information : 0}}</a>
+                            <a href="javasctipt:void(0)" wire:click="$emit('setid',{{$item->id}})" data-toggle="modal" data-target="#modal_intial_general_information">{{$item->initial_general_information?$item->initial_general_information : 0}}</a>
                         </td>
-                        <td class="text-center">0</td>
-                        <td class="text-center">0</td>
-                        <td class="text-center">0</td>
-                        <td class="text-center">0</td>
-                        <td class="text-center">0</td>
-                        <td class="text-center">0</td>
-                        <td class="text-center">0</td>
-                        <td class="text-center">0</td>
-                        <td>
-                            @if($item->initial)
-                                <a href="javascript:;"  wire:click="$emit('modalinitialscore','{{ $item->id }}')" title="Upload">
-                                    <label class="badge badge-success"  style="cursor: pointer;" data-toggle="tooltip" title="<?php echo $item->initial; ?>" ><label style="padding: 3px 0; cursor: pointer;"><b>{{ $item->initial }}</b></label></label>
-                                </a>
-                            @else
-                                <a href="javascript:;"  wire:click="$emit('modalinitialscore','{{ $item->id }}')" title="Upload">
-                                    <label class="badge badge-danger" style="cursor: pointer;" data-toggle="tooltip" title="0"><label style="padding: 3px 0;">0</label></label>
-                                </a>
-                            @endif
-                        </td>
-                        <td>
-                            <a href="javascript:;"  wire:click="$emit('modaldetailscore','{{ $item->id }}')" data-toggle="tooltip" title="{{ $item->scoring }}" title="Upload"></a>
-                        </td>
+                        <td class="text-center"><a href="">0</a></td>
+                        <td class="text-center"><a href="">0</a></td>
+                        <td class="text-center"><a href="">0</a></td>
+                        <td class="text-center"><a href="">0</a></td>
+                        <td class="text-center"><a href="">0</a></td>
+                        <td class="text-center"><a href="">0</a></td>
+                        <td class="text-center"><a href="">0</a></td>
+                        <td class="text-center"><a href="">0</a></td>
+                        <td class="text-center"><a href="javascript:;"  wire:click="$emit('modalinitialscore','{{ $item->id }}')">{{ $item->initial?$item->initial : 0 }}</a></td>
+                        <td><a href="javascript:;"  wire:click="$emit('modaldetailscore','{{ $item->id }}')" data-toggle="tooltip" title="{{ $item->scoring }}" title="Upload"></a></td>
                         <td>
                             <?php if($item->summary_note){ echo substr($item->summary_note, 0, 25).'...'; } ?>
                             <a href="javascript:;"  wire:click="$emit('modalsummarynote','{{ $item->id }}')"  style="cursor: pointer;" title="Edit"><i class="fa fa-edit"></i> </a>
@@ -184,12 +171,9 @@
             </table>
         </div>
     </div>
-
     <div class="modal fade" wire:ignore.self id="modal_intial_general_information" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" style="max-width:90%;" role="document">
-            <div class="modal-content">
-                @livewire('vendor-management.initial-score.general-information')
-            </div>
+            @livewire('vendor-management.initial-score.general-information')
         </div>
     </div>
 </div>
