@@ -20,8 +20,8 @@
                                             
                                             <select onclick="" class="form-control" wire:model="name">
                                                 <option value=""> --- Employee Name NOC--- </option>
-                                                <!-- foreach(\App\Models\Employee::get() as $item) -->database-tools-noc.noc-list
-                                                @foreach(check_access_data('database-tools-noc.noc-list', '') as $item)
+                                                @foreach( \App\Models\Employee::where('is_noc',1)->orderBy('id', 'desc')->get() as $item)
+                                                <!-- foreach(check_access_data('database-tools-noc.noc-list', '') as $item) -->
                                                 <option value="{{$item->name}}">{{$item->name}}</option>
                                                 @endforeach
                                             </select>
@@ -41,7 +41,7 @@
 
                                         <div class="col-md-12 form-group">
                                             <label>Tools</label>
-                                            <input list="tools" class="form-control" name="tools" id="tools"  wire:model="tools">
+                                            <input list="tools" class="form-control" wire:model="tools">
                                             <datalist id="tools">
                                                 @foreach(\App\Models\ToolsNoc::orderBy('id', 'desc')->groupBy('tools')->get() as $item)
                                                 <option value="{{ $item->tools }}">
@@ -54,7 +54,7 @@
 
                                         <div class="col-md-12 form-group">
                                             <label>Software</label>
-                                            <input list="software" class="form-control" name="software" id="software" wire:model="software">
+                                            <input list="software" class="form-control" wire:model="software">
                                             <datalist id="software">
                                                 @foreach(\App\Models\ToolsNoc::orderBy('id', 'desc')->groupBy('software')->get() as $item)
                                                 <option value="{{ $item->software }}">
