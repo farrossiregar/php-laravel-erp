@@ -1,6 +1,5 @@
 @section('title', 'Employee')
 @section('parentPageTitle', 'Data Master')
-
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">

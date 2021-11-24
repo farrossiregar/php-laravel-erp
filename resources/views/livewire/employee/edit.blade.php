@@ -6,8 +6,21 @@
             <ul class="nav nav-tabs-new2">
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#general">{{ __('General') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#history">{{ __('History') }}</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#device">{{ __('Device') }}</a></li>
             </ul>
             <div class="tab-content">
+                <div class="tab-pane" id="device">
+                    @if($data->device)
+                        <table class="table">
+                            @foreach(json_decode($data->device) as $header => $value)
+                                <tr>
+                                    <th>{{$header}}</th>
+                                    <td>{{$value}}</td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    @endif
+                </div>
                 <div class="tab-pane" id="history">
                     <div class="table-responsive">
                         <table class="table">
