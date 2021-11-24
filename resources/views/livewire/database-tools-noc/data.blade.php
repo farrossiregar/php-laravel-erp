@@ -1,20 +1,52 @@
 <div class="row">
     <div class="col-md-12 mb-2">
         <div class="row">
-            <div class="col-md-1">
+            <!-- <div class="col-md-1">
                 <select class="form-control" wire:model="is_resign">
                     <option value=""> --- Status -- </option>
                     <option value="0">Aktif</option>
                     <option value="1">Resign</option>
                 </select>
+            </div> -->
+            <div class="col-md-1">                
+                <select class="form-control" wire:model="filtermonth">
+                    <option value=""> --- Month --- </option>
+                    @foreach(\App\Models\ToolsNoc::groupBy('month')->get() as $item) 
+                    <option value="{{$item->month}}">{{ date_format(date_create($item->created_at), 'M') }}</option>
+                    @endforeach 
+                </select>
+            </div>
+            <div class="col-md-1">                
+                <select class="form-control" wire:model="filteryear">
+                    <option value=""> --- Year --- </option>
+                    @foreach(\App\Models\ToolsNoc::groupBy('year')->get() as $item) 
+                    <option value="{{$item->year}}">{{$item->year}}</option>
+                    @endforeach 
+                </select>
+            </div>
+            <div class="col-md-1">                
+                <input list="tools" class="form-control" wire:model="filtertools">
+                <datalist id="tools">
+                    @foreach(\App\Models\ToolsNoc::orderBy('id', 'desc')->groupBy('tools')->get() as $item)
+                    <option value="{{ $item->tools }}">
+                    @endforeach
+                </datalist>
+            </div>
+            <div class="col-md-1">                
+                <input list="software" class="form-control" wire:model="filtersoftware">
+                <datalist id="software">
+                    @foreach(\App\Models\ToolsNoc::orderBy('id', 'desc')->groupBy('software')->get() as $item)
+                    <option value="{{ $item->software }}">
+                    @endforeach
+                </datalist>
             </div>
             <div class="col-md-3">                
-                <input type="text" class="form-control" wire:model="keyword" placeholder="Name,NIK,ID KTP, Telepon..." />
+                <input type="text" class="form-control" wire:model="keyword" placeholder="Name,NIK,Tools,Software..." />
             </div>
-            <div class="col-md-2">
-        
-        <a href="javascript:;" wire:click="$emit('modaladdtoolsnoc')" class="btn btn-info"><i class="fa fa-plus"></i> Add</a>
-    </div>
+            <!-- <div class="col-md-2">
+                
+                <a href="javascript:;" wire:click="$emit('modaladdtoolsnoc')" class="btn btn-info"><i class="fa fa-plus"></i> Add</a>
+            </div> -->
             <div class="col-md-1">
                 <span wire:loading>
                     <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -35,25 +67,39 @@
                         <th>Software</th> 
                         
                         <th>Status</th>
-                        <th></th>
+                        <!-- <th></th> -->
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($data as $key => $item)
                     <tr>
+                        <?php
+                            if($this->filtermonth && $this->filteryear){
+                                $datatoolsnoc = \App\Models\ToolsNoc::where('nik', $item->nik)->where('month', $this->filtermonth)->where('year', $this->filteryear)->first();
+                            }elseif($this->filtermonth == '' && $this->filteryear){
+                                $datatoolsnoc = \App\Models\ToolsNoc::where('nik', $item->nik)->where('month', date('m'))->where('year', $this->filteryear)->first();
+                            }elseif($this->filtermonth && $this->filteryear == ''){
+                                $datatoolsnoc = \App\Models\ToolsNoc::where('nik', $item->nik)->where('month', $this->filtermonth)->where('year', date('Y'))->first();
+                            }else{
+                                $datatoolsnoc = \App\Models\ToolsNoc::where('nik', $item->nik)->where('month', date('m'))->where('year', date('Y'))->first();
+                            }
+                            // echo $datatoolsnoc;
+                        ?>
                         <td>{{ $key + 1 }}</td>
                         <td>{{$item->nik}}</td>
-                        <td>{{$item->name}}</td>
-                        <td>{{$item->name}}</td>
-                        <td>{{$item->name}}</td>
-                        
+                        <td><a href="javascript:;" wire:click="$emit('modaladdtoolsnoc')" >{{ strtoupper($item->name) }}</a></td>
                         <td>
-                            @if($item->is_resign==0)
-                                <span class="badge badge-success"><i class="fa fa-check"></i> Aktif</span>
-                            @else
-                                <span class="badge badge-danger"><i class="fa fa-times"></i> Resign</span>
-                            @endif
+                            <?php
+                                echo @$datatoolsnoc->tools;
+                            ?>
                         </td>
+                        <td>
+                            <?php
+                                echo @$datatoolsnoc->software;
+                            ?>
+                        </td>
+                        
+                      
                         <td>
                             @if($item->is_approve_admin_noc===0)
                                 @if(check_access('database-noc.approval'))

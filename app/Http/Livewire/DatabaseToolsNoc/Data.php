@@ -11,17 +11,38 @@ class Data extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $keyword,$is_resign;
+    public $keyword,$is_resign, $filtermonth, $filteryear, $filtertools, $filtersoftware;
 
     public function render()
     {
-        $data = ToolsNoc::orderBy('id','DESC');
+        // $data = ToolsNoc::select('*')
+        //                 ->where('employees.is_noc',1)
+        //                 ->join('employees', 'tools_noc.name', '=', 'employees.name')
+        //                 ->orderBy('employees.id','DESC');
+
+        // $data = \App\Models\Employee::select('employees.*', 'tools_noc.tools as tools', 'tools_noc.software as software')
+        //                                 ->where('employees.is_noc',1)
+        //                                 ->join('tools_noc', 'tools_noc.nik', '=', 'employees.nik')
+        //                                 ->orderBy('employees.id','DESC');
+
+        $data = \App\Models\Employee::where('is_noc',1)->orderBy('id','ASC');
+                                        
         
-        if($this->keyword) $data->where(function($table){
-            foreach(\Illuminate\Support\Facades\Schema::getColumnListing('tools_noc') as $column){
-                $table->orWhere($column,'LIKE',"%{$this->keyword}%");
-            }
-        });
+        // if($this->keyword) $data->where(function($table){
+        //     foreach(\Illuminate\Support\Facades\Schema::getColumnListing('employees') as $column){
+        //         $table->orWhere($column,'LIKE',"%{$this->keyword}%");
+        //     }
+        // });
+        
+        // if($this->month && $this->year){
+        //     $data->whereYear('tools_noc.created_at', $this->year)->whereMonth('tools_noc.created_at', $this->month);
+        // }elseif($this->month && $this->year == ''){
+        //     $data->whereYear('tools_noc.created_at', date('Y'))->whereMonth('tools_noc.created_at', $this->month);
+        // }elseif($this->month == '' && $this->year){
+        //     $data->whereYear('tools_noc.created_at', $this->year)->whereMonth('tools_noc.created_at', date('m'));
+        // }else{
+        //     $data->whereYear('tools_noc.created_at',date('Y'))->whereMonth('tools_noc.created_at', date('m'));
+        // }
         
         // if($this->is_resign !="") $data->where('is_resign',$this->is_resign);
 

@@ -12,102 +12,92 @@
                         <form wire:submit.prevent="save">
                             @csrf
                             <!-- <a href="javascript:;"  wire:click="$emit('downloadevaluasi','{{ $selected_id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-download"></i> Download Evaluasi</a> -->
-                            <button type="submit" class="btn btn-info close-modal"><i class="fa fa-download"></i> Download Scoring</button>
-                            
+                            <button type="submit" class="btn btn-info close-modal"><i class="fa fa-download"></i> Download Scoring</button>  
                         </form>
                     </div>
-                    
                 </div>
-
                 <hr>
                 <div class="body pt-0">
                     <div class="form-group">
                         <!-- <form wire:submit.prevent="save"> -->
-                            
                             <div class="row">
                                 <div class="col-md-12 form-group">
                                     @if($supplier_category != 'Material Supplier')
-                                    <div class="row">
-                                        <div class="col-md-4  form-group"><label>General Information (10%)</label></div>
-                                        <div class="col-md-4 form-group">
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="general_information" readonly/>
-                                        </div>
-                                        <div class="col-md-4 form-group">
-                                            <?php
-                                                $urlgi = route('vendor-management.general-information',['id'=>'ids']);
-                                                $urlgi = str_replace('ids', $selected_id, $urlgi);
+                                        <div class="row">
+                                            <div class="col-md-4  form-group"><label>General Information (10%)</label></div>
+                                            <div class="col-md-4 form-group">
+                                                <input type="number" min='0' max="100" class="form-control" wire:model="general_information" readonly/>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <?php
+                                                    $urlgi = route('vendor-management.general-information',['id'=>'ids']);
+                                                    $urlgi = str_replace('ids', $selected_id, $urlgi);
 
-                                            ?>
-                                            <a href="<?php echo $urlgi; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                                ?>
+                                                <a href="<?php echo $urlgi; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <br>
-                                    
-                                    <div class="row">
-                                        <div class="col-md-4  form-group"><label>Team Availability (25%)</label></div>
-                                        <div class="col-md-4 form-group">
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="team_availability_capability" readonly/>
-                                        </div>
-                                        <div class="col-md-4 form-group">
-                                            <?php
-                                                $urlta = route('vendor-management.team-availability',['id'=>'ids']);
-                                                $urlta = str_replace('ids', $selected_id, $urlta);
+                                        <br>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-4  form-group"><label>Team Availability (25%)</label></div>
+                                            <div class="col-md-4 form-group">
+                                                <input type="number" min='0' max="100" class="form-control" wire:model="team_availability_capability" readonly/>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <?php
+                                                    $urlta = route('vendor-management.team-availability',['id'=>'ids']);
+                                                    $urlta = str_replace('ids', $selected_id, $urlta);
 
-                                            ?>
-                                            <a href="<?php echo $urlta; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                                ?>
+                                                <a href="<?php echo $urlta; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <br>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-4 form-group"><label>Tools Facilities (20%)</label></div>
+                                            <div class="col-md-4 form-group">
+                                                <input type="number" min='0' max="100" class="form-control" wire:model="tools_facilities" readonly/>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <?php
+                                                    $urltf = route('vendor-management.tools-facilities',['id'=>'ids']);
+                                                    $urltf = str_replace('ids', $selected_id, $urltf);
 
-                                    <div class="row">
-                                        <div class="col-md-4 form-group"><label>Tools Facilities (20%)</label></div>
-                                        <div class="col-md-4 form-group">
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="tools_facilities" readonly/>
+                                                ?>
+                                                <a href="<?php echo $urltf; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            </div>
                                         </div>
-                                        <div class="col-md-4 form-group">
-                                            <?php
-                                                $urltf = route('vendor-management.tools-facilities',['id'=>'ids']);
-                                                $urltf = str_replace('ids', $selected_id, $urltf);
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-4 form-group"><label>EHS & Quality Management (20%)</label></div>
+                                            <div class="col-md-4 form-group">
+                                                <input type="number" min='0' max="100" class="form-control" wire:model="ehs_quality_management" readonly/>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <?php
+                                                    $urlehs = route('vendor-management.ehs',['id'=>'ids']);
+                                                    $urlehs = str_replace('ids', $selected_id, $urlehs);
 
-                                            ?>
-                                            <a href="<?php echo $urltf; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                                ?>
+                                                <a href="<?php echo $urlehs; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <br>
-
-                                    <div class="row">
-                                        <div class="col-md-4 form-group"><label>EHS & Quality Management (20%)</label></div>
-                                        <div class="col-md-4 form-group">
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="ehs_quality_management" readonly/>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-4 form-group"><label>Commercial Compliance (25%)</label></div>
+                                            <div class="col-md-4 form-group">
+                                                <input type="number" min='0' max="100" class="form-control" wire:model="commercial_compliance" readonly/>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <?php
+                                                    $urlcc = route('vendor-management.commercial-compliance',['id'=>'ids']);
+                                                    $urlcc = str_replace('ids', $selected_id, $urlcc);
+                                                ?>
+                                                <a href="<?php echo $urlcc; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                            </div>
                                         </div>
-                                        <div class="col-md-4 form-group">
-                                            <?php
-                                                $urlehs = route('vendor-management.ehs',['id'=>'ids']);
-                                                $urlehs = str_replace('ids', $selected_id, $urlehs);
-
-                                            ?>
-                                            <a href="<?php echo $urlehs; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    
-
-                                    <div class="row">
-                                        <div class="col-md-4 form-group"><label>Commercial Compliance (25%)</label></div>
-                                        <div class="col-md-4 form-group">
-                                            <input type="number" min='0' max="100" class="form-control" wire:model="commercial_compliance" readonly/>
-                                        </div>
-                                        <div class="col-md-4 form-group">
-                                            <?php
-                                                $urlcc = route('vendor-management.commercial-compliance',['id'=>'ids']);
-                                                $urlcc = str_replace('ids', $selected_id, $urlcc);
-
-                                            ?>
-                                            <a href="<?php echo $urlcc; ?>" title="Evaluate" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
-                                        </div>
-                                    </div>
-                                    <br>
-
+                                        <br>
                                     @else
                                     <div class="row">
                                         <div class="col-md-4  form-group"><label>General Information (40%)</label></div>

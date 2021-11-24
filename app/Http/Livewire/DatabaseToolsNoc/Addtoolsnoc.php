@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Auth;
 use DB;
+use DateTime;
 
 class Addtoolsnoc extends Component
 {
@@ -34,11 +35,15 @@ class Addtoolsnoc extends Component
     public function save()
     {
         
-        $data = new \App\Models\ToolsNoc();
-        $data->name = $this->name;
-        $data->nik = $this->nik;
-        $data->tools = $this->tools;
-        $data->software = $this->software;
+        $data               = new \App\Models\ToolsNoc();
+        $data->name         = $this->name;
+        $data->nik          = $this->nik;
+        $data->tools        = $this->tools;
+        $data->software     = $this->software;
+        $pubdate            = date('Y-m-d');
+        $data->week         = $this->weekOfMonth($pubdate);
+        $data->month         = date('m');
+        $data->year         = date('Y');
         
         $data->save();
 
@@ -65,4 +70,11 @@ class Addtoolsnoc extends Component
         
         return redirect()->route('database-tools-noc.index');
     }
+
+    public function weekOfMonth($strDate) {
+		$dateArray = explode("-", $strDate);
+		$date = new DateTime();
+		$date->setDate($dateArray[0], $dateArray[1], $dateArray[2]);
+		return floor((date_format($date, 'j') - 1) / 7) + 1;  
+	  }
 }

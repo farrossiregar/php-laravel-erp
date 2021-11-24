@@ -17,6 +17,10 @@ class Index extends Component
 
     public function mount()
     {
-        session()->put('project_id',$this->project_id);
+        if(!session()->get('project_id') and empty($this->project_id)){
+            return redirect()->route('home')->with('message-error',"Failed, Select Project First.");
+        }else{
+            session()->put('project_id',$this->project_id);
+        }
     }
 }
