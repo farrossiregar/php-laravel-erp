@@ -13,12 +13,9 @@ class Index extends Component
     use WithPagination;
     
     protected $paginationTheme = 'bootstrap';
-    
     protected $listeners = ['emit-delete-hide' => '$refresh'];
-    
     public $keyword,$user_access_id,$department_sub_id,$department_id,$project_id;
-    public $device_selected_;
-    
+    public $device_selected;
     public function render()
     {
         $data = Employee::select('employees.*')->with('company','department','access','employee_project.project')->orderBy('employees.id','DESC')
@@ -33,7 +30,7 @@ class Index extends Component
         });
 
         if($this->user_access_id) $data = $data->where('user_access_id',$this->user_access_id);
-        if(isset($_GET['debug'])) dd($data->get()->toSql());
+        
         return view('livewire.employee.index')->with(['data'=>$data->paginate(100)]);
     }
 
@@ -42,9 +39,10 @@ class Index extends Component
         \LogActivity::add('[web] Employee');
     }
 
-    public function set_device(Employee $employee)  
+    public function set_device($id)  
     {
-        $this->device_selected_ = $employee->device;
+        $employee = Employee::find($id);
+        $this->device_selected = $employee->device;
     }
 
     public function generate_login_password(Employee $emp)
