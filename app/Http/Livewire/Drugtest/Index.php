@@ -38,6 +38,8 @@ class Index extends Component
 
     public function mount()
     {
+        \LogActivity::add('[web] Drug Test');
+
         $this->region  = Region::select(['id','region'])->get();
     }
 
@@ -89,6 +91,13 @@ class Index extends Component
             $upload->save();
         }
         
+        $description = "Hasil : ". ($this->status_drug==1 ? 'Positif' : 'Negatif') ."\n";
+
+        if(isset($data->employee->device_token))
+            push_notification_android($data->employee->device_token,"Drug Test #".$this->title,$description,12);
+
+        \LogActivity::add('[web] Drug Test Add');
+
         $this->emit('message-success','Drug Test employee Added');
         $this->emit('refresh-page');
     }

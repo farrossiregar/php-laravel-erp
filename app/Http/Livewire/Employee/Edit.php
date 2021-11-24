@@ -137,6 +137,19 @@ class Edit extends Component
         if($user) {
             $user->password = Hash::make($this->password);
             $user->save();
+
+            if($this->password) {
+                $user->password = \Illuminate\Support\Facades\Hash::make($this->password);
+                
+                $message = "Hallo {$this->data->name},\nBerikut username dan password login ERP anda\n";
+                $message .= "NIK : ". $this->data->nik;
+                $message .= "\nUsername : ". $this->data->email;
+                $message .= "\nPassword : ". $this->password;
+                $message .= "\nLink : https://erp.pmt.co.id";
+                send_wa(['phone'=> $this->data->telepon,'message'=>$message]);
+
+                \LogActivity::add('[web] Employee Change Password');
+            }
         }
 
         $this->emit('message-success','Password saved');
@@ -164,7 +177,9 @@ class Edit extends Component
         $user = User::find($this->data->user_id);
         if(!$user) $user = new User();
 
-        if($this->password) $user->password = \Illuminate\Support\Facades\Hash::make($this->password);
+        if($this->password) {
+            $user->password = \Illuminate\Support\Facades\Hash::make($this->password);
+        }
         $user->user_access_id = $this->user_access_id;
         $user->name = $this->name;
         $user->email = $this->email;
@@ -244,6 +259,8 @@ class Edit extends Component
                 }
             }
         }
+
+        \LogActivity::add('[web] Employee Edit');
 
         session()->flash('message-success',__('Data saved successfully'));
         return redirect()->route('employee.edit',['id'=>$this->data->id]);
