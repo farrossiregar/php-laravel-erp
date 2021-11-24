@@ -124,7 +124,7 @@
                             @else
                                 @if($item->contract)
                                     @if(check_access('contract-registration-flow.pmg-access'))
-                                        <a href="javascript:;"  wire:click="$emit('modalimporttoolsbudget','{{ $item->id }}')" title="Upload" class="btn btn-primary"><i class="fa fa-upload"></i> </a>
+                                        <a href="javascript:;"  wire:click="$emit('modalimporttoolsbudget','{{ $item->id }}')" class="text-warning" title="Upload"><i class="fa fa-upload"></i> </a>
                                     @endif
                                 @endif
                             @endif
@@ -184,7 +184,7 @@
                             @else
                                 @if($item->contract)
                                     @if(check_access('contract-registration-flow.pmg-access'))
-                                        <a href="javascript:;"  wire:click="$emit('modalimporttimeline','{{ $item->id }}')" title="Upload" class=""><i class="fa fa-upload"></i> </a>
+                                        <a href="javascript:;"  wire:click="$emit('modalimporttimeline','{{ $item->id }}')" title="Upload" class="text-warning"><i class="fa fa-upload"></i> </a>
                                     @endif
                                 @endif
                             @endif

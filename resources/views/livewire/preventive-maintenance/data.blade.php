@@ -182,7 +182,7 @@
                     <div class="modal-body">
                         @if($reports)
                             @foreach($reports as $item)
-                                <a href="{{asset($item->image)}}" class="badge badge-info"> <i class="fa fa-paperclip"></i> {{$item->description}}</a>        
+                                <a href="{{asset($item->image)}}" target="_blank" class="badge badge-info"> <i class="fa fa-paperclip"></i> {{$item->description}}</a>        
                             @endforeach
                             <hr />
                         @endif

@@ -25,6 +25,8 @@
         <div class="col-md-2 text-center">
             <h6>Summary SOW (Monthly Target)</h6>
             <hr />
+            <h6>SOW (Monthly Target)</h6>
+            <h1>{{format_idr($total_sow)}}</h1>
             <h6>Submitted</h6>
             <h1>{{$total_submitted}}</h1>
             <h6>Approved EID</h6>
@@ -103,26 +105,6 @@
                 @endforeach
             </tbody>
         </table>
-        {{-- @push('after-scripts')
-            <script>
-                $('.date_range').daterangepicker({
-                    opens: 'left',
-                    locale: {
-                        cancelLabel: 'Clear'
-                    },
-                    autoUpdateInput: false,
-                });
-                $('.date_range').on('apply.daterangepicker', function(ev, picker) {
-                    $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-
-                    @this.set("date_start", picker.startDate.format('YYYY-MM-DD'));
-                    @this.set("date_end", picker.endDate.format('YYYY-MM-DD'));
-                });
-                $('.date_range').on('cancel.daterangepicker', function(ev, picker) {
-                    $(this).val('');
-                });
-            </script>
-        @endpush --}}
     </div>
     @push('after-scripts')
         <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>

@@ -170,11 +170,9 @@
                 <h5 class="text-info"><a href="javascript:void();" class="text-info mr-1" style="font-size:20px;" onclick="history.back()"><i class="fa fa-arrow-left mr-1" title="Back"></i></a> {{isset($_GET['company_name']) ? $_GET['company_name'] : 'Back'}}</h5>
                 <div class="row clearfix mt-3">
                     @foreach(\App\Models\Department::get() as $dep)
-                        @if($dep->id==8)
-                            <div class="col-lg-2 col-md-2 col-sm-12 px-1" onclick="window.open('{{route('vendor-management.index')}}','_self')">                                            
-                        @elseif($dep->id==9)
+                        @if($dep->id==9)
                             <div class="col-lg-2 col-md-2 col-sm-12 px-1" onclick="window.open('{{route('business-opportunities.index')}}','_self')">                                            
-                        @else
+                        @else 
                             <div class="col-lg-2 col-md-2 col-sm-12 px-1" wire:click="set_department({{$dep->id}})" onclick="show_left_menu({{$dep->id}})">    
                         @endif
                             <div class="card ng-star-inserted text-center" style="height:200px;border:1px solid #eee">

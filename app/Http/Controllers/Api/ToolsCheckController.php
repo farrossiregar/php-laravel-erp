@@ -90,12 +90,20 @@ class ToolsCheckController extends Controller
             }
         }
         
-        if($error!="") return response()->json(['message'=>$error], 200);
+        if($error!="") {
+            \LogActivity::add('[apps] Tools Check Error');
+
+            return response()->json(['message'=>$error], 200);
+        }
 
         $employee = isset(\Auth::user()->employee->id) ? \Auth::user()->employee : '';
         $project = EmployeeProject::where('employee_id',$employee->id)->first();
 
-        if(!$project) return response()->json(['message'=>"Project not found."], 200);
+        if(!$project) {
+            \LogActivity::add('[apps] Tools Check Error - Project not found');
+
+            return response()->json(['message'=>"Project not found."], 200);
+        }
         
         $find = ToolsCheck::where(['employee_id'=>\Auth::user()->employee->id])->whereDate('created_at',date('Y-m-d'))->first();
         if(!$find){
