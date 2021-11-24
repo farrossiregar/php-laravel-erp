@@ -1,10 +1,8 @@
-@section('title', __('Vendor Management - Evaluate Tools Facilities'))
-@section('parentPageTitle', 'Home')
+@section('title', __('Evaluate Tools Facilities'))
+@section('parentPageTitle', 'Vendor Management')
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
-            <div><br></div>
-            <div><br></div>
             <ul class="nav nav-tabs">
                 @if(count(\App\Models\VendorManagementtf::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
                     <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
@@ -27,22 +25,8 @@
                                     ?>
                                     <div class="col-md-12">
                                         <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
-                                            
-                                            
-                                            <div class="row">
-                                                <div class="col-md-10 form-group">
-                                                
-                                                    <h5>Tools & Facilities</h5> 
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="col-md-12">
-                                                        <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
+                                            <h5>Tools & Facilities</h5> 
                                             <hr>
-                                        
                                             <div class="row">
                                                 <div class="col-md-2">
                                                     <label>Laptop</label>
@@ -300,11 +284,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
-                                    
+                                        <hr />
+                                        <a href="{{route('vendor-management.index')}}" class="mr-3"><i class="fa fa-arrow-left"></i> Back </a>
+                                        <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                     </div> 
-                                    
                                 </form>
                             </div>
                         </div>

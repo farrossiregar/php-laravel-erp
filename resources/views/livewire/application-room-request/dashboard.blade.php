@@ -5,13 +5,13 @@
             width: 150px;
             padding: 0 10px;
             text-align: left;
-            }
+        }
 
         #external-events h4 {
             font-size: 16px;
             margin-top: 0;
             padding-top: 1em;
-            }
+        }
 
         .external-event { /* try to mimick the look of a real event */
             margin: 10px 0;
@@ -20,19 +20,18 @@
             color: #fff;
             font-size: .85em;
             cursor: pointer;
-            }
+        }
 
         #external-events p {
             margin: 1.5em 0;
             font-size: 11px;
             color: #666;
-            }
+        }
 
         #external-events p input {
             margin: 0;
             vertical-align: middle;
         }
-
         #calendar {
             margin: 0 auto;
             width: 900px;
@@ -50,23 +49,16 @@
                 <option value="2019">2019</option>
                 <option value="2018">2018</option>
                 <option value="2017">2017</option>
-                
-            
             </select>
         </div>
         <div class="col-md-2" wire:ignore>
             <select class="form-control" style="width:100%;" wire:model="month">
                 <option value=""> --- Month --- </option>
-                <?php
-                    for($i = 1; $i <= 12; $i++){
-                ?>
-                <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
-                <?php
-                    }
-                ?>
+                @for($i = 1; $i <= 12; $i++)
+                    <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
+                @endfor
             </select>
         </div>
-        
         <div class="col-md-7">
             <label wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -115,7 +107,7 @@
                         <tr>
                             <td>{{$key+1}}</td>
                             <td>
-                                @if($item->status==2 and $item->employee_id = $employee_id and date('Y-m-d') <= date('Y-m-d',strtotime($item->start_booking)))
+                                @if($item->status==2 and $item->employee_id == $employee_id and date('Y-m-d') <= date('Y-m-d',strtotime($item->start_booking)))
                                     <a href="javascript:void(0)()" wire:click="cancel_room({{$item->id}})" class="text-danger"><i class="fa fa-times"></i></a>
                                 @endif
                                 {{$item->request_room_detail}}</td>

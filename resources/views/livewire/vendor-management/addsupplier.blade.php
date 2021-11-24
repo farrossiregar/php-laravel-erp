@@ -52,26 +52,23 @@
                                                         <td>
                                                             @if($item->initial)
                                                                 <a href="javascript:;" title="Upload">
-                                                                    <label class="badge badge-success"  style="cursor: pointer;" data-toggle="tooltip" title="<?php echo $item->initial; ?>" ><label style="font-size: 18px; padding: 3px 0; cursor: pointer;"><b>{{ $item->initial }}</b></label></label>
+                                                                    <label class="badge badge-success"  style="cursor: pointer;" data-toggle="tooltip" title="<?php echo $item->initial; ?>" >{{ $item->initial }}</label>
                                                                 </a>
                                                             @else
-                                                                <label class="badge badge-danger" data-toggle="tooltip" title="0"><label style="font-size: 20px; padding: 3px 0;">0</label></label>
+                                                                <label class="badge badge-danger" data-toggle="tooltip" title="0">0</label>
                                                             @endif
-                                                            
                                                         </td>
                                                         <td>
                                                             @if($item->scoring)
                                                                 <a href="javascript:;"  title="Upload">
-                                                                    <label class="badge badge-success"  style="cursor: pointer;" data-toggle="tooltip" title="<?php echo $item->scoring; ?>" ><label style="font-size: 18px; padding: 3px 0; cursor: pointer;"><b>{{ $item->scoring }}</b></label></label>
+                                                                    <label class="badge badge-success"  style="cursor: pointer;" data-toggle="tooltip" title="<?php echo $item->scoring; ?>" >{{ $item->scoring }}</label>
                                                                 </a>
                                                             @else
-                                                                <label class="badge badge-danger" data-toggle="tooltip" title="0"><label style="font-size: 20px; padding: 3px 0;">0</label></label>
+                                                                <label class="badge badge-danger" data-toggle="tooltip" title="0">0</label>
                                                             @endif
-                                                        
                                                         </td> 
                                                         <td>
-                                                        
-                                                            <a href="" wire:click="choosesupp({{ $item->id }}, {{$supptype}}, {{$project_id}})"><i class="fa fa-search fa-2x" style="color: #007bff;"></i></a>
+                                                            <a href="" wire:click="choosesupp({{ $item->id }}, {{$supptype}}, {{$project_id}})"><i class="fa fa-search" style="color: #007bff;"></i></a>
                                                         </td> 
                                                     </tr>
                                                     @endforeach

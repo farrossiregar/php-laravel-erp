@@ -80,7 +80,6 @@ class Initialgeneralinformation extends Component
 
         if($checkbranch->value != NULL && $checkbranch->value != NULL){
             $update->initial_ci_branch = '10';
-        
         }
 
 
@@ -112,30 +111,5 @@ class Initialgeneralinformation extends Component
     public function valueconcat($field, $i){
         $fields = $field.$i;
         return $this->$fields;
-    }
-
-    public function duration($start_time, $end_time){
-        
-        $diff = abs(strtotime($end_time) - strtotime($start_time));
-        $years   = floor($diff / (365*60*60*24)); 
-        $months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
-        $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-        $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
-        $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
-        
-
-        $waktu = '';
-        if($months > 0){
-            $waktu .= $months.' month ';
-        }else{
-            $waktu .= '';
-        }
-
-        if($days > 0){
-            $waktu .= $days.' days';
-        }else{
-            $waktu .= '';
-        }
-        return $waktu;
     }
 }

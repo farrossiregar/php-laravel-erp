@@ -3,9 +3,6 @@
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
-            <div><br></div>
-            <div><br></div>
-            <div><br></div>
             <ul class="nav nav-tabs">
                 @if(count(\App\Models\VendorManagementehs::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
@@ -27,23 +24,8 @@
                                             @csrf
                                             <div class="col-md-12">
                                                 <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
-                                                    
-                                                    
-                                                    <div class="row">
-                                                        <div class="col-md-10 form-group">
-                                                        
-                                                            <h5>Quality Management</h5> 
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <div class="row">
-                                                                <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
-                                                            </div>
-                                                            
-                                                        </div>
-                                                        
-                                                    </div>
+                                                    <h5>Quality Management</h5> 
                                                     <hr>
-                                                
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <label>Company Structure - Organization, Diagram</label>
@@ -55,10 +37,8 @@
                                                                     <option value="1">Have</option>
                                                                     <option value="0">Not Have</option>
                                                                 </select>
-                                                                
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-4">
                                                             <label>Project Management - Organization, Diagram or Process</label>
                                                         </div>
@@ -68,11 +48,9 @@
                                                                     <option value=""></option>
                                                                     <option value="1">Have</option>
                                                                     <option value="0">Not Have</option>
-                                                                </select>
-                                                                
+                                                                </select>  
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-4">
                                                             <label>Quality Management - Diagram or Process</label>
                                                         </div>
@@ -86,7 +64,6 @@
                                                                 
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-4">
                                                             <label>Training Management - Diagram or Process</label>
                                                         </div>
@@ -96,11 +73,9 @@
                                                                     <option value=""></option>
                                                                     <option value="1">Have</option>
                                                                     <option value="0">Not Have</option>
-                                                                </select>
-                                                                
+                                                                </select>  
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-4">
                                                             <label>Project Reporting - Diagram or Process</label>
                                                         </div>
@@ -111,10 +86,8 @@
                                                                     <option value="1">Have</option>
                                                                     <option value="0">Not Have</option>
                                                                 </select>
-                                                                
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-4">
                                                             <label>Documentation management - Diagram or Process</label>
                                                         </div>
@@ -124,11 +97,9 @@
                                                                     <option value=""></option>
                                                                     <option value="1">Have</option>
                                                                     <option value="0">Not Have</option>
-                                                                </select>
-                                                                
+                                                                </select>  
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <input type="text" class="form-control" placeholder="Others" wire:model="service_type7">
@@ -140,29 +111,19 @@
                                                                     <option value=""></option>
                                                                     <option value="1">Have</option>
                                                                     <option value="0">Not Have</option>
-                                                                </select>
-                                                                
+                                                                </select>  
                                                             </div>
                                                         </div>
-
                                                     </div>
-
-                                                
-                                                    
                                                 </div>
 
                                                 <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
-                                                    
-                                                    
                                                     <div class="row">
                                                         <div class="col-md-4 form-group">
-                                                        
                                                             <h5>EHS</h5> 
                                                         </div>
-                                                        
                                                     </div>
                                                     <hr>
-                                                
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <label>Working at High (TKPK TK1)</label>
@@ -217,7 +178,6 @@
                                                                 <input type="number" class="form-control" wire:model="value13">
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-4">
                                                             <label>Huawei Pass ID - L1</label>
                                                         </div>
@@ -226,7 +186,6 @@
                                                                 <input type="number" class="form-control" wire:model="value14">
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-4">
                                                             <label>Others … </label>
                                                         </div>
@@ -235,23 +194,16 @@
                                                                 <input type="number" class="form-control" wire:model="value15">
                                                             </div>
                                                         </div>
-
-                                                        
-
                                                     </div>
-
-                                                
-                                                    
                                                 </div>
-                                                
-                                                
                                             </div> 
-                                            
+                                            <div class="col-md-12">
+                                                <a href="{{route('vendor-management.index')}}" class="mr-3"><i class="fa fa-arrow-left"></i> Back </a>
+                                                <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
-
-
                                 <div class="col-md-4">
                                     <div class="row">
                                         <div class="col-md-12">

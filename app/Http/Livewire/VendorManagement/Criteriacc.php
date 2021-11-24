@@ -22,7 +22,7 @@ class Criteriacc extends Component
 
 
     public function mount($id){
-        $this->selected_id = $id;
+        $this->selected_id = $id; 
 
         $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
         $this->datavm = \App\Models\VendorManagementcc::where('id_supplier', $this->selected_id)->first();
