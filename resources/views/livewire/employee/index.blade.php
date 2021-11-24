@@ -143,9 +143,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        @if($device_selected_)
+                        @if($device_selected)
                             <table class="table">
-                                @foreach(json_decode($device_selected_) as $header => $value)
+                                @foreach(json_decode($device_selected) as $header => $value)
                                     <tr>
                                         <th>{{$header}}</th>
                                         <td>{{$value}}</td>
