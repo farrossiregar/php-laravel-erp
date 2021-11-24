@@ -37,7 +37,12 @@ class Index extends Component
         return view('livewire.employee.index')->with(['data'=>$data->paginate(100)]);
     }
 
-    public function set_device(Employee $employee)
+    public function mount()
+    {
+        \LogActivity::add('[web] Employee');
+    }
+
+    public function set_device(Employee $employee)  
     {
         $this->device_selected_ = $employee->device;
     }
@@ -52,6 +57,8 @@ class Index extends Component
             $user->save();    
         }
         
+        \LogActivity::add('[web] Employee Generate Password');
+
         $message = "Hallo {$emp->name},\nBerikut username dan password login e-PM anda\n";
         $message .= "NIK : ". $emp->nik;
         $message .= "\nUsername : ". $emp->email;

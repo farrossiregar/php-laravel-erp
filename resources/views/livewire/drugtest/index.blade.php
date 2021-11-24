@@ -44,10 +44,12 @@
             </div>
             <div class="body">
                 <div class="table-responsive">
-                    <table class="table m-b-0 c_list">
+                    <table class="table table-hover m-b-0 c_list">
                         <thead>
                             <tr style="background:#eee;">
                                 <th style="width:50px;">No</th>         
+                                <th>Region</th>   
+                                <th>Sub Region</th>   
                                 <th>Employee</th>   
                                 <th>Title</th>   
                                 <th>Remark</th>   
@@ -60,6 +62,8 @@
                             @foreach($data as $k => $item)
                                 <tr>
                                     <td>{{$k+1}}</td>
+                                    <td>{{isset($item->employee->region->region) ? $item->employee->region->region : ''}}</td>
+                                    <td>{{isset($item->employee->sub_region->name) ? $item->employee->sub_region->name : ''}}</td>
                                     <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
                                     <td>{{isset($item->title) ? $item->title : ''}}</td>
                                     <td>{{isset($item->remark) ? $item->remark : ''}}</td>
@@ -126,7 +130,7 @@
                             <label>Remark</label>
                             <textarea class="form-control mt-2" wire:model="remark" placeholder="Remark"></textarea>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" wire:ignore>
                             <label>Employee</label>
                             <select class="form-control insert_employee_id" wire:model="employee_id">
                                 <option value=""> --- Select --- </option>

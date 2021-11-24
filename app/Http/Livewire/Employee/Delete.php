@@ -18,6 +18,8 @@ class Delete extends Component
     }
     public function delete()
     {
+        \LogActivity::add('[web] Employee Delete');
+
         \App\Models\Employee::find($this->employee_id)->delete();
         $this->emit('emit-delete-hide');
         $this->reset();

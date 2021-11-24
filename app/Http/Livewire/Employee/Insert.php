@@ -152,6 +152,16 @@ class Insert extends Component
         }
         $employee->save();
         
+        // send notifikasi wa
+        if($employee->telepon){
+            $message = "Hallo {$employee->name},\nBerikut username dan password login ERP anda\n";
+            $message .= "NIK : ". $employee->nik;
+            $message .= "\nUsername : ". $employee->email;
+            $message .= "\nPassword : ". $this->password;
+            $message .= "\nLink : https://erp.pmt.co.id";
+            send_wa(['phone'=> $employee->telepon,'message'=>$message]);
+        }
+        
         if($this->project_id){
             EmployeeProject::where(['employee_id'=>$employee->id])->delete();
 
