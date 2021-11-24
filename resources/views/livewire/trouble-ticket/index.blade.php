@@ -47,7 +47,7 @@
                             @foreach($data as $k => $item)
                                 <tr>
                                     <td style="width: 50px;">{{$k+1}}</td>
-                                    <td>{{date('d-M-Y',strtotime($item->created_at))}}</td>
+                                    <td>{{date('d-F-Y',strtotime($item->created_at))}}</td>
                                     <td>
                                         @if($item->status==1)
                                             <span class="badge badge-info">Open</span>

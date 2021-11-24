@@ -2,6 +2,21 @@
 
 use Illuminate\Support\Facades\DB;
 
+function calculate_aging($date)
+{
+    $date = date('Y-m-d',strtotime($date ." -1 days"));
+    $start_date = new \DateTime($date);
+    $today = new \DateTime("today");
+    if ($start_date > $today) { 
+        return 0;
+    }
+
+    $date1=date_create($date);
+    $date2=date_create();
+    $diff=date_diff($date1,$date2);
+    return $diff->format("%R%a days");
+}
+
 function get_setting_sow($item)
 {
     $data = \App\Models\PreventiveMaintenanceSow::where(

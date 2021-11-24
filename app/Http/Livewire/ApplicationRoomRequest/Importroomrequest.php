@@ -42,6 +42,7 @@ class Importroomrequest extends Component
                                                     ->where(DB::Raw('substring(start_booking, 12, 8)'), '>=', $this->start_time_booking.':00')
                                                     ->where(DB::Raw('substring(end_booking, 12, 8)'), '<=', $this->end_time_booking.':00')
                                                     ->where('request_room_detail', $this->request_room_detail)
+                                                    ->where('status',2)
                                                     ->get();
         if(count($check) < 1){
             $datamaster                             = new \App\Models\ApplicationRoomRequest();
@@ -66,7 +67,7 @@ class Importroomrequest extends Component
             session()->flash('message-success',"Success, <strong>Request Successfully Added</strong>");
             return redirect()->route('application-room-request.index');
         }else{
-            session()->flash('message-danger',"Failed, <strong>Request Can Not be Saved, Try Another Room or Time</strong>");
+            session()->flash('message-error',"Failed, <strong>Request Can Not be Saved, Try Another Room or Time</strong>");
             return redirect()->route('application-room-request.index');
         }
            

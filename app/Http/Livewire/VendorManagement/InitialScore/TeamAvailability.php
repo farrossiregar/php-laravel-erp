@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Livewire\VendorManagement;
+namespace App\Http\Livewire\VendorManagement\InitialScore;
 
 use Livewire\Component;
-use DB;
-
-class Initialteamavailability extends Component
-{    
+use App\Models\VendorManagement;
+use App\Models\VendorManagementta;
+use App\Models\VendorManagementtainit;
+class TeamAvailability extends Component
+{
+    protected $listeners = ['setid'];
     public $selected_id, $data, $datavm;
     public $id_detail, $team;
     public $service_type1, $service_type2, $service_type3, $service_type4, $service_type5, $service_type6, $service_type7, $service_type8, $service_type9, $service_type10, $service_type11, $service_type12, $service_type13, $service_type14;
@@ -18,28 +20,55 @@ class Initialteamavailability extends Component
     public $other1, $other2, $other3, $other4, $other5, $other6, $other7, $other8, $other9, $other10, $other11, $other12, $other13, $other14;
     public $year1, $year2, $year3, $year4, $year5, $year6, $year7, $year8, $year9, $year10, $year11, $year12, $year13, $year14;
     public $invoice1, $invoice2, $invoice3, $invoice4, $invoice5, $invoice6, $invoice7, $invoice8, $invoice9, $invoice10, $invoice11, $invoice12, $invoice13, $invoice14;
-    
+    public $company_availability_score=0,$team_availability_score=0,$total_score=0;
     public function render()
     {
-        return view('livewire.vendor-management.initialteamavailability');        
+        return view('livewire.vendor-management.initial-score.team-availability');
+    }
+
+    public function setid(VendorManagement $data)
+    {
+        $this->data = $data;
     }
 
     public function updated($propertyName)
-    {
+    {   
+        $count = 0;$count_year=0;
+        for($i = 1; $i < 15; $i++){
+            if($this->valueconcat('team', $i))
+                $count += $this->valueconcat('team', $i);
 
-    }
+            if($this->valueconcat('year', $i))
+                $count_year += $this->valueconcat('year', $i);
+        }
+        if($count >0 and $count < 5){
+            $this->team_availability_score = 20;
+        }elseif($count > 5 and $count < 10){
+            $this->team_availability_score = 30;
+        }elseif($count >= 10){
+            $this->team_availability_score = 40;
+        } else{
+            $this->team_availability_score = 0;
+        }
 
-    public function mount($id)
-    {
-        $this->selected_id = $id;
-        $this->data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
+        $sc = 13 - $count_year;
+        if($sc == 1){
+            $this->company_availability_score = 40;
+        }elseif($sc == 2){
+            $this->company_availability_score = 50;
+        }elseif($sc > 2){
+            $this->company_availability_score = 60;
+        }else{
+            $this->company_availability_score = 0;
+        }
+        $this->total_score = $this->company_availability_score + $this->team_availability_score;
     }
 
     public function save()
     { 
         for($i = 1; $i < 15; $i++){
-            $data                                       = new \App\Models\VendorManagementtainit();
-            $data->id_supplier                          = $this->selected_id;
+            $data                                       = new VendorManagementtainit();
+            $data->id_supplier                          = $this->data->id;
             $data->id_detail                            = $i;
             if($i == 14){
                 $data->id_detail_title                      = $this->service_type14;
@@ -61,10 +90,10 @@ class Initialteamavailability extends Component
             $data->save();
         }      
 
-        $sumteam = \App\Models\VendorManagementtainit::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->groupBy('id_supplier')->first();
-        $sumcap = count(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->where('year', NULL)->get()) + count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->where('year', '0')->get())  + count(\App\Models\VendorManagementta::where('id_supplier', $this->selected_id)->where('id_detail', '<>', '14')->where('year', '')->get());
+        $sumteam = VendorManagementtainit::select(\DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->data->id)->where('id_detail', '<>', '14')->groupBy('id_supplier')->first();
+        $sumcap = count(VendorManagementtainit::where('id_supplier', $this->data->id)->where('id_detail', '<>', '14')->where('year', NULL)->get()) + count(VendorManagementta::where('id_supplier', $this->data->id)->where('id_detail', '<>', '14')->where('year', '0')->get())  + count(VendorManagementta::where('id_supplier', $this->data->id)->where('id_detail', '<>', '14')->where('year', '')->get());
         
-        $update = \App\Models\VendorManagement::where('id',$this->selected_id)->first();
+        $update = $this->data;
         if($update->supplier_category != 'Material Supplier'){
             if((int)$sumteam->countteam < 5){
                 $score = 20;
@@ -102,9 +131,9 @@ class Initialteamavailability extends Component
         $update->initial = $update->initial + ($update->initial_team_availability_capability * 0.25);
         $update->save();
 
-        session()->flash('message-success',"Initial Team Availability Successfully Evaluate!!!");
-        
-        return view('livewire.vendor-management.initialteamavailability');     
+        session()->flash('message-success',"Data saved successfully");  
+
+        return redirect()->route('vendor-management.index'); 
     }
 
     public function valueconcat($field, $i){
@@ -114,7 +143,7 @@ class Initialteamavailability extends Component
     
     public function updatedata($field, $id)
     {
-        $check = \App\Models\VendorManagementtainit::where('id_supplier',$this->selected_id)->where('id_detail', $id)->first();
+        $check = VendorManagementtainit::where('id_supplier',$this->data->id)->where('id_detail', $id)->first();
         if($field == 'team'){
             $check->team = $this->valueconcat('team', $id);
         }
@@ -149,9 +178,9 @@ class Initialteamavailability extends Component
         
         $check->save();
 
-        $sumteam = \App\Models\VendorManagementtainit::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->selected_id)->groupBy('id_supplier')->first();
-        $sumcap = count(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('year', NULL)->get()) + count(\App\Models\VendorManagementtainit::where('id_supplier', $this->selected_id)->where('year', '0')->get());
-        $update = \App\Models\VendorManagement::where('id',$this->selected_id)->first();
+        $sumteam = VendorManagementtainit::select(DB::Raw('sum(team) as countteam'))->where('id_supplier', $this->data->id)->groupBy('id_supplier')->first();
+        $sumcap = count(VendorManagementtainit::where('id_supplier', $this->data->id)->where('year', NULL)->get()) + count(VendorManagementtainit::where('id_supplier', $this->data->id)->where('year', '0')->get());
+        $update = $this->data;
         if($update->supplier_category != 'Material Supplier'){
             if((int)$sumteam->countteam < 5){
                 $score = 20;
@@ -187,33 +216,9 @@ class Initialteamavailability extends Component
         $update->initial_ta_capability = $scorecap;
         $update->initial_team_availability_capability = $score + $scorecap;
         $update->save();
-        
-        return view('livewire.vendor-management.initialteamavailability');        
-    }
 
-    
-    public function duration($start_time, $end_time){
-        
-        $diff = abs(strtotime($end_time) - strtotime($start_time));
-        $years   = floor($diff / (365*60*60*24)); 
-        $months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
-        $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-        $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
-        $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
-        
+        session()->flash('message-success',"Data saved successfully");  
 
-        $waktu = '';
-        if($months > 0){
-            $waktu .= $months.' month ';
-        }else{
-            $waktu .= '';
-        }
-
-        if($days > 0){
-            $waktu .= $days.' days';
-        }else{
-            $waktu .= '';
-        }
-        return $waktu;
+        return redirect()->route('vendor-management.index'); 
     }
 }

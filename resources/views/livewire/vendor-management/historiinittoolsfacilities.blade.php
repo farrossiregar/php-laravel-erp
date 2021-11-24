@@ -8,11 +8,8 @@
                 ?>
                 <div class="col-md-12">
                     <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
-                        
-                        
                         <div class="row">
                             <div class="col-md-10 form-group">
-                            
                                 <h5>Tools & Facilities</h5> 
                             </div>
                             <div class="col-md-2">
@@ -20,10 +17,8 @@
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                 </div>
                             </div> 
-                            
                         </div>
                         <hr>
-                        
                         <div class="row">
                             <div class="col-md-2">
                                 <label>Laptop</label>
@@ -36,7 +31,6 @@
                                     <input type="number" class="form-control" wire:model="value1"/>
                                 </div>
                             </div>
-
                             <div class="col-md-2">
                                 <label>Vehicle</label>
                             </div>
@@ -61,7 +55,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                
                             </div>
 
                             <div class="col-md-2">
@@ -281,94 +274,9 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                   
                 </div> 
-                
             </form>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="row">
-            <div class="col-md-12">
-                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 180px;">
-                    <div class="row">
-                        <div class="col-md-9 form-group">
-                            <h5>Total Score</h5>
-                        </div>
-
-                    </div>
-                    
-                    <hr>
-                    <h1 style="font-size: 65px">
-                        {{ $data['initial_tools_facilities'] }}
-                    </h1>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
-                    <h5>Laptop</h5>
-                    <hr>
-                    <h1 style="font-size: 50px">
-                        {{ $data['initial_tf_laptop'] }}
-                    </h1>
-                </div>
-            </div>
-
-            <div class="col-md-12">
-                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
-                    <h5>Vehicle</h5>
-                    <hr>
-                    <h1 style="font-size: 50px">
-                    {{ $data['initial_tf_vehicle'] }}
-                    </h1>
-                </div>
-            </div>
-
-            <div class="col-md-12">
-                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
-                    <h5>Generators</h5>
-                    <hr>
-                    <h1 style="font-size: 50px">
-                    {{ $data['initial_tf_generator'] }}
-                    </h1>
-                </div>
-            </div>
-
-            <div class="col-md-12">
-                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
-                    <h5>Special Tools</h5>
-                    <hr>
-                    <h1 style="font-size: 50px">
-                    {{ $data['initial_tf_special_tools'] }}
-                    </h1>
-                </div>
-            </div>
-
-            <div class="col-md-12">
-                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
-                    <h5>Warehouse</h5>
-                    <hr>
-                    <h1 style="font-size: 50px">
-                    {{ $data['initial_tf_warehouse'] }}
-                    </h1>
-                </div>
-            </div>
-
-            <div class="col-md-12">
-                <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px; height: 120px;">
-                    <h5>DOP</h5>
-                    <hr>
-                    <h1 style="font-size: 50px">
-                    {{ $data['initial_tf_dop'] }}
-                    </h1>
-                </div>
-            </div>
-
-        </div>
-        
-    </div>
-    
 </div>
-

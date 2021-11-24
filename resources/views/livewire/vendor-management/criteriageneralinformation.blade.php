@@ -1,14 +1,8 @@
-@section('title', __('Vendor Management - Evaluate General Information'))
-@section('parentPageTitle', 'Home')
+@section('title', __('Evaluate General Information'))
+@section('parentPageTitle', 'Vendor Management')
 <div class="row clearfix">
     <div class="col-lg-12">
     <div class="card">
-            <div>
-                <br>
-            </div>
-            <div>
-                <br>
-            </div>
             <ul class="nav nav-tabs">
                 @if(count(\App\Models\VendorManagementgi::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
                 
@@ -39,7 +33,6 @@
                                                     <h5>General Information</h5> 
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                                 </div>
                                             </div>
                                             <hr>
@@ -879,16 +872,15 @@
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                         @enderror
                                                     </div>
-                                                </div>
-                                                
+                                                </div>  
                                             </div>
                                         </div>
-                                        
+                                        <div class="col-md-12">
+                                            <hr />
+                                            <a href="{{route('vendor-management.index')}}" class="mr-3"><i class="fa fa-arrow-left"></i> Back </a>
+                                            <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
+                                        </div>
                                     </div>
-
-                                    <br>
-                                    
-
                                 </form>
                             </div>
                         </div>

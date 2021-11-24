@@ -7,7 +7,7 @@ use App\Models\ToolsCheck as ToolsCheckModel;
 use App\Models\Toolbox;
 use Illuminate\Support\Arr;
 use App\Models\EmployeeProject;
-use App\Models\Region;
+use App\Models\ClientProjectRegion;
 use App\Models\SubRegion;
 use Livewire\WithPagination;
 
@@ -20,7 +20,7 @@ class ToolsCheck extends Component
     public function render()
     {
         $data = ToolsCheckModel::select('tools_check.*','employees.name')
-                            ->with('_employee')
+                            ->with(['_employee','region','sub_region'])
                             ->orderBy('tools_check.updated_at','DESC')
                             ->join('employees','employees.id','=','employee_id');
         
@@ -28,7 +28,6 @@ class ToolsCheck extends Component
         if($this->bulan) $data->where('bulan',$this->bulan);
         if($this->region_id) {
             $data->where('tools_check.region_id',$this->region_id);
-            $this->sub_region = SubRegion::where('region_id',$this->region_id)->get();
         }
         if($this->sub_region_id) $data->where('tools_check.sub_region_id',$this->sub_region_id);
         if($this->user_access_id) $data->where('employees.user_access_id',$this->user_access_id);
@@ -43,10 +42,20 @@ class ToolsCheck extends Component
         return view('livewire.mobile-apps.tools-check')->with(['data'=>$data->paginate(100)]);
     }
  
+    public function updated($propertyName)
+    {
+        if($this->region_id) $this->sub_region = SubRegion::where('region_id',$this->region_id)->get();
+    }
+
     public function mount()
     {
         \LogActivity::add('[web] Performance KPI Tools Check');
+
         $this->toolboxs = Toolbox::orderBy('name')->get();
-        $this->region  = Region::select(['id','region'])->get();
+        $this->region = ClientProjectRegion::select('region.*')
+                                                ->where('client_project_id',session()->get('project_id'))
+                                                ->join('region','region.id','client_project_region.region_id')
+                                                ->groupBy('region.id')
+                                                ->get();
     }
 }

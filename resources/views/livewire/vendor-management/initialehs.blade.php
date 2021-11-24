@@ -1,11 +1,8 @@
-@section('title', __('Vendor Management - Initial EHS'))
-@section('parentPageTitle', 'Home')
+@section('title', __('Initial EHS'))
+@section('parentPageTitle', 'Vendor Management')
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
-            <div><br></div>
-            <div><br></div>
-            <div><br></div>
             <ul class="nav nav-tabs">
                 @if(count(\App\Models\VendorManagementehsinit::select('created_at')->where('id_supplier', $this->selected_id)->get()) < 1)
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#newevaluation">New Evaluation</a></li>
@@ -27,23 +24,17 @@
                                             @csrf
                                             <div class="col-md-12">
                                                 <div style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px; margin: 5px;">
-                                                    
-                                                    
                                                     <div class="row">
                                                         <div class="col-md-10 form-group">
-                                                        
                                                             <h5>Quality Management</h5> 
                                                         </div>
                                                         <div class="col-md-2">
                                                             <div class="row">
                                                                 <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                                             </div>
-                                                            
                                                         </div>
-                                                        
                                                     </div>
                                                     <hr>
-                                                
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <label>Company Structure - Organization, Diagram</label>
@@ -235,23 +226,12 @@
                                                                 <input type="number" class="form-control" wire:model="value15">
                                                             </div>
                                                         </div>
-
-                                                        
-
                                                     </div>
-
-                                                
-                                                    
                                                 </div>
-                                                
-                                                
-                                            </div> 
-                                            
+                                            </div>       
                                         </form>
                                     </div>
                                 </div>
-
-
                                 <div class="col-md-4">
                                     <div class="row">
                                         <div class="col-md-12">
@@ -260,15 +240,9 @@
                                                     <div class="col-md-9 form-group">
                                                         <h5>Total Score</h5>
                                                     </div>
-                                                    <!-- <div class="col-md-3">
-                                                        
-                                                    </div> -->
                                                 </div>
-                                                
                                                 <hr>
-                                                <h1 style="font-size: 65px">
-                                                    
-                                                </h1>
+                                                <h1 style="font-size: 65px"></h1>
                                             </div>
                                         </div>
 
