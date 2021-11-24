@@ -125,7 +125,6 @@
             </tbody>
         </table>
     </div>
-
     <div class="modal fade" x-data="" wire:ignore.self id="modal_delete_vc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <form wire:submit.prevent="delete">

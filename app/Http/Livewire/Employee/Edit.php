@@ -219,14 +219,14 @@ class Edit extends Component
 
         if($this->foto!=""){
             $foto = 'foto'.date('Ymdhis').'.'.$this->foto->extension();
-            $this->foto->storePubliclyAs('public/foto/'.$user->id,$foto);
-            $this->data->foto = $foto;
+            $this->foto->storePubliclyAs('public/photo/'.$user->id,$foto);
+            $this->data->foto = "storage/photo/{$this->data->id}/{$foto}";
         }
         
         if($this->foto_ktp!=""){
             $foto_ktp = 'foto_ktp'.date('Ymdhis').'.'.$this->foto_ktp->extension();
-            $this->foto_ktp->storePubliclyAs('public/foto/'.$user->id,$foto_ktp);
-            $this->data->foto_ktp = $foto_ktp;
+            $this->foto_ktp->storePubliclyAs('public/photo/'.$user->id,$foto_ktp);
+            $this->data->foto_ktp = "storage/photo/{$this->data->id}/{$foto_ktp}";;
         }
 
         $this->data->save();

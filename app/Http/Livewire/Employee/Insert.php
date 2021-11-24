@@ -139,16 +139,17 @@ class Insert extends Component
         if($this->app_drug_test) $employee->app_drug_test = $this->app_drug_test;
         if($this->app_training_material) $employee->app_training_material = $this->app_training_material;
         if($this->app_it_support) $employee->app_it_support = $this->app_it_support;
-
+        
         if($this->foto!=""){
             $foto = 'foto'.date('Ymdhis').'.'.$this->foto->extension();
-            $this->foto->storePubliclyAs('public/foto/'.$user->id,$foto);
-            $employee->foto = $foto;
+            $this->foto->storePubliclyAs('public/photo/'.$user->id,$foto);
+            $employee->foto = "storage/photo/{$this->data->id}/{$foto}";
         }
         if($this->foto_ktp!=""){
             $foto_ktp = 'foto_ktp'.date('Ymdhis').'.'.$this->foto_ktp->extension();
-            $this->foto_ktp->storePubliclyAs('public/foto/'.$user->id,$foto_ktp);
-            $employee->foto_ktp = $foto_ktp;
+            $this->foto_ktp->storePubliclyAs('public/photo/'.$user->id,$foto_ktp);
+            $employee->foto_ktp = "storage/photo/{$this->data->id}/{$foto_ktp}";;
+
         }
         $employee->save();
         

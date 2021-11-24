@@ -46,7 +46,7 @@
                                         <img src="{{ $foto->temporaryUrl() }}" class="user-photo media-object" alt="Pasphoto" style="width:100%;">
                                         @else 
                                             @if(!empty($data->foto))
-                                                <img src="{{ asset('storage/foto/'.$data->user_id.'/'.$data->foto) }}" class="user-photo media-object" alt="Pasphoto" style="width:100%;">
+                                                <img src="{{ asset($data->foto) }}" class="user-photo media-object" alt="Pasphoto" style="width:100%;">
                                             @endif
                                         @endif
                                     </div>
@@ -68,7 +68,7 @@
                                         <img src="{{ $foto_ktp->temporaryUrl() }}" class="user-photo media-object" alt="Foto KTP" style="width:100%;">
                                         @else
                                             @if(!empty($data->foto_ktp))
-                                                <img src="{{ asset('storage/foto/'.$data->user_id.'/'.$data->foto_ktp) }}" class="user-photo media-object" alt="Pasphoto" style="width:100%;">
+                                                <img src="{{ asset($data->foto_ktp) }}" class="user-photo media-object" alt="Pasphoto" style="width:100%;">
                                             @endif
                                         @endif
                                     </div>
