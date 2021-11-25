@@ -7,12 +7,13 @@ use Livewire\WithPagination;
 use App\Models\CommitmentLetter;
 use Auth;
 use DB;
+use Session;
 
 
 class Dashboard extends Component
 {
     use WithPagination;
-    public $date, $site_id, $employee_id, $keyword,$employees;
+    public $date, $site_id, $employee_id, $keyword,$employees, $company_name, $dataproject, $project;
     // public $month;
     // public $year;
     // public $labels;
@@ -23,10 +24,28 @@ class Dashboard extends Component
     {
         
         // $this->generate_chart();
-
-        $data = CommitmentLetter::where('status', '1')->orderBy('id', 'desc')
+        // dd($_GET['company_id'], Session::get('company_id'));
+        // dd(Auth::user());
+        if(check_access('commitment-letter.admin') || check_access('commitment-letter.pic')){
+            $data = CommitmentLetter::where('status', '1')->orderBy('id', 'desc')
                                 ->groupBy('region');
-        // dd($data->get());
+            // dd($data->get());
+            if($this->project){
+                $data = @$data->where('project', \App\Models\ClientProject::where('name', $this->project)->first()->id);
+            }
+        }else{ // TE / CME
+            // $users = Auth::user();
+            $data = CommitmentLetter::where('status', '1')->orderBy('id', 'desc')
+                                    ->groupBy('region');
+ 
+        }
+
+        $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
+                                    ->where('company_id', Session::get('company_id'))
+                                    ->where('is_project', '1')
+                                    ->get();
+
+        
                         
         return view('livewire.commitment-letter.dashboard')->with(['data'=>$data->paginate(50)]);
         

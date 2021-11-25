@@ -8,7 +8,7 @@
     <!-- if(check_access('accident-report.input')) -->
     <div class="col-md-2">
         
-        <a href="javascript:;" wire:click="$emit('modaladdcommitmentletter')" class="btn btn-info"><i class="fa fa-plus"></i> Add Commitment Letter </a>
+        <a href="javascript:;" wire:click="$emit('modaladdpmtcommitmentletter')" class="btn btn-info"><i class="fa fa-plus"></i> Add Commitment Letter </a>
     </div>
     <!-- endif -->
 
@@ -19,7 +19,7 @@
                 <thead>
                     <tr>
                         <th>No</th> 
-                        <th>Company Name</th> 
+                        <!-- <th>Company Name</th>  -->
                         <th>Project</th> 
                         <th>Region</th> 
                         <th>Region / Area</th> 
@@ -41,13 +41,13 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td>
+                        <!-- <td>
                             @if($item->company_name == '1')
                                 HUP
                             @else
                                 PMT
                             @endif
-                        </td>
+                        </td> -->
                         <td>
                            {{ get_project_company($item->project, $item->company_name) }}
                         </td>

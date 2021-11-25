@@ -8,9 +8,10 @@ use Livewire\WithFileUploads;
 use App\Models\CommitmentLetter;
 use Auth;
 use DB;
+use Session;
 
 
-class Add extends Component
+class Addhup extends Component
 {
     use WithPagination;
     // public $date, $employee_id;
@@ -22,30 +23,31 @@ class Add extends Component
     public function render()
     {
         
+        // $this->company_name = Session::get('company_id');
+        $company_name = Session::get('company_id');
+        // dd($company_name);
+        // if($company_name == '1' || $company_name == '2'){ 
 
-        if($this->company_name){ 
-            // $this->dataproject = \App\Models\ProjectEpl::orderBy('projects.id', 'desc')
-            //                         ->select('projects.*', 'region.region_code')
-            //                         ->join(env('DB_DATABASE').'.region', env('DB_DATABASE_EPL_PMT').'.projects.region_id', '=', env('DB_DATABASE').'.region.id' )
-            //                         ->where('projects.type', $this->company_name)
-            //                         ->get();
 
             $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
-                                    ->where('company_id', $this->company_name)
+                                    ->where('company_id', Session::get('company_id'))
                                     ->where('is_project', '1')
                                     ->get();
             
+            $this->regionarealist = [];
+            $this->leaderlist = [];
+
             if($this->project){ 
                 
                 // $getproject = \App\Models\ProjectEpl::where('id', $this->project)->where('type', $this->company_name)->first();
                 $getproject = \App\Models\ClientProject::where('id', $this->project)
-                                                        ->where('company_id', $this->company_name)
+                                                        ->where('company_id', Session::get('company_id'))
                                                         ->where('is_project', '1')
                                                         ->first();
                 
                                                         // dd($getproject->region_id);
 
-                $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
+                $this->region = @\App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
                 if($this->region){
                     $this->regionarealist = \App\Models\RegionCluster::where('region_id', $getproject->region_id)->orderBy('id', 'desc')->get();
                     
@@ -77,20 +79,20 @@ class Add extends Component
                 }
             }
 
-        }else{
-            $this->dataproject = [];
-            $this->project = [];
-            $this->region = [];
-            $this->regionarealist = [];
-            $this->employeelist = [];
-            $this->employee_name = [];
-            $this->ktp_id = [];
-            $this->nik_pmt = [];
-            $this->leaderlist = [];
-            $this->leader = [];
-        }
+        // }else{
+        //     $this->dataproject = [];
+        //     $this->project = [];
+        //     $this->region = [];
+        //     $this->regionarealist = [];
+        //     $this->employeelist = [];
+        //     $this->employee_name = [];
+        //     $this->ktp_id = [];
+        //     $this->nik_pmt = [];
+        //     $this->leaderlist = [];
+        //     $this->leader = [];
+        // }
 
-        return view('livewire.commitment-letter.add');
+        return view('livewire.commitment-letter.addhup');
     }
 
   
@@ -99,7 +101,7 @@ class Add extends Component
 
 
         $data                   = new CommitmentLetter();
-        $data->company_name     = $this->company_name;
+        $data->company_name     = Session::get('company_id');
         $data->project          = $this->project;
         $data->region           = $this->region;
         $data->region_area      = $this->region_area;
@@ -121,7 +123,7 @@ class Add extends Component
        
 
 
-        session()->flash('message-success',"Commitment Letter Berhasil diinput");
+        session()->flash('message-success',"Commitment Letter HUP Berhasil diinput");
         
         return redirect()->route('commitment-letter.index');
     }

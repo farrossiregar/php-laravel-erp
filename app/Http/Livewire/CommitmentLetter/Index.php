@@ -7,7 +7,7 @@ use Livewire\WithPagination;
 use App\Models\PoTrackingPds;
 use App\Models\PoTrackingNonms;
 use Auth;
-use DB;
+use Session;
 
 
 class Index extends Component
@@ -18,7 +18,7 @@ class Index extends Component
     
     public function render()
     {
-
+       
         // if(!check_access('accident-report.index')){
         //     session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
         //     $this->redirect('/');

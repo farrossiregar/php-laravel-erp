@@ -7,7 +7,7 @@ use Livewire\WithPagination;
 use App\Models\AccidentReport;
 use App\Models\CommitmentLetter;
 
-class Data extends Component
+class Datahup extends Component
 {
     use WithPagination;
     public $date, $employee_id, $keyword,$employees;
@@ -20,17 +20,24 @@ class Data extends Component
         //     $this->redirect('/');
         // }
         
-        $data = CommitmentLetter::orderBy('id', 'desc');
+        $data = CommitmentLetter::where('company_name', '1')->orderBy('id', 'desc');
         // if($this->date) $ata = $data->whereDate('date',$this->date);
         // if($this->employee_id) $ata = $data->where('employee_id',$this->employee_id);
-        if($this->keyword) $data->where(function($table){
-            $table->where("company_name","LIKE","%{$this->keyword}%")
-                    ->orWhere('project',"LIKE","%{$this->keyword}%")
-                    ->orWhere('region',"LIKE","%{$this->keyword}%")
-                    ->orWhere('employee_name',"LIKE","%{$this->keyword}%");
-        });
+
+        if(check_access('commitment-letter.admin') || check_access('commitment-letter.pic') ){
+            if($this->keyword) $data->where(function($table){
+                $table->where("company_name","LIKE","%{$this->keyword}%")
+                        ->orWhere('project',"LIKE","%{$this->keyword}%")
+                        ->orWhere('region',"LIKE","%{$this->keyword}%")
+                        ->orWhere('employee_name',"LIKE","%{$this->keyword}%");
+            });
+        }else{
+            if($this->keyword) $data->where(function($table){
+                $table->Where('employee_name',"LIKE","%{$this->keyword}%");
+            });
+        }
                         
-        return view('livewire.commitment-letter.data')->with(['data'=>$data->paginate(50)]);
+        return view('livewire.commitment-letter.datahup')->with(['data'=>$data->paginate(50)]);
     }
 
     public function mount()

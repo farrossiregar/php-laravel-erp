@@ -15,7 +15,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 form-group">
+                                        <!-- <div class="col-md-12 form-group">
                                             <label>Company Name</label>
                                             
                                             <select onclick="" class="form-control" wire:model="company_name">
@@ -27,7 +27,7 @@
                                             @error('company_name')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div>
+                                        </div> -->
                                         <div class="col-md-12 form-group">
                                             <label>Project</label>
                                             <select onclick="" class="form-control" wire:model="project">
