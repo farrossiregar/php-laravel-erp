@@ -11,7 +11,7 @@ class Data extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $keyword,$is_resign, $filtermonth, $filteryear, $filtertools, $filtersoftware;
+    public $keyword,$is_resign, $filterweek, $filtermonth, $filteryear, $filtertools, $filtersoftware;
 
     public function render()
     {

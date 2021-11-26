@@ -11,24 +11,30 @@ use DateTime;
 class Addtoolsnoc extends Component
 {
     protected $listeners = [
-        'modalapprovedatabasenoc'=>'approvenoc',
+        'modaladdtoolsnoc'=>'addtoolsnoc',
     ];
 
     use WithFileUploads;
-    public $name, $nik, $tools, $software;
+    public $name, $nik, $tools, $software, $selected_id;
 
     
     public function render()
     {
-        if($this->name){
-            $this->nik = \App\Models\Employee::where('name', $this->name)->first()->nik;
-        }
+        // if($this->name){
+        //     $this->nik = \App\Models\Employee::where('name', $this->name)->first()->nik;
+        // }
+
+       
         return view('livewire.database-tools-noc.addtoolsnoc');
     }
 
-    public function approvenoc($id)
+    public function addtoolsnoc($id)
     {
         $this->selected_id = $id;
+        $this->name = \App\Models\Employee::where('id', $this->selected_id)->first()->name;
+        
+        $this->nik = \App\Models\Employee::where('id', $this->selected_id)->first()->nik;
+
     }
 
   
