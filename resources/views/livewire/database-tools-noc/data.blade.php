@@ -60,7 +60,7 @@
                 </datalist>
             </div>
             <div class="col-md-3">                
-                <input type="text" class="form-control" wire:model="keyword" placeholder="Name,NIK,Tools,Software..." />
+                <input type="text" class="form-control" wire:model="keyword" placeholder="Search Name,NIK..." />
             </div>
             <!-- <div class="col-md-2">
                 

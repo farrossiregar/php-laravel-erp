@@ -9,7 +9,7 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active show " id="dashboard">
-                    <livewire:database-tools-noc.data />
+                    <livewire:database-tools-noc.dashboard />
                 </div>
                 <div class="tab-pane" id="data">
                     <livewire:database-tools-noc.data />

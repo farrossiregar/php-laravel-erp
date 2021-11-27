@@ -75,7 +75,7 @@ function init_chart_databasenoc(){
                 },
                 title: {
                     display: true,
-                    text: 'DATABASE TOOLS NOC MONTHLY - PERSONNEL HAVING SOFTWARE'
+                    text: 'DATABASE TOOLS NOC MONTHLY - PERSONNEL NOT HAVING SOFTWARE'
                 },
                 scales: {
                     xAxes: [{

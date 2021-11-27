@@ -33,6 +33,11 @@ class Data extends Component
         //         $table->orWhere($column,'LIKE',"%{$this->keyword}%");
         //     }
         // });
+
+        if($this->keyword) $data->where(function($table){
+            $table->Where('name',"LIKE","%{$this->keyword}%")
+                        ->orWhere('nik',"LIKE","%{$this->keyword}%");
+        });
         
         // if($this->month && $this->year){
         //     $data->whereYear('tools_noc.created_at', $this->year)->whereMonth('tools_noc.created_at', $this->month);
@@ -49,35 +54,35 @@ class Data extends Component
         return view('livewire.database-tools-noc.data')->with(['data'=>$data->paginate(50)]);   
     }
 
-    public function updateResign(Employee $id)
-    {   
-        $noc = new EmployeeNoc();
-        $noc->employee_id = $id->id;
-        $noc->is_resign = 1;
-        $noc->month = date('m');
-        $noc->year = date('Y');
-        $noc->save();
+    // public function updateResign(Employee $id)
+    // {   
+    //     $noc = new EmployeeNoc();
+    //     $noc->employee_id = $id->id;
+    //     $noc->is_resign = 1;
+    //     $noc->month = date('m');
+    //     $noc->year = date('Y');
+    //     $noc->save();
 
-        $id->is_resign_temp  = 1;
-        $id->is_approve_admin_noc = 0;
-        $id->employee_noc_id = $noc->id;
-        $id->save();
-    }
+    //     $id->is_resign_temp  = 1;
+    //     $id->is_approve_admin_noc = 0;
+    //     $id->employee_noc_id = $noc->id;
+    //     $id->save();
+    // }
 
-    public function updateAktif(Employee $id)
-    {   
-        $noc = new EmployeeNoc();
-        $noc->employee_id = $id->id;
-        $noc->is_resign = 0;
-        $noc->month = date('m');
-        $noc->year = date('Y');
-        $noc->save();
+    // public function updateAktif(Employee $id)
+    // {   
+    //     $noc = new EmployeeNoc();
+    //     $noc->employee_id = $id->id;
+    //     $noc->is_resign = 0;
+    //     $noc->month = date('m');
+    //     $noc->year = date('Y');
+    //     $noc->save();
 
-        $id->is_resign_temp  = 0;
-        $id->is_approve_admin_noc = 0;
-        $id->employee_noc_id = $noc->id;
-        $id->save();
-    }
+    //     $id->is_resign_temp  = 0;
+    //     $id->is_approve_admin_noc = 0;
+    //     $id->employee_noc_id = $noc->id;
+    //     $id->save();
+    // }
 
     public function approve(Employee $id)
     {
