@@ -1,8 +1,8 @@
 <div class="row">
 
 
-    <div class="col-md-2">
-        <input type="text" class="form-control" placeholder="Keyword" wire:model="keyword" />
+    <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Search Project, Region, Area, Employee, Leader..." wire:model="keyword" />
     </div>
     
   
@@ -13,8 +13,8 @@
             <table class="table table-striped m-b-0 c_list">
                 <thead>
                     <tr>
-                        <th>No</th> 
-                        <!-- <th>Company Name</th>  -->
+                        <th>No</th>
+
                         <th>Project</th> 
                         <th>Region</th> 
                         <th>Region / Area</th> 
@@ -37,13 +37,7 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <!-- <td>
-                            @if($item->company_name == '1')
-                                HUP
-                            @else
-                                PMT
-                            @endif
-                        </td> -->
+ 
                         <td>
                            {{ get_project_company($item->project, $item->company_name) }}
                         </td>
@@ -72,6 +66,7 @@
                             
                             ?>
                         </td>
+
                         <td>
                             <?php
 
@@ -141,7 +136,7 @@
                         </td>
                         <td>
                             @if(check_access('commitment-letter.admin'))
-                                @if($item->bcg != '' && $item->cyber_security != '')
+                                @if($item->doc != '')
                                     @if($item->status == NULL || $item->status == '')
                                     <a href="javascript:;" wire:click="$emit('modalapprovecommitmentletter','{{ $item->id }}')" title="Approve" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
                                     <a href="javascript:;" wire:click="$emit('modaldeclinecommitmentletter','{{ $item->id }}')" title="Decline" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>

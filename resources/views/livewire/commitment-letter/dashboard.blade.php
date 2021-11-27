@@ -33,14 +33,8 @@
 
             @if(check_access('commitment-letter.admin') || check_access('commitment-letter.pic'))
             <div class="col-md-3">
-                <!-- <select onclick="" class="form-control" required wire:model="company_name">
-                    <option value=""> --- Company Name --- </option>
-                    <option value="1">HUP</option>
-                    <option value="2">PMT</option>
-                    
-                </select> -->
-
-                <input list="project" class="form-control"  wire:model="project">
+             
+                <input list="project" class="form-control" placeholder="Project" wire:model="project">
                 <datalist id="project" >
                     @foreach($dataproject as $item)
                     <option value="{{ $item->name }}">

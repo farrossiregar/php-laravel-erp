@@ -46,16 +46,11 @@ class Dashboard extends Component
  
         }
 
-        if(@$_GET['company_id']){
-            $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
-                                    // ->where('company_id', Session::get('company_id'))
-                                    // ->where('company_id', $_GET['company_id'])
-                                    ->where('is_project', '1')
-                                    ->get();
-
-        }else{
-            $this->dataproject = [];    
-        }
+        $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
+                                                    // ->where('company_id', Session::get('company_id'))
+                                                    // ->where('company_id', $_GET['company_id'])
+                                                    ->where('is_project', '1')
+                                                    ->get();
         
         
                         

@@ -23,12 +23,8 @@ class Addhup extends Component
     public function render()
     {
         
-        // $this->company_name = Session::get('company_id');
-        $company_name = Session::get('company_id');
-        // dd($company_name);
-        // if($company_name == '1' || $company_name == '2'){ 
-
-
+        
+        
             $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
                                     ->where('company_id', Session::get('company_id'))
                                     ->where('is_project', '1')
@@ -39,25 +35,38 @@ class Addhup extends Component
 
             if($this->project){ 
                 
-                // $getproject = \App\Models\ProjectEpl::where('id', $this->project)->where('type', $this->company_name)->first();
                 $getproject = \App\Models\ClientProject::where('id', $this->project)
                                                         ->where('company_id', Session::get('company_id'))
                                                         ->where('is_project', '1')
                                                         ->first();
                 
-                                                        // dd($getproject->region_id);
+                                                        
+                if($getproject){
+                    if($getproject->region_id){
+                        $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
+                    }else{
+                        $this->region = '';
+                    }
+                    
+                }else{
+                    $this->region = '';
+                }
 
-                $this->region = @\App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
                 if($this->region){
                     $this->regionarealist = \App\Models\RegionCluster::where('region_id', $getproject->region_id)->orderBy('id', 'desc')->get();
-                    
+
+                }else{
+                    $this->regionarealist = [];
                 }
+
                 // $this->employeelist = check_list_user_acc('commitment-letter.tecme-list', $getproject->id);
                 $this->employeelist = \App\Models\Employee::whereIn('user_access_id', [85, 84])
                                                             ->where('region_id', $getproject->region_id)
                                                             ->where('project', $this->project)
                                                             ->get();
-                
+               
+                 
+                                                            
                 if($this->employee_name){
                     $this->ktp_id = isset(\App\Models\Employee::where('name', $this->employee_name)->first()->nik) ? \App\Models\Employee::where('name', $this->employee_name)->first()->nik : '' ;
                     $this->nik_pmt = isset(\App\Models\Employee::where('name', $this->employee_name)->first()->nik) ? \App\Models\Employee::where('name', $this->employee_name)->first()->nik : '' ;
@@ -115,6 +124,7 @@ class Addhup extends Component
             $data->type_letter      = $this->type_letter;
         }
         $data->createdby        = Auth::user()->name;
+
 
         $data->save();
 

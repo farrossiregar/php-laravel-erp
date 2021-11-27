@@ -64,8 +64,8 @@
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>Employee Name</label>
-                                            <input list="employee_name" class="form-control"  wire:model="employee_name">
-                                            <datalist id="employee_name" >
+                                            <input list="employee_name1" class="form-control"  wire:model="employee_name">
+                                            <datalist id="employee_name1" >
                                                 @foreach($employeelist as $item)
                                                 <option value="{{ $item->name }}">
                                                 @endforeach

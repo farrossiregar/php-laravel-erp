@@ -28,7 +28,10 @@ class Datahup extends Component
             if($this->keyword) $data->where(function($table){
                 $table->Where('project',"LIKE","%{$this->keyword}%")
                         ->orWhere('region',"LIKE","%{$this->keyword}%")
-                        ->orWhere('employee_name',"LIKE","%{$this->keyword}%");
+                        ->orWhere('region_area',"LIKE","%{$this->keyword}%")
+                        ->orWhere('employee_name',"LIKE","%{$this->keyword}%")
+                        ->orWhere('leader',"LIKE","%{$this->keyword}%")
+                        ->orWhere('createdby',"LIKE","%{$this->keyword}%");
             });
             
         }else{
