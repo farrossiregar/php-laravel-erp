@@ -32,7 +32,7 @@
             </div> -->
 
             @if(check_access('commitment-letter.admin') || check_access('commitment-letter.pic'))
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <!-- <select onclick="" class="form-control" required wire:model="company_name">
                     <option value=""> --- Company Name --- </option>
                     <option value="1">HUP</option>
@@ -49,10 +49,36 @@
             </div>
             @endif
             <div class="col-md-4">
-            <h5>Summary {{ $this->project }}</h5>
+                <h5>
+                    @if(check_access('commitment-letter.admin') || check_access('commitment-letter.pic'))
+                        @if($this->project)
+                            Summary {{ $this->project }}
+                        @else
+                            Summary All Project
+                        @endif
+                    @else
+                        Summary {{ App\Models\ClientProject::where('id', App\Models\Employee::where('name', $users->name)->first()->project)->first()->name }}
+                    @endif
+
+                    
+                </h5>
+            </div>
+            <div class="col-md-3" style="float: right;">
+                @if(@$_GET['company_id'] == '1')
+                    <a href="javascript:;" wire:click="$emit('modaladdhupcommitmentletter')" class="btn btn-info"><i class="fa fa-plus"></i> Add Commitment Letter HUP </a>
+                @else
+
+                @endif
+                    
+                @if(@$_GET['company_id'] == '2')
+                    <a href="javascript:;" wire:click="$emit('modaladdpmtcommitmentletter')" class="btn btn-info"><i class="fa fa-plus"></i> Add Commitment Letter PMT </a>
+                @else
+
+                @endif
             </div>
         </div>
 
+        <br>
         <div class="row">
             <div class="col-md-6">
                 <div class="table-responsive">

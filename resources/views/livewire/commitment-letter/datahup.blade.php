@@ -5,12 +5,6 @@
         <input type="text" class="form-control" placeholder="Keyword" wire:model="keyword" />
     </div>
     
-    <!-- if(check_access('accident-report.input')) -->
-    <div class="col-md-2">
-        
-        <a href="javascript:;" wire:click="$emit('modaladdhupcommitmentletter')" class="btn btn-info"><i class="fa fa-plus"></i> Add Commitment Letter </a>
-    </div>
-    <!-- endif -->
 
     <div class="col-md-12">
         <br><br>
@@ -27,6 +21,7 @@
                         <th>KTP ID</th> 
                         <th>NIK PMT</th> 
                         <th>Leader</th> 
+                        <th>Created By</th> 
                         
                         <th>Type Commitment Letter</th> 
                         <!-- <th>BCG</th> 
@@ -53,10 +48,29 @@
                         </td>
                         <td>{{ $item->region }}</td>
                         <td>{{ $item->region_area }}</td>
-                        <td>{{ $item->employee_name }}</td>
+                        <td>
+                            <?php
+                                if(Auth::user()->name == $item->employee_name){
+                                    echo '<b>'.$item->employee_name.'</b>';
+                                }else{
+                                    echo $item->employee_name;
+                                }
+                            
+                            ?>
+                        </td>
                         <td>{{ $item->ktp_id }}</td>
                         <td>{{ $item->nik_pmt }}</td>
                         <td>{{ $item->leader }}</td>
+                        <td>
+                            <?php
+                                if(Auth::user()->name == $item->createdby){
+                                    echo '<b>'.$item->createdby.'</b>';
+                                }else{
+                                    echo $item->createdby;
+                                }
+                            
+                            ?>
+                        </td>
                         
                         <td>
                             <?php

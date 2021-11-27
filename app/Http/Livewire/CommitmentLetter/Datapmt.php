@@ -37,7 +37,11 @@ class Datapmt extends Component
             });
 
             $users = Auth::user();
-            $data = $data->where('employee_name', $users->name)->orwhere('createdby', $users->name);
+            $data = $data->where(function($table) use ($users){
+                                $table->where('employee_name', $users->name)
+                                ->orwhere('createdby', $users->name);
+                            });
+            // $data = $data->where('employee_name', $users->name)->orwhere('createdby', $users->name);
         }
                         
         return view('livewire.commitment-letter.datapmt')->with(['data'=>$data->paginate(50)]);

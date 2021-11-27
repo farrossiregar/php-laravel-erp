@@ -13,7 +13,7 @@ use Session;
 class Dashboard extends Component
 {
     use WithPagination;
-    public $date, $site_id, $employee_id, $keyword,$employees, $company_name, $dataproject, $project;
+    public $date, $site_id, $employee_id, $keyword,$employees, $company_name, $dataproject, $project, $users;
     // public $month;
     // public $year;
     // public $labels;
@@ -25,31 +25,38 @@ class Dashboard extends Component
         
         // $this->generate_chart();
         // dd($_GET['company_id'], Session::get('company_id'));
-        // dd(Auth::user());
+        
         if(check_access('commitment-letter.admin') || check_access('commitment-letter.pic')){
             $data = CommitmentLetter::where('status', '1')->orderBy('id', 'desc')
                                 ->groupBy('region');
-            // dd($data->get());
+            
             if($this->project){
-                $data = @$data->where('project', \App\Models\ClientProject::where('name', $this->project)->first()->id);
+                $data = @$data->where('project', \App\Models\ClientProject::where('name',"LIKE","%{$this->project}%")->first()->id);
             }
         }else{ // TE / CME
-            $users = Auth::user();
-            // dd($users);
+            $this->users = $users = Auth::user();
+            
             $userproject = \App\Models\Employee::where('name', $users->name)->first();
-            $data = CommitmentLetter::where('status', '1')
-                                    ->where('employee_name', $users->name)
-                                    ->where('project', $userproject->project)
-                                    ->orderBy('id', 'desc')
+            $data = CommitmentLetter::
+                                    // ->where('employee_name', $users->name)
+                                    where('project', $userproject->project)
+                                    ->where('status', '1')
+                                    // ->orderBy('id', 'desc')
                                     ->groupBy('region');
  
         }
 
-        $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
-                                    ->where('company_id', Session::get('company_id'))
+        if(@$_GET['company_id']){
+            $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
+                                    // ->where('company_id', Session::get('company_id'))
+                                    // ->where('company_id', $_GET['company_id'])
                                     ->where('is_project', '1')
                                     ->get();
 
+        }else{
+            $this->dataproject = [];    
+        }
+        
         
                         
         return view('livewire.commitment-letter.dashboard')->with(['data'=>$data->paginate(50)]);
