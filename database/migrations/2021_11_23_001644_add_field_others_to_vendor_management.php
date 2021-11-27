@@ -14,7 +14,7 @@ class AddFieldOthersToVendorManagement extends Migration
     public function up()
     {
         Schema::table('vendor_management', function (Blueprint $table) {
-            $table->string('others',200)->nullable();
+            // $table->string('others',200)->nullable();
         });
     }
 

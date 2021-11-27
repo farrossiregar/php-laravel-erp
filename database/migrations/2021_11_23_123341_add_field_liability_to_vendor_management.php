@@ -14,9 +14,9 @@ class AddFieldLiabilityToVendorManagement extends Migration
     public function up()
     {
         Schema::table('vendor_management', function (Blueprint $table) {
-            $table->string('balance_2017_liabiity',20)->nullable();
-            $table->string('balance_2018_liabiity',20)->nullable();
-            $table->string('balance_2019_liabiity',20)->nullable();
+            // $table->string('balance_2017_liabiity',20)->nullable();
+            // $table->string('balance_2018_liabiity',20)->nullable();
+            // $table->string('balance_2019_liabiity',20)->nullable();
         });
     }
 

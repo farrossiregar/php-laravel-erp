@@ -114,9 +114,8 @@ class Addpmt extends Component
         }else{
             $data->type_letter      = $this->type_letter;
         }
-        
+        $data->createdby        = Auth::user()->name;
 
-        // dd($this);
 
         $data->save();
 

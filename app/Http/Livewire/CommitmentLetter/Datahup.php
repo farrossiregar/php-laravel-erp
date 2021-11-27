@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\AccidentReport;
 use App\Models\CommitmentLetter;
+use Auth;
 
 class Datahup extends Component
 {
@@ -15,35 +16,34 @@ class Datahup extends Component
     
     public function render()
     {
-        // if(!check_access('accident-report.index')){
-        //     session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
-        //     $this->redirect('/');
-        // }
+        if(!check_access('commitment-letter.index')){
+            session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
+            $this->redirect('/');
+        }
+        
         
         $data = CommitmentLetter::where('company_name', '1')->orderBy('id', 'desc');
-        // if($this->date) $ata = $data->whereDate('date',$this->date);
-        // if($this->employee_id) $ata = $data->where('employee_id',$this->employee_id);
 
         if(check_access('commitment-letter.admin') || check_access('commitment-letter.pic') ){
             if($this->keyword) $data->where(function($table){
-                $table->where("company_name","LIKE","%{$this->keyword}%")
-                        ->orWhere('project',"LIKE","%{$this->keyword}%")
+                $table->Where('project',"LIKE","%{$this->keyword}%")
                         ->orWhere('region',"LIKE","%{$this->keyword}%")
                         ->orWhere('employee_name',"LIKE","%{$this->keyword}%");
             });
+            
         }else{
             if($this->keyword) $data->where(function($table){
                 $table->Where('employee_name',"LIKE","%{$this->keyword}%");
             });
+
+            $users = Auth::user();
+            $data = $data->where('employee_name', $users->name)->orwhere('createdby', $users->name);
         }
                         
         return view('livewire.commitment-letter.datahup')->with(['data'=>$data->paginate(50)]);
     }
 
-    public function mount()
-    {
-        $this->employees = AccidentReport::select(['employees.id','employees.name'])->join('employees','employees.id','=','accident_report.employee_id')->whereNotNull('employee_id')->groupBy('employee_id')->get();
-    }
+    
 }
 
 

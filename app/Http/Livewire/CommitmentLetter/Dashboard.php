@@ -34,8 +34,13 @@ class Dashboard extends Component
                 $data = @$data->where('project', \App\Models\ClientProject::where('name', $this->project)->first()->id);
             }
         }else{ // TE / CME
-            // $users = Auth::user();
-            $data = CommitmentLetter::where('status', '1')->orderBy('id', 'desc')
+            $users = Auth::user();
+            // dd($users);
+            $userproject = \App\Models\Employee::where('name', $users->name)->first();
+            $data = CommitmentLetter::where('status', '1')
+                                    ->where('employee_name', $users->name)
+                                    ->where('project', $userproject->project)
+                                    ->orderBy('id', 'desc')
                                     ->groupBy('region');
  
         }

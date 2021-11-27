@@ -114,9 +114,7 @@ class Addhup extends Component
         }else{
             $data->type_letter      = $this->type_letter;
         }
-        
-
-        // dd($this);
+        $data->createdby        = Auth::user()->name;
 
         $data->save();
 

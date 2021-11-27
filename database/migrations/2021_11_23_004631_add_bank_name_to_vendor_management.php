@@ -14,14 +14,14 @@ class AddBankNameToVendorManagement extends Migration
     public function up()
     {
         Schema::table('vendor_management', function (Blueprint $table) {
-            $table->string('bank_name',50)->nullable();
-            $table->string('bank_address',50)->nullable();
-            $table->string('country',50)->nullable();
-            $table->string('currency',10)->nullable();
-            $table->string('bank_account_owner',50)->nullable();
-            $table->string('bank_account_number',25)->nullable();
-            $table->string('swift_code',25)->nullable();
-            $table->string('notas_finance',25)->nullable();
+            // $table->string('bank_name',50)->nullable();
+            // $table->string('bank_address',50)->nullable();
+            // $table->string('country',50)->nullable();
+            // $table->string('currency',10)->nullable();
+            // $table->string('bank_account_owner',50)->nullable();
+            // $table->string('bank_account_number',25)->nullable();
+            // $table->string('swift_code',25)->nullable();
+            // $table->string('notas_finance',25)->nullable();
         });
     }
 
