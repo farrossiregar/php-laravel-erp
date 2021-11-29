@@ -85,8 +85,9 @@
                         <th>Tools</th> 
                         <th>Software</th> 
                         
-                        <!-- <th>Status</th> -->
-                        <!-- <th></th> -->
+                        <th>Status</th>
+                        <th>Action</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -94,13 +95,13 @@
                     <tr>
                         <?php
                             if($this->filtermonth && $this->filteryear){
-                                $datatoolsnoc = \App\Models\ToolsNoc::where('nik', $item->nik)->where('month', $this->filtermonth)->where('year', $this->filteryear);
+                                $datatoolsnoc = \App\Models\ToolsNoc::where('type', '1')->where('nik', $item->nik)->where('month', $this->filtermonth)->where('year', $this->filteryear);
                             }elseif($this->filtermonth == '' && $this->filteryear){
-                                $datatoolsnoc = \App\Models\ToolsNoc::where('nik', $item->nik)->where('month', date('m'))->where('year', $this->filteryear);
+                                $datatoolsnoc = \App\Models\ToolsNoc::where('type', '1')->where('nik', $item->nik)->where('month', date('m'))->where('year', $this->filteryear);
                             }elseif($this->filtermonth && $this->filteryear == ''){
-                                $datatoolsnoc = \App\Models\ToolsNoc::where('nik', $item->nik)->where('month', $this->filtermonth)->where('year', date('Y'));
+                                $datatoolsnoc = \App\Models\ToolsNoc::where('type', '1')->where('nik', $item->nik)->where('month', $this->filtermonth)->where('year', date('Y'));
                             }else{
-                                $datatoolsnoc = \App\Models\ToolsNoc::where('nik', $item->nik)->where('month', date('m'))->where('year', date('Y'));
+                                $datatoolsnoc = \App\Models\ToolsNoc::where('type', '1')->where('nik', $item->nik)->where('month', date('m'))->where('year', date('Y'));
                             }
 
                             if($this->filtermonth){
@@ -110,14 +111,14 @@
                                     $datatoolsnoc = $datatoolsnoc->where('week', '1')->first();
                                 }
                             }else{
-                                $datatoolsnoc = $datatoolsnoc->first();
+                                $datatoolsnoc = $datatoolsnoc->where('week', '1')->first();
                             }
                             
                             // echo $datatoolsnoc;
                         ?>
                         <td>{{ $key + 1 }}</td>
                         <td>{{$item->nik}}</td>
-                        <td><a href="javascript:;" wire:click="$emit('modaladdtoolsnoc','{{ $item->id }}')" >{{ strtoupper($item->name) }}</a></td>
+                        <td><a href="javascript:;" wire:click="$emit('modaladdtoolsnoc',['{{ $item->id }}', '1'])" >{{ strtoupper($item->name) }}</a></td>
                         <td>
                             <?php
                                 echo @$datatoolsnoc->tools;
@@ -129,30 +130,33 @@
                             ?>
                         </td>
                         
-                      
-                        <!-- <td>
-                            @if($item->is_approve_admin_noc===0)
-                                @if(check_access('database-noc.approval'))
-                                    <div x-data="{open:false}" class="text-center" @click.away="open = false">
-                                        <template x-if="open==false">
-                                            <a href="javascript:void(0)" x-on:click="open = ! open" class="badge badge-warning" title="Waiting Approval Admin NOC"><i class="fa fa-history"></i> Admin NOC</a>
-                                        </template>
-                                        <div x-show="open" class="mt-2">
-                                            <a href="javascript:void(0)" class="badge badge-success" wire:click="approve({{$item->id}})"><i class="fa fa-check"></i> Approve</a>
-                                            <a href="javascript:void(0)" class="badge badge-danger" wire:click="reject({{$item->id}})"><i class="fa fa-times"></i> Reject</a>
-                                        </div>
-                                    </div>
-                                @else
-                                    <span class="badge badge-warning" title="Waiting Approval Admin NOC"><i class="fa fa-history"></i> Admin NOC</span>
-                                @endif
+                        <td>
+                            @if(@$datatoolsnoc->status == '1')
+                            <span class="badge badge-success" title="Approved"><i class="fa fa-check"></i> Approved </span>
+                            @elseif(@$datatoolsnoc->status == '0')
+                            <span class="badge badge-danger" title="{{@$datatoolsnoc->note}}"><i class="fa fa-close"></i> Decline </span>
                             @else
-                                @if($item->is_resign==0)
-                                    <a href="javascript:void(0)" onclick="confirm_resign({{$item->id}})" class="badge badge-danger"><i class="fa fa-edit"></i> Update Resign</a>
-                                @else
-                                    <a href="javascript:void(0)" onclick="confirm_aktif({{$item->id}})" class="badge badge-success"><i class="fa fa-edit"></i> Update Aktif</a>
+                            <span class="badge badge-warning" title="Waiting Approval Admin NOC"><i class="fa fa-history"></i> Waiting Approval </span>
+                            @endif
+                        </td>
+
+                        <td>
+                            @if(@$datatoolsnoc->id)
+                                @if(check_access('database-noc.approval'))
+                                    @if(@$datatoolsnoc->status == '')
+                                    <a href="javascript:;" wire:click="$emit('modalapprove','{{ $item->id }}')"><span class="badge badge-success" title="Approve"><i class="fa fa-check"></i> Approve </span></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldecline','{{ $item->id }}')"></a><span class="badge badge-danger" title="Decline"><i class="fa fa-close"></i> Decline </span>
+                                    @endif
                                 @endif
                             @endif
-                        </td> -->
+
+                            @if(@$datatoolsnoc->id)
+                                @if(check_access('database-noc.import-revise'))
+                                    <a href="#" wire:click="deletedata({{ @$datatoolsnoc->id }})" ><span class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></span></a>
+                                @endif
+                            @endif
+
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -160,6 +164,11 @@
         </div>
         {{$data->links()}}
     </div>
+
+
+
+
+
     @push('after-scripts')
         <script>
             function confirm_resign(id){

@@ -7,11 +7,11 @@ use Livewire\WithPagination;
 use App\Models\ToolsNoc;
 use App\Models\EmployeeNoc;
 
-class Data extends Component
+class Datatoolsnoc extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $keyword,$is_resign, $filterweek, $filtermonth, $filteryear, $filtertools, $filtersoftware;
+    public $keyword,$is_resign, $filterweek, $filtermonth, $filteryear, $filtertools, $filtersoftware, $selected;
 
     public function render()
     {
@@ -38,20 +38,14 @@ class Data extends Component
             $table->Where('name',"LIKE","%{$this->keyword}%")
                         ->orWhere('nik',"LIKE","%{$this->keyword}%");
         });
-        
-        // if($this->month && $this->year){
-        //     $data->whereYear('tools_noc.created_at', $this->year)->whereMonth('tools_noc.created_at', $this->month);
-        // }elseif($this->month && $this->year == ''){
-        //     $data->whereYear('tools_noc.created_at', date('Y'))->whereMonth('tools_noc.created_at', $this->month);
-        // }elseif($this->month == '' && $this->year){
-        //     $data->whereYear('tools_noc.created_at', $this->year)->whereMonth('tools_noc.created_at', date('m'));
-        // }else{
-        //     $data->whereYear('tools_noc.created_at',date('Y'))->whereMonth('tools_noc.created_at', date('m'));
-        // }
-        
-        // if($this->is_resign !="") $data->where('is_resign',$this->is_resign);
+  
+        return view('livewire.database-tools-noc.datatoolsnoc')->with(['data'=>$data->paginate(50)]);   
+    }
 
-        return view('livewire.database-tools-noc.data')->with(['data'=>$data->paginate(50)]);   
+    public function set_id($data)
+    {
+        $this->selected = $data;
+        return $this->selected;
     }
 
     // public function updateResign(Employee $id)
@@ -120,5 +114,16 @@ class Data extends Component
         $id->is_resign_temp  = null;
         $id->is_approve_admin_noc = null;
         $id->save();
+    }
+
+
+
+    public function deletedata($id)
+    {
+        $check = \App\Models\ToolsNoc::where('id',$id)->delete();
+ 
+        
+        session()->flash('message-success',"Berhasil, Database Tools NOC berhasil dihapus!!!");
+        return redirect()->route('database-tools-noc.index');
     }
 }

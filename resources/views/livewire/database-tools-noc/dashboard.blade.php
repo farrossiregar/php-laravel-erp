@@ -3,9 +3,18 @@
         <div class="col-md-1">                
             <select class="form-control" wire:model="year">
                 <option value=""> --- Year --- </option>
-                @foreach(\App\Models\EmployeeNoc::select('year')->groupBy('year')->whereNotNull('year')->get() as $item) 
+                @foreach(\App\Models\ToolsNoc::select('year')->groupBy('year')->whereNotNull('year')->get() as $item) 
                 <option>{{$item->year}}</option>
                 @endforeach 
+            </select>
+        </div>
+        <div class="col-md-1">                
+            <select class="form-control" wire:model="type">
+                <option value=""> --- Type --- </option>
+                
+                <option value="1">Tools NOC</option>
+                <option value="2">Escalation Record</option>
+                
             </select>
         </div>
         <div class="col-md-7">

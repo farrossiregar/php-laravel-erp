@@ -8,7 +8,7 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label>Approve Database Noc ?</label>
+            <label>Approve Database Tools Noc ?</label>
            
         </div>
       

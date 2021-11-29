@@ -5,7 +5,14 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Update Tools NOC</h5>
+                    <?php
+                        if($type == '1'){
+                            $titleadd = 'Tools NOC';
+                        }else{
+                            $titleadd = 'Escalation Record';
+                        }
+                    ?>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Update {{$titleadd}} </h5>
                 </div>
 
                 <div class="body pt-0">

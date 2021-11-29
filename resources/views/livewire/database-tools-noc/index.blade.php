@@ -5,14 +5,18 @@
         <div class="card">
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data">{{ __('Data') }}</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#datatoolsnoc">{{ __('Data Tools NOC') }}</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#dataescalationrecord">{{ __('Data Escalation Record') }}</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active show " id="dashboard">
                     <livewire:database-tools-noc.dashboard />
                 </div>
-                <div class="tab-pane" id="data">
-                    <livewire:database-tools-noc.data />
+                <div class="tab-pane" id="datatoolsnoc">
+                    <livewire:database-tools-noc.datatoolsnoc />
+                </div>
+                <div class="tab-pane" id="dataescalationrecord">
+                    <livewire:database-tools-noc.dataescalationrecord />
                 </div>
             </div>
         </div>
@@ -39,7 +43,7 @@
 <div class="modal fade" id="modal-databasenoc-approvenoc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:database-noc.approvenoc />
+            <livewire:database-tools-noc.approve />
         </div>
     </div>
 </div>
@@ -47,7 +51,7 @@
 <div class="modal fade" id="modal-databasenoc-declinenoc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:database-noc.declinenoc />
+            <livewire:database-tools-noc.decline />
         </div>
     </div>
 </div>
@@ -77,11 +81,11 @@
         $("#modal-databasenoc-revisenoc").modal('show');
     });
 
-    Livewire.on('modaldeclinedatabasenoc',(data)=>{
+    Livewire.on('modaldecline',(data)=>{
         $("#modal-databasenoc-declinenoc").modal('show');
     });
 
-    Livewire.on('modalapprovedatabasenoc',(data)=>{
+    Livewire.on('modalapprove',(data)=>{
         $("#modal-databasenoc-approvenoc").modal('show');
     });
 
