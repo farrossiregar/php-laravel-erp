@@ -1,14 +1,14 @@
 <form wire:submit.prevent="save">
     @csrf
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-close"></i> Decline Database Noc</h5>
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-close"></i> Decline {{$type}} </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true close-btn">×</span>
         </button>
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label> Decline Database Noc ?</label>
+            <label> Decline {{$type}} ?</label>
         </div>
         <div class="form-group">
             <label>Note</label>

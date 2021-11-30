@@ -62,6 +62,7 @@
             <div class="col-md-3">                
                 <input type="text" class="form-control" wire:model="keyword" placeholder="Search Name,NIK..." />
             </div>
+
             <!-- <div class="col-md-2">
                 
                 <a href="javascript:;" wire:click="$emit('modaladdtoolsnoc')" class="btn btn-info"><i class="fa fa-plus"></i> Add</a>
@@ -72,6 +73,51 @@
                     <span class="sr-only">{{ __('Loading...') }}</span>
                 </span>
             </div> -->
+            </div>    
+        <br>
+        <div class="row">
+            <div class="col-md-1">
+                <label><h5>Keyword : </h5></label>
+            </div>
+
+            <?php
+                $strDate = date('Y-m-d');
+                $dateArray = explode("-", $strDate);
+                $date = new DateTime();
+                $date->setDate($dateArray[0], $dateArray[1], $dateArray[2]);
+                $week = floor((date_format($date, 'j') - 1) / 7) + 1;
+            ?>
+
+            @if($this->filterweek)
+            <div class="col-md-1">
+                <span class="badge badge-primary"><h6> Week : {{$this->filterweek}} </h6></span>
+            </div>
+            @else
+            <div class="col-md-1">
+                <span class="badge badge-primary"><h6> Week : {{$week}} </h6></span>
+            </div>
+            @endif
+
+            @if($this->filtermonth)
+            <div class="col-md-1">
+                <span class="badge badge-primary"><h6> Month : {{$this->filtermonth}} </h6></span>
+            </div>
+            @else
+            <div class="col-md-1">
+                <span class="badge badge-primary"><h6> Month : {{ date_format(date_create(date('Y-m-d')), 'M') }} </h6></span>
+            </div>
+            @endif
+
+            @if($this->filteryear)
+            <div class="col-md-1">
+                <span class="badge badge-primary"><h6> Year : {{$this->filteryear}} </h6></span>
+            </div>
+            @else
+            <div class="col-md-1">
+                <span class="badge badge-primary"><h6> Year : {{date('Y')}} </h6></span>
+            </div>
+            @endif
+
         </div>    
     </div>
     <div class="col-md-12">
@@ -104,14 +150,21 @@
                                 $datatoolsnoc = \App\Models\ToolsNoc::where('type', '2')->where('nik', $item->nik)->where('month', date('m'))->where('year', date('Y'));
                             }
 
+                            // $strDate = date('Y-m-d');
+                            // $dateArray = explode("-", $strDate);
+                            // $date = new DateTime();
+                            // $date->setDate($dateArray[0], $dateArray[1], $dateArray[2]);
+                            // $week = floor((date_format($date, 'j') - 1) / 7) + 1;
+                            
                             if($this->filtermonth){
                                 if($this->filterweek){
                                     $datatoolsnoc = $datatoolsnoc->where('week', $this->filterweek)->first();
                                 }else{
-                                    $datatoolsnoc = $datatoolsnoc->where('week', '1')->first();
+                                      
+                                    $datatoolsnoc = $datatoolsnoc->where('week', $week)->first();
                                 }
                             }else{
-                                $datatoolsnoc = $datatoolsnoc->where('week', '1')->first();
+                                $datatoolsnoc = $datatoolsnoc->where('week', $week)->first();
                             }
                             
                             // echo $datatoolsnoc;
@@ -144,8 +197,8 @@
                             @if(@$datatoolsnoc->id)
                                 @if(check_access('database-noc.approval'))
                                     @if(@$datatoolsnoc->status == '')
-                                    <span class="badge badge-success" title="Approve"><i class="fa fa-check"></i> Approve </span>
-                                    <span class="badge badge-danger" title="Decline"><i class="fa fa-close"></i> Decline </span>
+                                    <a href="javascript:;" wire:click="$emit('modalapprove','{{ $datatoolsnoc->id }}')"><span class="badge badge-success" title="Approve"><i class="fa fa-check"></i> Approve </span></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldecline','{{ $datatoolsnoc->id }}')"><span class="badge badge-danger" title="Decline"><i class="fa fa-close"></i> Decline </span></a>
                                     @endif
                                 @endif
                             @endif
@@ -185,6 +238,11 @@
         </div>
         {{$data->links()}}
     </div>
+
+
+
+
+
     @push('after-scripts')
         <script>
             function confirm_resign(id){

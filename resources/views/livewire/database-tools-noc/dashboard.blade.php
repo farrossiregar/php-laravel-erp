@@ -17,7 +17,17 @@
                 
             </select>
         </div>
-        <div class="col-md-7">
+        
+        <div class="col-md-4">
+            @if($this->type == '1')
+            <label><h4>Database Tools NOC</h4></label>
+            @endif
+
+            @if($this->type == '2')
+            <label><h4>Escalation Record</h4></label>
+            @endif
+        </div>
+        <div class="col-md-3">
             <label wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>
@@ -84,7 +94,7 @@ function init_chart_databasenoc(){
                 },
                 title: {
                     display: true,
-                    text: 'DATABASE TOOLS NOC MONTHLY - PERSONNEL NOT HAVING SOFTWARE'
+                    text: 'PERSONNEL NOT HAVING SOFTWARE - MONTHLY'
                 },
                 scales: {
                     xAxes: [{

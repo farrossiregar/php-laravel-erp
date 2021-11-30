@@ -16,7 +16,7 @@ class Decline extends Component
     use WithFileUploads;
     public $selected_id;    
     public $note;
-    // public $usertype;
+    public $type;
 
     
     public function render()
@@ -27,11 +27,16 @@ class Decline extends Component
     public function decline($id)
     {
         $this->selected_id = $id;
+        if(\App\Models\ToolsNoc::where('id', $this->selected_id)->first()->type == '1'){
+            $this->type = 'Database Tools NOC';
+        }else{
+            $this->type = 'Escalation Record';
+        }
     }
   
     public function save()
     {
-        dd($this->selected_id);
+        // dd($this->selected_id);
         $data = \App\Models\ToolsNoc::where('id', $this->selected_id)->first();
         
         $data->status   = '0';
@@ -55,7 +60,12 @@ class Decline extends Component
         //     // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
         // }
 
-        session()->flash('message-success',"Berhasil, Database Tools NOC sudah didecline!!!");
+        if(\App\Models\ToolsNoc::where('id', $this->selected_id)->first()->type == '1'){
+            session()->flash('message-success',"Berhasil, Database Tools NOC sudah didecline!!!");
+        }else{
+            session()->flash('message-success',"Berhasil, Escalation Record sudah didecline!!!");
+        }
+        
         
         return redirect()->route('database-tools-noc.index');
     }
