@@ -100,7 +100,11 @@
 
             @if($this->filtermonth)
             <div class="col-md-1">
-                <span class="badge badge-primary"><h6> Month : {{$this->filtermonth}} </h6></span>
+            <?php
+                    $mo = date('Y').'-'.$this->filtermonth.'-'.date('d');
+                    // echo $mo;
+                ?>
+                <span class="badge badge-primary"><h6> Month :  {{ date_format(date_create($mo), 'M') }} </h6></span>
             </div>
             @else
             <div class="col-md-1">
