@@ -1,8 +1,21 @@
 <div>
     <div class="row mb-3">
-        {{-- <div class="col-md-1">
-            <input type="text" class="form-control date_range" placeholder="Date" />
-        </div> --}}
+        <div class="col-md-1" wire:ignore wire:model="year">
+            <select class="form-control">
+                <option value=""> -- Year -- </option>
+                @foreach ($years as $item)
+                    <option>{{$item->year}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-1" wire:ignore wire:model="month">
+            <select class="form-control">
+                <option value=""> -- Month -- </option>
+                @foreach ($months as $item)
+                    <option>{{$item->month}}</option>
+                @endforeach
+            </select>
+        </div>
         <div class="col-md-2" wire:ignore>
             <select class="form-control" wire:model="sub_region_id">
                 <option value=""> -- Sub Region -- </option>

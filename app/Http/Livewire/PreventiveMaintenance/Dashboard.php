@@ -13,6 +13,7 @@ class Dashboard extends Component
     public $date_start,$date_end,$labels,$series,$total_submitted,$total_approved_eid,$total_pm,$total_sow=0;
     public $sub_region_id,$client_project_id,$sub_region=[];
     public $background = ['#9ad0f5','#ffb1c1','#8fe045'];
+    public $months=[],$years=[];
     public function render()
     {
         $data = $this->init_data();
@@ -97,6 +98,8 @@ class Dashboard extends Component
     public function mount()
     {
         $this->client_project_id = session()->get('project_id');
+        $this->months = PreventiveMaintenance::select(\DB::raw('month(created_at) as bulan'))->groupBy('bulan')->get();
+        $this->years = PreventiveMaintenance::select(\DB::raw('year(created_at) as tahun'))->groupBy('tahun')->get();
         $this->chart();
         
         \LogActivity::add('[web] PM');
