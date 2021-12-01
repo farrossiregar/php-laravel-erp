@@ -5,7 +5,14 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Update Tools NOC</h5>
+                    <?php
+                        if($type == '1'){
+                            $titleadd = 'Tools NOC';
+                        }else{
+                            $titleadd = 'Escalation Record';
+                        }
+                    ?>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Update {{$titleadd}} </h5>
                 </div>
 
                 <div class="body pt-0">
@@ -17,14 +24,14 @@
                                     <div class="row">
                                         <div class="col-md-12 form-group">
                                             <label>Employee Name NOC</label>
-                                            
-                                            <select onclick="" class="form-control" wire:model="name">
+                                            <input type="text" class="form-control" wire:model="name" readonly/>
+                                            <!-- <select onclick="" class="form-control" wire:model="name">
                                                 <option value=""> --- Employee Name NOC--- </option>
                                                 @foreach( \App\Models\Employee::where('is_noc',1)->orderBy('id', 'desc')->get() as $item)
-                                                <!-- foreach(check_access_data('database-tools-noc.noc-list', '') as $item) -->
+                                                
                                                 <option value="{{$item->name}}">{{$item->name}}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> -->
                                             @error('site_id')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror

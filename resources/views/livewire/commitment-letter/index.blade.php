@@ -5,14 +5,18 @@
         <div class="card">
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data">{{ __('Data') }}</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#datahup">{{ __('Data HUP') }}</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#datapmt">{{ __('Data PMT') }}</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active show " id="dashboard">
                     <livewire:commitment-letter.dashboard />
                 </div>
-                <div class="tab-pane" id="data">
-                    <livewire:commitment-letter.data />
+                <div class="tab-pane" id="datahup">
+                    <livewire:commitment-letter.datahup />
+                </div>
+                <div class="tab-pane" id="datapmt">
+                    <livewire:commitment-letter.datapmt />
                 </div>
             </div>
         </div>
@@ -20,10 +24,18 @@
 </div>
 
 
-<div class="modal fade" id="modal-commitmentletter-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-commitmentletter-addhup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:commitment-letter.add />
+            <livewire:commitment-letter.addhup />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-commitmentletter-addpmt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:commitment-letter.addpmt />
         </div>
     </div>
 </div>
@@ -78,8 +90,12 @@
 
 
 @section('page-script')
-    Livewire.on('modaladdcommitmentletter',(data)=>{
-        $("#modal-commitmentletter-add").modal('show');
+    Livewire.on('modaladdhupcommitmentletter',(data)=>{
+        $("#modal-commitmentletter-addhup").modal('show');
+    });
+
+    Livewire.on('modaladdpmtcommitmentletter',(data)=>{
+        $("#modal-commitmentletter-addpmt").modal('show');
     });
 
     Livewire.on('modaleditcommitmentletter',(data)=>{

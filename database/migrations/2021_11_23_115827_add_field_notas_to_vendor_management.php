@@ -14,7 +14,7 @@ class AddFieldNotasToVendorManagement extends Migration
     public function up()
     {
         Schema::table('vendor_management', function (Blueprint $table) {
-            $table->text('notas')->nullable();
+            // $table->text('notas')->nullable();
         });
     }
 

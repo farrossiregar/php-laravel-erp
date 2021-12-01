@@ -30,11 +30,49 @@
             <div class="col-md-2">
                 <a href="{{ route('accident-report.insert') }}" title="Add" class="btn btn-primary"><i class="fa fa-search"></i> {{__('Submit')}}</a>
             </div> -->
+
+            @if(check_access('commitment-letter.admin') || check_access('commitment-letter.pic'))
+            <div class="col-md-3">
+             
+                <input list="project" class="form-control" placeholder="Project" wire:model="project">
+                <datalist id="project" >
+                    @foreach($dataproject as $item)
+                    <option value="{{ $item->name }}">
+                    @endforeach
+                </datalist>
+            </div>
+            @endif
             <div class="col-md-4">
-            <h5>Summary Huawei ( XL dan H3i )</h5>
+                <h5>
+                    @if(check_access('commitment-letter.admin') || check_access('commitment-letter.pic'))
+                        @if($this->project)
+                            Summary {{ $this->project }}
+                        @else
+                            Summary All Project
+                        @endif
+                    @else
+                        Summary {{ App\Models\ClientProject::where('id', App\Models\Employee::where('name', $users->name)->first()->project)->first()->name }}
+                    @endif
+
+                    
+                </h5>
+            </div>
+            <div class="col-md-3" style="float: right;">
+                @if(@$_GET['company_id'] == '1')
+                    <a href="javascript:;" wire:click="$emit('modaladdhupcommitmentletter')" class="btn btn-info"><i class="fa fa-plus"></i> Add Commitment Letter HUP </a>
+                @else
+
+                @endif
+                    
+                @if(@$_GET['company_id'] == '2')
+                    <a href="javascript:;" wire:click="$emit('modaladdpmtcommitmentletter')" class="btn btn-info"><i class="fa fa-plus"></i> Add Commitment Letter PMT </a>
+                @else
+
+                @endif
             </div>
         </div>
 
+        <br>
         <div class="row">
             <div class="col-md-6">
                 <div class="table-responsive">
@@ -57,14 +95,16 @@
                                 <td>{{ $item->region }}</td>
                                 <td>
                                     <?php
-                                        $done = App\Models\CommitmentLetter::where('region', $item->region)->where('bcg', '!=', NULL)->where('cyber_security', '!=', NULL)->where('status', '1')->orderBy('id', 'desc')->get();
+                                        // $done = App\Models\CommitmentLetter::where('region', $item->region)->where('bcg', '!=', NULL)->where('cyber_security', '!=', NULL)->where('status', '1')->orderBy('id', 'desc')->get();
+                                        $done = App\Models\CommitmentLetter::where('region', $item->region)->where('status', '1')->orderBy('id', 'desc')->get();
                                         
                                         echo count($done);
                                     ?>
                                 </td>
                                 <td>
                                     <?php
-                                        $notdone = App\Models\CommitmentLetter::where('region', $item->region)->orderBy('id', 'desc')->get();
+                                        $notdone = count(App\Models\CommitmentLetter::where('region', $item->region)->where('status', '')->orderBy('id', 'desc')->get()) + count(App\Models\CommitmentLetter::where('region', $item->region)->where('status', '0')->orderBy('id', 'desc')->get()) + count(App\Models\CommitmentLetter::where('region', $item->region)->where('status', NULL)->orderBy('id', 'desc')->get());
+                                        // $notdone = App\Models\CommitmentLetter::where('region', $item->region)->orderBy('id', 'desc')->get();
                                         // $notdone = App\Models\CommitmentLetter::where('region', $item->region)->where('bcg', Null)->orwhere('cyber_security', Null)->where('status', '1')->orderBy('id', 'desc')->groupBy('region')->get();
                                         // $notdone = App\Models\CommitmentLetter::where('region', 'West')->where(function ($query) {
                                         //                                                                                 $query->where('bcg', Null)
@@ -74,13 +114,14 @@
                                         //                                                                                 $query->where('bcg', Null)
                                         //                                                                                     ->where('cyber_security', Null);
                                         //                                                                             })->where('status', '1')->orderBy('id', 'desc')->groupBy('region')->get();
-                                        echo count($notdone) - count($done);
+                                        // echo count($notdone) - count($done);
+                                        echo $notdone;
                                         
                                     ?>
                                 </td>
                                 <td>
                                     <?php
-                                        $grand = App\Models\CommitmentLetter::where('region', $item->region)->where('status', '1')->get();
+                                        $grand = App\Models\CommitmentLetter::where('region', $item->region)->get();
                                         echo count($grand);
                                     ?>
                                 </td>

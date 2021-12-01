@@ -5,7 +5,7 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-edit"></i> Edit Commitment Letter</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Input Commitment Letter</h5>
                 </div>
 
                 <div class="body pt-0">
@@ -32,7 +32,7 @@
                                             <label>Project</label>
                                             <select onclick="" class="form-control" wire:model="project">
                                                 <option value=""> --- Project --- </option>
-                                                
+
                                                 @foreach($dataproject as $item)
                                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
@@ -64,14 +64,14 @@
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>Employee Name</label>
-                                            <input list="employee_name" class="form-control"  wire:model="employee_name">
-                                            <datalist id="employee_name" >
+                                            <input list="employee_name2" class="form-control"  wire:model="employee_name">
+                                            <datalist id="employee_name2" >
                                                 @foreach($employeelist as $item)
                                                 <option value="{{ $item->name }}">
                                                 @endforeach
                                             </datalist>
-                             
-                                            
+
+                                           
 
 
                                             <!-- <select onclick="" class="form-control" wire:model="employee_name">
@@ -82,15 +82,15 @@
                                             </select> -->
 
 
-
+                                           
                                             @error('employee_name')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
 
+                                       
 
-
-
+                                        
 
                                         <div class="col-md-12 form-group">
                                             <label>KTP ID</label>
@@ -120,7 +120,7 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group">
                                             <label>Type of Commitment Letter</label>
                                             <select onclick="" class="form-control" wire:model="type_letter">

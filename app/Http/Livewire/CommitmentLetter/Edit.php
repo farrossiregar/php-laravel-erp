@@ -8,6 +8,7 @@ use Livewire\WithFileUploads;
 use App\Models\CommitmentLetter;
 use Auth;
 use DB;
+use Session;
 
 
 class Edit extends Component
@@ -16,28 +17,41 @@ class Edit extends Component
         'modaleditcommitmentletter'=>'editcommitmentletter',
     ];
 
-    public $selected_id, $dataproject, $company_name, $project, $region, $region_area, $ktp_id, $nik_pmt, $leader, $employee_name, $employeelist, $leaderlist, $regionarealist;
+    public $selected_id, $dataproject, $company_name, $project, $region, $region_area, $ktp_id, $nik_pmt, $leader, $employee_name, $employeelist, $leaderlist, $regionarealist, $type_letter, $inputletter, $title_letter;
 
     public function render()
     {
+
+    
         
-        
-        if($this->company_name){ 
-            $this->dataproject = \App\Models\ProjectEpl::orderBy('projects.id', 'desc')
-                                    ->select('projects.*', 'region.region_code')
-                                    ->join(env('DB_DATABASE').'.region', env('DB_DATABASE_EPL_PMT').'.projects.region_id', '=', env('DB_DATABASE').'.region.id' )
-                                    ->where('projects.type', $this->company_name)
-                                    ->get();
+            $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
+                                        ->where('company_id', Session::get('company_id'))
+                                        ->where('is_project', '1')
+                                        ->get();
             
+            $this->regionarealist = [];
+            $this->leaderlist = [];
+                        
             if($this->project){ 
-                $getproject = \App\Models\ProjectEpl::where('id', $this->project)->where('type', $this->company_name)->first();
-                
-                $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
+
+                 // $getproject = \App\Models\ProjectEpl::where('id', $this->project)->where('type', $this->company_name)->first();
+                 $getproject = \App\Models\ClientProject::where('id', $this->project)
+                                                        ->where('company_id', Session::get('company_id'))
+                                                        ->where('is_project', '1')
+                                                        ->first();
+
+                 
+
+                $this->region = @\App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
                 if($this->region){
                     $this->regionarealist = \App\Models\RegionCluster::where('region_id', $getproject->region_id)->orderBy('id', 'desc')->get();
                     
                 }
-                $this->employeelist = check_list_user_acc('commitment-letter.tecme-list', $getproject->id);
+                // $this->employeelist = check_list_user_acc('commitment-letter.tecme-list', $getproject->id);
+                $this->employeelist = \App\Models\Employee::whereIn('user_access_id', [85, 84])
+                                                            ->where('region_id', $getproject->region_id)
+                                                            ->where('project', $this->project)
+                                                            ->get();
 
                 if($this->employee_name){
                     $this->ktp_id = isset(\App\Models\Employee::where('name', $this->employee_name)->first()->nik) ? \App\Models\Employee::where('name', $this->employee_name)->first()->nik : '' ;
@@ -50,18 +64,28 @@ class Edit extends Component
                 $this->employeelist = [];
                 $this->leader = [];
             }
-        }else{
-            $this->dataproject = [];
-            $this->project = [];
-            $this->region = [];
-            $this->regionarealist = [];
-            $this->employeelist = [];
-            $this->employee_name = [];
-            $this->ktp_id = [];
-            $this->nik_pmt = [];
-            $this->leaderlist = [];
-            $this->leader = [];
-        }
+            
+            if($this->type_letter){
+                // dd($this->type_letter);
+                if($this->type_letter == '3'){
+                    $this->inputletter = '1';
+                }else{
+                    $this->inputletter = '0';
+                }
+            }
+
+        // }else{
+        //     $this->dataproject = [];
+        //     $this->project = [];
+        //     $this->region = [];
+        //     $this->regionarealist = [];
+        //     $this->employeelist = [];
+        //     $this->employee_name = [];
+        //     $this->ktp_id = [];
+        //     $this->nik_pmt = [];
+        //     $this->leaderlist = [];
+        //     $this->leader = [];
+        // }
 
         return view('livewire.commitment-letter.edit');
     }
@@ -81,6 +105,22 @@ class Edit extends Component
         $this->nik_pmt          = $data->nik_pmt;
         $this->leader           = $data->leader;
         $this->employee_name    = $data->employee_name;
+
+
+        $getproject = \App\Models\ClientProject::where('id', $data->project)
+                                                        ->where('company_id', $data->company_name)
+                                                        ->where('is_project', '1')
+                                                        ->first();
+
+        // dd($getproject);
+
+        $this->employeelist = \App\Models\Employee::whereIn('user_access_id', [85, 84])
+                                                    ->where('region_id', $getproject->region_id)
+                                                    ->where('project', $this->project)
+                                                    ->get();
+
+        $this->leaderlist = check_list_user_acc('commitment-letter.sm-list', $getproject->id);
+        
     }
   
     public function save()
@@ -88,14 +128,24 @@ class Edit extends Component
 
 
         $data                   = CommitmentLetter::where('id', $this->selected_id)->first();
-        $data->company_name     = $this->company_name;
+        // $data->company_name     = $_GET['company_id'];
         $data->project          = $this->project;
         $data->region           = $this->region;
         $data->region_area      = $this->region_area;
-        $data->ktp_id           = $this->ktp_id;
-        $data->nik_pmt          = $this->nik_pmt;
+        $data->ktp_id           = @$this->ktp_id;
+        $data->nik_pmt          = @$this->nik_pmt;
         $data->leader           = $this->leader;
         $data->employee_name    = $this->employee_name;
+        if($this->type_letter == '3'){
+            $data->type_letter      = $this->title_letter;
+        }else{
+            $data->type_letter      = $this->type_letter;
+        }
+
+        if($this->type_letter != $data->type_letter){
+            $data->doc      = '';
+        }
+
         $data->status           = '';
         $data->note           = '';
 
@@ -104,9 +154,11 @@ class Edit extends Component
         
 
 
-        session()->flash('message-success',"Commitment Letter Berhasil diinput");
+        session()->flash('message-success',"Commitment Letter Berhasil diupdate");
         
         return redirect()->route('commitment-letter.index');
+        // $link = "?company_id=".$data->company_name;
+        // return redirect();
     }
 
 

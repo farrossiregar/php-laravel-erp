@@ -1,16 +1,10 @@
 <div class="row">
 
 
-    <div class="col-md-2">
-        <input type="text" class="form-control" placeholder="Keyword" wire:model="keyword" />
+    <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Search Project, Region, Area, Employee, Leader..." wire:model="keyword" />
     </div>
     
-    <!-- if(check_access('accident-report.input')) -->
-    <div class="col-md-2">
-        
-        <a href="javascript:;" wire:click="$emit('modaladdcommitmentletter')" class="btn btn-info"><i class="fa fa-plus"></i> Add Commitment Letter </a>
-    </div>
-    <!-- endif -->
 
     <div class="col-md-12">
         <br><br>
@@ -19,7 +13,7 @@
                 <thead>
                     <tr>
                         <th>No</th> 
-                        <th>Company Name</th> 
+                        
                         <th>Project</th> 
                         <th>Region</th> 
                         <th>Region / Area</th> 
@@ -27,6 +21,7 @@
                         <th>KTP ID</th> 
                         <th>NIK PMT</th> 
                         <th>Leader</th> 
+                        <th>Created By</th> 
                         
                         <th>Type Commitment Letter</th> 
                         <!-- <th>BCG</th> 
@@ -41,22 +36,35 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td>
-                            @if($item->company_name == '1')
-                                HUP
-                            @else
-                                PMT
-                            @endif
-                        </td>
+
                         <td>
                            {{ get_project_company($item->project, $item->company_name) }}
                         </td>
                         <td>{{ $item->region }}</td>
                         <td>{{ $item->region_area }}</td>
-                        <td>{{ $item->employee_name }}</td>
+                        <td>
+                            <?php
+                                if(Auth::user()->name == $item->employee_name){
+                                    echo '<b>'.$item->employee_name.'</b>';
+                                }else{
+                                    echo $item->employee_name;
+                                }
+                            
+                            ?>
+                        </td>
                         <td>{{ $item->ktp_id }}</td>
                         <td>{{ $item->nik_pmt }}</td>
                         <td>{{ $item->leader }}</td>
+                        <td>
+                            <?php
+                                if(Auth::user()->name == $item->createdby){
+                                    echo '<b>'.$item->createdby.'</b>';
+                                }else{
+                                    echo $item->createdby;
+                                }
+                            
+                            ?>
+                        </td>
                         
                         <td>
                             <?php
@@ -127,7 +135,7 @@
                         </td>
                         <td>
                             @if(check_access('commitment-letter.admin'))
-                                @if($item->bcg != '' && $item->cyber_security != '')
+                                @if($item->doc != '')
                                     @if($item->status == NULL || $item->status == '')
                                     <a href="javascript:;" wire:click="$emit('modalapprovecommitmentletter','{{ $item->id }}')" title="Approve" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
                                     <a href="javascript:;" wire:click="$emit('modaldeclinecommitmentletter','{{ $item->id }}')" title="Decline" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>

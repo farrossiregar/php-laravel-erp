@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddFieldBusinessNameToVendorManagement extends Migration
+class AddTypeToToolsNoc extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddFieldBusinessNameToVendorManagement extends Migration
      */
     public function up()
     {
-        Schema::table('vendor_management', function (Blueprint $table) {
-            // $table->string('business_name',100)->nullable();
+        Schema::table('tools_noc', function (Blueprint $table) {
+            $table->char('type', '10')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddFieldBusinessNameToVendorManagement extends Migration
      */
     public function down()
     {
-        Schema::table('vendor_management', function (Blueprint $table) {
-            //
+        Schema::table('tools_noc', function (Blueprint $table) {
+            
         });
     }
 }

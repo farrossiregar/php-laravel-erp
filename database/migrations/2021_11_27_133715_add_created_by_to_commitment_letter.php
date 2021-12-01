@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddFieldBusinessNameToVendorManagement extends Migration
+class AddCreatedByToCommitmentLetter extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddFieldBusinessNameToVendorManagement extends Migration
      */
     public function up()
     {
-        Schema::table('vendor_management', function (Blueprint $table) {
-            // $table->string('business_name',100)->nullable();
+        Schema::table('commitment_letter', function (Blueprint $table) {
+            $table->text('createdby',10)->nullable();
+            // $table->string('finance_phone',25)->nullable();
         });
     }
 
@@ -25,7 +26,7 @@ class AddFieldBusinessNameToVendorManagement extends Migration
      */
     public function down()
     {
-        Schema::table('vendor_management', function (Blueprint $table) {
+        Schema::table('commitment_letter', function (Blueprint $table) {
             //
         });
     }

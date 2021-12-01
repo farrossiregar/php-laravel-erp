@@ -7,11 +7,11 @@ use Livewire\WithPagination;
 use App\Models\ToolsNoc;
 use App\Models\EmployeeNoc;
 
-class Data extends Component
+class Datatoolsnoc extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $keyword,$is_resign, $filtermonth, $filteryear, $filtertools, $filtersoftware;
+    public $keyword,$is_resign, $filterweek, $filtermonth, $filteryear, $filtertools, $filtersoftware, $selected;
 
     public function render()
     {
@@ -33,51 +33,50 @@ class Data extends Component
         //         $table->orWhere($column,'LIKE',"%{$this->keyword}%");
         //     }
         // });
-        
-        // if($this->month && $this->year){
-        //     $data->whereYear('tools_noc.created_at', $this->year)->whereMonth('tools_noc.created_at', $this->month);
-        // }elseif($this->month && $this->year == ''){
-        //     $data->whereYear('tools_noc.created_at', date('Y'))->whereMonth('tools_noc.created_at', $this->month);
-        // }elseif($this->month == '' && $this->year){
-        //     $data->whereYear('tools_noc.created_at', $this->year)->whereMonth('tools_noc.created_at', date('m'));
-        // }else{
-        //     $data->whereYear('tools_noc.created_at',date('Y'))->whereMonth('tools_noc.created_at', date('m'));
-        // }
-        
-        // if($this->is_resign !="") $data->where('is_resign',$this->is_resign);
 
-        return view('livewire.database-tools-noc.data')->with(['data'=>$data->paginate(50)]);   
+        if($this->keyword) $data->where(function($table){
+            $table->Where('name',"LIKE","%{$this->keyword}%")
+                        ->orWhere('nik',"LIKE","%{$this->keyword}%");
+        });
+  
+        return view('livewire.database-tools-noc.datatoolsnoc')->with(['data'=>$data->paginate(50)]);   
     }
 
-    public function updateResign(Employee $id)
-    {   
-        $noc = new EmployeeNoc();
-        $noc->employee_id = $id->id;
-        $noc->is_resign = 1;
-        $noc->month = date('m');
-        $noc->year = date('Y');
-        $noc->save();
-
-        $id->is_resign_temp  = 1;
-        $id->is_approve_admin_noc = 0;
-        $id->employee_noc_id = $noc->id;
-        $id->save();
+    public function set_id($data)
+    {
+        $this->selected = $data;
+        return $this->selected;
     }
 
-    public function updateAktif(Employee $id)
-    {   
-        $noc = new EmployeeNoc();
-        $noc->employee_id = $id->id;
-        $noc->is_resign = 0;
-        $noc->month = date('m');
-        $noc->year = date('Y');
-        $noc->save();
+    // public function updateResign(Employee $id)
+    // {   
+    //     $noc = new EmployeeNoc();
+    //     $noc->employee_id = $id->id;
+    //     $noc->is_resign = 1;
+    //     $noc->month = date('m');
+    //     $noc->year = date('Y');
+    //     $noc->save();
 
-        $id->is_resign_temp  = 0;
-        $id->is_approve_admin_noc = 0;
-        $id->employee_noc_id = $noc->id;
-        $id->save();
-    }
+    //     $id->is_resign_temp  = 1;
+    //     $id->is_approve_admin_noc = 0;
+    //     $id->employee_noc_id = $noc->id;
+    //     $id->save();
+    // }
+
+    // public function updateAktif(Employee $id)
+    // {   
+    //     $noc = new EmployeeNoc();
+    //     $noc->employee_id = $id->id;
+    //     $noc->is_resign = 0;
+    //     $noc->month = date('m');
+    //     $noc->year = date('Y');
+    //     $noc->save();
+
+    //     $id->is_resign_temp  = 0;
+    //     $id->is_approve_admin_noc = 0;
+    //     $id->employee_noc_id = $noc->id;
+    //     $id->save();
+    // }
 
     public function approve(Employee $id)
     {
@@ -115,5 +114,16 @@ class Data extends Component
         $id->is_resign_temp  = null;
         $id->is_approve_admin_noc = null;
         $id->save();
+    }
+
+
+
+    public function deletedata($id)
+    {
+        $check = \App\Models\ToolsNoc::where('id',$id)->delete();
+ 
+        
+        session()->flash('message-success',"Berhasil, Database Tools NOC berhasil dihapus!!!");
+        return redirect()->route('database-tools-noc.index');
     }
 }

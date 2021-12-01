@@ -11,24 +11,31 @@ use DateTime;
 class Addtoolsnoc extends Component
 {
     protected $listeners = [
-        'modalapprovedatabasenoc'=>'approvenoc',
+        'modaladdtoolsnoc'=>'addtoolsnoc',
     ];
 
     use WithFileUploads;
-    public $name, $nik, $tools, $software;
+    public $name, $nik, $tools, $software, $selected_id, $type;
 
     
     public function render()
     {
-        if($this->name){
-            $this->nik = \App\Models\Employee::where('name', $this->name)->first()->nik;
-        }
+        // if($this->name){
+        //     $this->nik = \App\Models\Employee::where('name', $this->name)->first()->nik;
+        // }
+
+       
         return view('livewire.database-tools-noc.addtoolsnoc');
     }
 
-    public function approvenoc($id)
+    public function addtoolsnoc($id)
     {
-        $this->selected_id = $id;
+        $this->selected_id = $id[0];
+        $this->type = $id[1];
+        $this->name = \App\Models\Employee::where('id', $this->selected_id)->first()->name;
+        
+        $this->nik = \App\Models\Employee::where('id', $this->selected_id)->first()->nik;
+
     }
 
   
@@ -44,6 +51,7 @@ class Addtoolsnoc extends Component
         $data->week         = $this->weekOfMonth($pubdate);
         $data->month         = date('m');
         $data->year         = date('Y');
+        $data->type         = $this->type;
         
         $data->save();
 
@@ -65,8 +73,12 @@ class Addtoolsnoc extends Component
         // }
 
 
-       
+       if($this->type == '1'){
         session()->flash('message-success',"Berhasil, Database Tools NOC berhasil ditambahkan!!!");
+       }else{
+        session()->flash('message-success',"Berhasil, Escalation Record berhasil ditambahkan!!!");
+       }
+        
         
         return redirect()->route('database-tools-noc.index');
     }
