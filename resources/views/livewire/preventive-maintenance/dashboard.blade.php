@@ -4,7 +4,7 @@
             <select class="form-control">
                 <option value=""> -- Year -- </option>
                 @foreach ($years as $item)
-                    <option>{{$item->year}}</option>
+                    <option>{{$item->tahun}}</option>
                 @endforeach
             </select>
         </div>
@@ -12,7 +12,7 @@
             <select class="form-control">
                 <option value=""> -- Month -- </option>
                 @foreach ($months as $item)
-                    <option>{{$item->month}}</option>
+                    <option>{{$item->bulan}}</option>
                 @endforeach
             </select>
         </div>
