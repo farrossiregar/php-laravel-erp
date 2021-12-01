@@ -2,7 +2,6 @@
     <div class="row mb-3">
         <div class="col-md-1" wire:ignore wire:model="year">
             <select class="form-control">
-                <option value=""> -- Year -- </option>
                 @foreach ($years as $item)
                     <option>{{$item->tahun}}</option>
                 @endforeach
@@ -10,9 +9,8 @@
         </div>
         <div class="col-md-1" wire:ignore wire:model="month">
             <select class="form-control">
-                <option value=""> -- Month -- </option>
                 @foreach ($months as $item)
-                    <option>{{$item->bulan}}</option>
+                    <option value="{{$item->bulan}}">{{date('F', mktime(0, 0, 0, $item->bulan, 10))}}</option>
                 @endforeach
             </select>
         </div>
