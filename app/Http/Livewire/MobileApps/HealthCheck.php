@@ -9,6 +9,7 @@ use App\Models\Region;
 use App\Models\SubRegion;
 use Illuminate\Support\Arr;
 use App\Models\EmployeeProject;
+use App\Models\ClientProjectRegion;
 
 class HealthCheck extends Component
 {
@@ -55,10 +56,19 @@ class HealthCheck extends Component
         $this->emit('clear_daterange');
     }
 
+    public function updated($propertyName)
+    {
+        if($this->region_id) $this->sub_region = SubRegion::where('region_id',$this->region_id)->get();
+    }
+
     public function mount()
     {
         \LogActivity::add('[web] Performance KPI HC');
-        $this->region  = Region::select(['id','region'])->get();
+        $this->region = ClientProjectRegion::select('region.*')
+                                                ->where('client_project_id',session()->get('project_id'))
+                                                ->join('region','region.id','client_project_region.region_id')
+                                                ->groupBy('region.id')
+                                                ->get();
     }
 
     public function set_id(HealthCheckModel $data)

@@ -11,6 +11,7 @@ use App\Models\AccidentReportImage;
 use Livewire\WithPagination;
 use Illuminate\Support\Arr;
 use App\Models\EmployeeProject;
+use App\Models\ClientProjectRegion;
 
 class VehicleCheck extends Component
 {
@@ -82,7 +83,11 @@ class VehicleCheck extends Component
     public function mount()
     {
         \LogActivity::add('[web] Performance KPI Vehicle Check');
-        $this->region  = Region::select(['id','region'])->get();
+        $this->region = ClientProjectRegion::select('region.*')
+                                                ->where('client_project_id',session()->get('project_id'))
+                                                ->join('region','region.id','client_project_region.region_id')
+                                                ->groupBy('region.id')
+                                                ->get();
     }
 
     public function set_accident_report(AccidentReport $data)

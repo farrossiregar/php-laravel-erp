@@ -9,53 +9,30 @@
             @if(get_setting('logo'))<a href="/"><img src="{{ get_setting('logo') }}" alt="" class="img-responsive logo"></a>@endif
         </div>
         <div class="navbar-right">
-            <form id="navbar-search" class="col-md-9 navbar-form px-0">
+            <form id="navbar-search" class="navbar-form px-0">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div>
+                        @if(session()->get('company_id'))
+                            @if(session()->get('company_id')==1)
+                                <a href="http://erp.pmt.co.id/?company_id=1">
+                                    <img src="{{asset('images/hup.png')}}" class="mr-3  mt-2" style="height:40px;" />
+                                </a>
+                            @else
+                                <a href="http://erp.pmt.co.id/?company_id=2">
+                                    <img src="{{asset('images/pmt-logo.png')}}" class="mr-3 mt-2"  style="height:30px;" />
+                                </a>
+                            @endif
+                        @endif
+                    </div>
+                    <div>
                         <h6 class="mt-2 mb-0 pb-0"> @yield('title')</h6>
                         @if (trim($__env->yieldContent('parentPageTitle')))
                             <span>@yield('parentPageTitle')</span>
                         @endif
                     </div>
-                    <div class="col-md-10 px-0">
-                        <ul class="nav navbar-nav">
-                            @if(isset($_GET['company_id']))
-                                @php(session(['company_id'=>$_GET['company_id']]))
-                            @endif
-                            @php($company_id = session()->get('company_id'))
-                            <li>
-                                <select class="form-control" style="border:0" onchange="set_company_active(this)">
-                                    <option value="1" {{$company_id==1 ? 'selected' : ''}}>HUP</option>
-                                    <option value="2" {{$company_id==2 ? 'selected' : ''}}>PMT</option>
-                                </select>
-                            </li>
-                            @foreach(\App\Models\Department::get() as $key_dep => $dep)
-                                @if($key_dep >1) @continue @endif
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle icon-menu text-info px-1" data-toggle="dropdown">{{$dep->name}}</a>
-                                    <ul class="dropdown-menu user-menu menu-icon">
-                                        @foreach(\App\Models\Module::select('modules.*')->with('client_project')->join('client_projects','client_projects.id','=','modules.client_project_id')
-                                            ->where(['department_id'=>$dep->id])->groupBy('client_project_id')->where(function($table){
-                                            if(session()->get('company_id')) $table->where('client_projects.company_id',session()->get('company_id'));
-                                        })->get() as $menu)
-
-                                            <li><a href="{{route('home',['menu'=>$menu->id,'department_id'=>$dep->id])}}">{{isset($menu->client_project->name) ? $menu->client_project->name : ''}}</a></li>
-                                            @php($sub_menu = \App\Models\Module::where(['department_id'=>$dep->id,'client_project_id'=>$menu->client_project_id])->get())
-                                            @if($sub_menu->count() > 1 )
-                                                <ul>
-                                                    @foreach($sub_menu as $sub)
-                                                        <li class="py-1"><a href="{{route('home',['menu'=>$sub->id,'department_id'=>$dep->id])}}" style="color:white;">{{isset($sub->name) ? $sub->name : ''}}</a></li>
-                                                    @endforeach
-                                                </ul>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
                 </div>
             </form>
+            
             <div id="navbar-menu">
                 <ul class="nav navbar-nav">
                     <li class="d-none d-sm-inline-block d-md-none d-lg-inline-block">

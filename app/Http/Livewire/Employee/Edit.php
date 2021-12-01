@@ -176,10 +176,6 @@ class Edit extends Component
         ]);
         $user = User::find($this->data->user_id);
         if(!$user) $user = new User();
-
-        if($this->password) {
-            $user->password = \Illuminate\Support\Facades\Hash::make($this->password);
-        }
         $user->user_access_id = $this->user_access_id;
         $user->name = $this->name;
         $user->email = $this->email;
@@ -215,7 +211,6 @@ class Edit extends Component
         $this->data->postcode = $this->postcode;
         $this->data->sub_region_id = $this->sub_region_id;
         $this->data->speed_warning_pic_id = $this->speed_warning_pic_id;
-
         $this->data->app_site_list = $this->app_site_list;
         $this->data->app_daily_commitment = $this->app_daily_commitment;
         $this->data->app_health_check = $this->app_health_check;
@@ -231,21 +226,17 @@ class Edit extends Component
         $this->data->app_training_material = $this->app_training_material;
         $this->data->app_it_support = $this->app_it_support;
         $this->data->is_manager = $this->is_manager;
-
         if($this->foto!=""){
             $foto = 'foto'.date('Ymdhis').'.'.$this->foto->extension();
             $this->foto->storePubliclyAs('public/photo/'.$user->id,$foto);
             $this->data->foto = "storage/photo/{$this->data->id}/{$foto}";
         }
-        
         if($this->foto_ktp!=""){
             $foto_ktp = 'foto_ktp'.date('Ymdhis').'.'.$this->foto_ktp->extension();
             $this->foto_ktp->storePubliclyAs('public/photo/'.$user->id,$foto_ktp);
             $this->data->foto_ktp = "storage/photo/{$this->data->id}/{$foto_ktp}";;
         }
-
         $this->data->save();
-        
         if($this->project_id){
             EmployeeProject::where(['employee_id'=>$this->data->id])->delete();
 

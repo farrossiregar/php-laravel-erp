@@ -11,6 +11,7 @@ use App\Models\Region;
 use App\Models\SubRegion;
 use Illuminate\Support\Arr;
 use App\Models\EmployeeProject;
+use App\Models\ClientProjectRegion;
 
 class PpeCheck extends Component
 {
@@ -87,7 +88,12 @@ class PpeCheck extends Component
 
     public function mount()
     {
-        $this->region  = Region::select(['id','region'])->get();
+        \LogActivity::add('[web] Performance KPI PPE Check');
+        $this->region = ClientProjectRegion::select('region.*')
+                                                ->where('client_project_id',session()->get('project_id'))
+                                                ->join('region','region.id','client_project_region.region_id')
+                                                ->groupBy('region.id')
+                                                ->get();
     }
 
     public function downloadExcel()

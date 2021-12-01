@@ -1,6 +1,6 @@
 <div>
     <div class=" row">
-        <div class="pl-3 py-2 form-group" wire:ignore x-data="{open_dropdown:false}" @click.away="open_dropdown = false">
+        <div class="pl-3 py-2 form-group" x-data="{open_dropdown:false}" @click.away="open_dropdown = false">
             <a href="javascript:void(0)" x-on:click="open_dropdown = ! open_dropdown" class="dropdown-toggle">
                  Searching <i class="fa fa-search-plus"></i>
             </a>
@@ -13,7 +13,7 @@
                         <input type="text" class="form-control date_health_check" placeholder="Date" />
                     </div>
                     <div class="form-group" wire:ignore>
-                        <select class="form-control" wire:model="region_id" wire:change="$set('sub_region_id',null)">
+                        <select class="form-control" wire:model="region_id">
                             <option value=""> -- Select Region -- </option>
                             @foreach($region as $item)
                                 <option value="{{$item->id}}">{{$item->region}}</option>

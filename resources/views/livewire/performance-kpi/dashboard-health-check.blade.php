@@ -31,13 +31,13 @@
                                 <td rowspan="{{$count_sub_region}}">{{isset($region->region->region) ? $region->region->region : ''}}</td>
                             @endif
                             <td>{{isset($sub->sub_region->name) ? $sub->sub_region->name : ''}}</td>
-                            @php($done = \App\Models\HealthCheck::where(['client_project_id'=>$p->id,'is_submit'=>1,'region_id'=>$region->region_id,'sub_region_id'=>$sub->id])->whereDate('created_at',date('Y-m-d'))->get()->count())
-                            @php($qty = \App\Models\HealthCheck::where(['client_project_id'=>$p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->id])->whereDate('created_at',date('Y-m-d'))->groupBy('employee_id')->get()->count())
+                            @php($done = \App\Models\HealthCheck::where(['client_project_id'=>$p->id,'is_submit'=>1,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->whereDate('created_at',date('Y-m-d'))->get()->count())
+                            @php($qty = \App\Models\HealthCheck::where(['client_project_id'=>$p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->whereDate('created_at',date('Y-m-d'))->get()->count())
                             @php($persen = @floor($done / $qty * 100))
                             <td class="text-center">{{$qty}}</td>
                             <td class="text-center">{{$done}}</td>
                             @foreach(config('vars.health_check_status_bekerja') as $field)
-                                <td class="text-center">{{\App\Models\HealthCheck::where(['client_project_id'=>$p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->id])->where('status_bekerja',$field)->whereDate('created_at',date('Y-m-d'))->count()}}</td>
+                                <td class="text-center">{{\App\Models\HealthCheck::where(['client_project_id'=>$p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->where('status_bekerja',$field)->whereDate('created_at',date('Y-m-d'))->count()}}</td>
                             @endforeach
                             @if($done ==0) 
                                 <td class="bg-danger text-center" style="color:white;">0%</td> 

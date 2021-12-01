@@ -1,6 +1,6 @@
 <div>
     <div class="form-group row">
-        <div class="pl-3 py-2 form-group" wire:ignore x-data="{open_dropdown:false}" @click.away="open_dropdown = false">
+        <div class="pl-3 py-2 form-group" x-data="{open_dropdown:false}" @click.away="open_dropdown = false">
             <a href="javascript:void(0)" x-on:click="open_dropdown = ! open_dropdown" class="dropdown-toggle">
                  Searching <i class="fa fa-search-plus"></i>
             </a>

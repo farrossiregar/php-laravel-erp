@@ -15,7 +15,6 @@
                 <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','ppe_check')" data-toggle="tab" href="#ppe-check">{{ __('PPE Check') }}</a></li>
                 <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','tools_check')" data-toggle="tab" href="#tools-check">{{ __('Tools Check') }}</a></li>
                 <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','speed_warning')" data-toggle="tab" href="#speed-warning-alarm">{{ __('Speed Warning Alarm') }}</a></li>
-                <li class="nav-item"><a class="nav-link" wire:click="$set('view_index','drug_test')" data-toggle="tab" href="#drug-test">{{ __('Drug Test') }}</a></li>
             </ul>
             <div class="tab-content">
                 <span wire:loading>
@@ -53,11 +52,6 @@
                 <div class="tab-pane {{ $view_index=='speed_warning' ? 'active' : ''}}" id="speed-warning-alarm">
                     @if($view_index=='speed_warning')
                         @livewire('mobile-apps.speed-warning-alarm')
-                    @endif
-                </div>
-                <div class="tab-pane {{ $view_index=='drug_test' ? 'active' : ''}}" id="drug-test">
-                    @if($view_index=='drug_test')
-                        @livewire('mobile-apps.drug-test')
                     @endif
                 </div>
             </div>

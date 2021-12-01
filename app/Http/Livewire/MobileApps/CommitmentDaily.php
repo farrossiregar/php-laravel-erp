@@ -11,7 +11,7 @@ use Illuminate\Support\Arr;
 use App\Models\EmployeeProject;
 use App\Models\Region;
 use App\Models\SubRegion;
-
+use App\Models\ClientProjectRegion;
 class CommitmentDaily extends Component
 {
     public $keyword,$date_start,$date_end,$user_access_id,$region=[],$sub_region=[],$region_id,$sub_region_id;
@@ -73,6 +73,11 @@ class CommitmentDaily extends Component
         $this->selected_id = $data;
     }
 
+    public function updated($propertyName)
+    {
+        if($this->region_id) $this->sub_region = SubRegion::where('region_id',$this->region_id)->get();
+    }
+
     public function delete()
     {
         if($this->selected_id){
@@ -86,7 +91,12 @@ class CommitmentDaily extends Component
 
     public function mount()
     {
-        $this->region  = Region::select(['id','region'])->get();
+        \LogActivity::add('[web] Performance KPI Commitment Daily');
+        $this->region = ClientProjectRegion::select('region.*')
+                                                ->where('client_project_id',session()->get('project_id'))
+                                                ->join('region','region.id','client_project_region.region_id')
+                                                ->groupBy('region.id')
+                                                ->get();
     }
 
     public function downloadExcel()

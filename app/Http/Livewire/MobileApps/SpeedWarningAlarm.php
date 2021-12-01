@@ -9,6 +9,7 @@ use App\Models\EmployeeProject;
 use App\Models\Region;
 use Livewire\WithPagination;
 use App\Models\SubRegion;
+use App\Models\ClientProjectRegion;
 
 class SpeedWarningAlarm extends Component
 {
@@ -45,7 +46,11 @@ class SpeedWarningAlarm extends Component
     {
         \LogActivity::add('[web] Performance KPI Speed Warning');
         $this->speed_limit = get_setting('speed_limit');
-        $this->region  = Region::select(['id','region'])->get();
+        $this->region = ClientProjectRegion::select('region.*')
+                                                ->where('client_project_id',session()->get('project_id'))
+                                                ->join('region','region.id','client_project_region.region_id')
+                                                ->groupBy('region.id')
+                                                ->get();
     }
 
     public function set_speed_warning()
