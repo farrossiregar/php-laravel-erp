@@ -220,7 +220,7 @@ class Data extends Component
             $total_success = 0;
             foreach($sheetData as $key => $i){
                 if($key==0) continue;
-                if($i[1]=="") continue
+                if($i[1]=="") continue;
                 $site_id = $i[1];
                 $site_name = $i[2];
                 $description = $i[3];
@@ -232,11 +232,11 @@ class Data extends Component
                 $cluster = $i[9];
                 $sub_cluster = $i[10];
                 $nik = $i[11];
-                $assign_date = $i[12];
-                $pickup_date = $i[13];
-                $submit_date = $i[14];
-                $status = strtolower($i[15]);
-                $note = $i[16];
+                #$assign_date = $i[12];
+                #$pickup_date = $i[13];
+                #$submit_date = $i[14];
+                #$status = strtolower($i[15]);
+                #$note = $i[16];
                 if($site_id=="" || $nik == "") continue;
 
                 $employee = Employee::where(['nik'=>$nik])->first(); 
