@@ -147,7 +147,7 @@ class Data extends Component
             $data->save();
             if($this->selected->is_upload_report==0){
                 $this->selected->is_upload_report = 1;
-                $this->selected->upload_report_date = date('Y-m-d');
+                $this->selected->upload_report_date = $this->selected->end_date;
                 $this->selected->save();
             }
         }
@@ -220,6 +220,7 @@ class Data extends Component
             $total_success = 0;
             foreach($sheetData as $key => $i){
                 if($key==0) continue;
+                if($i[1]=="") continue
                 $site_id = $i[1];
                 $site_name = $i[2];
                 $description = $i[3];
