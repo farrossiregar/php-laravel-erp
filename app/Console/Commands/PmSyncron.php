@@ -47,7 +47,6 @@ class PmSyncron extends Command
             $data = new PreventiveMaintenance();
             $data->site_id = $item->site_id;
             $data->site_name = $item->site_name;
-            // $data->description  = $item->description;
             $data->site_category  = $item->site_category;
             $data->site_type  = $item->site_type;
             $data->pm_type  = $item->pm_type;

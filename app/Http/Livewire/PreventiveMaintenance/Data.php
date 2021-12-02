@@ -220,22 +220,22 @@ class Data extends Component
             $total_success = 0;
             foreach($sheetData as $key => $i){
                 if($key==0) continue;
-                $site_id = $i[1];
-                $site_name = $i[2];
-                $description = $i[3];
-                $site_category = $i[4];
-                $site_type = $i[5];
-                $pm_type = $i[6];
-                $region = $i[7];
-                $sub_region = $i[8];
-                $cluster = $i[9];
-                $sub_cluster = $i[10];
-                $nik = $i[11];
-                $assign_date = $i[12];
-                $pickup_date = $i[13];
-                $submit_date = $i[14];
-                $status = strtolower($i[15]);
-                $note = $i[16];
+                $site_id = @$i[1];
+                $site_name = @$i[2];
+                $description = @$i[3];
+                $site_category = @$i[4];
+                $site_type = @$i[5];
+                $pm_type = @$i[6];
+                $region = @$i[7];
+                $sub_region = @$i[8];
+                $cluster = @$i[9];
+                $sub_cluster = @$i[10];
+                $nik = @$i[11];
+                // $assign_date = $i[12];
+                // $pickup_date = $i[13];
+                // $submit_date = $i[14];
+                // $status = strtolower($i[15]);
+                // $note = $i[16];
                 if($site_id=="" || $nik == "") continue;
 
                 $employee = Employee::where(['nik'=>$nik])->first(); 
@@ -283,16 +283,16 @@ class Data extends Component
                     // $data->save(['timestamps' => false]);
                     $data->save();
 
-                    if(isset($data->employee->device_token)){
-                        $message = "Site ID : {$data->site_id}\nSite Name : {$data->site_name}\n";
-                        $message .= "Description : {$data->description}\n";
-                        $message .= "Site Category : {$data->site_category}\n";
-                        $message .= "Site Type : {$data->site_type}\n";
-                        $message .= "PM Type : {$data->pm_type}\n";
-                        $message .= "Region : ".(isset($data->region->region) ? $data->region->region : '')."\n";
-                        $message .= "Admin Project : ".(isset($data->admin->name) ? $data->admin->name : '')."\n";
-                        push_notification_android($data->employee->device_token,'Preventive Maintenance Open',$message,7);
-                    }
+                    // if(isset($data->employee->device_token)){
+                    //     $message = "Site ID : {$data->site_id}\nSite Name : {$data->site_name}\n";
+                    //     $message .= "Description : {$data->description}\n";
+                    //     $message .= "Site Category : {$data->site_category}\n";
+                    //     $message .= "Site Type : {$data->site_type}\n";
+                    //     $message .= "PM Type : {$data->pm_type}\n";
+                    //     $message .= "Region : ".(isset($data->region->region) ? $data->region->region : '')."\n";
+                    //     $message .= "Admin Project : ".(isset($data->admin->name) ? $data->admin->name : '')."\n";
+                    //     push_notification_android($data->employee->device_token,'Preventive Maintenance Open',$message,7);
+                    // }
                     //insert history
                     table_history('employee_id',$data->id,'preventive_maintenance',$data->employee);
                     table_history('admin_project_id',$data->id,'preventive_maintenance',\Auth::user()->employee);
