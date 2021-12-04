@@ -96,6 +96,7 @@ Route::group(['middleware' => ['auth']], function(){
     // Route::get('accident-report/preview/{id}',App\Http\Livewire\AccidentReport\Previewaccident::class)->name('accident-report.preview');
     Route::get('database-noc',App\Http\Livewire\DatabaseNoc\Index::class)->name('database-noc.index');
     Route::get('database-tools-noc',App\Http\Livewire\DatabaseToolsNoc\Index::class)->name('database-tools-noc.index');
+    Route::get('petty-cash',App\Http\Livewire\PettyCash\Index::class)->name('petty-cash.index');
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
     Route::get('employee/insert',App\Http\Livewire\Employee\Insert::class)->name('employee.insert');
     Route::get('employee/edit/{id}',App\Http\Livewire\Employee\Edit::class)->name('employee.edit');
