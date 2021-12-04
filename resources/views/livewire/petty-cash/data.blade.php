@@ -64,12 +64,14 @@
                             
                             @if($item->settlement == '' || $item->settlement == NULL )
                                 <!-- if(check_access('commitment-letter.pic')) -->
-                                    <a href="javascript:;" wire:click="$emit('modalimportpettycash','{{ $item->id }}')"><i class="fa fa-upload"></i></a>
+                                    <!-- <a href="javascript:;" wire:click="$emit('modalimportpettycash','{{ $item->id }}')"><i class="fa fa-upload"></i></a> -->
                                 <!-- endif -->
                             @else
                                 <!-- <a href="<?php echo asset('storage/PettyCash/'.$item->settlement); ?>"><i class="fa fa-download" style="color: #28a745;"></i></a> -->
-                                <a href="javascript:;" wire:click="$emit('modalimportpettycash','{{ $item->id }}')"><i class="fa fa-download" style="color: #28a745;"></i></a>
+                                <!-- <a href="javascript:;" wire:click="$emit('modalimportpettycash','{{ $item->id }}')"><i class="fa fa-download" style="color: #28a745;"></i></a> -->
                             @endif
+
+                            <a href="javascript:;" wire:click="$emit('modalimportpettycash','{{ $item->id }}')"><i class="fa fa-eye fa-2x"></i></a>
 
                         </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
@@ -87,7 +89,7 @@
                             @endif
                         </td> 
                         <td>
-                            <a href="{{route('duty-roster.preview',['id'=>$item->id]) }}" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> {{__('Preview')}}</a>
+                            <!-- <a href="{{route('duty-roster.preview',['id'=>$item->id]) }}" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> {{__('Preview')}}</a> -->
                             @if(check_access('duty-roster.approve'))
                                 @if($item->status == '')
                                     <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
