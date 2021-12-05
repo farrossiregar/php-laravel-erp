@@ -3,28 +3,16 @@
         <input type="date" class="form-control" wire:model="date" />
     </div>
 
-<!--     
-    <div class="col-md-1">                
-        <select class="form-control" wire:model="year">
-            <option value=""> --- Year --- </option>
-            @foreach(\App\Models\EmployeeNoc::select('year')->groupBy('year')->get() as $item) 
-            <option>{{$item->year}}</option>
-            @endforeach 
-        </select>
-    </div> -->
 
-
-    @if(check_access('duty-roster.import'))
-    <!-- <div class="col-md-2">
-        <a href="#" data-toggle="modal" data-target="#modal-dutyroster-importdutyroster" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Petty Cash')}}</a>
-    </div> -->
+    @if(check_access('petty-cash.add'))
+    <div class="col-md-3" style="float: right;">
+        <a href="javascript:;" wire:click="$emit('modaladdpettycash')" class="btn btn-info"><i class="fa fa-plus"></i> Add Petty Cash </a>
+    </div>
     
     @endif
 
 
-    <div class="col-md-3" style="float: right;">
-        <a href="javascript:;" wire:click="$emit('modaladdpettycash')" class="btn btn-info"><i class="fa fa-plus"></i> Add Petty Cash </a>
-    </div>
+    
     
     
     <div class="col-md-12">
@@ -97,41 +85,41 @@
                         <td>{{$item->keterangan}}</td>
                         <td>{{$item->note}}</td>
                         <td class="text-center align-middle">
-                            <!-- <a href="{{route('duty-roster.preview',['id'=>$item->id]) }}" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> {{__('Preview')}}</a> -->
-                            @if(check_access('duty-roster.approve'))
+                            
+                            @if(check_access('petty-cash.approval'))
                                 @if($item->status == '')
-                                    <!-- <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a> -->
+                                   
                                     <a href="javascript:;" wire:click="$emit('modalapprovepettycash','{{ $item->id }}')"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
                                     <a href="javascript:;" wire:click="$emit('modaldeclinepettycash','{{ $item->id }}')"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a>
                                 @endif
 
                             @endif
 
-                            @if(check_access('duty-roster.import'))
+                            @if(check_access('petty-cash.add'))
                                 @if($item->status == '0')
-                                <a href="javascript:;" wire:click="$emit('modalrevisidutyroster','{{ $item->id }}')"><i class="fa fa-edit fa-2x" style="color: #f3ad06;"></i></a>
-                                    <!-- <a href="#" wire:click="$emit('modalrevisidutyroster','{{ $item->id }}')" data-toggle="modal" data-target="#modal-dutyroster-revisidutyroster" title="Add" class="btn btn-warning"><i class="fa fa-edit"></i> {{__('Revisi')}}</a> -->
+                                <a href="javascript:;" wire:click="$emit('modalrevisipettycash','{{ $item->id }}')"><i class="fa fa-edit fa-2x" style="color: #f3ad06;"></i></a>
+                                    
                                 @endif
                             @endif
                         </td>
                         <td class="text-center align-middle">
-                            
-                            <a href="javascript:;" wire:click="$emit('modalimportpettycash','{{ $item->id }}')"><i class="fa fa-plus fa-2x"></i></a>
-
+                            @if(check_access('petty-cash.add'))
+                                @if($item->status == '1')
+                                <a href="javascript:;" wire:click="$emit('modalimportpettycash','{{ $item->id }}')"><i class="fa fa-plus fa-2x"></i></a>
+                                @endif
+                            @endif
                         </td>
                         
                         <td>{{$item->note_receipt}}</td>
                         
 
                         <td class="text-center align-middle">
-                            <!-- <a href="{{route('duty-roster.preview',['id'=>$item->id]) }}" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> {{__('Preview')}}</a> -->
-                            @if(check_access('duty-roster.approve'))
+                            
+                            @if(check_access('petty-cash.approval'))
                                 @if($item->status == '1' && $item->status_receipt != '1')
                                     <a href="javascript:;" wire:click="$emit('modalapprovereceipt','{{ $item->id }}')"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
                                     <a href="javascript:;" wire:click="$emit('modaldeclinereceipt','{{ $item->id }}')"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a>
-                                    <!-- <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a> -->
+                            
                                 @endif
 
                             @endif

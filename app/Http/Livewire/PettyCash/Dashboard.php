@@ -36,13 +36,14 @@ class Dashboard extends Component
         $this->labels = [];
         $this->datasets = [];
 
-        // $this->year = '2021';
+        $this->year = '2021';
 
-        $master_dutyroster_sitelist = \App\Models\DutyrosterSitelistMaster::select(DB::Raw("month(created_at) as month"), 'id')
+        $month_pettycash = \App\Models\PettyCash::select(DB::Raw("month(created_at) as month"), 'id')
                                                                             ->where(DB::Raw('year(created_at)'), $this->year)
-                                                                            ->where('status', '1')
+                                                                            ->where('status_receipt', '1')
+                                                                            ->groupBy(DB::Raw("month(created_at)"))
                                                                             ->get();
-        foreach($master_dutyroster_sitelist as $k => $item){
+        foreach($month_pettycash as $k => $item){
             $this->labels[] = date('F', mktime(0, 0, 0, $item->month, 10));
             // $this->labels[] = $item->id;
         }
@@ -51,19 +52,20 @@ class Dashboard extends Component
         
         
         $id_dr = [];
-        foreach($master_dutyroster_sitelist as $k => $item){
+        foreach($month_pettycash as $k => $item){
             $color = ['#ffb1c1','#4b89d6','#add64b','#80b10a','#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
             
-            $detail_dutyroster_sitelist = \App\Models\DutyrosterSitelistDetail::select(DB::Raw('count(project) as jumlah'), 'dutyroster_sitelist_detail.*')
-                                                                                ->where('id_master_dutyroster', $item->id)
-                                                                                ->where('remarks', '<>', '1')
-                                                                                // ->groupBy(DB::Raw('month(created_at)'))
-                                                                                ->groupBy('project')
-                                                                                ->orderBy('project', 'ASC')
-                                                                                ->get();
-            foreach($detail_dutyroster_sitelist as $l => $items){    
+            $detail_pettycash = \App\Models\PettyCash::select(DB::Raw('sum(amount) as jumlah'))
+                                                        ->where(DB::Raw('month(created_at)'), $item->month)                   
+                                                        ->where(DB::Raw('year(created_at)'), $this->year)     
+                                                        ->where('status_receipt', '1')      
+                                                        ->groupBy(DB::Raw('month(created_at)'))        
+                                                        ->groupBy(DB::Raw('year(created_at)'))        
+                                                        ->get();
+            foreach($detail_pettycash as $l => $items){    
                 
-                $this->datasets[$l]['label'] = $items->project.' - '.$items->id_master_dutyroster;
+                // $this->datasets[$l]['label'] = date('F', mktime(0, 0, 0, $item->month, 10)).' - Rp.'.format_idr($items->jumlah);
+                $this->datasets[$l]['label'] = date('F', mktime(0, 0, 0, $item->month, 10));
                 $this->datasets[$l]['backgroundColor'] = $color[$l];
                 $this->datasets[$l]['fill'] = 'boundary';
                 $this->datasets[$l]['data'][] = $items->jumlah;

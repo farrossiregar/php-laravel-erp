@@ -38,21 +38,21 @@ class Approvepettycash extends Component
         $data->save();
 
     
-        // $notif_user_psm = check_access_data('database-noc.notif-psm', '');
-        // $nameuser_psm = [];
-        // $emailuser_psm = [];
-        // $phoneuser_psm = [];
-        // foreach($notif_user_psm as $no => $itemuser){
-        //     $nameuser_psm[$no] = $itemuser->name;
-        //     $emailuser_psm[$no] = $itemuser->email;
-        //     $phoneuser_psm[$no] = $itemuser->telepon;
+        $notif = check_access_data('petty-cash.notif', '');
+        $nameuser = [];
+        $emailuser = [];
+        $phoneuser = [];
+        foreach($notif as $no => $itemuser){
+            $nameuser_[$no] = $itemuser->name;
+            $emailuser[$no] = $itemuser->email;
+            $phoneuser[$no] = $itemuser->telepon;
 
-        //     $message = "*Dear PSM *\n\n";
-        //     $message .= "*Database NOC ".date('M')."-".date('Y')." telah diapprove oleh Admin NOC *\n\n";
-        //     send_wa(['phone'=> $phoneuser_psm[$no],'message'=>$message]);    
+            $message = "*Dear Admin NOC *\n\n";
+            $message .= "*Petty Cash ".date('M')."-".date('Y')." telah diapprove oleh Finance *\n\n";
+            send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
 
-        //     // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
-        // }
+            // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
+        }
 
 
 

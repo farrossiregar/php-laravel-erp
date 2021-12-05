@@ -3,27 +3,25 @@
 namespace App\Http\Livewire\PettyCash;
 
 use Livewire\Component;
-use Livewire\WithPagination;
 use Livewire\WithFileUploads;
-use App\Models\CommitmentLetter;
 use Auth;
 use DB;
 use Session;
 
-
-class Add extends Component
+class Revisipettycash extends Component
 {
-    use WithPagination;
-    // public $date, $employee_id;
-    protected $paginationTheme = 'bootstrap';
-    
-    use WithFileUploads;
-    public $dataproject, $company_name, $project, $region, $petty_cash_category, $amount, $keterangan;
+    protected $listeners = [
+        'modalrevisipettycash'=>'datarevise',
+    ];
 
+    use WithFileUploads;
+    public $selected_id, $data;
+    public $dataproject, $company_name, $project, $region, $petty_cash_category, $amount, $keterangan;
+    
     public function render()
     {
         
-        
+       
         
         $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
                                 ->where('company_id', Session::get('company_id'))
@@ -55,52 +53,51 @@ class Add extends Component
          
 
         }
-       
-
-        return view('livewire.petty-cash.add');
+        
+        
+        return view('livewire.petty-cash.revisipettycash');
+        
     }
 
+    public function datarevise($id){
+        $this->selected_id              = $id;
+        $data                           = \App\Models\PettyCash::where('id', $this->selected_id)->first();
+        $this->project                  = $data->project;
+        $this->region                   = $data->region;
+        $this->petty_cash_category      = $data->petty_cash_category;
+        $this->amount                   = $data->amount;
+        $this->keterangan               = $data->keterangan;
+       
+    }
   
     public function save()
     {
-
-
-        $data                           = new \App\Models\PettyCash();
+        $data                           = \App\Models\PettyCash::where('id', $this->selected_id)->first();
         $data->company_id               = Session::get('company_id');
         $data->project                  = $this->project;
         $data->region                   = $this->region;
         $data->petty_cash_category      = $this->petty_cash_category;
         $data->amount                   = str_replace(',', '', str_replace('Rp', '', $this->amount));
         $data->keterangan               = $this->keterangan;
+        $data->status                   = '';
+        $data->note                     = '';
         
         $data->save();
-
-        $notif = check_access_data('petty-cash.notif', '');
-        $nameuser = [];
-        $emailuser = [];
-        $phoneuser = [];
-        foreach($notif as $no => $itemuser){
-            $nameuser_[$no] = $itemuser->name;
-            $emailuser[$no] = $itemuser->email;
-            $phoneuser[$no] = $itemuser->telepon;
-
-            $message = "*Dear Admin NOC *\n\n";
-            $message .= "*Petty Cash ".date('M')."-".date('Y')." telah diapprove oleh Finance *\n\n";
-            send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
-
-            // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
-        }
-
-       
-
-
-        session()->flash('message-success',"Petty Cash Settlement Berhasil diinput");
+        
+        
+        session()->flash('message-success',"Petty Cash Settlement Berhasil direvisi");
         
         return redirect()->route('petty-cash.index');
+        
     }
 
 
+    public function yearborn($year){
+        if($year > substr(date('Y'), 2, 2)){
+            return '19'.$year;
+        }else{
+            return '20'.$year;
+        }
+
+    }
 }
-
-
-
