@@ -63,5 +63,12 @@ class Importpettycash extends Component
         return redirect()->route('petty-cash.index');
 
     }
+
+    public function delete($id)
+    {
+        $check = \App\Models\PettyCashUploader::where('id',$id)->delete();
+        
+        return redirect()->route('petty-cash.index');
+    }
     
 }

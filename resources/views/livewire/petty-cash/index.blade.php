@@ -45,18 +45,34 @@
 </div>
 
 
-<div class="modal fade" id="modal-dutyroster-approvedutyroster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-pettycash-approvepettycash" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:duty-roster.approvedutyroster />
+            <livewire:petty-cash.approvepettycash />
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal-dutyroster-declinedutyroster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-pettycash-approvereceipt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:duty-roster.declinedutyroster />
+            <livewire:petty-cash.approvereceipt />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-pettycash-declinepettycash" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:petty-cash.declinepettycash />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-pettycash-declinereceipt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:petty-cash.declinereceipt />
         </div>
     </div>
 </div>
@@ -76,12 +92,20 @@
         $("#modal-dutyroster-revisidutyroster").modal('show');
     });
 
-    Livewire.on('modalapprovedutyroster',(data)=>{
-        $("#modal-dutyroster-approvedutyroster").modal('show');
+    Livewire.on('modalapprovereceipt',(data)=>{
+        $("#modal-pettycash-approvereceipt").modal('show');
     });
 
-    Livewire.on('modaldeclinedutyroster',(data)=>{
-        $("#modal-dutyroster-declinedutyroster").modal('show');
+    Livewire.on('modalapprovepettycash',(data)=>{
+        $("#modal-pettycash-approvepettycash").modal('show');
+    });
+
+    Livewire.on('modaldeclinereceipt',(data)=>{
+        $("#modal-pettycash-declinereceipt").modal('show');
+    });
+
+    Livewire.on('modaldeclinepettycash',(data)=>{
+        $("#modal-pettycash-declinepettycash").modal('show');
     });
 
 @endsection

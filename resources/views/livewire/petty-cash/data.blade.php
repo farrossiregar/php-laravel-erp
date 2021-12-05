@@ -30,25 +30,60 @@
     <div class="col-md-12">
         <br><br>
         <div class="table-responsive">
-            <table class="table table-striped m-b-0 c_list">
+            <table class="table table-striped  table-bordered  m-b-0 c_list">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Company Name</th> 
-                        <th>Project</th> 
-                        <th>Region</th> 
-                        <th>Amount</th> 
-                        <th>Keterangan</th> 
-                        <th>Settlement</th> 
-                        <th>Date Upload</th> 
-                        <th>Status</th> 
-                        <th>Action</th> 
+                        <th rowspan="2" class="align-middle">No</th>
+                        <th colspan="9" class="text-center align-middle">Request Petty Cash</th>
+                        <th colspan="3" class="text-center align-middle">Upload Softcopy of Receipt</th> 
+                    </tr>
+                    <tr>
+                        
+                        <th class="text-center align-middle">Status</th> 
+                        <th class="text-center align-middle">Date Create</th>
+                        <th class="text-center align-middle">Company Name</th> 
+                        <th class="text-center align-middle">Project</th> 
+                        <th class="text-center align-middle">Region</th> 
+                        <th class="text-center align-middle">Amount</th> 
+                        <th class="text-center align-middle">Keterangan</th> 
+                        <th class="text-center align-middle">Petty Cash Note</th> 
+                        <th class="text-center align-middle">Petty Cash Review</th> 
+                        <th class="text-center align-middle">Upload Receipt</th> 
+                        <th class="text-center align-middle">Receipt Note</th> 
+                        <th class="text-center align-middle">Receipt Review</th> 
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
+                        <td>
+                            
+
+                            @if($item->status == '1')
+                                @if($item->status_receipt == '1')
+                                    <label class="badge badge-success" data-toggle="tooltip" title="Close">Close</label>
+                                @endif
+
+                                @if($item->status_receipt == '0')
+                                    <label class="badge badge-danger" data-toggle="tooltip" title="Receipt Decline">Receipt Decline</label>
+                                @endif
+
+                                @if($item->status_receipt == '')
+                                    <label class="badge badge-warning" data-toggle="tooltip" title="Receipt on Review">Receipt on Review</label>
+                                @endif
+                                
+                            @endif
+
+                            @if($item->status == '0')
+                                <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Petty Cash Decline</label>
+                            @endif
+
+                            @if($item->status == '' || $item->status == 'null')
+                                <label class="badge badge-warning" data-toggle="tooltip" title="Petty Cash on Review">Petty Cash on Review</label>
+                            @endif
+                        </td> 
+                        <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>
                             @if($item->company_id == '1')
                                 HUP
@@ -60,49 +95,47 @@
                         <td>{{$item->region}}</td>
                         <td>Rp, {{ format_idr($item->amount) }}</td>
                         <td>{{$item->keterangan}}</td>
-                        <td>
-                            
-                            @if($item->settlement == '' || $item->settlement == NULL )
-                                <!-- if(check_access('commitment-letter.pic')) -->
-                                    <!-- <a href="javascript:;" wire:click="$emit('modalimportpettycash','{{ $item->id }}')"><i class="fa fa-upload"></i></a> -->
-                                <!-- endif -->
-                            @else
-                                <!-- <a href="<?php echo asset('storage/PettyCash/'.$item->settlement); ?>"><i class="fa fa-download" style="color: #28a745;"></i></a> -->
-                                <!-- <a href="javascript:;" wire:click="$emit('modalimportpettycash','{{ $item->id }}')"><i class="fa fa-download" style="color: #28a745;"></i></a> -->
-                            @endif
-
-                            <a href="javascript:;" wire:click="$emit('modalimportpettycash','{{ $item->id }}')"><i class="fa fa-eye fa-2x"></i></a>
-
-                        </td>
-                        <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
-                        <td>
-                            @if($item->status == '1')
-                                <label class="badge badge-success" data-toggle="tooltip" title="Close">Close</label>
-                            @endif
-
-                            @if($item->status == '0')
-                                <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Decline</label>
-                            @endif
-
-                            @if($item->status == '' || $item->status == 'null')
-                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
-                            @endif
-                        </td> 
-                        <td>
+                        <td>{{$item->note}}</td>
+                        <td class="text-center align-middle">
                             <!-- <a href="{{route('duty-roster.preview',['id'=>$item->id]) }}" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> {{__('Preview')}}</a> -->
                             @if(check_access('duty-roster.approve'))
                                 @if($item->status == '')
-                                    <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                    <!-- <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a> -->
+                                    <a href="javascript:;" wire:click="$emit('modalapprovepettycash','{{ $item->id }}')"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclinepettycash','{{ $item->id }}')"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a>
                                 @endif
 
                             @endif
 
                             @if(check_access('duty-roster.import'))
                                 @if($item->status == '0')
-                                    <a href="#" wire:click="$emit('modalrevisidutyroster','{{ $item->id }}')" data-toggle="modal" data-target="#modal-dutyroster-revisidutyroster" title="Add" class="btn btn-warning"><i class="fa fa-plus"></i> {{__('Revisi Duty roster')}}</a>
+                                <a href="javascript:;" wire:click="$emit('modalrevisidutyroster','{{ $item->id }}')"><i class="fa fa-edit fa-2x" style="color: #f3ad06;"></i></a>
+                                    <!-- <a href="#" wire:click="$emit('modalrevisidutyroster','{{ $item->id }}')" data-toggle="modal" data-target="#modal-dutyroster-revisidutyroster" title="Add" class="btn btn-warning"><i class="fa fa-edit"></i> {{__('Revisi')}}</a> -->
                                 @endif
                             @endif
+                        </td>
+                        <td class="text-center align-middle">
+                            
+                            <a href="javascript:;" wire:click="$emit('modalimportpettycash','{{ $item->id }}')"><i class="fa fa-plus fa-2x"></i></a>
+
+                        </td>
+                        
+                        <td>{{$item->note_receipt}}</td>
+                        
+
+                        <td class="text-center align-middle">
+                            <!-- <a href="{{route('duty-roster.preview',['id'=>$item->id]) }}" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> {{__('Preview')}}</a> -->
+                            @if(check_access('duty-roster.approve'))
+                                @if($item->status == '1' && $item->status_receipt != '1')
+                                    <a href="javascript:;" wire:click="$emit('modalapprovereceipt','{{ $item->id }}')"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclinereceipt','{{ $item->id }}')"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a>
+                                    <!-- <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a> -->
+                                @endif
+
+                            @endif
+
                         </td>
                         
                     </tr>
