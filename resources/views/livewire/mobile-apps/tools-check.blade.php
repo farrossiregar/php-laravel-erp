@@ -7,7 +7,7 @@
             <div class="dropdown-menu show-form-filter" x-show="open_dropdown">
                 <form class="p-2">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Searching..." />
+                        <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                     </div>
                     <div class="form-group">
                         <select class="form-control" wire:model="tahun">

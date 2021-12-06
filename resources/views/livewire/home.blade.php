@@ -131,7 +131,7 @@
                 <div class="row clearfix mt-3">
                 @if(isset($menu['sub_menu']))
                     @foreach($menu['sub_menu'] as $sub)
-                        <div class="col-lg-2 col-md-2 col-sm-12 px-1" onclick="window.open('{{route($sub->link)}}','_self')">
+                        <div class="col-lg-2 col-md-2 col-sm-12 px-1" onclick="window.open('{{Route::has($sub->link) ? route($sub->link) : '/'}}','_self')">
                             <div class="card ng-star-inserted text-center" style="height:200px;border:1px solid #eee">
                                 <div class="body clearfix">
                                     <div class="content3">

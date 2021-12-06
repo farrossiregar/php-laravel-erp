@@ -13,7 +13,7 @@ use Livewire\WithPagination;
 
 class ToolsCheck extends Component
 {
-    public $employee_id,$tahun,$bulan,$toolboxs,$region=[],$sub_region=[],$region_id,$sub_region_id,$user_access_id;
+    public $keyword,$employee_id,$tahun,$bulan,$toolboxs,$region=[],$sub_region=[],$region_id,$sub_region_id,$user_access_id;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     
@@ -38,7 +38,10 @@ class ToolsCheck extends Component
         }
         if($this->sub_region_id) $data->where('tools_check.sub_region_id',$this->sub_region_id);
         if($this->user_access_id) $data->where('employees.user_access_id',$this->user_access_id);
-
+        if($this->keyword) $data->where(function($table){
+                                        $table->where('name',"LIKE","%{$this->keyword}%")
+                                                ->orWhere('nik',"LIKE","%{$this->keyword}%");
+                                    });
         if(check_access('all-project.index'))
             $client_project_ids = [session()->get('project_id')];
         else
@@ -52,6 +55,11 @@ class ToolsCheck extends Component
     public function updated($propertyName)
     {
         if($this->region_id) $this->sub_region = SubRegion::where('region_id',$this->region_id)->get();
+    }
+
+    public function clear_filter()
+    {
+        $this->reset(['keyword','user_access_id','region_id','sub_region_id','tahun','bulan']);
     }
 
     public function mount()

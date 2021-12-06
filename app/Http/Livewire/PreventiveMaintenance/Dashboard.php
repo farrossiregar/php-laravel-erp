@@ -91,11 +91,11 @@ class Dashboard extends Component
 
     public function mount()
     {
+        $this->year = date('Y');
+        $this->month = date('m');
         $this->client_project_id = session()->get('project_id');
         $this->months = PreventiveMaintenance::select(\DB::raw('month(created_at) as bulan'))->groupBy('bulan')->get();
         $this->years = PreventiveMaintenance::select(\DB::raw('year(created_at) as tahun'))->groupBy('tahun')->get();
-        $this->year = date('Y');
-        $this->month = date('m');
         $this->chart();
         
         \LogActivity::add('[web] PM');
