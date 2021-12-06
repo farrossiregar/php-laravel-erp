@@ -302,14 +302,14 @@
     function close_left_menu(){
         $(".btn-toggle-fullwidth").trigger('click');
     }
-    Livewire.on('update-menu',()=>{
-        setTimeout(function(){
-            $('.metismenu').metisMenu({
-                //toggle: false
-            });
-        },1000)
+    // Livewire.on('update-menu',()=>{
+    //     setTimeout(function(){
+    //         $('.metismenu').metisMenu({
+    //             //toggle: false
+    //         });
+    //     },1000)
     
-    });
+    // });
 </script>
 @endpush
 <style>

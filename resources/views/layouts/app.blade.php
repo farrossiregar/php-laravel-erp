@@ -163,7 +163,7 @@
                 $(".left-sub-menu").hide();
             }
 
-            $('.metismenu').metisMenu();
+            // $('.metismenu').metisMenu();
 
             Livewire.on('message-success',(msg)=>{
                 $('.alert-success').show();
