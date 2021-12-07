@@ -4,30 +4,66 @@ namespace App\Http\Livewire\TeamSchedule;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\PoTrackingPds;
-use App\Models\PoTrackingNonms;
-use Auth;
+use App\Models\ApplicationRoomRequest;
 use DB;
-
 
 class Dashboard extends Component
 {
     use WithPagination;
-    public $date, $month, $year;
+    public $date, $month, $year,$employee_id;
     public $labels;
     public $datasets;
+    public $labelsapp;
+    public $datasetsapp;
+    public $title;
+    public $startdate;
+    public $enddate,$date_active,$data_room;
     protected $paginationTheme = 'bootstrap';
+    protected $listeners = ['set_selected_date'];
+    // public function render()
+    // {
+    //     $this->generate_chart();
+    //     return view('livewire.team-schedule.dashboard');
+    // }
+
 
     public function render()
     {
-        $this->generate_chart();
-        return view('livewire.team-schedule.dashboard');
+        $data = \App\Models\TeamScheduleNoc::orderBy('created_at', 'desc')->groupBy('name');
+        
+
+        if($this->date) $ata = $data->whereDate('created_at',$this->date);
+                        
+        
+        return view('livewire.team-schedule.dashboard')->with(['data'=>$data->paginate(50)]);
+    }
+
+    public function cancel_room(ApplicationRoomRequest $data)
+    {
+        \LogActivity::add('Cancel Room');
+
+        $data->status = 3;
+        $data->save();
+        $this->data_room = ApplicationRoomRequest::where('type_request','room')->whereDate('start_booking',date('Y-m-d'))->get();
+
+        $this->emit('message-success',"Request successfully canceled");
+    }
+
+    public function set_selected_date($date)
+    {
+        $this->date_active = date('d/M/Y',strtotime($date));
+        $this->data_room = ApplicationRoomRequest::where('type_request','room')->whereDate('start_booking',date('Y-m-d',strtotime($date)))->get();
+    }
+
+    public function mount()
+    {
+        $this->date_active = date('d/M/Y');
+        $this->employee_id = \Auth::user()->id;
+        $this->data_room = ApplicationRoomRequest::where('type_request','room')->whereDate('start_booking',date('Y-m-d'))->get();
     }
     
-    // public function updated($propertyName)
     public function updated()
     {
-        // if($propertyName=='year') $this->month = '';
         $this->generate_chart();
     }
     
@@ -35,55 +71,65 @@ class Dashboard extends Component
     {
         $this->labels = [];
         $this->datasets = [];
+        $this->labelsapp = [];
+        $this->datasetsapp = [];
 
-        $this->year = '2021';
-
-        $month_pettycash = \App\Models\PettyCash::select(DB::Raw("month(created_at) as month"), 'id')
-                                                                            ->where(DB::Raw('year(created_at)'), $this->year)
-                                                                            ->where('status_receipt', '1')
-                                                                            ->groupBy(DB::Raw("month(created_at)"))
-                                                                            ->get();
-        foreach($month_pettycash as $k => $item){
-            $this->labels[] = date('F', mktime(0, 0, 0, $item->month, 10));
-            // $this->labels[] = $item->id;
+        
+        if($this->month){
+            $this->month = $this->month;
+        }else{
+            $this->month = date('m');
         }
 
-        // dd($this->labels);
-        
-        
-        $id_dr = [];
-        foreach($month_pettycash as $k => $item){
-            $color = ['#ffb1c1','#4b89d6','#add64b','#80b10a','#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
-            
-            $detail_pettycash = \App\Models\PettyCash::select(DB::Raw('sum(amount) as jumlah'))
-                                                        ->where(DB::Raw('month(created_at)'), $item->month)                   
-                                                        ->where(DB::Raw('year(created_at)'), $this->year)     
-                                                        ->where('status_receipt', '1')      
-                                                        ->groupBy(DB::Raw('month(created_at)'))        
-                                                        ->groupBy(DB::Raw('year(created_at)'))        
-                                                        ->get();
-            foreach($detail_pettycash as $l => $items){    
-                
-                // $this->datasets[$l]['label'] = date('F', mktime(0, 0, 0, $item->month, 10)).' - Rp.'.format_idr($items->jumlah);
-                $this->datasets[$l]['label'] = date('F', mktime(0, 0, 0, $item->month, 10));
-                $this->datasets[$l]['backgroundColor'] = $color[$l];
-                $this->datasets[$l]['fill'] = 'boundary';
-                $this->datasets[$l]['data'][] = $items->jumlah;
-     
-            }
-
+        if($this->year){
+            $this->year = $this->year;
+        }else{
+            $this->year = date('Y');
         }
 
-        // dd($this->datasets);
+        $roomrequest = \App\Models\ApplicationRoomRequest::select('request_room_detail')
+                                                            ->whereMonth('created_at', $this->month)
+                                                            ->whereYear('created_at', $this->year)
+                                                            ->where('type_request', 'room')
+                                                            ->where('status', '2')
+                                                            ->groupBy('request_room_detail')->get();
+        $numbroomrequest = \App\Models\ApplicationRoomRequest::select(DB::Raw('count(request_room_detail) as jumlahrequest'))
+                                                            ->whereMonth('created_at', $this->month)
+                                                            ->whereYear('created_at', $this->year)
+                                                            ->where('type_request', 'room')
+                                                            ->where('status', '2')
+                                                            ->groupBy('request_room_detail')->get();
+        
+        $apprequest = \App\Models\ApplicationRoomRequest::select('request_room_detail')
+                                                            ->whereMonth('created_at', $this->month)
+                                                            ->whereYear('created_at', $this->year)
+                                                            ->where('type_request', 'application')
+                                                            ->where('status', '2')
+                                                            ->groupBy('request_room_detail')->get();
+        $numbapprequest = \App\Models\ApplicationRoomRequest::select(DB::Raw('count(request_room_detail) as jumlahrequest'))
+                                                            ->whereMonth('created_at', $this->month)
+                                                            ->whereYear('created_at', $this->year)
+                                                            ->where('type_request', 'application')
+                                                            ->where('status', '2')
+                                                            ->groupBy('request_room_detail')->get();
+        
 
        
-        $this->labels = json_encode($this->labels);
-        // dd($this->labels);
+        $get_request_room = \App\Models\ApplicationRoomRequest::select('request_room_detail')->where('type_request', 'room')->get();
+        $get_request_room_start = \App\Models\ApplicationRoomRequest::select('start_booking')->where('type_request', 'room')->get();
+        $get_request_room_end = \App\Models\ApplicationRoomRequest::select('end_booking')->where('type_request', 'room')->get();
+        
 
-        $this->datasets = json_encode($this->datasets);
-        // dd($this->datasets);
+        $this->labels = json_encode($roomrequest);
+        $this->datasets = json_encode($numbroomrequest);
+        $this->labelsapp = json_encode($apprequest);
+        $this->datasetsapp = json_encode($numbapprequest);
+        $this->title = json_encode($get_request_room);        
+        $this->startdate = json_encode($get_request_room_start);
+        $this->enddate = json_encode($get_request_room_end);
+        
 
-        $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets]);
+        $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets,'labelsapp'=>$this->labelsapp,'datasetsapp'=>$this->datasetsapp, 'title'=>$this->title, 'startdate'=>$this->startdate, 'enddate'=>$this->enddate]);
     }
 
 

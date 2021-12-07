@@ -1,21 +1,72 @@
 <div>
+    <style>
+        #external-events {
+            float: left;
+            width: 150px;
+            padding: 0 10px;
+            text-align: left;
+        }
+
+        #external-events h4 {
+            font-size: 16px;
+            margin-top: 0;
+            padding-top: 1em;
+        }
+
+        .external-event { /* try to mimick the look of a real event */
+            margin: 10px 0;
+            padding: 2px 4px;
+            background: #3366CC;
+            color: #fff;
+            font-size: .85em;
+            cursor: pointer;
+        }
+
+        #external-events p {
+            margin: 1.5em 0;
+            font-size: 11px;
+            color: #666;
+        }
+
+        #external-events p input {
+            margin: 0;
+            vertical-align: middle;
+        }
+        #calendar {
+            margin: 0 auto;
+            width: 900px;
+            background-color: #FFFFFF;
+            border-radius: 6px;
+            box-shadow: 0 1px 2px #C3C3C3;
+        }
+    </style>
     <div class="row">
         <div class="col-md-1">                
             <select class="form-control" wire:model="year">
                 <option value=""> --- Year --- </option>
-                @foreach(\App\Models\EmployeeNoc::select('year')->groupBy('year')->get() as $item) 
-                <option>{{$item->year}}</option>
-                @endforeach 
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
             </select>
         </div>
-        <!-- <div class="col-md-2" wire:ignore>
+        <div class="col-md-2" wire:ignore>
             <select class="form-control" style="width:100%;" wire:model="month">
                 <option value=""> --- Month --- </option>
-                @foreach(\App\Models\EmployeeNoc::select('month')->groupBy('month')->orderBy('month','ASC')->get() as $item)
-                <option value="{{$item->month}}">{{date('F', mktime(0, 0, 0, $item->month, 10))}}</option>
-                @endforeach
+                @for($i = 1; $i <= 12; $i++)
+                    <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
+                @endfor
             </select>
-        </div> -->
+        </div>
+        <div class="col-md-2" wire:ignore>
+            <select class="form-control" style="width:100%;" wire:model="month">
+                <option value=""> --- Project --- </option>
+                @for($i = 1; $i <= 12; $i++)
+                    <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
+                @endfor
+            </select>
+        </div>
         <div class="col-md-7">
             <label wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -23,77 +74,276 @@
             </label>
         </div>
     </div>
-    <div class="mt-4" style="height: 300px">
-        <canvas id="chBar"></canvas>
+    <br>
+    <div class="row">
+        <div class="col-md-10">
+            <div class="table-responsive">
+                <table class="table table-striped  table-bordered  m-b-0 c_list">
+                    <thead>
+                        <tr>
+                            <th class="text-center align-middle" width="25%">Staff</th> 
+                            <?php
+                                for($i = 1; $i <= 7; $i++){
+                            ?>
+                            <th class="text-center align-middle">{{date('F', mktime(0, 0, 0, $month, 10))}} <?php echo '0'.$i; ?></th>
+         
+                            <?php
+                                }
+                            ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($data as $i => $item)
+                        <?php
+                            
+                            $colors = array('#ffb1c1','#4b89d6','#add64b','#80b10a','#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d');
+                               
+                        ?>
+                        <tr>
+                            <td class="text-center align-middle">
+                                <b>{{$item->name}}</b>
+                                <br>
+                                {{$item->position}}
+                            </td>
+                            <?php
+                                for($j = 1; $j <= 7; $j++){
+                                $schedule = \App\Models\TeamScheduleNoc::where('name', $item->name)
+                                                                        // ->whereMonth('start_schedule', '=', '12')
+                                                                        ->whereDate('start_schedule', '=', '2021-12-0'.$j)
+                                                                        ->first();
+                                // echo $schedule->name;
+                                // echo date('Y').'-'.$month.'-0'.$j;
+                            ?>
+                            @if($schedule)
+                            <td class="text-center align-middle" style="background-color: <?php echo $colors[$i]; ?>;">
+                                <b>{{ date_format(date_create($schedule->start_schedule), 'H:i') }} - {{ date_format(date_create($schedule->end_schedule), 'H:i') }}</b> 
+                            </td>
+                            @else
+                            <td >
+                               
+                            </td>
+                            @endif
+                            <?php
+                                
+                                }
+                            ?>
+                            
+                        </tr>
+                 
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- <div class="col-md-6 mt-3" wire:ignore>
+            <div id='wrap' style="margin: 5px;">
+                <div id='calendar' class="col-md-12" onclick="return false;"></div>
+            </div>
+        </div> -->
+        
     </div>
 </div>
+
 @push('after-scripts')
-<script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
-<script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
+    <script>
+        $(document).ready(function() {
+            var date = new Date();
+            var d = date.getDate();
+            var m = date.getMonth();
+            var y = date.getFullYear();
 
-<script>
-var labels = {!!$labels!!};
-var datasets = {!!$datasets!!};
-// var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+            /* initialize the external events
+            -----------------------------------------------------------------*/
+            $('#external-events div.external-event').each(function() {
 
-// var dataslt = [];
-// for(var i = 0; i < series.length; i++)  {
-//     dataslt.push({
-//             data: series[i],
-//             backgroundColor: colors[i],
-//             borderColor: colors[i],
-//             borderWidth: 4,
-//             pointBackgroundColor: colors[0]
-//         });
-// }
+                // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+                // it doesn't need to have a start or end
+                var eventObject = {
+                    title: $.trim($(this).text()) // use the element's text as the event title
+                };
 
-$( document ).ready(function() {
-    // $('.multiselect_month').multiselect({ 
-    //         nonSelectedText: ' --- All Month --- ',
-    //         onChange: function (option, checked) {
-    //             @this.set('month', $('.multiselect_month').val());
-    //         },
-    //         buttonWidth: '100%'
-    //     }
-    // );
-    init_chart_databasenoc();
-});
-Livewire.on('init-chart',(data)=>{
-    labels = JSON.parse(data.labels);
-    datasets = JSON.parse(data.datasets);
-    init_chart_databasenoc();
-});
-function init_chart_databasenoc(){
-    var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
-    var chBar = document.getElementById("chBar");
-                       
-    if (chBar) {
-        new Chart(chBar, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: datasets,
-            },
-            options: {
-                maintainAspectRatio: false,
-                responsive: true,
-                legend: {
-                    display: true,
-                    position:'bottom'
-                },
-                title: {
-                    display: true,
-                    text: 'PETTY CASH MONTHLY - ACTUAL EXPENSE'
-                },
-                scales: {
-                    xAxes: [{
-                        barPercentage: 0.5,
-                        categoryPercentage: 0.5
-                    }]
-                }
+                // store the Event Object in the DOM element so we can get to it later
+                $(this).data('eventObject', eventObject);
+
+                // make the event draggable using jQuery UI
+                $(this).draggable({
+                    zIndex: 999,
+                    revert: true,      // will cause the event to go back to its
+                    revertDuration: 0  //  original position after the drag
+                });
+            });
+
+            var titles = {!!$title!!};
+            var startdates = {!!$startdate!!};
+            var enddates = {!!$enddate!!};
+            var events = [];
+            var coolor = [];
+            for(var i = 0; i < startdates.length; i++) 
+            {
+                events.push( {
+                        title: 'Booking ruang ' + titles[i]['request_room_detail'], 
+                        start: startdates[i]['start_booking'].substring(0, 10), 
+                        end: startdates[i]['start_booking'].substring(0, 10),
+                        className: 'info'
+                });
             }
+            
+            /* initialize the calendar
+            -----------------------------------------------------------------*/
+            var calendar =  $('#calendar').fullCalendar({
+                header: {
+                    left: 'title',
+                    center: 'agendaDay,agendaWeek,month',
+                    right: 'prev,next today'
+                },
+                editable: true,
+                firstDay: 1, //  1(Monday) this can be changed to 0(Sunday) for the USA system
+                selectable: true,
+                defaultView: 'month',
+                axisFormat: 'h:mm',
+                columnFormat: {
+                    month: 'ddd',    // Mon
+                    week: 'ddd d', // Mon 7
+                    day: 'dddd M/d',  // Monday 9/7
+                    agendaDay: 'dddd d'
+                },
+                titleFormat: {
+                    month: 'MMMM yyyy', // September 2009
+                    week: "MMMM yyyy", // September 2009
+                    day: 'MMMM yyyy'                  // Tuesday, Sep 8, 2009
+                },
+                allDaySlot: false,
+                selectHelper: true,
+                select: function(start, end, allDay) {
+                    Livewire.emit('set_selected_date',start);
+                },
+                droppable: true, // this allows things to be dropped onto the calendar !!!
+                drop: function(date, allDay) { // this function is called when something is dropped
+                },
+                events: events,
+            });
         });
+
+    </script>
+<script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
+<link href="{{ asset('assets/fullcalendar-master/assets/css/fullcalendar.css') }}" rel='stylesheet' />
+<link href="{{ asset('assets/fullcalendar-master/assets/css/fullcalendar.print.css') }}" rel='stylesheet' media='print' />
+<script src="{{ asset('assets/fullcalendar-master/assets/js/fullcalendar.js') }}" type="text/javascript"></script>
+<script>
+    var labels = {!!$labels!!};
+    var datasets = {!!$datasets!!};
+    var labelsapp = [];
+    var labelsapp = {!!$labelsapp!!};
+    var datasetsapp = [];
+    var datasetsapp = {!!$datasetsapp!!};
+
+    $( document ).ready(function() {
+        init_chart_applicationroomreq();
+    });
+    Livewire.on('init-chart',(data)=>{
+        labels = JSON.parse(data.labels);
+        datasets = JSON.parse(data.datasets);
+        labelsapp = JSON.parse(data.labelsapp);
+        
+        datasetsapp = JSON.parse(data.datasetsapp);
+        // alert(datasetsapp.length);
+        init_chart_applicationroomreq();
+    });
+    function init_chart_applicationroomreq(){
+        // var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+        var colors = ['#ffb1c1','#4b89d6','#add64b','#80b10a','#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+        var chBar = document.getElementById("chBar");
+        var chBar1 = document.getElementById("chBar1");
+
+        var dataapps = [];
+        for(var i = 0; i < datasetsapp.length; i++) {
+            dataapps.push( {
+                    label: labelsapp[i]['request_room_detail'], 
+                    backgroundColor: colors[i], 
+                    fill: 'boundary',
+                    data: [ datasetsapp[i]['jumlahrequest'] ]
+                    
+            });
+        }
+
+        var dataroom = [];
+        for(var i = 0; i < datasets.length; i++) {
+            dataroom.push( {
+                    label: labels[i]['request_room_detail'], 
+                    backgroundColor: colors[i], 
+                    fill: 'boundary',
+                    data: [ datasets[i]['jumlahrequest'] ]
+                    
+            });   
+        }
+
+        if (chBar) {
+            new Chart(chBar, {
+                type: 'bar',
+                data: {
+                    labels: labelsapp['request_room_detail'],
+                    datasets: dataapps,
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    legend: {
+                        display: true,
+                        position:'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'APPLICATION REQUEST - AVERAGE TIME EXECUTION'
+                    },
+                    scales: {
+                        xAxes: [{
+                            barPercentage: 0.5,
+                            categoryPercentage: 0.5
+                        }]
+                    }
+                }
+            });
+        }
+
+        if (chBar1) {
+            new Chart(chBar1, {
+                type: 'bar',
+                data: {
+                    labels: labels['request_room_detail'],
+                    datasets: dataroom,
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    legend: {
+                        display: true,
+                        position:'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'ROOM REQUEST - MONTHLY REQUEST'
+                    },
+                    scales: {
+                        xAxes: [{
+                            barPercentage: 0.5,
+                            categoryPercentage: 0.5
+                        }]
+                    }
+                }
+            });
+        }
     }
-}
 </script>
 @endpush
+<!-- endsection -->
+@section('page-script')
+    Livewire.on('modalrevisiroomrequest',(data)=>{
+        $("#modal-roomrequest-revisiroomrequest").modal('show');
+    });
+    Livewire.on('modalapproveroomrequest',(data)=>{
+        $("#modal-roomrequest-approveroomrequest").modal('show');
+    });
+    Livewire.on('modaldeclineroomrequest',(data)=>{
+        $("#modal-roomrequest-declineroomrequest").modal('show');
+    });
+@endsection
