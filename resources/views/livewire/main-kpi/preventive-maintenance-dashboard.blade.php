@@ -31,7 +31,7 @@
     </div>
     <div class="row">
         <div class="col-md-10">
-            <canvas id="chart" style="height:400px;"></canvas>
+            <canvas id="chart-pm" style="height:400px;"></canvas>
         </div>
         <div class="col-md-2 text-center">
             <h6>Summary SOW (Monthly Target)</h6>
@@ -119,7 +119,7 @@
     </div>
     @push('after-scripts')
         <script>
-            var chart = "";
+            var chart_pm = "";
             var labels = {!!$labels!!};
             var series = {!!$series!!};
             var data = {
@@ -127,7 +127,7 @@
                 datasets: series
             };
 
-            chart_(data);
+            chart_pm_(data);
 
             Livewire.on('init-chart-pm',(data)=>{
                 console.log(data);
@@ -138,11 +138,11 @@
                     labels: labels,
                     datasets: series
                 };
-                chart_(data);
+                chart_pm_(data);
             });
 
-            function chart_(data){
-                if(chart!=="") chart.destroy();
+            function chart_pm_(data){
+                if(chart_pm!=="") chart_pm.destroy();
                 
                 const config = {
                     type: 'horizontalBar',
@@ -184,8 +184,8 @@
                     }
                 };
 
-                var ctx = document.getElementById('chart').getContext('2d');
-                chart = new Chart(ctx, config);
+                var ctx = document.getElementById('chart-pm').getContext('2d');
+                chart_pm = new Chart(ctx, config);
             }
             
         </script>

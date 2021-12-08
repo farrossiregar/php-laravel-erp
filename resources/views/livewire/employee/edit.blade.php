@@ -271,7 +271,7 @@
                                     </div>
                                     
                                     <div class="row" x-data="{open:@entangle('showProject')}">
-                                        <div class="form-group col-md-12" x-show="open">
+                                        <div class="form-group col-md-12" x-show="open" wire:ignore>
                                             <label class="mr-2">Project</label>
                                             <select class="form-control multiselect multiselect-custom multiselect_project" multiple="multiple" wire:model="project_id" style="height:35px !important;" >
                                                 @foreach($projects as $item)
@@ -506,6 +506,7 @@
     var _multiSelect = $('.multiselect_project').multiselect({ 
             nonSelectedText: ' --- Select Project --- ',
             onChange: function (option, checked) {
+                console.log($('.multiselect_project').val());
                 @this.set('project_id', $('.multiselect_project').val());
             },
             buttonWidth: '100%'

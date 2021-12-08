@@ -59,15 +59,15 @@
                                     <td>{{$item->name}}</td>
                                     <td style="white-space: break-spaces !important;">{{$item->description}}</td>
                                     <td>
-                                    @foreach(\App\Models\TrainingMaterialFile::where('training_material_id',$item->id)->get() as $file)
-                                        <a href="{{asset($file->file)}}" target="_blank">{{$file->name}}</a><br />
-                                    @endforeach
+                                        @foreach(\App\Models\TrainingMaterialFile::where('training_material_id',$item->id)->get() as $file)
+                                            <a href="{{asset($file->file)}}" target="_blank">{{$file->name}}</a><br />
+                                        @endforeach
                                     </td>
                                     <td>
                                         @if(\App\Models\TrainingExam::where('training_material_id',$item->id)->count() > 0)
-                                            <a href="{{ route('training-material.detail-exam',$item->id) }}" class="badge badge-success" data-toggle="tooltip" title="Result Exam"><i class="fa fa-table"></i> Result</a>
+                                            <a href="{{ route('training-material.detail-exam',$item->id) }}" class="badge badge-success" title="Result Exam"><i class="fa fa-table"></i> Result</a>
                                         @else
-                                            <a href="{{ route('mobile-apps.insert-exam',$item->id) }}" class="badge badge-info" data-toggle="tooltip" title="Create Exam"><i class="fa fa-plus"></i> Exam</a>
+                                            <a href="{{ route('mobile-apps.insert-exam',$item->id) }}" class="badge badge-info" title="Create Exam"><i class="fa fa-plus"></i> Exam</a>
                                         @endif
                                     </td>
                                 </tr>

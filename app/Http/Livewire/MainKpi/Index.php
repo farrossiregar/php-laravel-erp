@@ -24,6 +24,8 @@ class Index extends Component
 
     public function mount()
     {
+        if(isset($this->project_id)) session()->put('project_id',$this->project_id);
+        $this->view_index = 'site-tracking';
         $this->layout_chart_parent_id = 1;
         $this->layout_chart_parent = 'wo-never-assigned';
         $this->layout_chart =[2=>'assigned-never-accept-wo',3=>'accept-never-close-wo-manual',4=>'total-ft-never-close-manual'];

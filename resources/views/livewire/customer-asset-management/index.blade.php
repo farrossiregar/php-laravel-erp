@@ -1,5 +1,9 @@
 @section('title', __('Customer Asset Management'))
 <div class="row clearfix">
+    @push('after-scripts')
+        <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
+        <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
+    @endpush
     <div class="col-lg-12">
         <div class="card">
             <ul class="nav nav-tabs">

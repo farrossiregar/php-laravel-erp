@@ -1,24 +1,25 @@
 <?php
 
-namespace App\Http\Livewire\PreventiveMaintenance;
+namespace App\Http\Livewire\MainKpi;
 
-use App\Models\ClientProjectRegion;
 use Livewire\Component;
+use App\Models\ClientProjectRegion;
 use App\Models\PreventiveMaintenance;
 use App\Models\PreventiveMaintenanceSow;
 use stdClass;
 
-class Dashboard extends Component
+class PreventiveMaintenanceDashboard extends Component
 {
     public $date_start,$date_end,$labels,$series,$total_submitted,$total_approved_eid,$total_pm,$total_sow=0;
     public $sub_region_id,$client_project_id,$sub_region=[];
     public $background = ['#9ad0f5','#ffb1c1','#8fe045'];
     public $months=[],$years=[],$month,$year;
+
     public function render()
     {
         $data = $this->init_data();
         
-        return view('livewire.preventive-maintenance.dashboard')->with(['data'=>$data->get()]);
+        return view('livewire.main-kpi.preventive-maintenance-dashboard')->with(['data'=>$data->get()]);
     }
 
     public function init_data()
@@ -33,28 +34,12 @@ class Dashboard extends Component
         $this->total_submitted = PreventiveMaintenance::where('status',2)
                                                         ->whereMonth('end_date',$this->month)->whereYear('end_date',$this->year)
                                                         ->where(function($table){
-                                                            // if($this->date_start and $this->date_end){
-                                                            //     if($this->date_start == $this->date_end)
-                                                            //         $table->whereDate('end_date',$this->date_start);
-                                                            //     else
-                                                            //         $table->whereBetween('end_date',[$this->date_start,$this->date_end]);
-                                                            // }else
-                                                            //     $table->whereMonth('end_date',date('m'))->whereYear('end_date',date('Y'));
-
                                                             if($this->sub_region_id) $table->where('sub_region_id',$this->sub_region_id);
                                                         })->whereNotNull('sub_region_id')->count();
 
         $this->total_approved_eid = PreventiveMaintenance::where(['status'=>2,'is_upload_report'=>1])
                                                             ->whereMonth('upload_report_date',$this->month)->whereYear('upload_report_date',$this->year)
                                                             ->where(function($table){
-                                                                // if($this->date_start and $this->date_end){
-                                                                //     if($this->date_start == $this->date_end)
-                                                                //         $table->whereDate('upload_report_date',$this->date_start);
-                                                                //     else
-                                                                //         $table->whereBetween('upload_report_date',[$this->date_start,$this->date_end]);
-                                                                // }else
-                                                                //     $table->whereMonth('upload_report_date',date('m'))->whereYear('upload_report_date',date('Y'));
-
                                                                 if($this->sub_region_id) $table->where('sub_region_id',$this->sub_region_id);
                                                             })->count();
 
@@ -100,7 +85,7 @@ class Dashboard extends Component
         $this->years = PreventiveMaintenance::select(\DB::raw('year(created_at) as tahun'))->groupBy('tahun')->get();
         $this->chart();
         
-        \LogActivity::add('[web] PM');
+        \LogActivity::add('[web] Main KPI PM');
     }
 
     public function chart()
