@@ -28,10 +28,10 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-pettycash-importpettycash" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-teamschedule-importactual" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:petty-cash.importpettycash />
+            <livewire:team-schedule.importactual />
         </div>
     </div>
 </div>
@@ -84,8 +84,8 @@
         $("#modal-pettycash-add").modal('show');
     });
 
-    Livewire.on('modalimportpettycash',(data)=>{
-        $("#modal-pettycash-importpettycash").modal('show');
+    Livewire.on('modalimportactual',(data)=>{
+        $("#modal-teamschedule-importactual").modal('show');
     });
 
     Livewire.on('modalrevisipettycash',(data)=>{

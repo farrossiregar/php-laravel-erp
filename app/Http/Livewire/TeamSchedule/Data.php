@@ -20,7 +20,7 @@ class Data extends Component
     {
 
        
-        $data = \App\Models\PettyCash::orderBy('created_at', 'desc');
+        $data = \App\Models\TeamScheduleNoc::orderBy('created_at', 'desc');
             //    dd($data->get());
 
         if($this->date) $ata = $data->whereDate('created_at',$this->date);
