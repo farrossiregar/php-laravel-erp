@@ -21,9 +21,7 @@ class Insert extends Component
         ]);
         
         $users = Auth::user();
-
         $path = $this->file->getRealPath();
-       
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $data = $reader->load($path);
         $sheetData = $data->getActiveSheet()->toArray();
@@ -113,12 +111,12 @@ class Insert extends Component
                     $datadetail->save();
                 }
 
-                
-
                 $total_success++;
             }
             session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
-            
+     
+            \LogActivity::add('[web] Site Tracking Upload');
+    
             return redirect()->route('site-tracking.index');
         }
     }

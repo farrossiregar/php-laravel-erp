@@ -1,4 +1,4 @@
-<div class="card">
+<div>
     <div class="header row">
         <div class="col-md-1 pr-0">
             <select class="form-control" wire:model="perpage">

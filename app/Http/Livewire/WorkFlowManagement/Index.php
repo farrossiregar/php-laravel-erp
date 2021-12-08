@@ -18,6 +18,5 @@ class Index extends Component
     public function mount()
     {
         \LogActivity::add('[web] WFM');
-    }
-    
+    } 
 }
