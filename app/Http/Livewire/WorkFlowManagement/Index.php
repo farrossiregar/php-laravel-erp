@@ -14,5 +14,10 @@ class Index extends Component
         }
         return view('livewire.work-flow-management.index');
     }
+
+    public function mount()
+    {
+        \LogActivity::add('[web] WFM');
+    }
     
 }
