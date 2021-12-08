@@ -9,10 +9,10 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active show " id="dashboard">
-                    <livewire:petty-cash.dashboard />
+                    <livewire:team-schedule.dashboard />
                 </div>
                 <div class="tab-pane" id="data">
-                    <livewire:petty-cash.data />
+                    <livewire:team-schedule.data />
                 </div>
             </div>
         </div>
