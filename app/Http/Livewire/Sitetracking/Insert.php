@@ -14,6 +14,7 @@ class Insert extends Component
     {
         return view('livewire.sitetracking.insert');
     }
+
     public function save()
     {
         $this->validate([
@@ -30,6 +31,7 @@ class Insert extends Component
         $data->name             = $users->name;
         $data->upload_by        = $users->name;
         $data->status           = '0';
+        $data->client_project_id = session()->get('project_id');
         $data->save();
         
         if(count($sheetData) > 0){
@@ -72,7 +74,7 @@ class Insert extends Component
                 $datadetail->payment_date                           = date_format(date_create($i[26]), 'Y-m-d');
                 $datadetail->created_at                             = date('Y-m-d');
                 $datadetail->updated_at                             = date('Y-m-d');
-
+                $datadetail->client_project_id = session()->get('project_id');
                 $datadetailcek  = \App\Models\SiteListTrackingDetail::where('no_po', $i[2])->get();
                 
                 if($datadetailcek->count() > 0){
@@ -106,6 +108,7 @@ class Insert extends Component
                     $datatemp->payment_date                           = date_format(date_create($i[26]), 'Y-m-d');
                     $datatemp->created_at                             = date('Y-m-d');
                     $datatemp->updated_at                             = date('Y-m-d');
+                    $datatemp->client_project_id = session()->get('project_id');
                     $datatemp->save();
                 }else{
                     $datadetail->save();
