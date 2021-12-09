@@ -116,9 +116,8 @@ class Insert extends Component
                     $datatemp->updated_at                             = date('Y-m-d');
                     $datatemp->client_project_id = session()->get('project_id');
                     $datatemp->save();
-                }else{
-                    $datadetail->save();
                 }
+                $datadetail->save();
 
                 $total_success++;
             }

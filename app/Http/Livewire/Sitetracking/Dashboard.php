@@ -3,13 +3,10 @@
 namespace App\Http\Livewire\Sitetracking;
 
 use Livewire\Component;
-use Livewire\WithPagination;
 use App\Models\SiteListTrackingMaster;
 use App\Models\SiteListTrackingDetail;
 use App\Models\SiteListTrackingTemp;
 use App\Models\ClientProject;
-use App\Helpers\GeneralHelper;
-use DB;
 
 class Dashboard extends Component
 {
@@ -57,7 +54,7 @@ class Dashboard extends Component
 
             if(SiteListTrackingMaster::where(['id'=>$item->id_site_master,'status'=>1])->get()->count() > 0){ // data harus di approve baru muncul di dashboard
                 $this->datasets[$k]['label'] = $item->type;
-                $this->datasets[$k]['backgroundColor']= @$color[$k];//sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+                $this->datasets[$k]['backgroundColor']= @$color[$k]; //sprintf('#%06X', mt_rand(0, 0xFFFFFF));
                 $this->datasets[$k]['fill'] = 'boundary';
                 $this->datasets[$k]['data'] = [];
                 foreach(SiteListTrackingDetail::select("*",\DB::raw("MONTH(period) as month"))->where(function($table){
@@ -81,6 +78,4 @@ class Dashboard extends Component
         $this->datasets = json_encode($this->datasets);
         $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets]);
     }
-
-
 }
