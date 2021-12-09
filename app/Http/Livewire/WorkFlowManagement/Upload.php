@@ -62,45 +62,27 @@ class Upload extends Component
                 $region = Region::where("region","LIKE", "%{$region}%")->orWhere('region_code',"LIKE","%{$region}%")->first();
                 if($region) {
                     $sub_region = SubRegion::where("region_id",$region->id)->where('name',"LIKE","%{$area}%")->first();
-                    if($sub_region)$data->region_id = $region->id;
+                    if($sub_region){
+                        $data->region_id = $region->id;
+                        // find cluster
+                        $cluster = Cluster::where(['region_id'=>$region->id,'sub_region_id'=>$sub_region->id])->where("name","LIKE", "%{$cluster}%")->first();
+                        if(!$cluster) {
+                            $cluster = new Cluster();
+                            $cluster->region_id = $region->id;
+                            $cluster->sub_region_id = $sub_region->id;
+                            $cluster->name = $cluster;
+                            $cluster->save();
+                        }
+                        $data->cluster_id = $cluster->id;
+                    }
                 }
-                // find cluster
-
-                $cluster = Cluster::where('region_id',$region->id)->where("name","LIKE", "%{$cluster}%")->first();
-                
-
                 $employee = Employee::where('nik',$nik)->first();
                 if($employee) $data->employee_id = $employee->id;
                 if($region)$data->region_id = $region->id;
-                $data->cluster_id = $cluster->id;
                 $data->employee_id = $employee->id;
                 $data->threshold = $treshold;
                 $data->wo_close_manual = 1;
-                
-                // if($problem=='FT not assigned WO') $data->wo_assign = 1;
-                // if($problem=='FT assigned WO but never accept') $data->wo_accept = 1;
-                // if($problem=='FT never close manual' || $problem=='FT accept but never close manual') {
-                //     $data->wo_close_manual = 1;
-                // }    
-                
                 $data->problem = $problem;
-
-                // $data->name = $i[1];
-                // $data->id_ = $i[2];
-                // $data->city = $i[4];
-                // $data->servicearea2 = $i[5];
-                // $data->asp = $i[7];
-                // $data->region_dan_asp_info = $i[8];
-                // $data->skills = $i[9];
-                // $data->wo_close_auto = $i[13];
-                // $data->wo_close_auto = $i[13];
-
-                // if($i[14]) $data->mttr = round($i[14] * 100,2);
-                
-                // $data->remark_wo_assign = $i[15];
-                // $data->remark_wo_accept = $i[16];
-                // $data->remark_wo_close_manual = $i[17];
-                // $data->final_remark = $i[19];
                 $data->user_id = \Auth::user()->id;
                 $data->save();
 
