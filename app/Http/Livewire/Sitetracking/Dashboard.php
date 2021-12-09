@@ -60,7 +60,7 @@ class Dashboard extends Component
                 $this->datasets[$k]['backgroundColor']= @$color[$k];//sprintf('#%06X', mt_rand(0, 0xFFFFFF));
                 $this->datasets[$k]['fill'] = 'boundary';
                 $this->datasets[$k]['data'] = [];
-                foreach(SiteListTrackingDetail::select("*",\DB::raw("MONTH(period) as month"))->where(['type'=>$item->type])->where(function($table){
+                foreach(SiteListTrackingDetail::select("*",\DB::raw("MONTH(period) as month"))->where(function($table){
                     if($this->year) $table->whereYear('period',$this->year); 
                     if($this->month) $table->whereIn(\DB::raw('MONTH(period)'),$this->month);
                     if($this->region_id) $table->where('region_id',$this->region_id);
@@ -70,16 +70,15 @@ class Dashboard extends Component
                         if($this->year) $table->whereYear('period',$this->year); 
                         if($this->region_id) $table->where('region_id',$this->region_id);
                     })->whereMonth('period',$data->month)
-                    ->where(['type'=>$data->type])->sum('qty_po');
+                    ->where(['type'=>$item->type])->sum('qty_po');
 
-                    $this->datasets[$k]['data'][] = $sum ? $sum : '0';
+                    $this->datasets[$k]['data'][] = $sum ? $sum : 0;
                 }
-            }
+            }    
         }
 
         $this->labels = json_encode($this->labels);
         $this->datasets = json_encode($this->datasets);
-        
         $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets]);
     }
 
