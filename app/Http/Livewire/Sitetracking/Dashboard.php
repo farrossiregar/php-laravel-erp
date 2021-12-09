@@ -47,12 +47,13 @@ class Dashboard extends Component
         })->groupBy('month')->get() as $k => $item){
             $this->labels[] = date('F', mktime(0, 0, 0, $item->month, 10));
         }
+
         $color = ['#ffb1c1','#4b89d6','#add64b','#80b10a'];
         foreach(SiteListTrackingDetail::where(function($table){
-            if($this->year)$table->whereYear('period',$this->year);
-            if($this->month) $table->whereIn(\DB::raw('MONTH(period)'),$this->month);
-            if($this->region_id) $table->where('region_id',$this->region_id);
-        })->groupBy('type')->get() as $k => $item){
+                                                                if($this->year) $table->whereYear('period',$this->year);
+                                                                if($this->month) $table->whereIn(\DB::raw('MONTH(period)'),$this->month);
+                                                                if($this->region_id) $table->where('region_id',$this->region_id);
+                                                            })->groupBy('type')->get() as $k => $item){
 
             if(SiteListTrackingMaster::where(['id'=>$item->id_site_master,'status'=>1])->get()->count() > 0){ // data harus di approve baru muncul di dashboard
                 $this->datasets[$k]['label'] = $item->type;
@@ -64,10 +65,14 @@ class Dashboard extends Component
                     if($this->month) $table->whereIn(\DB::raw('MONTH(period)'),$this->month);
                     if($this->region_id) $table->where('region_id',$this->region_id);
                 })->groupBy('month')->get() as $k_data => $data){
-                    $this->datasets[$k]['data'][] = SiteListTrackingDetail::where(function($table){
+                    
+                    $sum = SiteListTrackingDetail::where(function($table){
                         if($this->year) $table->whereYear('period',$this->year); 
                         if($this->region_id) $table->where('region_id',$this->region_id);
-                    })->whereMonth('period',$data->month)->where(['type'=>$data->type])->sum('actual_qty');
+                    })->whereMonth('period',$data->month)
+                    ->where(['type'=>$data->type])->sum('qty_po');
+
+                    $this->datasets[$k]['data'][] = $sum ? $sum : '0';
                 }
             }
         }
