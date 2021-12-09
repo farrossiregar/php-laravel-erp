@@ -56,8 +56,8 @@
                                 </td>
                                 <td>{{ $item->item_number }}</td>
                                 <td>{{ $item->date_po_release }}</td>
-                                <td>{{ $item->pic_rpm }}</td>
-                                <td>{{ $item->pic_sm }}</td>
+                                <td>{{ isset($item->picRpm->nik)? $item->picRpm->nik ." / ". $item->picRpm->name : '-'  }}</td>
+                                <td>{{ isset($item->picSm->nik)? $item->picSm->nik ." / ". $item->picSm->name : '-'  }}</td>
                                 <td>{{ $item->type }}</td>
                                 <td>{{ $item->item_description }}</td>
                                 <td>{{ $item->period }}</td>
