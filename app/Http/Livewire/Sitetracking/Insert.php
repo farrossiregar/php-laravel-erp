@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Sitetracking;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use App\Models\Region;
 use Auth;
 
 class Insert extends Component
@@ -75,6 +76,11 @@ class Insert extends Component
                 $datadetail->created_at                             = date('Y-m-d');
                 $datadetail->updated_at                             = date('Y-m-d');
                 $datadetail->client_project_id = session()->get('project_id');
+
+                // find region
+                $region_ = Region::where('region',"LIKE","%{$i[10]}%")->first();
+                if($region_) $datadetail->region_id = $region_->id; 
+
                 $datadetailcek  = \App\Models\SiteListTrackingDetail::where('no_po', $i[2])->get();
                 
                 if($datadetailcek->count() > 0){

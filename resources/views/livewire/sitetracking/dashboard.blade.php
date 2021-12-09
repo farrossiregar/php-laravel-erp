@@ -16,6 +16,15 @@
                 @endforeach
             </select>
         </div>
+        <div class="col-md-1">                
+            <select class="form-control" wire:model="region_id">
+                <option value=""> -- Region -- </option>
+                @foreach($regions as $item) 
+                    @if(!isset($item->region_->id)) @continue @endif
+                    <option value="{{$item->region_id}}">{{$item->region_->region}}</option>
+                @endforeach 
+            </select>
+        </div>
         <div class="col-md-7">
             <label wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -33,18 +42,6 @@
 <script>
 var labels = {!!$labels!!};
 var datasets = {!!$datasets!!};
-// var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
-
-// var dataslt = [];
-// for(var i = 0; i < series.length; i++)  {
-//     dataslt.push({
-//             data: series[i],
-//             backgroundColor: colors[i],
-//             borderColor: colors[i],
-//             borderWidth: 4,
-//             pointBackgroundColor: colors[0]
-//         });
-// }
 
 $( document ).ready(function() {
     $('.multiselect_month').multiselect({ 
@@ -75,19 +72,19 @@ function init_chart_sitelisttracking(){
             },
             options: {
                 maintainAspectRatio: false,
-                responsive: true,
+                // responsive: true,
                 legend: {
-                    display: true,
+                    // display: true,
                     position:'bottom'
                 },
                 title: {
                     display: true,
-                    text: 'NETWORK GROWTH MS EID ISAT'
+                    text: '{{$project_name}}'
                 },
                 scales: {
                     xAxes: [{
-                        barPercentage: 0.4,
-                        categoryPercentage: 0.5
+                        // barPercentage: 0.4,
+                        // categoryPercentage: 0.5
                     }]
                 },
                 "hover": {
