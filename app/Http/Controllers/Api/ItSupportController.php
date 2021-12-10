@@ -93,7 +93,7 @@ class ItSupportController extends Controller
         $description = "Pick-up By : ". \Auth::user()->employee->name ."\n";
 
         if(isset($data->employee->device_token)) 
-            push_notification_android($data->employee->device_token,"TT Number #".$data->trouble_ticket_number ." Pick-up" ,$description,6);
+            push_notification_android($data->employee->device_token,"TT Number #".$data->trouble_ticket_number ." Pick-up" ,$description,6,1,1);
         
         \LogActivity::add('[apps] IT Support Pickup');
 
@@ -110,7 +110,7 @@ class ItSupportController extends Controller
         
         $description = "Resolved By : ". \Auth::user()->employee->name ."\n";
 
-        if(isset($data->employee->device_token)) push_notification_android($data->employee->device_token,"TT Number #".$data->trouble_ticket_number ." Resolved" ,$description,6);
+        if(isset($data->employee->device_token)) push_notification_android($data->employee->device_token,"TT Number #".$data->trouble_ticket_number ." Resolved" ,$description,6,1,1);
 
         \LogActivity::add('[apps] IT Support Solved');
 
@@ -156,7 +156,7 @@ class ItSupportController extends Controller
         // find IT Support
         $it = get_user_from_access('trouble-ticket.pickup');
         foreach($it as $user){
-            push_notification_android($user->device_token,"Trouble Ticket #".\Auth::user()->employee->name ." - ". $r->problem_category ,$r->description,6);
+            push_notification_android($user->device_token,"Trouble Ticket #".\Auth::user()->employee->name ." - ". $r->problem_category ,$r->description,6,1,1);
         }
 
         \LogActivity::add('[apps] IT Support Store');

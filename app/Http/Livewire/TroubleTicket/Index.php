@@ -65,7 +65,7 @@ class Index extends Component
         
         $description = "Resolved By : ". \Auth::user()->employee->name ."\n";
 
-        if(isset($this->selected->employee->device_token)) push_notification_android($this->selected->employee->device_token,"TT Number #".$this->selected->trouble_ticket_number ." Resolved" ,$description,6);
+        if(isset($this->selected->employee->device_token)) push_notification_android($this->selected->employee->device_token,"TT Number #".$this->selected->trouble_ticket_number ." Resolved" ,$description,6,1,1);
         
         session()->flash('message-success',__("Trouble Ticket #{$this->selected->trouble_ticket_number} ".($this->status==3 ? "Solve" : "Not Solve")));
         
@@ -87,7 +87,7 @@ class Index extends Component
         $description = "Pick-up By : ". \Auth::user()->employee->name ."\n";
 
         if(isset($this->selected->employee->device_token)) 
-            push_notification_android($this->selected->employee->device_token,"TT Number #".$this->selected->trouble_ticket_number ." Pick-up" ,$description,6);
+            push_notification_android($this->selected->employee->device_token,"TT Number #".$this->selected->trouble_ticket_number ." Pick-up" ,$description,6,1,1);
         
         session()->flash('message-success',__("Accepted and Generate Trouble Ticket Number #{$this->selected->trouble_ticket_number}"));
         
@@ -122,7 +122,7 @@ class Index extends Component
         // find IT Support
         $it = get_user_from_access('trouble-ticket.pickup');
         foreach($it as $user){
-            push_notification_android($user->device_token,"Trouble Ticket #".\Auth::user()->employee->name ." - ". $this->trouble_ticket_category ,$this->description,6);
+            push_notification_android($user->device_token,"Trouble Ticket #".\Auth::user()->employee->name ." - ". $this->trouble_ticket_category ,$this->description,6,1,1);
         }
 
         session()->flash('message-success',__("Trouble Ticket submited"));
@@ -139,7 +139,7 @@ class Index extends Component
         $description = "Closed By : ". \Auth::user()->employee->name ."\n";
 
         if(isset($data->pic->device_token)) 
-            push_notification_android($data->pic->device_token,"TT Number #".$data->trouble_ticket_number ." Closed" ,$description,6);
+            push_notification_android($data->pic->device_token,"TT Number #".$data->trouble_ticket_number ." Closed" ,$description,6,1,1);
 
         session()->flash('message-success',__("Closed Troubled Ticket #{$data->trouble_ticket_number}"));
         

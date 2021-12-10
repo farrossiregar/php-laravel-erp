@@ -45,6 +45,12 @@ class Sinkron extends Command
      */
     public function handle()
     {
+        $employee = Employee::where('nik',1111)->first();
+        if($employee){
+            echo $employee->device_token."\n";
+            push_notification_android($employee->device_token,"Trouble Ticket","Testing Trouble Ticket",6,1,1);
+        }
+
         // $count = 0;
         // foreach(Employee::select('employees.*')->join('employee_projects','employee_projects.employee_id','=','employees.id')->where('is_use_android',1)->groupBy('employees.id')->get() as $em){
         //     if($em->user_access_id==85 || $em->user_access_id==84){

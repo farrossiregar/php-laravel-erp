@@ -76,7 +76,7 @@ function marital_status($status){
     return '';
 }
 
-function push_notification_android($device_id,$title,$message,$type){
+function push_notification_android($device_id,$title,$message,$type,$vibrate=0,$sound=0){
     /*api_key available in:
     Firebase Console -> Project Settings -> CLOUD MESSAGING -> Server key*/    
     $api_key = 'AAAA4LyBl1Y:APA91bFLf-2oSt9e2GMNIsoOiBBHH3tER5vk45_f6xwZESuZzl1s_6F0ZLkDO8QVOlzPHWto-kkCLl0dctRpjvt30IN7AMvxrGV-keRxn8TBG-DyROqzvGSN8YQN1l7qVVBW9T4BN2_g';
@@ -90,11 +90,12 @@ function push_notification_android($device_id,$title,$message,$type){
         'notification' => array (
             "title" => $title,
             "body" => $message,
-            'vibrate'	=> 1,
-	        'sound'		=> 1,
         ),
         'data' => array(
-            'type' => $type 
+            'type' => $type ,
+            'vibrate'	=> $vibrate,
+	        'sound'		=> $sound,
+            'volume' => 5
         )
     );
 
