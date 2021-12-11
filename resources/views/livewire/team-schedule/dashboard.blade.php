@@ -51,9 +51,51 @@
                         <tr>
                             <th class="text-center align-middle" width="25%">Staff</th> 
                             <?php
-                                for($i = 1; $i <= 7; $i++){
+                                if($this->filterweek == ''){
+                                    $startdate = 1;
+                                }
+                                
+                                if($this->filterweek == '1'){
+                                    $startdate = 1;
+                                }
+
+                                if($this->filterweek == '2'){
+                                    $startdate = 8;
+                                }
+
+                                if($this->filterweek == '3'){
+                                    $startdate = 15;
+                                }
+
+                                if($this->filterweek == '4'){
+                                    $startdate = 22;
+                                }
+
+                                if($this->filterweek == '5'){
+                                    $startdate = 29;
+                                }
+
+                                if($this->filteryear == ''){
+                                    $year = date('Y');
+                                }else{
+                                    $year = $this->filteryear;
+                                }
+
+                                if($this->filtermonth == ''){
+                                    $month = date('m');
+                                }else{
+                                    $month = $this->filtermonth;
+                                }
+
+                                // for($i = $startdate; $i <= 7; $i++){
+                                for($j = $startdate; $j <= 7; $j++){
+                                    if(strlen($startdate) < 2){
+                                        $startdate = '0'.$startdate;
+                                    }else{
+                                        $startdate = $startdate;
+                                    }
                             ?>
-                            <th class="text-center align-middle">{{date('F', mktime(0, 0, 0, $this->filtermonth, 10))}} <?php echo '0'.$i; ?></th>
+                            <th class="text-center align-middle">{{date('F', mktime(0, 0, 0, $this->filtermonth, 10))}} <?php echo '0'.$j; ?></th>
          
                             <?php
                                 }
@@ -74,13 +116,48 @@
                                 {{$item->position}}
                             </td>
                             <?php
-                                if($this->filterweek){
-
+                                if($this->filterweek == '1'){
+                                    $startdate = 1;
                                 }
-                                for($j = 1; $j <= 7; $j++){
+
+                                if($this->filterweek == '2'){
+                                    $startdate = 8;
+                                }
+
+                                if($this->filterweek == '3'){
+                                    $startdate = 15;
+                                }
+
+                                if($this->filterweek == '4'){
+                                    $startdate = 22;
+                                }
+
+                                if($this->filterweek == '5'){
+                                    $startdate = 29;
+                                }
+
+                                if($this->filteryear == ''){
+                                    $year = date('Y');
+                                }else{
+                                    $year = $this->filteryear;
+                                }
+
+                                if($this->filtermonth == ''){
+                                    $month = date('m');
+                                }else{
+                                    $month = $this->filtermonth;
+                                }
+
+                                
+                                for($j = $startdate; $j <= 7; $j++){
+                                    if(strlen($startdate) < 2){
+                                        $datelist = '0'.$j;
+                                    }else{
+                                        $datelist = $j;
+                                    }
                                 $schedule = \App\Models\TeamScheduleNoc::where('name', $item->name)
                                                                         // ->whereMonth('start_schedule', '=', '12')
-                                                                        ->whereDate('start_schedule', '=', '2021-12-0'.$j)
+                                                                        ->whereDate('start_schedule', '=', $year.'-'.$month.'-'.$datelist)
                                                                         ->first();
                                 // echo $schedule->name;
                                 // echo date('Y').'-'.$month.'-0'.$j;

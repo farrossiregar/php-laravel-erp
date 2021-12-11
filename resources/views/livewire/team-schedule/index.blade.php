@@ -1,4 +1,4 @@
-@section('title', __('Petty Cash - Index'))
+@section('title', __('Team Schedule - Index'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -45,10 +45,10 @@
 </div>
 
 
-<div class="modal fade" id="modal-pettycash-approvepettycash" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-teamschedule-approveteamschedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:petty-cash.approvepettycash />
+            <livewire:team-schedule.approve />
         </div>
     </div>
 </div>
@@ -61,10 +61,10 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-pettycash-declinepettycash" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-teamschedule-declineteamschedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:petty-cash.declinepettycash />
+            <livewire:team-schedule.decline />
         </div>
     </div>
 </div>
@@ -97,16 +97,16 @@
         $("#modal-pettycash-approvereceipt").modal('show');
     });
 
-    Livewire.on('modalapprovepettycash',(data)=>{
-        $("#modal-pettycash-approvepettycash").modal('show');
+    Livewire.on('modalapproveteamschedule',(data)=>{
+        $("#modal-teamschedule-approveteamschedule").modal('show');
     });
 
     Livewire.on('modaldeclinereceipt',(data)=>{
         $("#modal-pettycash-declinereceipt").modal('show');
     });
 
-    Livewire.on('modaldeclinepettycash',(data)=>{
-        $("#modal-pettycash-declinepettycash").modal('show');
+    Livewire.on('modaldeclineteamschedule',(data)=>{
+        $("#modal-teamschedule-declineteamschedule").modal('show');
     });
 
 @endsection

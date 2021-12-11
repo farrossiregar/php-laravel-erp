@@ -4,7 +4,7 @@
     </div> -->
 
     <div class="col-md-1">                
-        <select class="form-control" wire:model="year">
+        <select class="form-control" wire:model="filteryear">
             <option value=""> --- Year --- </option>
             <option value="2021">2021</option>
             <option value="2020">2020</option>
@@ -14,7 +14,7 @@
         </select>
     </div>
     <div class="col-md-2" wire:ignore>
-        <select class="form-control" style="width:100%;" wire:model="month">
+        <select class="form-control" style="width:100%;" wire:model="filtermonth">
             <option value=""> --- Month --- </option>
             @for($i = 1; $i <= 12; $i++)
                 <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
@@ -22,7 +22,7 @@
         </select>
     </div>
     <div class="col-md-2" wire:ignore>
-        <select class="form-control" style="width:100%;" wire:model="month">
+        <select class="form-control" style="width:100%;" wire:model="filterproject">
             <option value=""> --- Project --- </option>
             @for($i = 1; $i <= 12; $i++)
                 <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
@@ -66,6 +66,7 @@
                         <th>Region</th> 
                         <th>Start Scheduled</th> 
                         <th>End Scheduled</th> 
+                        <th>Action</th> 
                         <th>Start Actual</th> 
                         <th>End Actual</th> 
                         <th>Overtime</th> 
@@ -86,11 +87,11 @@
                             @endif
 
                             @if($item->status == '0')
-                                <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Petty Cash Decline</label>
+                                <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Team Schedule is Decline</label>
                             @endif
 
                             @if($item->status == '' || $item->status == 'null')
-                                <label class="badge badge-warning" data-toggle="tooltip" title="Petty Cash on Review">Petty Cash on Review</label>
+                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
                             @endif
 
                         </td> 
@@ -107,8 +108,25 @@
                         <td>{{$item->region}}</td>
                         <td>{{ date_format(date_create($item->start_schedule), 'H:i d M Y') }}</td>
                         <td>{{ date_format(date_create($item->end_schedule), 'H:i d M Y') }}</td>
-                        <td>{{ date_format(date_create($item->start_actual), 'H:i d M Y') }}</td>
-                        <td>{{ date_format(date_create($item->end_actual), 'H:i d M Y') }}</td>
+                        <td>
+                            @if(check_access('petty-cash.approval'))
+                                @if($item->status == '')
+                                   
+                                    <a href="javascript:;" wire:click="$emit('modalapproveteamschedule',['{{ $item->id }}', '1'])"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclineteamschedule',['{{ $item->id }}', '1'])"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a>
+                                @endif
+
+                            @endif
+
+                            @if(check_access('petty-cash.add'))
+                                @if($item->status == '0')
+                                <a href="javascript:;" wire:click="$emit('modalrevisipettycash','{{ $item->id }}')"><i class="fa fa-edit fa-2x" style="color: #f3ad06;"></i></a>
+                                    
+                                @endif
+                            @endif
+                        </td>
+                        <td>{{ isset($item->start_actual) ? date_format(date_create($item->start_actual), 'H:i d M Y') : '' }}</td>
+                        <td>{{ isset($item->end_actual) ? date_format(date_create($item->end_actual), 'H:i d M Y') : '' }}</td>
                         <td>
                             <?php
                                 if($item->end_actual){
@@ -121,13 +139,13 @@
                             
                                     $waktu = '';
                                     if($hours > 0){
-                                        $waktu .= $hours.' hours ';
+                                        $waktu .= $hours.' hr ';
                                     }else{
                                         $waktu .= '';
                                     }
                             
                                     if($minuts > 0){
-                                        $waktu .= $minuts.' minute ';
+                                        $waktu .= $minuts.' min ';
                                     }else{
                                         $waktu .= '';
                                     }
@@ -138,10 +156,10 @@
                         </td>
                         <td>
                             @if(check_access('petty-cash.approval'))
-                                @if($item->status == '')
+                                @if($item->status == '1')
                                    
-                                    <a href="javascript:;" wire:click="$emit('modalapprovepettycash','{{ $item->id }}')"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclinepettycash','{{ $item->id }}')"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modalapproveteamschedule',['{{ $item->id }}', '2'])"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclineteamschedule',['{{ $item->id }}', '2'])"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a>
                                 @endif
 
                             @endif

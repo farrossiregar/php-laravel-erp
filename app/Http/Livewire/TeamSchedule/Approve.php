@@ -7,10 +7,10 @@ use Livewire\WithFileUploads;
 use Auth;
 use DB;
 
-class Approvepettycash extends Component
+class Approve extends Component
 {
     protected $listeners = [
-        'modalapprovepettycash'=>'approvepettycash',
+        'modalapproveteamschedule'=>'approveteamschedule',
     ];
 
     use WithFileUploads;
@@ -23,7 +23,7 @@ class Approvepettycash extends Component
         return view('livewire.team-schedule.approve');
     }
 
-    public function approvepettycash($id)
+    public function approveteamschedule($id)
     {
         $this->selected_id = $id;
     }
@@ -31,33 +31,40 @@ class Approvepettycash extends Component
   
     public function save()
     {
+        $type_approve = $this->selected_id;
+        $data = \App\Models\TeamScheduleNoc::where('id', $this->selected_id)->first();
+        if($type_approve[1] == '1'){
+            $data->status = '1';
+            $data->start_actual = $data->start_schedule;
+            $data->end_actual = $data->end_schedule;
+        }else{
+            $data->status = '2';
+        }
         
-        $data = \App\Models\PettyCash::where('id', $this->selected_id)->first();
-        $data->status = '1';
         
         $data->save();
 
     
-        $notif = check_access_data('petty-cash.notif', '');
-        $nameuser = [];
-        $emailuser = [];
-        $phoneuser = [];
-        foreach($notif as $no => $itemuser){
-            $nameuser_[$no] = $itemuser->name;
-            $emailuser[$no] = $itemuser->email;
-            $phoneuser[$no] = $itemuser->telepon;
+        // $notif = check_access_data('petty-cash.notif', '');
+        // $nameuser = [];
+        // $emailuser = [];
+        // $phoneuser = [];
+        // foreach($notif as $no => $itemuser){
+        //     $nameuser_[$no] = $itemuser->name;
+        //     $emailuser[$no] = $itemuser->email;
+        //     $phoneuser[$no] = $itemuser->telepon;
 
-            $message = "*Dear Admin NOC *\n\n";
-            $message .= "*Petty Cash ".date('M')."-".date('Y')." telah diapprove oleh Finance *\n\n";
-            send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
+        //     $message = "*Dear Admin NOC *\n\n";
+        //     $message .= "*Petty Cash ".date('M')."-".date('Y')." telah diapprove oleh Finance *\n\n";
+        //     send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
 
-            // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
-        }
+        //     // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
+        // }
 
 
 
         session()->flash('message-success',"Berhasil, Petty Cash sudah diapprove!!!");
         
-        return redirect()->route('petty-cash.index');
+        return redirect()->route('team-schedule.index');
     }
 }
