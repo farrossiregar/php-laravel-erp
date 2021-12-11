@@ -33,7 +33,7 @@
 
     @if(check_access('petty-cash.add'))
     <div class="col-md-2">
-        <a href="javascript:;" wire:click="$emit('modaladdpettycash')" class="btn btn-info"><i class="fa fa-plus"></i> Add Team Schedule </a>
+        <a href="javascript:;" wire:click="$emit('modaladdteamschedule')" class="btn btn-info"><i class="fa fa-plus"></i> Add Team Schedule </a>
     </div>
     
     <div class="col-md-3">
