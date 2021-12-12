@@ -2,26 +2,14 @@
     @csrf
     <div class="modal-header">
     
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Upload Actual Team Schedule</h5>
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Generate Timesheet</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true close-btn">×</span>
         </button>
     </div>
     <div class="modal-body">
        
-        <div class="form-group">
-            <input type="file" class="form-control" name="file" wire:model="file" />
-            @error('file')
-            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-            @enderror
-        </div>
-
-        <br>
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-info close-modal"><i class="fa fa-upload"></i> Upload</button>
-        </div>
-
-        <br><br>
+        
         <div class="form-group">
             <div class="row">
                 <div class="col-md-4">                

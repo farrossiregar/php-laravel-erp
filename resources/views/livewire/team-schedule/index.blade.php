@@ -36,6 +36,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-teamschedule-generatetimesheet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:team-schedule.generatetimesheet />
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modal-pettycash-revisipettycash" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -87,6 +95,10 @@
 
     Livewire.on('modalimportactual',(data)=>{
         $("#modal-teamschedule-importactual").modal('show');
+    });
+
+    Livewire.on('modalgeneratetimesheet',(data)=>{
+        $("#modal-teamschedule-generatetimesheet").modal('show');
     });
 
     Livewire.on('modalrevisipettycash',(data)=>{

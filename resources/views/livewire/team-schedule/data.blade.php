@@ -33,11 +33,15 @@
 
     @if(check_access('petty-cash.add'))
     <div class="col-md-2">
-        <a href="javascript:;" wire:click="$emit('modaladdteamschedule')" class="btn btn-info"><i class="fa fa-plus"></i> Add Team Schedule </a>
+        <a href="javascript:;" wire:click="$emit('modaladdteamschedule')" class="btn btn-info"><i class="fa fa-plus"></i> Team Schedule </a>
     </div>
     
-    <div class="col-md-3">
-        <a href="javascript:;" wire:click="$emit('modalimportactual')" class="btn btn-info"><i class="fa fa-upload"></i> Import Actual Schedule </a>
+    <div class="col-md-2">
+        <a href="javascript:;" wire:click="$emit('modalimportactual')" class="btn btn-info"><i class="fa fa-upload"></i> Actual Schedule </a>
+    </div>
+
+    <div class="col-md-2">
+        <a href="javascript:;" wire:click="$emit('modalgeneratetimesheet')" class="btn btn-info"><i class="fa fa-download"></i> Generate Timesheet </a>
     </div>
     
     @endif

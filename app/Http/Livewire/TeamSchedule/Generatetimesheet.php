@@ -7,11 +7,11 @@ use Livewire\WithFileUploads;
 use Auth;
 use DB;
 
-class Importactual extends Component
+class Generatetimesheet extends Component
 {
 
     // protected $listeners = [
-    //     'modalimportactual'=>'importactual',
+    //     'modalgeneratetimesheet'=>'generatetimesheet',
     // ];
 
     use WithFileUploads;
@@ -27,7 +27,7 @@ class Importactual extends Component
         // }
         
         
-        return view('livewire.team-schedule.importactual');
+        return view('livewire.team-schedule.generatetimesheet');
         
     }
 
@@ -36,83 +36,7 @@ class Importactual extends Component
     //     $this->selected_id = $id;
     // }
     
-    public function save()
-    {
-
-        // $this->validate([
-        //     'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
-        // ]);
-
-        // if($this->file){
-        //     $legal = 'vm-legal'.$this->selected_id.'.'.$this->file->extension();
-        //     $this->file->storePubliclyAs('public/Vendor_Management/Legal/',$legal);
-
-        //     $data = \App\Models\VendorManagement::where('id', $this->selected_id)->first();
-        //     $data->legal         = $legal;
-            
-        //     $data->save();
-        // }
-
-        $this->validate([
-            'file'=>'required|mimes:xls,xlsx|max:51200' // 50MB maksimal
-        ]);
-
-
-        $path = $this->file->getRealPath();
-       
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-        $data = $reader->load($path);
-        $sheetData = $data->getActiveSheet()->toArray();
-        // $sheetData = $data->getActiveSheet();
-        
-        // $dataactual = new \App\Models\TeamScheduleNoc();
-
-        
-        // $dataactual->project_name                           = $sheetData->getCell('Q4');
-        // $potrackingpds->created_at                             = date('Y-m-d H:i:s');
-        // $potrackingpds->updated_at                             = date('Y-m-d H:i:s');
-        // $potrackingpds->save();
-
-        
-
-        if(count($sheetData) > 0){
-            $countLimit = 1;
-            $total_failed = 0;
-            $total_success = 0;
-
-
-  
-
-            foreach($sheetData as $key => $i){
-                if($key<1) continue; // skip header
-                
-                foreach($i as $k=>$a){ $i[$k] = trim($a); }
-                
-                $check = \App\Models\TeamScheduleNoc::where('name', $i[4])->whereMonth('start_schedule', date_format(date_create($i[6]), 'm'))->first();
-                
-                if($i[0]!="") 
-               
-                if($check){
-                    $dataactual = \App\Models\TeamScheduleNoc::where('name', $i[4])->whereMonth('start_schedule', date_format(date_create($i[6]), 'm'))->first();
-                    $dataactual->start_actual                                  = $i[9].' '.$i[10].':00';
-                    $dataactual->end_actual                                    = $i[9].' '.$i[11].':00';
-                    $dataactual->status                                        = '1';
-                    
-                    $dataactual->save();
-
-                    $total_success++;
-                }
-                
-            }
-
-        }
-
-        session()->flash('message-success',"Upload Actual Team Schedule Success!!!");
-        
-        // return redirect()->route('contract-registration-flow.index');
-        return redirect()->route('team-schedule.index');
-
-    }
+   
 
 
     public function sampleimport()
@@ -178,7 +102,32 @@ class Importactual extends Component
             }else{
                 $company_name = 'PMT';
             }
-            $objPHPExcel->setActiveSheetIndex(0)
+
+            if($item->end_actual){
+                $diff = abs(strtotime(date_format(date_create($item->end_actual), 'Y-m-d H:i:s')) - strtotime(date_format(date_create($item->end_schedule), 'Y-m-d H:i:s')));
+                $years   = floor($diff / (365*60*60*24)); 
+                $months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
+                $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+                $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
+                $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
+        
+                $waktu = '';
+                if($hours > 0){
+                    $waktu .= $hours.' hr ';
+                }else{
+                    $waktu .= '';
+                }
+        
+                if($minuts > 0){
+                    $waktu .= $minuts.' min ';
+                }else{
+                    $waktu .= '';
+                }
+
+                $waktu;
+
+                if($hours > 0){
+                    $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A'.$num, $k + 1)
                     ->setCellValue('B'.$num,$company_name)
                     ->setCellValue('C'.$num,get_project_company($item->project, $item->company_name))
@@ -191,16 +140,22 @@ class Importactual extends Component
                     ->setCellValue('J'.$num,date_format(date_create($item->start_actual), 'Y-m-d'))
                     ->setCellValue('K'.$num,date_format(date_create($item->start_actual), 'H:i'))
                     ->setCellValue('L'.$num,date_format(date_create($item->end_actual), 'H:i'));
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':G'.$num)->getFont()->setBold( true );
-                // $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('C'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('D'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('E'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-               
-            $num++;
+                        $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+                        $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':G'.$num)->getFont()->setBold( true );
+                        // $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+                        // $objPHPExcel->getActiveSheet()->getStyle('C'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+                        // $objPHPExcel->getActiveSheet()->getStyle('D'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+                        // $objPHPExcel->getActiveSheet()->getStyle('E'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+                        // $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+                        // $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+                    
+                    $num++;
+                }else{
+                    continue;
+                }
+            }
+
+            
         }
         
 
@@ -211,7 +166,7 @@ class Importactual extends Component
 
         // Redirect output to a client’s web browser (Excel5)
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="Sample_TeamSchedule-'.$this->filterproject.'_'.$this->filtermonth.'_'.$this->filteryear.'.xlsx"');
+        header('Content-Disposition: attachment;filename="generate_timesheet-'.$this->filterproject.'_'.$this->filtermonth.'_'.$this->filteryear.'.xlsx"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         //header('Cache-Control: max-age=1');
@@ -223,7 +178,7 @@ class Importactual extends Component
         header ('Pragma: public'); // HTTP/1.0
         return response()->streamDownload(function() use($writer){
             $writer->save('php://output');
-        },'Sample_TeamSchedule-'.$this->filterproject.'_'.$this->filtermonth.'_'.$this->filteryear.'.xlsx');
+        },'generate_timesheet-'.$this->filterproject.'_'.$this->filtermonth.'_'.$this->filteryear.'.xlsx');
 
 
 
