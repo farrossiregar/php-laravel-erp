@@ -24,9 +24,12 @@
     <div class="col-md-2" wire:ignore>
         <select class="form-control" style="width:100%;" wire:model="filterproject">
             <option value=""> --- Project --- </option>
-            @for($i = 1; $i <= 12; $i++)
-                <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
-            @endfor
+            @foreach(\App\Models\ClientProject::orderBy('id', 'desc')
+                                ->where('company_id', Session::get('company_id'))
+                                ->where('is_project', '1')
+                                ->get() as $item)
+                <option value="{{$item->id}}">{{$item->name}}</option>
+            @endforeach
         </select>
     </div>
 
@@ -91,7 +94,7 @@
                             @endif
 
                             @if($item->status == '0')
-                                <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Team Schedule is Decline</label>
+                                <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Team Schedule is Decline</label>
                             @endif
 
                             @if($item->status == '' || $item->status == 'null')
@@ -124,7 +127,7 @@
 
                             @if(check_access('petty-cash.add'))
                                 @if($item->status == '0')
-                                <a href="javascript:;" wire:click="$emit('modalrevisipettycash','{{ $item->id }}')"><i class="fa fa-edit fa-2x" style="color: #f3ad06;"></i></a>
+                                <a href="javascript:;" wire:click="$emit('modaleditteamschedule','{{ $item->id }}')"><i class="fa fa-edit fa-2x" style="color: #f3ad06;"></i></a>
                                     
                                 @endif
                             @endif
@@ -170,7 +173,7 @@
 
                             @if(check_access('petty-cash.add'))
                                 @if($item->status == '0')
-                                <a href="javascript:;" wire:click="$emit('modalrevisipettycash','{{ $item->id }}')"><i class="fa fa-edit fa-2x" style="color: #f3ad06;"></i></a>
+                                <!-- <a href="javascript:;" wire:click="$emit('modalrevisipettycash','{{ $item->id }}')"><i class="fa fa-edit fa-2x" style="color: #f3ad06;"></i></a> -->
                                     
                                 @endif
                             @endif

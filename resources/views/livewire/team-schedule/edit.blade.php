@@ -18,13 +18,14 @@
                                         
                                         <div class="col-md-12 form-group">
                                             <label>Project</label>
-                                            <select onclick="" class="form-control" wire:model="project">
+                                            <!-- <select onclick="" class="form-control" wire:model="project">
                                                 <option value=""> --- Project --- </option>
 
                                                 @foreach($dataproject as $item)
                                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> -->
+                                            <input type="text" class="form-control" wire:model="project" readonly/>
                                             @error('employee_id')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
@@ -38,34 +39,45 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-12 form-group">
-                                            <label>Petty Cash Category</label>
-                                            <input list="petty_cash_category" class="form-control"  wire:model="petty_cash_category">
+                                            <label>Employee Name</label>
+                                            <!-- <input list="petty_cash_category" class="form-control"  wire:model="employee_name">
                                             <datalist id="petty_cash_category" >
-                                                @foreach(\App\Models\PettyCash::orderBy('id', 'desc')->get() as $item)
-                                                <option value="{{ $item->petty_cash_category }}">
+                                                @foreach($employeelist as $item)
+                                                <option value="{{ $item->name }}">
                                                 @endforeach
-                                            </datalist>
+                                            </datalist> -->
+                                            <input type="text" class="form-control" wire:model="employee_name" readonly/>
 
                                             @error('employee_name')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                         <div class="col-md-12 form-group">
-                                            <label>Amount</label>
-                                            <input type="text" class="form-control" data-type="currency" wire:model="amount">
+                                            <label>Date Plan Schedule</label>
+                                            <input type="date" class="form-control" wire:model="date_plan">
                                            
                                             @error('leader')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Keterangan</label>
-                                            <textarea name="" id="" cols="30" rows="6" class="form-control" wire:model="keterangan"></textarea>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>Start Plan Schedule</label>
+                                            <input type="time" class="form-control" wire:model="start_time_plan">
+                                           
                                             @error('leader')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                       
+                                        <div class="col-md-6 form-group">
+                                            <label>End Plan Schedule</label>
+                                            <input type="time" class="form-control"  wire:model="end_time_plan">
+                                           
+                                            @error('leader')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                      
                                         
                                        
                                     </div>

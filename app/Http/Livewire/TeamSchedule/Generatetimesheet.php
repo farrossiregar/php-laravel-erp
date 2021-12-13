@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Auth;
 use DB;
+use Session;
 
 class Generatetimesheet extends Component
 {
@@ -93,7 +94,13 @@ class Generatetimesheet extends Component
         
         $num=2;
 
-        $data = \App\Models\TeamScheduleNoc::get();
+        $data = \App\Models\TeamScheduleNoc::where('status', '2')->orderBy('id', 'desc');
+
+        if($this->filteryear) $ata = $data->whereYear('start_schedule',$this->filteryear);
+        if($this->filtermonth) $ata = $data->whereMonth('start_schedule',$this->filtermonth);
+        if($this->filterproject) $ata = $data->where('project',$this->filterproject);
+       
+        $data = $data->get();
 
         
         foreach($data as $k => $item){
@@ -166,7 +173,7 @@ class Generatetimesheet extends Component
 
         // Redirect output to a client’s web browser (Excel5)
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="generate_timesheet-'.$this->filterproject.'_'.$this->filtermonth.'_'.$this->filteryear.'.xlsx"');
+        header('Content-Disposition: attachment;filename="generate_timesheet-'.get_project_company($this->filterproject, Session::get('company_id')).'_'.$this->filtermonth.'_'.$this->filteryear.'.xlsx"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         //header('Cache-Control: max-age=1');
@@ -178,7 +185,7 @@ class Generatetimesheet extends Component
         header ('Pragma: public'); // HTTP/1.0
         return response()->streamDownload(function() use($writer){
             $writer->save('php://output');
-        },'generate_timesheet-'.$this->filterproject.'_'.$this->filtermonth.'_'.$this->filteryear.'.xlsx');
+        },'generate_timesheet-'.get_project_company($this->filterproject, Session::get('company_id')).'_'.$this->filtermonth.'_'.$this->filteryear.'.xlsx');
 
 
 

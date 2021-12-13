@@ -44,10 +44,10 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-pettycash-revisipettycash" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-teamschedule-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:petty-cash.revisipettycash />
+            <livewire:team-schedule.edit />
         </div>
     </div>
 </div>
@@ -101,8 +101,8 @@
         $("#modal-teamschedule-generatetimesheet").modal('show');
     });
 
-    Livewire.on('modalrevisipettycash',(data)=>{
-        $("#modal-pettycash-revisipettycash").modal('show');
+    Livewire.on('modaleditteamschedule',(data)=>{
+        $("#modal-teamschedule-edit").modal('show');
     });
 
     Livewire.on('modalapprovereceipt',(data)=>{

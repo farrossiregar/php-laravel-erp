@@ -45,9 +45,12 @@
                 <div class="col-md-4" wire:ignore>
                     <select class="form-control" style="width:100%;" wire:model="filterproject">
                         <option value=""> --- Project --- </option>
-                        @for($i = 1; $i <= 12; $i++)
-                            <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
-                        @endfor
+                        @foreach(\App\Models\ClientProject::orderBy('id', 'desc')
+                                            ->where('company_id', Session::get('company_id'))
+                                            ->where('is_project', '1')
+                                            ->get() as $item)
+                            <option value="{{$item->id}}">{{$item->name}}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>

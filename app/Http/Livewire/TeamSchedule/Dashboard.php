@@ -10,7 +10,7 @@ use DB;
 class Dashboard extends Component
 {
     use WithPagination;
-    public $project, $filterweek, $filtermonth, $filteryear, $employee_name;
+    public $project, $filterproject, $filterweek, $filtermonth, $filteryear, $employee_name;
     public $labels;
     public $datasets;
     public $labelsapp;
@@ -29,7 +29,7 @@ class Dashboard extends Component
 
     public function render()
     {
-        $data = \App\Models\TeamScheduleNoc::orderBy('created_at', 'desc')->groupBy('name');
+        $data = \App\Models\TeamScheduleNoc::where('status', '2')->orderBy('created_at', 'desc')->groupBy('name');
         
         // if($keyword) $temp->where(function($table) use ($keyword){
         //     foreach(\Illuminate\Support\Facades\Schema::getColumnListing('sites') as $column){
@@ -42,6 +42,7 @@ class Dashboard extends Component
         if($this->filteryear) $ata = $data->whereYear('start_schedule',$this->filteryear);
         if($this->filtermonth) $ata = $data->whereMonth('start_schedule',$this->filtermonth);                
         if($this->filterweek) $ata = $data->where('week',$this->filterweek);
+        if($this->filterproject) $ata = $data->where('project',$this->filterproject);   
 
         return view('livewire.team-schedule.dashboard')->with(['data'=>$data->paginate(50)]);
     }

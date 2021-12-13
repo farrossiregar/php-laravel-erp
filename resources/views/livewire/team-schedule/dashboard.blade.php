@@ -27,14 +27,17 @@
                 @endfor
             </select>
         </div>
-        <!-- <div class="col-md-2" wire:ignore>
-            <select class="form-control" style="width:100%;" wire:model="month">
+        <div class="col-md-2" wire:ignore>
+            <select class="form-control" style="width:100%;" wire:model="filterproject">
                 <option value=""> --- Project --- </option>
-                @for($i = 1; $i <= 12; $i++)
-                    <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
-                @endfor
+                @foreach(\App\Models\ClientProject::orderBy('id', 'desc')
+                                    ->where('company_id', Session::get('company_id'))
+                                    ->where('is_project', '1')
+                                    ->get() as $item)
+                    <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
             </select>
-        </div> -->
+        </div>
         <div class="col-md-7">
             <label wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -88,14 +91,15 @@
                                 }
 
                                 // for($i = $startdate; $i <= 7; $i++){
-                                for($j = $startdate; $j <= 7; $j++){
-                                    if(strlen($startdate) < 2){
-                                        $startdate = '0'.$startdate;
+                                for($j = $startdate; $j <= ($startdate + 6); $j++){
+                                   
+                                    if(strlen($j) < 2){
+                                        $datelist = '0'.$j;
                                     }else{
-                                        $startdate = $startdate;
+                                        $datelist = $j;
                                     }
                             ?>
-                            <th class="text-center align-middle">{{date('F', mktime(0, 0, 0, $this->filtermonth, 10))}} <?php echo '0'.$j; ?></th>
+                            <th class="text-center align-middle">{{date('F', mktime(0, 0, 0, $this->filtermonth, 10))}} <?php echo $datelist; ?></th>
          
                             <?php
                                 }
@@ -149,18 +153,18 @@
                                 }
 
                                 
-                                for($j = $startdate; $j <= 7; $j++){
-                                    if(strlen($startdate) < 2){
+                                for($j = $startdate; $j <= ($startdate + 6); $j++){
+                                    if(strlen($j) < 2){
                                         $datelist = '0'.$j;
                                     }else{
                                         $datelist = $j;
                                     }
+                                    
                                 $schedule = \App\Models\TeamScheduleNoc::where('name', $item->name)
-                                                                        // ->whereMonth('start_schedule', '=', '12')
                                                                         ->whereDate('start_schedule', '=', $year.'-'.$month.'-'.$datelist)
                                                                         ->first();
                                 // echo $schedule->name;
-                                // echo date('Y').'-'.$month.'-0'.$j;
+                               
                             ?>
                             @if($schedule)
                             <td class="text-center align-middle" style="background-color: <?php echo $colors[$i]; ?>;">

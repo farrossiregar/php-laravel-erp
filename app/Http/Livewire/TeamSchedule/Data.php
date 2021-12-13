@@ -13,7 +13,7 @@ use DB;
 class Data extends Component
 {
     use WithPagination;
-    public $project, $filterweek, $filtermonth, $filteryear, $employee_name;
+    public $project, $filterproject, $filterweek, $filtermonth, $filteryear, $employee_name;
     protected $paginationTheme = 'bootstrap';
     
     public function render()
@@ -27,6 +27,7 @@ class Data extends Component
         if($this->filteryear) $ata = $data->whereYear('start_schedule',$this->filteryear);
         if($this->filtermonth) $ata = $data->whereMonth('start_schedule',$this->filtermonth);                
         if($this->filterweek) $ata = $data->where('week',$this->filterweek);                        
+        if($this->filterproject) $ata = $data->where('project',$this->filterproject);                        
         
         return view('livewire.team-schedule.data')->with(['data'=>$data->paginate(50)]);
 

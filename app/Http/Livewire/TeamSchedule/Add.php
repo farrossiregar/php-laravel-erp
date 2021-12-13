@@ -56,9 +56,6 @@ class Add extends Component
                 $this->region = '';
                 $this->employeelist = [];
             }
-
-         
-
         }
        
 
