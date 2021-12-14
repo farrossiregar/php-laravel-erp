@@ -42,8 +42,8 @@ class ItSupportController extends Controller
             $param[$k]['lokasi'] = $item->lokasi ? $item->lokasi : '-';
             $param[$k]['employee'] = isset($item->employee->name) ? $item->employee->name : '';
             $param[$k]['nik'] = isset($item->employee->nik) ? $item->employee->nik : '-';
-            $param[$k]['telepon'] = isset($item->employee->telepon) ? $item->employee->telepon : '-';
-            $param[$k]['telpon'] = isset($item->employee->telepon) ? $item->employee->telepon : '-';
+            $param[$k]['telepon'] = isset($item->employee->telepon) ? replace_phone_id($item->employee->telepon) : '-';
+            $param[$k]['telpon'] = isset($item->employee->telepon) ? replace_phone_id($item->employee->telepon) : '-';
             $param[$k]['department'] = isset($item->employee->department->name) ? $item->employee->department->name : '-';
             $param[$k]['email'] = isset($item->employee->email) ? $item->employee->email : '-';
             $param[$k]['tanggal_kejadian'] = date('d-M-Y',strtotime($item->tanggal_kejadian));

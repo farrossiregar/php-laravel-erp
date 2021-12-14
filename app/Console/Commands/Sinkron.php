@@ -45,6 +45,7 @@ class Sinkron extends Command
      */
     public function handle()
     {
+        // $employee = Employee::where('nik',1319153)->first();
         $employee = Employee::where('nik',1111)->first();
         if($employee){
             echo $employee->device_token."\n";

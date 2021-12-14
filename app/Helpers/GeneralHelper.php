@@ -90,6 +90,7 @@ function push_notification_android($device_id,$title,$message,$type,$vibrate=0,$
         'notification' => array (
             "title" => $title,
             "body" => $message,
+            "sound"=> "default"
         ),
         'data' => array(
             'type' => $type ,
