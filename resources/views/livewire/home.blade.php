@@ -29,7 +29,7 @@
                                 @endif
                                 <span>{{isset($menu->client_project->name) ? $menu->client_project->name : $menu->name}}</span></a>
                                 <ul>
-                                    @foreach(\App\Models\ModulesItem::where('module_id',$menu->id)->whereNotNull('module_group_id')->groupBy('module_group_id')->get() as $group)
+                                    @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'is_show'=>1])->whereNotNull('module_group_id')->groupBy('module_group_id')->get() as $group)
                                         @if(isset($group->group->name))
                                             @if($group->group->name != $menu->client_project->name)
                                                 <li class="sub__"><a href="javascript:void(0)">{{$group->group->name}}</a>
@@ -66,7 +66,7 @@
                                                         @endif
                                                         @if($action->is_have_sub_menu==1)
                                                             <ul>
-                                                                @foreach(\App\Models\ModulesItem::where(['parent_id'=>$action->id])->get() as $sub)
+                                                                @foreach(\App\Models\ModulesItem::where(['parent_id'=>$action->id,'is_show'=>1])->get() as $sub)
                                                                     @if(Route::has($sub->link))
                                                                         <li class="ml-2"> <a href="{{route($sub->link)}}?project_id={{$menu->client_project_id}}"" class="pl-5 custome_li"><i class="fa fa-dot-circle-o"></i> {{$sub->name}}</a></li>
                                                                     @else

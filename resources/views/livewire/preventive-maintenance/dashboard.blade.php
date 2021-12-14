@@ -130,10 +130,9 @@
             chart_(data);
 
             Livewire.on('init-chart-pm',(data)=>{
-                console.log(data);
                 labels = JSON.parse(data.labels);
                 series = JSON.parse(data.series);
-                console.log(data);
+                
                 var data = {
                     labels: labels,
                     datasets: series

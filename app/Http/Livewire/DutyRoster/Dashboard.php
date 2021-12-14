@@ -24,10 +24,8 @@ class Dashboard extends Component
         return view('livewire.duty-roster.dashboard');
     }
     
-    // public function updated($propertyName)
     public function updated()
     {
-        // if($propertyName=='year') $this->month = '';
         $this->generate_chart();
     }
     
@@ -36,20 +34,14 @@ class Dashboard extends Component
         $this->labels = [];
         $this->datasets = [];
 
-        // $this->year = '2021';
-
         $master_dutyroster_sitelist = \App\Models\DutyrosterSitelistMaster::select(DB::Raw("month(created_at) as month"), 'id')
                                                                             ->where(DB::Raw('year(created_at)'), $this->year)
                                                                             ->where('status', '1')
                                                                             ->get();
         foreach($master_dutyroster_sitelist as $k => $item){
             $this->labels[] = date('F', mktime(0, 0, 0, $item->month, 10));
-            // $this->labels[] = $item->id;
         }
 
-        // dd($this->labels);
-        
-        
         $id_dr = [];
         foreach($master_dutyroster_sitelist as $k => $item){
             $color = ['#ffb1c1','#4b89d6','#add64b','#80b10a','#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
@@ -57,7 +49,6 @@ class Dashboard extends Component
             $detail_dutyroster_sitelist = \App\Models\DutyrosterSitelistDetail::select(DB::Raw('count(project) as jumlah'), 'dutyroster_sitelist_detail.*')
                                                                                 ->where('id_master_dutyroster', $item->id)
                                                                                 ->where('remarks', '<>', '1')
-                                                                                // ->groupBy(DB::Raw('month(created_at)'))
                                                                                 ->groupBy('project')
                                                                                 ->orderBy('project', 'ASC')
                                                                                 ->get();
@@ -72,14 +63,8 @@ class Dashboard extends Component
 
         }
 
-        // dd($this->datasets);
-
-       
         $this->labels = json_encode($this->labels);
-        // dd($this->labels);
-
         $this->datasets = json_encode($this->datasets);
-        // dd($this->datasets);
 
         $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets]);
     }

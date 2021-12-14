@@ -1,15 +1,11 @@
-@section('title', __('Duty Roster DOP Homebase - Index'))
-@section('parentPageTitle', 'Home')
+@section('title', __('DOP Homebase'))
+@section('parentPageTitle', 'Duty Roster')
 <div class="row clearfix">
     <div class="col-lg-12">
-        <div><br></div>
-        <div><br></div>
-        <div><br></div>
         <div class="card">
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
-                <!-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data">{{ __('Data Import') }}</a></li> -->
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#datamaster">{{ __('Data Master Homebase') }}</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#datamaster">{{ __('Data Master') }}</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active show " id="dashboard">

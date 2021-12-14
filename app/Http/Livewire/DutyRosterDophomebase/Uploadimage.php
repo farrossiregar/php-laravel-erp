@@ -46,7 +46,7 @@ class Uploadimage extends Component
         $data = \App\Models\DophomebaseMaster::where('id', $this->selected_id)->first();
 
         if($this->photo1){
-            $dataimage                          = new DopHomebaseImage();
+            $dataimage                          = new DophomebaseImage();
             $dataimage->dop_homebase_id         = $this->selected_id;
             $dh                                 = 'dop-homebase'.$this->selected_id.'-1.'.$this->photo1->extension();
             $this->photo1->storePubliclyAs('public/Dop_Homebase/',$dh);

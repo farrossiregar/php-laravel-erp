@@ -60,32 +60,7 @@
                 <p>Please wait...</p>        
             </div>
         </div>
-        {{-- @foreach(\App\Models\Department::where('is_project',0)->get() as $dep)
-            <div class="left-sub-menu pt-5 item_{{$dep->id}}">
-                <div class="sidebar-scroll">
-                    <h6 class="px-3"><a href="javascript:void(0)" style="font-size: 17px;margin-right:10px;" onclick="hide_left_menu()"><i class="fa fa-arrow-left"></i></a> {{$dep->name}}</h6>
-                    <nav id="lef t-sidebar-nav" class="sidebar-nav">
-                        <ul class="metismenu main-menu">
-                            @foreach(\App\Models\Module::select('modules.*')->with('client_project')->join('client_projects','client_projects.id','=','modules.client_project_id')->where(['department_id'=>$dep->id])->groupBy('client_project_id')->where(
-                                        function($table){
-                                            if(session()->get('company_id')) $table->where('client_projects.company_id',session()->get('company_id')); 
-                                        })->get() as $menu)
-                                <li class="">
-                                    <a href="#menu_{{$menu->id}}" class="has-arrow"><i class="icon-home"></i> <span>{{isset($menu->client_project->name) ? $menu->client_project->name : ''}}</span></a>
-                                    <ul>
-                                        @foreach(\App\Models\ModulesItem::where('module_id',$menu->id)->whereNotNull('module_group_id')->groupBy('module_group_id')->get() as $group)
-                                            @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'module_group_id'=>$group->module_group_id])->get() as $action)    
-                                                <li class=""><a href="">{{$action->name}}</a></li> 
-                                            @endforeach
-                                        @endforeach
-                                    </ul>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </nav>        
-                </div>
-            </div>
-        @endforeach --}}
+        
         <div id="wrapper">
             @include('layouts.navbar')
             {{-- @include('layouts.sidebar') --}}

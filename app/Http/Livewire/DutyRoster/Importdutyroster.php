@@ -55,7 +55,7 @@ class Importdutyroster extends Component
 
 
             foreach($sheetData as $key => $i){
-                if($key<2) continue; // skip header
+                if($key<1) continue; // skip header
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
                     
@@ -128,7 +128,6 @@ class Importdutyroster extends Component
                     $data->cable_fig8               = $i[58];
                     $data->cable_72ribbon           = $i[59];
                     $data->closure                  = $i[60];
-
                     $data->hdpe                     = $i[61];
                     $data->protection_sleeve        = $i[62];
                     $data->bamboo                   = $i[63];
@@ -136,14 +135,8 @@ class Importdutyroster extends Component
                     $data->entity                   = $i[65];
                     $data->project_code             = $i[66];
                     $data->remarks                  = '';
-
-
-                    $data->created_at           = date('Y-m-d H:i:s');
-                    $data->updated_at           = date('Y-m-d H:i:s');
                     $data->save();
                     
-               
-
                 $total_success++;
             }
 

@@ -93,7 +93,6 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('dana-stpl/insert',App\Http\Livewire\DanaStpl\Inputdanastpl::class)->name('dana-stpl.insert');
     Route::get('accident-report',App\Http\Livewire\AccidentReport\Index::class)->name('accident-report.index');
     Route::get('accident-report/insert',App\Http\Livewire\AccidentReport\Inputaccident::class)->name('accident-report.insert');
-    // Route::get('accident-report/preview/{id}',App\Http\Livewire\AccidentReport\Previewaccident::class)->name('accident-report.preview');
     Route::get('database-noc',App\Http\Livewire\DatabaseNoc\Index::class)->name('database-noc.index');
     Route::get('database-tools-noc',App\Http\Livewire\DatabaseToolsNoc\Index::class)->name('database-tools-noc.index');
     Route::get('petty-cash',App\Http\Livewire\PettyCash\Index::class)->name('petty-cash.index');

@@ -25,10 +25,7 @@
             $monthyear = $month.$year;
         ?>
         <a href="javascript:;" wire:click="$emit('modalexportdutyrosterflm','{{ $monthyear }}')" class="btn btn-info"><i class="fa fa-download"></i> Export</a>
-        
     </div>
-    
-    
     <div class="col-md-12">
         <br><br>
         <div class="table-responsive">
@@ -55,34 +52,26 @@
                                     <input type="checkbox"  wire:click="checkdata({{ $item->id }})" wire:model="data_id.{{ $item->id }}" />
                                 @else
                                     @if($item->remarks == '1')
-                                        <a href="javascript:;" class="btn btn-danger"><i class="fa fa-close"></i></a>
+                                        <a href="javascript:;" class="text-danger"><i class="fa fa-close"></i></a>
                                     @else
-                                        <a href="javascript:;" class="btn btn-success"><i class="fa fa-check"></i></a>
+                                        <a href="javascript:;" class="text-success"><i class="fa fa-check"></i></a>
                                     @endif
                                 @endif
                             @endif
                         </td>
                         <td>{{ $item->name }}</td>
                         <td>{{ @get_position($item->user_access_id) }}</td>
-                        
                         <td>{{ isset($item->created_at) ? date_format(date_create(@$item->created_at), 'd M Y') : '' }}</td>
-                        
                         <td>
-                            
                             @if($item->status == '1')
                                 <label class="badge badge-success" data-toggle="tooltip" title="Approved">Approved</label>
                             @endif
-
-                            
                             @if($item->status == '0')
                                 <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Decline</label>
                             @endif
-
-
                             @if($item->status == '' || $item->status == 'null')
                                 <label class="badge badge-warning" data-toggle="tooltip" title="Waiting Approval">Waiting Approval</label>
                             @endif
-
                         </td> 
                         <td>
                             

@@ -31,7 +31,7 @@ class Approvedutyroster extends Component
   
     public function save()
     {
-        $data = \App\Models\DopHomebaseMaster::where('id', $this->selected_id)->first();
+        $data = \App\Models\DophomebaseMaster::where('id', $this->selected_id)->first();
         $data->status = '1';
         $data->save();
 

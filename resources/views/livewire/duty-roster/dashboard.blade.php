@@ -8,14 +8,7 @@
                 @endforeach 
             </select>
         </div>
-        <!-- <div class="col-md-2" wire:ignore>
-            <select class="form-control" style="width:100%;" wire:model="month">
-                <option value=""> --- Month --- </option>
-                @foreach(\App\Models\EmployeeNoc::select('month')->groupBy('month')->orderBy('month','ASC')->get() as $item)
-                <option value="{{$item->month}}">{{date('F', mktime(0, 0, 0, $item->month, 10))}}</option>
-                @endforeach
-            </select>
-        </div> -->
+        
         <div class="col-md-7">
             <label wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -30,7 +23,6 @@
 @push('after-scripts')
 <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
 <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
-
 <script>
 var labels = {!!$labels!!};
 var datasets = {!!$datasets!!};

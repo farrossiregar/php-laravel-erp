@@ -71,11 +71,11 @@
                         </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>
-                            <a href="{{route('duty-roster-dophomebase.preview',['id'=>$item->id]) }}" title="Preview" class="btn btn-primary"><i class="fa fa-eye"></i> {{__('Preview')}}</a>
+                            <a href="{{route('duty-roster-dophomebase.preview',['id'=>$item->id]) }}" title="Preview" class="badge badge-primary badge-active"><i class="fa fa-eye"></i> {{__('Preview')}}</a>
                             @if(check_access('duty-roster-dophomebase.approval'))
                                 @if($item->status == '' || $item->status == null)
-                                    <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                    <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="badge badge-success badge-active"><i class="fa fa-check"></i> Approve</a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Decline</a>
                                 @endif
 
                             @endif

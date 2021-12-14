@@ -1,5 +1,5 @@
 @section('title', __('FLM Engineer - Update Employee'))
-@section('parentPageTitle', 'Home')
+@section('parentPageTitle', 'Duty Roster')
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="header row">
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <input type="text" class="form-control" wire:model="name" placeholder="Name" />
                         </div>
                         <div class="col-md-2" wire:ignore>
@@ -29,6 +29,7 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>NIK</th> 
                                         <th>Name</th> 
                                         <th>Position</th> 
                                         <th>Date Join</th> 
@@ -45,6 +46,7 @@
                                     @foreach($data as $key => $item)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
+                                        <td>{{ $item->nik }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ @get_position($item->user_access_id) }}</td>
                                         <td>{{ isset($item->resign_date) ? date_format(date_create(@$item->join_date), 'd M Y') : '' }}</td>
@@ -70,9 +72,6 @@
                                             @endif
                                         </td> 
                                         <td>
-                                            <!-- <a href="{{route('duty-roster.preview',['id'=>$item->id]) }}" title="Add" class="btn btn-primary"><i class="fa fa-eye"></i> {{__('Preview')}}</a>
-                                            <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a> -->
-                                            
                                             <a href="javascript:;" wire:click="$emit('modaleditdutyrosterflm','{{ $item->name }}')" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
                                         </td> 
                                     </tr>
@@ -80,6 +79,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        {{$data->links()}}
                     </div>
                 </div>
 

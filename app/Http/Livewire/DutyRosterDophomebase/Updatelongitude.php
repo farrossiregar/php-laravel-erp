@@ -30,7 +30,7 @@ class Updatelongitude extends Component
     public function save()
     {
        
-        $data = \App\Models\DopHomebaseMaster::where('id', $this->selected_id)->first();
+        $data = \App\Models\DophomebaseMaster::where('id', $this->selected_id)->first();
         $data->long = $this->long;
         $data->save();
 

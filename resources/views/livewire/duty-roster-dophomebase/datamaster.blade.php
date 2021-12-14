@@ -86,8 +86,6 @@
                         <th>Type Homebase/DOP</th>
                         <th>Expired</th>
                         <th>Budget</th>
-
-                        
                     </tr>
                 </thead>
                 <tbody>
@@ -99,9 +97,9 @@
                             <input type="checkbox"  wire:click="checkdata({{ $item->id }})" wire:model="data_id.{{ $item->id }}" />
                             @else
                                 @if($item->remarks == '1')
-                                    <a href="javascript:;" class="btn btn-danger"><i class="fa fa-close"></i></a>
+                                    <a href="javascript:;" class="text-danger"><i class="fa fa-close"></i></a>
                                 @else
-                                    <a href="javascript:;" class="btn btn-success"><i class="fa fa-check"></i></a>
+                                    <a href="javascript:;" class="text-success"><i class="fa fa-check"></i></a>
                                 @endif
                             @endif
                         </td>
@@ -121,8 +119,8 @@
 
                             @if(check_access('duty-roster-dophomebase.approval'))
                                 @if($item->status == '' || $item->status == null)
-                                    <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                    <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="badge badge-success badge-active"><i class="fa fa-check"></i> Approve</a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Decline</a>
                                 @endif
 
                             @endif
@@ -136,7 +134,7 @@
                             @if($item->status == '1')
                                 {{ $item->long }}
                                 <!-- <a href="#" data-toggle="modal" data-target="#modal-dutyroster-updatelongitude" title="Add" class="btn btn-primary"><i class="fa fa-edit"></i> </a> -->
-                                <div wire:click="$emit('modalupdatelong','{{ $item->id }}')" title="Add" class="btn btn-primary"><i class="fa fa-edit"></i> </div>
+                                <div wire:click="$emit('modalupdatelong','{{ $item->id }}')" title="Add" class="badge badge-primary badge-active"><i class="fa fa-edit"></i> </div>
                             @else
                                 {{ $item->long }}
                             @endif
@@ -146,7 +144,7 @@
                             @if($item->status == '1')
                                 {{ $item->lat }}
                                 <!-- <a href="#" data-toggle="modal" data-target="#modal-dutyroster-inputdutyroster" title="Add" class="btn btn-primary"><i class="fa fa-edit"></i> </a> -->
-                                <div wire:click="$emit('modalupdatelat','{{ $item->id }}')" title="Add" class="btn btn-primary"><i class="fa fa-edit"></i> </div>
+                                <div wire:click="$emit('modalupdatelat','{{ $item->id }}')" title="Add" class="badge badge-primary badge-active"><i class="fa fa-edit"></i> </div>
                             @else
                                 {{ $item->lat }}
                             @endif

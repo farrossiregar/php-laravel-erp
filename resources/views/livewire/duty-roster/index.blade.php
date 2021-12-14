@@ -1,5 +1,5 @@
-@section('title', __('Duty Roster - Index'))
-@section('parentPageTitle', 'Home')
+@section('title', __('Site List'))
+@section('parentPageTitle', 'Duty Roster')
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -52,12 +52,7 @@
         </div>
     </div>
 </div>
-
-
-
 @section('page-script')
-
-
     Livewire.on('modalimportnoc',(data)=>{
         $("#modal-dutyroster-importdutyroster").modal('show');
     });
