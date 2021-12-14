@@ -4,142 +4,84 @@ namespace App\Http\Livewire\TimesheetRecord;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\ApplicationRoomRequest;
+use App\Models\EmployeeNoc;
 use DB;
 
 class Dashboard extends Component
 {
     use WithPagination;
-    public $project, $filterproject, $filterweek, $filtermonth, $filteryear, $employee_name;
+    public $date, $month, $year, $type;
     public $labels;
     public $datasets;
-    public $labelsapp;
-    public $datasetsapp;
-    public $title;
-    public $startdate;
-    public $enddate,$date_active,$data_room;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['set_selected_date'];
-    // public function render()
-    // {
-    //     $this->generate_chart();
-    //     return view('livewire.team-schedule.dashboard');
-    // }
-
 
     public function render()
     {
-        $data = \App\Models\TeamScheduleNoc::where('status', '2')->orderBy('created_at', 'desc')->groupBy('name');
-        
-        // if($keyword) $temp->where(function($table) use ($keyword){
-        //     foreach(\Illuminate\Support\Facades\Schema::getColumnListing('sites') as $column){
-        //         $table->orWhere($column,'LIKE',"%{$keyword}%");
-        //     }
-        // });
-        // if($this->date) $ata = $data->whereDate('created_at',$this->date);
-        
-        
-        if($this->filteryear) $ata = $data->whereYear('start_schedule',$this->filteryear);
-        if($this->filtermonth) $ata = $data->whereMonth('start_schedule',$this->filtermonth);                
-        if($this->filterweek) $ata = $data->where('week',$this->filterweek);
-        if($this->filterproject) $ata = $data->where('project',$this->filterproject);   
-
-        return view('livewire.timesheet-record.dashboard')->with(['data'=>$data->paginate(50)]);
-    }
-
-    public function cancel_room(ApplicationRoomRequest $data)
-    {
-        \LogActivity::add('Cancel Room');
-
-        $data->status = 3;
-        $data->save();
-        $this->data_room = ApplicationRoomRequest::where('type_request','room')->whereDate('start_booking',date('Y-m-d'))->get();
-
-        $this->emit('message-success',"Request successfully canceled");
-    }
-
-    public function set_selected_date($date)
-    {
-        $this->date_active = date('d/M/Y',strtotime($date));
-        $this->data_room = ApplicationRoomRequest::where('type_request','room')->whereDate('start_booking',date('Y-m-d',strtotime($date)))->get();
+        $this->generate_chart();
+        return view('livewire.timesheet-record.dashboard');
     }
 
     public function mount()
     {
-        $this->date_active = date('d/M/Y');
-        $this->employee_id = \Auth::user()->id;
-        $this->data_room = ApplicationRoomRequest::where('type_request','room')->whereDate('start_booking',date('Y-m-d'))->get();
+        $this->year = date('Y');
+    }
+
+    public function updated()
+    {
+        $this->generate_chart();
     }
     
-    // public function updated()
-    // {
-    //     $this->generate_chart();
-    // }
-    
-    // public function generate_chart()
-    // {
-    //     $this->labels = [];
-    //     $this->datasets = [];
-    //     $this->labelsapp = [];
-    //     $this->datasetsapp = [];
+    public function generate_chart()
+    {
+        $this->labels = [];
+        $this->datasets = [];
 
-        
-    //     if($this->month){
-    //         $this->month = $this->month;
-    //     }else{
-    //         $this->month = date('m');
-    //     }
+        if($this->year){
+            $this->year = $this->year;
+        }else{
+            $this->year = date('Y');
+        }
 
-    //     if($this->year){
-    //         $this->year = $this->year;
-    //     }else{
-    //         $this->year = date('Y');
-    //     }
+        if($this->month){
+            $this->month = $this->month;
+        }else{
+            $this->month = date('m');
+        }
 
-    //     $roomrequest = \App\Models\ApplicationRoomRequest::select('request_room_detail')
-    //                                                         ->whereMonth('created_at', $this->month)
-    //                                                         ->whereYear('created_at', $this->year)
-    //                                                         ->where('type_request', 'room')
-    //                                                         ->where('status', '2')
-    //                                                         ->groupBy('request_room_detail')->get();
-    //     $numbroomrequest = \App\Models\ApplicationRoomRequest::select(DB::Raw('count(request_room_detail) as jumlahrequest'))
-    //                                                         ->whereMonth('created_at', $this->month)
-    //                                                         ->whereYear('created_at', $this->year)
-    //                                                         ->where('type_request', 'room')
-    //                                                         ->where('status', '2')
-    //                                                         ->groupBy('request_room_detail')->get();
-        
-    //     $apprequest = \App\Models\ApplicationRoomRequest::select('request_room_detail')
-    //                                                         ->whereMonth('created_at', $this->month)
-    //                                                         ->whereYear('created_at', $this->year)
-    //                                                         ->where('type_request', 'application')
-    //                                                         ->where('status', '2')
-    //                                                         ->groupBy('request_room_detail')->get();
-    //     $numbapprequest = \App\Models\ApplicationRoomRequest::select(DB::Raw('count(request_room_detail) as jumlahrequest'))
-    //                                                         ->whereMonth('created_at', $this->month)
-    //                                                         ->whereYear('created_at', $this->year)
-    //                                                         ->where('type_request', 'application')
-    //                                                         ->where('status', '2')
-    //                                                         ->groupBy('request_room_detail')->get();
+        $color = ['#ffb1c1','#4b89d6', '#007bff','#28a745','#333333'];
+        // $weeks = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'];
+        $weeks = ['1', '2', '3', '4', '5'];
+
+        foreach(\App\Models\ToolsNoc::where('year',$this->year)->where('type', $this->type)->where('status', '1')->groupBy('month')->get() as $k => $item){
+            $this->labels[$k] = date('F', mktime(0, 0, 0, (int)$item->month, 10));
+        }
         
 
+        
+
+        foreach(\App\Models\ToolsNoc::where('year',$this->year)->where('type', $this->type)->where('status', '1')->groupBy('month')->get() as $k => $item){
+            
+            foreach($weeks as $j => $itemstatus){ 
+                
+                // $this->datasets[$k]['label'] = 'Week '.$weeks[$j];
+                $this->datasets[$j]['label'] = 'Week '.$weeks[$j];
+                // $this->datasets[$k]['label'] = date('F', mktime(0, 0, 0, (int)$item->month, 10));
+                // $this->datasets[$k]['label'] = '1';
+                $this->datasets[$j]['backgroundColor'] = $color[$j];
+                $this->datasets[$k]['fill'] = 'boundary';
+                $this->datasets[$j]['data'][] = count(\App\Models\Employee::where('is_noc', 1)->where('is_resign', 0)->get()) - \App\Models\ToolsNoc::select(DB::Raw('count(week) as jumlah'))->where('year',$item->year)->where('month',$item->month)->where('week',$weeks[$j])->where('type', $this->type)->where('status', '1')->first()->jumlah;
+                // $this->datasets[$k]['data'][] = \App\Models\ToolsNoc::where('year',$item->year)->where('month',$item->month)->where('week',$weeks[$j])->where('status','1')->first();
+                
+            }
+
+        }
        
-    //     $get_request_room = \App\Models\ApplicationRoomRequest::select('request_room_detail')->where('type_request', 'room')->get();
-    //     $get_request_room_start = \App\Models\ApplicationRoomRequest::select('start_booking')->where('type_request', 'room')->get();
-    //     $get_request_room_end = \App\Models\ApplicationRoomRequest::select('end_booking')->where('type_request', 'room')->get();
-        
+    
+        $this->labels = json_encode($this->labels);
+        $this->datasets = json_encode($this->datasets);
 
-    //     $this->labels = json_encode($roomrequest);
-    //     $this->datasets = json_encode($numbroomrequest);
-    //     $this->labelsapp = json_encode($apprequest);
-    //     $this->datasetsapp = json_encode($numbapprequest);
-    //     $this->title = json_encode($get_request_room);        
-    //     $this->startdate = json_encode($get_request_room_start);
-    //     $this->enddate = json_encode($get_request_room_end);
-        
-
-    //     $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets,'labelsapp'=>$this->labelsapp,'datasetsapp'=>$this->datasetsapp, 'title'=>$this->title, 'startdate'=>$this->startdate, 'enddate'=>$this->enddate]);
-    // }
+        $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets]);
+    }
 
 
 }
