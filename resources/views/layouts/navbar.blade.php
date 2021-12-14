@@ -14,11 +14,11 @@
                     <div>
                         @if(session()->get('company_id'))
                             @if(session()->get('company_id')==1)
-                                <a href="http://erp.pmt.co.id/?company_id=1">
+                                <a href="{{route('home',['company_id'=>1])}}">
                                     <img src="{{asset('images/hup.png')}}" class="mr-3  mt-2" style="height:40px;" />
                                 </a>
                             @else
-                                <a href="http://erp.pmt.co.id/?company_id=2">
+                                <a href="{{route('home',['company_id'=>2])}}">
                                     <img src="{{asset('images/pmt-logo.png')}}" class="mr-3 mt-2"  style="height:30px;" />
                                 </a>
                             @endif

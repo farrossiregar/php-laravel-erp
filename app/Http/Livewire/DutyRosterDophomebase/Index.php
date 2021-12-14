@@ -10,4 +10,9 @@ class Index extends Component
     {
         return view('livewire.duty-roster-dophomebase.index');
     }
+
+    public function mount()
+    {
+        \LogActivity::add('[web] Duty Roster - Home Base');
+    }
 }

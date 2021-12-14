@@ -65,13 +65,14 @@ class Importdutyroster extends Component
                     
                 $total_success++;
             }
-
-            session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
-            
-            return redirect()->route('duty-roster-dophomebase.index');   
         }
+
+        \LogActivity::add('[web] Duty Roster - Home Base Import');
+        
+        session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
+            
+        return redirect()->route('duty-roster-dophomebase.index');   
     }
-    
 
     public function yearborn($year){
         if($year > substr(date('Y'), 2, 2)){

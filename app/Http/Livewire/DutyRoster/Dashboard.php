@@ -63,6 +63,8 @@ class Dashboard extends Component
 
         }
 
+        if(isset($_GET['debug'])) dd($this->datasets);
+        
         $this->labels = json_encode($this->labels);
         $this->datasets = json_encode($this->datasets);
 
