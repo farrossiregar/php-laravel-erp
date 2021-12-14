@@ -10,7 +10,7 @@ use DB;
 class Approve extends Component
 {
     protected $listeners = [
-        'modalapproveteamschedule'=>'approveteamschedule',
+        'modalapprovetimesheetrecord'=>'approvetimesheetrecord',
     ];
 
     use WithFileUploads;
@@ -23,26 +23,45 @@ class Approve extends Component
         return view('livewire.timesheet-record.approve');
     }
 
-    public function approveteamschedule($id)
+    public function approvetimesheetrecord($id)
     {
         $this->selected_id = $id;
+        
     }
 
   
     public function save()
     {
-        $type_approve = $this->selected_id;
-        $data = \App\Models\TeamScheduleNoc::where('id', $this->selected_id)->first();
-        if($type_approve[1] == '1'){
-            $data->status = '1';
-            $data->start_actual = $data->start_schedule;
-            $data->end_actual = $data->end_schedule;
+        // dd($this->selected_id);
+        $data_approve = $this->selected_id;
+        if($data_approve[0] == ''){
+            $data = new \App\Models\TimesheetRecord();
+            $data->company_name = $data_approve[1]; 
+            $data->status = $data_approve[2]; 
+            $data->region = $data_approve[3]; 
+            $data->project = $data_approve[4]; 
+            $data->month = $data_approve[5]; 
+            $data->year = $data_approve[6]; 
+
+            $data->save();
         }else{
-            $data->status = '2';
+            $data = \App\Models\TimesheetRecord::where('company_name', $data_approve[1])->where('region', $data_approve[3])->where('project', $data_approve[4])->first();
+            $data->status = $data_approve[2];
+
+            $data->save();
         }
+        // $type_approve = $this->selected_id;
+        // $data = \App\Models\TeamScheduleNoc::where('id', $this->selected_id)->first();
+        // if($type_approve[1] == '1'){
+        //     $data->status = '1';
+        //     $data->start_actual = $data->start_schedule;
+        //     $data->end_actual = $data->end_schedule;
+        // }else{
+        //     $data->status = '2';
+        // }
         
         
-        $data->save();
+        // $data->save();
 
     
         // $notif = check_access_data('petty-cash.notif', '');
@@ -63,8 +82,8 @@ class Approve extends Component
 
 
 
-        session()->flash('message-success',"Berhasil, Petty Cash sudah diapprove!!!");
+        session()->flash('message-success',"Berhasil, Timesheet Record sudah diapprove!!!");
         
-        return redirect()->route('team-schedule.index');
+        return redirect()->route('timesheet-record.index');
     }
 }

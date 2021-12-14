@@ -10,7 +10,7 @@ use Auth;
 use DB;
 
 
-class Data extends Component
+class Datahup extends Component
 {
     use WithPagination;
     public $project, $filterproject, $filterweek, $filtermonth, $filteryear, $employee_name;
@@ -20,7 +20,7 @@ class Data extends Component
     {
 
        
-        $data = \App\Models\TeamScheduleNoc::orderBy('created_at', 'desc');
+        $data = \App\Models\TeamScheduleNoc::where('company_name', '1')->orderBy('created_at', 'desc');
             //    dd($data->get());
 
         // if($this->date) $ata = $data->whereDate('created_at',$this->date);
@@ -29,7 +29,7 @@ class Data extends Component
         if($this->filterweek) $ata = $data->where('week',$this->filterweek);                        
         if($this->filterproject) $ata = $data->where('project',$this->filterproject);                        
         
-        return view('livewire.team-schedule.data')->with(['data'=>$data->paginate(50)]);
+        return view('livewire.team-schedule.datahup')->with(['data'=>$data->paginate(50)]);
 
         
     }

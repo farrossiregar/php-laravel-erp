@@ -3,30 +3,50 @@
         <div class="col-md-1">                
             <select class="form-control" wire:model="year">
                 <option value=""> --- Year --- </option>
-                @foreach(\App\Models\ToolsNoc::select('year')->groupBy('year')->whereNotNull('year')->get() as $item) 
-                <option>{{$item->year}}</option>
+                @foreach(\App\Models\TeamScheduleNoc::select(DB::Raw('year(start_schedule)'))->groupBy(DB::Raw('year(start_schedule)'))->get() as $item) 
+                <option>{{date_format(date_create($item->start_schedule), 'Y')}}</option>
                 @endforeach 
             </select>
         </div>
-        <div class="col-md-1">                
-            <select class="form-control" wire:model="type">
-                <option value=""> --- Type --- </option>
+
+        <div class="col-md-2">                
+            <select class="form-control" wire:model="project">
+                <option value=""> --- Project --- </option>
                 
-                <option value="1">Tools NOC</option>
-                <option value="2">Escalation Record</option>
+                @foreach(\App\Models\TeamScheduleNoc::select('project')->orderBy('id', 'desc')
+                                ->where('company_name', Session::get('company_id'))
+                                ->groupBy('project')
+                                ->get() as $item)
+                <option value="{{$item->project}}">{{ get_project_company($item->project, Session::get('company_id')) }}</option>
+                @endforeach
                 
             </select>
         </div>
-        
-        <div class="col-md-4">
-            @if($this->type == '1')
-            <label><h4>Database Tools NOC</h4></label>
-            @endif
 
-            @if($this->type == '2')
-            <label><h4>Escalation Record</h4></label>
-            @endif
+        <div class="col-md-2">                
+            <select class="form-control" wire:model="region">
+                <option value=""> --- Region --- </option>
+                
+                @foreach(\App\Models\TeamScheduleNoc::select('region')->orderBy('id', 'desc')
+                                                    ->groupBy('region')
+                                                    ->get() as $item)
+                <option value="{{$item->region}}">{{$item->region}}</option>
+                @endforeach
+                
+            </select>
         </div>
+
+        <!-- <div class="col-md-2">                
+            <select class="form-control" wire:model="company_name">
+                <option value=""> --- Company Name --- </option>
+                
+                <option value="1">HUP</option>
+                <option value="2">PMT</option>
+                
+            </select>
+        </div> -->
+        
+       
         <div class="col-md-3">
             <label wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>

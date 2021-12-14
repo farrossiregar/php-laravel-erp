@@ -21,12 +21,16 @@ class Datahup extends Component
     {
 
        
-        $data = \App\Models\TeamScheduleNoc::orderBy('created_at', 'desc')
-                                            ->where('company_name', '1')
-                                            ->groupBy('project')
-                                            ->groupBy('region')
-                                            ->groupBy(DB::Raw('month(created_at)'))
-                                            ->groupBy(DB::Raw('year(created_at)'));
+        $data = \App\Models\TeamScheduleNoc::orderBy('noc_team_schedule.created_at', 'desc')
+                                            // ->join('timesheet_record', 'noc_team_schedule.region', 'timesheet_record.region')
+                                            // ->join('timesheet_record', 'noc_team_schedule.project', 'timesheet_record.project')
+                                            // ->join('timesheet_record', DB::Raw('month(created_at)'), 'timesheet_record.month')
+                                            // ->join('timesheet_record', DB::Raw('year(created_at)'), 'timesheet_record.year')
+                                            ->where('noc_team_schedule.company_name', '1')
+                                            ->groupBy('noc_team_schedule.project')
+                                            ->groupBy('noc_team_schedule.region')
+                                            ->groupBy(DB::Raw('month(noc_team_schedule.created_at)'))
+                                            ->groupBy(DB::Raw('year(noc_team_schedule.created_at)'));
             //    dd($data->get());
 
         // if($this->date) $ata = $data->whereDate('created_at',$this->date);
@@ -40,6 +44,7 @@ class Datahup extends Component
         
     }
 
+    
     public function generatetimesheet($project, $company, $month, $year, $region){
         $objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         // Set document properties
