@@ -32,10 +32,9 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-5">
                     <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_add_drug_test"><i class="fa fa-plus"></i> Drug Test</a>
-                </div>
-                <div class="col-md-2">
+                    <a href="javascript:void(0)" wire:click="downloadExcel" class="btn btn-success"><i class="fa fa-download"></i> Download</a>
                     <span wire:loading>
                         <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                         <span class="sr-only">{{ __('Loading...') }}</span>

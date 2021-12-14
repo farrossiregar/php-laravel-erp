@@ -296,6 +296,7 @@ function get_menu($user_access_id){
     }
     return $menu;
 }
+
 function format_idr($number)
 {
     return is_int($number) ? number_format($number,0,0,'.') : 0;

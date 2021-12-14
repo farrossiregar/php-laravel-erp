@@ -145,25 +145,25 @@
                     </div>
                 </div>
                 @push('after-scripts')
-                <script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
-                <script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>
-                <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/daterange/daterangepicker.css') }}" />
-                <script>
-                    $('.date_created').daterangepicker({
-                        opens: 'left',
-                        locale: {
-                            cancelLabel: 'Clear'
-                        },
-                        autoUpdateInput: false,
-                    }, function(start, end, label) {
-                        @this.set("date_start", start.format('YYYY-MM-DD'));
-                        @this.set("date_end", end.format('YYYY-MM-DD'));
-                        $('.date_created').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
-                    });
-                    Livewire.on('refresh-page',()=>{
-                        $(".modal").modal("hide");
-                    });
-                </script>
+                    <script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
+                    <script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>
+                    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/daterange/daterangepicker.css') }}" />
+                    <script>
+                        $('.date_created').daterangepicker({
+                            opens: 'left',
+                            locale: {
+                                cancelLabel: 'Clear'
+                            },
+                            autoUpdateInput: false,
+                        }, function(start, end, label) {
+                            @this.set("date_start", start.format('YYYY-MM-DD'));
+                            @this.set("date_end", end.format('YYYY-MM-DD'));
+                            $('.date_created').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
+                        });
+                        Livewire.on('refresh-page',()=>{
+                            $(".modal").modal("hide");
+                        });
+                    </script>
                 @endpush
             </div>
         </div>

@@ -35,6 +35,17 @@ class Group extends Component
         $this->employee_id[] = "";
     }
 
+    public function remove_group(TrainingMaterialGroup $data)
+    {
+        TrainingMaterialGroupEmployee::where('training_material_group_id',$data->id)->delete();
+        $data->delete();
+    }
+
+    public function remove_employee(TrainingMaterialGroupEmployee $data)
+    {
+        $data->delete();
+    }
+
     public function store()
     {
         $this->validate([
@@ -52,6 +63,7 @@ class Group extends Component
             $em->employee_id = $item;
             $em->save();
         }
+        $this->reset(['group','employee_id','count_employee_id']);
         $this->emitSelf('refresh-page');
         $this->insert = false;
     }
