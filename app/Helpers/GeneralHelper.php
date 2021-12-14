@@ -90,6 +90,7 @@ function push_notification_android($device_id,$title,$message,$type,$vibrate=0,$
         'notification' => array (
             "title" => $title,
             "body" => $message,
+            "sound"=> "default"
         ),
         'data' => array(
             'type' => $type ,
@@ -297,7 +298,7 @@ function get_menu($user_access_id){
 }
 function format_idr($number)
 {
-    return number_format($number,0,0,'.');
+    return is_int($number) ? number_format($number,0,0,'.') : 0;
 }
 
 function get_setting($key)
