@@ -10,8 +10,6 @@
                 </div>
             </div>
             <div class="body pt-0">
-
-                
                 <div class="table-responsive">
                     <table class="table table-striped m-b-0 c_list">
                         <thead>
