@@ -65,12 +65,6 @@
                                 {{isset($sum) ? format_idr($sum) : 0}}
                             </td>
                         @endfor
-                        {{-- @foreach([1=>'Januari',2=>'Februari',3=>'Maret',4=>'April',5=>'Mei',6=>'Juni',7=>'Juli',8=>'Agustus',9=>'September',10=>'Oktober',11=>'November',12=>'Desember'] as $k => $month)
-                            <td>
-                                {{ $item->region_id.$item->type.$k}}<br />
-                                {{isset($data_month[$item->region_id.$item->type.$k]) ? format_idr($data_month[$item->region_id.$item->type.$k]) : 0}}
-                            </td>
-                        @endforeach --}}
                     </tr>
                 @endforeach
             </tbody>

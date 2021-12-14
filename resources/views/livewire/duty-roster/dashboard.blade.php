@@ -2,13 +2,11 @@
     <div class="row">
         <div class="col-md-1">                
             <select class="form-control" wire:model="year">
-                <option value=""> --- Year --- </option>
-                @foreach(\App\Models\EmployeeNoc::select('year')->groupBy('year')->get() as $item) 
+                @foreach(\App\Models\DutyrosterSitelistDetail::select(\DB::raw('YEAR(created_at) as  year'))->groupBy('year')->get() as $item) 
                 <option>{{$item->year}}</option>
                 @endforeach 
             </select>
         </div>
-        
         <div class="col-md-7">
             <label wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -26,28 +24,8 @@
 <script>
 var labels = {!!$labels!!};
 var datasets = {!!$datasets!!};
-// var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
-
-// var dataslt = [];
-// for(var i = 0; i < series.length; i++)  {
-//     dataslt.push({
-//             data: series[i],
-//             backgroundColor: colors[i],
-//             borderColor: colors[i],
-//             borderWidth: 4,
-//             pointBackgroundColor: colors[0]
-//         });
-// }
 
 $( document ).ready(function() {
-    // $('.multiselect_month').multiselect({ 
-    //         nonSelectedText: ' --- All Month --- ',
-    //         onChange: function (option, checked) {
-    //             @this.set('month', $('.multiselect_month').val());
-    //         },
-    //         buttonWidth: '100%'
-    //     }
-    // );
     init_chart_databasenoc();
 });
 Livewire.on('init-chart',(data)=>{
