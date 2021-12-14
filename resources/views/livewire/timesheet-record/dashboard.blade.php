@@ -1,193 +1,110 @@
 <div>
-  
     <div class="row">
         <div class="col-md-1">                
-            <select class="form-control" wire:model="filteryear">
+            <select class="form-control" wire:model="year">
                 <option value=""> --- Year --- </option>
-                <option value="2021">2021</option>
-                <option value="2020">2020</option>
-                <option value="2019">2019</option>
-                <option value="2018">2018</option>
-                <option value="2017">2017</option>
+                @foreach(\App\Models\ToolsNoc::select('year')->groupBy('year')->whereNotNull('year')->get() as $item) 
+                <option>{{$item->year}}</option>
+                @endforeach 
             </select>
         </div>
-        <div class="col-md-2" wire:ignore>
-            <select class="form-control" style="width:100%;" wire:model="filtermonth">
-                <option value=""> --- Month --- </option>
-                @for($i = 1; $i <= 12; $i++)
-                    <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
-                @endfor
+        <div class="col-md-1">                
+            <select class="form-control" wire:model="type">
+                <option value=""> --- Type --- </option>
+                
+                <option value="1">Tools NOC</option>
+                <option value="2">Escalation Record</option>
+                
             </select>
         </div>
-        <div class="col-md-2" wire:ignore>
-            <select class="form-control" style="width:100%;" wire:model="filterweek">
-                <option value=""> --- Week --- </option>
-                @for($i = 1; $i <= 5; $i++)
-                    <option value="{{$i}}">Week {{ $i }}</option>
-                @endfor
-            </select>
+        
+        <div class="col-md-4">
+            @if($this->type == '1')
+            <label><h4>Database Tools NOC</h4></label>
+            @endif
+
+            @if($this->type == '2')
+            <label><h4>Escalation Record</h4></label>
+            @endif
         </div>
-        <div class="col-md-2" wire:ignore>
-            <select class="form-control" style="width:100%;" wire:model="filterproject">
-                <option value=""> --- Project --- </option>
-                @foreach(\App\Models\ClientProject::orderBy('id', 'desc')
-                                    ->where('company_id', Session::get('company_id'))
-                                    ->where('is_project', '1')
-                                    ->get() as $item)
-                    <option value="{{$item->id}}">{{$item->name}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-7">
+        <div class="col-md-3">
             <label wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>
             </label>
         </div>
     </div>
-    <br>
-    <div class="row">
-        <div class="col-md-10">
-            <div class="table-responsive">
-                <table class="table table-striped  table-bordered  m-b-0 c_list">
-                    <thead>
-                        <tr>
-                            <th class="text-center align-middle" width="25%">Staff</th> 
-                            <?php
-                                if($this->filterweek == ''){
-                                    $startdate = 1;
-                                }
-                                
-                                if($this->filterweek == '1'){
-                                    $startdate = 1;
-                                }
-
-                                if($this->filterweek == '2'){
-                                    $startdate = 8;
-                                }
-
-                                if($this->filterweek == '3'){
-                                    $startdate = 15;
-                                }
-
-                                if($this->filterweek == '4'){
-                                    $startdate = 22;
-                                }
-
-                                if($this->filterweek == '5'){
-                                    $startdate = 29;
-                                }
-
-                                if($this->filteryear == ''){
-                                    $year = date('Y');
-                                }else{
-                                    $year = $this->filteryear;
-                                }
-
-                                if($this->filtermonth == ''){
-                                    $month = date('m');
-                                }else{
-                                    $month = $this->filtermonth;
-                                }
-
-                                // for($i = $startdate; $i <= 7; $i++){
-                                for($j = $startdate; $j <= ($startdate + 6); $j++){
-                                   
-                                    if(strlen($j) < 2){
-                                        $datelist = '0'.$j;
-                                    }else{
-                                        $datelist = $j;
-                                    }
-                            ?>
-                            <th class="text-center align-middle">{{date('F', mktime(0, 0, 0, $this->filtermonth, 10))}} <?php echo $datelist; ?></th>
-         
-                            <?php
-                                }
-                            ?>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($data as $i => $item)
-                        <?php
-                            
-                            $colors = array('#ffb1c1','#4b89d6','#add64b','#80b10a','#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d');
-                               
-                        ?>
-                        <tr>
-                            <td class="text-center align-middle">
-                                <b>{{$item->name}}</b>
-                                <br>
-                                {{$item->position}}
-                            </td>
-                            <?php
-                                if($this->filterweek == '1'){
-                                    $startdate = 1;
-                                }
-
-                                if($this->filterweek == '2'){
-                                    $startdate = 8;
-                                }
-
-                                if($this->filterweek == '3'){
-                                    $startdate = 15;
-                                }
-
-                                if($this->filterweek == '4'){
-                                    $startdate = 22;
-                                }
-
-                                if($this->filterweek == '5'){
-                                    $startdate = 29;
-                                }
-
-                                if($this->filteryear == ''){
-                                    $year = date('Y');
-                                }else{
-                                    $year = $this->filteryear;
-                                }
-
-                                if($this->filtermonth == ''){
-                                    $month = date('m');
-                                }else{
-                                    $month = $this->filtermonth;
-                                }
-
-                                
-                                for($j = $startdate; $j <= ($startdate + 6); $j++){
-                                    if(strlen($j) < 2){
-                                        $datelist = '0'.$j;
-                                    }else{
-                                        $datelist = $j;
-                                    }
-                                    
-                                $schedule = \App\Models\TeamScheduleNoc::where('name', $item->name)
-                                                                        ->whereDate('start_schedule', '=', $year.'-'.$month.'-'.$datelist)
-                                                                        ->first();
-                                // echo $schedule->name;
-                               
-                            ?>
-                            @if($schedule)
-                            <td class="text-center align-middle" style="background-color: <?php echo $colors[$i]; ?>;">
-                                <b>{{ date_format(date_create($schedule->start_schedule), 'H:i') }} - {{ date_format(date_create($schedule->end_schedule), 'H:i') }}</b> 
-                            </td>
-                            @else
-                            <td >
-                               
-                            </td>
-                            @endif
-                            <?php
-                                
-                                }
-                            ?>
-                            
-                        </tr>
-                 
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    
-        
+    <div class="mt-4" style="height: 300px">
+        <canvas id="chBar"></canvas>
     </div>
 </div>
+@push('after-scripts')
+<script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
+<script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
+
+<script>
+var labels = {!!$labels!!};
+var datasets = {!!$datasets!!};
+// var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+
+// var dataslt = [];
+// for(var i = 0; i < series.length; i++)  {
+//     dataslt.push({
+//             data: series[i],
+//             backgroundColor: colors[i],
+//             borderColor: colors[i],
+//             borderWidth: 4,
+//             pointBackgroundColor: colors[0]
+//         });
+// }
+
+$( document ).ready(function() {
+    // $('.multiselect_month').multiselect({ 
+    //         nonSelectedText: ' --- All Month --- ',
+    //         onChange: function (option, checked) {
+    //             @this.set('month', $('.multiselect_month').val());
+    //         },
+    //         buttonWidth: '100%'
+    //     }
+    // );
+    init_chart_databasenoc();
+});
+Livewire.on('init-chart',(data)=>{
+    labels = JSON.parse(data.labels);
+    datasets = JSON.parse(data.datasets);
+    init_chart_databasenoc();
+});
+function init_chart_databasenoc(){
+    var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+    var chBar = document.getElementById("chBar");
+                       
+    if (chBar) {
+        new Chart(chBar, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: datasets,
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                legend: {
+                    display: true,
+                    position:'bottom'
+                },
+                title: {
+                    display: true,
+                    text: 'PERSONEL OVERTIME - MONTHLY'
+                },
+                scales: {
+                    xAxes: [{
+                        barPercentage: 0.4,
+                        categoryPercentage: 0.5
+                    }]
+                }
+            }
+        });
+    }
+}
+</script>
+@endpush
