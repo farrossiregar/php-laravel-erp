@@ -97,6 +97,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{$data->link()}}
             </div>
         </div>
     </div>
