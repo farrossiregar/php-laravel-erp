@@ -6,11 +6,12 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\EmployeeNoc;
 use DB;
+use Session;
 
 class Dashboard extends Component
 {
     use WithPagination;
-    public $date, $month, $year, $type;
+    public $date, $month, $year, $type, $company_name, $region, $project;
     public $labels;
     public $datasets;
     protected $paginationTheme = 'bootstrap';
@@ -52,14 +53,17 @@ class Dashboard extends Component
         // $weeks = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'];
         $weeks = ['1', '2', '3', '4', '5'];
 
-        foreach(\App\Models\ToolsNoc::where('year',$this->year)->where('type', $this->type)->where('status', '1')->groupBy('month')->get() as $k => $item){
+        foreach(\App\Models\TeamScheduleNoc::whereYear('start_actual',$this->year)->where('status', '2')->where('company_name', Session::get('company_id'))->where('region', $this->region)->where('project', $this->project)->groupBy(DB::Raw('month(start_actual)'))->orderBy('week', 'asc')->get() as $k => $item){
+            // foreach(\App\Models\TeamScheduleNoc::whereYear('start_actual',$this->year)->where('status', '2')->where('company_name', $this->company_name)->groupBy(DB::Raw('month(start_actual)'))->groupBy('region')->groupBy('project')->orderBy('week', 'asc')->get() as $k => $item){
+        // foreach(\App\Models\ToolsNoc::where('year',$this->year)->where('type', $this->type)->where('status', '1')->groupBy('month')->get() as $k => $item){
             $this->labels[$k] = date('F', mktime(0, 0, 0, (int)$item->month, 10));
         }
         
 
         
 
-        foreach(\App\Models\ToolsNoc::where('year',$this->year)->where('type', $this->type)->where('status', '1')->groupBy('month')->get() as $k => $item){
+        foreach(\App\Models\TeamScheduleNoc::whereYear('start_actual',$this->year)->where('status', '2')->where('company_name', Session::get('company_id'))->where('region', $this->region)->where('project', $this->project)->groupBy(DB::Raw('month(start_actual)'))->orderBy('week', 'asc')->get() as $k => $item){
+        // foreach(\App\Models\ToolsNoc::where('year',$this->year)->where('type', $this->type)->where('status', '1')->groupBy('month')->get() as $k => $item){
             
             foreach($weeks as $j => $itemstatus){ 
                 
@@ -69,7 +73,7 @@ class Dashboard extends Component
                 // $this->datasets[$k]['label'] = '1';
                 $this->datasets[$j]['backgroundColor'] = $color[$j];
                 $this->datasets[$k]['fill'] = 'boundary';
-                $this->datasets[$j]['data'][] = count(\App\Models\Employee::where('is_noc', 1)->where('is_resign', 0)->get()) - \App\Models\ToolsNoc::select(DB::Raw('count(week) as jumlah'))->where('year',$item->year)->where('month',$item->month)->where('week',$weeks[$j])->where('type', $this->type)->where('status', '1')->first()->jumlah;
+                $this->datasets[$j]['data'][] = count(\App\Models\TeamScheduleNoc::where('week', $weeks[$j])->where('status', '2')->where('company_name', $item->company_name)->where('project', $item->project)->where('region', $item->region)->get());
                 // $this->datasets[$k]['data'][] = \App\Models\ToolsNoc::where('year',$item->year)->where('month',$item->month)->where('week',$weeks[$j])->where('status','1')->first();
                 
             }

@@ -68,7 +68,7 @@
                         <th>Status</th> 
                         <th>Date Create</th>
                         <th>Employee Name</th> 
-                        <th>Company Name</th> 
+                        <!-- <th>Company Name</th>  -->
                         <th>Project</th> 
                         <th>Region</th> 
                         <th>Start Scheduled</th> 
@@ -104,13 +104,13 @@
                         </td> 
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>{{ $item->name }}</td>
-                        <td>
+                        <!-- <td>
                             @if($item->company_name == '1')
                                 HUP
                             @else
                                 PMT
                             @endif
-                        </td>
+                        </td> -->
                         <td>{{ get_project_company($item->project, $item->company_name) }}</td>
                         <td>{{$item->region}}</td>
                         <td>{{ date_format(date_create($item->start_schedule), 'H:i d M Y') }}</td>

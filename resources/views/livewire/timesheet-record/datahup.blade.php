@@ -78,19 +78,41 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>
-                            @if($item->status == '2')
-                                <label class="badge badge-success" data-toggle="tooltip" title="Actual Schedule Approved">Actual Schedule Approved</label>
-                            @endif
+                            
+                            <?php
+                                $status_approve = \App\Models\TimesheetRecord::where('region', $item->region)
+                                                                                ->where('company_name', 1)
+                                                                                ->where('project', $item->project)
+                                                                                ->where('month', date_format(date_create($item->created_at), 'm'))
+                                                                                ->where('year', date_format(date_create($item->created_at), 'Y'))
+                                                                                ->first();
+                            ?>
+                            @if($status_approve)
+                                @if($status_approve->status == '4')
+                                    <label class="badge badge-success" data-toggle="tooltip" title="Approved By HRD">Approved By HRD</label>
+                                @endif
 
-                            @if($item->status == '1')
-                                <label class="badge badge-success" data-toggle="tooltip" title="Plan Schedule Approved">Plan Schedule Approved</label>
-                            @endif
+                                @if($status_approve->status == '3')
+                                    <label class="badge badge-success" data-toggle="tooltip" title="Approved By NOC Manager">Approved By NOC Manager</label>
+                                @endif
 
-                            @if($item->status == '0')
-                                <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Team Schedule is Decline</label>
-                            @endif
 
-                            @if($item->status == '' || $item->status == 'null')
+                                @if($status_approve->status == '2')
+                                    <label class="badge badge-success" data-toggle="tooltip" title="Approved By NOC Team">Approved By NOC Team</label>
+                                @endif
+
+                                @if($status_approve->status == '1')
+                                    <label class="badge badge-success" data-toggle="tooltip" title="Approved By TOC Leader">Approved By TOC Leader</label>
+                                @endif
+
+                                <!-- @if($item->status == '0')
+                                    <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Team Schedule is Decline</label>
+                                @endif -->
+
+                                @if($status_approve->status == '' || $status_approve->status == 'null')
+                                    <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
+                                @endif
+                            @else
                                 <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
                             @endif
 
@@ -102,12 +124,45 @@
                         <td>{{$item->region}}</td>
                         
                         <td>
-                            
-                                @if($item->status == '1')
-                                   
-                                    <a href="javascript:;" wire:click="$emit('modalapproveteamschedule',['{{ $item->id }}', '2'])"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineteamschedule',['{{ $item->id }}', '2'])"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a>
+                            <?php
+                                $status_approve = \App\Models\TimesheetRecord::where('region', $item->region)
+                                                                                ->where('company_name', 1)
+                                                                                ->where('project', $item->project)
+                                                                                ->where('month', date_format(date_create($item->created_at), 'm'))
+                                                                                ->where('year', date_format(date_create($item->created_at), 'Y'))
+                                                                                ->first();
+                            ?>
+                            @if($status_approve)
+                                @if($status_approve->status == '') <!-- TOC Leader -->
+                                
+                                    <a href="javascript:;" wire:click="$emit('modalapprovetimesheetrecord',['{{ $status_approve->id }}', '1', '1', '{{ $item->region }}', '{{ $item->project }}', '{{ date_format(date_create($item->created_at), 'm') }}', '{{ date_format(date_create($item->created_at), 'Y') }}'])"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
+                                    <!-- <a href="javascript:;" wire:click="$emit('modaldeclinetimesheetrecord',['{{ $status_approve->id }}', '1', '1', '{{ $item->region }}', '{{ $item->project }}', '{{ date_format(date_create($item->created_at), 'm') }}', '{{ date_format(date_create($item->created_at), 'Y') }}'])"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a> -->
                                 @endif
+
+                                @if($status_approve->status == '1') <!-- NOC Team -->
+                                
+                                    <a href="javascript:;" wire:click="$emit('modalapprovetimesheetrecord',['{{ $status_approve->id }}', '1', '2', '{{ $item->region }}', '{{ $item->project }}', '{{ date_format(date_create($item->created_at), 'm') }}', '{{ date_format(date_create($item->created_at), 'Y') }}'])"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
+                                    <!-- <a href="javascript:;" wire:click="$emit('modaldeclinetimesheetrecord',['{{ $status_approve->id }}', '1', '2', '{{ $item->region }}', '{{ $item->project }}', '{{ date_format(date_create($item->created_at), 'm') }}', '{{ date_format(date_create($item->created_at), 'Y') }}'])"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a> -->
+                                @endif
+
+                                @if($status_approve->status == '2') <!-- NOC Manager -->
+                                    
+                                    <a href="javascript:;" wire:click="$emit('modalapprovetimesheetrecord',['{{ $status_approve->id }}', '1', '3', '{{ $item->region }}', '{{ $item->project }}', '{{ date_format(date_create($item->created_at), 'm') }}', '{{ date_format(date_create($item->created_at), 'Y') }}'])"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
+                                    <!-- <a href="javascript:;" wire:click="$emit('modaldeclinetimesheetrecord',['{{ $status_approve->id }}', '1', '3', '{{ $item->region }}', '{{ $item->project }}', '{{ date_format(date_create($item->created_at), 'm') }}', '{{ date_format(date_create($item->created_at), 'Y') }}'])"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a> -->
+                                @endif
+
+                                @if($status_approve->status == '3') <!-- HRD -->
+                                    
+                                    <a href="javascript:;" wire:click="$emit('modalapprovetimesheetrecord',['{{ $status_approve->id }}', '1', '4', '{{ $item->region }}', '{{ $item->project }}', '{{ date_format(date_create($item->created_at), 'm') }}', '{{ date_format(date_create($item->created_at), 'Y') }}'])"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
+                                    <!-- <a href="javascript:;" wire:click="$emit('modaldeclinetimesheetrecord',['{{ $status_approve->id }}', '1', '4', '{{ $item->region }}', '{{ $item->project }}', '{{ date_format(date_create($item->created_at), 'm') }}', '{{ date_format(date_create($item->created_at), 'Y') }}'])"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a> -->
+                                @endif
+                            @else
+
+                                <!-- TOC Leader -->
+                                <a href="javascript:;" wire:click="$emit('modalapprovetimesheetrecord',['', '1', '1', '{{ $item->region }}', '{{ $item->project }}', '{{ date_format(date_create($item->created_at), 'm') }}', '{{ date_format(date_create($item->created_at), 'Y') }}'])"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
+                                <!-- <a href="javascript:;" wire:click="$emit('modaldeclinetimesheetrecord',['', '1', '1', '{{ $item->region }}', '{{ $item->project }}', '{{ date_format(date_create($item->created_at), 'm') }}', '{{ date_format(date_create($item->created_at), 'Y') }}'])"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a> -->
+
+                            @endif
 
                         </td>
                     </tr>
