@@ -11,12 +11,12 @@ use Session;
 class Edit extends Component
 {
     protected $listeners = [
-        'modalrevisipettycash'=>'datarevise',
+        'modaleditteamschedule'=>'editteamschedule',
     ];
 
     use WithFileUploads;
     public $selected_id, $data;
-    public $dataproject, $company_name, $project, $region, $petty_cash_category, $amount, $keterangan;
+    public $dataproject, $company_name, $project, $region, $employeelist, $employee_name, $date_plan, $start_time_plan, $end_time_plan;
     
     public function render()
     {
@@ -29,7 +29,7 @@ class Edit extends Component
                                 ->get();
         
         $this->regionarealist = [];
-        $this->leaderlist = [];
+        $this->employeelist = [];
 
         if($this->project){ 
             
@@ -45,13 +45,16 @@ class Edit extends Component
                 }else{
                     $this->region = '';
                 }
+
+                $this->employeelist = \App\Models\Employee::where('region_id', $getproject->region_id)
+                                                            ->where('project', $this->project)
+                                                            ->get();
+                
                 
             }else{
                 $this->region = '';
+                $this->employeelist = [];
             }
-
-         
-
         }
         
         
@@ -59,35 +62,39 @@ class Edit extends Component
         
     }
 
-    public function datarevise($id){
+    public function editteamschedule($id){
         $this->selected_id              = $id;
-        $data                           = \App\Models\PettyCash::where('id', $this->selected_id)->first();
-        $this->project                  = $data->project;
+        $data                           = \App\Models\TeamScheduleNoc::where('id', $this->selected_id)->first();
+        $this->project                  = get_project_company($data->project, $data->company_name);
+        
         $this->region                   = $data->region;
-        $this->petty_cash_category      = $data->petty_cash_category;
-        $this->amount                   = $data->amount;
-        $this->keterangan               = $data->keterangan;
+        
+        $this->region                   = $data->region;
+        $this->employee_name            = $data->name;
+        $this->date_plan                = date_format(date_create($data->start_schedule), 'Y-m-d');
+        $this->start_time_plan          = date_format(date_create($data->start_schedule), 'H:i');;
+        $this->end_time_plan            = date_format(date_create($data->end_schedule), 'H:i');
+        
+        
        
     }
   
     public function save()
     {
-        $data                           = \App\Models\PettyCash::where('id', $this->selected_id)->first();
-        $data->company_id               = Session::get('company_id');
+        $data                           = \App\Models\TeamScheduleNoc::where('id', $this->selected_id)->first();
+        $data->company_name               = Session::get('company_id');
         $data->project                  = $this->project;
         $data->region                   = $this->region;
-        $data->petty_cash_category      = $this->petty_cash_category;
-        $data->amount                   = str_replace(',', '', str_replace('Rp', '', $this->amount));
-        $data->keterangan               = $this->keterangan;
+        $data->name                     = $this->employee_name;
+        $data->start_schedule           = $this->date_plan.' '.$this->start_time_plan.':00';
+        $data->end_schedule             = $this->date_plan.' '.$this->end_time_plan.':00';
         $data->status                   = '';
-        $data->note                     = '';
-        
         $data->save();
         
         
-        session()->flash('message-success',"Petty Cash Settlement Berhasil direvisi");
+        session()->flash('message-success',"Team Schedule NOC Berhasil diinput");
         
-        return redirect()->route('petty-cash.index');
+        return redirect()->route('team-schedule.index');
         
     }
 

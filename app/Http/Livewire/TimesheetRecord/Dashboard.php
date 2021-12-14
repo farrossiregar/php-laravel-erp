@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\TeamSchedule;
+namespace App\Http\Livewire\TimesheetRecord;
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -44,7 +44,7 @@ class Dashboard extends Component
         if($this->filterweek) $ata = $data->where('week',$this->filterweek);
         if($this->filterproject) $ata = $data->where('project',$this->filterproject);   
 
-        return view('livewire.team-schedule.dashboard')->with(['data'=>$data->paginate(50)]);
+        return view('livewire.timesheet-record.dashboard')->with(['data'=>$data->paginate(50)]);
     }
 
     public function cancel_room(ApplicationRoomRequest $data)

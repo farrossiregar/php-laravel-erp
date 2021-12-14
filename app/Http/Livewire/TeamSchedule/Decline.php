@@ -10,7 +10,7 @@ use DB;
 class Decline extends Component
 {
     protected $listeners = [
-        'modaldeclinepettycash'=>'declinepettycash',
+        'modaldeclineteamschedule'=>'declineteamschedule',
     ];
 
     use WithFileUploads;
@@ -23,16 +23,17 @@ class Decline extends Component
         return view('livewire.team-schedule.decline');
     }
 
-    public function declinepettycash($id)
+    public function declineteamschedule($id)
     {
         $this->selected_id = $id;
+        // dd($id[0]);
     }
 
   
     public function save()
     {
         
-        $data = \App\Models\PettyCash::where('id', $this->selected_id)->first();
+        $data = \App\Models\TeamScheduleNoc::where('id', $this->selected_id)->first();
         
         $data->status   = '0';
         $data->note     = $this->note;
@@ -60,6 +61,6 @@ class Decline extends Component
         
         session()->flash('message-success',"Berhasil, Petty Cash is Decline !!!");
         
-        return redirect()->route('petty-cash.index');
+        return redirect()->route('team-schedule.index');
     }
 }

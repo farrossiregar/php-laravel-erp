@@ -18,7 +18,7 @@ class Add extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $dataproject, $company_name, $project, $region, $petty_cash_category, $amount, $keterangan;
+    public $dataproject, $company_name, $project, $region, $employeelist, $employee_name, $date_plan, $start_time_plan, $end_time_plan;
 
     public function render()
     {
@@ -31,7 +31,7 @@ class Add extends Component
                                 ->get();
         
         $this->regionarealist = [];
-        $this->leaderlist = [];
+        $this->employeelist = [];
 
         if($this->project){ 
             
@@ -47,13 +47,15 @@ class Add extends Component
                 }else{
                     $this->region = '';
                 }
+
+                $this->employeelist = \App\Models\Employee::where('region_id', $getproject->region_id)
+                                                            ->where('project', $this->project)
+                                                            ->get();
                 
             }else{
                 $this->region = '';
+                $this->employeelist = [];
             }
-
-         
-
         }
        
 
@@ -65,38 +67,38 @@ class Add extends Component
     {
 
 
-        $data                           = new \App\Models\PettyCash();
-        $data->company_id               = Session::get('company_id');
+        $data                           = new \App\Models\TeamScheduleNoc();
+        $data->company_name             = Session::get('company_id');
         $data->project                  = $this->project;
         $data->region                   = $this->region;
-        $data->petty_cash_category      = $this->petty_cash_category;
-        $data->amount                   = str_replace(',', '', str_replace('Rp', '', $this->amount));
-        $data->keterangan               = $this->keterangan;
+        $data->name                     = $this->employee_name;
+        $data->start_schedule           = $this->date_plan.' '.$this->start_time_plan.':00';
+        $data->end_schedule             = $this->date_plan.' '.$this->end_time_plan.':00';
         
         $data->save();
 
-        $notif = check_access_data('petty-cash.notif', '');
-        $nameuser = [];
-        $emailuser = [];
-        $phoneuser = [];
-        foreach($notif as $no => $itemuser){
-            $nameuser_[$no] = $itemuser->name;
-            $emailuser[$no] = $itemuser->email;
-            $phoneuser[$no] = $itemuser->telepon;
+        // $notif = check_access_data('petty-cash.notif', '');
+        // $nameuser = [];
+        // $emailuser = [];
+        // $phoneuser = [];
+        // foreach($notif as $no => $itemuser){
+        //     $nameuser_[$no] = $itemuser->name;
+        //     $emailuser[$no] = $itemuser->email;
+        //     $phoneuser[$no] = $itemuser->telepon;
 
-            $message = "*Dear Admin NOC *\n\n";
-            $message .= "*Petty Cash ".date('M')."-".date('Y')." telah diapprove oleh Finance *\n\n";
-            send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
+        //     $message = "*Dear Admin NOC *\n\n";
+        //     $message .= "*Petty Cash ".date('M')."-".date('Y')." telah diapprove oleh Finance *\n\n";
+        //     send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
 
-            // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
-        }
+        //     // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
+        // }
 
        
 
 
-        session()->flash('message-success',"Petty Cash Settlement Berhasil diinput");
+        session()->flash('message-success',"Team Schedule NOC Berhasil diinput");
         
-        return redirect()->route('petty-cash.index');
+        return redirect()->route('team-schedule.index');
     }
 
 
