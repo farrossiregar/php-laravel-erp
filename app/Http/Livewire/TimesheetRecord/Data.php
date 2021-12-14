@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\TeamSchedule;
+namespace App\Http\Livewire\TimesheetRecord;
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -29,7 +29,7 @@ class Data extends Component
         if($this->filterweek) $ata = $data->where('week',$this->filterweek);                        
         if($this->filterproject) $ata = $data->where('project',$this->filterproject);                        
         
-        return view('livewire.team-schedule.data')->with(['data'=>$data->paginate(50)]);
+        return view('livewire.timesheet-record.data')->with(['data'=>$data->paginate(50)]);
 
         
     }

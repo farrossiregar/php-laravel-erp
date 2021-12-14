@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\TeamSchedule;
+namespace App\Http\Livewire\TimesheetRecord;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -20,7 +20,7 @@ class Approve extends Component
     
     public function render()
     {
-        return view('livewire.team-schedule.approve');
+        return view('livewire.timesheet-record.approve');
     }
 
     public function approveteamschedule($id)

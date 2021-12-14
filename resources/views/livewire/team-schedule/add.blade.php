@@ -38,11 +38,11 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-12 form-group">
-                                            <label>Petty Cash Category</label>
-                                            <input list="petty_cash_category" class="form-control"  wire:model="petty_cash_category">
+                                            <label>Employee Name</label>
+                                            <input list="petty_cash_category" class="form-control"  wire:model="employee_name">
                                             <datalist id="petty_cash_category" >
-                                                @foreach(\App\Models\PettyCash::orderBy('id', 'desc')->get() as $item)
-                                                <option value="{{ $item->petty_cash_category }}">
+                                                @foreach($employeelist as $item)
+                                                <option value="{{ $item->name }}">
                                                 @endforeach
                                             </datalist>
 
@@ -51,20 +51,31 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-12 form-group">
-                                            <label>Amount</label>
-                                            <input type="text" class="form-control" data-type="currency" wire:model="amount">
+                                            <label>Date Plan Schedule</label>
+                                            <input type="date" class="form-control" wire:model="date_plan">
                                            
                                             @error('leader')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Keterangan</label>
-                                            <textarea name="" id="" cols="30" rows="6" class="form-control" wire:model="keterangan"></textarea>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>Start Plan Schedule</label>
+                                            <input type="time" class="form-control" wire:model="start_time_plan">
+                                           
                                             @error('leader')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>End Plan Schedule</label>
+                                            <input type="time" class="form-control"  wire:model="end_time_plan">
+                                           
+                                            @error('leader')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                      
                                        
                                         
                                        
@@ -73,7 +84,7 @@
                                 
                                 <div class="col-md-12 form-group">
                                     <hr />
-                                    <!-- <a href="{{route('accident-report.index')}}" class="mr-2"><i class="fa fa-arrow-left"></i> {{ __('Back') }}</a> -->
+                                    
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                 </div>
                             </div>
