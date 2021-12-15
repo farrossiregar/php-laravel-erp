@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-md-3">
                         <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_add_training"><i class="fa fa-plus"></i> Training Material</a>
-                        <a href="javascript:void(0)" class="btn btn-success" data-toggle="modal" data-target="#modal_group_training"><i class="fa fa-list"></i> Group Training</a>
+                        <a href="javascript:void(0)" class="btn btn-success" data-toggle="modal" data-target="#modal_group_training"><i class="fa fa-users"></i> Group Training</a>
                     </div>
                     <div class="col-md-5">
                         <span wire:loading>

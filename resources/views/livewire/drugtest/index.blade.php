@@ -50,8 +50,8 @@
                                 <th>Region</th>   
                                 <th>Sub Region</th>   
                                 <th>Employee</th>   
-                                <th>Title</th>   
-                                <th>Remark</th>   
+                                <th>Title</th>  
+                                <th>Remark</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">File</th>
                                 <th>Date Submited</th>
@@ -113,15 +113,6 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        {{-- <div class="form-group">
-                            <label>Head</label>
-                            <select class="form-control" wire:model="employee_pic_id">
-                                <option value=""> --- Select --- </option>
-                                @foreach(\App\Models\Employee::where('is_use_android',1)->get() as $item)
-                                <option value="{{$item->id}}">{{$item->nik}} / {{$item->name}}</option>
-                                @endforeach
-                            </select>
-                        </div> --}}
                         <div class="form-group">
                             <label>Title</label>
                             <input type="text" class="form-control" wire:model="title" />

@@ -10,6 +10,7 @@ Use App\Models\Employee;
 class Group extends Component
 {
     public $insert=false,$group,$employee_id=[],$count_employee_id= [],$employees;
+    public $insert_exist_group=false,$selected_group_id=0,$selected_employee_id;
     protected $listeners = ['refresh-page' => '$refresh'];
 
     public function render()
@@ -27,6 +28,22 @@ class Group extends Component
     public function delete_employee($k)
     {
         unset($this->count_employee_id[$k],$this->employee_id[$k]);
+    }
+
+    public function add_employee_exist($group_id)
+    {
+        $this->selected_group_id = $group_id;
+        $this->insert_exist_group = true;
+    }
+
+    public function save_employee_group()
+    {
+        $em = new TrainingMaterialGroupEmployee();
+        $em->training_material_group_id = $this->selected_group_id;
+        $em->employee_id = $this->selected_employee_id;
+        $em->save();
+        $this->selected_employee_id = 0;
+        $this->insert_exist_group = false;
     }
 
     public function add_employee()
