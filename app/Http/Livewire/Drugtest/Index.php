@@ -9,10 +9,14 @@ use Livewire\WithFileUploads;
 use App\Models\EmployeeProject;
 use App\Models\Region;
 use App\Models\SubRegion;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
     use WithFileUploads;
+    use WithPagination;
+    
+    protected $paginationTheme = 'bootstrap';
 
     public $employee_pic_id,$employee_id,$status_drug,$file,$title,$remark,$filter_employee_id,$region=[],$sub_region=[],$region_id,$sub_region_id;
 
