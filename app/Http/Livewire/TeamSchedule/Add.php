@@ -18,7 +18,7 @@ class Add extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $dataproject, $company_name, $project, $region, $employeelist, $employee_name, $date_plan, $start_time_plan, $end_time_plan;
+    public $dataproject, $company_name, $project, $client_project_id, $region, $employeelist, $employee_name, $employee_id, $date_plan, $start_time_plan, $end_time_plan;
 
     public function render()
     {
@@ -50,6 +50,7 @@ class Add extends Component
 
                 $this->employeelist = \App\Models\Employee::where('region_id', $getproject->region_id)
                                                             ->where('project', $this->project)
+                                                            ->whereIn('user_access_id', [85, 84])
                                                             ->get();
                 
             }else{
@@ -70,8 +71,12 @@ class Add extends Component
         $data                           = new \App\Models\TeamScheduleNoc();
         $data->company_name             = Session::get('company_id');
         $data->project                  = $this->project;
+        // dd($this->project);
+        // $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
+
         $data->region                   = $this->region;
         $data->name                     = $this->employee_name;
+        $data->employee_id              = \App\Models\Employee::where('name', $this->employee_name)->first()->id;
         $data->start_schedule           = $this->date_plan.' '.$this->start_time_plan.':00';
         $data->end_schedule             = $this->date_plan.' '.$this->end_time_plan.':00';
         

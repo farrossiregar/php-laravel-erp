@@ -63,7 +63,7 @@ class Approve extends Component
 
 
 
-        session()->flash('message-success',"Berhasil, Petty Cash sudah diapprove!!!");
+        session()->flash('message-success',"Berhasil, Team Schedule sudah diapprove!!!");
         
         return redirect()->route('team-schedule.index');
     }
