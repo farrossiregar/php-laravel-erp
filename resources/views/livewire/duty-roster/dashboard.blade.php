@@ -17,6 +17,35 @@
     <div class="mt-4" style="height: 300px">
         <canvas id="chBar"></canvas>
     </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead> 
+                <tr>
+                    <th>Project</th>
+                    @for($bulan=1;$bulan<=12;$bulan++)
+                        <th class="text-center">{{date('F', mktime(0, 0, 0, $bulan, 10))}}</th>         
+                    @endfor
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @foreach($projects as $project)
+                        <td>{{$project->project}}</td>
+                        @for($bulan=1;$bulan<=12;$bulan++)
+                            <td class="text-center">
+                                @php($count = \App\Models\DutyrosterSitelistDetail::where('remarks', '<>', '1')
+                                                    ->whereMonth('created_at',$bulan)
+                                                    ->whereYear('created_at',$this->year)
+                                                    ->where('project',$project->project)
+                                                    ->get()->count())
+                                {{$count?$count:0}}
+                            </td>         
+                        @endfor
+                    @endforeach
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 @push('after-scripts')
 <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>

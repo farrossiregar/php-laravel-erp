@@ -40,6 +40,14 @@ class Inputdutyroster extends Component
         $data->employee_id = \Auth::user()->employee->id;
         $data->save();
 
+        $notif = get_user_from_access('duty-roster.audit');
+        foreach($notif as $user){
+            if($user->email){
+                $message = "<p>Dear {$user->name}<br />Duty Roster Site List need check Date Uploaded :<strong>".date('d-F-Y',strtotime($data->created_at))."</strong></p>";
+                \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - Duty Roster Site List",$message));
+            }
+        }
+
         session()->flash('message-success',"Input success, Success : <strong>Input Duty Roster DOP - Homebase Success!!!</strong>");
         
         return redirect()->route('duty-roster-dophomebase.index');  

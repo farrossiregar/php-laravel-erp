@@ -1,4 +1,4 @@
-@section('title', __('FLM Engineer - Update Employee'))
+@section('title', __('FLM Engineer'))
 @section('parentPageTitle', 'Duty Roster')
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -62,17 +62,15 @@
                                         </td>
                                         <td>{{ $item->total_site }}</td>
                                         <td>
-                                            <!-- if($item->resign_date == '') -->
                                             @if($item->status_synergy == 'Synergy')
                                                 <label class="badge badge-success" data-toggle="tooltip" title="Approved">Synergy</label>
                                             @endif
-                                            <!-- if($item->resign_date != '') -->
                                             @if($item->status_synergy == 'Tidak')
                                                 <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Tidak</label>
                                             @endif
                                         </td> 
                                         <td>
-                                            <a href="javascript:;" wire:click="$emit('modaleditdutyrosterflm','{{ $item->name }}')" class="btn btn-primary"><i class="fa fa-edit"></i> Update</a>
+                                            <a href="javascript:;" wire:click="$emit('modaleditdutyrosterflm','{{ $item->name }}')" class="badge badge-primary badge-active"><i class="fa fa-edit"></i> Update</a>
                                         </td> 
                                     </tr>
                                     @endforeach
@@ -87,9 +85,6 @@
         </div>
     </div>
 </div>
-
-
-
 <div class="modal fade" id="modal-dutyrosterflm-editdata" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -97,15 +92,8 @@
         </div>
     </div>
 </div>
-
-
-
 @section('page-script')
-
-
     Livewire.on('modaleditdutyrosterflm',(data)=>{
         $("#modal-dutyrosterflm-editdata").modal('show');
     });
-
-
 @endsection

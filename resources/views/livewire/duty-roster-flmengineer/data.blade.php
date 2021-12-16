@@ -33,6 +33,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Project</th>
                         <th>Remarks</th>
                         <th>Name</th> 
                         <th>Position</th> 
@@ -46,6 +47,7 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
+                        <td>{{isset($item->project->name) ? $item->project->name : '-'}}</td>
                         <td>
                             @if($item->status == '1')
                                 @if(check_access('duty-roster.audit'))
@@ -67,7 +69,7 @@
                                 <label class="badge badge-success" data-toggle="tooltip" title="Approved">Approved</label>
                             @endif
                             @if($item->status == '0')
-                                <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Decline</label>
+                                <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Rejected</label>
                             @endif
                             @if($item->status == '' || $item->status == 'null')
                                 <label class="badge badge-warning" data-toggle="tooltip" title="Waiting Approval">Waiting Approval</label>
@@ -75,17 +77,17 @@
                         </td> 
                         <td>
                             
-                            <a href="javascript:;" wire:click="$emit('modalpreviewdutyrosterflm','{{ $item->id }}')" class="btn btn-info"><i class="fa fa-eye"></i> Preview</a>
+                            <a href="javascript:;" wire:click="$emit('modalpreviewdutyrosterflm','{{ $item->id }}')" class="badge badge-info badge-active"><i class="fa fa-eye"></i> Preview</a>
                             @if(check_access('duty-roster.import'))
                                 @if($item->status == '0')
-                                <a href="javascript:;" wire:click="$emit('modalrevisidutyrosterflm','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-edit"></i> Revisi</a>
+                                <a href="javascript:;" wire:click="$emit('modalrevisidutyrosterflm','{{ $item->id }}')" class="badge badge-danger badge-active"><i class="fa fa-edit"></i> Revisi</a>
                                 @endif
                             @endif
 
                             @if(check_access('duty-roster.approve'))
                                 @if($item->status == '' || $item->status == 'null')
-                                <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                <a href="javascript:;" wire:click="$emit('modalapprovedutyroster','{{ $item->id }}')" class="badge badge-success badge-active"><i class="fa fa-check"></i> Approve</a>
+                                <a href="javascript:;" wire:click="$emit('modaldeclinedutyroster','{{ $item->id }}')" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Reject</a>
                                 @endif
                             @endif
                         </td> 

@@ -11,7 +11,7 @@ class Dashboard extends Component
 {
     use WithPagination;
     public $date, $month, $year;
-    public $labels;
+    public $labels,$projects;
     public $datasets,$color = ['#ffb1c1','#4b89d6','#add64b','#80b10a','#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
     protected $paginationTheme = 'bootstrap';
     public function render()
@@ -39,28 +39,21 @@ class Dashboard extends Component
             $this->labels[] = date('F', mktime(0, 0, 0, $bulan, 10));            
         }
 
-        $projects = DutyrosterSitelistDetail::groupBy('project')->get();
-        foreach($projects as $key_project => $project){
-            $detail_dutyroster_sitelist = DutyrosterSitelistDetail::select(DB::Raw('count(project) as jumlah'), 'dutyroster_sitelist_detail.*')
-                                                                                ->where('remarks', '<>', '1')
-                                                                                ->groupBy('project')
-                                                                                ->whereMonth('created_at',$bulan)
-                                                                                ->whereYear('created_at',$this->year)
-                                                                                ->orderBy('project', 'ASC')
-                                                                                ->get();
-            foreach($detail_dutyroster_sitelist as $l => $items){
-                $this->datasets[$l]['label'] = $items->project;
-                $this->datasets[$l]['backgroundColor'] = $this->color[$l];
-                $this->datasets[$l]['fill'] = 'boundary';
-                $this->datasets[$l]['data'][] = $items->jumlah;
-            }
+        $this->projects = DutyrosterSitelistDetail::groupBy('project')->get();
+        foreach($this->projects as $key_project => $project){
+            $this->datasets[$key_project]['label'] = $project->project;
+            $this->datasets[$key_project]['backgroundColor'] = $this->color[$key_project];
+            $this->datasets[$key_project]['fill'] = 'boundary';
 
             for($bulan=1;$bulan<=12;$bulan++) {
-                
+                $count = DutyrosterSitelistDetail::where('remarks', '<>', '1')
+                                                    ->whereMonth('created_at',$bulan)
+                                                    ->whereYear('created_at',$this->year)
+                                                    ->where('project',$project->project)
+                                                    ->get()->count();
+                $this->datasets[$key_project]['data'][] = $count ? $count : 0;
             }
         }
-
-        if(isset($_GET['debug'])) dd($this->datasets);
         
         $this->labels = json_encode($this->labels);
         $this->datasets = json_encode($this->datasets);

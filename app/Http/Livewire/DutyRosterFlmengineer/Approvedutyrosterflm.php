@@ -4,8 +4,7 @@ namespace App\Http\Livewire\DutyRosterFlmengineer;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
-use DB;
+use App\Mail\GeneralEmail;
 
 class Approvedutyrosterflm extends Component
 {
@@ -27,34 +26,30 @@ class Approvedutyrosterflm extends Component
     {
         $this->selected_id = $id;
     }
-
   
     public function save()
     {
         $data = \App\Models\DutyrosterFlmengineerMaster::where('id', $this->selected_id)->first();
-        $data->status = '1';
+        $data->status = 1;
         $data->save();
 
-    
-        $notif = check_access_data('duty-roster.notif-approve', '');
-        $nameuser = [];
-        $emailuser = [];
-        $phoneuser = [];
-        foreach($notif as $no => $itemuser){
-            $nameuser[$no] = $itemuser->name;
-            $emailuser[$no] = $itemuser->email;
-            $phoneuser[$no] = $itemuser->telepon;
-
-            $message = "*Dear SRM *\n\n";
-            $message .= "*Duty Roster FLM Engineer dengan id ".$this->selected_id." telah diapprove oleh Admin Project *\n\n";
-            send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
-
-            // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
+        if(isset($data->employee->email) and isset($data->user->nik)) {
+            $message = "<p>Dear {$data->employee->name}<br />Duty Roster FLM Engineer Approved<br />NIK : {$data->user->nik}<br />Name : {$data->user->name}</p>";            
+            \Mail::to($data->employee->email)->send(new GeneralEmail("[PMT E-PM] - Duty Roster FLM Engineer",$message));
         }
 
+        $notif = get_user_from_access('duty-roster.audit',session()->get('project_id'));
+        foreach($notif as $user){
+            if($user->email){
+                $message = "<p>Dear {$user->name}<br />Duty Roster FLM Engineer need your audit<br />NIK : {$data->nik}<br />Name : {$data->name}</p>";
+                \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - Duty Roster FLM Engineer",$message));
+            }
+        }
 
         session()->flash('message-success',"Berhasil, Duty Roster FLM Engineer sudah diapprove!!!");
         
+        \LogActivity::add('[web] FLM Engineer Approve');
+
         return redirect()->route('duty-roster-flmengineer.index');
     }
 }

@@ -4,8 +4,7 @@ namespace App\Http\Livewire\DutyRosterFlmengineer;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
-use DB;
+use App\Mail\GeneralEmail;
 
 class Declinedutyrosterflm extends Component
 {
@@ -16,8 +15,6 @@ class Declinedutyrosterflm extends Component
     use WithFileUploads;
     public $selected_id;    
     public $note;
-    // public $usertype;
-
     
     public function render()
     {       
@@ -31,32 +28,26 @@ class Declinedutyrosterflm extends Component
   
     public function save()
     {
-        
+        $this->validate([
+            'note'=>'required'
+        ]);
+
         $data = \App\Models\DutyrosterFlmengineerMaster::where('id', $this->selected_id)->first();
-        
         $data->status   = '0';
         $data->note     = $this->note;
-
         $data->save();
 
-        $notif = check_access_data('duty-roster.notif-decline', '');
-        $nameuser = [];
-        $emailuser = [];
-        $phoneuser = [];
-        foreach($notif as $no => $itemuser){
-            $nameuser[$no] = $itemuser->name;
-            $emailuser[$no] = $itemuser->email;
-            $phoneuser[$no] = $itemuser->telepon;
+        if(isset($data->employee->email) and isset($data->user->nik)) {
+            $message  = "<p>Dear {$data->employee->name}<br />Duty Roster FLM Engineer Rejected<br />NIK : {$data->user->nik}<br />Name : {$data->user->name}</p>";            
+            $message .= "<p>Note : {$this->note}</p>";
 
-            $message = "*Dear Service Manager *\n\n";
-            $message .= "*Duty Roster FLM Engineer dengan id ".$this->selected_id." perlu direvisi *\n\n";
-            send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
-
-            // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
+            \Mail::to($data->employee->email)->send(new GeneralEmail("[PMT E-PM] - Duty Roster FLM Engineer",$message));
         }
 
         session()->flash('message-success',"Berhasil, Duty Roster FLM Engineer is Decline !!!");
         
+        \LogActivity::add('[web] FLM Engineer Rejected');
+
         return redirect()->route('duty-roster-flmengineer.index');
     }
 }

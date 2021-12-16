@@ -2,11 +2,12 @@
 namespace App\Http\Livewire\DutyRosterDophomebase;
 
 use Livewire\Component;
+use App\Models\DophomebaseMaster;
 
 class Dashboard extends Component
 {
     public $date, $month, $year;
-    public $labels;
+    public $labels,$projects=[];
     public $datasets;
 
     public function render()
@@ -25,7 +26,7 @@ class Dashboard extends Component
         $this->labels = [];
         $this->datasets = [];
 
-        // $projects = DophomebaseMaster::groupBy('project')->get();
+        $this->projects = DophomebaseMaster::groupBy('project')->get();
         // foreach($projects as $item){
         //     $this->labels[] = $item->project;
         // }

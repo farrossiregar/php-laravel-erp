@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class GeneralEmail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $subject,$message;
+    public $subject,$message_;
     /**
      * Create a new message instance.
      *
@@ -19,7 +19,7 @@ class GeneralEmail extends Mailable
     public function __construct($subject,$message)
     {
         $this->subject = $subject;
-        $this->message = $message;
+        $this->message_ = $message;
     }
 
     /**
@@ -32,6 +32,6 @@ class GeneralEmail extends Mailable
         return $this->subject($this->subject)
                     ->from('no-reply@pmt.co.id')
                     ->view('emails.general')
-                    ->with(['message'=>$this->message]);
+                    ->with(['subject'=>$this->subject,'message_'=>$this->message_]);
     }
 }

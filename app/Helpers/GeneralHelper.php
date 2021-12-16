@@ -177,7 +177,7 @@ function send_wa($param)
     curl_close($curl);
 }
 
-function get_user_from_access($link)
+function get_user_from_access($link,$client_project_id=null)
 {
     $cek = \App\Models\UserAccessModule::select('users.*',\DB::raw('employees.id as employee_id'),'employees.device_token',\DB::raw('employees.email as email_employee'))
             ->where('modules_items.link',$link)
@@ -185,9 +185,13 @@ function get_user_from_access($link)
             ->join('modules','modules.id','=','modules_items.module_id')
             ->join('users','users.user_access_id','=','user_access_modules.user_access_id')
             ->join('employees','employees.user_id','=','users.id')
-            ->groupBy('users.id')
-            ->get();
-    return $cek;
+            ->groupBy('users.id');
+
+    if($client_project_id)
+        $cek->leftJoin('employee_projects','employee_projects.employee_id','=','employees.id')
+            ->where('employee_projects.client_project_id',$client_project_id);
+    
+    return $cek->get();
 }
 
 function check_access($link,$type=1){

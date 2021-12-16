@@ -9,7 +9,6 @@
     <div class="modal-body">
         <div class="form-group">
             <div class="row">
-               
                 <div class="col-md-12">
                     @error('projectcode')
                         <span class="text-danger">{{ $message }}</span>
@@ -51,15 +50,6 @@
                     <label>Total Site</label>
                     <input type="text" class="form-control" wire:model="total_site"/>
                 </div>
-               
-<!--               
-                <div class="col-md-12 form-group">
-                    <label>Amount</label>
-                    <input type="text" class="form-control" name="danastpl" wire:model="danastpl" />
-                    @error('danastpl')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div> -->
             </div>
         </div>
     </div>
