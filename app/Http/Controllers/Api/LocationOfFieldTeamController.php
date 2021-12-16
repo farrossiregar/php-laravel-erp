@@ -94,7 +94,8 @@ class LocationOfFieldTeamController extends Controller
                                                             )
                                                         as distance FROM `location_of_field_teams`
                                                     ) location_of_field_teams
-                                                    ".($employee?" WHERE employee_id in(".$employee.")" : '')." GROUP BY employee_id ORDER BY id DESC LIMIT 15"); 
+                                                    ".($employee?" WHERE employee_id in(".$employee.")" : '')." GROUP BY employee_id ORDER BY distance ASC LIMIT 15"); 
+
             $data = [];
             $num = 0;
             foreach($locations as $location){
@@ -124,7 +125,7 @@ class LocationOfFieldTeamController extends Controller
 
         \LogActivity::add('[apps] Location of Field Team Data');
         
-        return response()->json(['message'=>'success','data'=>isset($data)?$data:''], 200);
+        return response()->json(['message'=>'success','data'=>isset($data)?$data:[]], 200);
     }
 
     public function data()
