@@ -34,7 +34,7 @@
     </div>
 
 
-    <!-- if(check_access('petty-cash.add')) -->
+    @if(check_access('team-schedule.toc-leader'))
     <div class="col-md-1" style="margin: 0 10px;">
         <a href="javascript:;" wire:click="$emit('modaladdteamschedule')" class="btn btn-info"><i class="fa fa-plus"></i> Team Schedule </a>
     </div>
@@ -47,7 +47,7 @@
         <a href="javascript:;" wire:click="$emit('modalgeneratetimesheet')" class="btn btn-info"><i class="fa fa-download"></i> Generate Timesheet </a>
     </div>
     
-    <!-- endif -->
+    @endif
 
 
     
@@ -58,17 +58,13 @@
         <div class="table-responsive">
             <table class="table table-striped m-b-0 c_list">
                 <thead>
-                    <!-- <tr>
-                        <th rowspan="2" class="align-middle">No</th>
-                        <th colspan="9">Team Schedule</th>
-                        <th colspan="3">Upload Softcopy of Receipt</th> 
-                    </tr> -->
+
                     <tr>
                         <th>No</th> 
                         <th>Status</th> 
                         <th>Date Create</th>
                         <th>Employee Name</th> 
-                        <!-- <th>Company Name</th>  -->
+                        <th>Company Name</th> 
                         <th>Project</th> 
                         <th>Region</th> 
                         <th>Start Scheduled</th> 
@@ -104,33 +100,33 @@
                         </td> 
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>{{ $item->name }}</td>
-                        <!-- <td>
+                        <td>
                             @if($item->company_name == '1')
                                 HUP
                             @else
                                 PMT
                             @endif
-                        </td> -->
+                        </td>
                         <td>{{ get_project_company($item->project, $item->company_name) }}</td>
                         <td>{{$item->region}}</td>
                         <td>{{ date_format(date_create($item->start_schedule), 'H:i d M Y') }}</td>
                         <td>{{ date_format(date_create($item->end_schedule), 'H:i d M Y') }}</td>
                         <td>
-                            <!-- if(check_access('petty-cash.approval')) -->
+                            @if(check_access('team-schedule.noc-manager'))
                                 @if($item->status == '')
                                    
                                     <a href="javascript:;" wire:click="$emit('modalapproveteamschedule',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
                                     <a href="javascript:;" wire:click="$emit('modaldeclineteamschedule',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
                                 @endif
 
-                            <!-- endif -->
+                            @endif
 
-                            <!-- if(check_access('petty-cash.add')) -->
+                            @if(check_access('team-schedule.toc-leader'))
                                 @if($item->status == '0')
                                 <a href="javascript:;" wire:click="$emit('modaleditteamschedule','{{ $item->id }}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
                                     
                                 @endif
-                            <!-- endif -->
+                            @endif
                         </td>
                         <td>{{ isset($item->start_actual) ? date_format(date_create($item->start_actual), 'H:i d M Y') : '' }}</td>
                         <td>{{ isset($item->end_actual) ? date_format(date_create($item->end_actual), 'H:i d M Y') : '' }}</td>
@@ -162,14 +158,14 @@
                             ?>
                         </td>
                         <td>
-                            <!-- if(check_access('petty-cash.approval')) -->
+                            @if(check_access('team-schedule.noc-manager'))
                                 @if($item->status == '1')
                                    
                                     <a href="javascript:;" wire:click="$emit('modalapproveteamschedule',['{{ $item->id }}', '2'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
                                     <a href="javascript:;" wire:click="$emit('modaldeclineteamschedule',['{{ $item->id }}', '2'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
                                 @endif
 
-                            <!-- endif -->
+                            @endif
 
                             <!-- if(check_access('petty-cash.add')) -->
                                 @if($item->status == '0')
@@ -178,21 +174,7 @@
                                 @endif
                             <!-- endif -->
                         </td>
-                        
-
-                        <!-- <td>
-                            
-                            @if(check_access('petty-cash.approval'))
-                                @if($item->status == '1' && $item->status != '1')
-                                    <a href="javascript:;" wire:click="$emit('modalapprovereceipt','{{ $item->id }}')"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclinereceipt','{{ $item->id }}')"><i class="fa fa-close " style="color: #de4848;"></i></a>
-                            
-                                @endif
-
-                            @endif
-
-                        </td> -->
-                        
+                       
                     </tr>
                     @endforeach
                 </tbody>

@@ -5,7 +5,7 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Input Petty Cash</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Input Team Schedule</h5>
                 </div>
 
                 <div class="body pt-0">
@@ -39,8 +39,8 @@
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>Employee Name</label>
-                                            <input list="petty_cash_category" class="form-control"  wire:model="employee_name">
-                                            <datalist id="petty_cash_category" >
+                                            <input list="petty_cash_category1" class="form-control"  wire:model="employee_name">
+                                            <datalist id="petty_cash_category1" >
                                                 @foreach($employeelist as $item)
                                                 <option value="{{ $item->name }}">
                                                 @endforeach

@@ -35,15 +35,15 @@
 
 
     <!-- if(check_access('petty-cash.add')) -->
-    <div class="col-md-2">
+    <div class="col-md-1" style="margin: 0 10px;">
         <a href="javascript:;" wire:click="$emit('modaladdteamschedule')" class="btn btn-info"><i class="fa fa-plus"></i> Team Schedule </a>
     </div>
     
-    <div class="col-md-2">
+    <div class="col-md-1" style="margin: 0 10px;">
         <a href="javascript:;" wire:click="$emit('modalimportactual')" class="btn btn-info"><i class="fa fa-upload"></i> Actual Schedule </a>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-1" style="margin: 0 10px;">
         <a href="javascript:;" wire:click="$emit('modalgeneratetimesheet')" class="btn btn-info"><i class="fa fa-download"></i> Generate Timesheet </a>
     </div>
     
@@ -119,15 +119,15 @@
                             <!-- if(check_access('petty-cash.approval')) -->
                                 @if($item->status == '')
                                    
-                                    <a href="javascript:;" wire:click="$emit('modalapproveteamschedule',['{{ $item->id }}', '1'])"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineteamschedule',['{{ $item->id }}', '1'])"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modalapproveteamschedule',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclineteamschedule',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
                                 @endif
 
                             <!-- endif -->
 
                             <!-- if(check_access('petty-cash.add')) -->
                                 @if($item->status == '0')
-                                <a href="javascript:;" wire:click="$emit('modaleditteamschedule','{{ $item->id }}')"><i class="fa fa-edit fa-2x" style="color: #f3ad06;"></i></a>
+                                <a href="javascript:;" wire:click="$emit('modaleditteamschedule','{{ $item->id }}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
                                     
                                 @endif
                             <!-- endif -->
@@ -165,15 +165,15 @@
                             <!-- if(check_access('petty-cash.approval')) -->
                                 @if($item->status == '1')
                                    
-                                    <a href="javascript:;" wire:click="$emit('modalapproveteamschedule',['{{ $item->id }}', '2'])"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineteamschedule',['{{ $item->id }}', '2'])"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modalapproveteamschedule',['{{ $item->id }}', '2'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclineteamschedule',['{{ $item->id }}', '2'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
                                 @endif
 
                             <!-- endif -->
 
                             <!-- if(check_access('petty-cash.add')) -->
                                 @if($item->status == '0')
-                                <!-- <a href="javascript:;" wire:click="$emit('modalrevisipettycash','{{ $item->id }}')"><i class="fa fa-edit fa-2x" style="color: #f3ad06;"></i></a> -->
+                                <!-- <a href="javascript:;" wire:click="$emit('modalrevisipettycash','{{ $item->id }}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a> -->
                                     
                                 @endif
                             <!-- endif -->
@@ -184,8 +184,8 @@
                             
                             @if(check_access('petty-cash.approval'))
                                 @if($item->status == '1' && $item->status != '1')
-                                    <a href="javascript:;" wire:click="$emit('modalapprovereceipt','{{ $item->id }}')"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclinereceipt','{{ $item->id }}')"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modalapprovereceipt','{{ $item->id }}')"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclinereceipt','{{ $item->id }}')"><i class="fa fa-close " style="color: #de4848;"></i></a>
                             
                                 @endif
 
