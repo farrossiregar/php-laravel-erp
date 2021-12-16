@@ -1,43 +1,57 @@
 <?php
-
 namespace App\Http\Livewire\DutyRosterDophomebase;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use Auth;
-use DB;
-
+use Livewire\WithFileUploads;
+use App\Models\DophomebaseMaster;
 
 class Datamaster extends Component
 {
+    use WithFileUploads;
     use WithPagination;
-    public $date, $data_id, $nama_dop, $region, $project;
+    public $date, $data_id, $nama_dop, $region, $project,$selected_id,$file;
+    public $is_audit=false,$is_approval=false,$is_upload_image=false;
     protected $paginationTheme = 'bootstrap';
     
     public function render()
     {
-
-       
-        $data = \App\Models\DophomebaseMaster::orderBy('created_at', 'desc');
-                                    
-        
+        $data = DophomebaseMaster::orderBy('created_at', 'desc');        
         if($this->nama_dop) $ata = $data->where('nama_dop', 'like', '%' . $this->nama_dop . '%');
         if($this->project) $ata = $data->where('project', 'like', '%' . $this->project . '%');
         if($this->region) $ata = $data->where('region', 'like', '%' . $this->region . '%');
 
-        // $this->data = $data->get();
-        // if($this->date) $ata = $data->whereDate('created_at',$this->date);
-
-        foreach(\App\Models\DophomebaseMaster::where('remarks', '1')->get() as $item){
+        foreach(DophomebaseMaster::where('remarks', '1')->get() as $item){
             $this->data_id[$item->id] = $item->id;
         }
-                        
         
         return view('livewire.duty-roster-dophomebase.datamaster')->with(['data'=>$data->paginate(50)]);
-
-        
     }
 
+    public function mount()
+    {
+        $this->is_audit = check_access('duty-roster-dophomebase.audit');
+        $this->is_approval = check_access('duty-roster-dophomebase.approval');
+        $this->is_upload_image = check_access('duty-roster-dophomebase.upload-image');
+        $this->is_upload_dop = check_access('duty-roster-dophomebase.importsm');
+    }
+
+    public function set_selected_id(DophomebaseMaster $selected_id)
+    {
+        $this->selected_id = $selected_id;
+    }
+
+    public function upload_dop()
+    {
+        $this->validate([
+            'file' => 'required|file|mimes:xlsx,csv,xls,doc,docx,pdf,image',
+        ]);
+
+        $name = date('ymdhis').DophomebaseMaster::count() .".".$this->file->extension();
+        $this->file->storeAs("public/home-base/{$this->selected_id->id}", $name);
+        $this->selected_id->dop_file = "storage/home-base/{$this->selected_id->id}/{$name}";
+        $this->selected_id->save();
+    }
 
     public function checkdata($id)
     {
@@ -47,14 +61,11 @@ class Datamaster extends Component
         }else{
             $check->remarks = '1';
         }
-        $check->save();
-        
+        $check->save    ();
     }
 
     public function save()
     {
-        // dd("download");
-        
         $objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         // Set document properties
         $objPHPExcel->getProperties()->setCreator("Stalavista System")
@@ -65,9 +76,6 @@ class Datamaster extends Component
                                     ->setKeywords("office 2007 openxml php")
                                     ->setCategory("Member");
 
-        // $objPHPExcel->getActiveSheet()->getStyle('A1:B1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('c2d7f3');
-
-        // $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setSize(16);
         $objPHPExcel->getActiveSheet()->getStyle('A1')->getAlignment()->setWrapText(false);
         $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A2', 'Nama DOP')
@@ -82,38 +90,22 @@ class Datamaster extends Component
                     ->setCellValue('J2', 'Type Homebase/DOP')
                     ->setCellValue('K2', 'Expired')
                     ->setCellValue('L2', 'Budget');
-        // $objPHPExcel->setActiveSheetIndex(0)
-        //             ->setCellValue('A4', 'Row Labels')
-        //             ->setCellValue('B4', 'CMI')
-        //             ->setCellValue('C4', 'H3I')
-        //             ->setCellValue('D4', 'ISAT')
-        //             ->setCellValue('E4', 'STPL')
-        //             ->setCellValue('F4', 'XL')
-        //             ->setCellValue('G4', 'Grand Total');
-                    
 
         $objPHPExcel->getActiveSheet()->getStyle('A2:L2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('FFFF00');
         $objPHPExcel->getActiveSheet()->getStyle('A2:L2')->getFont()->setBold( true );
         $objPHPExcel->getActiveSheet()->getStyle('A4:G4')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('A4:G4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-        // $objPHPExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(34);
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
-        
-        //$objPHPExcel->getActiveSheet()->freezePane('A4');
-        
+        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);        
         $objPHPExcel->getActiveSheet()->setAutoFilter('A2:L2');
         $num=3;
 
-        $data = \App\Models\DophomebaseMaster::orderBy('id', 'asc')
-                                                ->get();
-
-        // dd($data);
+        $data = \App\Models\DophomebaseMaster::orderBy('id', 'asc')->get();
         foreach($data as $k => $item){
             $objPHPExcel->setActiveSheetIndex(0)
                             ->setCellValue('A'.$num, $item->nama_dop)
@@ -132,17 +124,6 @@ class Datamaster extends Component
                         if($item->remarks == '1'){
                             $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':L'.$num)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('ffcccc');
                         }
-                // $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':G'.$num)->getFont()->setBold( true );
-
-
-                // $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('C'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('D'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('E'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                
                 $num++;
         }
         
@@ -167,11 +148,5 @@ class Datamaster extends Component
         return response()->streamDownload(function() use($writer){
             $writer->save('php://output');
         },'Report-Dutyroster-Dophomebase-Master.xlsx');
-
     }
-
-
 }
-
-
-

@@ -15,7 +15,8 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Data Problem</th> 
+                        <th>Project</th>
+                        <th class="text-center">Data Problem</th> 
                         <th>Status</th> 
                         <th>Date Upload</th> 
                         <th>Action</th> 
@@ -25,7 +26,8 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td>
+                        <td>{{isset($item->project->name) ? $item->project->name : ''}}</td>
+                        <td class="text-center">
                             <?php
                                 $dataproblem = \App\Models\DutyrosterSitelistDetail::where('id_master_dutyroster', $item->id)->where('remarks', '1')->get();
                                 echo count($dataproblem); 
@@ -55,7 +57,7 @@
 
                             @if(check_access('duty-roster.import'))
                                 @if($item->status == '0')
-                                    <a href="#" wire:click="$emit('modalrevisidutyroster','{{ $item->id }}')" data-toggle="modal" data-target="#modal-dutyroster-revisidutyroster" title="Add" class="btn btn-warning"><i class="fa fa-plus"></i> {{__('Revisi Duty roster')}}</a>
+                                    <a href="#" wire:click="$emit('modalrevisidutyroster','{{ $item->id }}')" data-toggle="modal" data-target="#modal-dutyroster-revisidutyroster" title="Add" class="badge badge-warning badge-active"><i class="fa fa-plus"></i> {{__('Revisi Duty roster')}}</a>
                                 @endif
                             @endif
                         </td> 

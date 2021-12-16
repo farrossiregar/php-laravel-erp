@@ -36,9 +36,7 @@ class Dashboard extends Component
         $this->datasets = [];
         
         for($bulan=1;$bulan<=12;$bulan++) {
-            $this->labels[] = date('F', mktime(0, 0, 0, $bulan, 10));
-
-            
+            $this->labels[] = date('F', mktime(0, 0, 0, $bulan, 10));            
         }
 
         $projects = DutyrosterSitelistDetail::groupBy('project')->get();

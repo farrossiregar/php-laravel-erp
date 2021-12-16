@@ -17,6 +17,6 @@ class Index extends Component
 
     public function mount()
     {
-        \LogActivity::add('Customer Asset Management');
+        \LogActivity::add('[web] Customer Asset Management');
     }
 }

@@ -12,7 +12,7 @@ class Index extends Component
 
     public function render()
     {
-        \LogActivity::add('Preventive Maintenance');
+        \LogActivity::add('[web] Preventive Maintenance');
 
         return view('livewire.preventive-maintenance.index');
     }

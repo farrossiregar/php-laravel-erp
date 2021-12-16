@@ -4,8 +4,7 @@ namespace App\Http\Livewire\DutyRosterDophomebase;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
-use DB;
+use App\Models\DophomebaseMaster;
 
 class Importdutyroster extends Component
 {
@@ -33,21 +32,12 @@ class Importdutyroster extends Component
             $countLimit = 1;
             $total_failed = 0;
             $total_success = 0;
-
-            $datamaster                 = new \App\Models\DutyrosterDophomebaseMaster();
-            $datamaster->upload_by      = 'HRD - GA';
-            $datamaster->created_at     = date('Y-m-d H:i:s');
-            $datamaster->updated_at     = date('Y-m-d H:i:s');
-            $datamaster->status         = '';
-            $datamaster->save();
-
             foreach($sheetData as $key => $i){
                 if($key<1) continue; // skip header
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
-
-                $data = new \App\Models\DutyrosterDophomebaseDetail();
-                $data->id_master_dutyroster     = $datamaster->id;
+                
+                $data = new \App\Models\DophomebaseMaster();
                 $data->nama_dop                 = $i[0];
                 $data->project                  = $i[1];
                 $data->region                   = $i[2];
@@ -61,8 +51,8 @@ class Importdutyroster extends Component
                 $data->expired                  = $i[10];
                 $data->budget                   = $i[11];
                 $data->remarks                  = '';
+                $data->employee_id = \Auth::user()->employee->id;
                 $data->save();
-                    
                 $total_success++;
             }
         }

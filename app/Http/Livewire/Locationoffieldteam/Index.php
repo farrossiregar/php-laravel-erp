@@ -26,6 +26,11 @@ class Index extends Component
         return view('livewire.locationoffieldteam.index')->with(['data'=>$data->paginate(100)]);
     }
 
+    public function mount()
+    {
+        \LogActivity::add('[web] Location of Field Team');
+    }
+
     public function updated()
     {
         $data = modelLocation::select('location_of_field_teams.*','employees.name')

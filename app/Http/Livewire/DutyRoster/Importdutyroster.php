@@ -33,9 +33,7 @@ class Importdutyroster extends Component
         $this->validate([
             'file'=>'required|mimes:xls,xlsx|max:51200' // 50MB maksimal
         ]);
-        
-        $users = Auth::user();
-
+    
         $path = $this->file->getRealPath();
        
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
@@ -49,10 +47,9 @@ class Importdutyroster extends Component
             $total_success = 0;
 
             $datamaster                 = new \App\Models\DutyrosterSitelistMaster();
-            $datamaster->created_at     = date('Y-m-d H:i:s');
-            $datamaster->updated_at     = date('Y-m-d H:i:s');
+            $datamaster->employee_id = \Auth::user()->employee->id;
+            $datamaster->client_project_id = session()->get('project_id');
             $datamaster->save();
-
 
             foreach($sheetData as $key => $i){
                 if($key<1) continue; // skip header

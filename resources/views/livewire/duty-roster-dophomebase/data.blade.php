@@ -2,35 +2,15 @@
     <div class="col-md-2">
         <input type="date" class="form-control" wire:model="date" />
     </div>
-
-<!--     
-    <div class="col-md-1">                
-        <select class="form-control" wire:model="year">
-            <option value=""> --- Year --- </option>
-            @foreach(\App\Models\EmployeeNoc::select('year')->groupBy('year')->get() as $item) 
-            <option>{{$item->year}}</option>
-            @endforeach 
-        </select>
-    </div> -->
-
-
-    @if(check_access('duty-roster-dophomebase.importhrd'))
-    <div class="col-md-2">
-        <a href="#" data-toggle="modal" data-target="#modal-dutyroster-importdutyroster" title="Add" class="btn btn-primary"><i class="fa fa-upload"></i> {{__('Import DOP Homebase')}}</a>
-    </div>
-    @endif
-
-    @if(check_access('duty-roster-dophomebase.importsm'))
-    <div class="col-md-2">
-        <a href="#" data-toggle="modal" data-target="#modal-dutyroster-importdutyrostersm" title="Add" class="btn btn-primary"><i class="fa fa-upload"></i> {{__('Import DOP Homebase')}}</a>
-    </div>
-    
-    @endif
-    
-    <div class="col-md-2">
+    <div class="col-md-5">
+        @if(check_access('duty-roster-dophomebase.importhrd'))
+            <a href="#" data-toggle="modal" data-target="#modal-dutyroster-importdutyroster" title="Add" class="btn btn-primary"><i class="fa fa-upload"></i> {{__('Import DOP Homebase')}}</a>
+        @endif
+        @if(check_access('duty-roster-dophomebase.importsm'))
+            <a href="#" data-toggle="modal" data-target="#modal-dutyroster-importdutyrostersm" title="Add" class="btn btn-primary"><i class="fa fa-upload"></i> {{__('Import DOP Homebase')}}</a>
+        @endif
         <a href="#" data-toggle="modal" data-target="#modal-dutyroster-inputdutyroster" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input DOP Homebase')}}</a>
     </div>
-    
     <div class="col-md-12">
         <br><br>
         <div class="table-responsive">
@@ -38,6 +18,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Project</th>
                         <th>Status</th> 
                         <th>Upload By</th> 
                         <th>Date Upload</th> 
@@ -48,7 +29,7 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        
+                        <td>{{isset($item->project->name) ? $item->project->name : ''}}</td>
                         <td>
                             @if($item->status == '1')
                                 <label class="badge badge-success" data-toggle="tooltip" title="Approved">Approved</label>

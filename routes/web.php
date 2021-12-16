@@ -105,6 +105,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('work-flow-management/dashboard',App\Http\Livewire\WorkFlowManagement\Index::class)->name('work-flow-management.index');
     Route::get('work-flow-management/data',App\Http\Livewire\WorkFlowManagement\Data::class)->name('work-flow-management.data');
     Route::get('customer-asset-management',App\Http\Livewire\CustomerAssetManagement\Index::class)->name('customer-asset-management.index');
+    Route::get('customer-asset-management/history/{data}',App\Http\Livewire\CustomerAssetManagement\History::class)->name('customer-asset-management.history');
     Route::get('customer-asset-management/data',App\Http\Livewire\CustomerAssetManagement\Data::class)->name('customer-asset-management.data');
     Route::get('sites',App\Http\Livewire\Sites\Index::class)->name('sites.index');
     Route::get('sites/edit/{id}',App\Http\Livewire\Sites\Edit::class)->name('sites.edit');
@@ -143,7 +144,6 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('region-tools',function(){ })->name('region-tools.index');
     Route::get('monitoring',App\Http\Livewire\Monitoring\Index::class)->name('monitoring.index');
     Route::get('migration',App\Http\Livewire\Migration\Index::class)->name('migration.index');
-
     Route::get('business-opportunities',App\Http\Livewire\BusinessOpportunities\Index::class)->name('business-opportunities.index');
     Route::get('contract-registration-flow',App\Http\Livewire\ContractRegistrationFlow\Index::class)->name('contract-registration-flow.index');
     Route::get('vendor-management',App\Http\Livewire\VendorManagement\Index::class)->name('vendor-management.index');
@@ -152,9 +152,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('vendor-management/team-availability/{id}',App\Http\Livewire\VendorManagement\Criteriateamavailability::class)->name('vendor-management.team-availability');
     Route::get('vendor-management/tools-facilities/{id}',App\Http\Livewire\VendorManagement\Criteriatoolsfacilities::class)->name('vendor-management.tools-facilities');
     Route::get('vendor-management/ehs/{id}',App\Http\Livewire\VendorManagement\Criteriaehs::class)->name('vendor-management.ehs');
-
     Route::get('vendor-management/initial-general-information/{id}',App\Http\Livewire\VendorManagement\Initialgeneralinformation::class)->name('vendor-management.initial-general-information');
-    // Route::get('vendor-management/initial-commercial-compliance/{id}',App\Http\Livewire\VendorManagement\Initialcc::class)->name('vendor-management.initial-commercial-compliance');
     Route::get('vendor-management/initial-team-availability/{id}',App\Http\Livewire\VendorManagement\Initialteamavailability::class)->name('vendor-management.initial-team-availability');
     Route::get('vendor-management/initial-tools-facilities/{id}',App\Http\Livewire\VendorManagement\Initialtoolsfacilities::class)->name('vendor-management.initial-tools-facilities');
     Route::get('vendor-management/initial-ehs/{id}',App\Http\Livewire\VendorManagement\Initialehs::class)->name('vendor-management.initial-ehs');

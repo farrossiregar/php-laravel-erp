@@ -62,7 +62,7 @@
                     <tr>
                         <td style="width: 50px;">{{$data->firstItem() + $k}}</td>
                         <td>{{date('d M Y',strtotime($item->created_at))}}</td> 
-                        <td>{!!$item->tanggal_submission?date('d-M-Y',strtotime($item->tanggal_submission)):''!!}</td> 
+                        <td><a href="{{route('customer-asset-management.history',['data'=>$item->id])}}">{{ $item->tanggal_submission?date('d-M-Y',strtotime($item->tanggal_submission)):''}}</a></td> 
                         <td>
                             @if(isset($item->site->employee->name))
                                 {{$item->site->employee->name}}

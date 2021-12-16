@@ -69,6 +69,7 @@ class CustomerAssetManagementController extends Controller
     public function submit(Request $r)
     {
         $parent = CustomerAssetManagement::find($r->id);
+        $parent->tanggal_submission = date('Y-m-d');
         $data = new CustomerAssetManagementHistory();
         $data->employee_id = \Auth::user()->employee->id;
         $data->region_name = $parent->region_name;
