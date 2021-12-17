@@ -4,8 +4,7 @@ namespace App\Http\Livewire\DutyRosterDophomebase;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
-use DB;
+use App\Mail\GeneralEmail;
 
 class Declinedutyroster extends Component
 {
@@ -16,8 +15,6 @@ class Declinedutyroster extends Component
     use WithFileUploads;
     public $selected_id;    
     public $note;
-    // public $usertype;
-
     
     public function render()
     {       
@@ -30,32 +27,21 @@ class Declinedutyroster extends Component
     }
   
     public function save()
-    {
-        
-        $data = \App\Models\DopHomebaseMaster::where('id', $this->selected_id)->first();
-        
+    {   
+        $data = \App\Models\DopHomebaseMaster::where('id', $this->selected_id)->first();   
         $data->status   = '0';
         $data->note     = $this->note;
-
         $data->save();
 
-        $notif = check_access_data('duty-roster-dophomebase.notif-decline', '');
-        $nameuser = [];
-        $emailuser = [];
-        $phoneuser = [];
-        foreach($notif as $no => $itemuser){
-            $nameuser[$no] = $itemuser->name;
-            $emailuser[$no] = $itemuser->email;
-            $phoneuser[$no] = $itemuser->telepon;
+        if(isset($data->employee->email)) {
+            $message = "<p>Dear {$data->employee->name}<br />DOP Home Base is rejected </p>";
+            $message .= "<p>Nama DOP: {$data->nama_dop}<br />Project : {$data->project}<br />Region: {$data->region}</p>";
+            $message .= "<p>Note: {$this->note}</p>";
 
-            $message = "*Dear HRD GA *\n\n";
-            $message .= "*Duty Roster DOP - Homebase dengan id ".$this->selected_id." perlu direvisi *\n\n";
-            send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
-
-            // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
+            \Mail::to($data->employee->email)->send(new GeneralEmail("[PMT E-PM] - Duty Roster Home Base",$message));
         }
 
-        session()->flash('message-success',"Berhasil, Duty Roster DOP - Homebase is Decline !!!");
+        session()->flash('message-success',"Berhasil, Duty Roster DOP - Homebase is rejected");
         
         return redirect()->route('duty-roster-dophomebase.index');
     }

@@ -4,7 +4,7 @@ namespace App\Http\Livewire\DutyRosterDophomebase;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Models\DophomebaseMaster;
+use App\Mail\GeneralEmail;
 
 class Importdutyroster extends Component
 {
@@ -32,6 +32,7 @@ class Importdutyroster extends Component
             $countLimit = 1;
             $total_failed = 0;
             $total_success = 0;
+            $notif = get_user_from_access('duty-roster-dophomebase.approval');
             foreach($sheetData as $key => $i){
                 if($key<1) continue; // skip header
                 
@@ -54,11 +55,20 @@ class Importdutyroster extends Component
                 $data->employee_id = \Auth::user()->employee->id;
                 $data->save();
                 $total_success++;
+
+                foreach($notif as $user){
+                    if($user->email){
+                        $message  = "<p>Dear {$user->name}<br />Duty Roster Home Base need your approval </p>";
+                        $message .= "<p>Nama DOP: {$data->nama_dop}<br />Project : {$data->project}<br />Region: {$data->region}</p>";
+                        
+                        \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - Duty Roster Site List",$message));
+                    }
+                }
             }
         }
 
         \LogActivity::add('[web] Duty Roster - Home Base Import');
-        
+
         session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
             
         return redirect()->route('duty-roster-dophomebase.index');   

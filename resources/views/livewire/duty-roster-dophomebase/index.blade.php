@@ -11,9 +11,6 @@
                 <div class="tab-pane active show " id="dashboard">
                     <livewire:duty-roster-dophomebase.dashboard />
                 </div>
-                <!-- <div class="tab-pane" id="data">
-                    <duty-roster-dophomebase.data />
-                </div> -->
                 <div class="tab-pane" id="datamaster">
                     <livewire:duty-roster-dophomebase.datamaster />
                 </div>

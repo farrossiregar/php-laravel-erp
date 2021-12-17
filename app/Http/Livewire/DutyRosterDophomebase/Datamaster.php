@@ -16,7 +16,7 @@ class Datamaster extends Component
     
     public function render()
     {
-        $data = DophomebaseMaster::orderBy('created_at', 'desc');        
+        $data = DophomebaseMaster::orderBy('created_at', 'DESC');        
         if($this->nama_dop) $ata = $data->where('nama_dop', 'like', '%' . $this->nama_dop . '%');
         if($this->project) $ata = $data->where('project', 'like', '%' . $this->project . '%');
         if($this->region) $ata = $data->where('region', 'like', '%' . $this->region . '%');

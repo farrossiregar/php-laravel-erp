@@ -7,7 +7,6 @@ use Livewire\Component;
 class Index extends Component
 {
     public $project_id;
-
     protected $queryString = ['project_id'];
     
     public function render()

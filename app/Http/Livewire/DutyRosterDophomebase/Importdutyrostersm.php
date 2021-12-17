@@ -68,54 +68,47 @@ class Importdutyrostersm extends Component
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
                     
-                    $datadutyroster                           = new \App\Models\DutyrosterDophomebaseDetail();
-                    $datadutyroster->id_master_dutyroster     = $datamaster->id;
-                    $datadutyroster->nama_dop                 = $i[0];
-                    $datadutyroster->project                  = $i[1];
-                    $datadutyroster->region                   = $i[2];
-                    $datadutyroster->alamat                   = $i[3];
-                    $datadutyroster->long                     = $i[4];
-                    $datadutyroster->lat                      = $i[5];
-                    $datadutyroster->pemilik_dop              = $i[6];
-                    $datadutyroster->telepon_pemilik          = $i[7];
-                    $datadutyroster->opex_region_ga           = $i[8];
-                    $datadutyroster->type_homebase_dop        = $i[9];
-                    $datadutyroster->expired                  = $i[10];
-                    $datadutyroster->budget                   = $i[11];
-                    $datadutyroster->remarks                  = '';
-                    $datadutyroster->created_at               = date('Y-m-d H:i:s');
-                    $datadutyroster->updated_at               = date('Y-m-d H:i:s');
-                    $datadutyroster->save();
+                $datadutyroster                           = new \App\Models\DutyrosterDophomebaseDetail();
+                $datadutyroster->id_master_dutyroster     = $datamaster->id;
+                $datadutyroster->nama_dop                 = $i[0];
+                $datadutyroster->project                  = $i[1];
+                $datadutyroster->region                   = $i[2];
+                $datadutyroster->alamat                   = $i[3];
+                $datadutyroster->long                     = $i[4];
+                $datadutyroster->lat                      = $i[5];
+                $datadutyroster->pemilik_dop              = $i[6];
+                $datadutyroster->telepon_pemilik          = $i[7];
+                $datadutyroster->opex_region_ga           = $i[8];
+                $datadutyroster->type_homebase_dop        = $i[9];
+                $datadutyroster->expired                  = $i[10];
+                $datadutyroster->budget                   = $i[11];
+                $datadutyroster->remarks                  = '';
+                $datadutyroster->created_at               = date('Y-m-d H:i:s');
+                $datadutyroster->updated_at               = date('Y-m-d H:i:s');
+                $datadutyroster->save();
 
-
-                    $check = \App\Models\DophomebaseMaster::where('nama_dop', $i[0])->first();
-                    if($check){
-                        $data               = \App\Models\DophomebaseMaster::where('nama_dop', $i[0])->first();
-                    }else{
-                        $data               = new \App\Models\DophomebaseMaster();
-                    }
-                   
-                    $data->nama_dop                 = $i[0];
-                    $data->project                  = $i[1];
-                    // $data->region                   = $i[2].' = '.substr($i[10], 6, 2).'-'.substr($i[10], 3, 2).'-'.substr($i[10], 0, 2);
-                    // $data->region                   = $i[2].' = '.$i[10];
-                    $data->region                   = $i[2];
-                    $data->alamat                   = $i[3];
-                    $data->long                     = $i[4];
-                    $data->lat                      = $i[5];
-                    $data->pemilik_dop              = $i[6];
-                    $data->telepon_pemilik          = $i[7];
-                    $data->opex_region_ga           = $i[8];
-                    $data->type_homebase_dop        = $i[9];
-                    $data->expired                  = $i[10].' 00:00:00';
-                    $data->budget                   = $i[11];
-                    $data->remarks                  = '';
-                    $data->created_at               = date('Y-m-d H:i:s');
-                    $data->updated_at               = date('Y-m-d H:i:s');
-                    $data->save();
-                    
-               
-
+                $check = \App\Models\DophomebaseMaster::where('nama_dop', $i[0])->first();
+                if($check){
+                    $data               = \App\Models\DophomebaseMaster::where('nama_dop', $i[0])->first();
+                }else{
+                    $data               = new \App\Models\DophomebaseMaster();
+                }
+                
+                $data->nama_dop                 = $i[0];
+                $data->project                  = $i[1];
+                $data->region                   = $i[2];
+                $data->alamat                   = $i[3];
+                $data->long                     = $i[4];
+                $data->lat                      = $i[5];
+                $data->pemilik_dop              = $i[6];
+                $data->telepon_pemilik          = $i[7];
+                $data->opex_region_ga           = $i[8];
+                $data->type_homebase_dop        = $i[9];
+                $data->expired                  = $i[10].' 00:00:00';
+                $data->budget                   = $i[11];
+                $data->remarks                  = '';
+                $data->save();
+                
                 $total_success++;
             }
 

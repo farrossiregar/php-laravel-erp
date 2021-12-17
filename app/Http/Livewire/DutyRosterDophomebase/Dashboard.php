@@ -27,6 +27,9 @@ class Dashboard extends Component
         $this->datasets = [];
 
         $this->projects = DophomebaseMaster::groupBy('project')->get();
+        for($bulan=1;$bulan<=12;$bulan++) {
+            $this->labels[] = date('F', mktime(0, 0, 0, $bulan, 10));            
+        }
         // foreach($projects as $item){
         //     $this->labels[] = $item->project;
         // }

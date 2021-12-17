@@ -1,44 +1,15 @@
 <div>
-    <!-- <div class="row">
-        <div class="col-md-1">                
-            <select class="form-control" wire:model="year">
-                <option value=""> --- Year --- </option>
-                @foreach(\App\Models\EmployeeNoc::select('year')->groupBy('year')->get() as $item) 
-                <option>{{$item->year}}</option>
-                @endforeach 
-            </select>
-        </div>
-        <div class="col-md-2" wire:ignore>
-            <select class="form-control" style="width:100%;" wire:model="month">
-                <option value=""> --- Month --- </option>
-                
-                <?php
-                    for($month = 1; $month <= 12; $month++){
-                ?>
-                <option value="{{$month}}">{{date('F', mktime(0, 0, 0, $month, 10))}}</option>
-                <?php
-                    }
-                ?>
-            </select>
-        </div>
-        <div class="col-md-7">
-            <label wire:loading>
-                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-                <span class="sr-only">{{ __('Loading...') }}</span>
-            </label>
-        </div>
-    </div> -->
     <div class="mt-4" style="height: 300px">
         <canvas id="chBar"></canvas>
     </div>
-    <br>
+    {{-- <br>
     <div class="mt-4" style="height: 300px">
         <canvas id="chBar2"></canvas>
     </div>
     <br>
     <div class="mt-4" style="height: 300px">
         <canvas id="chBar3"></canvas>
-    </div>
+    </div> --}}
 </div>
 @push('after-scripts')
 <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
@@ -110,7 +81,7 @@ function init_chart_databasenoc(){
                 },
                 title: {
                     display: true,
-                    text: 'DUTY ROSTER FLM ENGINEER THIS MONTH'
+                    text: 'DUTY ROSTER FLM ENGINEER'
                 },
                 scales: {
                     xAxes: [{
@@ -122,63 +93,61 @@ function init_chart_databasenoc(){
         });
     }
 
+    // if (chBar2) {
+    //     new Chart(chBar2, {
+    //         type: 'bar',
+    //         data: {
+    //             labels: labelsorgflm,
+    //             datasets: datasetsorgflm,
+    //         },
+    //         options: {
+    //             maintainAspectRatio: false,
+    //             responsive: true,
+    //             legend: {
+    //                 display: true,
+    //                 position:'bottom'
+    //             },
+    //             title: {
+    //                 display: true,
+    //                 text: 'ORG CHART FLM Engineer Level - Active Employee'
+    //             },
+    //             scales: {
+    //                 xAxes: [{
+    //                     barPercentage: 0.5,
+    //                     categoryPercentage: 0.5
+    //                 }]
+    //             }
+    //         }
+    //     });
+    // }
 
-
-    if (chBar2) {
-        new Chart(chBar2, {
-            type: 'bar',
-            data: {
-                labels: labelsorgflm,
-                datasets: datasetsorgflm,
-            },
-            options: {
-                maintainAspectRatio: false,
-                responsive: true,
-                legend: {
-                    display: true,
-                    position:'bottom'
-                },
-                title: {
-                    display: true,
-                    text: 'ORG CHART FLM Engineer Level - Active Employee'
-                },
-                scales: {
-                    xAxes: [{
-                        barPercentage: 0.5,
-                        categoryPercentage: 0.5
-                    }]
-                }
-            }
-        });
-    }
-
-    if (chBar3) {
-        new Chart(chBar3, {
-            type: 'bar',
-            data: {
-                labels: labelsorgmanagement,
-                datasets: datasetsorgmanagement,
-            },
-            options: {
-                maintainAspectRatio: false,
-                responsive: true,
-                legend: {
-                    display: true,
-                    position:'bottom'
-                },
-                title: {
-                    display: true,
-                    text: 'ORG CHART Management Level - Active Employee'
-                },
-                scales: {
-                    xAxes: [{
-                        barPercentage: 2.6,
-                        categoryPercentage: 0.8
-                    }]
-                }
-            }
-        });
-    }
+    // if (chBar3) {
+    //     new Chart(chBar3, {
+    //         type: 'bar',
+    //         data: {
+    //             labels: labelsorgmanagement,
+    //             datasets: datasetsorgmanagement,
+    //         },
+    //         options: {
+    //             maintainAspectRatio: false,
+    //             responsive: true,
+    //             legend: {
+    //                 display: true,
+    //                 position:'bottom'
+    //             },
+    //             title: {
+    //                 display: true,
+    //                 text: 'ORG CHART Management Level - Active Employee'
+    //             },
+    //             scales: {
+    //                 xAxes: [{
+    //                     barPercentage: 2.6,
+    //                     categoryPercentage: 0.8
+    //                 }]
+    //             }
+    //         }
+    //     });
+    // }
 }
 </script>
 @endpush

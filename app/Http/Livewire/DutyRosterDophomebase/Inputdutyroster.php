@@ -4,6 +4,7 @@ namespace App\Http\Livewire\DutyRosterDophomebase;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use App\Mail\GeneralEmail;
 
 class Inputdutyroster extends Component
 {
@@ -17,13 +18,7 @@ class Inputdutyroster extends Component
 
     public function save()
     {        
-        $check = \App\Models\DophomebaseMaster::where('nama_dop', $this->nama_dop)->first();
-        if($check){
-            $data                       = \App\Models\DophomebaseMaster::where('nama_dop', $this->nama_dop)->first();
-        }else{
-            $data                       = new \App\Models\DophomebaseMaster();
-        }
-
+        $data                       = new \App\Models\DophomebaseMaster();
         $data->nama_dop                 = $this->nama_dop;
         $data->project                  = $this->project;
         $data->region                   = $this->region;
@@ -40,16 +35,20 @@ class Inputdutyroster extends Component
         $data->employee_id = \Auth::user()->employee->id;
         $data->save();
 
-        $notif = get_user_from_access('duty-roster.audit');
+        $notif = get_user_from_access('duty-roster-dophomebase.approval');
+        
         foreach($notif as $user){
             if($user->email){
-                $message = "<p>Dear {$user->name}<br />Duty Roster Site List need check Date Uploaded :<strong>".date('d-F-Y',strtotime($data->created_at))."</strong></p>";
-                \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - Duty Roster Site List",$message));
+                $message  = "<p>Dear {$user->name}<br />Duty Roster Home Base need your approval </p>";
+                $message .= "<p>Nama DOP: {$data->nama_dop}<br />Project : {$data->project}<br />Region: {$data->region}</p>";
+                \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - Duty Roster Home Base",$message));
             }
         }
 
         session()->flash('message-success',"Input success, Success : <strong>Input Duty Roster DOP - Homebase Success!!!</strong>");
         
+        \LogActivity::add('[web] Duty Roster - Home Base Input');
+
         return redirect()->route('duty-roster-dophomebase.index');  
     }
     

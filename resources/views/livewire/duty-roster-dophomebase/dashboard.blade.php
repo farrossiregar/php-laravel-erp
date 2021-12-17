@@ -83,7 +83,7 @@ function init_chart_databasenoc(){
                 },
                 title: {
                     display: true,
-                    text: 'DUTY ROSTER MONTHLY - SITE PER PROJECT'
+                    text: 'DUTY ROSTER MONTHLY'
                 },
                 scales: {
                     xAxes: [{
