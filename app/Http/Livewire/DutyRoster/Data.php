@@ -20,8 +20,10 @@ class Data extends Component
     {  
         $data = \App\Models\DutyrosterSitelistMaster::orderBy('created_at', 'desc');
                                     
-        if($this->date) $ata = $data->whereDate('created_at',$this->date);                       
+        if($this->date) $data = $data->whereDate('created_at',$this->date);                       
         
+        if(!check_access('duty-roster.approve') and !check_access('duty-roster.audit')) $data->where('employee_id',\Auth::user()->employee->id);
+
         return view('livewire.duty-roster.data')->with(['data'=>$data->paginate(50)]);
     }
 }

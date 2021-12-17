@@ -43,7 +43,7 @@ class Dashboard extends Component
             $this->labels[] = date('F', mktime(0, 0, 0, $bulan, 10));            
         }
 
-        $this->datasets[0]['label'] = 'FLM Engineer Active Personel';
+        $this->datasets[0]['label'] = 'FLM Engineer';
         $this->datasets[0]['backgroundColor'] = $this->color[0];
         $this->datasets[0]['fill'] = 'boundary';
         $this->datasets[0]['data'] = [];
