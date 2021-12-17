@@ -28,8 +28,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    @foreach($projects as $project)
+                @foreach($projects as $project)
+                    <tr>
                         <td>{{$project->project}}</td>
                         @for($bulan=1;$bulan<=12;$bulan++)
                             <td class="text-center">
@@ -41,8 +41,8 @@
                                 {{$count?$count:0}}
                             </td>         
                         @endfor
-                    @endforeach
-                </tr>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

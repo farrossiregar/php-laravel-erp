@@ -139,7 +139,6 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('trouble-ticket',App\Http\Livewire\TroubleTicket\Index::class)->name('trouble-ticket.index');
     Route::get('incident-report',App\Http\Livewire\IncidentReport\Index::class)->name('incident-report.index');
     Route::get('flm-engineer',function(){ })->name('flm-engineer.index');
-    Route::get('vehicle',function(){ })->name('vehicle.index');
     Route::get('homebase',function(){ })->name('homebase.index');
     Route::get('flm-tools',function(){ })->name('flm-tools.index');
     Route::get('region-tools',function(){ })->name('region-tools.index');
@@ -160,4 +159,5 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('vendor-management/preview/{id}',App\Http\Livewire\VendorManagement\Servicecriteria::class)->name('vendor-management.preview');
     Route::get('duty-roster-regiontools',App\Http\Livewire\DutyRosterRegiontools\Index::class)->name('duty-roster-regiontools.index');
     Route::get('commitment-letter',App\Http\Livewire\CommitmentLetter\Index::class)->name('commitment-letter.index');
+    Route::get('vehicle',App\Http\Livewire\Vehicle\Index::class)->name('vehicle.index');
 });

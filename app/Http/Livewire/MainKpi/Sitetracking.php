@@ -14,8 +14,8 @@ class Sitetracking extends Component
 {
     public $year;
     public $month;
-    public $labels;
-    public $datasets,$project_name;
+    public $labels,$region_id;
+    public $datasets,$project_name,$regions=[],$data,$data_month;
     public function render()
     {
         $this->generate_chart();
@@ -24,11 +24,10 @@ class Sitetracking extends Component
     
     public function mount()
     {
-        $this->year = date('Y');
-        $this->client_project_id = session()->get('project_id');
-        $this->project_name = ClientProject::find($this->client_project_id)?ClientProject::find($this->client_project_id)->name : '-';
+        $this->regions = SiteListTrackingDetail::groupBy('region_id')->get();
+        $this->project_name = ClientProject::find(session()->get('project_id'))?ClientProject::find(session()->get('project_id'))->name : '-';
     }
-
+    
     public function updated($propertyName)
     {
         if($propertyName=='year') $this->month = '';
@@ -39,39 +38,52 @@ class Sitetracking extends Component
     {
         $this->labels = [];
         $this->datasets = [];
-
-        if(empty($this->year)) $this->year = date('Y');
         
+        $data = SiteListTrackingDetail::groupBy('type','region_id');
+        if($this->year) $data->whereYear('period',$this->year);
+        if($this->region_id) $data->where('region_id',$this->region_id);
+        $this->data = $data->get();
+
         foreach(SiteListTrackingDetail::select(\DB::raw("MONTH(period) as month"))->where(function($table){ 
             if($this->year) $table->whereYear('period',$this->year); 
             if($this->month) $table->whereIn(\DB::raw('MONTH(period)'),$this->month);
         })->groupBy('month')->get() as $k => $item){
-            $this->labels[] = date('F', mktime(0, 0, 0, $item->month, 10));
+            $this->labels[] = date('F', mktime(0, 0, 0, $item->month, 10));   
         }
+
         $color = ['#ffb1c1','#4b89d6','#add64b','#80b10a'];
         foreach(SiteListTrackingDetail::where(function($table){
-            if($this->year)$table->whereYear('period',$this->year);
-            if($this->month) $table->whereIn(\DB::raw('MONTH(period)'),$this->month);
-        })->groupBy('region1')->get() as $k => $item){
+                                                                if($this->year) $table->whereYear('period',$this->year);
+                                                                if($this->month) $table->whereIn(\DB::raw('MONTH(period)'),$this->month);
+                                                                if($this->region_id) $table->where('region_id',$this->region_id);
+                                                            })->groupBy('type')->get() as $k => $item){
+
             if(SiteListTrackingMaster::where(['id'=>$item->id_site_master,'status'=>1])->get()->count() > 0){ // data harus di approve baru muncul di dashboard
-                $this->datasets[$k]['label'] = $item->region1;
+                $this->datasets[$k]['label'] = $item->type;
                 $this->datasets[$k]['backgroundColor']= @$color[$k];
                 $this->datasets[$k]['fill'] = 'boundary';
                 $this->datasets[$k]['data'] = [];
-                foreach(SiteListTrackingDetail::select(\DB::raw("MONTH(period) as month"),'region1')->where('region1',$item->region1)->where(function($table){
+                foreach(SiteListTrackingDetail::select("*",\DB::raw("MONTH(period) as month"))->where(function($table){
                     if($this->year) $table->whereYear('period',$this->year); 
                     if($this->month) $table->whereIn(\DB::raw('MONTH(period)'),$this->month);
+                    if($this->region_id) $table->where('region_id',$this->region_id);
                 })->groupBy('month')->get() as $k_data => $data){
-                    $this->datasets[$k]['data'][] = SiteListTrackingDetail::where(function($table){
+                    
+                    $sum = SiteListTrackingDetail::where(function($table){
                         if($this->year) $table->whereYear('period',$this->year); 
-                    })->whereMonth('period',$data->month)->where('region1',$data->region1)->sum('actual_qty');
+                        if($this->region_id) $table->where('region_id',$this->region_id);
+                    })->whereMonth('period',$data->month)
+                    ->where(['type'=>$item->type])->sum('qty_po');
+                    
+                    $this->data_month[$item->region_id][$item->type][$item->month] = $sum ? $sum : 0; 
+                    $this->datasets[$k]['data'][] = $sum ? $sum : 0;
                 }
-            }
+            }    
         }
-
+        
         $this->labels = json_encode($this->labels);
         $this->datasets = json_encode($this->datasets);
-        $this->emit('init-chart-critical-case',['labels'=>$this->labels,'datasets'=>$this->datasets]);
+        $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets]);
     }
 
 
