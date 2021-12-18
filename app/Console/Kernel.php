@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('general_notification')->dailyAt('07:00')->timezone('Asia/Jakarta');
         $schedule->command('pm:syncron')->monthly()->timezone('Asia/Jakarta');
-        $schedule->command('syncron_every_month')->monthlyOn(27, '09:00')->timezone('Asia/Jakarta');
+        $schedule->command('syncron-every-month')->monthlyOn(27, '09:00')->timezone('Asia/Jakarta');
     }
 
     /**

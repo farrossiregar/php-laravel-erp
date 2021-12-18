@@ -47,6 +47,11 @@ class Index extends Component
         return $data;
     }
 
+    public function delete(DrugTestModel $data)
+    {
+        $data->delete();
+    }
+
     public function downloadExcel()
     {
         \LogActivity::add('[web] Drug Test - Download');

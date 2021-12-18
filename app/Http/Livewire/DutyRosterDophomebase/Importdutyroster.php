@@ -61,7 +61,7 @@ class Importdutyroster extends Component
                         $message  = "<p>Dear {$user->name}<br />Duty Roster Home Base need your approval </p>";
                         $message .= "<p>Nama DOP: {$data->nama_dop}<br />Project : {$data->project}<br />Region: {$data->region}</p>";
                         
-                        \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - Duty Roster Site List",$message));
+                        \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - Duty Roster Home Base",$message));
                     }
                 }
             }

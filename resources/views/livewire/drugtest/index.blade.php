@@ -63,7 +63,10 @@
                                     <td>{{$k+1}}</td>
                                     <td>{{isset($item->employee->region->region) ? $item->employee->region->region : ''}}</td>
                                     <td>{{isset($item->employee->sub_region->name) ? $item->employee->sub_region->name : ''}}</td>
-                                    <td>{{isset($item->employee->name) ? $item->employee->name : ''}}</td>
+                                    <td>
+                                        <!-- <a href="javascript:void(0)" class="text-danger" wire:click="delete({{$item->id}})"><i class="fa fa-trash"></i></a> -->
+                                        {{isset($item->employee->name) ? $item->employee->name : ''}}
+                                    </td>
                                     <td>{{isset($item->title) ? $item->title : ''}}</td>
                                     <td>{{isset($item->remark) ? $item->remark : ''}}</td>
                                     <td class="text-center">
@@ -130,11 +133,14 @@
                                 @endforeach
                             </select>
                         </div>
+                        @error('employee_id')
+                            <span class="text-danger mb-2">{{ $message }}</span>
+                        @enderror
                         <div class="form-group">
                             <label>File</label>
                             <input type="file" class="form-control" wire:model="file" />
                             @error('file')
-                            <span class="text-danger">{{ $message }}</span>
+                                <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>

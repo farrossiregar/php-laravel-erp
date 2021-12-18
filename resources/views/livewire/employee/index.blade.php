@@ -10,9 +10,16 @@
                 <div class="col-md-2">
                     <select class="form-control" wire:model="user_access_id">
                         <option value="">--- User Access ---</option>
-                        @foreach(\App\Models\UserAccess::orderBy('name')->get() as $i)
-                        <option value="{{$i->id}}">{{$i->name}}</option>
-                        @endforeach
+                        <optgroup label="Project">
+                            @foreach(\App\Models\UserAccess::where('is_project',1)->orderBy('name')->get() as $i)
+                            <option value="{{$i->id}}">{{$i->name}}</option>
+                            @endforeach
+                        </optgroup>
+                        <optgroup label="Non Project">
+                            @foreach(\App\Models\UserAccess::where('is_project',0)->orderBy('name')->get() as $i)
+                            <option value="{{$i->id}}">{{$i->name}}</option>
+                            @endforeach
+                        </optgroup>
                     </select>
                 </div>
                 <div class="col-md-2">
@@ -22,6 +29,7 @@
                         <option value="{{$i->id}}">{{$i->name}}</option>
                         @endforeach
                     </select>
+                    
                 </div>
                 <div class="col-md-2">
                     <select class="form-control" wire:model="project_id">

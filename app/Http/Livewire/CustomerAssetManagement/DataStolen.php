@@ -28,10 +28,8 @@ class DataStolen extends Component
             }
         });
 
-        
-        
         if($this->employee_id) $data = $data->where('sites.employee_id',$this->employee_id);
-
+        
         return view('livewire.customer-asset-management.data-stolen')->with(['data'=>$data->paginate(100)]);
     }
 }

@@ -48,7 +48,6 @@ class SyncronEveryMonth extends Command
             }
         }
 
-
         return Command::SUCCESS;
     }
 }
