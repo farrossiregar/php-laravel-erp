@@ -37,7 +37,7 @@
         </div>
         <div class="col-md-1 px-0">
             @if(check_access('work-flow-management.upload'))
-            <a href="javascript:;" class="btn btn-primary" data-toggle="modal" data-target="#modal_upload"><i class="fa fa-upload"></i> {{ __('Upload') }}</a>
+                <a href="javascript:;" class="btn btn-primary" data-toggle="modal" data-target="#modal_upload"><i class="fa fa-upload"></i> {{ __('Upload') }}</a>
             @endif
         </div>
     </div>

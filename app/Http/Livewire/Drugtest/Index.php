@@ -10,6 +10,7 @@ use App\Models\EmployeeProject;
 use App\Models\Region;
 use App\Models\SubRegion;
 use Livewire\WithPagination;
+use Illuminate\Validation\Rule;
 
 class Index extends Component
 {
@@ -17,7 +18,7 @@ class Index extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $employee_pic_id,$employee_id,$status_drug,$file,$title,$remark,$filter_employee_id,$region=[],$sub_region=[],$region_id,$sub_region_id;
-    public $project_id;
+    public $project_id,$is_edit_image=false,$selected_id,$batch=1,$filter_tahun,$filter_batch;
     protected $queryString = ['project_id'];
     protected $listeners = ['refresh-page'=>'$refresh'];
 
@@ -42,8 +43,39 @@ class Index extends Component
             $this->sub_region = SubRegion::where('region_id',$this->region_id)->get();
         }
         if($this->sub_region_id) $data->where('drug_test.sub_region_id',$this->sub_region_id);
-
+        if($this->filter_batch) $data->where('batch',$this->batch);
+        if($this->filter_tahun) $data->where('tahun', $this->filter_tahun);
         return $data;
+    }
+
+    public function set_id(DrugTestModel $id)
+    {
+        $this->selected_id = $id;
+    }
+
+    public function update_edit_uploaded()
+    {
+        $this->validate([
+            'file' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if($this->file){
+            $name = $this->selected_id->id .".".$this->file->extension();
+            $this->file->storeAs("public/drug-test/{$this->selected_id->id}", $name);
+
+            DrugTestUpload::where('drug_test_id',$this->selected_id->id)->delete();
+
+            $upload = new DrugTestUpload();
+            $upload->image = "storage/drug-test/{$this->selected_id->id}/{$name}";
+            $upload->drug_test_id = $this->selected_id->id;
+            $upload->save();
+        }
+
+        \LogActivity::add('[web] Drug Test - Update Uploaded');
+
+        $this->emit('message-success','Drug Test updated');
+        $this->emit('refresh-page');
+
     }
 
     public function delete(DrugTestModel $data)
@@ -142,6 +174,7 @@ class Index extends Component
 
         if(isset($this->project_id)) session()->put('project_id',$this->project_id);
         $this->region  = Region::select(['id','region'])->get();
+        $this->is_edit_image = check_access('drug-test.edit-uploaded');
     }
 
     public function positif()
@@ -159,10 +192,14 @@ class Index extends Component
     public function save()
     {
         $this->validate([
-            // 'employee_pic_id' => 'required',
-            // 'employee_id' => 'required',
             'file' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'title' => 'required'
+            'employee_id' => ['required', 
+                Rule::unique('drug_test')->where(function ($query) {
+                    return $query->where('employee_id', $this->employee_id)
+                                ->where('batch', $this->batch)
+                                ->where('tahun',date('Y'));
+                })
+            ]
         ]);
 
         $data = new DrugTestModel();
@@ -171,6 +208,8 @@ class Index extends Component
         $data->status_drug = $this->status_drug;
         $data->title = $this->title;
         $data->remark = $this->remark;
+        $data->tahun = date('Y');
+        $data->batch = $this->batch;
         $data->status = 1;
         $data->date_submited = date('Y-m-d');
         $data->sertifikat_number = "PMT/".date('dmy')."/".str_pad((DrugTestModel::count()+1),6, '0', STR_PAD_LEFT);
@@ -194,8 +233,8 @@ class Index extends Component
         
         $description = "Hasil : ". ($this->status_drug==1 ? 'Positif' : 'Negatif') ."\n";
 
-        if(isset($data->employee->device_token))
-            push_notification_android($data->employee->device_token,"Drug Test #".$this->title,$description,12);
+        // if(isset($data->employee->device_token))
+        //     push_notification_android($data->employee->device_token,"Drug Test #".$this->title,$description,12);
 
         \LogActivity::add('[web] Drug Test Add');
 

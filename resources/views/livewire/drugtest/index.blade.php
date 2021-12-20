@@ -16,25 +16,44 @@
                 <div class="col-md-1 form-group">
                     <input type="text" class="form-control date_created" placeholder="Date" />
                 </div>
-                <div class="col-md-2" wire:ignore>
+                <div class="col-md-1" wire:ignore>
                     <select class="form-control" wire:model="region_id" wire:change="$set('sub_region_id',null)">
-                        <option value=""> -- Select Region -- </option>
+                        <option value=""> -- Region -- </option>
                         @foreach($region as $item)
                             <option value="{{$item->id}}">{{$item->region}}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <select class="form-control" wire:model="sub_region_id">
-                        <option value=""> -- Select Sub Region -- </option>
+                        <option value=""> -- Sub Region -- </option>
                         @foreach($sub_region as $item)
                             <option value="{{$item->id}}">{{$item->name}}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-5">
-                    <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_add_drug_test"><i class="fa fa-plus"></i> Drug Test</a>
-                    <a href="javascript:void(0)" wire:click="downloadExcel" class="btn btn-success"><i class="fa fa-download"></i> Download</a>
+                <div class="col-md-1">
+                    <select class="form-control" wire:model="filter_tahun">
+                        <option value=""> -- Tahun -- </option>
+                        @foreach(\App\Models\DrugTest::groupBy('tahun')->get() as $item)
+                            <option>{{$item->tahun}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <select class="form-control" wire:model="filter_batch">
+                        <option value=""> -- Batch -- </option>
+                        <option>1</option>
+                        <option>2</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    @if(check_access('drug-test.insert'))
+                        <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_add_drug_test"><i class="fa fa-plus"></i> Drug Test</a>
+                    @endif
+                    @if(check_access('drug-test.download'))
+                        <a href="javascript:void(0)" wire:click="downloadExcel" class="btn btn-success"><i class="fa fa-download"></i> Download</a>
+                    @endif
                     <span wire:loading>
                         <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                         <span class="sr-only">{{ __('Loading...') }}</span>
@@ -50,7 +69,8 @@
                                 <th>Region</th>   
                                 <th>Sub Region</th>   
                                 <th>Employee</th>   
-                                <th>Title</th>  
+                                <th>Tahun</th>
+                                <th class="text-center">Batch</th>
                                 <th>Remark</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">File</th>
@@ -67,7 +87,8 @@
                                         <!-- <a href="javascript:void(0)" class="text-danger" wire:click="delete({{$item->id}})"><i class="fa fa-trash"></i></a> -->
                                         {{isset($item->employee->name) ? $item->employee->name : ''}}
                                     </td>
-                                    <td>{{isset($item->title) ? $item->title : ''}}</td>
+                                    <td>{{$item->tahun}}</td>
+                                    <td class="text-center">{{$item->batch}}</td>
                                     <td>{{isset($item->remark) ? $item->remark : ''}}</td>
                                     <td class="text-center">
                                         @if($item->status_drug==0)
@@ -84,6 +105,9 @@
                                         @foreach(\App\Models\DrugTestUpload::where('drug_test_id',$item->id)->get() as $img)
                                             <a href="{{ $img->image }}" target="_blank"><i class="fa fa-file"></i></a>
                                         @endforeach
+                                        @if($is_edit_image)
+                                            <a href="javascript:void(0)" class="ml-2 text-danger" wire:click="set_id({{$item->id}})" data-toggle="modal" data-target="#modal_edit_uploaded"><i class="fa fa-edit"></i></a>
+                                        @endif
                                     </td>
                                     <td>
                                         @if($item->date_submited)
@@ -105,6 +129,37 @@
         </div>
     </div>
 
+    <div wire:ignore.self class="modal fade" id="modal_edit_uploaded" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form wire:submit.prevent="update_edit_uploaded">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Update Image</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true close-btn">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>File</label>
+                            <input type="file" class="form-control" wire:model="file" />
+                            @error('file')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" wire:loading.remove class="btn btn-success"><i class="fa fa-save"></i> Update</button>
+                        <span wire:loading>
+                            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                            <span class="sr-only">{{ __('Loading...') }}</span>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div wire:ignore.self class="modal fade" id="modal_add_drug_test" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -117,8 +172,16 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Title</label>
-                            <input type="text" class="form-control" wire:model="title" />
+                            <label>Tahun</label>
+                            <span>{{date('Y')}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="mr-2">
+                                <input type="radio" value="1" wire:model="batch" /> Batch 1
+                            </label>
+                            <label>
+                                <input type="radio" value="2" wire:model="batch" /> Batch 2
+                            </label>
                         </div>
                         <div class="form-group">
                             <label>Remark</label>
@@ -136,7 +199,7 @@
                         @error('employee_id')
                             <span class="text-danger mb-2">{{ $message }}</span>
                         @enderror
-                        <div class="form-group">
+                        <div class="form-group mt-2">
                             <label>File</label>
                             <input type="file" class="form-control" wire:model="file" />
                             @error('file')
@@ -145,8 +208,14 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" wire:click="positif"><i class="fa fa-minus"></i> Negatif</button>
-                        <button type="button" class="btn btn-danger" wire:click="negatif"><i class="fa fa-plus"></i> Positif</button>
+                        <div wire:loading.remove>
+                            <button type="button" class="btn btn-success" wire:click="positif"><i class="fa fa-minus"></i> Negatif</button>
+                            <button type="button" class="btn btn-danger" wire:click="negatif"><i class="fa fa-plus"></i> Positif</button>
+                        </div>
+                        <span wire:loading>
+                            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                            <span class="sr-only">{{ __('Loading...') }}</span>
+                        </span>
                     </div>
                 </form>
             </div>
