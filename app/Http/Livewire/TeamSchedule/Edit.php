@@ -4,8 +4,8 @@ namespace App\Http\Livewire\TeamSchedule;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
-use DB;
+
+
 use Session;
 
 class Edit extends Component
@@ -39,22 +39,22 @@ class Edit extends Component
                                                     ->first();
             
                                                     
-            if($getproject){
-                if($getproject->region_id){
-                    $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
-                }else{
-                    $this->region = '';
-                }
+            // if($getproject){
+                // if($getproject->region_id){
+                //     $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
+                // }else{
+                //     $this->region = '';
+                // }
 
-                $this->employeelist = \App\Models\Employee::where('region_id', $getproject->region_id)
-                                                            ->where('project', $this->project)
-                                                            ->get();
+                // $this->employeelist = \App\Models\Employee::where('region_id', $getproject->region_id)
+                //                                             ->where('project', $this->project)
+                //                                             ->get();
                 
                 
-            }else{
-                $this->region = '';
-                $this->employeelist = [];
-            }
+            // }else{
+            //     $this->region = '';
+            //     $this->employeelist = [];
+            // }
         }
         
         
@@ -65,9 +65,11 @@ class Edit extends Component
     public function editteamschedule($id){
         $this->selected_id              = $id;
         $data                           = \App\Models\TeamScheduleNoc::where('id', $this->selected_id)->first();
+        // $this->project                  = $data->project;
         $this->project                  = get_project_company($data->project, $data->company_name);
         
         $this->region                   = $data->region;
+        // $this->region                   = \App\Models\Region::where('id', $data->region)->first()->region_code;
         
         $this->region                   = $data->region;
         $this->employee_name            = $data->name;
@@ -82,8 +84,9 @@ class Edit extends Component
     public function save()
     {
         $data                           = \App\Models\TeamScheduleNoc::where('id', $this->selected_id)->first();
-        $data->company_name               = Session::get('company_id');
-        $data->project                  = $this->project;
+        $data->company_name             = Session::get('company_id');
+        $data->project                  = \App\Models\ClientProject::where('name', $this->project)->first()->id;
+        // $data->region                   = \App\Models\Region::where('region_code', $this->region)->first()->id;
         $data->region                   = $this->region;
         $data->name                     = $this->employee_name;
         $data->start_schedule           = $this->date_plan.' '.$this->start_time_plan.':00';

@@ -4,7 +4,6 @@ namespace App\Http\Livewire\TeamSchedule;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
 use DB;
 use Session;
 

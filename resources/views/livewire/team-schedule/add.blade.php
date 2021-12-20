@@ -42,7 +42,7 @@
                                             <input list="petty_cash_category1" class="form-control"  wire:model="employee_name">
                                             <datalist id="petty_cash_category1" >
                                                 @foreach($employeelist as $item)
-                                                <option value="{{ $item->name }}">
+                                                <option value="{{ $item->name }} - {{ $item->nik }} - {{ $item->id }}">
                                                 @endforeach
                                             </datalist>
 

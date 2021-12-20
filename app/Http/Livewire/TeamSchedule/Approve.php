@@ -4,7 +4,7 @@ namespace App\Http\Livewire\TeamSchedule;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
+use App\Mail\GeneralEmail;
 use DB;
 
 class Approve extends Component
@@ -45,21 +45,15 @@ class Approve extends Component
         $data->save();
 
     
-        // $notif = check_access_data('petty-cash.notif', '');
-        // $nameuser = [];
-        // $emailuser = [];
-        // $phoneuser = [];
-        // foreach($notif as $no => $itemuser){
-        //     $nameuser_[$no] = $itemuser->name;
-        //     $emailuser[$no] = $itemuser->email;
-        //     $phoneuser[$no] = $itemuser->telepon;
-
-        //     $message = "*Dear Admin NOC *\n\n";
-        //     $message .= "*Petty Cash ".date('M')."-".date('Y')." telah diapprove oleh Finance *\n\n";
-        //     send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
-
-        //     // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
-        // }
+        $notif = get_user_from_access('team-schedule.toc-leader');
+        
+        foreach($notif as $user){
+            if($user->email){
+                $message  = "<p>Dear {$user->name}<br />, Team Schedule is Approve </p>";
+                $message .= "<p>Nama Employee: {$data->name}<br />Project : {$data->project}<br />Region: {$data->region}</p>";
+                \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - NOC Team Schedule",$message));
+            }
+        }
 
 
 

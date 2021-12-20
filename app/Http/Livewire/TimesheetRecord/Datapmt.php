@@ -100,7 +100,7 @@ class Datapmt extends Component
                                                 ->where('region',\App\Models\Region::where('id', $region)->first()->region_code);
        
         $data = $data->get();
-        // dd($data);
+        // dd($data);  
         
         foreach($data as $k => $item){
             if($item->company_name == '1'){

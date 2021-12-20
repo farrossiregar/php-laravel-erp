@@ -4,7 +4,7 @@ namespace App\Http\Livewire\TeamSchedule;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
+use App\Mail\GeneralEmail;
 use DB;
 
 class Decline extends Component
@@ -57,9 +57,21 @@ class Decline extends Component
         //     // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
         // }
 
+        // send notifikasi
+        $notif = get_user_from_access('team-schedule.toc-leader');
+        foreach($notif as $user){
+            if($user->email){
+                $message  = "<p>Dear {$user->name}<br />, Team Schedule is Decline </p>";
+                $message .= "<p>Nama Employee: {$data->name}<br />Project : {$data->project}<br />Region: {$data->region}</p>";
+                \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - NOC Team Schedule",$message));
+            }
+        }
+
 
         
-        session()->flash('message-success',"Berhasil, Petty Cash is Decline !!!");
+        session()->flash('message-success',"Berhasil, Team Schedule is Decline !!!");
+
+        \LogActivity::add('[web] Duty Roster - Home Base Input');
         
         return redirect()->route('team-schedule.index');
     }

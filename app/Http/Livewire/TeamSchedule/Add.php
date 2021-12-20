@@ -5,9 +5,7 @@ namespace App\Http\Livewire\TeamSchedule;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
-use App\Models\CommitmentLetter;
-use Auth;
-use DB;
+use App\Mail\GeneralEmail;
 use Session;
 
 
@@ -31,7 +29,7 @@ class Add extends Component
                                 ->get();
         
         $this->regionarealist = [];
-        $this->employeelist = [];
+        $this->employeelist = $this->employeelist = \App\Models\Employee::whereIn('user_access_id', [85, 84])->get();
 
         if($this->project){ 
             
@@ -55,7 +53,7 @@ class Add extends Component
                 
             }else{
                 $this->region = '';
-                $this->employeelist = [];
+                $this->employeelist = \App\Models\Employee::whereIn('user_access_id', [85, 84])->get();
             }
         }
        
@@ -71,32 +69,28 @@ class Add extends Component
         $data                           = new \App\Models\TeamScheduleNoc();
         $data->company_name             = Session::get('company_id');
         $data->project                  = $this->project;
-        // dd($this->project);
+        
         // $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
-
+        
+        $dataemployee                   = explode(" - ",$this->employee_name);
         $data->region                   = $this->region;
-        $data->name                     = $this->employee_name;
-        $data->employee_id              = \App\Models\Employee::where('name', $this->employee_name)->first()->id;
+        $data->name                     = $dataemployee[0];
+        $data->nik                      = $dataemployee[1];
+        $data->employee_id              = $dataemployee[2];
+        
         $data->start_schedule           = $this->date_plan.' '.$this->start_time_plan.':00';
         $data->end_schedule             = $this->date_plan.' '.$this->end_time_plan.':00';
         
         $data->save();
 
-        // $notif = check_access_data('petty-cash.notif', '');
-        // $nameuser = [];
-        // $emailuser = [];
-        // $phoneuser = [];
-        // foreach($notif as $no => $itemuser){
-        //     $nameuser_[$no] = $itemuser->name;
-        //     $emailuser[$no] = $itemuser->email;
-        //     $phoneuser[$no] = $itemuser->telepon;
-
-        //     $message = "*Dear Admin NOC *\n\n";
-        //     $message .= "*Petty Cash ".date('M')."-".date('Y')." telah diapprove oleh Finance *\n\n";
-        //     send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
-
-        //     // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
-        // }
+        $notif = get_user_from_access('team-schedule.noc-manager');
+        foreach($notif as $user){
+            if($user->email){
+                $message  = "<p>Dear {$user->name}<br />, Team Schedule need Approval </p>";
+                $message .= "<p>Nama Employee: {$data->name}<br />Project : {$data->project}<br />Region: {$data->region}</p>";
+                \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - NOC Team Schedule",$message));
+            }
+        }
 
        
 

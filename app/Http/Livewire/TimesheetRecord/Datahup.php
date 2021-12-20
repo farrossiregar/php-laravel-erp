@@ -4,9 +4,6 @@ namespace App\Http\Livewire\TimesheetRecord;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\PoTrackingPds;
-use App\Models\PoTrackingNonms;
-use Auth;
 use DB;
 use Session;
 
