@@ -4,10 +4,7 @@ namespace App\Http\Livewire\TeamSchedule;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\PoTrackingPds;
-use App\Models\PoTrackingNonms;
-use Auth;
-use DB;
+
 
 
 class Datahup extends Component

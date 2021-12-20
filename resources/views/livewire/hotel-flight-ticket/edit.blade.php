@@ -5,7 +5,7 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Input Team Schedule</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Revisi Petty Cash</h5>
                 </div>
 
                 <div class="body pt-0">
@@ -18,13 +18,14 @@
                                         
                                         <div class="col-md-12 form-group">
                                             <label>Project</label>
-                                            <select onclick="" class="form-control" wire:model="project">
+                                            <!-- <select onclick="" class="form-control" wire:model="project">
                                                 <option value=""> --- Project --- </option>
 
                                                 @foreach($dataproject as $item)
                                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> -->
+                                            <input type="text" class="form-control" wire:model="project" readonly/>
                                             @error('employee_id')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
@@ -39,12 +40,13 @@
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <label>Employee Name</label>
-                                            <input list="petty_cash_category1" class="form-control"  wire:model="employee_name">
-                                            <datalist id="petty_cash_category1" >
+                                            <!-- <input list="petty_cash_category" class="form-control"  wire:model="employee_name">
+                                            <datalist id="petty_cash_category" >
                                                 @foreach($employeelist as $item)
-                                                <option value="{{ $item->name }} - {{ $item->nik }} - {{ $item->id }}">
+                                                <option value="{{ $item->name }}">
                                                 @endforeach
-                                            </datalist>
+                                            </datalist> -->
+                                            <input type="text" class="form-control" wire:model="employee_name" readonly/>
 
                                             @error('employee_name')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -76,7 +78,6 @@
                                             @enderror
                                         </div>
                                       
-                                       
                                         
                                        
                                     </div>
@@ -84,7 +85,7 @@
                                 
                                 <div class="col-md-12 form-group">
                                     <hr />
-                                    
+                                    <!-- <a href="{{route('accident-report.index')}}" class="mr-2"><i class="fa fa-arrow-left"></i> {{ __('Back') }}</a> -->
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                 </div>
                             </div>

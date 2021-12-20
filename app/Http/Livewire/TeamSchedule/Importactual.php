@@ -4,8 +4,8 @@ namespace App\Http\Livewire\TeamSchedule;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
 use DB;
+use Datetime;
 use Session;
 
 class Importactual extends Component
@@ -92,7 +92,7 @@ class Importactual extends Component
                     $dataactual->start_actual                                  = $i[9].' '.$i[10].':00';
                     $dataactual->end_actual                                    = $i[9].' '.$i[11].':00';
                     $dataactual->status                                        = '1';
-                    
+                    $dataactual->week                                          = $this->weekOfMonth3($i[9]);
                     $dataactual->save();
 
                     $total_success++;
@@ -255,5 +255,13 @@ class Importactual extends Component
 
         // return (new \App\Models\DanaStplReport($download))->download('EPL.DanaStplReport.xlsx');
     }
+
+
+    public function weekOfMonth3($strDate) {
+		$dateArray = explode("-", $strDate);
+		$date = new DateTime();
+		$date->setDate($dateArray[0], $dateArray[1], $dateArray[2]);
+		return floor((date_format($date, 'j') - 1) / 7) + 1;  
+	  }
     
 }

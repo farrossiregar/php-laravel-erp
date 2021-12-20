@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\TeamSchedule;
+namespace App\Http\Livewire\HotelFlightTicket;
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -22,6 +22,6 @@ class Data extends Component
         if($this->filterweek) $data->where('week',$this->filterweek);                        
         if($this->filterproject) $data->where('project',$this->filterproject);                        
         
-        return view('livewire.team-schedule.data')->with(['data'=>$data->paginate(50)]);   
+        return view('livewire.hotel-flight-ticket.data')->with(['data'=>$data->paginate(50)]);   
     }
 }

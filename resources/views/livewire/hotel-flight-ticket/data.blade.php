@@ -56,10 +56,10 @@
     <div class="col-md-12">
         <br><br>
         <div class="table-responsive">
-            <table class="table table-striped m-b-0 c_list">
+            <table class="table table-bordered table-striped m-b-0 c_list">
                 <thead>
 
-                    <tr>
+                    <!-- <tr>
                         <th>No</th> 
                         <th>Status</th> 
                         <th>Date Create</th>
@@ -68,18 +68,61 @@
                         <th>Company Name</th> 
                         <th>Project</th> 
                         <th>Region</th> 
-                        <th>Start Scheduled</th> 
-                        <th>End Scheduled</th> 
+                        <th>Ticket Type</th> 
+                        <th>Category</th> 
+                        <th>Date</th> 
+                        <th>Departure Airport</th> 
+                        <th>Arrival Airport</th> 
+                        <th>Meeting Location</th> 
+                        <th>Attachment</th> 
                         <th>Action</th> 
-                        <th>Start Actual</th> 
-                        <th>End Actual</th> 
-                        <th>Overtime</th> 
-                        <th>Action</th> 
+                    </tr> -->
+                    <tr>
+                        <th rowspan="2" class="align-middle">No</th>
+                        <th rowspan="2" class="align-middle">Status</th> 
+                        <th rowspan="2" class="align-middle">Date Create</th>
+                        <th rowspan="2" class="align-middle">User</th> 
+                        <th rowspan="2" class="align-middle">NIK</th> 
+                        <!-- <th rowspan="2" class="align-middle">Company Name</th>  -->
+                        <th rowspan="2" class="align-middle">Project</th> 
+                        <th rowspan="2" class="align-middle">Region</th> 
+                        <th rowspan="2" class="align-middle">Ticket Type</th> 
+                        <th rowspan="2" class="align-middle">Category</th> 
+                        <th rowspan="2" class="align-middle">Date</th> 
+                        <th colspan="7" class="text-center align-middle">Flight Detail</th>
+                        <th colspan="3" class="text-center align-middle">Hotel Detail</th> 
+                    </tr>
+                    <tr>
+                        
+                        <!-- <th class="text-center align-middle">Status</th> 
+                        <th class="text-center align-middle">Date Create</th>
+                        <th class="text-center align-middle">Company Name</th> 
+                        <th class="text-center align-middle">Project</th> 
+                        <th class="text-center align-middle">Region</th> 
+                        <th class="text-center align-middle">Amount</th> 
+                        <th class="text-center align-middle">Keterangan</th> 
+                        <th class="text-center align-middle">Petty Cash Note</th> 
+                        <th class="text-center align-middle">Petty Cash Review</th> 
+                        <th class="text-center align-middle">Upload Receipt</th> 
+                        <th class="text-center align-middle">Receipt Note</th> 
+                        <th class="text-center align-middle">Receipt Review</th>  -->
+                        <th class="text-center align-middle">Price</th> 
+                        <th class="text-center align-middle">Departure</th> 
+                        <th class="text-center align-middle">Arrival</th> 
+                        <th class="text-center align-middle">Airline</th> 
+                        <th class="text-center align-middle">Agency</th> 
+                        <th class="text-center align-middle">Meeting Location</th> 
+                        <th class="text-center align-middle">Attachment</th> 
+
+                        <th class="text-center align-middle">Price</th> 
+                        <th class="text-center align-middle">Name</th> 
+                        <th class="text-center align-middle">Location</th> 
+                        
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($data as $key => $item)
-                    <tr>
+                    <!-- <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>
                             @if($item->status == '2')
@@ -169,15 +212,10 @@
 
                             @endif
 
-                            <!-- if(check_access('petty-cash.add')) -->
-                                @if($item->status == '0')
-                                <!-- <a href="javascript:;" wire:click="$emit('modalrevisipettycash','{{ $item->id }}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a> -->
-                                    
-                                @endif
-                            <!-- endif -->
+                           
                         </td>
                        
-                    </tr>
+                    </tr> -->
                     @endforeach
                 </tbody>
             </table>

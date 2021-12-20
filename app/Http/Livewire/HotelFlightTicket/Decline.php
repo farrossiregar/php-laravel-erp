@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\TeamSchedule;
+namespace App\Http\Livewire\HotelFlightTicket;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -20,7 +20,7 @@ class Decline extends Component
     
     public function render()
     {       
-        return view('livewire.team-schedule.decline');
+        return view('livewire.hotel-flight-ticket.decline');
     }
 
     public function declineteamschedule($id)
@@ -58,7 +58,7 @@ class Decline extends Component
         // }
 
         // send notifikasi
-        $notif = get_user_from_access('team-schedule.toc-leader');
+        $notif = get_user_from_access('hotel-flight-ticket.toc-leader');
         foreach($notif as $user){
             if($user->email){
                 $message  = "<p>Dear {$user->name}<br />, Team Schedule is Decline </p>";
@@ -73,6 +73,6 @@ class Decline extends Component
 
         \LogActivity::add('[web] Duty Roster - Home Base Input');
         
-        return redirect()->route('team-schedule.index');
+        return redirect()->route('hotel-flight-ticket.index');
     }
 }
