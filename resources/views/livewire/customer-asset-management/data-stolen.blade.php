@@ -82,8 +82,8 @@
                         <td>{{$item->battery_brand_3}}</td>
                         <td>{{$item->battery_qty_3}}</td>
                         <td>
-                            @if($item->photo_kondisition)
-                                <a href="{{asset($item->photo_kondisition)}}"><i class="fa fa-image"></i></a>
+                            @if($item->photo_kondition)
+                                <a href="{{asset($item->photo_kondition)}}"><i class="fa fa-image"></i></a>
                             @endif
                         </td>
                         <td>{{$item->catatan}}</td>
@@ -92,7 +92,7 @@
                             @if($item->site_owner == 'TLP')
                                 @if($item->status==1)
                                     @if(check_access('customer-asset-management.asset-stolen-open-tt-tlp'))
-                                        @livewire('customer-asset-management.status-stolen-tlp',['data'=>$item->id],key($item->id+$item->status))
+                                        @livewire('customer-asset-management.status-stolen-tlp',['data'=>$item->id],key($item->id+$item->status+1))
                                     @else
                                         <a href="javascript:;" class="badge badge-danger"><i class="fa fa-warning"></i> Not Verify</a>
                                     @endif
@@ -104,14 +104,14 @@
                             @if($item->site_owner == 'TMG')
                                 @if($item->status==1)
                                     @if(check_access('customer-asset-management.asset-stolen-verify-and-acknowldge-tmg'))
-                                        @livewire('customer-asset-management.status-stolen-tmg',['data'=>$item->id],key($item->id+$item->status))
+                                        @livewire('customer-asset-management.status-stolen-tmg',['data'=>$item->id],key($item->id+$item->status+2))
                                     @else
                                         <a href="javascript:;" class="badge badge-danger"><i class="fa fa-warning"></i> Not Verify</a>
                                     @endif
                                 @endif
                                 @if($item->status==2)
                                     @if(check_access('customer-asset-management.stolen-submit-email-boq'))
-                                        @livewire('customer-asset-management.status-stolen-boq-tmg',['data'=>$item->id],key($item->id+$item->status))
+                                        @livewire('customer-asset-management.status-stolen-boq-tmg',['data'=>$item->id],key($item->id+$item->status+3))
                                     @else
                                         <span class="badge badge-warning"><i class="fa fa-times"></i> Not Uploaded</span>
                                     @endif

@@ -65,7 +65,7 @@ class Index extends Component
             }
         }
 
-        $this->reset();
+        $this->reset(['name','description','training_material_group_id']);
         $this->emit('message-success','Training Material & Exam Added');
         $this->emit('refresh-page');
     }

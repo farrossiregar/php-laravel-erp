@@ -123,6 +123,8 @@ class CustomerAssetManagementController extends Controller
             }
         }
 
+        \LogActivity::add('[apps] Customer Asset Submit');
+
         return response(['status'=>200,'message'=>'success'],200);
     }
 }
