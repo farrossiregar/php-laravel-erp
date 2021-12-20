@@ -16,23 +16,38 @@
                 <div class="col-md-1 form-group">
                     <input type="text" class="form-control date_created" placeholder="Date" />
                 </div>
-                <div class="col-md-2" wire:ignore>
+                <div class="col-md-1" wire:ignore>
                     <select class="form-control" wire:model="region_id" wire:change="$set('sub_region_id',null)">
-                        <option value=""> -- Select Region -- </option>
+                        <option value=""> -- Region -- </option>
                         @foreach($region as $item)
                             <option value="{{$item->id}}">{{$item->region}}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <select class="form-control" wire:model="sub_region_id">
-                        <option value=""> -- Select Sub Region -- </option>
+                        <option value=""> -- Sub Region -- </option>
                         @foreach($sub_region as $item)
                             <option value="{{$item->id}}">{{$item->name}}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-1">
+                    <select class="form-control" wire:model="filter_tahun">
+                        <option value=""> -- Tahun -- </option>
+                        @foreach(\App\Models\DrugTest::groupBy('tahun')->get() as $item)
+                            <option>{{$item->tahun}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <select class="form-control" wire:model="filter_batch">
+                        <option value=""> -- Batch -- </option>
+                        <option>1</option>
+                        <option>2</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
                     @if(check_access('drug-test.insert'))
                         <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_add_drug_test"><i class="fa fa-plus"></i> Drug Test</a>
                     @endif
@@ -55,7 +70,7 @@
                                 <th>Sub Region</th>   
                                 <th>Employee</th>   
                                 <th>Tahun</th>
-                                <th>Batch</th>
+                                <th class="text-center">Batch</th>
                                 <th>Remark</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">File</th>
@@ -73,7 +88,7 @@
                                         {{isset($item->employee->name) ? $item->employee->name : ''}}
                                     </td>
                                     <td>{{$item->tahun}}</td>
-                                    <td>{{$item->batch}}</td>
+                                    <td class="text-center">{{$item->batch}}</td>
                                     <td>{{isset($item->remark) ? $item->remark : ''}}</td>
                                     <td class="text-center">
                                         @if($item->status_drug==0)
@@ -159,11 +174,13 @@
                         <div class="form-group">
                             <label>Tahun</label>
                             <span>{{date('Y')}}</span>
-                            <label>
-                                <input type="radio" /> Batch 1
+                        </div>
+                        <div class="form-group">
+                            <label class="mr-2">
+                                <input type="radio" value="1" wire:model="batch" /> Batch 1
                             </label>
                             <label>
-                                <input type="radio" /> Batch 2
+                                <input type="radio" value="2" wire:model="batch" /> Batch 2
                             </label>
                         </div>
                         <div class="form-group">
@@ -182,7 +199,7 @@
                         @error('employee_id')
                             <span class="text-danger mb-2">{{ $message }}</span>
                         @enderror
-                        <div class="form-group">
+                        <div class="form-group mt-2">
                             <label>File</label>
                             <input type="file" class="form-control" wire:model="file" />
                             @error('file')
@@ -191,8 +208,14 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" wire:click="positif"><i class="fa fa-minus"></i> Negatif</button>
-                        <button type="button" class="btn btn-danger" wire:click="negatif"><i class="fa fa-plus"></i> Positif</button>
+                        <div wire:loading.remove>
+                            <button type="button" class="btn btn-success" wire:click="positif"><i class="fa fa-minus"></i> Negatif</button>
+                            <button type="button" class="btn btn-danger" wire:click="negatif"><i class="fa fa-plus"></i> Positif</button>
+                        </div>
+                        <span wire:loading>
+                            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                            <span class="sr-only">{{ __('Loading...') }}</span>
+                        </span>
                     </div>
                 </form>
             </div>
