@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\TeamSchedule;
+namespace App\Http\Livewire\HotelFlightTicket;
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -59,7 +59,7 @@ class Add extends Component
         }
        
 
-        return view('livewire.team-schedule.add');
+        return view('livewire.hotel-flight-ticket.add');
     }
 
   
@@ -84,7 +84,7 @@ class Add extends Component
         $data->week                     = $this->weekOfMonth3($this->date_plan);
         $data->save();
 
-        $notif = get_user_from_access('team-schedule.noc-manager');
+        $notif = get_user_from_access('hotel-flight-ticket.noc-manager');
         foreach($notif as $user){
             if($user->email){
                 $message  = "<p>Dear {$user->name}<br />, Team Schedule need Approval </p>";
@@ -98,7 +98,7 @@ class Add extends Component
 
         session()->flash('message-success',"Team Schedule NOC Berhasil diinput");
         
-        return redirect()->route('team-schedule.index');
+        return redirect()->route('hotel-flight-ticket.index');
     }
 
     public function weekOfMonth3($strDate) {

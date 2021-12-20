@@ -98,6 +98,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('petty-cash',App\Http\Livewire\PettyCash\Index::class)->name('petty-cash.index');
     Route::get('team-schedule',App\Http\Livewire\TeamSchedule\Index::class)->name('team-schedule.index');
     Route::get('timesheet-record',App\Http\Livewire\TimesheetRecord\Index::class)->name('timesheet-record.index');
+    Route::get('hotel-flight-ticket',App\Http\Livewire\HotelFlightTicket\Index::class)->name('hotel-flight-ticket.index');
     Route::get('tracking-monitoring',App\Http\Livewire\TrackingMonitoring\Index::class)->name('tracking-monitoring.index');
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
     Route::get('employee/insert',App\Http\Livewire\Employee\Insert::class)->name('employee.insert');

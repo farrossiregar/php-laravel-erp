@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\TeamSchedule;
+namespace App\Http\Livewire\HotelFlightTicket;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -58,7 +58,7 @@ class Edit extends Component
         }
         
         
-        return view('livewire.team-schedule.edit');
+        return view('livewire.hotel-flight-ticket.edit');
         
     }
 
@@ -99,7 +99,7 @@ class Edit extends Component
         
         session()->flash('message-success',"Team Schedule NOC Berhasil diinput");
         
-        return redirect()->route('team-schedule.index');
+        return redirect()->route('hotel-flight-ticket.index');
         
     }
 
