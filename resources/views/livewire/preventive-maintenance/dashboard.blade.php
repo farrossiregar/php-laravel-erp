@@ -39,13 +39,13 @@
             <h6>SOW (Monthly Target)</h6>
             <h1>{{format_idr($total_sow)}}</h1>
             <h6>Submitted</h6>
-            <h1>{{$total_submitted}}</h1>
+            <h1>{{format_idr($total_submitted)}}</h1>
             <h6>Approved EID</h6>
-            <h1>{{$total_approved_eid}}</h1>
+            <h1>{{format_idr($total_approved_eid)}}</h1>
             <hr />
             <h6>
                 @if($total_sow and $total_submitted)
-                    {{round((($total_submitted/$total_sow) * 100),1)}}%
+                    {{format_idr(round((($total_submitted/$total_sow) * 100),1))}}%
                 @else
                     0%
                 @endif 
@@ -53,7 +53,7 @@
             </h6>
             <h6>
                 @if($total_sow and $total_approved_eid)
-                    {{round(($total_approved_eid / $total_sow) * 100,1)}}% 
+                    {{format_idr(round(($total_approved_eid / $total_sow) * 100,1))}}% 
                 @else
                     0%
                 @endif

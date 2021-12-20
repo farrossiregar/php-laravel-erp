@@ -35,8 +35,8 @@ class Inputdutyroster extends Component
         $data->employee_id = \Auth::user()->employee->id;
         $data->save();
 
+        // send notifikasi
         $notif = get_user_from_access('duty-roster-dophomebase.approval');
-        
         foreach($notif as $user){
             if($user->email){
                 $message  = "<p>Dear {$user->name}<br />Duty Roster Home Base need your approval </p>";
