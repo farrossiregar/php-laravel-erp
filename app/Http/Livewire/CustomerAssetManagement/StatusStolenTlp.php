@@ -7,6 +7,7 @@ use App\Models\CustomerAssetManagement;
 use App\Models\TroubleTicket;
 use Livewire\WithFileUploads;
 use App\Mail\CustomerAssetStolenEmail;
+use App\Mail\GeneralEmail;
 
 class StatusStolenTlp extends Component
 {
@@ -39,30 +40,35 @@ class StatusStolenTlp extends Component
         $tt->trouble_ticket_number = $this->trouble_ticket_number;
         $tt->subject = $this->subject;
         $tt->description = $this->description;
-        $tt->transaction_id = $this->data->id;
+        $tt->employee_id = \Auth::user()->employee->id;
+        $tt->status = 1;
+        $tt->tanggal_kejadian = date('Y-m-d');
+        $tt->trouble_ticket_category = 'PROBLEM IT LAINNYA (JELASKAN)';
+        $tt->lokasi = "Diluar Kantor / Remote";
         $tt->transaction_table = 'customer_asset_management';
-        $tt->user_id = \Auth::user()->id;
+        $tt->transaction_id = $this->data->id;
         $tt->save();
 
         if($this->file!=""){
-            $file = $tt->id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/customer-asset/trouble-ticket',$file);
-            $tt->file = $file; 
+            $name = $tt->id.'.'.$this->file->extension();
+            $this->file->storePubliclyAs("public/trouble-ticket/{$tt->id}",$name);
+            $tt->file = "storage/trouble-ticket/{$tt->id}/{$name}";
             $tt->save();
         }
         
         $this->tt = TroubleTicket::where(['transaction_id'=>$this->data->id,'transaction_table'=>'customer_asset_management'])->get();
         
-        foreach(get_user_from_access('customer-asset-management.asset-stolen-acknowledge-tlp') as $user){
-            $message = "Trouble Ticket : *{$tt->trouble_ticket_number}*\n";
-            $message .= "Tower : {$this->data->tower->name}";;
-            $message .= "Subject : {$tt->subject}";
-            $message .= "Description : {$tt->subject}";
+        $message = "Trouble Ticket : *{$tt->trouble_ticket_number}*\n";
+        $message .= "Tower : {$this->data->tower->name}";;
+        $message .= "Subject : {$tt->subject}";
+        $message .= "Description : {$tt->subject}";
 
-            send_wa(['phone'=>$user->telepon,'message'=>$message]);
-            \Mail::to($user->email)->send(new CustomerAssetStolenEmail($data));
+        if(isset($this->data->employee->email)) \Mail::to($this->data->employee->email)->send(new GeneralEmail('[PMT E-PM] Customer Asset - Create Trouble Ticket '. $tt->trouble_ticket_number,$message));
+
+        foreach(get_user_from_access('customer-asset-management.asset-stolen-acknowledge-tlp') as $user){
+            \Mail::to($user->email)->send(new GeneralEmail('[PMT E-PM] Customer Asset - Create Trouble Ticket '. $tt->trouble_ticket_number,$message));
         }
 
-        \LogActivity::add('Create Trouble Ticket : '. $tt->id);
+        \LogActivity::add('[web] Create Trouble Ticket : '. $tt->id);
     }
 }

@@ -56,7 +56,7 @@
                                 </tr>
                                 <tr>
                                     <th>File</th>
-                                    <td><a href={{asset("storage/customer-asset/trouble-ticket/{$item->file}")}} target="_blank"> <i class="fa fa-search-plus"></i> view </a></td>
+                                    <td><a href={{asset($item->file)}} target="_blank"> <i class="fa fa-search-plus"></i> view </a></td>
                                 </tr>
                             </tbody>
                         </table>

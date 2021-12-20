@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\CustomerAssetManagement;
 
 use Livewire\Component;
-use App\Models\CustomerAssetManagement;
+use App\Models\CustomerAssetManagementHistory;
 use Livewire\WithFileUploads;
 use App\Mail\GeneralEmail;
 
@@ -42,8 +42,7 @@ class StatusStolenBoqTmg extends Component
         // send notifikasi
         if(isset($this->data->employee->email)){
             $message = "<p>Dear {$this->data->employee->name}<br />Customer Asset upload BOQ by Service Manager</p>";
-            // \Mail::to($this->data->employee->email)->send(new GeneralEmail("[PMT E-PM] - Custome Asset",$message));
-            \Mail::to('doni.enginer@gmail.com')->send(new GeneralEmail("[PMT E-PM] - Custome Asset",$message));
+            \Mail::to($this->data->employee->email)->send(new GeneralEmail("[PMT E-PM] - Custome Asset",$message));
         }
 
         $this->emit('refresh-page');
