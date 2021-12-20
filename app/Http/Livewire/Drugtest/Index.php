@@ -15,11 +15,10 @@ class Index extends Component
 {
     use WithFileUploads;
     use WithPagination;
-    
     protected $paginationTheme = 'bootstrap';
-
     public $employee_pic_id,$employee_id,$status_drug,$file,$title,$remark,$filter_employee_id,$region=[],$sub_region=[],$region_id,$sub_region_id;
-
+    public $project_id;
+    protected $queryString = ['project_id'];
     protected $listeners = ['refresh-page'=>'$refresh'];
 
     public function render()
@@ -49,6 +48,7 @@ class Index extends Component
 
     public function delete(DrugTestModel $data)
     {
+        \LogActivity::add('[web] Drug Test - Delete');
         $data->delete();
     }
 
@@ -140,6 +140,7 @@ class Index extends Component
     {
         \LogActivity::add('[web] Drug Test');
 
+        if(isset($this->project_id)) session()->put('project_id',$this->project_id);
         $this->region  = Region::select(['id','region'])->get();
     }
 
@@ -159,7 +160,7 @@ class Index extends Component
     {
         $this->validate([
             // 'employee_pic_id' => 'required',
-            'employee_id' => 'required',
+            // 'employee_id' => 'required',
             'file' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title' => 'required'
         ]);

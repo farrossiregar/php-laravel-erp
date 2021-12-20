@@ -100,6 +100,7 @@ class Edit extends Component
             $this->projects = ClientProject::where(['company_id'=>$this->company_id,'is_project'=>1])->orderBy('name','ASC')->get();
             $this->employee_project = EmployeeProject::where('employee_id',$this->data->id)->get();
             $this->emit('load-project');
+
         }
         if($this->department_id != 4) {
             $this->showProject = false;
@@ -107,7 +108,10 @@ class Edit extends Component
         }else 
             $this->is_project = 1;
 
-        if($propertyName=='project_id') $this->client_project_ids = $this->project_id;
+        if($propertyName=='project_id') {
+            $this->client_project_ids = $this->project_id;
+            $this->regions = ClientProjectRegion::select('region.id','region.region')->join('region','region.id','=','client_project_region.region_id')->whereIn('client_project_region.client_project_id',$this->client_project_ids)->groupBy('region.id')->get();
+        }
     }
 
     public function updatedFoto()

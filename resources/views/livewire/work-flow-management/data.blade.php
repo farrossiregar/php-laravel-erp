@@ -28,6 +28,13 @@
         <div class="col-md-2">
             <input type="text" class="form-control" wire:model="created_at" placeholder="Date Uploaded" onfocus="(this.type='date')" />
         </div>
+        <div class="col-md-2 px-0">
+            <select class="form-control" wire:model="problem">
+                <option value=""> --- {{ __('Problem') }} --- </option>
+                <option>FT not resolve WO</option>
+                <option>FT not assigned WO</option>
+            </select>
+        </div>
         <div class="col-md-1 px-0">
             @if(check_access('work-flow-management.upload'))
             <a href="javascript:;" class="btn btn-primary" data-toggle="modal" data-target="#modal_upload"><i class="fa fa-upload"></i> {{ __('Upload') }}</a>

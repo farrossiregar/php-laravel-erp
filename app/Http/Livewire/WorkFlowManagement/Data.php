@@ -9,7 +9,7 @@ class Data extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $perpage=100,$keyword,$created_at,$region;
+    public $perpage=100,$keyword,$created_at,$region,$problem;
     public function render()
     {
         $data = \App\Models\WorkFlowManagement::orderBy('updated_at','DESC');
@@ -35,6 +35,8 @@ class Data extends Component
                                         });
         if($this->created_at) $data = $data->whereDate('created_at',$this->created_at);
         if($this->region) $data = $data->where('region',$this->region);
+        if($this->problem) $data->where('problem',$this->problem);
+        
         return view('livewire.work-flow-management.data')->with(['data'=>$data->paginate($this->perpage)]);
     }
 }
