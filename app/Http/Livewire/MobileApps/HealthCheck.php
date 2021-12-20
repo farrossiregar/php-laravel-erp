@@ -21,7 +21,8 @@ class HealthCheck extends Component
     
     public function render()
     {
-        $data = HealthCheckModel::with(['employee.access','region','sub_region'])->select('employees.name','health_check.*')->orderBy('health_check.is_submit','DESC')->orderBy('health_check.updated_at','DESC')->join('employees','employees.id','=','employee_id');
+        $data = HealthCheckModel::with(['employee.access','region','sub_region'])->select('employees.name','health_check.*')->orderBy('health_check.is_submit','DESC')->orderBy('health_check.updated_at','DESC')
+                                ->join('employees','employees.id','=','employee_id');
 
         if($this->keyword) $data->where(function($table){
             $table->where('employees.name',"LIKE", "%{$this->keyword}%")
