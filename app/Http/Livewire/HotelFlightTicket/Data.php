@@ -15,7 +15,7 @@ class Data extends Component
     
     public function render()
     {
-        $data = \App\Models\TeamScheduleNoc::where('company_name', Session::get('company_id'))->orderBy('created_at', 'desc');
+        $data = \App\Models\HotelFlightTicket::where('company_name', Session::get('company_id'))->orderBy('created_at', 'desc');
         
         if($this->filteryear) $data->whereYear('start_schedule',$this->filteryear);
         if($this->filtermonth) $data->whereMonth('start_schedule',$this->filtermonth);                

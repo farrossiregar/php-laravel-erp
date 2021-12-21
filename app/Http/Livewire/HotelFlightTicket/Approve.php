@@ -10,7 +10,7 @@ use DB;
 class Approve extends Component
 {
     protected $listeners = [
-        'modalapproveteamschedule'=>'approveteamschedule',
+        'modalapprovehotelflightticket'=>'approvehotelflightticket',
     ];
 
     use WithFileUploads;
@@ -23,7 +23,7 @@ class Approve extends Component
         return view('livewire.hotel-flight-ticket.approve');
     }
 
-    public function approveteamschedule($id)
+    public function approvehotelflightticket($id)
     {
         $this->selected_id = $id;
     }
@@ -32,11 +32,9 @@ class Approve extends Component
     public function save()
     {
         $type_approve = $this->selected_id;
-        $data = \App\Models\TeamScheduleNoc::where('id', $this->selected_id)->first();
+        $data = \App\Models\HotelFlightTicket::where('id', $this->selected_id)->first();
         if($type_approve[1] == '1'){
             $data->status = '1';
-            $data->start_actual = $data->start_schedule;
-            $data->end_actual = $data->end_schedule;
         }else{
             $data->status = '2';
         }
@@ -45,19 +43,19 @@ class Approve extends Component
         $data->save();
 
     
-        $notif = get_user_from_access('hotel-flight-ticket.toc-leader');
+        // $notif = get_user_from_access('hotel-flight-ticket.toc-leader');
         
-        foreach($notif as $user){
-            if($user->email){
-                $message  = "<p>Dear {$user->name}<br />, Team Schedule is Approve </p>";
-                $message .= "<p>Nama Employee: {$data->name}<br />Project : {$data->project}<br />Region: {$data->region}</p>";
-                \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - NOC Team Schedule",$message));
-            }
-        }
+        // foreach($notif as $user){
+        //     if($user->email){
+        //         $message  = "<p>Dear {$user->name}<br />, Team Schedule is Approve </p>";
+        //         $message .= "<p>Nama Employee: {$data->name}<br />Project : {$data->project}<br />Region: {$data->region}</p>";
+        //         \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - NOC Team Schedule",$message));
+        //     }
+        // }
 
 
 
-        session()->flash('message-success',"Berhasil, Team Schedule sudah diapprove!!!");
+        session()->flash('message-success',"Berhasil, Hotel & Flight Ticket sudah diapprove!!!");
         
         return redirect()->route('hotel-flight-ticket.index');
     }

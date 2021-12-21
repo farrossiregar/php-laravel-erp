@@ -23,105 +23,65 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-teamschedule-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-hotelflight-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:team-schedule.add />
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-teamschedule-importactual" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:team-schedule.importactual />
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-teamschedule-generatetimesheet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:team-schedule.generatetimesheet />
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-teamschedule-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:team-schedule.edit />
+            <livewire:hotel-flight-ticket.add />
         </div>
     </div>
 </div>
 
 
-<div class="modal fade" id="modal-teamschedule-approveteamschedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="modal-hotelflight-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:team-schedule.approve />
+            <livewire:hotel-flight-ticket.edit />
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal-pettycash-approvereceipt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="modal-hotelflightticket-approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:petty-cash.approvereceipt />
+            <livewire:hotel-flight-ticket.approve />
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal-teamschedule-declineteamschedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="modal-hotelflightticket-decline" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:team-schedule.decline />
+            <livewire:hotel-flight-ticket.decline />
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal-pettycash-declinereceipt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:petty-cash.declinereceipt />
-        </div>
-    </div>
-</div>
+
 
 
 
 @section('page-script')
-    Livewire.on('modaladdteamschedule',(data)=>{
+    Livewire.on('modaladdhotelflight',(data)=>{
         
-        $("#modal-teamschedule-add").modal('show');
+        $("#modal-hotelflight-add").modal('show');
     });
 
-    Livewire.on('modalimportactual',(data)=>{
-        $("#modal-teamschedule-importactual").modal('show');
+
+    Livewire.on('modaledithotelflightticket',(data)=>{
+        $("#modal-hotelflight-edit").modal('show');
     });
 
-    Livewire.on('modalgeneratetimesheet',(data)=>{
-        $("#modal-teamschedule-generatetimesheet").modal('show');
+
+    Livewire.on('modalapprovehotelflightticket',(data)=>{
+        $("#modal-hotelflightticket-approve").modal('show');
     });
 
-    Livewire.on('modaleditteamschedule',(data)=>{
-        $("#modal-teamschedule-edit").modal('show');
-    });
 
-    Livewire.on('modalapprovereceipt',(data)=>{
-        $("#modal-pettycash-approvereceipt").modal('show');
-    });
-
-    Livewire.on('modalapproveteamschedule',(data)=>{
-        $("#modal-teamschedule-approveteamschedule").modal('show');
-    });
-
-    Livewire.on('modaldeclinereceipt',(data)=>{
-        $("#modal-pettycash-declinereceipt").modal('show');
-    });
-
-    Livewire.on('modaldeclineteamschedule',(data)=>{
-        $("#modal-teamschedule-declineteamschedule").modal('show');
+    Livewire.on('modaldeclinehotelflightticket',(data)=>{
+        $("#modal-hotelflightticket-decline").modal('show');
     });
 
 @endsection

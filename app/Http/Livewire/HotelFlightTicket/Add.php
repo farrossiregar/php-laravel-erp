@@ -8,6 +8,7 @@ use Livewire\WithFileUploads;
 use App\Mail\GeneralEmail;
 use Session;
 use DateTime;
+use Auth;
 
 
 class Add extends Component
@@ -17,45 +18,21 @@ class Add extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $dataproject, $company_name, $project, $client_project_id, $region, $employeelist, $employee_name, $employee_id, $date_plan, $start_time_plan, $end_time_plan;
+    public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $date, $ticket_type, $tickettype, $departure_airport, $arrival_airport, $meeting_location, $file;
 
     public function render()
     {
-        
-        
-        
-        $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
-                                ->where('company_id', Session::get('company_id'))
-                                ->where('is_project', '1')
-                                ->get();
-        
-        $this->regionarealist = [];
-        $this->employeelist = $this->employeelist = \App\Models\Employee::whereIn('user_access_id', [85, 84])->get();
 
-        if($this->project){ 
-            
-            $getproject = \App\Models\ClientProject::where('id', $this->project)
-                                                    ->where('company_id', Session::get('company_id'))
-                                                    ->where('is_project', '1')
-                                                    ->first();
-            
-                                                    
-            if($getproject){
-                if($getproject->region_id){
-                    $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
-                }else{
-                    $this->region = '';
-                }
+        $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
+        
+        $this->employee_name = $user->name;
+        $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
+        $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
 
-                $this->employeelist = \App\Models\Employee::where('region_id', $getproject->region_id)
-                                                            ->where('project', $this->project)
-                                                            ->whereIn('user_access_id', [85, 84])
-                                                            ->get();
-                
-            }else{
-                $this->region = '';
-                $this->employeelist = \App\Models\Employee::whereIn('user_access_id', [85, 84])->get();
-            }
+        if($this->ticket_type == '1'){
+            $this->tickettype = true;
+        }else{
+            $this->tickettype = false;
         }
        
 
@@ -67,36 +44,50 @@ class Add extends Component
     {
 
 
-        $data                           = new \App\Models\TeamScheduleNoc();
+        $data                           = new \App\Models\HotelFlightTicket();
         $data->company_name             = Session::get('company_id');
         $data->project                  = $this->project;
         
         // $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
         
-        $dataemployee                   = explode(" - ",$this->employee_name);
+        // $dataemployee                   = explode(" - ",$this->employee_name);
         $data->region                   = $this->region;
-        $data->name                     = $dataemployee[0];
-        $data->nik                      = $dataemployee[1];
-        $data->employee_id              = $dataemployee[2];
+        $data->name                     = $this->employee_name;
+        // $data->nik                      = $dataemployee[1];
+        // $data->employee_id              = $dataemployee[2];
         
-        $data->start_schedule           = $this->date_plan.' '.$this->start_time_plan.':00';
-        $data->end_schedule             = $this->date_plan.' '.$this->end_time_plan.':00';
-        $data->week                     = $this->weekOfMonth3($this->date_plan);
+        $data->ticket_type              = $this->ticket_type;
+        $data->meeting_location         = $this->meeting_location;
+        
+        $this->validate([
+            'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
+        ]);
+
+        if($this->file){
+            $hotelflightticket = 'hotel-flight-ticket'.date('Ymd').'.'.$this->file->extension();
+            $this->file->storePubliclyAs('public/hotel_flight_ticket/',$hotelflightticket);
+
+            $data->attachment               = $hotelflightticket;
+        }
+        
+        $data->date                     = $this->date;
+        // $data->end_schedule             = $this->date_plan.' '.$this->end_time_plan.':00';
+        // $data->week                     = $this->weekOfMonth3($this->date_plan);
         $data->save();
 
-        $notif = get_user_from_access('hotel-flight-ticket.noc-manager');
-        foreach($notif as $user){
-            if($user->email){
-                $message  = "<p>Dear {$user->name}<br />, Team Schedule need Approval </p>";
-                $message .= "<p>Nama Employee: {$data->name}<br />Project : {$data->project}<br />Region: {$data->region}</p>";
-                \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - NOC Team Schedule",$message));
-            }
-        }
+        // $notif = get_user_from_access('hotel-flight-ticket.noc-manager');
+        // foreach($notif as $user){
+        //     if($user->email){
+        //         $message  = "<p>Dear {$user->name}<br />, Team Schedule need Approval </p>";
+        //         $message .= "<p>Nama Employee: {$data->name}<br />Project : {$data->project}<br />Region: {$data->region}</p>";
+        //         \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - NOC Team Schedule",$message));
+        //     }
+        // }
 
        
 
 
-        session()->flash('message-success',"Team Schedule NOC Berhasil diinput");
+        session()->flash('message-success',"Request Hotel & Flight Ticket Berhasil diinput");
         
         return redirect()->route('hotel-flight-ticket.index');
     }

@@ -11,71 +11,59 @@ use Session;
 class Edit extends Component
 {
     protected $listeners = [
-        'modaleditteamschedule'=>'editteamschedule',
+        'modaledithotelflightticket'=>'edithotelflightticket',
     ];
 
     use WithFileUploads;
     public $selected_id, $data;
-    public $dataproject, $company_name, $project, $region, $employeelist, $employee_name, $date_plan, $start_time_plan, $end_time_plan;
+    // public $dataproject, $company_name, $project, $region, $employeelist, $employee_name, $date_plan, $start_time_plan, $end_time_plan;
+    public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $date, $ticket_type, $tickettype, $meeting_location, $file;
+    public $departure_airport, $arrival_airport, $departure_time, $arrival_time, $airline, $agency, $flight_price;
+    public $hotel_price, $hotel_name, $hotel_location;
+
     
     public function render()
     {
         
        
         
-        $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
-                                ->where('company_id', Session::get('company_id'))
-                                ->where('is_project', '1')
-                                ->get();
-        
-        $this->regionarealist = [];
-        $this->employeelist = [];
-
-        if($this->project){ 
-            
-            $getproject = \App\Models\ClientProject::where('id', $this->project)
-                                                    ->where('company_id', Session::get('company_id'))
-                                                    ->where('is_project', '1')
-                                                    ->first();
-            
-                                                    
-            // if($getproject){
-                // if($getproject->region_id){
-                //     $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
-                // }else{
-                //     $this->region = '';
-                // }
-
-                // $this->employeelist = \App\Models\Employee::where('region_id', $getproject->region_id)
-                //                                             ->where('project', $this->project)
-                //                                             ->get();
-                
-                
-            // }else{
-            //     $this->region = '';
-            //     $this->employeelist = [];
-            // }
-        }
-        
-        
         return view('livewire.hotel-flight-ticket.edit');
         
     }
 
-    public function editteamschedule($id){
+    public function edithotelflightticket($id){
         $this->selected_id              = $id;
-        $data                           = \App\Models\TeamScheduleNoc::where('id', $this->selected_id)->first();
-        // $this->project                  = $data->project;
-        $this->project                  = get_project_company($data->project, $data->company_name);
+        $data                           = \App\Models\HotelFlightTicket::where('id', $this->selected_id)->first();
+        // dd($data);
+        $this->employee_name            = $data->name;
+        $this->project                  = $data->project;
+        $this->date                     = $data->date;
+        $this->meeting_location         = $data->meeting_location;
+        // $this->project                  = get_project_company($data->project, $data->company_name);
         
         $this->region                   = $data->region;
         // $this->region                   = \App\Models\Region::where('id', $data->region)->first()->region_code;
         
-        $this->region                   = $data->region;
-        $this->employee_name            = $data->name;
-        $this->date_plan                = date_format(date_create($data->start_schedule), 'Y-m-d');
-        $this->start_time_plan          = date_format(date_create($data->start_schedule), 'H:i');;
-        $this->end_time_plan            = date_format(date_create($data->end_schedule), 'H:i');
+        // $data->company_name             = Session::get('company_id');
+        // $data->project                  = $this->project;
+        // $data->region                   = $this->region;
+        // $data->name                     = $this->employee_name;
+        
+        // $data->ticket_type              = $this->ticket_type;
+        // $data->meeting_location         = $this->meeting_location;
+
+
+        $this->departure_airport        = $data->departure_airport;
+        $this->arrival_airport          = $data->arrival_airport;
+        $this->departure_time           = $data->departure_time;
+        $this->arrival_time             = $data->arrival_time;
+        $this->airline                  = $data->airline;
+        $this->agency                   = $data->agency;
+        $this->flight_price             = $data->flight_price;
+
+        $this->hotel_price              = $data->hotel_price;
+        $this->hotel_name               = $data->hotel_name;
+        $this->hotel_location           = $data->hotel_location;
         
         
         
@@ -84,20 +72,24 @@ class Edit extends Component
   
     public function save()
     {
-        $data                           = \App\Models\TeamScheduleNoc::where('id', $this->selected_id)->first();
-        $data->company_name             = Session::get('company_id');
-        $data->project                  = \App\Models\ClientProject::where('name', $this->project)->first()->id;
-        // $data->region                   = \App\Models\Region::where('region_code', $this->region)->first()->id;
-        $data->region                   = $this->region;
-        $data->name                     = $this->employee_name;
-        $data->start_schedule           = $this->date_plan.' '.$this->start_time_plan.':00';
-        $data->end_schedule             = $this->date_plan.' '.$this->end_time_plan.':00';
-        $data->week                     = $this->weekOfMonth3($this->date_plan);
-        $data->status                   = '';
+        $data                           = \App\Models\HotelFlightTicket::where('id', $this->selected_id)->first();
+       
+        $data->departure_airport        = $this->departure_airport;
+        $data->arrival_airport          = $this->arrival_airport;
+        $data->departure_time           = $this->departure_time;
+        $data->arrival_time             = $this->arrival_time;
+        $data->airline                  = $this->airline;
+        $data->agency                   = $this->agency;
+        $data->flight_price             = $this->flight_price;
+
+        $data->hotel_price              = $this->hotel_price;
+        $data->hotel_name               = $this->hotel_name;
+        $data->hotel_location           = $this->hotel_location;
+      
         $data->save();
         
         
-        session()->flash('message-success',"Team Schedule NOC Berhasil diinput");
+        session()->flash('message-success',"Hotel & Flight Ticket Berhasil diupdate");
         
         return redirect()->route('hotel-flight-ticket.index');
         

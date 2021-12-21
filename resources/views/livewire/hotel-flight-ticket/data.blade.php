@@ -34,20 +34,20 @@
     </div>
 
 
-    @if(check_access('team-schedule.toc-leader'))
-    <div class="col-md-1" style="margin: 0 10px;">
-        <a href="javascript:;" wire:click="$emit('modaladdteamschedule')" class="btn btn-info"><i class="fa fa-plus"></i> Team Schedule </a>
-    </div>
     
+    <div class="col-md-1" style="margin: 0 10px;">
+        <a href="javascript:;" wire:click="$emit('modaladdhotelflight')" class="btn btn-info"><i class="fa fa-plus"></i> Ticket Request </a>
+    </div>
+<!--     
     <div class="col-md-1" style="margin: 0 10px;">
         <a href="javascript:;" wire:click="$emit('modalimportactual')" class="btn btn-info"><i class="fa fa-upload"></i> Actual Schedule </a>
     </div>
 
     <div class="col-md-1" style="margin: 0 10px;">
         <a href="javascript:;" wire:click="$emit('modalgeneratetimesheet')" class="btn btn-info"><i class="fa fa-download"></i> Generate Timesheet </a>
-    </div>
+    </div> -->
     
-    @endif
+    
 
 
     
@@ -59,27 +59,10 @@
             <table class="table table-bordered table-striped m-b-0 c_list">
                 <thead>
 
-                    <!-- <tr>
-                        <th>No</th> 
-                        <th>Status</th> 
-                        <th>Date Create</th>
-                        <th>Employee Name</th> 
-                        <th>NIK</th> 
-                        <th>Company Name</th> 
-                        <th>Project</th> 
-                        <th>Region</th> 
-                        <th>Ticket Type</th> 
-                        <th>Category</th> 
-                        <th>Date</th> 
-                        <th>Departure Airport</th> 
-                        <th>Arrival Airport</th> 
-                        <th>Meeting Location</th> 
-                        <th>Attachment</th> 
-                        <th>Action</th> 
-                    </tr> -->
                     <tr>
                         <th rowspan="2" class="align-middle">No</th>
                         <th rowspan="2" class="align-middle">Status</th> 
+                        <th rowspan="2" class="align-middle">Action</th> 
                         <th rowspan="2" class="align-middle">Date Create</th>
                         <th rowspan="2" class="align-middle">User</th> 
                         <th rowspan="2" class="align-middle">NIK</th> 
@@ -88,31 +71,21 @@
                         <th rowspan="2" class="align-middle">Region</th> 
                         <th rowspan="2" class="align-middle">Ticket Type</th> 
                         <th rowspan="2" class="align-middle">Category</th> 
+                        
+                        <th rowspan="2" class="align-middle">Attachment</th> 
+                        <th rowspan="2" class="align-middle">Meeting Location</th> 
                         <th rowspan="2" class="align-middle">Date</th> 
-                        <th colspan="7" class="text-center align-middle">Flight Detail</th>
+                        <th colspan="5" class="text-center align-middle">Flight Detail</th>
                         <th colspan="3" class="text-center align-middle">Hotel Detail</th> 
                     </tr>
                     <tr>
-                        
-                        <!-- <th class="text-center align-middle">Status</th> 
-                        <th class="text-center align-middle">Date Create</th>
-                        <th class="text-center align-middle">Company Name</th> 
-                        <th class="text-center align-middle">Project</th> 
-                        <th class="text-center align-middle">Region</th> 
-                        <th class="text-center align-middle">Amount</th> 
-                        <th class="text-center align-middle">Keterangan</th> 
-                        <th class="text-center align-middle">Petty Cash Note</th> 
-                        <th class="text-center align-middle">Petty Cash Review</th> 
-                        <th class="text-center align-middle">Upload Receipt</th> 
-                        <th class="text-center align-middle">Receipt Note</th> 
-                        <th class="text-center align-middle">Receipt Review</th>  -->
+                      
                         <th class="text-center align-middle">Price</th> 
                         <th class="text-center align-middle">Departure</th> 
                         <th class="text-center align-middle">Arrival</th> 
                         <th class="text-center align-middle">Airline</th> 
                         <th class="text-center align-middle">Agency</th> 
-                        <th class="text-center align-middle">Meeting Location</th> 
-                        <th class="text-center align-middle">Attachment</th> 
+                        
 
                         <th class="text-center align-middle">Price</th> 
                         <th class="text-center align-middle">Name</th> 
@@ -122,6 +95,85 @@
                 </thead>
                 <tbody>
                     @foreach($data as $key => $item)
+                    <tr>
+                        <td>{{ $key + 1 }}</td>
+                        <td>
+                            @if($item->status == '2')
+                                <label class="badge badge-success" data-toggle="tooltip" title="Hotel & Flight Request is Approved by HQ GA">Approved by HQ GA</label>
+                            @endif
+
+                            @if($item->status == '1')
+                                <label class="badge badge-success" data-toggle="tooltip" title="Hotel & Flight Request is Approved by L1 Manager">Approved by L1 Manager</label>
+                            @endif
+
+                            @if($item->status == '0')
+                                <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Decline</label>
+                            @endif
+
+                            @if($item->status == '' || $item->status == 'null')
+                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
+                            @endif
+                        </td>
+                        <td>
+                            <!-- if(check_access('hotel-flight-ticket.noc-manager')) -->
+                                @if($item->status == '')
+                                   
+                                    <a href="javascript:;" wire:click="$emit('modalapprovehotelflightticket',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclinehotelflightticket',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                @endif
+
+                            <!-- endif -->
+
+                                @if($item->status == '1')
+                                   
+                                    <a href="javascript:;" wire:click="$emit('modalapprovehotelflightticket',['{{ $item->id }}', '2'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclinehotelflightticket',['{{ $item->id }}', '2'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                @endif
+
+                            <!-- if(check_access('hotel-flight-ticket.toc-leader')) -->
+                                @if($item->status == '1')
+                                <a href="javascript:;" wire:click="$emit('modaledithotelflightticket','{{ $item->id }}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
+                                    
+                                @endif
+                            <!-- endif -->
+                        </td>
+                        <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
+                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->status }}</td>
+                        <td>{{ $item->project }}</td>
+                        <td>{{ $item->region }}</td>
+                        <td>
+                            <?php
+                                if($item->ticket_type == '1'){
+                                    echo 'Hotel - Flight';
+                                }else{
+                                    echo 'Hotel';
+                                }
+                            ?>
+                        </td>
+                        <td>{{ $item->category }}</td>
+                        
+                        <td>
+                            <?php
+                                if($item->attachment != '' || $item->attachment != NULL){
+                                    echo '<a href=""><i class="fa fa-download"></i></a>';
+                                }
+                            ?>
+                        </td>
+                        <td>{{ $item->meeting_location }}</td>
+                        <td>{{ date_format(date_create($item->date), 'd M Y') }}</td>
+
+                        <td>Rp,{{ format_idr($item->flight_price) }}</td>
+                        <td>{{ $item->departure_airport }} - {{ $item->departure_time }}</td>
+                        <td>{{ $item->arrival_airport }} - {{ $item->arrival_time }}</td>
+                        <td>{{ $item->airline }}</td>
+                        <td>{{ $item->agency }}</td>
+
+                        <td>Rp,{{ format_idr($item->hotel_price) }}</td>
+                        <td>{{ $item->hotel_name }}</td>
+                        <td>{{ $item->hotel_location }}</td>
+                        
+                    </tr>
                     <!-- <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>

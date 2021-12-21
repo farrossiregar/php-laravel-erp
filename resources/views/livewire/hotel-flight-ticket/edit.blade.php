@@ -5,7 +5,7 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Revisi Petty Cash</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-edit"></i> Update Hotel & Flight Ticket Request</h5>
                 </div>
 
                 <div class="body pt-0">
@@ -15,16 +15,17 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        
+                                        <div class="col-md-12 form-group">
+                                            <label>Employee Name</label>
+                                            <input list="petty_cash_category1" class="form-control"  wire:model="employee_name" readonly>
+                                           
+
+                                            @error('employee_name')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
                                         <div class="col-md-12 form-group">
                                             <label>Project</label>
-                                            <!-- <select onclick="" class="form-control" wire:model="project">
-                                                <option value=""> --- Project --- </option>
-
-                                                @foreach($dataproject as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                @endforeach
-                                            </select> -->
                                             <input type="text" class="form-control" wire:model="project" readonly/>
                                             @error('employee_id')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -38,30 +39,180 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
+                                        
                                         <div class="col-md-12 form-group">
-                                            <label>Employee Name</label>
-                                            <!-- <input list="petty_cash_category" class="form-control"  wire:model="employee_name">
-                                            <datalist id="petty_cash_category" >
-                                                @foreach($employeelist as $item)
-                                                <option value="{{ $item->name }}">
-                                                @endforeach
-                                            </datalist> -->
-                                            <input type="text" class="form-control" wire:model="employee_name" readonly/>
-
-                                            @error('employee_name')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label>Date Plan Schedule</label>
-                                            <input type="date" class="form-control" wire:model="date_plan">
+                                            <label>Date </label>
+                                            <input type="date" class="form-control" wire:model="date" readonly>
                                            
                                             @error('leader')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
+<!-- 
+                                        <div class="col-md-12 form-group">
+                                            <label>Ticket Type</label>
+                                            <select onclick="" class="form-control" wire:model="ticket_type">
+                                                <option value=""> --- Ticket Type --- </option>
+                                                <option value="1">Hotel & Flight</option>
+                                                <option value="2">Hotel only</option>
+                                                
+                                            </select>
+                                            @error('employee_id')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div> -->
 
-                                        <div class="col-md-6 form-group">
+                                        
+
+                                        <div class="col-md-12 form-group">
+                                            <label>Meeting Location</label>
+                                            <!-- <input type="text" class="form-control" wire:model="meeting_location"> -->
+                                            <textarea name="" id="" cols="30" rows="2" class="form-control" wire:model="meeting_location" readonly></textarea>
+                                            @error('leader')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <hr>
+                                        <br>
+
+                                        <!-- <div class="col-md-12 form-group">
+                                            <label>Category</label>
+                                            <select onclick="" class="form-control" wire:model="project">
+                                                <option value=""> --- Ticket Type --- </option>
+                                                <option value="1">Hotel & Flight</option>
+                                                <option value="2">Hotel only</option>
+                                                
+                                            </select>
+                                            @error('employee_id')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div> -->
+
+                                        <!-- if($tickettype == true) -->
+                                        <div class="row">
+                                            <div class="col-md-12" >
+                                                <div class="row  form-group" style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px 0; width: 95%; margin: auto;">
+                                                    <br>
+                                                    <div class="col-md-12">
+                                                        <h5>Flight Information</h5>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="col-md-6 form-group">
+                                                        <label>Departure Airport</label>
+                                                        <input type="text" class="form-control" wire:model="departure_airport">
+                                                    
+                                                        @error('departure_airport')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+
+                                                    <div class="col-md-6 form-group">
+                                                        <label>Arrival Airport</label>
+                                                        <input type="text" class="form-control" wire:model="arrival_airport">
+                                                    
+                                                        @error('arrival_airport')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+
+                                                    <div class="col-md-6 form-group">
+                                                        <label>Departure Time</label>
+                                                        <input type="datetime" class="form-control" wire:model="departure_time">
+                                                    
+                                                        @error('departure_time')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+
+                                                    <div class="col-md-6 form-group">
+                                                        <label>Arrival Time</label>
+                                                        <input type="datetime" class="form-control" wire:model="arrival_time">
+                                                    
+                                                        @error('arrival_time')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+
+                                                    <div class="col-md-6 form-group">
+                                                        <label>Airline</label>
+                                                        <input type="text" class="form-control" wire:model="airline">
+                                                    
+                                                        @error('airline')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+
+                                                    <div class="col-md-6 form-group">
+                                                        <label>Agency</label>
+                                                        <input type="text" class="form-control" wire:model="agency">
+                                                    
+                                                        @error('agency')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+
+                                                    <div class="col-md-12 form-group">
+                                                        <label>Flight Price</label>
+                                                        <input type="text" class="form-control" wire:model="flight_price">
+                                                    
+                                                        @error('flight_price')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <br>
+                                        
+                                        <!-- endif -->
+
+
+                                        <div class="row">
+                                            <div class="col-md-12" >
+                                                <div class="row" style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px 0; width: 95%; margin: auto;">
+                                                    <br>
+                                                    <div class="col-md-12">
+                                                        <h5>Hotel Information</h5>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="col-md-6 form-group">
+                                                        <label>Hotel Price</label>
+                                                        <input type="text" class="form-control" wire:model="hotel_price">
+                                                    
+                                                        @error('hotel_price')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+
+                                                    <div class="col-md-6 form-group">
+                                                        <label>Hotel Name</label>
+                                                        <input type="text" class="form-control" wire:model="hotel_name">
+                                                    
+                                                        @error('hotel_name')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+
+                                                    <div class="col-md-12 form-group">
+                                                        <label>Hotel Location</label>
+                                                        <!-- <input type="text" class="form-control" wire:model="departure_airport"> -->
+                                                        <textarea name="" id="" cols="30" rows="2" class="form-control" wire:model="hotel_location"></textarea>
+                                                        @error('hotel_location')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                       
+
+                                       
+
+                                        <!-- <div class="col-md-6 form-group">
                                             <label>Start Plan Schedule</label>
                                             <input type="time" class="form-control" wire:model="start_time_plan">
                                            
@@ -76,8 +227,9 @@
                                             @error('leader')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div>
+                                        </div> -->
                                       
+                                       
                                         
                                        
                                     </div>
@@ -85,7 +237,7 @@
                                 
                                 <div class="col-md-12 form-group">
                                     <hr />
-                                    <!-- <a href="{{route('accident-report.index')}}" class="mr-2"><i class="fa fa-arrow-left"></i> {{ __('Back') }}</a> -->
+                                    
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                 </div>
                             </div>
