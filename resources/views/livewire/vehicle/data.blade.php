@@ -19,14 +19,14 @@
                         <th>STNK No</th>
                         <th>End Date Pajak</th>
                         <th class="text-info">
+                            @if(check_access('vehicle.syncron'))
                                 <a href="javascript:void(0)" wire:click="syncron" title="Syncron Vehicle" class="badge badge-info badge-active"><i class="fa fa-refresh"></i> Syncron</a>
-                            
                                 <a href="javascript:void(0)" wire:loading class="badge badge-info badge-active">
                                     <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
                                     <span class="sr-only">{{ __('Loading...') }}</span>
                                     ({{$total}}/{{$count}})
                                 </a>
-                            
+                            @endif
                         </th>
                         <th>Project</th>
                         <th>Region</th>
