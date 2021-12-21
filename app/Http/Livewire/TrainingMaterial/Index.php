@@ -49,7 +49,12 @@ class Index extends Component
         $data = new TrainingMaterialModel();
         $data->name = $this->name;
         $data->description = $this->description;
-        $data->training_material_group_id = $this->training_material_group_id;
+
+        if($this->training_material_group_id == 'CME Engineer' || $this->training_material_group_id == 'TE Engineer')
+            $data->user_access_id = $this->training_material_group_id == 'CME Engineer' ? 84 : 84;
+        else
+            $data->training_material_group_id = $this->training_material_group_id;
+
         $data->save();
 
         if(!empty($this->file)){

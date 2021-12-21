@@ -150,8 +150,8 @@ class Edit extends Component
                 $message .= "\nUsername : ". $this->data->email;
                 $message .= "\nPassword : ". $this->password;
                 $message .= "\nLink : https://erp.pmt.co.id";
-                send_wa(['phone'=> $this->data->telepon,'message'=>$message]);
-
+                $dd = send_wa(['phone'=> $this->data->telepon,'message'=>$message]);
+                
                 \LogActivity::add('[web] Employee Change Password');
             }
         }

@@ -62,8 +62,8 @@ class Index extends Component
         $message .= "\nUsername : ". $emp->email;
         $message .= "\nPassword : ". $password;
         $message .= "\nDownload : https://play.google.com/store/apps/details?id=com.pmt.access";
-        send_wa(['phone'=> $emp->telepon,'message'=>$message]);
-
+        $qq = send_wa(['phone'=> $emp->telepon,'message'=>$message]);
+        
         $this->emit('message-success', "Username dan Password berhasil dikirim");
     }
 }

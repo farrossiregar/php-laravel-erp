@@ -16,4 +16,9 @@ class TrainingMaterial extends Model
     {
         return $this->hasOne(TrainingMaterialGroup::class,'id','training_material_group_id');
     }
+
+    public function access()
+    {
+        return $this->belongsTo(\App\Models\UserAccess::class,'user_access_id');
+    }
 }

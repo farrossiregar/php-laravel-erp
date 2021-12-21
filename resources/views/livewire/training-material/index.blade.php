@@ -55,6 +55,9 @@
                                             @endif
                                             ">{{$item->group->name}}</a>
                                         @endif
+                                        @if(isset($item->access->name))
+                                            {{$item->access->name}}
+                                        @endif
                                     </td>
                                     <td>{{$item->name}}</td>
                                     <td style="white-space: break-spaces !important;">{{$item->description}}</td>
@@ -102,9 +105,15 @@
                                         <label>Group Training</label>
                                         <select class="form-control" wire:model="training_material_group_id">
                                             <option value=""> -- Select -- </option>
-                                            @foreach($group_training as $group)
-                                                <option value="{{$group->id}}">{{$group->name}}</option>
-                                            @endforeach
+                                            <optgroup label="Default">
+                                                <option>TE Engineer</option>
+                                                <option>CME Engineer</option>
+                                            </optgroup>
+                                            <optgroup label="Custom">
+                                                @foreach($group_training as $group)
+                                                    <option value="{{$group->id}}">{{$group->name}}</option>
+                                                @endforeach
+                                            </optgroup>
                                         </select>
                                         @error('training_material_group_id')
                                             <span class="text-danger">{{ $message }}</span>
