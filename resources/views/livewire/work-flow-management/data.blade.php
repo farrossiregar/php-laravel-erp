@@ -56,6 +56,8 @@
                         <th>{{ __('FT NAME')}}</th>
                         <th>{{ __('PROBLEM')}}</th>
                         <th>{{ __('THRESHOLD') }}</th>
+                        <th>{{ __('PIKUP DATE') }}</th>
+                        <th>{{ __('RESOLVE DATE') }}</th>
                         <th>{{ __('STATUS') }}</th>
                     </tr>
                 </thead>
@@ -75,9 +77,11 @@
                             @else
                                 {{isset($item->employee->name) ? $item->employee->name : '' }}
                             @endif
-                        </td> 
+                        </td>
                         <td>{{$item->problem}}</td>
                         <td class="text-center">{{$item->threshold}}</td>
+                        <td>{{$item->pickup_date ? date('d M Y',strtotime($item->pickup_date)) : '-'}}</td> 
+                        <td>{{$item->resolve_date ? date('d M Y',strtotime($item->resolve_date)) : '-'}}</td> 
                         <td>
                             @if($item->status==0)
                                 <span class="badge badge-warning">Waiting Pickup</span>

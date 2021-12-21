@@ -111,6 +111,6 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('it-support/set-solved',[\App\Http\Controllers\Api\ItSupportController::class,'set_solved']);
 	Route::post('it-support/set-closed',[\App\Http\Controllers\Api\ItSupportController::class,'set_closed']);
 	Route::get('wfm/history',[\App\Http\Controllers\Api\WfmController::class,'history'])->name('wfm.history');
-	Route::post('wfm-maintenance/set-pickup',[\App\Http\Controllers\Api\WfmController::class,'setPickup'])->name('api.wfm.set-pickup');
+	Route::post('wfm/set-pickup',[\App\Http\Controllers\Api\WfmController::class,'setPickup'])->name('api.wfm.set-pickup');
 	Route::post('wfm/set-solved',[\App\Http\Controllers\Api\WfmController::class,'setSolved'])->name('api.wfm.set-solved');
 }); 

@@ -55,6 +55,9 @@
                                             @endif
                                             ">{{$item->group->name}}</a>
                                         @endif
+                                        @if(isset($item->access->name))
+                                            {{$item->access->name}}
+                                        @endif
                                     </td>
                                     <td>{{$item->name}}</td>
                                     <td style="white-space: break-spaces !important;">{{$item->description}}</td>
