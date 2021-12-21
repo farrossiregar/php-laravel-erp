@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddFieldNoteToWorkFlowManagement extends Migration
+class AddFieldUserAccessIdToTrainingMaterial extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddFieldNoteToWorkFlowManagement extends Migration
      */
     public function up()
     {
-        Schema::table('work_flow_management', function (Blueprint $table) {
-            $table->text('note_solved')->nullable();
+        Schema::table('training_material', function (Blueprint $table) {
+            $table->integer('user_access_id')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class AddFieldNoteToWorkFlowManagement extends Migration
      */
     public function down()
     {
-        Schema::table('work_flow_management', function (Blueprint $table) {
+        Schema::table('training_material', function (Blueprint $table) {
             //
         });
     }
