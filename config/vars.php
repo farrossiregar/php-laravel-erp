@@ -27,5 +27,9 @@ return [
                             2=>'PPE Check',
                             3=>'Vechicle Check',
                             4=>'Health Check',
-                            5=>'Duty Roster - Site List']
+                            5=>'Training Material & Exam',
+                            6=>'IT Support',
+                            7=>'Preventive Maintenance',
+                            8=>'Duty Roster - Site List',
+                            9=>'Work Force Management']
 ];

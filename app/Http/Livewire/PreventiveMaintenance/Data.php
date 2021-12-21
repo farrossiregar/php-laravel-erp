@@ -104,7 +104,7 @@ class Data extends Component
             $message .= "PM Type : {$this->selected->pm_type}\n";
             $message .= "Region : ".(isset($this->selected->region->region) ? $this->selected->region->region : '')."\n";
             $message .= "Admin Project : ".(isset($this->selected->admin->name) ? $this->selected->admin->name : '')."\n";
-            //push_notification_android($this->selected->employee->device_token,'Preventive Maintenance Open',$message,7);
+            push_notification_android($this->selected->employee->device_token,'Preventive Maintenance Open',$message,7);
         }
         // insert history
         table_history('employee_id',$this->selected->id,'preventive_maintenance',$this->selected->employee);

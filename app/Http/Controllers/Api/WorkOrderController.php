@@ -14,8 +14,8 @@ class WorkOrderController extends Controller
     {
         \LogActivity::add('[apps] Word Order Notification');
 
-        $general_notification = Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereIn('type',[1,2,3])->whereDate('created_at',date('Y-m-d'))->count();
-        $general_notification += Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereNotIn('type',[1,2,3])->count();
+        $general_notification = Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereIn('type',[1,2,3])->whereDate('created_at',date('Y-m-d'))->get()->count();
+        $general_notification += Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereNotIn('type',[1,2,3])->get()->count();
 
         $open_work_order = PoTrackingNonms::whereNull('bast_status')->count();
         $accepted_work_order = PoTrackingNonms::where('bast_status',1)->orWhere('bast_status',3)->count();
@@ -35,7 +35,6 @@ class WorkOrderController extends Controller
             $key++;
         }
 
-        // $key++;
         
         foreach(Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereNotIn('type',[1,2,3])->get() as $k => $item){
             $data[$key] = $item;

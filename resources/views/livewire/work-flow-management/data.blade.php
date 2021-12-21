@@ -56,6 +56,7 @@
                         <th>{{ __('FT NAME')}}</th>
                         <th>{{ __('PROBLEM')}}</th>
                         <th>{{ __('THRESHOLD') }}</th>
+                        <th>{{ __('STATUS') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,9 +69,26 @@
                         <td>{{$item->servicearea4}}</td> 
                         <td>{{isset($item->cluster->name) ? $item->cluster->name : '' }}</td> 
                         <td>{{isset($item->employee->employee_code) ? $item->employee->employee_code : '' }}</td> 
-                        <td>{{isset($item->employee->name) ? $item->employee->name : '' }}</td> 
+                        <td>
+                            @if(!isset($item->employee->name))
+                                <a href="javascript:void(0)" wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_change_pic" title="Change PIC"><i><i class="fa fa-edit"></i> Not set</i></a>
+                            @else
+                                {{isset($item->employee->name) ? $item->employee->name : '' }}
+                            @endif
+                        </td> 
                         <td>{{$item->problem}}</td>
                         <td class="text-center">{{$item->threshold}}</td>
+                        <td>
+                            @if($item->status==0)
+                                <span class="badge badge-warning">Waiting Pickup</span>
+                            @endif
+                            @if($item->status==1)
+                                <span class="badge badge-info">Pickup</span>
+                            @endif
+                            @if($item->status==2)
+                                <span class="badge badge-success">Resolved</span>
+                            @endif
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -79,6 +97,60 @@
         <br />
         {{$data->links()}}
     </div>
+
+    <div wire:ignore.self class="modal fade" id="modal_change_pic" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form wire:submit.prevent="submit_change_pic">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Change PIC</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true close-btn">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group" wire:ignore>
+                            <select class="form-control select2">
+                                <option value=""> -- Select Employee --- </option>
+                                @foreach($employees as $item)
+                                    <option value="{{$item->id}}">{{$item->nik}} / {{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('change_pic_id')
+                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                        @enderror
+                    </div>
+                    <div class="modal-footer">
+                        <span wire:loading>
+                            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                            <span class="sr-only">{{ __('Please wait...') }}</span> Please wait...
+                        </span>
+                        <button type="submit" wire:loading.remove wire:target="change_pic_id" class="btn btn-success"><i class="fa fa-save"></i> Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    @push('after-scripts')
+        <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.min.js') }}"></script>
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}" />
+        <script>
+            Livewire.on('refresh-page',()=>{
+                $("#modal_upload").modal("hide");
+                $("#modal_change_pic").modal("hide");
+            });
+            $(document).ready(function() {    
+                $(".select2").select2();
+                $('.select2').on('select2:select', function (e) {
+                    var data = e.params.data;
+                    @this.set('employee_id',data.id);
+                });
+            });
+        </script>
+    @endpush
+
 </div>
 <!-- Modal -->
 <div class="modal fade" id="modal_upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
