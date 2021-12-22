@@ -47,8 +47,7 @@ class Add extends Component
         $data                           = new \App\Models\HotelFlightTicket();
         $data->company_name             = Session::get('company_id');
         $data->project                  = $this->project;
-        
-        // $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
+        $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
         
         // $dataemployee                   = explode(" - ",$this->employee_name);
         $data->region                   = $this->region;
@@ -71,8 +70,8 @@ class Add extends Component
         }
         
         $data->date                     = $this->date;
-        // $data->end_schedule             = $this->date_plan.' '.$this->end_time_plan.':00';
-        // $data->week                     = $this->weekOfMonth3($this->date_plan);
+        $data->departure_airport        = $this->departure_airport;
+        $data->arrival_airport          = $this->arrival_airport;
         $data->save();
 
         // $notif = get_user_from_access('hotel-flight-ticket.noc-manager');

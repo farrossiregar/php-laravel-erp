@@ -19,17 +19,7 @@
         </div>
 
         <div class="col-md-1">                
-            <select class="form-control" wire:model="type">
-                <option value=""> --- Type --- </option>
-                
-                <option value="1">Tools NOC</option>
-                <option value="2">Escalation Record</option>
-                
-            </select>
-        </div>
-
-        <div class="col-md-1">                
-            <select class="form-control" wire:model="type">
+            <select class="form-control" wire:model="project">
                 <option value=""> --- Project --- </option>
                 @foreach(\App\Models\ClientProject::orderBy('id', 'desc')
                                 ->where('company_id', Session::get('company_id'))

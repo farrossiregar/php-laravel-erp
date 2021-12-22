@@ -37,20 +37,7 @@
     
     <div class="col-md-1" style="margin: 0 10px;">
         <a href="javascript:;" wire:click="$emit('modaladdhotelflight')" class="btn btn-info"><i class="fa fa-plus"></i> Ticket Request </a>
-    </div>
-<!--     
-    <div class="col-md-1" style="margin: 0 10px;">
-        <a href="javascript:;" wire:click="$emit('modalimportactual')" class="btn btn-info"><i class="fa fa-upload"></i> Actual Schedule </a>
-    </div>
-
-    <div class="col-md-1" style="margin: 0 10px;">
-        <a href="javascript:;" wire:click="$emit('modalgeneratetimesheet')" class="btn btn-info"><i class="fa fa-download"></i> Generate Timesheet </a>
-    </div> -->
-    
-    
-
-
-    
+    </div>  
     
     
     <div class="col-md-12">
@@ -75,7 +62,7 @@
                         <th rowspan="2" class="align-middle">Attachment</th> 
                         <th rowspan="2" class="align-middle">Meeting Location</th> 
                         <th rowspan="2" class="align-middle">Date</th> 
-                        <th colspan="5" class="text-center align-middle">Flight Detail</th>
+                        <th colspan="6" class="text-center align-middle">Flight Detail</th>
                         <th colspan="3" class="text-center align-middle">Hotel Detail</th> 
                     </tr>
                     <tr>
@@ -85,6 +72,7 @@
                         <th class="text-center align-middle">Arrival</th> 
                         <th class="text-center align-middle">Airline</th> 
                         <th class="text-center align-middle">Agency</th> 
+                        <th class="text-center align-middle">Confirmation Flight</th> 
                         
 
                         <th class="text-center align-middle">Price</th> 
@@ -115,31 +103,33 @@
                             @endif
                         </td>
                         <td>
-                            <!-- if(check_access('hotel-flight-ticket.noc-manager')) -->
+                            @if(check_access('hotel-flight-ticket.l1-manager'))
                                 @if($item->status == '')
                                    
                                     <a href="javascript:;" wire:click="$emit('modalapprovehotelflightticket',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
                                     <a href="javascript:;" wire:click="$emit('modaldeclinehotelflightticket',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
                                 @endif
 
-                            <!-- endif -->
+                            @endif
 
+                            @if(check_access('hotel-flight-ticket.hq-ga'))
                                 @if($item->status == '1')
                                    
                                     <a href="javascript:;" wire:click="$emit('modalapprovehotelflightticket',['{{ $item->id }}', '2'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
                                     <a href="javascript:;" wire:click="$emit('modaldeclinehotelflightticket',['{{ $item->id }}', '2'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
                                 @endif
+                            @endif
 
-                            <!-- if(check_access('hotel-flight-ticket.toc-leader')) -->
-                                @if($item->status == '1')
+                            @if(check_access('hotel-flight-ticket.hq-ga'))
+                                @if($item->status == '2')
                                 <a href="javascript:;" wire:click="$emit('modaledithotelflightticket','{{ $item->id }}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
                                     
                                 @endif
-                            <!-- endif -->
+                            @endif
                         </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>{{ $item->name }}</td>
-                        <td>{{ $item->status }}</td>
+                        <td>{{ $item->nik }}</td>
                         <td>{{ $item->project }}</td>
                         <td>{{ $item->region }}</td>
                         <td>
@@ -156,118 +146,32 @@
                         <td>
                             <?php
                                 if($item->attachment != '' || $item->attachment != NULL){
-                                    echo '<a href=""><i class="fa fa-download"></i></a>';
+                                    echo '<a href="'.asset('storage/hotel_flight_ticket/'.$item->attachment.'').'" target="_blank"><i class="fa fa-download"></i></a>';
                                 }
                             ?>
                         </td>
                         <td>{{ $item->meeting_location }}</td>
                         <td>{{ date_format(date_create($item->date), 'd M Y') }}</td>
 
-                        <td>Rp,{{ format_idr($item->flight_price) }}</td>
-                        <td>{{ $item->departure_airport }} - {{ $item->departure_time }}</td>
-                        <td>{{ $item->arrival_airport }} - {{ $item->arrival_time }}</td>
+                        <td><?php if($item->flight_price){ echo 'Rp,'.format_idr($item->flight_price); }else{ echo ''; } ?></td>
+                        <td>{{ $item->departure_airport }} <?php if($item->departure_time){ echo '- '.date_format(date_create($item->departure_time), 'H:i'); }else{ echo ''; } ?></td>
+                        <td>{{ $item->arrival_airport }} <?php if($item->arrival_time){ echo '- '.date_format(date_create($item->arrival_time), 'H:i'); }else{ echo ''; } ?></td>
                         <td>{{ $item->airline }}</td>
                         <td>{{ $item->agency }}</td>
+                        <td>
+                            <?php
+                                if($item->confirmation_flight != '' || $item->confirmation_flight != NULL){
+                                    echo '<a href="'.asset('storage/hotel_flight_ticket/'.$item->confirmation_flight.'').'" target="_blank"><i class="fa fa-download"></i></a>';
+                                }
+                            ?>
+                        </td>
 
                         <td>Rp,{{ format_idr($item->hotel_price) }}</td>
                         <td>{{ $item->hotel_name }}</td>
                         <td>{{ $item->hotel_location }}</td>
                         
                     </tr>
-                    <!-- <tr>
-                        <td>{{ $key + 1 }}</td>
-                        <td>
-                            @if($item->status == '2')
-                                <label class="badge badge-success" data-toggle="tooltip" title="Actual Schedule Approved">Actual Schedule Approved</label>
-                            @endif
-
-                            @if($item->status == '1')
-                                <label class="badge badge-success" data-toggle="tooltip" title="Plan Schedule Approved">Plan Schedule Approved</label>
-                            @endif
-
-                            @if($item->status == '0')
-                                <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Team Schedule is Decline</label>
-                            @endif
-
-                            @if($item->status == '' || $item->status == 'null')
-                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
-                            @endif
-
-                        </td> 
-                        <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
-                        <td>{{ $item->name }}</td>
-                        <td>{{ $item->nik }}</td>
-                        <td>
-                            @if($item->company_name == '1')
-                                HUP
-                            @else
-                                PMT
-                            @endif
-                        </td>
-                        <td>{{ get_project_company($item->project, $item->company_name) }}</td>
-                        <td>{{$item->region}}</td>
-                        <td>{{ date_format(date_create($item->start_schedule), 'H:i d M Y') }}</td>
-                        <td>{{ date_format(date_create($item->end_schedule), 'H:i d M Y') }}</td>
-                        <td>
-                            @if(check_access('team-schedule.noc-manager'))
-                                @if($item->status == '')
-                                   
-                                    <a href="javascript:;" wire:click="$emit('modalapproveteamschedule',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineteamschedule',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
-                                @endif
-
-                            @endif
-
-                            @if(check_access('team-schedule.toc-leader'))
-                                @if($item->status == '0')
-                                <a href="javascript:;" wire:click="$emit('modaleditteamschedule','{{ $item->id }}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
-                                    
-                                @endif
-                            @endif
-                        </td>
-                        <td>{{ isset($item->start_actual) ? date_format(date_create($item->start_actual), 'H:i d M Y') : '' }}</td>
-                        <td>{{ isset($item->end_actual) ? date_format(date_create($item->end_actual), 'H:i d M Y') : '' }}</td>
-                        <td>
-                            <?php
-                                if($item->end_actual){
-                                    $diff = abs(strtotime(date_format(date_create($item->end_actual), 'Y-m-d H:i:s')) - strtotime(date_format(date_create($item->end_schedule), 'Y-m-d H:i:s')));
-                                    $years   = floor($diff / (365*60*60*24)); 
-                                    $months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
-                                    $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-                                    $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
-                                    $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
-                            
-                                    $waktu = '';
-                                    if($hours > 0){
-                                        $waktu .= $hours.' hr ';
-                                    }else{
-                                        $waktu .= '';
-                                    }
-                            
-                                    if($minuts > 0){
-                                        $waktu .= $minuts.' min ';
-                                    }else{
-                                        $waktu .= '';
-                                    }
-
-                                    echo $waktu;
-                                }
-                            ?>
-                        </td>
-                        <td>
-                            @if(check_access('team-schedule.noc-manager'))
-                                @if($item->status == '1')
-                                   
-                                    <a href="javascript:;" wire:click="$emit('modalapproveteamschedule',['{{ $item->id }}', '2'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineteamschedule',['{{ $item->id }}', '2'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
-                                @endif
-
-                            @endif
-
-                           
-                        </td>
-                       
-                    </tr> -->
+                    
                     @endforeach
                 </tbody>
             </table>

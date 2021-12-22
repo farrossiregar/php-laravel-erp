@@ -17,10 +17,10 @@ class Data extends Component
     {
         $data = \App\Models\HotelFlightTicket::where('company_name', Session::get('company_id'))->orderBy('created_at', 'desc');
         
-        if($this->filteryear) $data->whereYear('start_schedule',$this->filteryear);
-        if($this->filtermonth) $data->whereMonth('start_schedule',$this->filtermonth);                
-        if($this->filterweek) $data->where('week',$this->filterweek);                        
-        if($this->filterproject) $data->where('project',$this->filterproject);                        
+        if($this->filteryear) $data->whereYear('date',$this->filteryear);
+        if($this->filtermonth) $data->whereMonth('date',$this->filtermonth);                
+        
+        if($this->filterproject) $data->where('client_project_id',$this->filterproject);                        
         
         return view('livewire.hotel-flight-ticket.data')->with(['data'=>$data->paginate(50)]);   
     }

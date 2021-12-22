@@ -88,7 +88,7 @@
                                             @enderror
                                         </div> -->
 
-                                        <!-- if($tickettype == true) -->
+                                        @if($tickettype == true)
                                         <div class="row">
                                             <div class="col-md-12" >
                                                 <div class="row  form-group" style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px 0; width: 95%; margin: auto;">
@@ -99,7 +99,7 @@
                                                     <hr>
                                                     <div class="col-md-6 form-group">
                                                         <label>Departure Airport</label>
-                                                        <input type="text" class="form-control" wire:model="departure_airport">
+                                                        <input type="text" class="form-control" wire:model="departure_airport" readonly>
                                                     
                                                         @error('departure_airport')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -108,7 +108,7 @@
 
                                                     <div class="col-md-6 form-group">
                                                         <label>Arrival Airport</label>
-                                                        <input type="text" class="form-control" wire:model="arrival_airport">
+                                                        <input type="text" class="form-control" wire:model="arrival_airport" readonly>
                                                     
                                                         @error('arrival_airport')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -117,7 +117,7 @@
 
                                                     <div class="col-md-6 form-group">
                                                         <label>Departure Time</label>
-                                                        <input type="datetime" class="form-control" wire:model="departure_time">
+                                                        <input type="time" class="form-control" wire:model="departure_time">
                                                     
                                                         @error('departure_time')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -126,7 +126,7 @@
 
                                                     <div class="col-md-6 form-group">
                                                         <label>Arrival Time</label>
-                                                        <input type="datetime" class="form-control" wire:model="arrival_time">
+                                                        <input type="time" class="form-control" wire:model="arrival_time">
                                                     
                                                         @error('arrival_time')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -159,6 +159,15 @@
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                         @enderror
                                                     </div>
+
+                                                    <div class="col-md-12 form-group">
+                                                        <label>Confirmation Flight</label>
+                                                        <input type="file" class="form-control" name="file" wire:model="file" />
+                                                    
+                                                        @error('leader')
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        @enderror
+                                                    </div>
                                                     
                                                 </div>
                                             </div>
@@ -166,7 +175,7 @@
                                         </div>
                                         <br>
                                         
-                                        <!-- endif -->
+                                        @endif
 
 
                                         <div class="row">

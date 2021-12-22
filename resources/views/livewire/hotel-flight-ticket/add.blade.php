@@ -80,7 +80,7 @@
                                             <label>Departure Airport</label>
                                             <input type="text" class="form-control" wire:model="departure_airport">
                                            
-                                            @error('leader')
+                                            @error('departure_airport')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
@@ -89,7 +89,7 @@
                                             <label>Arrival Airport</label>
                                             <input type="text" class="form-control" wire:model="arrival_airport">
                                            
-                                            @error('leader')
+                                            @error('arrival_airport')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
