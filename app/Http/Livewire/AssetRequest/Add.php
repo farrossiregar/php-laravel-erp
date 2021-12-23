@@ -18,7 +18,8 @@ class Add extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $date, $ticket_type, $tickettype, $departure_airport, $arrival_airport, $meeting_location, $file;
+    public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name;
+    public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link;
 
     public function render()
     {
@@ -29,13 +30,7 @@ class Add extends Component
         $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
         $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
 
-        if($this->ticket_type == '1'){
-            $this->tickettype = true;
-        }else{
-            $this->tickettype = false;
-        }
-       
-
+        
         return view('livewire.asset-request.add');
     }
 
@@ -43,35 +38,35 @@ class Add extends Component
     public function save()
     {
 
-
-        $data                           = new \App\Models\HotelFlightTicket();
+        $user                           = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
+        $data                           = new \App\Models\AssetRequest();
         $data->company_name             = Session::get('company_id');
-        $data->project                  = $this->project;
-        $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
+        $data->project                  = \App\Models\ClientProject::where('id', $user->project)->first()->name;
+        // $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
         
-        // $dataemployee                   = explode(" - ",$this->employee_name);
-        $data->region                   = $this->region;
-        $data->name                     = $this->employee_name;
-        // $data->nik                      = $dataemployee[1];
-        // $data->employee_id              = $dataemployee[2];
-        
-        $data->ticket_type              = $this->ticket_type;
-        $data->meeting_location         = $this->meeting_location;
+        $data->region                   = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
+        $data->name                     = $user->name;
+        $data->asset_type               = $this->asset_type;
+        $data->asset_name               = $this->asset_name;
+        $data->location                 = $this->location;
+        $data->quantity                 = $this->quantity;
+        $data->dimension                = $this->dimension;
+        $data->detail                   = $this->detail;
+        $data->quantity                 = $this->quantity;
+        $data->reason_request           = $this->reason_request;
         
         $this->validate([
             'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
         ]);
 
         if($this->file){
-            $hotelflightticket = 'asset-request'.date('Ymd').'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/hotel_flight_ticket/',$hotelflightticket);
+            $reference_request = 'reference-request'.date('Ymd').'.'.$this->file->extension();
+            $this->file->storePubliclyAs('public/reference_request/',$reference_request);
 
-            $data->attachment               = $hotelflightticket;
+            $data->reference_pic         = $reference_request;
         }
         
-        $data->date                     = $this->date;
-        $data->departure_airport        = $this->departure_airport;
-        $data->arrival_airport          = $this->arrival_airport;
+        $data->link                     = $this->link;
         $data->save();
 
         // $notif = get_user_from_access('asset-request.noc-manager');
@@ -83,10 +78,7 @@ class Add extends Component
         //     }
         // }
 
-       
-
-
-        session()->flash('message-success',"Request Hotel & Flight Ticket Berhasil diinput");
+        session()->flash('message-success',"Asset Request Berhasil diinput");
         
         return redirect()->route('asset-request.index');
     }

@@ -10,7 +10,7 @@ use DB;
 class Decline extends Component
 {
     protected $listeners = [
-        'modaldeclinehotelflightticket'=>'declinehotelflightticket',
+        'modaldeclineassetrequest'=>'declineassetrequest',
     ];
 
     use WithFileUploads;
@@ -23,7 +23,7 @@ class Decline extends Component
         return view('livewire.asset-request.decline');
     }
 
-    public function declinehotelflightticket($id)
+    public function declineassetrequest($id)
     {
         $this->selected_id = $id;
         // dd($id[0]);
@@ -33,7 +33,7 @@ class Decline extends Component
     public function save()
     {
         
-        $data = \App\Models\HotelFlightTicket::where('id', $this->selected_id)->first();
+        $data = \App\Models\AssetRequest::where('id', $this->selected_id)->first();
         
         $data->status   = '0';
         $data->note     = $this->note;
@@ -52,7 +52,7 @@ class Decline extends Component
 
 
         
-        session()->flash('message-success',"Berhasil, Hotel & Flight Ticket is Decline !!!");
+        session()->flash('message-success',"Berhasil, Asset Request is Decline !!!");
 
         // \LogActivity::add('[web] Duty Roster - Home Base Input');
         

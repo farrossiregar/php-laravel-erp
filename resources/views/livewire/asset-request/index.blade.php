@@ -23,8 +23,8 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-hotelflight-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="modal-assetrequest-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <livewire:asset-request.add />
         </div>
@@ -33,28 +33,28 @@
 
 
 
-<div class="modal fade" id="modal-hotelflight-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-assetrequest-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:hotel-flight-ticket.edit />
+            <livewire:asset-request.edit />
         </div>
     </div>
 </div>
 
 
-<div class="modal fade" id="modal-hotelflightticket-approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-assetrequest-approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:hotel-flight-ticket.approve />
+            <livewire:asset-request.approve />
         </div>
     </div>
 </div>
 
 
-<div class="modal fade" id="modal-hotelflightticket-decline" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-assetrequest-decline" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:hotel-flight-ticket.decline />
+            <livewire:asset-request.decline />
         </div>
     </div>
 </div>
@@ -64,24 +64,24 @@
 
 
 @section('page-script')
-    Livewire.on('modaladdhotelflight',(data)=>{
+    Livewire.on('modaladdassetrequest',(data)=>{
         
-        $("#modal-hotelflight-add").modal('show');
+        $("#modal-assetrequest-add").modal('show');
     });
 
 
-    Livewire.on('modaledithotelflightticket',(data)=>{
-        $("#modal-hotelflight-edit").modal('show');
+    Livewire.on('modaleditassetrequest',(data)=>{
+        $("#modal-assetrequest-edit").modal('show');
     });
 
 
-    Livewire.on('modalapprovehotelflightticket',(data)=>{
-        $("#modal-hotelflightticket-approve").modal('show');
+    Livewire.on('modalapproveassetrequest',(data)=>{
+        $("#modal-assetrequest-approve").modal('show');
     });
 
 
-    Livewire.on('modaldeclinehotelflightticket',(data)=>{
-        $("#modal-hotelflightticket-decline").modal('show');
+    Livewire.on('modaldeclineassetrequest',(data)=>{
+        $("#modal-assetrequest-decline").modal('show');
     });
 
 @endsection
