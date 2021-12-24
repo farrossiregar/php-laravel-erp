@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\HotelFlightTicket;
+namespace App\Http\Livewire\AssetRequest;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -10,7 +10,7 @@ use DB;
 class Approve extends Component
 {
     protected $listeners = [
-        'modalapprovehotelflightticket'=>'approvehotelflightticket',
+        'modalapproveassetrequest'=>'approveassetrequest',
     ];
 
     use WithFileUploads;
@@ -20,10 +20,10 @@ class Approve extends Component
     
     public function render()
     {
-        return view('livewire.hotel-flight-ticket.approve');
+        return view('livewire.asset-request.approve');
     }
 
-    public function approvehotelflightticket($id)
+    public function approveassetrequest($id)
     {
         $this->selected_id = $id;
     }
@@ -32,7 +32,7 @@ class Approve extends Component
     public function save()
     {
         $type_approve = $this->selected_id;
-        $data = \App\Models\HotelFlightTicket::where('id', $this->selected_id)->first();
+        $data = \App\Models\AssetRequest::where('id', $this->selected_id)->first();
         if($type_approve[1] == '1'){
             $data->status = '1';
         }else{
@@ -43,7 +43,7 @@ class Approve extends Component
         $data->save();
 
     
-        // $notif = get_user_from_access('hotel-flight-ticket.toc-leader');
+        // $notif = get_user_from_access('asset-request.toc-leader');
         
         // foreach($notif as $user){
         //     if($user->email){
@@ -55,8 +55,8 @@ class Approve extends Component
 
 
 
-        session()->flash('message-success',"Berhasil, Hotel & Flight Ticket sudah diapprove!!!");
+        session()->flash('message-success',"Berhasil, Asset Request sudah diapprove!!!");
         
-        return redirect()->route('hotel-flight-ticket.index');
+        return redirect()->route('asset-request.index');
     }
 }

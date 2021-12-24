@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\HotelFlightTicket;
+namespace App\Http\Livewire\AssetRequest;
 
 use Livewire\Component;
 
@@ -12,6 +12,6 @@ class Index extends Component
             session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
             $this->redirect('/');
         }
-        return view('livewire.hotel-flight-ticket.index');
+        return view('livewire.asset-request.index');
     }
 }

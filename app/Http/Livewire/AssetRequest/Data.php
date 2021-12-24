@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\HotelFlightTicket;
+namespace App\Http\Livewire\AssetRequest;
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -15,13 +15,13 @@ class Data extends Component
     
     public function render()
     {
-        $data = \App\Models\HotelFlightTicket::where('company_name', Session::get('company_id'))->orderBy('created_at', 'desc');
+        $data = \App\Models\AssetRequest::where('company_name', Session::get('company_id'))->orderBy('created_at', 'desc');
         
         if($this->filteryear) $data->whereYear('date',$this->filteryear);
         if($this->filtermonth) $data->whereMonth('date',$this->filtermonth);                
         
         if($this->filterproject) $data->where('client_project_id',$this->filterproject);                        
         
-        return view('livewire.hotel-flight-ticket.data')->with(['data'=>$data->paginate(50)]);   
+        return view('livewire.asset-request.data')->with(['data'=>$data->paginate(50)]);   
     }
 }

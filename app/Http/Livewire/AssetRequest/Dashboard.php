@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\HotelFlightTicket;
+namespace App\Http\Livewire\AssetRequest;
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -21,7 +21,7 @@ class Dashboard extends Component
     public function render()
     {
         $this->generate_chart();
-        return view('livewire.hotel-flight-ticket.dashboard');
+        return view('livewire.asset-request.dashboard');
     }
 
     public function mount()
