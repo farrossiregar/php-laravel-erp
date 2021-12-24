@@ -22,8 +22,6 @@ class Index extends Component
             session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
             $this->redirect('/');
         }
-        // dd(check_access_data('dana-stpl.approve-ms'));
-
         
         $data = \App\Models\DanaStpl::select('dana_stpl_master.*', 'region.region_code', 'employees.name')
                                     ->join(env('DB_DATABASE_EPL_PMT').'.region as region', 'region.id', 'dana_stpl_master.region_id')
@@ -33,13 +31,8 @@ class Index extends Component
         if($this->region) $ata = $data->where('dana_stpl_master.region_id',$this->region);
         if($this->project) $ata = $data->where('dana_stpl_master.project_name',$this->project);
                         
-        // dd($data->get());
         return view('livewire.dana-stpl.index')->with(['data'=>$data->paginate(50)]);
-        
-        
     }
-
-
 }
 
 

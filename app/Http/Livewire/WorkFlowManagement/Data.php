@@ -40,8 +40,8 @@ class Data extends Component
         if($this->created_at) $data = $data->whereDate('created_at',$this->created_at);
         if($this->region) $data = $data->where('region',$this->region);
         if($this->problem) $data->where('problem',$this->problem);
-        
-        return view('livewire.work-flow-management.data')->with(['data'=>$data->paginate($this->perpage)]);
+        $count = clone $data;
+        return view('livewire.work-flow-management.data')->with(['data'=>$data->paginate($this->perpage),'count'=>$count->count()]);
     }
 
     public function mount()

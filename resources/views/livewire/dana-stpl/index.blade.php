@@ -1,4 +1,4 @@
-@section('title', __('Penggunaan Dana STPL - Index'))
+@section('title', __('Penggunaan Dana STPL'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -30,10 +30,9 @@
                     </div>
                     @endif
                     <div class="col-md-2">
-                        <a data-toggle="modal" data-target="#modal-datastpl-downloadreport" title="Download" class="btn btn-primary"><i class="fa fa-download"></i> {{__('Download Report')}}</a>
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#modal-datastpl-downloadreport" title="Download" class="btn btn-primary"><i class="fa fa-download"></i> {{__('Download Report')}}</a>
                     </div>
                 </div>
-
                 <div class="body pt-0">
                     <div class="table-responsive">
                         <table class="table table-striped m-b-0 c_list">
@@ -106,20 +105,19 @@
                                     <td>
                                         
                                         @if(check_access('dana-stpl.upload-ir') && $item->status == '3')
-                                            <a href="javascript:;" wire:click="$emit('modaluploadir','{{ $item->id }}')" class="btn btn-primary"><i class="fa fa-plus"></i> Upload IR</a>
+                                            <a href="javascript:;" wire:click="$emit('modaluploadir','{{ $item->id }}')" class="badge badge-primary badge-active"><i class="fa fa-plus"></i> Upload IR</a>
                                         @endif
 
 
                                         @if(check_access('dana-stpl.revisi') && $item->status == '0')
-                                            <a href="javascript:;" wire:click="$emit('modalrevisidana','{{ $item->id }}')"  title="Revisi" class="btn btn-danger"><i class="fa fa-edit"></i> Revisi</a>
+                                            <a href="javascript:;" wire:click="$emit('modalrevisidana','{{ $item->id }}')"  title="Revisi" class="badge badge-danger badge-active"><i class="fa fa-edit"></i> Revisi</a>
                                         @endif
 
                                         
                                         @if(check_access('dana-stpl.approve-sm'))
-                                            
                                             @if($item->status == null && $item->status != '0')
-                                                <a href="javascript:;" wire:click="$emit('modalapprovedana','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                                <a href="javascript:;" wire:click="$emit('modaldeclinedana','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                                <a href="javascript:;" wire:click="$emit('modalapprovedana','{{ $item->id }}')" class="badge badge-success badge-active"><i class="fa fa-check"></i> Approve</a>
+                                                <a href="javascript:;" wire:click="$emit('modaldeclinedana','{{ $item->id }}')" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Decline</a>
                                             @endif
 
                                             @if($item->status == '1')
@@ -129,10 +127,9 @@
 
 
                                         @if(check_access('dana-stpl.approve-ms'))
-                                        
                                             @if($item->status == '1')
-                                                <a href="javascript:;" wire:click="$emit('modalapprovedana','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                                <a href="javascript:;" wire:click="$emit('modaldeclinedana','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                                <a href="javascript:;" wire:click="$emit('modalapprovedana','{{ $item->id }}')" class="badge badge-success badge-active"><i class="fa fa-check"></i> Approve</a>
+                                                <a href="javascript:;" wire:click="$emit('modaldeclinedana','{{ $item->id }}')" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Decline</a>
                                             @endif
 
                                             @if($item->status == '2')
@@ -142,8 +139,8 @@
 
                                         @if(check_access('dana-stpl.approve-psm'))
                                             @if($item->status == '2')
-                                                <a href="javascript:;" wire:click="$emit('modalapprovedana','{{ $item->id }}')" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                                <a href="javascript:;" wire:click="$emit('modaldeclinedana','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                                <a href="javascript:;" wire:click="$emit('modalapprovedana','{{ $item->id }}')" class="badge badge-success badge-active"><i class="fa fa-check"></i> Approve</a>
+                                                <a href="javascript:;" wire:click="$emit('modaldeclinedana','{{ $item->id }}')" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Decline</a>
                                             @endif
 
                                             

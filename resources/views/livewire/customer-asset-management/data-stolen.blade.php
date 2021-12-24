@@ -42,6 +42,7 @@
                         <th>{{ __('TOWER INDEX') }}</th>
                         <th>{{ __('SITE ID') }}</th>
                         <th>{{ __('SITE NAME') }}</th>
+                        <th>{{ __('SITE OWNER') }}</th>
                         <th>{{ __('CLUSTER') }}</th>
                         <th>{{ __('REGION') }}</th>
                         <th>{{ __('RECTIFIER 1 QTY MODULE') }}</th>
@@ -70,6 +71,7 @@
                         <td>{{isset($item->tower->name)?$item->tower->name : ''}}</td> 
                         <td>{!!isset($item->site_code)?"<a href=\"". route('sites.edit',$item->site_id)."\">{$item->site_code}</a>" : ''!!}</td> 
                         <td>{{isset($item->site_name)?$item->site_name : ''}}</td> 
+                        <td>{{isset($item->site_owner)?$item->site_owner : ''}}</td>
                         <td>{{isset($item->cluster->name)?$item->cluster->name : ''}}</td> 
                         <td>{{isset($item->region->region)?$item->region->region : ''}}</td>
                         <td>{{$item->qty_module_1}}</td>
@@ -88,32 +90,34 @@
                         </td>
                         <td>{{$item->catatan}}</td>
                         <td>
-                        
                             @if($item->site_owner == 'TLP')
                                 @if($item->status==1)
                                     @if(check_access('customer-asset-management.asset-stolen-open-tt-tlp'))
                                         @livewire('customer-asset-management.status-stolen-tlp',['data'=>$item->id],key($item->id+$item->status+1))
                                     @else
-                                        <a href="javascript:;" class="badge badge-danger"><i class="fa fa-warning"></i> Not Verify</a>
+                                        <a href="javascript:;" class="badge badge-danger"><i class="fa fa-warning"></i> Waiting Upload</a>
                                     @endif
                                 @endif
                                 @if($item->status==3)
-                                    <a href="javascript:;" class="badge badge-success"><i class="fa fa-check"></i> Verify</a>
+                                    <a href="{{asset($item->file_boq)}}" target="_blank" class="badge badge-success"><i class="fa fa-check"></i> Verify</a>
                                 @endif
                             @endif
                             @if($item->site_owner == 'TMG')
+                                @if($item->is_revisi==1)
+                                    <span class="badge badge-danger"><i class="fa fa-warning"></i> Revised</span>
+                                @endif
                                 @if($item->status==1)
                                     @if(check_access('customer-asset-management.asset-stolen-verify-and-acknowldge-tmg'))
                                         @livewire('customer-asset-management.status-stolen-tmg',['data'=>$item->id],key($item->id+$item->status+2))
                                     @else
-                                        <a href="javascript:;" class="badge badge-danger"><i class="fa fa-warning"></i> Not Verify</a>
+                                        <a href="javascript:;" class="badge badge-danger"><i class="fa fa-warning"></i> Waiting Verify</a>
                                     @endif
                                 @endif
                                 @if($item->status==2)
                                     @if(check_access('customer-asset-management.stolen-submit-email-boq'))
                                         @livewire('customer-asset-management.status-stolen-boq-tmg',['data'=>$item->id],key($item->id+$item->status+3))
                                     @else
-                                        <span class="badge badge-warning"><i class="fa fa-times"></i> Not Uploaded</span>
+                                        <span class="badge badge-warning"><i class="fa fa-times"></i> Waiting Upload</span>
                                     @endif
                                 @endif
                                 @if($item->status==3)

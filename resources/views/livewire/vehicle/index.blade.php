@@ -1,5 +1,5 @@
 @section('title', __('Vehicle'))
-@section('parentPageTitle', 'Duty Roster')
+@section('parentPageTitle', '')
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -9,7 +9,7 @@
                 @endif
             </ul>
             <div class="tab-content">
-                @if(check_access('site-tracking.data'))
+                @if(check_access('vehicle.data'))
                     <div class="tab-pane active" id="data">
                         <livewire:vehicle.data />
                     </div>

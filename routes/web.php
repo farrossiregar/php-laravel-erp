@@ -161,4 +161,5 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('duty-roster-regiontools',App\Http\Livewire\DutyRosterRegiontools\Index::class)->name('duty-roster-regiontools.index');
     Route::get('commitment-letter',App\Http\Livewire\CommitmentLetter\Index::class)->name('commitment-letter.index');
     Route::get('vehicle',App\Http\Livewire\Vehicle\Index::class)->name('vehicle.index');
+    Route::get('gps-installation',App\Http\Livewire\GpsInstallation\Index::class)->name('gps-installation.index');
 });

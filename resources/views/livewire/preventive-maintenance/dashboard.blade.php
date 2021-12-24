@@ -45,7 +45,7 @@
             <hr />
             <h6>
                 @if($total_sow and $total_submitted)
-                    {{format_idr(round((($total_submitted/$total_sow) * 100),1))}}%
+                    {{round((($total_submitted/$total_sow) * 100),0)}}%
                 @else
                     0%
                 @endif 
@@ -53,7 +53,7 @@
             </h6>
             <h6>
                 @if($total_sow and $total_approved_eid)
-                    {{format_idr(round(($total_approved_eid / $total_sow) * 100,1))}}% 
+                    {{round(($total_approved_eid / $total_sow) * 100,0)}}% 
                 @else
                     0%
                 @endif

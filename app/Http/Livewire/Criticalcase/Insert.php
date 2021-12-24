@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Criticalcase;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Auth;
+use App\Mail\GeneralEmail;
 
 class Insert extends Component
 {
@@ -59,12 +60,19 @@ class Insert extends Component
                 $criticalcase->time_closed                            = @date_format(date_create($i[13]), 'Y-m-d H:i:s');
                 $criticalcase->status                                 = $stat;
                 $criticalcase->last_update                            = $i[15];
-                $criticalcase->created_at                             = date('Y-m-d H:i:s');
-                $criticalcase->updated_at                             = date('Y-m-d H:i:s');
                 $criticalcase->save();
 
                 $total_success++;
             }
+
+            $notif = get_user_from_access('critical-case.action-point');
+            foreach($notif as $user){
+                if($user->email){
+                    $message = "<p>Dear {$user->name}<br />{$total_success} Critical case need your analyze.</p>";
+                    \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] Critical Case",$message));
+                }
+            }
+            
             session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
             
             return redirect()->route('critical-case.index');

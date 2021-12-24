@@ -13,9 +13,10 @@ class WfmController extends Controller
     {
         \LogActivity::add('[apps] WFM');
         
-        $temp = WorkFlowManagement::where('employee_id',\Auth::user()->employee->id)->get();
+        $temp = WorkFlowManagement::where('employee_id',\Auth::user()->employee->id);
+
         $data = [] ;
-        foreach($temp as $k => $item){
+        foreach($temp->get() as $k => $item){
             $data[$k]['id'] = $item->id;
             $data[$k]['uploaded'] = date('d M Y',strtotime($item->created_at));
             $data[$k]['region'] = $item->region;

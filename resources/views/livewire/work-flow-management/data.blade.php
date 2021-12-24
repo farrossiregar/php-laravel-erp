@@ -54,7 +54,7 @@
                         <th>{{ __('CLUSTER') }}</th>
                         <th>{{ __('SIGNUM')}}</th>
                         <th>{{ __('FT NAME')}}</th>
-                        <th>{{ __('PROBLEM')}}</th>
+                        <th>{{ __('PROBLEM')}} ({{$count}})</th>
                         <th>{{ __('THRESHOLD') }}</th>
                         <th>{{ __('PIKUP DATE') }}</th>
                         <th>{{ __('RESOLVE DATE') }}</th>

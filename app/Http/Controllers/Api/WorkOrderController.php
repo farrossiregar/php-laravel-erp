@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PoTrackingNonms;
 use App\Models\PoTrackingNonmsBast;
+use App\Models\WorkFlowManagement;
 use App\Models\Notification;
 
 class WorkOrderController extends Controller
@@ -20,8 +21,9 @@ class WorkOrderController extends Controller
         $open_work_order = PoTrackingNonms::whereNull('bast_status')->count();
         $accepted_work_order = PoTrackingNonms::where('bast_status',1)->orWhere('bast_status',3)->count();
         $closed_work_order = PoTrackingNonms::where('bast_status',2)->count();
-
-        return response()->json(['message'=>'success','general_notification'=>$general_notification,'open_work_order'=>$open_work_order,'accepted_work_order'=>$accepted_work_order,'closed_work_order'=>$closed_work_order], 200);
+        $wfm = WorkFlowManagement::where('employee_id',\Auth::user()->employee->id)->where('status','<>',2)->get()->count();
+        
+        return response()->json(['message'=>'success','general_notification'=>$general_notification,'open_work_order'=>$open_work_order,'accepted_work_order'=>$accepted_work_order,'closed_work_order'=>$closed_work_order,'wfm'=>$wfm?$wfm:0], 200);
     }
 
     public function workOrderGeneral()

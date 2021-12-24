@@ -1,5 +1,4 @@
 @section('title', __('Drug Test'))
-
 @section('title', __('Training Material'))
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -79,6 +78,7 @@
                         </thead>
                         <tbody>
                             @foreach($data as $k => $item)
+                                @if(!isset($item->employee->name)) @continue @endif
                                 <tr>
                                     <td>{{$k+1}}</td>
                                     <td>{{isset($item->employee->region->region) ? $item->employee->region->region : ''}}</td>

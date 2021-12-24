@@ -29,7 +29,7 @@ class CriticalCaseActionPoint extends Mailable
      */
     public function build()
     {
-        return $this->subject("Critical Case #{$this->critical_case->activity_handling}")
+        return $this->subject("[PMT EPM] Critical Case #{$this->critical_case->activity_handling}")
                     ->from('no-reply@pmt.co.id')
                     ->view('emails.critical-case-action-point')
                     ->with(['data'=>$this->critical_case]);
