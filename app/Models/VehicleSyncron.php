@@ -8,6 +8,7 @@ use App\Models\Employee;
 use App\Models\ClientProject;
 use App\Models\Region;
 use App\Models\SubRegion;
+use App\Models\VehicleCheck;
 use App\Models\EPL\VehicleVendor;
 
 class VehicleSyncron extends Model
@@ -15,6 +16,11 @@ class VehicleSyncron extends Model
     use HasFactory;
 
     protected $table = 'vehicle_syncron';
+
+    public function vehicle_check()
+    {
+        return $this->hasOne(VehicleCheck::class,'id','erp_vehicle_check_id');
+    }
 
     public function employee()
     {
@@ -38,11 +44,11 @@ class VehicleSyncron extends Model
 
     public function sub_region()
     {
-        return $this->hasOne(SubRegion::class,'id','sub_cluster_id');
+        return $this->hasOne(SubRegion::class,'id','sub_region_id');
     }
 
     public function epl_vehicle()
     {
-        return $this->hasOne(VehicleVendor::class,'id','epl_vehicle_id');
+        return $this->belongsTo(VehicleVendor::class,'epl_vehicle_id','id');
     }
 }

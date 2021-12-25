@@ -75,11 +75,11 @@ class Data extends Component
 
         if(isset($this->selected_id->employee->email)){
             $message = "<p>Dear {$this->selected_id->employee->name}<br />{$message}</p>";
-            \Mail::to($this->selected_id->employee->email)->send(new GeneralEmail("[PMT E-PM] - Duty Roster Site List",$message));
+            \Mail::to($this->selected_id->employee->email)->send(new GeneralEmail("[PMT E-PM] Work Force Management",$message));
         }
 
         if(isset($this->selected_id->employee->device_token)){
-            push_notification_android($this->selected_id->employee->device_token,'Work Force Management',$message,9);
+            push_notification_android($this->selected_id->employee->device_token,'Work Force Management',strip_tags($message),9);
         }
 
         $this->emit('message-success','PIC Change.');

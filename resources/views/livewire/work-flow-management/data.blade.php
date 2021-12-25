@@ -59,6 +59,7 @@
                         <th>{{ __('PIKUP DATE') }}</th>
                         <th>{{ __('RESOLVE DATE') }}</th>
                         <th>{{ __('STATUS') }}</th>
+                        <th class="text-center">{{ __('ATTACHMENT')}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,6 +92,11 @@
                             @endif
                             @if($item->status==2)
                                 <span class="badge badge-success">Resolved</span>
+                            @endif
+                        </td>
+                        <td class="text-center">
+                            @if($item->file_attachment) 
+                                <a href="{{asset($item->file_attachment)}}" target="_blank"><i class="fa fa-image"></i></a>
                             @endif
                         </td>
                     </tr>

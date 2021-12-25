@@ -2,7 +2,6 @@
 @section('title', __('Training Material'))
 <div class="row clearfix">
     <div class="col-lg-12">
-
         <div class="card">
             <ul class="nav nav-tabs-new2">
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard">{{ __('Dashboard') }}</a></li>
@@ -18,7 +17,6 @@
             </div>
         </div>
     </div>
-
     <div wire:ignore.self class="modal fade" id="modal_edit_uploaded" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -49,7 +47,6 @@
             </div>
         </div>
     </div>
-
     <div wire:ignore.self class="modal fade" id="modal_add_drug_test" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

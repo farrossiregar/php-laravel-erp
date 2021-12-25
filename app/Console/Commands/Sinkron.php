@@ -45,12 +45,60 @@ class Sinkron extends Command
      */
     public function handle()
     {
-        // $employee = Employee::where('nik',1319153)->first();
-        $employee = Employee::where('nik',1111)->first();
-        if($employee){
-            echo $employee->device_token."\n";
-            push_notification_android($employee->device_token,"Trouble Ticket","Testing Trouble Ticket",6,1,1);
+        $temp = \App\Models\VehicleCheck::whereNotNull('plat_nomor')
+                                        ->where('client_project_id',8)
+                                        // ->whereNotIn('plat_nomor',$notIn)
+                                        ->orderBy('id','DESC')
+                                        ->get();
+        foreach($temp as $k=>$vehicle_check){
+            $no_polisi =  ltrim($vehicle_check->plat_nomor);
+            $no_polisi =  rtrim($no_polisi);
+
+            echo "No {$k}\n";
+            echo "No Polisi : {$no_polisi}\n====================\n";
+            $vehicle_vendor = \App\Models\EPL\VehicleVendor::where('no_polisi',$no_polisi)->first();
+
+            $vehicle_syncron = \App\Models\VehicleSyncron::where('no_polis',$no_polisi)->first();
+            if(!$vehicle_syncron){
+                $vehicle_syncron = new \App\Models\VehicleSyncron();
+                $vehicle_syncron->client_project_id = 8;
+            } 
+            
+            $vehicle_syncron->erp_vehicle_check_id = $vehicle_check->id;
+            $vehicle_syncron->no_polis = $no_polisi;
+            if($vehicle_vendor){
+                $vehicle_syncron->epl_vehicle_id = $vehicle_vendor->id;
+                $vehicle_syncron->vendor = isset($vehicle_vendor->vendor->name)?$vehicle_vendor->vendor->name:'';
+                $vehicle_syncron->brand = isset($vehicle_vendor->vehicle->brand)?$vehicle_vendor->vehicle->brand:'';
+                $vehicle_syncron->type = isset($vehicle_vendor->vehicle->type)?$vehicle_vendor->vehicle->type:'';
+                $vehicle_syncron->merk = isset($vehicle_vendor->vehicle->merk)?$vehicle_vendor->vehicle->merk:'';
+                $vehicle_syncron->tahun = isset($vehicle_vendor->vehicle->tahun)?$vehicle_vendor->vehicle->tahun:'';
+            }
+            // $vehicle_syncron->employee_id = \Auth::user()->employee->id;
+            $vehicle_syncron->car_motorcycle = 1;
+            $vehicle_syncron->is_syncron = 1;
+            $vehicle_syncron->region_id = $vehicle_check->region_id;
+            $vehicle_syncron->sub_region_id = $vehicle_check->sub_region_id;
+            $vehicle_syncron->driver_employee_id = $vehicle_check->employee_id;       
+            $vehicle_syncron->save();
+
+            // check vehicle
+            $vehicle = \App\Models\Vehicle::where('no_polisi',$no_polisi)->first();
+            if(!$vehicle) $vehicle = new \App\Models\Vehicle();
+            $vehicle->no_polisi = $no_polisi;
+            $vehicle->employee_id = $vehicle_check->employee_id;
+            $vehicle->client_project_id = 8;
+            $vehicle->region_id = $vehicle_check->region_id;
+            $vehicle->sub_region_id = $vehicle_check->sub_region_id;
+            $vehicle->save();
         }
+
+        // // $employee = Employee::where('nik',1319153)->first();
+        // $employee = Employee::where('nik',1111)->first();
+        // if($employee){
+        //     echo $employee->device_token."\n";
+        //     push_notification_android($employee->device_token,"Trouble Ticket","Testing Trouble Ticket",6,1,1);
+        // }
 
         // $count = 0;
         // foreach(Employee::select('employees.*')->join('employee_projects','employee_projects.employee_id','=','employees.id')->where('is_use_android',1)->groupBy('employees.id')->get() as $em){

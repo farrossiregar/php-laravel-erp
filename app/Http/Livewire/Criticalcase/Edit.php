@@ -41,14 +41,14 @@ class Edit extends Component
         $data->type = $this->type;
         $data->status_submit = 1; 
         $data->save();
-        foreach(get_user_from_access('critical-case.notification-action-point') as $user){
-            $message = "*{$this->data->activity_handling}*\n\n";
-            $message .= $this->type==1?"*Repetitive*" : "*Non Repetitive*";
-            $message .= "\n".$this->action_point;
+        // foreach(get_user_from_access('critical-case.notification-action-point') as $user){
+        //     $message = "*{$this->data->activity_handling}*\n\n";
+        //     $message .= $this->type==1?"*Repetitive*" : "*Non Repetitive*";
+        //     $message .= "\n".$this->action_point;
 
-            send_wa(['phone'=>$user->telepon,'message'=>$message]);
-            \Mail::to($user->email)->send(new CriticalCaseActionPoint($data));
-        }
+        //     send_wa(['phone'=>$user->telepon,'message'=>$message]);
+        //     \Mail::to($user->email)->send(new CriticalCaseActionPoint($data));
+        // }
 
         $this->emit('refresh-page');
     }

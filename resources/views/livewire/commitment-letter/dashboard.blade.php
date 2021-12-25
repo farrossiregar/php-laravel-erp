@@ -51,7 +51,7 @@
                             Summary All Project
                         @endif
                     @else
-                        Summary {{ App\Models\ClientProject::where('id', App\Models\Employee::where('name', $users->name)->first()->project)->first()->name }}
+                        Summary {{ @App\Models\ClientProject::where('id', App\Models\Employee::where('name', $users->name)->first()->project)->first()->name }}
                     @endif
 
                     

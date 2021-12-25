@@ -23,6 +23,7 @@ class WfmController extends Controller
             $data[$k]['area'] = $item->servicearea4;
             $data[$k]['cluster'] = isset($item->cluster->name) ? $item->cluster->name : '' ;
             $data[$k]['status'] = $item->status;
+            $data[$k]['problem'] = $item->problem;
         }
 
         return response()->json(['message'=>'success','data'=>$data], 200);
@@ -47,6 +48,13 @@ class WfmController extends Controller
         $data->resolve_date = date('Y-m-d H:i:s');
         $data->note_solved = $r->note;
         $data->save();
+
+        if($r->file_attachment){
+            $name = "file_attachment.".$r->file_attachment->extension();
+            $r->file_attachment->storeAs("public/wfm/{$data->id}", $name);
+            $data->file_attachment = "storage/wfm/{$data->id}/{$name}";
+            $data->save();
+        }
         
         \LogActivity::add('[apps] WFM Solved');
 

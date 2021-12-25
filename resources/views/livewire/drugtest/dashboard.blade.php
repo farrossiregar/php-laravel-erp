@@ -20,7 +20,7 @@
         <canvas id="chart" style="height:400px;"></canvas>
     </div>
     <div class="table-responsive">
-        <table class="table m-b-0 c_list">
+        <table class="table m-b-0 c_list table-bordered">
             <thead>
                 <tr>
                     <th class="text-center">Total Team</th>
@@ -101,7 +101,7 @@
                                     var meta = chartInstance.controller.getDatasetMeta(i);
                                     meta.data.forEach(function(bar, index) {
                                         var data = dataset.data[index];
-                                        ctx.fillText(data, bar._model.x+10, bar._model.y);
+                                        ctx.fillText(data, bar._model.x+20, bar._model.y);
                                     });
                                 });
                             }

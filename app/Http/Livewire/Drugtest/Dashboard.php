@@ -10,7 +10,7 @@ class Dashboard extends Component
 {
     public $filter_tahun,$labels,$series,$tahun,$notInt,$positive,$negative;
     public $total_team,$done_drug_test,$not_yet_drug_test;
-    public $background = ['#9ad0f5','#ffb1c1','#8fe045','#4f805d','#444'];   
+    public $background = ['#9ad0f5','#ffb1c1','#8fe045','#4f805d','#0b57cab0'];   
     public function render()
     {  
         return view('livewire.drugtest.dashboard');
@@ -25,8 +25,8 @@ class Dashboard extends Component
     public function chart()
     {
         $this->labels = [];$this->series=[];
-        $this->notIn = Employee::pluck('id')->toArray();
-        
+        $this->notIn = DrugTest::pluck('employee_id')->toArray();
+        $this->labels[] = "Drug Test";
         foreach([0=>'Positive',1=>'Negative',2=>'Not Yet Drug Test',3=>'Done Drug Test',4=>'Total Team'] as $k=>$item){
             $this->series[$k]['label'] = $item;
             $this->series[$k]['borderColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
@@ -42,7 +42,7 @@ class Dashboard extends Component
                 $this->series[$k]['data'][] = $this->negative;
             }
             if($k==2){
-                $this->not_yet_drug_test = DrugTest::whereNotIn('employee_id',$this->notIn)->get()->count();
+                $this->not_yet_drug_test = Employee::whereNotIn('id',$this->notIn)->get()->count();
                 $this->series[$k]['data'][] = $this->not_yet_drug_test;
             }
             if($k==3){
@@ -50,7 +50,6 @@ class Dashboard extends Component
                 $this->series[$k]['data'][] = $this->done_drug_test;
             }
             if($k==4){
-                // $this->total_team = Employee::whereIn('user_access_id',[85,84])->get()->count();
                 $this->total_team = Employee::get()->count();
                 $this->series[$k]['data'][] = $this->total_team;
             }
@@ -58,7 +57,6 @@ class Dashboard extends Component
 
         $this->labels = json_encode($this->labels);
         $this->series = json_encode($this->series);
-
         $this->emit('init-chart',['labels'=>$this->labels,'series'=>$this->series]);
     }
 }
