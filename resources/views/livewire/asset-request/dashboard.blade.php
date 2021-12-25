@@ -9,26 +9,35 @@
             </select>
         </div>
 
-        <div class="col-md-2" wire:ignore>
+        <!-- <div class="col-md-2" wire:ignore>
             <select class="form-control" style="width:100%;" wire:model="month">
                 <option value=""> --- Month --- </option>
                 @for($i = 1; $i <= 12; $i++)
                     <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
                 @endfor
             </select>
-        </div>
+        </div> -->
 
-        <div class="col-md-1">                
-            <select class="form-control" wire:model="project">
-                <option value=""> --- Project --- </option>
-                @foreach(\App\Models\ClientProject::orderBy('id', 'desc')
-                                ->where('company_id', Session::get('company_id'))
-                                ->where('is_project', '1')
+        <div class="col-md-2">                
+            <select class="form-control" wire:model="region">
+                <option value=""> --- Region --- </option>
+                @foreach(\App\Models\Region::orderBy('id', 'desc')
                                 ->get() as $item)
-                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                <option value="{{ $item->id }}">{{ $item->region_code }}</option>
                 @endforeach
             </select>
         </div>
+
+        <div class="col-md-2">                
+            <select class="form-control" wire:model="project">
+                <option value=""> --- Project --- </option>
+                @foreach($dataproject as $item)
+                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        
         
         
         <div class="col-md-3">
@@ -41,10 +50,10 @@
     <div class="mt-4" style="height: 300px">
         <canvas id="chBar"></canvas>
     </div>
-
+<!-- 
     <div class="mt-4" style="height: 300px">
         <canvas id="chBar1"></canvas>
-    </div>
+    </div> -->
 </div>
 @push('after-scripts')
 <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
@@ -107,7 +116,7 @@ function init_chart_databasenoc(){
                 },
                 title: {
                     display: true,
-                    text: 'REQUEST TICKET - MONTHLY'
+                    text: 'REQUEST ASSET - MONTHLY'
                 },
                 scales: {
                     xAxes: [{

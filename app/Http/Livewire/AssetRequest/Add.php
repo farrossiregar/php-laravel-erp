@@ -72,8 +72,8 @@ class Add extends Component
         $user                           = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
         $data                           = new \App\Models\AssetRequest();
         $data->company_name             = Session::get('company_id');
-        $data->clien_project_id         = $this->project;
-        $data->project                  = \App\Models\ClientProject::where('name', $this->project)->first()->name;
+        $data->client_project_id         = $this->project;
+        $data->project                  = \App\Models\ClientProject::where('id', $this->project)->first()->name;
         
         // $data->position                 = $this->position;
         $data->region                   = $this->region;
