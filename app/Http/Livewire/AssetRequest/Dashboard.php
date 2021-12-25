@@ -4,7 +4,7 @@ namespace App\Http\Livewire\AssetRequest;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-// use App\Models\EmployeeNoc;
+use Session;
 use DB;
 
 class Dashboard extends Component
@@ -15,11 +15,38 @@ class Dashboard extends Component
     public $datasets;
     public $labelsamount;
     public $datasetsamount;
-    public $project;
+    public $project, $dataproject;
+    public $region;
     protected $paginationTheme = 'bootstrap';
 
     public function render()
     {
+
+        // $getproject = \App\Models\ClientProject::where('id', $this->project)
+        //         ->where('company_id', Session::get('company_id'))
+        //         ->where('is_project', '1')
+        //         ->first();
+
+        // if($getproject){
+        //     if($getproject->region_id){
+        //         $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
+        //     }else{
+        //         $this->region = '';
+        //     }
+        // }else{
+        //     $this->region = '';
+        // }
+        $this->dataproject = [];
+
+        if($this->region){
+            // dd($this->region);
+            $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
+                                ->where('region_id', $this->region)
+                                ->where('company_id', Session::get('company_id'))
+                                ->where('is_project', '1')
+                                ->get();
+        }
+
         $this->generate_chart();
         return view('livewire.asset-request.dashboard');
     }
@@ -39,6 +66,7 @@ class Dashboard extends Component
         $this->labels = [];
         $this->datasets = [];
         $this->datasetsamount = [];
+        $this->mo = [];
 
         if($this->year){
             $this->year = $this->year;
@@ -46,34 +74,73 @@ class Dashboard extends Component
             $this->year = date('Y');
         }
 
-        if($this->month){
-            $this->month = $this->month;
-        }else{
-            $this->month = date('m');
-        }
-
-        // if($this->project){
-        //     dd($this->project);
+        // if($this->month){
+        //     $this->month = $this->month;
+        // }else{
+        //     $this->month = date('m');
         // }
 
+        if($this->region){
+            $getregion = \App\Models\Region::where('id', $this->region)->first()->region_code;
+            // dd($this->region);
+        }else{
+            $getregion = '';
+        }
 
         $color = ['#ffb1c1','#4b89d6', '#007bff','#28a745','#333333'];
         
-        // $weeks = ['1', '2', '3', '4', '5'];
         $tickettype = ['1', '2'];
+        $reqstatus = ['open', 'reject', 'close'];
+        
        
-        foreach(\App\Models\HotelFlightTicket::whereYear('date',$this->year)->whereMonth('date', $this->month)->where('project', $this->project)->where('status', '2')->get() as $k => $item){
-            $this->labels[$k] = date('F', mktime(0, 0, 0, (int)$item->month, 10));
+        // foreach(\App\Models\HotelFlightTicket::whereYear('date',$this->year)->whereMonth('date', $this->month)->where('project', $this->project)->where('status', '2')->get() as $k => $item){
+        //     $this->labels[$k] = date('F', mktime(0, 0, 0, (int)$item->month, 10));
+        // }
+
+        $monthdata = \App\Models\AssetRequest::whereYear('created_at',$this->year)->where('project', $this->project)->where('region', $getregion);
+        foreach($monthdata->groupBy(DB::Raw('month(created_at)'))->get() as $k => $item){
+            // $this->labels[$k] = date('F', mktime(0, 0, 0, (int)$item->month, 10));
+            $this->labels[$k] = date_format(date_create($item->created_at), 'M');
         }
+       
         
-        
-        foreach($tickettype as $j => $itemstatus){ 
-            $this->datasets[$j]['label']                = ($itemstatus == '1') ? 'Hotel & Flight' : 'Hotel Only';
-            // $this->datasets[$k]['label'] = date('F', mktime(0, 0, 0, (int)$item->month, 10));
-            $this->datasets[$j]['backgroundColor']      = $color[$j];
-            $this->datasets[$j]['fill']                 = 'boundary';
-            $this->datasets[$j]['data'][]               = count(\App\Models\HotelFlightTicket::whereYear('date', $this->year)->whereMonth('date', $this->month)->where('client_project_id', $this->project)->where('ticket_type', $itemstatus)->where('status', '2')->get());
+        foreach($monthdata->groupBy(DB::Raw('month(created_at)'))->get() as $j => $itemstatus){ 
+            // $this->mo[$j] = date_format(date_create($itemstatus->created_at), 'm');
+            // $this->datasets = [];
+            foreach($reqstatus as $k => $status){ 
+                // $this->mo[$j][$k] = date_format(date_create($itemstatus->created_at), 'm').' - '.$status;
+                // $this->datasets[$j]['label']                = $status;
+                
+                // $this->datasets[$j]['backgroundColor']      = $color[$j];
+                // $this->datasets[$j]['fill']                 = 'boundary';
+                // $this->datasets[$j]['data'][]               = count($monthdata->where('status', '1')->get());
+
+                // $this->datasets[$k]['label']                = $status.' - '.date_format(date_create($itemstatus->created_at), 'm');
+                $this->datasets[$k]['label']                = $status;
+                $this->datasets[$k]['backgroundColor']      = $color[$k];
+                $this->datasets[$k]['fill']                 = 'boundary';
+                // if($status == 'open'){
+                //     $this->datasets[$k]['data'][]               = count($monthdata->whereMonth('created_at', date_format(date_create($itemstatus->created_at), 'm'))->whereNull('status')->get());
+                // }elseif($status == 'reject'){
+                //     $this->datasets[$k]['data'][]               = count($monthdata->whereMonth('created_at', date_format(date_create($itemstatus->created_at), 'm'))->where('status', '0')->get());
+                // }else{
+                //     $this->datasets[$k]['data'][]               = count($monthdata->whereMonth('created_at', date_format(date_create($itemstatus->created_at), 'm'))->where('status', '1')->get());
+                // }
+                $this->datasets[$k]['data'][]               = count($monthdata->whereMonth('created_at', date_format(date_create($itemstatus->created_at), 'm'))->where('status', '1')->get());
+            }
+
+            
         }
+        // if($this->year && $this->project && $this->region){
+        //     dd($this->datasets);
+        // }
+
+        // dd($reqstatus);
+        if($this->year && $this->project && $this->region){
+            // dd($this->mo);
+        }
+
+        // dd(\App\Models\AssetRequest::whereYear('created_at','2021')->where('project', 'STP MS Project')->where('region', 'Jabo 2')->whereNull('status')->get());
 
 
         

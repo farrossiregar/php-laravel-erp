@@ -50,8 +50,48 @@
                                         </div> -->
 
                                         <div class="col-md-6 form-group">
+                                            <label>Employee Name Request</label>
+                                            <input type="text" class="form-control"  wire:model="employee_name" readonly>
+                                           
+
+                                            @error('employee_name')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>Position</label>
+                                            <input type="text" class="form-control"  wire:model="position" readonly>
+                                           
+
+                                            @error('position')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>Project</label>
+                                            <select onclick="" class="form-control" wire:model="project">
+                                                <option value=""> --- Project --- </option>
+                                                
+                                                @foreach($dataproject as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('project')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>Region</label>
+                                            <input type="text" class="form-control" wire:model="region" readonly/>
+                                            
+                                            @error('region')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
                                             <label>Type of Asset</label>
-                                            <input list="petty_cash_category1" class="form-control"  wire:model="asset_type" >
+                                            <input type="text" class="form-control"  wire:model="asset_type" >
                                            
 
                                             @error('asset_type')
@@ -71,8 +111,13 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Location</label>
-                                            <input type="text"  class="form-control"  wire:model="location" >
-                                           
+                                            
+                                            <select name="" id="" class="form-control"  wire:model="location">
+                                                <option value="" selected>-- Location --</option>
+                                                @foreach($datalocation as $item)
+                                                    <option value="{{$item->id}}">{{$item->nama_dop}}</option>
+                                                @endforeach
+                                            </select>
 
                                             @error('location')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>

@@ -36,7 +36,7 @@
 
     
     <div class="col-md-1" style="margin: 0 10px;">
-        <a href="javascript:;" wire:click="$emit('modaladdhotelflight')" class="btn btn-info"><i class="fa fa-plus"></i> Asset Request </a>
+        <a href="javascript:;" wire:click="$emit('modaladdassetrequest')" class="btn btn-info"><i class="fa fa-plus"></i> Asset Request </a>
     </div>  
     
     
@@ -111,14 +111,22 @@
                         <td>{{ $item->asset_name }}</td>
                         <td>
                             <!-- if(check_access('hotel-flight-ticket.hq-ga')) -->
-                                @if($item->status == '1')
-                                <a href="javascript:;" wire:click="$emit('modaleditassetrequest','{{ $item->id }}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
+                                @if($item->dana_from == '')
+                                    @if($item->status == '1')
+                                        <a href="javascript:;" wire:click="$emit('modaleditassetrequest','{{ $item->id }}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
+                                    @endif
+                                @else
+                                    @if($item->dana_from == '1')
+                                        e-PL
+                                    @else
+                                        Petty Cash
+                                    @endif
                                     
                                 @endif
                             <!-- endif -->
                         </td>
-                        <td></td>
-                        <td></td>
+                        <td>{{ $item->pr_no }}</td>
+                        <td>{{ $item->dana_amount }}</td>
                         <td>{{ $item->location }}</td>
                         <td>{{ $item->dimension }}</td>
                         <td>{{ $item->detail }}</td>
