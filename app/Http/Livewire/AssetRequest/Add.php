@@ -25,7 +25,7 @@ class Add extends Component
     {
 
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-        // dd($user);
+        
         $this->employee_name = $user->name;
         $this->position = get_position($user->user_access_id);
         // $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
@@ -75,9 +75,10 @@ class Add extends Component
         $data->client_project_id         = $this->project;
         $data->project                  = \App\Models\ClientProject::where('id', $this->project)->first()->name;
         
-        // $data->position                 = $this->position;
+        
         $data->region                   = $this->region;
         $data->name                     = $this->employee_name;
+        $data->nik                      = $user->nik;
         $data->asset_type               = $this->asset_type;
         $data->asset_name               = $this->asset_name;
         $data->location                 = $this->location;
@@ -88,7 +89,7 @@ class Add extends Component
         $data->reason_request           = $this->reason_request;
         
         $this->validate([
-            'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
+            'file'=>'required|mimes:jpg,jpeg,png|max:51200' // 50MB maksimal
         ]);
 
         if($this->file){
@@ -101,12 +102,12 @@ class Add extends Component
         $data->link                     = $this->link;
         $data->save();
 
-        // $notif = get_user_from_access('asset-request.noc-manager');
+        // $notif = get_user_from_access('asset-request.hq-ga');
         // foreach($notif as $user){
         //     if($user->email){
-        //         $message  = "<p>Dear {$user->name}<br />, Team Schedule need Approval </p>";
+        //         $message  = "<p>Dear {$user->name}<br />, Asset Request need Approval </p>";
         //         $message .= "<p>Nama Employee: {$data->name}<br />Project : {$data->project}<br />Region: {$data->region}</p>";
-        //         \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - NOC Team Schedule",$message));
+        //         \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - Asset Request",$message));
         //     }
         // }
 

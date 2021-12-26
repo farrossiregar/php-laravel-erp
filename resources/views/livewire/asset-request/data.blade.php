@@ -1,27 +1,10 @@
 <div class="row">
-    <!-- <div class="col-md-2">
+    <div class="col-md-2">
         <input type="date" class="form-control" wire:model="date" />
-    </div> -->
+    </div>
 
-    <div class="col-md-1">                
-        <select class="form-control" wire:model="filteryear">
-            <option value=""> --- Year --- </option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-            <option value="2019">2019</option>
-            <option value="2018">2018</option>
-            <option value="2017">2017</option>
-        </select>
-    </div>
-    <div class="col-md-2" wire:ignore>
-        <select class="form-control" style="width:100%;" wire:model="filtermonth">
-            <option value=""> --- Month --- </option>
-            @for($i = 1; $i <= 12; $i++)
-                <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
-            @endfor
-        </select>
-    </div>
-    <div class="col-md-2" wire:ignore>
+    
+    <!-- <div class="col-md-2" wire:ignore>
         <select class="form-control" style="width:100%;" wire:model="filterproject">
             <option value=""> --- Project --- </option>
             @foreach(\App\Models\ClientProject::orderBy('id', 'desc')
@@ -31,13 +14,14 @@
                 <option value="{{$item->id}}">{{$item->name}}</option>
             @endforeach
         </select>
-    </div>
+    </div> -->
 
 
-    
+    @if(check_access('asset-request.hq-user') || check_access('asset-request.regional-logistic-admin'))
     <div class="col-md-1" style="margin: 0 10px;">
         <a href="javascript:;" wire:click="$emit('modaladdassetrequest')" class="btn btn-info"><i class="fa fa-plus"></i> Asset Request </a>
     </div>  
+    @endif
     
     
     <div class="col-md-12">
@@ -88,7 +72,7 @@
                             @endif
                         </td>
                         <td>
-                            @if(check_access('hotel-flight-ticket.l1-manager'))
+                            @if(check_access('asset-request.hq-ga'))
                                 @if($item->status == '')
                                    
                                     <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
@@ -110,10 +94,12 @@
                         <td>{{ $item->asset_type }}</td>
                         <td>{{ $item->asset_name }}</td>
                         <td>
-                            <!-- if(check_access('hotel-flight-ticket.hq-ga')) -->
+                            
                                 @if($item->dana_from == '')
                                     @if($item->status == '1')
-                                        <a href="javascript:;" wire:click="$emit('modaleditassetrequest','{{ $item->id }}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
+                                        @if(check_access('asset-request.hq-ga'))
+                                            <a href="javascript:;" wire:click="$emit('modaleditassetrequest','{{ $item->id }}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
+                                        @endif
                                     @endif
                                 @else
                                     @if($item->dana_from == '1')
@@ -123,16 +109,17 @@
                                     @endif
                                     
                                 @endif
-                            <!-- endif -->
+                            
                         </td>
                         <td>{{ $item->pr_no }}</td>
-                        <td>{{ $item->dana_amount }}</td>
-                        <td>{{ $item->location }}</td>
+                        <td>Rp,{{ format_idr($item->dana_amount) }}</td>
+                        <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td>
                         <td>{{ $item->dimension }}</td>
                         <td>{{ $item->detail }}</td>
                         <td>{{ $item->quantity }}</td>
                         <td>{{ $item->reason_request }}</td>
-                        <td>{{ $item->reference_pic }}{{ $item->link }}</td>
+                        <!-- <td>{{ $item->reference_pic }}{{ $item->link }}</td> -->
+                        <td><a href="javascript:;" wire:click="$emit('modaldetailimage','{{ $item->id }}')"><i class="fa fa-eye"></i></a></td>
                     </tr>
                     <!-- <tr>
                         <td>{{ $key + 1 }}</td>

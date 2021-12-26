@@ -53,14 +53,8 @@ class Edit extends Component
         $data->dana_amount              = $this->dana_amount;
         $data->save();
 
-        // $notif = get_user_from_access('asset-request.noc-manager');
-        // foreach($notif as $user){
-        //     if($user->email){
-        //         $message  = "<p>Dear {$user->name}<br />, Team Schedule need Approval </p>";
-        //         $message .= "<p>Nama Employee: {$data->name}<br />Project : {$data->project}<br />Region: {$data->region}</p>";
-        //         \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - NOC Team Schedule",$message));
-        //     }
-        // }
+        // $message  = "<p>Dear {$data->name}<br />, Asset Request is Approved </p>";
+        // \Mail::to($data->email)->send(new GeneralEmail("[PMT E-PM] - Asset Request",$message));
 
         session()->flash('message-success',"Asset Request Berhasil diinput");
         

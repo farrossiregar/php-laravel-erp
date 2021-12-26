@@ -9,14 +9,14 @@
             </select>
         </div>
 
-        <!-- <div class="col-md-2" wire:ignore>
+        <div class="col-md-2" wire:ignore>
             <select class="form-control" style="width:100%;" wire:model="month">
                 <option value=""> --- Month --- </option>
                 @for($i = 1; $i <= 12; $i++)
                     <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
                 @endfor
             </select>
-        </div> -->
+        </div>
 
         <div class="col-md-2">                
             <select class="form-control" wire:model="region">
@@ -62,7 +62,7 @@
 <script>
 var labels = {!!$labels!!};
 var datasets = {!!$datasets!!};
-var datasetsamount = {!!$datasetsamount!!};
+
 // var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
 
 // var dataslt = [];
@@ -92,13 +92,13 @@ Livewire.on('init-chart',(data)=>{
     datasets = JSON.parse(data.datasets);
 
     
-    datasetsamount = JSON.parse(data.datasetsamount);
+    
     init_chart_databasenoc();
 });
 function init_chart_databasenoc(){
     var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
     var chBar = document.getElementById("chBar");
-    var chBar1 = document.getElementById("chBar1");
+    // var chBar1 = document.getElementById("chBar1");
                        
     if (chBar) {
         new Chart(chBar, {
@@ -128,33 +128,33 @@ function init_chart_databasenoc(){
         });
     }
 
-    if (chBar1) {
-        new Chart(chBar1, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: datasetsamount,
-            },
-            options: {
-                maintainAspectRatio: false,
-                responsive: true,
-                legend: {
-                    display: true,
-                    position:'bottom'
-                },
-                title: {
-                    display: true,
-                    text: 'AMOUNT SPENT - MONTHLY'
-                },
-                scales: {
-                    xAxes: [{
-                        barPercentage: 0.4,
-                        categoryPercentage: 0.5
-                    }]
-                }
-            }
-        });
-    }
+    // if (chBar1) {
+    //     new Chart(chBar1, {
+    //         type: 'bar',
+    //         data: {
+    //             labels: labels,
+    //             datasets: datasetsamount,
+    //         },
+    //         options: {
+    //             maintainAspectRatio: false,
+    //             responsive: true,
+    //             legend: {
+    //                 display: true,
+    //                 position:'bottom'
+    //             },
+    //             title: {
+    //                 display: true,
+    //                 text: 'AMOUNT SPENT - MONTHLY'
+    //             },
+    //             scales: {
+    //                 xAxes: [{
+    //                     barPercentage: 0.4,
+    //                     categoryPercentage: 0.5
+    //                 }]
+    //             }
+    //         }
+    //     });
+    // }
 }
 </script>
 @endpush

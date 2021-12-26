@@ -74,15 +74,15 @@ class Dashboard extends Component
             $this->year = date('Y');
         }
 
-        // if($this->month){
-        //     $this->month = $this->month;
-        // }else{
-        //     $this->month = date('m');
-        // }
+        if($this->month){
+            $this->month = $this->month;
+        }else{
+            $this->month = date('m');
+        }
 
         if($this->region){
             $getregion = \App\Models\Region::where('id', $this->region)->first()->region_code;
-            // dd($this->region);
+            
         }else{
             $getregion = '';
         }
@@ -92,75 +92,37 @@ class Dashboard extends Component
         $tickettype = ['1', '2'];
         $reqstatus = ['open', 'reject', 'close'];
         
+        
        
-        // foreach(\App\Models\HotelFlightTicket::whereYear('date',$this->year)->whereMonth('date', $this->month)->where('project', $this->project)->where('status', '2')->get() as $k => $item){
-        //     $this->labels[$k] = date('F', mktime(0, 0, 0, (int)$item->month, 10));
-        // }
-
-        $monthdata = \App\Models\AssetRequest::whereYear('created_at',$this->year)->where('project', $this->project)->where('region', $getregion);
+        $monthdata = \App\Models\AssetRequest::whereYear('created_at',$this->year)->where('project', $this->project)->where('region', $getregion)->whereMonth('created_at', $this->month);
         foreach($monthdata->groupBy(DB::Raw('month(created_at)'))->get() as $k => $item){
-            // $this->labels[$k] = date('F', mktime(0, 0, 0, (int)$item->month, 10));
             $this->labels[$k] = date_format(date_create($item->created_at), 'M');
         }
        
-        
-        foreach($monthdata->groupBy(DB::Raw('month(created_at)'))->get() as $j => $itemstatus){ 
-            // $this->mo[$j] = date_format(date_create($itemstatus->created_at), 'm');
-            // $this->datasets = [];
-            foreach($reqstatus as $k => $status){ 
-                // $this->mo[$j][$k] = date_format(date_create($itemstatus->created_at), 'm').' - '.$status;
-                // $this->datasets[$j]['label']                = $status;
-                
-                // $this->datasets[$j]['backgroundColor']      = $color[$j];
-                // $this->datasets[$j]['fill']                 = 'boundary';
-                // $this->datasets[$j]['data'][]               = count($monthdata->where('status', '1')->get());
+        $open = count(\App\Models\AssetRequest::whereYear('created_at',$this->year)->where('project', $this->project)->where('region', $getregion)->whereMonth('created_at', $this->month)->whereNull('status')->get());
+        $reject = count(\App\Models\AssetRequest::whereYear('created_at',$this->year)->where('project', $this->project)->where('region', $getregion)->whereMonth('created_at', $this->month)->where('status', '0')->get());
+        $close = count(\App\Models\AssetRequest::whereYear('created_at',$this->year)->where('project', $this->project)->where('region', $getregion)->whereMonth('created_at', $this->month)->where('status', '1')->get());
 
-                // $this->datasets[$k]['label']                = $status.' - '.date_format(date_create($itemstatus->created_at), 'm');
-                $this->datasets[$k]['label']                = $status;
-                $this->datasets[$k]['backgroundColor']      = $color[$k];
-                $this->datasets[$k]['fill']                 = 'boundary';
-                // if($status == 'open'){
-                //     $this->datasets[$k]['data'][]               = count($monthdata->whereMonth('created_at', date_format(date_create($itemstatus->created_at), 'm'))->whereNull('status')->get());
-                // }elseif($status == 'reject'){
-                //     $this->datasets[$k]['data'][]               = count($monthdata->whereMonth('created_at', date_format(date_create($itemstatus->created_at), 'm'))->where('status', '0')->get());
-                // }else{
-                //     $this->datasets[$k]['data'][]               = count($monthdata->whereMonth('created_at', date_format(date_create($itemstatus->created_at), 'm'))->where('status', '1')->get());
-                // }
-                $this->datasets[$k]['data'][]               = count($monthdata->whereMonth('created_at', date_format(date_create($itemstatus->created_at), 'm'))->where('status', '1')->get());
-            }
+        $reqstatus2 = [$open, $reject, $close];
+     
+        
+        foreach($reqstatus as $k => $status){ 
+        
+            $this->datasets[$k]['label']                = $status;
+            $this->datasets[$k]['backgroundColor']      = $color[$k];
+            $this->datasets[$k]['fill']                 = 'boundary';
+            
+            $this->datasets[$k]['data'][]               = $reqstatus2[$k];
+        }
 
             
-        }
-        // if($this->year && $this->project && $this->region){
-        //     dd($this->datasets);
-        // }
-
-        // dd($reqstatus);
-        if($this->year && $this->project && $this->region){
-            // dd($this->mo);
-        }
-
-        // dd(\App\Models\AssetRequest::whereYear('created_at','2021')->where('project', 'STP MS Project')->where('region', 'Jabo 2')->whereNull('status')->get());
-
-
         
-        foreach($tickettype as $j => $itemstatus){ 
-            $hprice = \App\Models\HotelFlightTicket::select(DB::Raw('sum(hotel_price) as hotelprice'))->whereYear('date', $this->year)->whereMonth('date', $this->month)->where('client_project_id', $this->project)->where('ticket_type', $itemstatus)->where('status', '2')->groupBy(DB::Raw('month(date)'));
-            $hprice = ($hprice->first()) ? $hprice->first()->hotelprice : 0;
-            $fprice = \App\Models\HotelFlightTicket::select(DB::Raw('sum(flight_price) as flightprice'))->whereYear('date', $this->year)->whereMonth('date', $this->month)->where('client_project_id', $this->project)->where('ticket_type', $itemstatus)->where('status', '2')->groupBy(DB::Raw('month(date)'));
-            $fprice = ($fprice->first()) ? $fprice->first()->flightprice : 0;
-            $this->datasetsamount[$j]['label']              = ($itemstatus == '1') ? 'Hotel & Flight' : 'Hotel Only';
-            $this->datasetsamount[$j]['backgroundColor']    = $color[$j];
-            $this->datasetsamount[$j]['fill']               = 'boundary';
-            $this->datasetsamount[$j]['data'][]             = $hprice + $fprice;
-
-        }
     
         $this->labels = json_encode($this->labels);
         $this->datasets = json_encode($this->datasets);
-        $this->datasetsamount = json_encode($this->datasetsamount);
-        // dd(\App\Models\HotelFlightTicket::select(DB::Raw('sum(hotel_price) as hotelprice'))->whereYear('date', '2021')->whereMonth('date', '12')->where('client_project_id', '9')->where('ticket_type', $itemstatus)->where('status', '0')->groupBy(DB::Raw('month(date)'))->first()->hotelprice);
-        $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets,'datasetsamount'=>$this->datasetsamount]);
+        
+        // $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets,'datasetsamount'=>$this->datasetsamount]);
+        $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets]);
     }
 
 

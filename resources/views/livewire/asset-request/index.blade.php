@@ -41,6 +41,22 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-assetrequest-detaillocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:asset-request.detaillocation />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-assetrequest-detailimage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:asset-request.detailimage />
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="modal-assetrequest-approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -72,6 +88,14 @@
 
     Livewire.on('modaleditassetrequest',(data)=>{
         $("#modal-assetrequest-edit").modal('show');
+    });
+
+    Livewire.on('modaldetaillocation',(data)=>{
+        $("#modal-assetrequest-detaillocation").modal('show');
+    });
+
+    Livewire.on('modaldetailimage',(data)=>{
+        $("#modal-assetrequest-detailimage").modal('show');
     });
 
 
