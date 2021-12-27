@@ -13,93 +13,73 @@ use Auth;
 
 class Add extends Component
 {
+    protected $listeners = [
+        'modaladdassettransferrequest'=>'addassettransferrequest',
+    ];
+
     use WithPagination;
     // public $date, $employee_id;
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
+    public $selected_id, $transfer_from, $transfer_to, $transfer_reason;
     public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $position, $datalocation;
     public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link;
 
     public function render()
     {
 
-        $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
         
-        $this->employee_name = $user->name;
-        $this->position = get_position($user->user_access_id);
-        // $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
-        // $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
-
-        $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
-                                ->where('company_id', Session::get('company_id'))
-                                ->where('is_project', '1')
-                                ->get();
-
-        $this->datalocation = \App\Models\Dophomebasemaster::where('status', '1')->orderBy('id', 'desc')->get();
-
-        if($this->project){
-            $getproject = \App\Models\ClientProject::where('id', $this->project)
-                                                    ->where('company_id', Session::get('company_id'))
-                                                    ->where('is_project', '1')
-                                                    ->first();
-
-            if($getproject){
-                if($getproject->region_id){
-                    $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
-                }else{
-                    $this->region = '';
-                }
-            }else{
-                $this->region = '';
-            }
-
-            if($this->region){
-                $this->datalocation = \App\Models\Dophomebasemaster::where('project', $getproject->name)
-                                                                    ->where('region', $this->region)
-                                                                    ->where('status', '1')
-                                                                    ->orderBy('id', 'desc')->get();
-            }
-        }
         
-        return view('livewire.asset-request.add');
+        return view('livewire.asset-transfer-request.add');
     }
 
+    public function addassettransferrequest($id)
+    {
+        $this->selected_id = $id;
+        $data                           = \App\Models\AssetRequest::where('id', $this->selected_id)->first();
+        // dd($data);
+        $this->company_name             = Session::get('company_id');
+        $this->client_project_id         = $data->client_project_id;
+        $this->project                  = $data->project;
+        
+        
+        $this->region                   = $data->region;
+        $this->name                     = $data->employee_name;
+        $this->nik                      = $data->nik;
+        $this->asset_type               = $data->asset_type;
+        $this->asset_name               = $data->asset_name;
+        $this->location                 = $data->location;
+        $this->quantity                 = $data->quantity;
+        $this->dimension                = $data->dimension;
+        $this->detail                   = $data->detail;
+        $this->quantity                 = $data->quantity;
+        $this->reason_request           = $data->reason_request;
+        
+    }
   
     public function save()
     {
 
         $user                           = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-        $data                           = new \App\Models\AssetRequest();
-        $data->company_name             = Session::get('company_id');
-        $data->client_project_id         = $this->project;
-        $data->project                  = \App\Models\ClientProject::where('id', $this->project)->first()->name;
+        $data                           = new \App\Models\AssetTransferRequest();
+        $data->id_asset_request         = $this->selected_id;
+        $data->transfer_from            = $this->transfer_from;
+        $data->transfer_to              = $this->transfer_to;
+        $data->transfer_reason          = $this->transfer_reason;
         
-        
-        $data->region                   = $this->region;
-        $data->name                     = $this->employee_name;
-        $data->nik                      = $user->nik;
-        $data->asset_type               = $this->asset_type;
-        $data->asset_name               = $this->asset_name;
-        $data->location                 = $this->location;
-        $data->quantity                 = $this->quantity;
-        $data->dimension                = $this->dimension;
-        $data->detail                   = $this->detail;
-        $data->quantity                 = $this->quantity;
-        $data->reason_request           = $this->reason_request;
-        
-        $this->validate([
-            'file'=>'required|mimes:jpg,jpeg,png|max:51200' // 50MB maksimal
-        ]);
+        // $this->validate([
+        //     'file'=>'required|mimes:jpg,jpeg,png|max:51200' // 50MB maksimal
+        // ]);
 
-        if($this->file){
-            $reference_request = 'reference-request'.date('Ymd').'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/reference_request/',$reference_request);
+        // if($this->file){
+        //     $reference_request = 'reference-request'.date('Ymd').'.'.$this->file->extension();
+        //     $this->file->storePubliclyAs('public/reference_request/',$reference_request);
 
-            $data->reference_pic         = $reference_request;
-        }
+        //     $data->reference_pic         = $reference_request;
+        // }
         
-        $data->link                     = $this->link;
+        // $data->link                     = $this->link;
         $data->save();
 
         // $notif = get_user_from_access('asset-request.hq-ga');
@@ -111,9 +91,9 @@ class Add extends Component
         //     }
         // }
 
-        session()->flash('message-success',"Asset Request Berhasil diinput");
+        session()->flash('message-success',"Asset Transfer Request Berhasil diinput");
         
-        return redirect()->route('asset-request.index');
+        return redirect()->route('asset-transfer-request.index');
     }
 
     public function weekOfMonth3($strDate) {

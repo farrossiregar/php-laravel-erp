@@ -11,10 +11,10 @@ use DateTime;
 use Auth;
 
 
-class Detaillocation extends Component
+class Detailasset extends Component
 {
     protected $listeners = [
-        'modaldetaillocation'=>'detaillocation',
+        'modaldetailasset'=>'detailasset',
     ];
 
     use WithPagination;
@@ -29,10 +29,10 @@ class Detaillocation extends Component
     {
        
        
-        return view('livewire.asset-request.detaillocation');
+        return view('livewire.asset-transfer-request.detailasset');
     }
 
-    public function detaillocation($id)
+    public function detailasset($id)
     {
         $this->selected_id = $id;
         $data = \App\Models\DophomebaseMaster::where('id', $this->selected_id)->first();
