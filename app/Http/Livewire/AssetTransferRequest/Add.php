@@ -65,7 +65,7 @@ class Add extends Component
         $data                           = new \App\Models\AssetTransferRequest();
         $data->id_asset_request         = $this->selected_id;
         $data->transfer_from            = $this->transfer_from;
-        $data->transfer_to              = $this->transfer_to;
+        $data->transfer_to              = $this->location;
         $data->transfer_reason          = $this->transfer_reason;
         
         // $this->validate([

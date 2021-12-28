@@ -14,7 +14,7 @@ use Auth;
 class Edit extends Component
 {
     protected $listeners = [
-        'modaleditassetrequest'=>'editassetrequest',
+        'modaleditassettransferrequest'=>'editassettransferrequest',
     ];
 
     use WithPagination;
@@ -22,52 +22,41 @@ class Edit extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $selected_id, $dana_from, $pr_no, $prno, $dana_amount;
+    public $selected_id, $dana_from, $pr_no, $prno, $amount_transfer;
 
     public function render()
     {
-        // dd($this->dana_from);
-        if($this->dana_from == '1'){
-            $this->prno = '1';
-        }
-       
-        return view('livewire.asset-request.edit');
+        
+        return view('livewire.asset-transfer-request.edit');
     }
 
-    public function editassetrequest($id)
+    public function editassettransferrequest($id)
     {
         $this->selected_id = $id;
+        // dd($id);
 
+        $this->dana_from           = \App\Models\AssetRequest::where('id', $id[1  ])->first()->dana_from;
+       
         
     }
 
   
     public function save()
     {
-
-        // $user                           = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-        $data                           = \App\Models\AssetRequest::where('id', $this->selected_id)->first();
-        
-        $data->dana_from                = $this->dana_from;
-        $data->pr_no                    = $this->pr_no;
-        $data->dana_amount              = $this->dana_amount;
+        $id = $this->selected_id;
+        $data                           = \App\Models\AssetTransferRequest::where('id', $id[0])->first();
+        $data->amount_transfer          = $this->amount_transfer;
         $data->save();
 
         // $message  = "<p>Dear {$data->name}<br />, Asset Request is Approved </p>";
         // \Mail::to($data->email)->send(new GeneralEmail("[PMT E-PM] - Asset Request",$message));
 
-        session()->flash('message-success',"Asset Request Berhasil diinput");
+        session()->flash('message-success',"Dana Asset Request Berhasil ditransfer");
         
-        return redirect()->route('asset-request.index');
+        return redirect()->route('asset-transfer-request.index');
     }
 
-    public function weekOfMonth3($strDate) {
-		$dateArray = explode("-", $strDate);
-		$date = new DateTime();
-		$date->setDate($dateArray[0], $dateArray[1], $dateArray[2]);
-		return floor((date_format($date, 'j') - 1) / 7) + 1;  
-	  }
-
+   
 
 }
 

@@ -20,7 +20,7 @@ class Approve extends Component
     
     public function render()
     {
-        return view('livewire.asset-request.approve');
+        return view('livewire.asset-transfer-request.approve');
     }
 
     public function approveassetrequest($id)
@@ -32,19 +32,14 @@ class Approve extends Component
     public function save()
     {
         $type_approve = $this->selected_id;
-        $data = \App\Models\AssetRequest::where('id', $this->selected_id)->first();
-        if($type_approve[1] == '1'){
-            $data->status = '1';
-        }else{
-            $data->status = '2';
-        }
-        
+        $data = \App\Models\AssetTransferRequest::where('id', $this->selected_id)->first();
+        $data->status = '1';
         
         $data->save();
 
 
-        session()->flash('message-success',"Berhasil, Asset Request sudah diapprove!!!");
+        session()->flash('message-success',"Berhasil, Asset Transfer Request sudah diapprove!!!");
         
-        return redirect()->route('asset-request.index');
+        return redirect()->route('asset-transfer-request.index');
     }
 }

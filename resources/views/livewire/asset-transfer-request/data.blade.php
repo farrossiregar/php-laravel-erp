@@ -37,6 +37,9 @@
                         <th class="align-middle">Action</th> 
                         
                         <th class="align-middle">Date Apply</th>
+                        <th class="align-middle">Dana From</th> 
+                        <th class="align-middle">Dana Amount</th> 
+                        <th class="align-middle">Dana Transfer</th> 
                         <th class="align-middle">Transfer From</th> 
                         <th class="align-middle">Transfer To</th> 
                         <th class="align-middle">Reason for Transfering</th> 
@@ -45,13 +48,18 @@
                    
                 </thead>
                 <tbody>
+                    
                     @foreach($data as $key => $item)
                     <tr>
+                        <?php
+                            $data = \App\Models\AssetTransferRequest::where('id_asset_request', $item->id_asset_request)->first();
+                            $check = \App\Models\AssetTransferRequest::where('id_asset_request', $item->id_asset_request)->get();
+                        ?>
                         <td>{{ $key + 1 }}</td>
                         <td>
                           
                             @if($item->status == '1')
-                                <label class="badge badge-success" data-toggle="tooltip" title="Asset Request is Approved">Approved</label>
+                                <label class="badge badge-success" data-toggle="tooltip" title="Asset Transfer Request is Approved">Approved</label>
                             @endif
 
                             @if($item->status == '0')
@@ -67,40 +75,42 @@
                         </td>
                         <td>
                             @if(check_access('asset-request.hq-ga'))
-                                @if($item->status == '')
-                                   
-                                    <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                @if(count($check) > 0)
+                                    @if($data->status == '')
+                                        <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                    
+                                    @endif
                                 @endif
 
                             @endif
-                            <a href="javascript:;" wire:click="$emit('modaladdassettransferrequest','{{ $item->id_asset_req }}')" class="btn btn-info"><i class="fa fa-plus"></i> Apply Request </a>
-                            <!-- <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-edit " style="color: #007bff;"></i></a> -->
+
+                            @if(count($check) < 1)
+                                <a href="javascript:;" wire:click="$emit('modaladdassettransferrequest','{{ $item->id_asset_req }}')" class="btn btn-info"><i class="fa fa-plus"></i> Apply Request </a>
+                            @endif
 
                         </td>
                         
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
+                        <td>
+                            @if($item->dana_from == '1')
+                                e-PL
+                            @else
+                                Petty Cash
+                            @endif
+                            
+                        </td>
+                        <td>{{ $item->dana_amount }}</td>
+                        <td>{{ $item->amount_transfer }}</td>
                         <td>{{ $item->transfer_from }}</td>
                         <td>{{ $item->transfer_to }}</td>
                         <td>{{ $item->transfer_reason }}</td>
                         <td>
-                            <a href="javascript:;" wire:click="$emit('modaleditassettransferrequest')" class="btn btn-info"><i class="fa fa-plus"></i> Transfer </a>
-                        </td>
-                        <!-- <td>{{ $key + 1 }}</td>
-                        <td>
-                          
-                            @if($item->status == '1')
-                                <label class="badge badge-success" data-toggle="tooltip" title="Asset Request is Approved">Approved</label>
-                            @endif
-
-                            @if($item->status == '0')
-                                <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Decline</label>
-                            @endif
-
-                            @if($item->status == '' || $item->status == 'null')
-                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
+                            @if(@$data->status == '1')
+                                <a href="javascript:;" wire:click="$emit('modaleditassettransferrequest', ['{{ $data->id }}', '{{ $item->id_asset_req }}'])" class="btn btn-info"><i class="fa fa-plus"></i> Transfer </a>
                             @endif
                         </td>
+                        <!-- 
                         <td>
                             @if(check_access('asset-request.hq-ga'))
                                 @if($item->status == '')
@@ -117,37 +127,10 @@
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>{{ $item->name }}</td>
 
-                        <td>{{ $item->nik }}</td>
-                        <td>{{ $item->project }}</td>
-                        <td>{{ $item->region }}</td>
-
-                        <td>{{ $item->asset_type }}</td>
-                        <td>{{ $item->asset_name }}</td>
-                        <td>
-                            
-                                @if($item->dana_from == '')
-                                    @if($item->status == '1')
-                                        @if(check_access('asset-request.hq-ga'))
-                                            <a href="javascript:;" wire:click="$emit('modaleditassetrequest','{{ $item->id }}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
-                                        @endif
-                                    @endif
-                                @else
-                                    @if($item->dana_from == '1')
-                                        e-PL
-                                    @else
-                                        Petty Cash
-                                    @endif
-                                    
-                                @endif
-                            
-                        </td>
                         <td>{{ $item->pr_no }}</td>
                         <td>Rp,{{ format_idr($item->dana_amount) }}</td>
                         <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td>
-                        <td>{{ $item->dimension }}</td>
-                        <td>{{ $item->detail }}</td>
-                        <td>{{ $item->quantity }}</td>
-                        <td>{{ $item->reason_request }}</td>
+                 
                         <td><a href="javascript:;" wire:click="$emit('modaldetailimage','{{ $item->id }}')"><i class="fa fa-eye"></i></a></td> -->
                     </tr>
                     
