@@ -24,7 +24,7 @@ class Add extends Component
     use WithFileUploads;
     public $selected_id, $transfer_from, $transfer_to, $transfer_reason;
     public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $position, $datalocation;
-    public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link;
+    public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link, $reference_pic;
 
     public function render()
     {
@@ -40,21 +40,23 @@ class Add extends Component
         $data                           = \App\Models\AssetRequest::where('id', $this->selected_id)->first();
         // dd($data);
         $this->company_name             = Session::get('company_id');
-        $this->client_project_id         = $data->client_project_id;
+        $this->client_project_id        = $data->client_project_id;
         $this->project                  = $data->project;
-        
-        
+        $this->employee_name            = $data->name;
+        $this->position                 = \App\Models\UserAccess::where('id', Auth::user()->user_access_id)->first()->name;
         $this->region                   = $data->region;
         $this->name                     = $data->employee_name;
         $this->nik                      = $data->nik;
         $this->asset_type               = $data->asset_type;
         $this->asset_name               = $data->asset_name;
-        $this->location                 = $data->location;
+        $this->location                 = \App\Models\DophomebaseMaster::where('id', $data->location)->first()->nama_dop;
         $this->quantity                 = $data->quantity;
         $this->dimension                = $data->dimension;
         $this->detail                   = $data->detail;
         $this->quantity                 = $data->quantity;
         $this->reason_request           = $data->reason_request;
+        $this->reference_pic            = $data->reference_pic;
+        $this->link                     = $data->link;
         
     }
   
@@ -67,19 +69,11 @@ class Add extends Component
         $data->transfer_from            = $this->transfer_from;
         $data->transfer_to              = $this->location;
         $data->transfer_reason          = $this->transfer_reason;
-        
-        // $this->validate([
-        //     'file'=>'required|mimes:jpg,jpeg,png|max:51200' // 50MB maksimal
-        // ]);
-
-        // if($this->file){
-        //     $reference_request = 'reference-request'.date('Ymd').'.'.$this->file->extension();
-        //     $this->file->storePubliclyAs('public/reference_request/',$reference_request);
-
-        //     $data->reference_pic         = $reference_request;
-        // }
-        
-        // $data->link                     = $this->link;
+        $data->company_name             = Session::get('company_id');
+        $data->client_project_id        = $this->client_project_id;
+        $data->project                  = $this->project;
+        $data->region                   = $this->region;
+      
         $data->save();
 
         // $notif = get_user_from_access('asset-request.hq-ga');

@@ -1,7 +1,7 @@
 <div class="row">
-    <div class="col-md-2">
+    <!-- <div class="col-md-2">
         <input type="date" class="form-control" wire:model="date" />
-    </div>
+    </div> -->
 
     
     <!-- <div class="col-md-2" wire:ignore>
@@ -17,12 +17,6 @@
     </div> -->
 
 
-    @if(check_access('asset-request.hq-user') || check_access('asset-request.regional-logistic-admin'))
-    <!-- <div class="col-md-1" style="margin: 0 10px;">
-        <a href="javascript:;" wire:click="$emit('modaladdassetrequest')" class="btn btn-info"><i class="fa fa-plus"></i> Asset Request </a>
-    </div>   -->
-    @endif
-    
     
     <div class="col-md-12">
         <br><br>
@@ -57,7 +51,10 @@
                         ?>
                         <td>{{ $key + 1 }}</td>
                         <td>
-                          
+                            @if($item->status == '2')
+                                <label class="badge badge-success" data-toggle="tooltip" title="Transfered">Transfered</label>
+                            @endif
+
                             @if($item->status == '1')
                                 <label class="badge badge-success" data-toggle="tooltip" title="Asset Transfer Request is Approved">Approved</label>
                             @endif
@@ -71,10 +68,10 @@
                             @endif
                         </td>
                         <td>
-                            <a href="javascript:;" wire:click="$emit('modaleditassetrequest','{{ $item->id }}')"><i class="fa fa-eye " style="color: #007bff;"></i></a>
+                            <a href="javascript:;" wire:click="$emit('modaldetailassetrequest','{{ $item->id }}')"><i class="fa fa-eye " style="color: #007bff;"></i></a>
                         </td>
                         <td>
-                            @if(check_access('asset-request.hq-ga'))
+                            @if(check_access('asset-transfer-request.ga'))
                                 @if(count($check) > 0)
                                     @if($data->status == '')
                                         <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
@@ -85,8 +82,10 @@
 
                             @endif
 
-                            @if(count($check) < 1)
-                                <a href="javascript:;" wire:click="$emit('modaladdassettransferrequest','{{ $item->id_asset_req }}')" class="btn btn-info"><i class="fa fa-plus"></i> Apply Request </a>
+                            @if(check_access('asset-transfer-request.ga-admin'))
+                                @if(count($check) < 1)
+                                    <a href="javascript:;" wire:click="$emit('modaladdassettransferrequest','{{ $item->id_asset_req }}')" class="btn btn-info"><i class="fa fa-plus"></i> Apply Request </a>
+                                @endif
                             @endif
 
                         </td>
@@ -100,38 +99,19 @@
                             @endif
                             
                         </td>
-                        <td>{{ $item->dana_amount }}</td>
-                        <td>{{ $item->amount_transfer }}</td>
+                        <td>{{ "Rp " . number_format($item->dana_amount,2,',','.') }}</td>
+                        <td>{{ "Rp " . number_format($item->amount_transfer,2,',','.') }}</td>
                         <td>{{ $item->transfer_from }}</td>
                         <td>{{ $item->transfer_to }}</td>
                         <td>{{ $item->transfer_reason }}</td>
                         <td>
-                            @if(@$data->status == '1')
-                                <a href="javascript:;" wire:click="$emit('modaleditassettransferrequest', ['{{ $data->id }}', '{{ $item->id_asset_req }}'])" class="btn btn-info"><i class="fa fa-plus"></i> Transfer </a>
-                            @endif
-                        </td>
-                        <!-- 
-                        <td>
-                            @if(check_access('asset-request.hq-ga'))
-                                @if($item->status == '')
-                                   
-                                    <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                            @if(check_access('asset-transfer-request.ga-admin'))
+                                @if(@$data->status == '1')
+                                    <a href="javascript:;" wire:click="$emit('modaleditassettransferrequest', ['{{ $data->id }}', '{{ $item->id_asset_req }}'])" class="btn btn-info"><i class="fa fa-plus"></i> Transfer </a>
                                 @endif
-
                             @endif
-
-
-                            
                         </td>
-                        <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
-                        <td>{{ $item->name }}</td>
-
-                        <td>{{ $item->pr_no }}</td>
-                        <td>Rp,{{ format_idr($item->dana_amount) }}</td>
-                        <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td>
-                 
-                        <td><a href="javascript:;" wire:click="$emit('modaldetailimage','{{ $item->id }}')"><i class="fa fa-eye"></i></a></td> -->
+                       
                     </tr>
                     
                     

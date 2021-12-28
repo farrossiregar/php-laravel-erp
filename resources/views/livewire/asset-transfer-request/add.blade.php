@@ -126,7 +126,7 @@
 
                                                 <div class="col-md-6 form-group">
                                                     <label>Reference Picture</label>
-                                                    <input type="file" class="form-control" name="file" wire:model="file" />
+                                                    <img src="<?php echo asset('storage/Accident_Report/web/'.$reference_pic); ?>" class="img-rounded" alt="" width="304" height="236"> 
                                                     @error('file')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                     @enderror
@@ -134,10 +134,8 @@
 
                                                 <div class="col-md-6 form-group">
                                                     <label>Link</label>
-                                                    <input type="text"  class="form-control"  wire:model="link" >
-                                                    @error('link')
-                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                    @enderror
+                                                    <br>
+                                                    <a href="{{$link}}">Link</a>
 
                                                 </div>
 

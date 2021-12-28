@@ -35,7 +35,7 @@ class Edit extends Component
         $this->selected_id = $id;
         // dd($id);
 
-        $this->dana_from           = \App\Models\AssetRequest::where('id', $id[1  ])->first()->dana_from;
+        $this->dana_from           = \App\Models\AssetRequest::where('id', $id[1])->first()->dana_from;
        
         
     }
@@ -46,6 +46,7 @@ class Edit extends Component
         $id = $this->selected_id;
         $data                           = \App\Models\AssetTransferRequest::where('id', $id[0])->first();
         $data->amount_transfer          = $this->amount_transfer;
+        $data->status                   = '2';
         $data->save();
 
         // $message  = "<p>Dear {$data->name}<br />, Asset Request is Approved </p>";
