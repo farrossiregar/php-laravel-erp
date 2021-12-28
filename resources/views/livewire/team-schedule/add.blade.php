@@ -25,7 +25,7 @@
                                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('employee_id')
+                                            @error('project')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
@@ -37,7 +37,7 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        <div class="col-md-12 form-group">
+                                        <!-- <div class="col-md-12 form-group">
                                             <label>Employee Name</label>
                                             <input list="petty_cash_category1" class="form-control"  wire:model="employee_name">
                                             <datalist id="petty_cash_category1" >
@@ -49,7 +49,24 @@
                                             @error('employee_name')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
+                                            
+                                        </div> -->
+
+
+                                        <div class="col-md-12 form-group" wire:ignore>
+                                            <label>Employee Name</label>
+                                            <select class="form-control insert_employee_name" wire:model="employee_name">
+                                                <option value=""> --- Select --- </option>
+                                                @foreach($employeelist as $item)
+                                                <option value="{{$item->name}} - {{$item->nik}} - {{$item->id}}">{{$item->nik}} / {{$item->name}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
+                                        @error('employee_name')
+                                            <span class="text-danger mb-2">{{ $message }}</span>
+                                        @enderror
+
+
                                         <div class="col-md-12 form-group">
                                             <label>Date Plan Schedule</label>
                                             <input type="date" class="form-control" wire:model="date_plan">
@@ -96,6 +113,22 @@
     </div>
 
     @push('after-scripts')
+        <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.min.js') }}"></script>
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}" />
+        <script>
+            $('.employee_name').select2();
+            $('.employee_name').on('select2:select', function (e) {
+                var data = e.params.data;
+                @this.set('filter_employee_name',data.id)
+            });
+            $('.insert_employee_name').select2();
+            $('.insert_employee_name').on('select2:select', function (e) {
+                var data = e.params.data;
+                @this.set('employee_name',data.id)
+            });
+            
+            
+        </script>
         <script type="text/javascript">
         
 
