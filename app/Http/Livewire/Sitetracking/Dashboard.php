@@ -42,11 +42,8 @@ class Dashboard extends Component
         if($this->region_id) $data->where('region_id',$this->region_id);
         $this->data = $data->get();
 
-        foreach(SiteListTrackingDetail::select(\DB::raw("MONTH(period) as month"))->where(function($table){ 
-            if($this->year) $table->whereYear('period',$this->year); 
-            if($this->month) $table->whereIn(\DB::raw('MONTH(period)'),$this->month);
-        })->groupBy('month')->get() as $k => $item){
-            $this->labels[] = date('F', mktime(0, 0, 0, $item->month, 10));   
+        for($bulan=1;$bulan<=12;$bulan++) {
+            $this->labels[] = date('F', mktime(0, 0, 0, $bulan, 10));            
         }
 
         $color = ['#ffb1c1','#4b89d6','#add64b','#80b10a'];
@@ -61,17 +58,15 @@ class Dashboard extends Component
                 $this->datasets[$k]['backgroundColor']= @$color[$k];
                 $this->datasets[$k]['fill'] = 'boundary';
                 $this->datasets[$k]['data'] = [];
-                foreach(SiteListTrackingDetail::select("*",\DB::raw("MONTH(period) as month"))->where(function($table){
-                    if($this->year) $table->whereYear('period',$this->year); 
-                    if($this->month) $table->whereIn(\DB::raw('MONTH(period)'),$this->month);
-                    if($this->region_id) $table->where('region_id',$this->region_id);
-                })->groupBy('month')->get() as $k_data => $data){
+
+                for($bulan=1;$bulan<=12;$bulan++) {
                     
                     $sum = SiteListTrackingDetail::where(function($table){
-                        if($this->year) $table->whereYear('period',$this->year); 
-                        if($this->region_id) $table->where('region_id',$this->region_id);
-                    })->whereMonth('period',$data->month)
-                    ->where(['type'=>$item->type])->sum('qty_po');
+                        if($this->year) $table->whereYear('site_list_tracking_detail.period',$this->year); 
+                        if($this->region_id) $table->where('site_list_tracking_detail.region_id',$this->region_id);
+                    })->whereMonth('period',$bulan)
+                    ->leftJoin('site_list_tracking_master','site_list_tracking_master.id','=','site_list_tracking_detail.id_site_master')
+                    ->where(['site_list_tracking_detail.type'=>$item->type,'site_list_tracking_master.status'=>1])->sum('qty_po');
                     
                     $this->data_month[$item->region_id][$item->type][$item->month] = $sum ? $sum : 0; 
                     $this->datasets[$k]['data'][] = $sum ? $sum : 0;

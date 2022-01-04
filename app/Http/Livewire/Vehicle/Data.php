@@ -33,8 +33,9 @@ class Data extends Component
         if($this->sub_region_id) $data->where('sub_region_id',$this->sub_region_id);
         
         $total = clone $data;
+        $total_match = clone $data;
 
-        return view('livewire.vehicle.data')->with(['data'=>$data->paginate(100),'total_data'=>$total->count()]);
+        return view('livewire.vehicle.data')->with(['data'=>$data->paginate(100),'total_data'=>$total->count(),'total_match'=>$total_match->whereNotNull('epl_vehicle_id')->count()]);
     }
 
     public function updated()
@@ -71,10 +72,16 @@ class Data extends Component
         \LogActivity::add('[web] Vehicle Submit Valid');
     }
 
-    public function submit_audit(VehicleSyncron $data)
+    public function submit_audit($is_audit)
     {
+        if($is_audit==0)
+            $this->validate([
+                'note'=>'required'
+            ]);
+            
         $this->selected_id->note_pmg = $this->note;
         $this->selected_id->status = 3;
+        $this->selected_id->is_audit = $is_audit;
         $this->selected_id->save();
 
         $this->emit('reload');

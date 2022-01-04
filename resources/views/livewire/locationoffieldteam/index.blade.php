@@ -68,7 +68,7 @@
     </div>
 </div>
 @push('after-scripts')
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0yhWQE7Vt4an2T4MvpAYPpCD8Ul9NyxA&callback=initMap&libraries=&v=weekly" async></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtT77hTHKmcPY9RtqKLL1fH_tE9Wae6Hg&callback=initMap&libraries=&v=weekly" async></script>
 <script>
     let map;
     let markers = [];

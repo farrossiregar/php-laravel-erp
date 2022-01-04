@@ -66,9 +66,11 @@ class Data extends Component
         $this->validate([
             'employee_id' => 'required'
         ]);
-
         $this->selected_id->employee_id = $this->employee_id;
         $this->selected_id->problem = 'FT not resolve WO';
+        $this->selected_id->notif_coordinator = date('Y-m-d H:i:s',strtotime("+30 minutes"));
+        $this->selected_id->notif_sm = date('Y-m-d H:i:s',strtotime("+60 minutes"));
+        $this->selected_id->notif_osm = date('Y-m-d H:i:s',strtotime("+120 minutes"));
         $this->selected_id->save();
 
         $message = "You have assigned WO please check your EPL E-PM Account";
@@ -78,9 +80,8 @@ class Data extends Component
             \Mail::to($this->selected_id->employee->email)->send(new GeneralEmail("[PMT E-PM] Work Force Management",$message));
         }
 
-        if(isset($this->selected_id->employee->device_token)){
+        if(isset($this->selected_id->employee->device_token))
             push_notification_android($this->selected_id->employee->device_token,'Work Force Management',strip_tags($message),9);
-        }
 
         $this->emit('message-success','PIC Change.');
         $this->emit('refresh-page');

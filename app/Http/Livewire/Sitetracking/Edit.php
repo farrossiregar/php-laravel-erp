@@ -17,7 +17,7 @@ class Edit extends Component
     public $pic_rpm;
     public $pic_sm;
     public $type;
-    public $message,$master;
+    public $message,$master,$note;
 
     protected $listeners = ['proses'];
 
@@ -43,6 +43,23 @@ class Edit extends Component
         $this->id        = $id;     
         $this->master = SiteListTrackingMaster::find($id);
         
+    }
+
+    public function reject()
+    {
+        $this->validate([
+            'note'=>'required'
+        ]);
+
+        $this->master->status = 2; // reject
+        $this->master->note = $this->note;
+        $this->master->approved_id = \Auth::user()->employee->id;
+        $this->master->approved_date  = date('Y-m-d');
+        $this->master->save();
+
+        session()->flash('message-success',"Data processed successfully");
+            
+        return redirect()->route('site-tracking.index');
     }
 
     public function proses($id)

@@ -5,18 +5,15 @@
         <div class="card">
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#datahup">{{ __('Data HUP') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#datapmt">{{ __('Data PMT') }}</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data">{{ __('Data ') }}</a></li>
+                <!-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#datapmt">{{ __('Data PMT') }}</a></li> -->
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active show " id="dashboard">
                     <livewire:commitment-letter.dashboard />
                 </div>
-                <div class="tab-pane" id="datahup">
+                <div class="tab-pane" id="data">
                     <livewire:commitment-letter.datahup />
-                </div>
-                <div class="tab-pane" id="datapmt">
-                    <livewire:commitment-letter.datapmt />
                 </div>
             </div>
         </div>

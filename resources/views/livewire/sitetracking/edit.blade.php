@@ -169,10 +169,17 @@
                 <br />
             </div>
             @endif
-
+            <div class=" col-md-4 form-group">
+                <label>Note</label>
+                <textarea class="form-control" wire:model="note"></textarea>
+                @error('file')
+                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                @enderror
+            </div>
+            <hr />
             @if(check_access('site-tracking.approval') and $master->status==0)
                 <div class="body pt-0">
-                    <button type="button" wire:click="$emit('confirm-reject')" class="btn btn-danger">Reject</button>
+                    <button type="button" wire:click="reject" class="btn btn-danger">Reject</button>
                     <button type="button" wire:click="$emit('confirm-approve')" class="btn btn-success">Approve</button>
                 </div> 
             @endif                                  
@@ -184,7 +191,6 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <livewire:sitetracking.duplicateupdate />
-
         </div>
     </div>
 </div>

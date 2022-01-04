@@ -2,11 +2,8 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="header row">
-                
                 <div class="col-md-1">
-                    
                     <a href="#" data-toggle="modal" data-target="#modal-sitetracking-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Site Tracking')}}</a>
-                    
                 </div>
             </div>
             <div class="body pt-0">
@@ -19,6 +16,7 @@
                                 <th>Date Upload</th>          
                                 <th>Approved By</th>          
                                 <th>Date Approve</th>          
+                                <th>Note</th>          
                                 <th></th>  
                             </tr>
                         </thead>
@@ -30,6 +28,7 @@
                                 <td>{{ date_format($item->created_at, 'd-m-Y') }}</td>
                                 <td>{{isset($item->approved->name) ? $item->approved->name : ''}}</td>
                                 <td>{{$item->approved_date ? date('d-M-Y',strtotime($item->approved_date)) : '' }}</td>
+                                <td>{{$item->note}}</td>
                                 <td>
                                     @if($item->status == 0)
                                         <a href="{{route('site-tracking.edit',['id'=>$item->id])}}" class="badge badge-warning">Waiting Approval</a>
@@ -39,7 +38,6 @@
                                         <a href="{{route('site-tracking.edit',['id'=>$item->id])}}" class="badge badge-danger">Rejected</a>
                                     @endif                                    
                                 </td>
-                                
                             </tr>
                             @endforeach
                         </tbody>
@@ -47,10 +45,6 @@
                 </div>
                 <br />
                 {{$data->links()}}
-            </div>
-
-
-                
             </div>
         </div>
     </div>

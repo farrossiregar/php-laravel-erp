@@ -44,7 +44,7 @@
             @endif
             <div class="col-md-4">
                 <h5>
-                    @if(check_access('commitment-letter.admin') || check_access('commitment-letter.pic'))
+                    <!-- @if(check_access('commitment-letter.admin') || check_access('commitment-letter.pic'))
                         @if($this->project)
                             Summary {{ $this->project }}
                         @else
@@ -52,23 +52,8 @@
                         @endif
                     @else
                         Summary {{ @App\Models\ClientProject::where('id', App\Models\Employee::where('name', $users->name)->first()->project)->first()->name }}
-                    @endif
-
-                    
+                    @endif -->
                 </h5>
-            </div>
-            <div class="col-md-3" style="float: right;">
-                @if(@$_GET['company_id'] == '1')
-                    <a href="javascript:;" wire:click="$emit('modaladdhupcommitmentletter')" class="btn btn-info"><i class="fa fa-plus"></i> Add Commitment Letter HUP </a>
-                @else
-
-                @endif
-                    
-                @if(@$_GET['company_id'] == '2')
-                    <a href="javascript:;" wire:click="$emit('modaladdpmtcommitmentletter')" class="btn btn-info"><i class="fa fa-plus"></i> Add Commitment Letter PMT </a>
-                @else
-
-                @endif
             </div>
         </div>
 

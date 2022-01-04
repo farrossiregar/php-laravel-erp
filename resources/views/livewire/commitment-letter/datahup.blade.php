@@ -1,11 +1,10 @@
 <div class="row">
-
-
     <div class="col-md-3">
         <input type="text" class="form-control" placeholder="Search Project, Region, Area, Employee, Leader..." wire:model="keyword" />
     </div>
-    
-
+    <div class="col-md-4">
+        <a href="javascript:;" wire:click="$emit('modaladdpmtcommitmentletter')" class="btn btn-info"><i class="fa fa-plus"></i> Add Commitment Letter</a>
+    </div>
     <div class="col-md-12">
         <br><br>
         <div class="table-responsive">
@@ -13,7 +12,6 @@
                 <thead>
                     <tr>
                         <th>No</th> 
-                        
                         <th>Project</th> 
                         <th>Region</th> 
                         <th>Region / Area</th> 
@@ -22,14 +20,10 @@
                         <th>NIK PMT</th> 
                         <th>Leader</th> 
                         <th>Created By</th> 
-                        
-                        <th>Type Commitment Letter</th> 
-                        <!-- <th>BCG</th> 
-                        <th>Cyber Security</th>  -->
+                        <th>Type</th>
                         <th>Date Create</th> 
                         <th>Status</th> 
                         <th>Action</th> 
-
                     </tr>
                 </thead>
                 <tbody>

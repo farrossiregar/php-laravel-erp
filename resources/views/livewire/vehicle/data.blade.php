@@ -22,6 +22,7 @@
             </div>
             <div class="col-md-6">
                 <button type="button" class="btn btn-outline-primary">Total {{$total_data}}</button>
+                <button type="button" class="btn btn-outline-success">Total Match {{$total_match}}</button>
             </div>
         </div>
         <div class="table-responsive mt-3">
@@ -48,7 +49,7 @@
                                 @endif
                             @endif
                         </th>
-                        <th colspan="9" class="text-center" style="background:#00800040">ERP Vehicle</th>
+                        <th colspan="10" class="text-center" style="background:#00800040">ERP Vehicle</th>
                     </tr>
                     <tr style="background:#eee">
                         <th>No</th>
@@ -69,6 +70,7 @@
                         <th>Foto</th>
                         <th>Car/Motorcycle</th>
                         <th>Status</th>
+                        <th>Audit</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -78,6 +80,8 @@
                     @foreach($data as $k=>$item)
                         @if(isset($item->epl_vehicle->user_id))
                             @php($driver = \App\Models\EPL\User::find($item->epl_vehicle->user_id))
+                        @else
+                            @php($driver="");
                         @endif
                         <tr>
                             <td>{{$number}}</td>
@@ -120,8 +124,16 @@
                                 @endif
                             </td>
                             <td>
+                                {!!$item->note_sm ? '<p>Note SM : '.$item->note_sm .'</p>'  : ''!!}
                                 {!!$item->note_psm ? '<p>Note PSM : '.$item->note_psm .'</p>'  : ''!!}
                                 {!!$item->note_pmg ? '<p>Note PMG : '.$item->note_pmg .'</p>'  : ''!!}
+                            </td>
+                            <td>
+                                @if($item->is_audit==1)
+                                    <a href="javascript:void(0)" class="text-success"><i class="fa fa-check-circle"></i></a>
+                                @else
+                                    <a href="javascript:void(0)" class="text-danger"><i class="fa fa-times"></i></a>
+                                @endif
                             </td>
                             <td>
                                 @if($is_access_valid and $item->status==0)
@@ -160,7 +172,7 @@
                         @enderror
                     </div>
                     <div class="modal-footer">
-                        <span wire:loading>
+                        <span wire:loading wire:target="submit_valid">
                             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                             <span class="sr-only">{{ __('Please wait...') }}</span> Please wait...
                         </span>
@@ -190,11 +202,12 @@
                         @enderror
                     </div>
                     <div class="modal-footer">
-                        <span wire:loading>
+                        <span wire:loading wire:target="submit_audit">
                             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                             <span class="sr-only">{{ __('Please wait...') }}</span> Please wait...
                         </span>
-                        <button type="submit" wire:loading.remove wire:target="submit" class="btn btn-success"><i class="fa fa-save"></i> Submit</button>
+                        <button type="button" wire:click="submit_audit(1)" wire:loading.remove wire:target="submit" class="btn btn-success"><i class="fa fa-check"></i> Valid</button>
+                        <button type="button" wire:click="submit_audit(0)" wire:loading.remove wire:target="submit" class="btn btn-danger"><i class="fa fa-times"></i> Invalid</button>
                     </div>
                 </form>
             </div>

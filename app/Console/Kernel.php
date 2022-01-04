@@ -27,6 +27,14 @@ class Kernel extends ConsoleKernel
         $schedule->command('general_notification')->dailyAt('07:00')->timezone('Asia/Jakarta');
         $schedule->command('pm:syncron')->monthly()->timezone('Asia/Jakarta');
         $schedule->command('syncron-every-month')->monthlyOn(27, '09:00')->timezone('Asia/Jakarta');
+        
+        /**
+         * notifikasi
+         * 30 menit ke coordinator
+         * 60 menit ke sm
+         * 120 menit ke coordinator, sm dan osm
+         */
+        $schedule->command('wfm:notif')->everyMinute();
     }
 
     /**

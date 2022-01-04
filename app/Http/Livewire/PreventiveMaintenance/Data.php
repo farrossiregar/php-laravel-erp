@@ -42,10 +42,10 @@ class Data extends Component
                                     ->get();
         }
         
-        // TE Engineer
+        // TE Engineer & CME Engineer
         $this->employees = EmployeeProject::select('employees.*')->where('employee_projects.client_project_id',$this->project_id)
                                         ->join('employees','employees.id','=','employee_projects.employee_id')
-                                        ->whereIn('user_access_id',[85])
+                                        ->whereIn('user_access_id',[85,84])
                                         ->groupBy('employees.id')
                                         ->get();
     }
