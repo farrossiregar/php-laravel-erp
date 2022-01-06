@@ -78,25 +78,28 @@ class Importplan extends Component
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
                 
                 $check = \App\Models\TeamScheduleNoc::where('name', $i[4])
-                                                    // ->whereMonth('start_schedule', date_format(date_create($i[6]), 'm'))
-                                                    // ->where('start_schedule', date_format(date_create($i[6]), 'Y-m-d'))
                                                     ->where(DB::Raw('date(start_schedule)'), $i[6])
                                                     ->first();
                 
                 if($i[0]!="") 
-                // dd($check);
-                if($check){
-                    // $dataactual = \App\Models\TeamScheduleNoc::where('name', $i[4])->whereMonth('start_schedule', date_format(date_create($i[6]), 'm'))->first();
-                    $dataactual = \App\Models\TeamScheduleNoc::where('name', $i[4])->where(DB::Raw('date(start_schedule)'), $i[6])->first();
-                    // dd($dataactual);
-                    $dataactual->start_actual                                  = $i[9].' '.$i[10].':00';
-                    $dataactual->end_actual                                    = $i[9].' '.$i[11].':00';
-                    $dataactual->status                                        = '1';
-                    $dataactual->week                                          = $this->weekOfMonth3($i[9]);
-                    $dataactual->save();
+                
+                // if($check){
+                    // $dataplan = \App\Models\TeamScheduleNoc::where('name', $i[4])->whereMonth('start_schedule', date_format(date_create($i[6]), 'm'))->first();
+                    $dataplan = new \App\Models\TeamScheduleNoc();
+                    // dd($dataplan);
+                    $dataplan->name                                  = $i[4];
+                    $dataplan->nik                                   = $i[5];
+                    $dataplan->region                                = $i[3];
+                    $dataplan->project                               = \App\Models\ClientProject::where('name', $i[2])->first()->id;
+                    $dataplan->company_name                          = ($i[1] == 'HUP') ? '1' : '2';
+                    $dataplan->start_schedule                        = $i[6].' '.$i[7].':00';
+                    $dataplan->end_schedule                          = $i[6].' '.$i[8].':00';
+                    $dataplan->status                                = '';
+                    $dataplan->week                                  = $this->weekOfMonth3($i[6]);
+                    $dataplan->save();
 
                     $total_success++;
-                }
+                // }
                 
             }
 
@@ -138,12 +141,9 @@ class Importplan extends Component
                     ->setCellValue('F1', 'NIK')
                     ->setCellValue('G1', 'Date Plan Schedule (YYYY-mm-dd)')
                     ->setCellValue('H1', 'Start Time Plan (HH:II)')
-                    ->setCellValue('I1', 'End Time Plan (HH:II)')
-                    ->setCellValue('J1', 'Date Actual Schedule (YYYY-mm-dd)')
-                    ->setCellValue('K1', 'Start Time Actual (HH:II)')
-                    ->setCellValue('L1', 'End Time Actual (HH:II)');
+                    ->setCellValue('I1', 'End Time Plan (HH:II)');
                     
-        $objPHPExcel->getActiveSheet()->getStyle('J1:L1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('d2ffcf');
+        // $objPHPExcel->getActiveSheet()->getStyle('J1:L1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('d2ffcf');
         $objPHPExcel->getActiveSheet()->getStyle('J1:L1')->getFont()->setBold( true );
         $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('ffcfcf');
         $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->getFont()->setBold( true );
@@ -186,10 +186,7 @@ class Importplan extends Component
                     ->setCellValue('F'.$num,$item->nik)
                     ->setCellValue('G'.$num,date_format(date_create($item->start_schedule), 'Y-m-d'))
                     ->setCellValue('H'.$num,date_format(date_create($item->start_schedule), 'H:i'))
-                    ->setCellValue('I'.$num,date_format(date_create($item->end_schedule), 'H:i'))
-                    ->setCellValue('J'.$num,isset($item->start_actual) ? date_format(date_create($item->start_actual), 'Y-m-d') : '')
-                    ->setCellValue('K'.$num,isset($item->start_actual) ? date_format(date_create($item->start_actual), 'H:i') : '')
-                    ->setCellValue('L'.$num,isset($item->end_actual) ? date_format(date_create($item->end_actual), 'H:i') : '');
+                    ->setCellValue('I'.$num,date_format(date_create($item->end_schedule), 'H:i'));
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':G'.$num)->getFont()->setBold( true );
                 // $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);

@@ -53,6 +53,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-pettycash-approvalhistory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:petty-cash.approvalhistory />
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modal-pettycash-approvereceipt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -98,6 +106,10 @@
 
     Livewire.on('modalapprovepettycash',(data)=>{
         $("#modal-pettycash-approvepettycash").modal('show');
+    });
+
+    Livewire.on('modalapprovalhistorypettycash',(data)=>{
+        $("#modal-pettycash-approvalhistory").modal('show');
     });
 
     Livewire.on('modaldeclinereceipt',(data)=>{

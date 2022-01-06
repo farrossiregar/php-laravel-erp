@@ -42,12 +42,12 @@
 
 
     @if(check_access('team-schedule.toc-leader'))
-    <div class="col-md-1" style="margin: 0 10px;">
+    <!-- <div class="col-md-1" style="margin: 0 10px;">
         <a href="javascript:;" wire:click="$emit('modaladdteamschedule')" class="btn btn-info"><i class="fa fa-plus"></i> Team Schedule </a>
-    </div>
+    </div> -->
 
     <div class="col-md-1" style="margin: 0 10px;">
-        <a href="javascript:;" wire:click="$emit('modalimportactual')" class="btn btn-info"><i class="fa fa-upload"></i> Plan Schedule </a>
+        <a href="javascript:;" wire:click="$emit('modalimportplan')" class="btn btn-info"><i class="fa fa-upload"></i> Plan Schedule </a>
     </div>
     
     <div class="col-md-1" style="margin: 0 10px;">
@@ -153,7 +153,7 @@
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td style="text-align: center;">
                             @if($item->overtime == '1')
-                                <a href="javascript:;" wire:click="generateusertimesheetpdf({{ $item->nik }})"><i class="fa fa-download"></i></a>
+                                <a href="javascript:;" wire:click="generateusertimesheetpdf({{ $item->nik }}, '{{ $filteryear }}', '{{ $filtermonth }}')"><i class="fa fa-download"></i></a>
                             @endif
                         </td>
                         <td style="text-align: center;">

@@ -29,12 +29,12 @@
                         
                         <th class="text-center align-middle">Status</th> 
                         <th class="text-center align-middle">Date Create</th>
-                        <th class="text-center align-middle">Company Name</th> 
+                        <!-- <th class="text-center align-middle">Company Name</th>  -->
                         <th class="text-center align-middle">Project</th> 
                         <th class="text-center align-middle">Region</th> 
                         <th class="text-center align-middle">Amount</th> 
                         <th class="text-center align-middle">Keterangan</th> 
-                        <th class="text-center align-middle">Petty Cash Note</th> 
+                        <!-- <th class="text-center align-middle">Petty Cash Note</th>  -->
                         <th class="text-center align-middle">Petty Cash Review</th> 
                         <th class="text-center align-middle">Upload Receipt</th> 
                         <th class="text-center align-middle">Receipt Note</th> 
@@ -46,44 +46,46 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>
-                            
+                            <a href="javascript:;" wire:click="$emit('modalapprovalhistorypettycash','{{ $item->id }}')">
+                                @if($item->status == '1')
+                                    @if($item->status_receipt == '1')
+                                        <label class="badge badge-success" data-toggle="tooltip" title="Close">Close</label>
+                                    @endif
 
-                            @if($item->status == '1')
-                                @if($item->status_receipt == '1')
-                                    <label class="badge badge-success" data-toggle="tooltip" title="Close">Close</label>
+                                    @if($item->status_receipt == '0')
+                                        <label class="badge badge-danger" data-toggle="tooltip" title="Receipt Decline">Receipt Decline</label>
+                                    @endif
+
+                                    @if($item->status_receipt == '')
+                                        <label class="badge badge-warning" data-toggle="tooltip" title="Receipt on Review">Receipt on Review</label>
+                                    @endif
+                                    
                                 @endif
 
-                                @if($item->status_receipt == '0')
-                                    <label class="badge badge-danger" data-toggle="tooltip" title="Receipt Decline">Receipt Decline</label>
+                                @if($item->status == '0')
+                                    <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Petty Cash Decline</label>
                                 @endif
 
-                                @if($item->status_receipt == '')
-                                    <label class="badge badge-warning" data-toggle="tooltip" title="Receipt on Review">Receipt on Review</label>
+                                @if($item->status == '' || $item->status == 'null')
+                                    <label class="badge badge-warning" data-toggle="tooltip" title="Petty Cash on Review">Petty Cash on Review</label>
                                 @endif
-                                
-                            @endif
-
-                            @if($item->status == '0')
-                                <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Petty Cash Decline</label>
-                            @endif
-
-                            @if($item->status == '' || $item->status == 'null')
-                                <label class="badge badge-warning" data-toggle="tooltip" title="Petty Cash on Review">Petty Cash on Review</label>
-                            @endif
+                            </a>
                         </td> 
+
+                       
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
-                        <td>
+                        <!-- <td>
                             @if($item->company_id == '1')
                                 HUP
                             @else
                                 PMT
                             @endif
-                        </td>
+                        </td> -->
                         <td>{{ get_project_company($item->project, $item->company_id) }}</td>
                         <td>{{$item->region}}</td>
                         <td>Rp, {{ format_idr($item->amount) }}</td>
                         <td>{{$item->keterangan}}</td>
-                        <td>{{$item->note}}</td>
+                        <!-- <td>{{$item->note}}</td> -->
                         <td class="text-center align-middle">
                             
                             @if(check_access('petty-cash.approval'))

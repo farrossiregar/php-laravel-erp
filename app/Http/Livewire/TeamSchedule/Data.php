@@ -29,16 +29,36 @@ class Data extends Component
     }
     
 
-    public function generateusertimesheetpdf($id){
+    public function generateusertimesheetpdf($id, $year, $month){
         $data = \App\Models\TeamScheduleNoc::where('status', '2')->orderBy('id', 'desc');
 
         $data = $data->where('nik', $id);
+
+        if($year){
+            $data->whereYear('start_schedule',$year);
+        }else{
+            $data->whereYear('start_schedule',date('Y'));
+        }
+
+        if($month){
+            $data->whereMonth('start_schedule',$month);  
+        }else{
+            $data->whereMonth('start_schedule',date('m'));  
+        }
+
         $data = $data->get();
 
 
-        $pdf = PDF::loadview('livewire/team-schedule/generateusertimesheetpdf',['data'=>$data]);
+
+
+        // $pdf = PDF::loadview('livewire/team-schedule/generateusertimesheetpdf',['data'=>$data]);
         
-	    return $pdf->stream();
+	    // return $pdf->stream();
+        $pdf = PDF::loadView('livewire/team-schedule/generateusertimesheetpdf', ['data'=>$data])->output();
+        return response()->streamDownload(
+            fn () => print($pdf),
+            "generateusertimesheetpdf".$id.".pdf"
+        );
         
     }
 
