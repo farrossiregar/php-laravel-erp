@@ -153,7 +153,7 @@
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td style="text-align: center;">
                             @if($item->overtime == '1')
-                                <a href=""><i class="fa fa-download"></i></a>
+                                <a href="javascript:;" wire:click="generateusertimesheetpdf({{ $item->nik }})"><i class="fa fa-download"></i></a>
                             @endif
                         </td>
                         <td style="text-align: center;">
