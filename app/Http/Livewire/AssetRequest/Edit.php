@@ -51,6 +51,7 @@ class Edit extends Component
         $data->dana_from                = $this->dana_from;
         $data->pr_no                    = $this->pr_no;
         $data->dana_amount              = $this->dana_amount;
+        $data->serial_number            = 'ar'.date('ymd').$this->selected_id;
         $data->save();
 
         // $message  = "<p>Dear {$data->name}<br />, Asset Request is Approved </p>";

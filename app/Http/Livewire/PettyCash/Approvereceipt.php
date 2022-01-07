@@ -39,7 +39,7 @@ class Approvereceipt extends Component
 
         $datahistory            = new \App\Models\LogActivity();
         $datahistory->subject   = 'Approvalhistorypettycash'.$this->selected_id;
-        $datahistory->var       = '{"status":"'.$data->status_receipt.'","note":"'.$this->note.'"}';
+        $datahistory->var       = '{"status":"'.$data->status_receipt.'","note":"'.$this->note.'","type":"receipt"}';
         $datahistory->save();
 
     

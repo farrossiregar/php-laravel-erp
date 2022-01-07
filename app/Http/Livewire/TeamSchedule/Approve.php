@@ -52,15 +52,15 @@ class Approve extends Component
         $datahistory->save();
 
     
-        $notif = get_user_from_access('team-schedule.toc-leader');
+        // $notif = get_user_from_access('team-schedule.toc-leader');
         
-        foreach($notif as $user){
-            if($user->email){
-                $message  = "<p>Dear {$user->name}<br />, Team Schedule is Approve </p>";
-                $message .= "<p>Nama Employee: {$data->name}<br />Project : {$data->project}<br />Region: {$data->region}</p>";
-                \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - NOC Team Schedule",$message));
-            }
-        }
+        // foreach($notif as $user){
+        //     if($user->email){
+        //         $message  = "<p>Dear {$user->name}<br />, Team Schedule is Approve </p>";
+        //         $message .= "<p>Nama Employee: {$data->name}<br />Project : {$data->project}<br />Region: {$data->region}</p>";
+        //         \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - NOC Team Schedule",$message));
+        //     }
+        // }
 
 
 

@@ -14,7 +14,7 @@ class Approve extends Component
     ];
 
     use WithFileUploads;
-    public $selected_id;    
+    public $selected_id, $note;    
     public $usertype;
 
     
@@ -38,9 +38,15 @@ class Approve extends Component
         }else{
             $data->status = '2';
         }
-        
+        $data->note     = $this->note;
         
         $data->save();
+
+
+        $datahistory = new \App\Models\LogActivity();
+        $datahistory->subject = 'Approvalhistoryassetrequest'.$type_approve[0];
+        $datahistory->var = '{"status":"'.$data->status.'","note":"'.$this->note.'"}';
+        $datahistory->save();
 
 
         session()->flash('message-success',"Berhasil, Asset Request sudah diapprove!!!");

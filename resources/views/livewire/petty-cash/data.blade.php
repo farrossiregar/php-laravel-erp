@@ -66,10 +66,12 @@
                                     <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Petty Cash Decline</label>
                                 @endif
 
+                            </a>
+
                                 @if($item->status == '' || $item->status == 'null')
                                     <label class="badge badge-warning" data-toggle="tooltip" title="Petty Cash on Review">Petty Cash on Review</label>
                                 @endif
-                            </a>
+                            
                         </td> 
 
                        

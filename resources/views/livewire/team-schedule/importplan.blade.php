@@ -21,8 +21,8 @@
             <button type="submit" class="btn btn-info close-modal"><i class="fa fa-upload"></i> Upload</button>
         </div>
 
-        <br><br>
-        <div class="form-group">
+        <br>
+        <!-- <div class="form-group">
             <div class="row">
                 <div class="col-md-4">                
                     <select class="form-control" wire:model="filteryear">
@@ -54,10 +54,13 @@
                     </select>
                 </div>
             </div>
-        </div>
-        <div class="modal-footer">
+        </div> -->
+        <a href="#" wire:click="sampleimport()"><i class="fa fa-download"></i> Download Sample Team Schedule</a>
+        <br>
+        <br>
+        <!-- <div class="modal-footer">
             <div href="#" wire:click="sampleimport()" class="btn btn-info close-modal"><i class="fa fa-download"></i> Download</div>
-        </div>
+        </div> -->
         
         <!-- <a href="#" wire:click="sampleimport()"><i class="fa fa-download">Download Sample Import Actual Schedule</i></a> -->
     </div>

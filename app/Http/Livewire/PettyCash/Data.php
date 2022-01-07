@@ -8,6 +8,7 @@ use App\Models\PoTrackingPds;
 use App\Models\PoTrackingNonms;
 use Auth;
 use DB;
+use Session;
 
 
 class Data extends Component
@@ -20,7 +21,7 @@ class Data extends Component
     {
 
        
-        $data = \App\Models\PettyCash::orderBy('created_at', 'desc');
+        $data = \App\Models\PettyCash::where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
             //    dd($data->get());
 
         if($this->date) $ata = $data->whereDate('created_at',$this->date);

@@ -1,14 +1,14 @@
 <form wire:submit.prevent="save">
     @csrf
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-check"></i> Approval History Petty Cash</h5>
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-check"></i> Approval History Asset Request</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true close-btn">×</span>
         </button>
     </div>
     <div class="modal-body">
         <div class="container py-2 mt-4 mb-4">
-            @foreach(\App\Models\LogActivity::where('subject', 'Approvalhistorypettycash'.$selected_id)->orderBy('id', 'desc')->get() as $k => $item)
+            @foreach(\App\Models\LogActivity::where('subject', 'Approvalhistoryassetrequest'.$selected_id)->orderBy('id', 'desc')->get() as $k => $item)
             <div class="row">
                 <div class="col-auto text-center flex-column d-none d-sm-flex">
                     
@@ -30,7 +30,7 @@
                     </h5>
                     
                     <div class="row h-40">
-                        @if($k != (count(\App\Models\LogActivity::where('subject', 'Approvalhistorypettycash'.$selected_id)->orderBy('id', 'desc')->get()) - 1))
+                        @if($k != (count(\App\Models\LogActivity::where('subject', 'Approvalhistoryassetrequest'.$selected_id)->orderBy('id', 'desc')->get()) - 1))
                         <div class="col" style="border-right: 3px solid lightgray;">&nbsp;</div>
                         @endif
                         <div class="col">&nbsp;</div>
@@ -40,19 +40,9 @@
                 <div class="col py-2">
                     <div class="card-body">
                         @if(json_decode($item->var)->status == '0')
-                            @if(json_decode($item->var)->type == 'pettycash')
-                                <h5 class="card-title" style="color: #de4848; margin-bottom: 0;">Petty Cash Decline</h5>
-                            @else
-                                <h5 class="card-title" style="color: #de4848; margin-bottom: 0;">Receipt Decline</h5>
-                            @endif
-                        
+                        <h5 class="card-title" style="color: #de4848; margin-bottom: 0;">Decline</h5>
                         @else
-                            @if(json_decode($item->var)->type == 'pettycash')
-                                <h5 class="card-title" style="color: #28a745; margin-bottom: 0;">Petty Cash Approve</h5>
-                            @else
-                                <h5 class="card-title" style="color: #28a745; margin-bottom: 0;">Receipt Approve</h5>
-                            @endif
-                        
+                        <h5 class="card-title" style="color: #28a745; margin-bottom: 0;">Approve</h5>
                         @endif
 
                         <span style="font-size: 11px; color: gray;">{{ date_format(date_create($item->created_at), 'd M Y H:i') }}</span>

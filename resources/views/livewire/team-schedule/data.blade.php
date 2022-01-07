@@ -127,7 +127,7 @@
                     ?>
 
                     <tr>
-                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $key + 1 }} - {{ $item->id }}</td>
                         <td>
                             <a href="javascript:;" wire:click="$emit('modalapprovalhistoryteamschedule','{{ $item->id }}')">
                                 @if($item->status == '2')
@@ -141,14 +141,11 @@
                                 @if($item->status == '0')
                                     <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Team Schedule is Decline</label>
                                 @endif
+                            </a>
 
                                 @if($item->status == '' || $item->status == 'null')
                                     <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
                                 @endif
-
-                                
-                            </a>
-
                         </td> 
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td style="text-align: center;">

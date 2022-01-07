@@ -66,6 +66,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-assetrequest-approvalhistory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:asset-request.approvalhistory />
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="modal-assetrequest-decline" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -103,6 +111,9 @@
         $("#modal-assetrequest-approve").modal('show');
     });
 
+    Livewire.on('modalapprovalhistoryassetrequest',(data)=>{
+        $("#modal-assetrequest-approvalhistory").modal('show');
+    });
 
     Livewire.on('modaldeclineassetrequest',(data)=>{
         $("#modal-assetrequest-decline").modal('show');

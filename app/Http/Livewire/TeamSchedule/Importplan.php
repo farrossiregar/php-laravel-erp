@@ -163,42 +163,41 @@ class Importplan extends Component
         
         $num=2;
 
-        $data = \App\Models\TeamScheduleNoc::where('status', '1')->orderBy('id', 'desc');
+        // $data = \App\Models\TeamScheduleNoc::where('status', '1')->orderBy('id', 'desc');
     
-        if($this->filteryear) $ata = $data->whereYear('start_schedule',$this->filteryear);
-        if($this->filtermonth) $ata = $data->whereMonth('start_schedule',$this->filtermonth);
-        if($this->filterproject) $ata = $data->where('project',$this->filterproject);
+        // if($this->filteryear) $ata = $data->whereYear('start_schedule',$this->filteryear);
+        // if($this->filtermonth) $ata = $data->whereMonth('start_schedule',$this->filtermonth);
+        // if($this->filterproject) $ata = $data->where('project',$this->filterproject);
        
-        $data = $data->get();
+        // $data = $data->get();
 
-        foreach($data as $k => $item){
-            if($item->company_name == '1'){
-                $company_name = 'HUP';
-            }else{
-                $company_name = 'PMT';
-            }
-            $objPHPExcel->setActiveSheetIndex(0)
-                    ->setCellValue('A'.$num, $k + 1)
-                    ->setCellValue('B'.$num,$company_name)
-                    ->setCellValue('C'.$num,get_project_company($item->project, $item->company_name))
-                    ->setCellValue('D'.$num,$item->region)
-                    ->setCellValue('E'.$num,$item->name)
-                    ->setCellValue('F'.$num,$item->nik)
-                    ->setCellValue('G'.$num,date_format(date_create($item->start_schedule), 'Y-m-d'))
-                    ->setCellValue('H'.$num,date_format(date_create($item->start_schedule), 'H:i'))
-                    ->setCellValue('I'.$num,date_format(date_create($item->end_schedule), 'H:i'));
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':G'.$num)->getFont()->setBold( true );
-                // $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('C'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('D'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('E'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-                // $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-               
-            $num++;
-        }
+        // foreach($data as $k => $item){
+            // if($item->company_name == '1'){
+            //     $company_name = 'HUP';
+            // }else{
+            //     $company_name = 'PMT';
+            // }
+            // $objPHPExcel->setActiveSheetIndex(0)
+            //         ->setCellValue('A'.$num, $k + 1)
+            //         ->setCellValue('B'.$num,$company_name)
+            //         ->setCellValue('C'.$num,get_project_company($item->project, $item->company_name))
+            //         ->setCellValue('D'.$num,$item->region)
+            //         ->setCellValue('E'.$num,$item->name)
+            //         ->setCellValue('F'.$num,$item->nik)
+            //         ->setCellValue('G'.$num,date_format(date_create($item->start_schedule), 'Y-m-d'))
+            //         ->setCellValue('H'.$num,date_format(date_create($item->start_schedule), 'H:i'))
+            //         ->setCellValue('I'.$num,date_format(date_create($item->end_schedule), 'H:i'));
+            //     $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+            //     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':G'.$num)->getFont()->setBold( true );
+                
+            // $num++;
+        // }
         
+        if(Session::get('company_id') == '1'){
+            $company_name = 'HUP';
+        }else{
+            $company_name = 'PMT';
+        }
 
         
         $objPHPExcel->setActiveSheetIndex(0);
@@ -207,7 +206,7 @@ class Importplan extends Component
 
         // Redirect output to a client’s web browser (Excel5)
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="Sample_TeamSchedule-'.get_project_company($this->filterproject, Session::get('company_id')).'_'.$this->filtermonth.'_'.$this->filteryear.'.xlsx"');
+        header('Content-Disposition: attachment;filename="Sample_TeamSchedule-'.$company_name.'.xlsx"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         //header('Cache-Control: max-age=1');
@@ -219,7 +218,7 @@ class Importplan extends Component
         header ('Pragma: public'); // HTTP/1.0
         return response()->streamDownload(function() use($writer){
             $writer->save('php://output');
-        },'Sample_TeamSchedule-'.get_project_company($this->filterproject, Session::get('company_id')).'_'.$this->filtermonth.'_'.$this->filteryear.'.xlsx');
+        },'Sample_TeamSchedule-'.$company_name.'.xlsx');
 
 
 

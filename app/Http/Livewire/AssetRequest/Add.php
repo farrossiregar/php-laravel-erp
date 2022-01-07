@@ -36,31 +36,38 @@ class Add extends Component
                                 ->where('is_project', '1')
                                 ->get();
 
-        $this->datalocation = \App\Models\Dophomebasemaster::where('status', '1')->orderBy('id', 'desc')->get();
+        
 
-        if($this->project){
-            $getproject = \App\Models\ClientProject::where('id', $this->project)
-                                                    ->where('company_id', Session::get('company_id'))
-                                                    ->where('is_project', '1')
-                                                    ->first();
+        $get_project = \App\Models\ClientProject::where('id', \App\Models\EmployeeProject::where('employee_id', Auth::user()->id)->first()->client_project_id)->first();
+        $this->project = $get_project->name;
 
-            if($getproject){
-                if($getproject->region_id){
-                    $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
-                }else{
-                    $this->region = '';
-                }
-            }else{
-                $this->region = '';
-            }
+        $this->region = \App\Models\Region::where('id', $get_project->region_id)->first()->region_code;
 
-            if($this->region){
-                $this->datalocation = \App\Models\Dophomebasemaster::where('project', $getproject->name)
-                                                                    ->where('region', $this->region)
-                                                                    ->where('status', '1')
-                                                                    ->orderBy('id', 'desc')->get();
-            }
-        }
+        $this->datalocation = \App\Models\Dophomebasemaster::where('status', '1')->where('project', $get_project->name)->where('region', $this->region)->orderBy('id', 'desc')->get();
+
+        // if($this->project){
+        //     $getproject = \App\Models\ClientProject::where('id', $this->project)
+        //                                             ->where('company_id', Session::get('company_id'))
+        //                                             ->where('is_project', '1')
+        //                                             ->first();
+
+        //     if($getproject){
+        //         if($getproject->region_id){
+        //             $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
+        //         }else{
+        //             $this->region = '';
+        //         }
+        //     }else{
+        //         $this->region = '';
+        //     }
+
+        //     if($this->region){
+        //         $this->datalocation = \App\Models\Dophomebasemaster::where('project', $getproject->name)
+        //                                                             ->where('region', $this->region)
+        //                                                             ->where('status', '1')
+        //                                                             ->orderBy('id', 'desc')->get();
+        //     }
+        // }
         
         return view('livewire.asset-request.add');
     }
@@ -72,8 +79,8 @@ class Add extends Component
         $user                           = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
         $data                           = new \App\Models\AssetRequest();
         $data->company_name             = Session::get('company_id');
-        $data->client_project_id         = $this->project;
-        $data->project                  = \App\Models\ClientProject::where('id', $this->project)->first()->name;
+        $data->client_project_id         = \App\Models\ClientProject::where('name', $this->project)->first()->id;
+        $data->project                  = $this->project;
         
         
         $data->region                   = $this->region;

@@ -40,6 +40,11 @@ class Decline extends Component
 
         $data->save();
 
+        $datahistory = new \App\Models\LogActivity();
+        $datahistory->subject = 'Approvalhistoryassetrequest'.$this->selected_id;
+        $datahistory->var = '{"status":"'.$data->status.'","note":"'.$this->note.'"}';
+        $datahistory->save();
+
         // $message  = "<p>Dear {$data->name}<br />, Asset Request is Decline </p>";
         // \Mail::to($data->email)->send(new GeneralEmail("[PMT E-PM] - Asset Request",$message));
 

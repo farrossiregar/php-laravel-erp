@@ -69,13 +69,14 @@
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <label>Project</label>
-                                            <select onclick="" class="form-control" wire:model="project">
+                                            <!-- <select onclick="" class="form-control" wire:model="project">
                                                 <option value=""> --- Project --- </option>
                                                 
                                                 @foreach($dataproject as $item)
                                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> -->
+                                            <input type="text" class="form-control"  wire:model="project" readonly>
                                             @error('project')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
@@ -91,8 +92,14 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Type of Asset</label>
-                                            <input type="text" class="form-control"  wire:model="asset_type" >
-                                           
+                                            <!-- <input type="text" class="form-control"  wire:model="asset_type" > -->
+                                            <select onclick="" class="form-control" wire:model="asset_type">
+                                                <option value=""> --- Type of Asset --- </option>
+                                                <option value="1">Air Conditioner & Fan</option>
+                                                <option value="2">Furniture & Fixture</option>
+                                                <option value="3">Computer Equipment</option>
+                                                <option value="4">Printer & Device</option>
+                                            </select>
 
                                             @error('asset_type')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -146,7 +153,7 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Quantity</label>
-                                            <input type="text"  class="form-control"  wire:model="quantity" >
+                                            <input type="number"  class="form-control"  wire:model="quantity" >
                                            
 
                                             @error('quantity')

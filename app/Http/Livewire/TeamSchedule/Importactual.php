@@ -84,11 +84,10 @@ class Importactual extends Component
                                                     ->first();
                 
                 if($i[0]!="") 
-                // dd($check);
+                
                 if($check){
                     // $dataactual = \App\Models\TeamScheduleNoc::where('name', $i[4])->whereMonth('start_schedule', date_format(date_create($i[6]), 'm'))->first();
                     $dataactual = \App\Models\TeamScheduleNoc::where('name', $i[4])->where(DB::Raw('date(start_schedule)'), $i[6])->first();
-                    // dd($dataactual);
                     $dataactual->start_actual                                  = $i[9].' '.$i[10].':00';
                     $dataactual->end_actual                                    = $i[9].' '.$i[11].':00';
                     $dataactual->status                                        = '1';

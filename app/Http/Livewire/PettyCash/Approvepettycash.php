@@ -39,7 +39,7 @@ class Approvepettycash extends Component
 
         $datahistory            = new \App\Models\LogActivity();
         $datahistory->subject   = 'Approvalhistorypettycash'.$this->selected_id;
-        $datahistory->var       = '{"status":"'.$data->status.'","note":"'.$this->note.'"}';
+        $datahistory->var       = '{"status":"'.$data->status.'","note":"'.$this->note.'","type":"pettycash"}';
         $datahistory->save();
 
     
