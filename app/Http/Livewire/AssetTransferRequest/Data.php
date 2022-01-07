@@ -21,10 +21,10 @@ class Data extends Component
                                         ->where('asset_request.status', '1')
                                         ->leftjoin('asset_transfer_request', 'asset_request.id', '=', 'asset_transfer_request.id_asset_request')
                                         ->orderBy('asset_request.created_at', 'desc');
-            //    dd($data->get());
+            
         
-        if($this->date) $data->where(DB::Raw('asset_request.date(created_at)'),$this->date);                        
-        if($this->filterproject) $data->where('asset_request.client_project_id',$this->filterproject);                        
+        // if($this->date) $data->where('asset_request.created_at',$this->date);                        
+        // if($this->filterproject) $data->where('asset_request.client_project_id',$this->filterproject);                        
         
         return view('livewire.asset-transfer-request.data')->with(['data'=>$data->paginate(50)]);   
     }

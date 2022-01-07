@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Drugtest;
 use Livewire\Component;
 use App\Models\DrugTest;
 use App\Models\Employee;
+use App\Models\EmployeeProject;
 
 class Dashboard extends Component
 {
@@ -27,6 +28,12 @@ class Dashboard extends Component
         $this->labels = [];$this->series=[];
         $this->notIn = DrugTest::pluck('employee_id')->toArray();
         $this->labels[] = "Drug Test";
+        $total_team_ = Employee::select('employees.*')->where('employee_projects.client_project_id',session()->get('project_id'))->join('employee_projects','employee_projects.employee_id','=','employees.id')
+                    ->where('is_use_android',1)
+                    ->groupBy('employees.id')
+                    ->get()
+                    ->count();
+                    
         foreach([0=>'Positive',1=>'Negative',2=>'Not Yet Drug Test',3=>'Done Drug Test',4=>'Total Team'] as $k=>$item){
             $this->series[$k]['label'] = $item;
             $this->series[$k]['borderColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
@@ -43,15 +50,15 @@ class Dashboard extends Component
             }
             if($k==2){
                 $this->not_yet_drug_test = Employee::whereNotIn('id',$this->notIn)->get()->count();
-                $this->series[$k]['data'][] = $this->not_yet_drug_test;
+                $this->series[$k]['data'][] = $total_team_ - DrugTest::get()->count();
             }
             if($k==3){
                 $this->done_drug_test = DrugTest::get()->count();
                 $this->series[$k]['data'][] = $this->done_drug_test;
             }
             if($k==4){
-                $this->total_team = Employee::get()->count();
-                $this->series[$k]['data'][] = $this->total_team;
+                $this->total_team = $total_team_;
+                $this->series[$k]['data'][] = $total_team_;
             }
         }   
 

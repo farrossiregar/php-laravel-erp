@@ -22,24 +22,9 @@ class Dashboard extends Component
     public function render()
     {
 
-        // $getproject = \App\Models\ClientProject::where('id', $this->project)
-        //         ->where('company_id', Session::get('company_id'))
-        //         ->where('is_project', '1')
-        //         ->first();
-
-        // if($getproject){
-        //     if($getproject->region_id){
-        //         $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
-        //     }else{
-        //         $this->region = '';
-        //     }
-        // }else{
-        //     $this->region = '';
-        // }
         $this->dataproject = [];
 
         if($this->region){
-            // dd($this->region);
             $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
                                 ->where('region_id', $this->region)
                                 ->where('company_id', Session::get('company_id'))
@@ -48,7 +33,7 @@ class Dashboard extends Component
         }
 
         $this->generate_chart();
-        return view('livewire.asset-request.dashboard');
+        return view('livewire.asset-transfer-request.dashboard');
     }
 
     public function mount()
@@ -65,7 +50,6 @@ class Dashboard extends Component
     {
         $this->labels = [];
         $this->datasets = [];
-        $this->datasetsamount = [];
         $this->mo = [];
 
         if($this->year){
@@ -89,39 +73,36 @@ class Dashboard extends Component
 
         $color = ['#ffb1c1','#4b89d6', '#007bff','#28a745','#333333'];
         
-        $tickettype = ['1', '2'];
-        $reqstatus = ['open', 'reject', 'close'];
+        $reqstatus = ['Total Request', 'Open Request'];
+
         
-        
-       
-        $monthdata = \App\Models\AssetRequest::whereYear('created_at',$this->year)->where('project', $this->project)->where('region', $getregion)->whereMonth('created_at', $this->month);
-        foreach($monthdata->groupBy(DB::Raw('month(created_at)'))->get() as $k => $item){
+        $monthdata = \App\Models\AssetTransferRequest::
+                                                where('company_name', Session::get('company_id'))
+                                                ->whereYear('created_at',$this->year)
+                                                ->whereMonth('created_at', $this->month)
+                                                ->where('project', $this->project)
+                                                ->where('region', $getregion);
+                                                
+        foreach($monthdata->groupBy(DB::Raw('month(asset_transfer_request.created_at)'))->get() as $k => $item){
             $this->labels[$k] = date_format(date_create($item->created_at), 'M');
         }
        
-        $open = count(\App\Models\AssetRequest::whereYear('created_at',$this->year)->where('project', $this->project)->where('region', $getregion)->whereMonth('created_at', $this->month)->whereNull('status')->get());
-        $reject = count(\App\Models\AssetRequest::whereYear('created_at',$this->year)->where('project', $this->project)->where('region', $getregion)->whereMonth('created_at', $this->month)->where('status', '0')->get());
-        $close = count(\App\Models\AssetRequest::whereYear('created_at',$this->year)->where('project', $this->project)->where('region', $getregion)->whereMonth('created_at', $this->month)->where('status', '1')->get());
+        $total_req   = count(\App\Models\AssetTransferRequest::where('company_name', Session::get('company_id'))->whereYear('created_at',$this->year)->where('project', $this->project)->where('region', $getregion)->whereMonth('created_at', $this->month)->get());
+        $open_req   = count(\App\Models\AssetTransferRequest::where('company_name', Session::get('company_id'))->whereYear('created_at',$this->year)->where('project', $this->project)->where('region', $getregion)->whereMonth('created_at', $this->month)->whereNull('status')->get()) + count(\App\Models\AssetTransferRequest::where('company_name', Session::get('company_id'))->whereYear('created_at',$this->year)->where('project', $this->project)->where('region', $getregion)->whereMonth('created_at', $this->month)->where('status', '1')->get());
 
-        $reqstatus2 = [$open, $reject, $close];
-     
+        $reqstatus2 = [$total_req, $open_req];
         
         foreach($reqstatus as $k => $status){ 
         
             $this->datasets[$k]['label']                = $status;
             $this->datasets[$k]['backgroundColor']      = $color[$k];
             $this->datasets[$k]['fill']                 = 'boundary';
-            
             $this->datasets[$k]['data'][]               = $reqstatus2[$k];
         }
 
-            
-        
-    
         $this->labels = json_encode($this->labels);
         $this->datasets = json_encode($this->datasets);
         
-        // $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets,'datasetsamount'=>$this->datasetsamount]);
         $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets]);
     }
 

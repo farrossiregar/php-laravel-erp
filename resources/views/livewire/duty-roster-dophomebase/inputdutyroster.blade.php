@@ -9,7 +9,7 @@
     <div class="modal-body">
         <div class="row">
             <div class="form-group col-md-6">
-                <label for="">Nama DOP</label>
+                <label for="">Nama (Homebase/DOP)</label>
                 <input type="text" class="form-control" name="nama_dop" wire:model="nama_dop" />
             </div>
             <div class="form-group col-md-6">
@@ -33,11 +33,11 @@
                 <input type="text" class="form-control" name="lat" wire:model="lat" />
             </div>
             <div class="form-group col-md-6">
-                <label for="">Pemilik DOP</label>
+                <label for="">Pemilik (Homebase/DOP)</label>
                 <input type="text" class="form-control" name="pemilik_dop" wire:model="pemilik_dop" />
             </div>
             <div class="form-group col-md-6">
-                <label for="">Telepon Pemilik DOP</label>
+                <label for="">Telepon Pemilik (Homebase/DOP)</label>
                 <input type="text" class="form-control" name="telepon_pemilik" wire:model="telepon_pemilik" />
             </div>
             <div class="form-group col-md-6">
@@ -46,9 +46,17 @@
             </div>
             <div class="form-group col-md-6">
                 <label for="">Type (Homebase/DOP)</label>
-                <input type="text" class="form-control" name="type_homebase_dop" wire:model="type_homebase_dop" />
+                <select class="form-control" wire:model="type_homebase_dop">
+                    <option value="">-- Select --</option>
+                    <option>Homebase</option>
+                    <option>DOP</option>
+                </select>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-3">
+                <label for="">Start Date</label>
+                <input type="date" class="form-control" wire:model="start_date" />
+            </div>
+            <div class="form-group col-md-3">
                 <label for="">Expired</label>
                 <input type="date" class="form-control" name="expired" wire:model="expired" />
             </div>

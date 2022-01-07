@@ -1,10 +1,10 @@
 <div>
     <div x-data="{ insert:false }">
         <span x-show="insert==false">
-            <a href="javascript:void(0)" @click="insert = true">{{get_setting_sow($data)}}</a>
+            <a href="javascript:void(0)" class="border-bottom" @click="insert = true">{{$sow}}</a>
         </span>
         <span x-show="insert" @click.away="insert = false">
-            <input type="number" class="form-control" style="width:80px;" wire:keydown.enter="save" x-on:keydown.enter="insert = false" x- wire:model="sow" />
+            <input type="number" class="form-control" @keyup.escape="insert = false"  style="width:80px;margin:auto" wire:keydown.enter="save" x-on:keydown.enter="insert = false" x- wire:model="sow" />
         </span>
     </div>
     <span wire:loading>

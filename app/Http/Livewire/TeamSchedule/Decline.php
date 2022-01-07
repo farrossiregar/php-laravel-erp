@@ -40,6 +40,14 @@ class Decline extends Component
 
         $data->save();
 
+        $id = $this->selected_id;
+        // dd($id[0]);
+
+        $datahistory            = new \App\Models\LogActivity();
+        $datahistory->subject   = 'Approvalhistoryteamschedule'.$id[0];
+        $datahistory->var       = '{"status":"'.$data->status.'","note":"'.$this->note.'"}';
+        $datahistory->save();
+
 
         // $notif_user_psm = check_access_data('database-noc.notif-psm', '');
         // $nameuser_psm = [];

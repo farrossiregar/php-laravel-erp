@@ -5,43 +5,150 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-eye"></i> Detail Location</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Detail Asset Request</h5>
                 </div>
 
                 <div class="body pt-0">
                     <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="table-responsive">
-                                    <table class="table table-striped m-b-0 c_list">
-                                        <tbody>
-                                            <tr>
-                                                <td>Location</td>
-                                                <td>:</td>
-                                                <td>{{$nama_dop}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Address</td>
-                                                <td>:</td>
-                                                <td>{{$alamat}}</td>
-                                            </tr>
+                        <form wire:submit.prevent="save">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-12" >
+                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demodetail">Detail Asset</button>
+                                    <br>
+                                    <div class="row collapse" id="demodetail" >
+                                       <br>
+                                       <div class="col-md-12">
+                                           <br>
+                                            <div class="row" style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px 0; width: 100%; margin: auto;">
+                                                <div class="col-md-6 form-group">
+                                                    <label>Employee Name Request</label>
+                                                    <input type="text" class="form-control"  wire:model="employee_name" readonly>
+                                                
 
-                                            <tr>
-                                                <td>Owner</td>
-                                                <td>:</td>
-                                                <td>{{$pemilik_dop}}</td>
-                                            </tr>
+                                                    @error('employee_name')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label>Position</label>
+                                                    <input type="text" class="form-control"  wire:model="position" readonly>
+                                                
 
-                                            <tr>
-                                                <td>Contact</td>
-                                                <td>:</td>
-                                                <td>{{$telepon_pemilik}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                                    @error('position')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label>Project</label>
+                                                    <input type="text" class="form-control"  wire:model="project" readonly>
+                                                    
+                                                    @error('project')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label>Region</label>
+                                                    <input type="text" class="form-control" wire:model="region" readonly/>
+                                                    
+                                                    @error('region')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6 form-group">
+                                                    <label>Type of Asset</label>
+                                                    <input type="text" class="form-control"  wire:model="asset_type" readonly>
+                                                
+
+                                                    @error('asset_type')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6 form-group">
+                                                    <label>Name of Asset</label>
+                                                    <input type="text"  class="form-control"  wire:model="asset_name" readonly>
+                                                
+
+                                                    @error('asset_name')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6 form-group">
+                                                    <label>Location</label>
+                                                    <input type="text"  class="form-control"  wire:model="location" readonly>
+                                                    @error('location')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6 form-group">
+                                                    <label>Dimension (H/L/W)</label>
+                                                    <input type="text"  class="form-control"  wire:model="dimension" readonly>
+                                                
+
+                                                    @error('dimension')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6 form-group">
+                                                    <label>Detail</label>
+                                                    <input type="text"  class="form-control"  wire:model="detail" readonly>
+                                                
+
+                                                    @error('detail')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6 form-group">
+                                                    <label>Quantity</label>
+                                                    <input type="text"  class="form-control"  wire:model="quantity" readonly>
+                                                
+
+                                                    @error('quantity')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-12 form-group">
+                                                    <label>Reason of Request</label>
+                                                    <textarea name="" id="" cols="30" rows="2" class="form-control" wire:model="reason_request" readonly></textarea>
+                                                
+
+                                                    @error('request_reason')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6 form-group">
+                                                    <label>Reference Picture</label>
+                                                    <img src="<?php echo asset('storage/Accident_Report/web/'.$reference_pic); ?>" class="img-rounded" alt="" width="304" height="236"> 
+                                                    @error('file')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6 form-group">
+                                                    <label>Link</label>
+                                                    <br>
+                                                    <a href="{{$link}}">Link</a>
+
+                                                </div>
+
+                                                
+                                           </div>
+                                       </div>
+ 
+                                    </div>
+                                   
                                 </div>
+                                
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

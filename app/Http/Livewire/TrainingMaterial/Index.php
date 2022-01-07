@@ -15,8 +15,9 @@ class Index extends Component
 
     public $name;
     public $file,$description,$training_material_group_id,$group_training,$list_employee_group;
-
     protected $listeners = ['refresh-page'=>'$refresh'];
+    public $project_id;
+    protected $queryString = ['project_id'];
 
     public function render()
     {
@@ -27,6 +28,7 @@ class Index extends Component
 
     public function mount()
     {
+        if(isset($this->project_id)) session()->put('project_id',$this->project_id);
         $this->group_training =  TrainingMaterialGroup::orderBy('id')->get();
     }
 
@@ -49,9 +51,9 @@ class Index extends Component
         $data = new TrainingMaterialModel();
         $data->name = $this->name;
         $data->description = $this->description;
-
+        $data->client_project_id = session()->get('project_id');
         if($this->training_material_group_id == 'CME Engineer' || $this->training_material_group_id == 'TE Engineer')
-            $data->user_access_id = $this->training_material_group_id == 'CME Engineer' ? 84 : 84;
+            $data->user_access_id = $this->training_material_group_id == 'CME Engineer' ? 84 : 85;
         else
             $data->training_material_group_id = $this->training_material_group_id;
 

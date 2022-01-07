@@ -3,7 +3,7 @@
         <input type="text" class="form-control" placeholder="Search Project, Region, Area, Employee, Leader..." wire:model="keyword" />
     </div>
     <div class="col-md-4">
-        <a href="javascript:;" wire:click="$emit('modaladdpmtcommitmentletter')" class="btn btn-info"><i class="fa fa-plus"></i> Add Commitment Letter</a>
+        <a href="javascript:;" wire:click="$emit('modaladdhupcommitmentletter')" class="btn btn-info"><i class="fa fa-plus"></i> Add Commitment Letter</a>
     </div>
     <div class="col-md-12">
         <br><br>
@@ -14,10 +14,8 @@
                         <th>No</th> 
                         <th>Project</th> 
                         <th>Region</th> 
-                        <th>Region / Area</th> 
-                        <th>Employee Name</th> 
-                        <th>KTP ID</th> 
-                        <th>NIK PMT</th> 
+                        <th>NIK</th>
+                        <th>Name</th> 
                         <th>Leader</th> 
                         <th>Created By</th> 
                         <th>Type</th>
@@ -30,24 +28,10 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-
-                        <td>
-                           {{ get_project_company($item->project, $item->company_name) }}
-                        </td>
-                        <td>{{ $item->region }}</td>
-                        <td>{{ $item->region_area }}</td>
-                        <td>
-                            <?php
-                                if(Auth::user()->name == $item->employee_name){
-                                    echo '<b>'.$item->employee_name.'</b>';
-                                }else{
-                                    echo $item->employee_name;
-                                }
-                            
-                            ?>
-                        </td>
-                        <td>{{ $item->ktp_id }}</td>
-                        <td>{{ $item->nik_pmt }}</td>
+                        <td>{{isset($item->project_->name) ? $item->project_->name : '-'}}</td>
+                        <td>{{isset($item->region_->region) ? $item->region_->region : '-'}}</td>
+                        <td>{{isset($item->employee->nik)?$item->employee->nik:'-'}}</td>
+                        <td>{{isset($item->employee->nik)?$item->employee->name:'-'}}</td>
                         <td>{{ $item->leader }}</td>
                         <td>
                             <?php
@@ -56,7 +40,6 @@
                                 }else{
                                     echo $item->createdby;
                                 }
-                            
                             ?>
                         </td>
                         

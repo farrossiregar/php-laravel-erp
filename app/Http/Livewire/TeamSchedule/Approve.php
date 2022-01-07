@@ -15,7 +15,7 @@ class Approve extends Component
 
     use WithFileUploads;
     public $selected_id;    
-    public $usertype;
+    public $usertype, $note;
 
     
     public function render()
@@ -43,6 +43,13 @@ class Approve extends Component
         
         
         $data->save();
+
+        $id = $this->selected_id;
+
+        $datahistory = new \App\Models\LogActivity();
+        $datahistory->subject = 'Approvalhistoryteamschedule'.$id[0];
+        $datahistory->var = '{"status":"'.$data->status.'","note":"'.$this->note.'"}';
+        $datahistory->save();
 
     
         $notif = get_user_from_access('team-schedule.toc-leader');

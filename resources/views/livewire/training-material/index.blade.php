@@ -18,11 +18,9 @@
                     <div class="col-md-2 form-group">
                         <input type="text" class="form-control date_created" placeholder="Date" />
                     </div>
-                    <div class="col-md-3">
-                        <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_add_training"><i class="fa fa-plus"></i> Training Material</a>
+                    <div class="col-md-6">
+                        <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_add_training"><i class="fa fa-plus"></i> Training</a>
                         <a href="javascript:void(0)" class="btn btn-success" data-toggle="modal" data-target="#modal_group_training"><i class="fa fa-users"></i> Group Training</a>
-                    </div>
-                    <div class="col-md-5">
                         <span wire:loading>
                             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                             <span class="sr-only">{{ __('Loading...') }}</span>

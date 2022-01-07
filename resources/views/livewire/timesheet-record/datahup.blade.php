@@ -118,7 +118,7 @@
 
                         </td> 
                         <td>{{ date_format(date_create($item->created_at), 'M Y') }}</td>
-                        <td><a href="#" wire:click="generatetimesheet({{$item->project}}, 1, {{date_format(date_create($item->created_at), 'm')}}, {{date_format(date_create($item->created_at), 'Y')}}, {{ \App\Models\Region::where('region_code', $item->region)->first()->id }})"><i class="fa fa-download fa-2x" style="color: #007bff;"></i></a></td>
+                        <td><a href="#" wire:click="generatetimesheet({{$item->project}}, 1, {{date_format(date_create($item->created_at), 'm')}}, {{@date_format(date_create($item->created_at), 'Y')}}, {{@\App\Models\Region::where('region_code', $item->region)->first()->id}})"><i class="fa fa-download fa-2x" style="color: #007bff;"></i></a></td>
                         
                         <td>{{ get_project_company($item->project, $item->company_name) }}</td>
                         <td>{{$item->region}}</td>

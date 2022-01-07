@@ -49,8 +49,9 @@ class Importdutyroster extends Component
                 $data->telepon_pemilik          = $i[7];
                 $data->opex_region_ga           = $i[8];
                 $data->type_homebase_dop        = $i[9];
-                $data->expired                  = $i[10];
-                $data->budget                   = $i[11];
+                $data->start_date = $i[10];
+                $data->expired                  = $i[11];
+                $data->budget                   = $i[12];
                 $data->remarks                  = '';
                 $data->employee_id = \Auth::user()->employee->id;
                 $data->save();

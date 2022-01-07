@@ -82,7 +82,7 @@
     });
 
 
-    Livewire.on('modaldetailasset',(data)=>{
+    Livewire.on('modaldetailassetrequest',(data)=>{
         $("#modal-assettransferrequest-detailasset").modal('show');
     });
 

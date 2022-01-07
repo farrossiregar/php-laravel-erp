@@ -27,9 +27,9 @@ class Dashboard extends Component
                                 if($this->month) $table->where(['bulan'=>$this->month]);
                                 if($this->year) $table->where(['tahun'=>$this->year]);
                                 if($this->sub_region_id) $table->where('sub_region_id',$this->sub_region_id);
-                            })->whereNotNull('sub_region_id')->get()
+                            })->whereNotNull('sub_region_id')
                             ->sum('sow'); 
-
+                            
         $this->total_pm = PreventiveMaintenance::whereMonth('created_at',$this->month)->whereYear('created_at',$this->year)->count();
         $this->total_submitted = PreventiveMaintenance::where('status',2)
                                                         ->whereMonth('end_date',$this->month)->whereYear('end_date',$this->year)
@@ -89,6 +89,10 @@ class Dashboard extends Component
 
     public function updated($propertyName)
     {
+        if($propertyName=='month'){
+            if(strlen($this->month)==1) $this->month = '0'.$this->month;
+        }
+
         $this->chart();
     }
 

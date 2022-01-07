@@ -5,19 +5,30 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TrainingMaterial;
+use App\Models\TrainingMaterialGroup;
+use App\Models\TrainingMaterialGroupEmployee;
 use App\Models\TrainingMaterialEmployeeUpload;
 use App\Models\TrainingMaterialFile;
 use App\Models\TrainingExam;
 use App\Models\TrainingExamSubmit;
 use App\Models\TrainingExamJawaban;
+use Illuminate\Support\Arr;
 use App\Models\TrainingExamResult;
+use App\Models\EmployeeProject;
 
 class TrainingMaterialController extends Controller
 {
     public function history(Request $r)
     {
         $data = [];
-        $param = TrainingMaterial::orderBy('id','DESC');
+        // get assing group
+        $group = Arr::pluck(TrainingMaterialGroupEmployee::select('training_material_group_id')->where(['employee_id'=>\Auth::user()->employee->id])->get()->toArray(),'training_material_group_id');
+        $client_project_ids = Arr::pluck(EmployeeProject::select('client_project_id')->where(['employee_id'=>\Auth::user()->employee->id])->get()->toArray(),'client_project_id');
+        
+        $param = TrainingMaterial::where(function($table) use($group){
+                    $table->whereIn('training_material_group_id',$group)
+                    ->orWhere('user_access_id',\Auth::user()->employee->user_access_id);
+                })->whereIn('client_project_id',$client_project_ids)->orderBy('id','DESC');
         
         if(!empty($r->keyword)) $param = $param->where('name','LIKE',"%{$r->keyword}%");
 

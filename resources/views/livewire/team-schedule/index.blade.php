@@ -1,4 +1,4 @@
-@section('title', __('Team Schedule - Index'))
+@section('title', __('Team Schedule & Timesheet Record - Index'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -55,6 +55,13 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-teamschedule-approvalhistoryteamschedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:team-schedule.approvalhistory />
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="modal-teamschedule-approveteamschedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -116,6 +123,10 @@
         $("#modal-teamschedule-approveteamschedule").modal('show');
     });
 
+    Livewire.on('modalapprovalhistoryteamschedule',(data)=>{
+        $("#modal-teamschedule-approvalhistoryteamschedule").modal('show');
+    });
+
     Livewire.on('modaldeclinereceipt',(data)=>{
         $("#modal-pettycash-declinereceipt").modal('show');
     });
@@ -125,3 +136,4 @@
     });
 
 @endsection
+

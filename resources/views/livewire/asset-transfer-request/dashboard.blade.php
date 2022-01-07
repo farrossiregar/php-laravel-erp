@@ -116,7 +116,7 @@ function init_chart_databasenoc(){
                 },
                 title: {
                     display: true,
-                    text: 'REQUEST ASSET - MONTHLY'
+                    text: 'TRANSFER ASSET REQUEST - MONTHLY'
                 },
                 scales: {
                     xAxes: [{
@@ -128,33 +128,6 @@ function init_chart_databasenoc(){
         });
     }
 
-    // if (chBar1) {
-    //     new Chart(chBar1, {
-    //         type: 'bar',
-    //         data: {
-    //             labels: labels,
-    //             datasets: datasetsamount,
-    //         },
-    //         options: {
-    //             maintainAspectRatio: false,
-    //             responsive: true,
-    //             legend: {
-    //                 display: true,
-    //                 position:'bottom'
-    //             },
-    //             title: {
-    //                 display: true,
-    //                 text: 'AMOUNT SPENT - MONTHLY'
-    //             },
-    //             scales: {
-    //                 xAxes: [{
-    //                     barPercentage: 0.4,
-    //                     categoryPercentage: 0.5
-    //                 }]
-    //             }
-    //         }
-    //     });
-    // }
 }
 </script>
 @endpush

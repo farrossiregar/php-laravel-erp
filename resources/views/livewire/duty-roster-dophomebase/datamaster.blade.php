@@ -37,6 +37,7 @@
                         <th>Telepon Pemilik</th>
                         <th>Opex Region/GA</th>
                         <th>Type Homebase/DOP</th>
+                        <th>Start Date</th>
                         <th>Expired</th>
                         <th>Budget</th>
                         <th></th>
@@ -103,6 +104,7 @@
                         <td>{{ $item->telepon_pemilik }}</td>
                         <td>{{ $item->opex_region_ga }}</td>
                         <td>{{ $item->type_homebase_dop }}</td>
+                        <td>{{ ($item->start_date ? date('d-m-Y',strtotime($item->start_date)) : '-') }}</td>
                         <td>
                             <?php  
                                 if(substr($item->expired, 0, 11) > date('Y-m-d')){

@@ -29,14 +29,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-commitmentletter-addpmt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:commitment-letter.addpmt />
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" id="modal-commitmentletter-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

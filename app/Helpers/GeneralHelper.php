@@ -41,11 +41,10 @@ function get_setting_sow($item)
             'sub_region_id'=>$item->sub_region_id,
             'pm_type'=>$item->pm_type,
             'site_type'=>$item->site_type,
-            'bulan'=>date('m'),
+            'bulan'=>strlen(date('m'))==1?'0'.date('m') : date('m'),
             'tahun'=>date('Y')])->first();
-    if($data) return $data->sow;
-
-    return 0;
+    
+    return $data ? $data->sow : 0;
 }
 
 function setInterval($f, $milliseconds)
@@ -305,7 +304,7 @@ function get_menu($user_access_id){
 
 function format_idr($number)
 {
-    return is_int($number) ? number_format($number,0,0,'.') : 0;
+    return $number ? number_format($number,0,0,'.') : 0;
 }
 
 function get_setting($key)

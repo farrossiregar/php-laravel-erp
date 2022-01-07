@@ -25,6 +25,7 @@
                 <tr>
                     <th class="text-center">Total Team</th>
                     <th class="text-center">Done Drug Test</th>
+                    <th class="text-center">% Done Drug Test</th>
                     <th class="text-center">Not Yet Drug Test</th>
                     <th class="text-center">Negative</th>
                     <th class="text-center">Positive</th>
@@ -34,7 +35,8 @@
                 <tr>
                     <td class="text-center">{{$total_team}}</td>
                     <td class="text-center">{{$done_drug_test}}</td>
-                    <td class="text-center">{{$not_yet_drug_test}}</td>
+                    <td class="text-center">{{@floor($done_drug_test/$total_team *100)}}%</td>
+                    <td class="text-center">{{$total_team-$done_drug_test}}</td>
                     <td class="text-center">{{$negative}}</td>
                     <td class="text-center">{{$positive}}</td>
                 </tr>

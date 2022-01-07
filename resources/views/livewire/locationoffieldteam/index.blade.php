@@ -8,7 +8,7 @@
                     <div class="col-md-2">
                         <select class="form-control" wire:model="region_id" wire:ignore>
                             <option value=""> --- Region --- </option>
-                            @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $region)
+                            @foreach($region as $region)
                                 <option value="{{$region->id}}">{{$region->region}}</option>   
                             @endforeach
                         </select>
@@ -28,6 +28,7 @@
                         <thead>
                             <tr style="background:#eee;">
                                 <th style="width:50">No</th>                                    
+                                <th>NIK</th>   
                                 <th>Employee</th>   
                                 <th>Region</th>   
                                 <th>Telepon</th>   
@@ -41,7 +42,8 @@
                             @foreach($data as $k => $item)
                                 <tr>
                                     <td>{{$num}}</td>
-                                    <td><a href="javascript:void(0)" class="text-danger" style="font-size:18px;"><i class="fa fa-map-marker"></i></a> {{isset($item->_employee->name) ? $item->_employee->name : ''}}</td>
+                                    <td>{{$item->nik}}</td>
+                                    <td><a href="javascript:void(0)" onclick="openMarker({{$k}})" class="text-danger" style="font-size:18px;"><i class="fa fa-map-marker"></i></a> {{isset($item->_employee->name) ? $item->_employee->name : ''}}</td>
                                     <td>
                                         @if(isset($item->_employee->region->region))
                                             <a href="javascript:void(0)" wire:click="$set('region_id', {{$item->_employee->region_id}})">{{isset($item->_employee->region->region) ? $item->_employee->region->region : ''}}</a>
@@ -50,7 +52,7 @@
                                     <td>{{isset($item->_employee->telepon) ? $item->_employee->telepon : ''}}</td>
                                     <td>{{$item->lat}}</td>
                                     <td>{{$item->long}}</td>
-                                    <td>{{$item->created_at}}</td>
+                                    <td>{{$item->updated_at}}</td>
                                 </tr>
                                 @php($num++)
                             @endforeach
@@ -68,28 +70,33 @@
     </div>
 </div>
 @push('after-scripts')
+<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtT77hTHKmcPY9RtqKLL1fH_tE9Wae6Hg&callback=initMap&libraries=&v=weekly" async></script>
 <script>
     let map;
     let markers = [];
-
+    var markerCluster;
     function initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
             center: { lat: -0.789275, lng: 113.921326 },
             zoom: 5,
         });
 
-        @foreach($data as $em)
+        @foreach($raw_data as $key => $em)
             @if(empty($em->lat) and empty($em->long)) @continue @endif
-            
-            var str = "<div id=\"content\"><h6>{{$em->name}}</h6></div>";
+                
+            var content  = '<div class="p-2">';
+                content += '<p>NIK : {{$em->nik}}<br />';
+                content += 'Name : {{$em->name}}<br />';
+                content += '</p></div>';
 
-            addMarker({lat:{{$em->lat}}, lng:{{$em->long}}},str)
+            addMarker({lat:{{$em->lat}}, lng:{{$em->long}}},content,{{$key}})
         @endforeach
+        markerCluster = new markerClusterer.MarkerClusterer({ markers, map });
     }
 
     // Adds a marker to the map and push to the array.
-    function addMarker(location,str) {
+    function addMarker(location,str,key) {
         const infowindow = new google.maps.InfoWindow({
             content: str,
         });
@@ -97,13 +104,27 @@
             position: location,
             map: map,
         });
-        marker.addListener("click", () => {
-            infowindow.open({
-            anchor: marker,
-            map,
-            shouldFocus: false,
-            });
-        });
+
+        // marker.addListener("click", () => {
+        //     infowindow.open({
+        //         anchor: marker,
+        //         map,
+        //         shouldFocus: true,
+        //     });
+        // });
+
+        google.maps.event.addListener(marker, 'click', (function (marker, key) {
+            return function () {
+                map.setZoom(11);
+                map.setCenter(marker.getPosition());
+                    infowindow.open({
+                        anchor: marker,
+                        map,
+                        shouldFocus: true,
+                    });
+            }
+            })(marker, key));
+
         markers.push(marker);
     }
 
@@ -123,19 +144,26 @@
         markers = [];
     }
 
+    function openMarker(key){
+        console.log("Open marker : "+key);
+        google.maps.event.trigger(markers[key], 'click');
+    }
+
     Livewire.on('reinit-map',(data)=>{
-        var result = data.data    
+        var result = data    
         clearMarkers();
         markers = [];
         
         for (var key in result) {
-            var str = "<div id=\"content\"><h6>"+result[key]['name']+"</h6></div>";
-
-            addMarker( { lat: parseFloat(result[key]['lat']), lng: parseFloat(result[key]['long']) } ,str);
-
-            console.log(result[key]['lat']);    
-            console.log(result[key]['long']);    
+            var content  = '<div class="p-2">';
+                content += '<p>NIK : '+result[key]['nik']+'<br />';
+                content += 'Name : '+result[key]['name']+'<br />';
+                content += '</p></div>';
+            addMarker( { lat: parseFloat(result[key]['lat']), lng: parseFloat(result[key]['long']) } ,content,result[key]['id']);
         }
+
+        markerCluster.clearMarkers();
+        markerCluster = new markerClusterer.MarkerClusterer({ markers, map }); 
     });
 </script>
 @endpush

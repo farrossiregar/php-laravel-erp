@@ -32,20 +32,31 @@
             @endforeach
         </select>
     </div>
+    <div class="col-md-2" wire:ignore>
+        <select class="form-control" style="width:100%;" wire:model="filterovertime">
+            <option value=""> --- Overtime --- </option>
+            <option value="1">Overtime</option>
+            <option value="">All</option>
+        </select>
+    </div>
 
 
     @if(check_access('team-schedule.toc-leader'))
     <div class="col-md-1" style="margin: 0 10px;">
         <a href="javascript:;" wire:click="$emit('modaladdteamschedule')" class="btn btn-info"><i class="fa fa-plus"></i> Team Schedule </a>
     </div>
+
+    <div class="col-md-1" style="margin: 0 10px;">
+        <a href="javascript:;" wire:click="$emit('modalimportactual')" class="btn btn-info"><i class="fa fa-upload"></i> Plan Schedule </a>
+    </div>
     
     <div class="col-md-1" style="margin: 0 10px;">
         <a href="javascript:;" wire:click="$emit('modalimportactual')" class="btn btn-info"><i class="fa fa-upload"></i> Actual Schedule </a>
     </div>
 
-    <div class="col-md-1" style="margin: 0 10px;">
+    <!-- <div class="col-md-1" style="margin: 0 10px;">
         <a href="javascript:;" wire:click="$emit('modalgeneratetimesheet')" class="btn btn-info"><i class="fa fa-download"></i> Generate Timesheet </a>
-    </div>
+    </div> -->
     
     @endif
 
@@ -56,59 +67,108 @@
     <div class="col-md-12">
         <br><br>
         <div class="table-responsive">
-            <table class="table table-striped m-b-0 c_list">
+            <table class="table table-striped table-bordered m-b-0 c_list">
                 <thead>
-
                     <tr>
-                        <th>No</th> 
-                        <th>Status</th> 
-                        <th>Date Create</th>
-                        <th>Employee Name</th> 
-                        <th>NIK</th> 
-                        <th>Company Name</th> 
-                        <th>Project</th> 
-                        <th>Region</th> 
-                        <th>Start Scheduled</th> 
-                        <th>End Scheduled</th> 
+                        <th rowspan="2" class="align-middle">No</th>
+                        <th rowspan="2" class="align-middle">Status</th> 
+                        <th rowspan="2" class="align-middle">Date Create</th>
+                        <th rowspan="2" class="align-middle">Timesheet</th>
+                        <th rowspan="2" class="align-middle">Employee Name</th> 
+                        <!-- <th rowspan="2" class="align-middle">NIK</th>  -->
+                        <!-- <th rowspan="2" class="align-middle">Company Name</th>  -->
+                        <th rowspan="2" class="align-middle">Project</th> 
+                        <th rowspan="2" class="align-middle">Region</th> 
+                        <th colspan="3" class="text-center align-middle"><b style="color: #de4848;">Plan Schedule</b></th>
+                        <th colspan="3" class="text-center align-middle"><b style="color: #22af46;">Actual Schedule</b></th> 
+                        <th rowspan="2" class="align-middle">Overtime</th> 
+                    </tr>
+                    <tr>
+                        
+                        <th><b style="color: #de4848;">Start</b> </th> 
+                        <th><b style="color: #de4848;">End</b></th> 
                         <th>Action</th> 
-                        <th>Start Actual</th> 
-                        <th>End Actual</th> 
-                        <th>Overtime</th> 
+                        <th><b style="color: #22af46;">Start</b></th> 
+                        <th><b style="color: #22af46;">End</b></th> 
                         <th>Action</th> 
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($data as $key => $item)
+                    <?php
+                        $diff = abs(strtotime(date_format(date_create($item->end_actual), 'Y-m-d H:i:s')) - strtotime(date_format(date_create($item->end_schedule), 'Y-m-d H:i:s')));
+                        $years   = floor($diff / (365*60*60*24)); 
+                        $months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
+                        $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+                        $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
+                        $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
+                
+                        $waktu = '';
+                        if($hours > 0){
+                            $waktu .= $hours.' hr ';
+                        }else{
+                            $waktu .= '';
+                        }
+                
+                        if($minuts > 0){
+                            $waktu .= $minuts.' min ';
+                        }else{
+                            $waktu .= '';
+                        }
+
+                    ?>
+                    
+                    <?php
+                        if($filterovertime == '1'){
+                            if($item->overtime != '1'){
+                                continue;
+                            }
+                        }
+                    ?>
+
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>
-                            @if($item->status == '2')
-                                <label class="badge badge-success" data-toggle="tooltip" title="Actual Schedule Approved">Actual Schedule Approved</label>
-                            @endif
+                            <a href="javascript:;" wire:click="$emit('modalapprovalhistoryteamschedule','{{ $item->id }}')">
+                                @if($item->status == '2')
+                                    <label class="badge badge-success" data-toggle="tooltip" title="Actual Schedule Approved">Actual Schedule Approved</label>
+                                @endif
 
-                            @if($item->status == '1')
-                                <label class="badge badge-success" data-toggle="tooltip" title="Plan Schedule Approved">Plan Schedule Approved</label>
-                            @endif
+                                @if($item->status == '1')
+                                    <label class="badge badge-success" data-toggle="tooltip" title="Plan Schedule Approved">Plan Schedule Approved</label>
+                                @endif
 
-                            @if($item->status == '0')
-                                <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Team Schedule is Decline</label>
-                            @endif
+                                @if($item->status == '0')
+                                    <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Team Schedule is Decline</label>
+                                @endif
 
-                            @if($item->status == '' || $item->status == 'null')
-                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
-                            @endif
+                                @if($item->status == '' || $item->status == 'null')
+                                    <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
+                                @endif
+
+                                
+                            </a>
 
                         </td> 
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
-                        <td>{{ $item->name }}</td>
-                        <td>{{ $item->nik }}</td>
-                        <td>
+                        <td style="text-align: center;">
+                            @if($item->overtime == '1')
+                                <a href=""><i class="fa fa-download"></i></a>
+                            @endif
+                        </td>
+                        <td style="text-align: center;">
+                            <b>{{ $item->name }}</b>
+                            <br>
+                            {{ $item->nik }}
+                        </td>
+                        
+                        <!-- <td>
                             @if($item->company_name == '1')
                                 HUP
                             @else
                                 PMT
                             @endif
-                        </td>
+                        </td> -->
                         <td>{{ get_project_company($item->project, $item->company_name) }}</td>
                         <td>{{$item->region}}</td>
                         <td>{{ date_format(date_create($item->start_schedule), 'H:i d M Y') }}</td>
@@ -132,33 +192,7 @@
                         </td>
                         <td>{{ isset($item->start_actual) ? date_format(date_create($item->start_actual), 'H:i d M Y') : '' }}</td>
                         <td>{{ isset($item->end_actual) ? date_format(date_create($item->end_actual), 'H:i d M Y') : '' }}</td>
-                        <td>
-                            <?php
-                                if($item->end_actual){
-                                    $diff = abs(strtotime(date_format(date_create($item->end_actual), 'Y-m-d H:i:s')) - strtotime(date_format(date_create($item->end_schedule), 'Y-m-d H:i:s')));
-                                    $years   = floor($diff / (365*60*60*24)); 
-                                    $months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
-                                    $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-                                    $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
-                                    $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
-                            
-                                    $waktu = '';
-                                    if($hours > 0){
-                                        $waktu .= $hours.' hr ';
-                                    }else{
-                                        $waktu .= '';
-                                    }
-                            
-                                    if($minuts > 0){
-                                        $waktu .= $minuts.' min ';
-                                    }else{
-                                        $waktu .= '';
-                                    }
-
-                                    echo $waktu;
-                                }
-                            ?>
-                        </td>
+                        
                         <td>
                             @if(check_access('team-schedule.noc-manager'))
                                 @if($item->status == '1')
@@ -176,8 +210,17 @@
                                 @endif
                             <!-- endif -->
                         </td>
+                        <td>
+                            <?php
+                                if($item->end_actual){
+                                    
+                                    echo '<b>'.$waktu.'</b>';
+                                }
+                            ?>
+                        </td>
                        
                     </tr>
+                    
                     @endforeach
                 </tbody>
             </table>

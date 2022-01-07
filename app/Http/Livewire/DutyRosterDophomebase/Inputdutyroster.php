@@ -10,7 +10,7 @@ class Inputdutyroster extends Component
 {
     use WithFileUploads;
     public $nama_dop, $project, $region, $alamat, $long, $lat, $pemilik_dop, $telepon_pemilik, $opex_region_ga, $type_homebase_dop, $expired, $budget;
-
+    public $start_date;
     public function render()
     {
         return view('livewire.duty-roster-dophomebase.inputdutyroster');
@@ -31,6 +31,7 @@ class Inputdutyroster extends Component
         $data->type_homebase_dop        = $this->type_homebase_dop;
         $data->expired                  = $this->expired;
         $data->budget                   = $this->budget;
+        $data->start_date = $this->start_date;
         $data->remarks                  = '';
         $data->employee_id = \Auth::user()->employee->id;
         $data->save();
