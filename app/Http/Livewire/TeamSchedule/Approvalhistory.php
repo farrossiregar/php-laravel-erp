@@ -26,7 +26,7 @@ class Approvalhistory extends Component
     public function approvalhistoryteamschedule($id)
     {
         $this->selected_id = $id;
-        // dd($id);
+        // dd(\App\Models\LogActivity::select('var')->where('subject', 'Approvalhistoryteamschedule'.$this->selected_id)->orderBy('id', 'desc')->get());
     }
 
   

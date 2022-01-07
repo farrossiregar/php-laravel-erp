@@ -14,7 +14,7 @@ class Approvereceipt extends Component
     ];
 
     use WithFileUploads;
-    public $selected_id;    
+    public $selected_id, $note;    
     public $usertype;
 
     
@@ -34,8 +34,13 @@ class Approvereceipt extends Component
         
         $data = \App\Models\PettyCash::where('id', $this->selected_id)->first();
         $data->status_receipt = '1';
-        
+        $data->note_receipt     = $this->note;
         $data->save();
+
+        $datahistory            = new \App\Models\LogActivity();
+        $datahistory->subject   = 'Approvalhistorypettycash'.$this->selected_id;
+        $datahistory->var       = '{"status":"'.$data->status_receipt.'","note":"'.$this->note.'"}';
+        $datahistory->save();
 
     
         // $notif_user_psm = check_access_data('database-noc.notif-psm', '');

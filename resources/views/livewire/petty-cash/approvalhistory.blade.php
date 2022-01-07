@@ -40,9 +40,19 @@
                 <div class="col py-2">
                     <div class="card-body">
                         @if(json_decode($item->var)->status == '0')
-                        <h5 class="card-title" style="color: #de4848; margin-bottom: 0;">Decline</h5>
+                            @if(json_decode($item->var)->type == 'pettycash')
+                                <h5 class="card-title" style="color: #de4848; margin-bottom: 0;">Petty Cash Decline</h5>
+                            @else
+                                <h5 class="card-title" style="color: #de4848; margin-bottom: 0;">Receipt Decline</h5>
+                            @endif
+                        
                         @else
-                        <h5 class="card-title" style="color: #28a745; margin-bottom: 0;">Approve</h5>
+                            @if(json_decode($item->var)->type == 'pettycash')
+                                <h5 class="card-title" style="color: #28a745; margin-bottom: 0;">Petty Cash Approve</h5>
+                            @else
+                                <h5 class="card-title" style="color: #28a745; margin-bottom: 0;">Receipt Approve</h5>
+                            @endif
+                        
                         @endif
 
                         <span style="font-size: 11px; color: gray;">{{ date_format(date_create($item->created_at), 'd M Y H:i') }}</span>

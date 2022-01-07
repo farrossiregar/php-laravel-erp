@@ -14,7 +14,7 @@ class Approvepettycash extends Component
     ];
 
     use WithFileUploads;
-    public $selected_id;    
+    public $selected_id, $note;    
     public $usertype;
 
     
@@ -34,8 +34,13 @@ class Approvepettycash extends Component
         
         $data = \App\Models\PettyCash::where('id', $this->selected_id)->first();
         $data->status = '1';
-        
+        $data->note     = $this->note;
         $data->save();
+
+        $datahistory            = new \App\Models\LogActivity();
+        $datahistory->subject   = 'Approvalhistorypettycash'.$this->selected_id;
+        $datahistory->var       = '{"status":"'.$data->status.'","note":"'.$this->note.'"}';
+        $datahistory->save();
 
     
         $notif = check_access_data('petty-cash.notif', '');

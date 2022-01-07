@@ -22,8 +22,8 @@
                 <thead>
                     <tr>
                         <th rowspan="2" class="align-middle">No</th>
-                        <th colspan="9" class="text-center align-middle">Request Petty Cash</th>
-                        <th colspan="3" class="text-center align-middle">Upload Softcopy of Receipt</th> 
+                        <th colspan="7" class="text-center align-middle">Request Petty Cash</th>
+                        <th colspan="2" class="text-center align-middle">Upload Softcopy of Receipt</th> 
                     </tr>
                     <tr>
                         
@@ -37,7 +37,7 @@
                         <!-- <th class="text-center align-middle">Petty Cash Note</th>  -->
                         <th class="text-center align-middle">Petty Cash Review</th> 
                         <th class="text-center align-middle">Upload Receipt</th> 
-                        <th class="text-center align-middle">Receipt Note</th> 
+                        <!-- <th class="text-center align-middle">Receipt Note</th>  -->
                         <th class="text-center align-middle">Receipt Review</th> 
                     </tr>
                 </thead>
@@ -112,13 +112,13 @@
                             @endif
                         </td>
                         
-                        <td>{{$item->note_receipt}}</td>
+                        <!-- <td>{{$item->note_receipt}}</td> -->
                         
 
                         <td class="text-center align-middle">
                             
                             @if(check_access('petty-cash.approval'))
-                                @if($item->status == '1' && $item->status_receipt != '1')
+                                @if($item->status == '1' && ($item->status_receipt != '1' && $item->status_receipt != '0') )
                                     <a href="javascript:;" wire:click="$emit('modalapprovereceipt','{{ $item->id }}')"><i class="fa fa-check fa-2x" style="color: #22af46;"></i></a>
                                     <a href="javascript:;" wire:click="$emit('modaldeclinereceipt','{{ $item->id }}')"><i class="fa fa-close fa-2x" style="color: #de4848;"></i></a>
                             

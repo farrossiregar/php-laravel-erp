@@ -39,6 +39,11 @@ class Declinepettycash extends Component
 
         $data->save();
 
+        $datahistory            = new \App\Models\LogActivity();
+        $datahistory->subject   = 'Approvalhistorypettycash'.$this->selected_id;
+        $datahistory->var       = '{"status":"'.$data->status.'","note":"'.$this->note.'", "type":"pettycash"}';
+        $datahistory->save();
+
 
         // $notif_user_psm = check_access_data('database-noc.notif-psm', '');
         // $nameuser_psm = [];

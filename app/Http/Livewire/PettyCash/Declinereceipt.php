@@ -39,6 +39,11 @@ class Declinereceipt extends Component
 
         $data->save();
 
+        $datahistory            = new \App\Models\LogActivity();
+        $datahistory->subject   = 'Approvalhistorypettycash'.$this->selected_id;
+        $datahistory->var       = '{"status":"'.$data->status_receipt.'","note":"'.$this->note.'", "type":"receipt"}';
+        $datahistory->save();
+
 
         // $notif_user_psm = check_access_data('database-noc.notif-psm', '');
         // $nameuser_psm = [];
