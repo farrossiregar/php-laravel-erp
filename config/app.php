@@ -161,6 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -232,6 +233,7 @@ return [
         'LogActivity' => App\Helpers\LogActivity::class,
         'TroubleTicketHelper' => App\Helpers\TroubleTicketHelper::class,
         'IncidentReportHelper' => App\Helpers\IncidentReportHelper::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

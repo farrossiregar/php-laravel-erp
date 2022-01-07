@@ -97,6 +97,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('database-tools-noc',App\Http\Livewire\DatabaseToolsNoc\Index::class)->name('database-tools-noc.index');
     Route::get('petty-cash',App\Http\Livewire\PettyCash\Index::class)->name('petty-cash.index');
     Route::get('team-schedule',App\Http\Livewire\TeamSchedule\Index::class)->name('team-schedule.index');
+    // Route::get('team-schedule/generateusertimesheetpdf/{id}',App\Http\Livewire\TeamSchedule\Generateusertimesheetpdf::class)->name('team-schedule.generateusertimesheetpdf');
     Route::get('timesheet-record',App\Http\Livewire\TimesheetRecord\Index::class)->name('timesheet-record.index');
     Route::get('hotel-flight-ticket',App\Http\Livewire\HotelFlightTicket\Index::class)->name('hotel-flight-ticket.index');
     Route::get('asset-request',App\Http\Livewire\AssetRequest\Index::class)->name('asset-request.index');
