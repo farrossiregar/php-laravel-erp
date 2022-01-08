@@ -5,7 +5,7 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Request Asset</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Asset Database</h5>
                 </div>
 
                 <div class="body pt-0">
@@ -15,10 +15,9 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                       
 
                                         <div class="col-md-6 form-group">
-                                            <label>Employee Name Request</label>
+                                            <label>Asset PIC</label>
                                             <input type="text" class="form-control"  wire:model="employee_name" readonly>
                                            
 
@@ -125,6 +124,16 @@
                                            
 
                                             @error('quantity')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-12 form-group">
+                                            <label>Reason of Request</label>
+                                            <textarea name="" id="" cols="30" rows="2" class="form-control" wire:model="reason_request"></textarea>
+                                           
+
+                                            @error('request_reason')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
