@@ -57,6 +57,27 @@
                                             @enderror
                                         </div>
 
+                                        
+                                        <div class="col-md-6 form-group">
+                                            <label>PIC phone</label>
+                                            <input type="text" class="form-control"  wire:model="pic_phone">
+                                           
+
+                                            @error('pic_phone')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>PIC Bank Account</label>
+                                            <input type="text" class="form-control"  wire:model="pic_ba">
+                                           
+
+                                            @error('pic_ba')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+
                                         <div class="col-md-6 form-group">
                                             <label>Type of Asset</label>
                                             <!-- <input type="text" class="form-control"  wire:model="asset_type" > -->
@@ -74,9 +95,14 @@
                                         </div>
 
                                         <div class="col-md-6 form-group">
+                                            
                                             <label>Name of Asset</label>
-                                            <input type="text"  class="form-control"  wire:model="asset_name" >
-                                           
+                                            <input list="asset_name1" class="form-control"  wire:model="asset_name">
+                                            <datalist id="asset_name1" >
+                                                @foreach($dataassetname as $item)
+                                                <option value="{{ $item->asset_name }}">
+                                                @endforeach
+                                            </datalist>
 
                                             @error('asset_name')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -128,15 +154,7 @@
                                             @enderror
                                         </div>
 
-                                        <div class="col-md-12 form-group">
-                                            <label>Reason of Request</label>
-                                            <textarea name="" id="" cols="30" rows="2" class="form-control" wire:model="reason_request"></textarea>
-                                           
-
-                                            @error('request_reason')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
+                                        
 
                                         <div class="col-md-6 form-group">
                                             <label>Reference Picture</label>
@@ -174,6 +192,23 @@
     </div>
 
     @push('after-scripts')
+    
+        <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.min.js') }}"></script>
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}" />
+        <script>
+            $('.asset_name').select2();
+            $('.asset_name').on('select2:select', function (e) {
+                var data = e.params.data;
+                @this.set('filter_asset_name',data.id)
+            });
+            $('.insert_asset_name').select2();
+            $('.insert_asset_name').on('select2:select', function (e) {
+                var data = e.params.data;
+                @this.set('asset_name',data.id)
+            });
+            
+            
+        </script>
         <script type="text/javascript">
         
 

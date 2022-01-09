@@ -18,8 +18,8 @@ class Add extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $position, $datalocation;
-    public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link;
+    public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $position, $datalocation, $dataassetname, $stock;
+    public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link, $reference_pic;
 
     public function render()
     {
@@ -31,6 +31,7 @@ class Add extends Component
         // $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
         // $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
 
+        // $this->stock = 0;
         $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
                                 ->where('company_id', Session::get('company_id'))
                                 ->where('is_project', '1')
@@ -45,30 +46,28 @@ class Add extends Component
 
         $this->datalocation = \App\Models\Dophomebasemaster::where('status', '1')->where('project', $get_project->name)->where('region', $this->region)->orderBy('id', 'desc')->get();
 
-        // if($this->project){
-        //     $getproject = \App\Models\ClientProject::where('id', $this->project)
-        //                                             ->where('company_id', Session::get('company_id'))
-        //                                             ->where('is_project', '1')
-        //                                             ->first();
+        if($this->asset_type){
+            $this->dataassetname = \App\Models\AssetDatabase::where('asset_type', $this->asset_type)->get();
+        }else{
+            $this->dataassetname = [];
+        }
 
-        //     if($getproject){
-        //         if($getproject->region_id){
-        //             $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
-        //         }else{
-        //             $this->region = '';
-        //         }
-        //     }else{
-        //         $this->region = '';
-        //     }
+        if($this->asset_name){
+            $getasset = \App\Models\AssetDatabase::where('asset_name', $this->asset_name)->first();
+            $this->location             = $getasset->location;
+            $this->dimension            = $getasset->dimension;
+            $this->detail               = $getasset->detail;
+            $this->stock                = (int)$getasset->stok;
+            $this->reference_pic        = $getasset->reference_pic;
+            
+        }else{
+            $this->location             = '';
+            $this->dimension            = '';
+            $this->detail               = '';
+            $this->Stock                = 0;
+            $this->reference_pic        = '';
+        }
 
-        //     if($this->region){
-        //         $this->datalocation = \App\Models\Dophomebasemaster::where('project', $getproject->name)
-        //                                                             ->where('region', $this->region)
-        //                                                             ->where('status', '1')
-        //                                                             ->orderBy('id', 'desc')->get();
-        //     }
-        // }
-        
         return view('livewire.asset-request.add');
     }
 
@@ -79,7 +78,7 @@ class Add extends Component
         $user                           = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
         $data                           = new \App\Models\AssetRequest();
         $data->company_name             = Session::get('company_id');
-        $data->client_project_id         = \App\Models\ClientProject::where('name', $this->project)->first()->id;
+        $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
         $data->project                  = $this->project;
         
         
@@ -95,19 +94,14 @@ class Add extends Component
         $data->quantity                 = $this->quantity;
         $data->reason_request           = $this->reason_request;
         
-        $this->validate([
-            'file'=>'required|mimes:jpg,jpeg,png|max:51200' // 50MB maksimal
-        ]);
-
-        if($this->file){
-            $reference_request = 'reference-request'.date('Ymd').'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/reference_request/',$reference_request);
-
-            $data->reference_pic         = $reference_request;
-        }
-        
-        $data->link                     = $this->link;
         $data->save();
+
+        
+        $stock          = \App\Models\AssetDatabase::where('asset_name', $this->asset_name)->first();
+        $sisa           = $stock->stok - $this->quantity;
+        $stock->stok    = $sisa;
+        $stock->save();
+        
 
         // $notif = get_user_from_access('asset-request.hq-ga');
         // foreach($notif as $user){
