@@ -87,7 +87,7 @@ class Add extends Component
         $data                           = new \App\Models\AssetDatabase();
         $data->company_id               = Session::get('company_id');
         $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
-        $data->project                  = $this->project;
+        $data->project                  = \App\Models\ClientProject::where('name', $this->project)->first()->id;
         
         $data->region                   = $this->region;
         $data->pic                      = $this->employee_name;

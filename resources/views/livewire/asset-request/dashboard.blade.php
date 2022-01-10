@@ -36,9 +36,23 @@
                 @endforeach
             </select>
         </div>
+    </div>
 
-        
-        
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card overflowhidden number-chart">
+                <div class="body">
+                    <div class="number">
+                        <h6>Asset Request Aging</h6>
+                        <span>73</span>
+                    </div>
+                    <small class="text-muted">Asset Request > 2 Weeks</small>
+                </div>
+                <div class="sparkline" data-type="line" data-spot-Radius="0" data-offset="90" data-width="100%" data-height="50px"
+                data-line-Width="1" data-line-Color="#fac091" data-fill-Color="#fac091">1,4,2,3,6,2</div>
+            </div>
+        </div>
+        <br>
         
         <div class="col-md-3">
             <label wire:loading>

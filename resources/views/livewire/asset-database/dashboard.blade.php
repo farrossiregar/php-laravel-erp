@@ -1,6 +1,6 @@
 <div>
     <div class="row">
-        <div class="col-md-1">                
+        <!-- <div class="col-md-1">                
             <select class="form-control" wire:model="year">
                 <option value=""> --- Year --- </option>
                 @foreach(\App\Models\ToolsNoc::select('year')->groupBy('year')->whereNotNull('year')->get() as $item) 
@@ -15,6 +15,16 @@
                 @for($i = 1; $i <= 12; $i++)
                     <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
                 @endfor
+            </select>
+        </div> -->
+
+        <div class="col-md-2">                
+            <select onclick="" class="form-control" wire:model="category">
+                <option value=""> --- Category --- </option>
+                <option value="1">Air Conditioner & Fan</option>
+                <option value="2">Furniture & Fixture</option>
+                <option value="3">Computer Equipment</option>
+                <option value="4">Printer & Device</option>
             </select>
         </div>
 
@@ -36,10 +46,54 @@
                 @endforeach
             </select>
         </div>
+    </div>
 
-        
-        
-        
+    <br>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card overflowhidden number-chart">
+                <div class="body">
+                    <div class="number">
+                        <h6>Total Asset Aging</h6>
+                        <span>73</span>
+                    </div>
+                    <small class="text-muted">Asset > 3 Years</small>
+                </div>
+                <div class="sparkline" data-type="line" data-spot-Radius="0" data-offset="90" data-width="100%" data-height="50px"
+                data-line-Width="1" data-line-Color="#fac091" data-fill-Color="#fac091">1,4,2,3,6,2</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card overflowhidden number-chart">
+                <div class="body">
+                    <div class="number">
+                        <h6>Asset Aging</h6>
+                        <span>73</span>
+                    </div>
+                    <small class="text-muted">Asset > 3 Years</small>
+                </div>
+                <div class="sparkline" data-type="line" data-spot-Radius="0" data-offset="90" data-width="100%" data-height="50px"
+                data-line-Width="1" data-line-Color="#604a7b" data-fill-Color="#604a7b">1,4,2,3,6,2</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card overflowhidden number-chart">
+                <div class="body">
+                    <div class="number">
+                        <h6>Expired Asset</h6>
+                        <span>73</span>
+                    </div>
+                    <small class="text-muted">Asset > 3 Years</small>
+                </div>
+                <div class="sparkline" data-type="line" data-spot-Radius="0" data-offset="90" data-width="100%" data-height="50px"
+                data-line-Width="1" data-line-Color="#92cddc" data-fill-Color="#92cddc">1,4,2,3,6,2</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-3">
             <label wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -47,9 +101,9 @@
             </label>
         </div>
     </div>
-    <div class="mt-4" style="height: 300px">
+    <!-- <div class="mt-4" style="height: 300px">
         <canvas id="chBar"></canvas>
-    </div>
+    </div> -->
 <!-- 
     <div class="mt-4" style="height: 300px">
         <canvas id="chBar1"></canvas>

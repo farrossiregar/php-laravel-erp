@@ -11,7 +11,7 @@ use DB;
 class Data extends Component
 {
     use WithPagination;
-    public $project, $date, $filterproject, $employee_name;
+    public $project, $date, $region, $category, $employee_name;
     protected $paginationTheme = 'bootstrap';
     
     public function render()
@@ -22,7 +22,9 @@ class Data extends Component
         // if($this->filtermonth) $data->whereMonth('date',$this->filtermonth);                
         
         if($this->date) $data->where(DB::Raw('date(created_at)'),$this->date);                        
-        if($this->filterproject) $data->where('client_project_id',$this->filterproject);                        
+        if($this->project) $data->where('project',$this->project);                        
+        if($this->category) $data->where('asset_type',$this->category);                        
+        if($this->region) $data->where('region',$this->region);                        
         
         return view('livewire.asset-database.data')->with(['data'=>$data->paginate(50)]);   
     }

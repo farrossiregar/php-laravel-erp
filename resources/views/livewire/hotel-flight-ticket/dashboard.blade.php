@@ -38,6 +38,66 @@
             </label>
         </div>
     </div>
+
+    <div class="col-md-4">
+        <!-- <div class="card">
+            <div class="header">
+                <h2>Browser Usage</h2>
+                <ul class="header-dropdown">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="javascript:void(0);">Action</a></li>
+                            <li><a href="javascript:void(0);">Another Action</a></li>
+                            <li><a href="javascript:void(0);">Something else</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body text-center">
+                <div id="donut_chart" class="dashboard-donut-chart m-b-35"></div>
+                <div class="row">
+                    <div class="col-lg-2 col-4">
+                        <h6>Crome</h6>
+                        <p>35<sup>%</sup></p>
+                    </div>
+                    <div class="col-lg-2 col-4">
+                        <h6>Safari</h6>
+                        <p>25<sup>%</sup></p>
+                    </div>                                
+                    <div class="col-lg-2 col-4">
+                        <h6>Mozila</h6>
+                        <p>25<sup>%</sup></p>
+                    </div>
+                    <div class="col-lg-2 col-4">
+                        <h6>Opera</h6>
+                        <p>3<sup>%</sup></p>
+                    </div>
+                    <div class="col-lg-2 col-4">
+                        <h6>IE</h6>
+                        <p>7<sup>%</sup></p>
+                    </div>
+                    <div class="col-lg-2 col-4">
+                        <h6>Others</h6>
+                        <p>5<sup>%</sup></p>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="card info-box-2">
+            <div class="body">
+                <div class="icon">
+                    <div class="chart chart-pie">30, 35, 25, 8</div>
+                </div>
+                <div class="content">
+                    <div class="text">Usage</div>
+                    <div class="number">98%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
     <div class="mt-4" style="height: 300px">
         <canvas id="chBar"></canvas>
     </div>

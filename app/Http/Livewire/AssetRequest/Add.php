@@ -26,8 +26,9 @@ class Add extends Component
 
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
         
-        $this->employee_name = $user->name;
-        $this->position = get_position($user->user_access_id);
+        $this->employee_name        = $user->name;
+        $this->position             = get_position($user->user_access_id);
+        $this->location             = '';
         // $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
         // $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
 

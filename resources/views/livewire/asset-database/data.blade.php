@@ -19,11 +19,9 @@
     <div class="col-md-2" wire:ignore>
         <select class="form-control" style="width:100%;" wire:model="region">
             <option value=""> --- Region --- </option>
-            @foreach(\App\Models\ClientProject::orderBy('id', 'desc')
-                                ->where('company_id', Session::get('company_id'))
-                                ->where('is_project', '1')
+            @foreach(\App\Models\Region::orderBy('id', 'desc')
                                 ->get() as $item)
-                <option value="{{$item->id}}">{{$item->name}}</option>
+                <option value="{{$item->region_code}}">{{$item->region_code}}</option>
             @endforeach
         </select>
     </div>
@@ -105,7 +103,7 @@
                         </td>
                         
                         <td>{{ $item->asset_name }}</td>
-                        <td>{{ $item->project }}</td>
+                        <td>{{ \App\Models\ClientProject::where('id', $item->project)->first()->name }}</td>
                         <td>{{ $item->region }}</td>
                        
                         <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td>

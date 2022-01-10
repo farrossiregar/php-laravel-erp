@@ -76,12 +76,21 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Name of Asset</label>
-                                            <input list="asset_name1" class="form-control"  wire:model="asset_name">
+                                            <!-- <input list="asset_name1" class="form-control"  wire:model="asset_name">
                                             <datalist id="asset_name1" >
                                                 @foreach($dataassetname as $item)
                                                 <option value="{{ $item->asset_name }}">
                                                 @endforeach
-                                            </datalist>
+                                            </datalist> -->
+
+                                            
+                                            <select name="" id="" class="form-control"  wire:model="asset_name">
+                                                <option value="">Name of Asset</option>
+                                                @foreach($dataassetname as $item)
+                                                <option value="{{ $item->asset_name }}">{{ $item->asset_name }}</option>
+                                                @endforeach
+                                            </select>
+                                                
 
                                             @error('asset_name')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
