@@ -132,7 +132,7 @@
                         </td>
                         
                         <td>{{ $item->pr_no }}</td>
-                        <td>Rp,{{ format_idr($item->dana_amount) }}</td>
+                        <td>{{ "Rp " . number_format($item->dana_amount,2,',','.') }}</td>
                         <td><b>{{ strtoupper($item->serial_number) }}</b></td>
                         <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td>
                         <td>{{ $item->dimension }}</td>

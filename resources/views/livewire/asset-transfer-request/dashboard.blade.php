@@ -3,9 +3,14 @@
         <div class="col-md-1">                
             <select class="form-control" wire:model="year">
                 <option value=""> --- Year --- </option>
-                @foreach(\App\Models\ToolsNoc::select('year')->groupBy('year')->whereNotNull('year')->get() as $item) 
-                <option>{{$item->year}}</option>
-                @endforeach 
+                <?php
+                    $year = date('Y');
+                    for($i = $year; $i >= ($year - 5); $i--){
+                ?>
+                <option><?php echo $i; ?></option>
+                <?php
+                    }
+                ?>
             </select>
         </div>
 

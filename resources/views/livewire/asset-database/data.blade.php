@@ -37,10 +37,10 @@
     </div>
 
 
-    
+<!--     
     <div class="col-md-1" style="margin-right: 40px;">
         <a href="javascript:;" wire:click="$emit('modalimportasset')" class="btn btn-info"><i class="fa fa-upload"></i> Upload Asset Database </a>
-    </div>  
+    </div>   -->
     <div class="col-md-2" style="margin-left: 20px;">
         <a href="javascript:;" wire:click="$emit('modaladdassetdatabase')" class="btn btn-info"><i class="fa fa-plus"></i> Add Asset Database </a>
     </div>  

@@ -30,6 +30,7 @@
                         <th class="align-middle">Detail Asset</th>
                         <th class="align-middle">Action</th> 
                         
+                        <th class="align-middle">Serial Number</th>
                         <th class="align-middle">Date Apply</th>
                         <th class="align-middle">Dana From</th> 
                         <th class="align-middle">Dana Amount</th> 
@@ -68,7 +69,9 @@
                             @endif
                         </td>
                         <td>
-                            <a href="javascript:;" wire:click="$emit('modaldetailassetrequest','{{ $item->id }}')"><i class="fa fa-eye " style="color: #007bff;"></i></a>
+                            
+                            <a href="javascript:;" wire:click="$emit('modaldetailassetrequest','{{ $item->id_asset_req }}')"><i class="fa fa-eye " style="color: #007bff;"></i></a>
+                            
                         </td>
                         <td>
                             @if(check_access('asset-transfer-request.ga'))
@@ -90,6 +93,7 @@
 
                         </td>
                         
+                        <td><b>{{ $item->serial_number }}</b> </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>
                             @if($item->dana_from == '1')

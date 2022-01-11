@@ -146,31 +146,75 @@
                                     </div>
                                     <br>
                                     <div class="row">
-                                        <div class="col-md-6 form-group">
-                                            <label>Transfer From</label>
-                                            <input type="text" class="form-control" wire:model="transfer_from" />
-                                            @error('file')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
+                                        <div class="col-md-6" >
+                                            <div class="form-group" style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px 0; width: 100%; margin: auto;">
+                                                <div class="col-md-12 form-group">
+                                                    <h5>Transfer From</h4>
+                                                </div>
+                                                <br>
+                                                
+                                                <div class="col-md-12 form-group">
+                                                    <label>PIC</label>
+                                                    <input type="text" class="form-control" wire:model="transfer_from" readonly/>
+                                                    @error('file')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+
+                                                <!-- <div class="col-md-12 form-group">
+                                                    <label>Bank Account</label>
+                                                    <input type="text" class="form-control" wire:model="transfer_from_bankaccount" />
+                                                    @error('file')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div> -->
+                                                
+                                            </div>
                                         </div>
 
-                                        <div class="col-md-6 form-group">
-                                            <label>Transfer To</label>
-                                            <input type="text" class="form-control" wire:model="location" readonly/>
-                                            @error('file')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
+                                        <div class="col-md-6" >
+                                            <div class="form-group" style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px 0; width: 100%; margin: auto;">
+                                                <div class="col-md-12 form-group">
+                                                    <h5>Transfer To</h4>
+                                                </div>
+                                                <br>
+                                                
+                                                <div class="col-md-12 form-group">
+                                                    <label>PIC</label>
+                                                    <input type="text" class="form-control" wire:model="pic_asset" readonly/>
+                                                    @error('file')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-12 form-group">
+                                                    <label>Bank Account</label>
+                                                    <input type="text" class="form-control" wire:model="pic_bank_account" readonly/>
+                                                    @error('file')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+                                                
+                                            </div>
                                         </div>
 
-                                        <div class="col-md-12 form-group">
-                                            <label>Reason of Transfering</label>
-                                            <textarea name="" id="" cols="30" rows="2" class="form-control" wire:model="transfer_reason" ></textarea>
-                                        
+                                        <br><br>
+                                        <div class="col-md-12" style="margin-top: 15px;">
+                                            <div class="form-group" style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px 0; width: 100%; margin: auto;">
+                                                <div class="col-md-12 form-group">
+                                                    <label>Reason of Transfering</label>
+                                                    <textarea name="" id="" cols="30" rows="2" class="form-control" wire:model="transfer_reason" ></textarea>
+                                                
 
-                                            @error('reason_transfer')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
+                                                    @error('reason_transfer')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+                                                
+                                            </div>
                                         </div>
+
+
                                     </div>
                                 </div>
                                 

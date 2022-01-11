@@ -55,7 +55,7 @@ class Add extends Component
 
         if($this->asset_name){
             $getasset = \App\Models\AssetDatabase::where('asset_name', $this->asset_name)->first();
-            $this->location             = @$getasset->location;
+            $this->location             = @\App\Models\Dophomebasemaster::where('id', $getasset->location)->first()->nama_dop;
             $this->dimension            = @$getasset->dimension;
             $this->detail               = $getasset->detail;
             $this->stock                = (int)$getasset->stok;
