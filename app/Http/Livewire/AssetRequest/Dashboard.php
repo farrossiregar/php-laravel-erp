@@ -17,29 +17,17 @@ class Dashboard extends Component
     public $datasetsamount;
     public $project, $dataproject;
     public $region;
+    public $aging;
     protected $paginationTheme = 'bootstrap';
 
     public function render()
     {
 
-        // $getproject = \App\Models\ClientProject::where('id', $this->project)
-        //         ->where('company_id', Session::get('company_id'))
-        //         ->where('is_project', '1')
-        //         ->first();
-
-        // if($getproject){
-        //     if($getproject->region_id){
-        //         $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
-        //     }else{
-        //         $this->region = '';
-        //     }
-        // }else{
-        //     $this->region = '';
-        // }
+       
         $this->dataproject = [];
 
         if($this->region){
-            // dd($this->region);
+            
             $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
                                 ->where('region_id', $this->region)
                                 ->where('company_id', Session::get('company_id'))
@@ -120,9 +108,40 @@ class Dashboard extends Component
     
         $this->labels = json_encode($this->labels);
         $this->datasets = json_encode($this->datasets);
+
+        $countaging = 0;
+
+        $aging =  \App\Models\AssetRequest::orderBy('id', 'desc')->whereNull('status');
+        if($this->project){
+            $aging = $aging->where('project', $this->project)->where('region', $getregion)->get();
+        }else{
+            $aging = $aging->get();
+        }
+
         
-        // $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets,'datasetsamount'=>$this->datasetsamount]);
-        $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets]);
+        foreach($aging as $k => $item){
+
+            if($item->updated_at == $item->created_at){
+                // $diff    = abs(strtotime(date_format(date_create(date('Y-m-d H:i:s')), 'Y-m-d H:i:s')) - strtotime(date_format(date_create($item->created_at), 'Y-m-d H:i:s')));
+                $diff    = abs(strtotime(date('Y-m-d H:i:s')) - strtotime(date_format(date_create($item->created_at), 'Y-m-d H:i:s')));
+                $years   = floor($diff / (365*60*60*24)); 
+                $months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
+                $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+                $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
+                $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
+        
+                if($days >= 14){
+                    $countaging = $countaging + 1;
+                }
+
+            }
+        }
+
+
+        $this->aging = $countaging;
+        
+
+        $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets,'aging'=>$this->aging]);
     }
 
 

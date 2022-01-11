@@ -3,9 +3,14 @@
         <div class="col-md-1">                
             <select class="form-control" wire:model="year">
                 <option value=""> --- Year --- </option>
-                @foreach(\App\Models\ToolsNoc::select('year')->groupBy('year')->whereNotNull('year')->get() as $item) 
-                <option>{{$item->year}}</option>
-                @endforeach 
+                <?php
+                    $year = date('Y');
+                    for($i = $year; $i >= ($year - 5); $i--){
+                ?>
+                <option><?php echo $i; ?></option>
+                <?php
+                    }
+                ?>
             </select>
         </div>
 
@@ -39,64 +44,40 @@
         </div>
     </div>
 
-    <div class="col-md-4">
-        <!-- <div class="card">
-            <div class="header">
-                <h2>Browser Usage</h2>
-                <ul class="header-dropdown">
-                    <li class="dropdown">
-                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="javascript:void(0);">Action</a></li>
-                            <li><a href="javascript:void(0);">Another Action</a></li>
-                            <li><a href="javascript:void(0);">Something else</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <div class="body text-center">
-                <div id="donut_chart" class="dashboard-donut-chart m-b-35"></div>
-                <div class="row">
-                    <div class="col-lg-2 col-4">
-                        <h6>Crome</h6>
-                        <p>35<sup>%</sup></p>
-                    </div>
-                    <div class="col-lg-2 col-4">
-                        <h6>Safari</h6>
-                        <p>25<sup>%</sup></p>
-                    </div>                                
-                    <div class="col-lg-2 col-4">
-                        <h6>Mozila</h6>
-                        <p>25<sup>%</sup></p>
-                    </div>
-                    <div class="col-lg-2 col-4">
-                        <h6>Opera</h6>
-                        <p>3<sup>%</sup></p>
-                    </div>
-                    <div class="col-lg-2 col-4">
-                        <h6>IE</h6>
-                        <p>7<sup>%</sup></p>
-                    </div>
-                    <div class="col-lg-2 col-4">
-                        <h6>Others</h6>
-                        <p>5<sup>%</sup></p>
-                    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="header">
+                    <h2>Annual request Hotel only by Category</h2>
+                    <!-- <ul class="header-dropdown">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="javascript:void(0);">Action</a></li>
+                                <li><a href="javascript:void(0);">Another Action</a></li>
+                                <li><a href="javascript:void(0);">Something else</a></li>
+                            </ul>
+                        </li>
+                    </ul> -->
+                </div>
+                <div class="body">
+                    <div id="m_donut_chart1"></div>
                 </div>
             </div>
-        </div> -->
+        </div>
 
-        <div class="card info-box-2">
-            <div class="body">
-                <div class="icon">
-                    <div class="chart chart-pie">30, 35, 25, 8</div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="header">
+                    <h2>Annual request Hotel & Flight by Category</h2>
                 </div>
-                <div class="content">
-                    <div class="text">Usage</div>
-                    <div class="number">98%</div>
+                <div class="body">
+                    <div id="m_donut_chart2"></div>
                 </div>
             </div>
         </div>
     </div>
+    
         
     <div class="mt-4" style="height: 300px">
         <canvas id="chBar"></canvas>
@@ -114,33 +95,21 @@
 var labels = {!!$labels!!};
 var datasets = {!!$datasets!!};
 var datasetsamount = {!!$datasetsamount!!};
+var pie1 = {!!$pie1!!};
+var pie2 = {!!$pie2!!};
 // var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
 
-// var dataslt = [];
-// for(var i = 0; i < series.length; i++)  {
-//     dataslt.push({
-//             data: series[i],
-//             backgroundColor: colors[i],
-//             borderColor: colors[i],
-//             borderWidth: 4,
-//             pointBackgroundColor: colors[0]
-//         });
-// }
+
 
 $( document ).ready(function() {
-    // $('.multiselect_month').multiselect({ 
-    //         nonSelectedText: ' --- All Month --- ',
-    //         onChange: function (option, checked) {
-    //             @this.set('month', $('.multiselect_month').val());
-    //         },
-    //         buttonWidth: '100%'
-    //     }
-    // );
+
     init_chart_databasenoc();
 });
 Livewire.on('init-chart',(data)=>{
     labels = JSON.parse(data.labels);
     datasets = JSON.parse(data.datasets);
+    pie1 = JSON.parse(data.pie1);
+    pie2 = JSON.parse(data.pie2);
 
     
     datasetsamount = JSON.parse(data.datasetsamount);
@@ -150,6 +119,8 @@ function init_chart_databasenoc(){
     var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
     var chBar = document.getElementById("chBar");
     var chBar1 = document.getElementById("chBar1");
+    var pie1 = document.getElementById("m_donut_chart1");
+    var pie2 = document.getElementById("m_donut_chart2");
                        
     if (chBar) {
         new Chart(chBar, {
@@ -206,6 +177,55 @@ function init_chart_databasenoc(){
             }
         });
     }
+
+    if (pie1) {
+        Morris.Donut({
+            element: 'm_donut_chart1',
+            data: [
+            {
+                label: "Online Sales",
+                value: 45,
+
+            }, {
+                label: "Store Sales",
+                value: 35
+            },{
+                label: "Email Sales",
+                value: 8
+            }, {
+                label: "Agent Sales",
+                value: 12
+            }],
+
+            resize: true,
+            colors: ['#2cbfb7', '#3dd1c9', '#60ded7', '#a1ece8']
+        });
+    }
+
+    if (pie2) {
+        Morris.Donut({
+            element: 'm_donut_chart2',
+            data: [
+            {
+                label: "Online Sales",
+                value: 45,
+
+            }, {
+                label: "Store Sales",
+                value: 35
+            },{
+                label: "Email Sales",
+                value: 8
+            }, {
+                label: "Agent Sales",
+                value: 12
+            }],
+
+            resize: true,
+            colors: ['#2cbfb7', '#3dd1c9', '#60ded7', '#a1ece8']
+        });
+    }
+
 }
 </script>
 @endpush

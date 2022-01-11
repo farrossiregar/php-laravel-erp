@@ -55,8 +55,8 @@ class Add extends Component
 
         if($this->asset_name){
             $getasset = \App\Models\AssetDatabase::where('asset_name', $this->asset_name)->first();
-            $this->location             = $getasset->location;
-            $this->dimension            = $getasset->dimension;
+            $this->location             = @$getasset->location;
+            $this->dimension            = @$getasset->dimension;
             $this->detail               = $getasset->detail;
             $this->stock                = (int)$getasset->stok;
             $this->reference_pic        = $getasset->reference_pic;

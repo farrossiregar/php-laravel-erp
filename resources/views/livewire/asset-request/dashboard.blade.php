@@ -38,18 +38,19 @@
         </div>
     </div>
 
+    <br>
     <div class="row">
-        <div class="col-md-3">
-            <div class="card overflowhidden number-chart">
+        <div class="col-md-2">
+            <div class="card overflowhidden number-chart" style="background-color: #fac091;">
                 <div class="body">
                     <div class="number">
                         <h6>Asset Request Aging</h6>
-                        <span>73</span>
+                        <span id="aging"></span>
                     </div>
                     <small class="text-muted">Asset Request > 2 Weeks</small>
                 </div>
-                <div class="sparkline" data-type="line" data-spot-Radius="0" data-offset="90" data-width="100%" data-height="50px"
-                data-line-Width="1" data-line-Color="#fac091" data-fill-Color="#fac091">1,4,2,3,6,2</div>
+                <!-- <div class="sparkline" data-type="line" data-spot-Radius="0" data-offset="90" data-width="100%" data-height="50px"
+                data-line-Width="1" data-line-Color="#fac091" data-fill-Color="#fac091">1,4,2,3,6,2</div> -->
             </div>
         </div>
         <br>
@@ -76,6 +77,7 @@
 <script>
 var labels = {!!$labels!!};
 var datasets = {!!$datasets!!};
+var aging = {!!$aging!!};
 
 // var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
 
@@ -104,6 +106,9 @@ $( document ).ready(function() {
 Livewire.on('init-chart',(data)=>{
     labels = JSON.parse(data.labels);
     datasets = JSON.parse(data.datasets);
+    aging = data.aging;
+    $('#aging').html(aging);
+    // console.log(aging);
 
     
     

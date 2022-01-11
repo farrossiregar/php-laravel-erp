@@ -16,6 +16,7 @@ class Dashboard extends Component
     public $labelsamount;
     public $datasetsamount;
     public $project;
+    public $pie1, $pie2;
     protected $paginationTheme = 'bootstrap';
 
     public function render()
@@ -39,6 +40,8 @@ class Dashboard extends Component
         $this->labels = [];
         $this->datasets = [];
         $this->datasetsamount = [];
+        $this->pie1 = [];
+        $this->pie2 = [];
 
         if($this->year){
             $this->year = $this->year;
@@ -88,12 +91,28 @@ class Dashboard extends Component
             $this->datasetsamount[$j]['data'][]             = $hprice + $fprice;
 
         }
+
+        foreach(\App\Models\HotelFlightTicket::whereYear('date', '2021')->where('ticket_type', '1')->groupBy('project')->get() as $k => $item){
+            
+            $this->pie1[$k]['label']           = $item->project;
+            $this->pie1[$k]['data']             = $item->project;
+        }
+
+        foreach(\App\Models\HotelFlightTicket::whereYear('date', '2021')->where('ticket_type', '2')->groupBy('project')->get() as $k => $item){
+            
+            $this->pie2[$k]['label']           = $item->project;
+            $this->pie2[$k]['data']             = $item->project;
+        }
+
+        // dd($this->pie1);
     
         $this->labels = json_encode($this->labels);
         $this->datasets = json_encode($this->datasets);
         $this->datasetsamount = json_encode($this->datasetsamount);
+        $this->pie1 = json_encode($this->pie1);
+        $this->pie2 = json_encode($this->pie2);
         // dd(\App\Models\HotelFlightTicket::select(DB::Raw('sum(hotel_price) as hotelprice'))->whereYear('date', '2021')->whereMonth('date', '12')->where('client_project_id', '9')->where('ticket_type', $itemstatus)->where('status', '0')->groupBy(DB::Raw('month(date)'))->first()->hotelprice);
-        $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets,'datasetsamount'=>$this->datasetsamount]);
+        $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets,'datasetsamount'=>$this->datasetsamount,'pie1'=>$this->pie1,'pie2'=>$this->pie2]);
     }
 
 
