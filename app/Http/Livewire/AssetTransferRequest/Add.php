@@ -25,6 +25,7 @@ class Add extends Component
     public $selected_id, $transfer_from, $transfer_to, $transfer_reason;
     public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $position, $datalocation;
     public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link, $reference_pic;
+    public $pic_asset, $pic_bank_account;
 
     public function render()
     {
@@ -43,6 +44,7 @@ class Add extends Component
         $this->client_project_id        = $data->client_project_id;
         $this->project                  = $data->project;
         $this->employee_name            = $data->name;
+        $this->transfer_from            = $data->name;
         $this->position                 = \App\Models\UserAccess::where('id', Auth::user()->user_access_id)->first()->name;
         $this->region                   = $data->region;
         $this->name                     = $data->employee_name;
@@ -58,6 +60,10 @@ class Add extends Component
         $this->reference_pic            = $data->reference_pic;
         $this->link                     = $data->link;
         
+        $dataasset                      = \App\Models\AssetDatabase::where('asset_type', $data->asset_type)->where('asset_name', $data->asset_name)->first();
+        
+        $this->pic_asset                = $dataasset->pic;
+        $this->pic_bank_account         = $dataasset->pic_bank_account;
     }
   
     public function save()
@@ -67,7 +73,7 @@ class Add extends Component
         $data                           = new \App\Models\AssetTransferRequest();
         $data->id_asset_request         = $this->selected_id;
         $data->transfer_from            = $this->transfer_from;
-        $data->transfer_to              = $this->location;
+        $data->transfer_to              = $this->pic_asset;
         $data->transfer_reason          = $this->transfer_reason;
         $data->company_name             = Session::get('company_id');
         $data->client_project_id        = $this->client_project_id;

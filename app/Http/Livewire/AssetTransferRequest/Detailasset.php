@@ -39,16 +39,33 @@ class Detailasset extends Component
         $data                           = \App\Models\AssetRequest::where('id', $this->selected_id)->first();
         // dd($data);
         $this->company_name             = Session::get('company_id');
-        $this->client_project_id        = $data->client_project_id;
-        $this->project                  = $data->project;
+        $this->client_project_id        = @$data->client_project_id;
+        $this->project                  = @$data->project;
         $this->employee_name            = $data->name;
-        $this->position                 = 'pos';
+        $this->position                 = \App\Models\UserAccess::where('id', Auth::user()->id)->first()->name;
         $this->region                   = $data->region;
         $this->name                     = $data->employee_name;
         $this->nik                      = $data->nik;
-        $this->asset_type               = $data->asset_type;
+        if($data->asset_type == '1'){
+            $asset_type = 'Air Conditioner & Fan';
+        }
+
+        if($data->asset_type == '2'){
+            $asset_type = 'Furniture & Fixture';
+        }
+
+        if($data->asset_type == '3'){
+            $asset_type = 'Computer Equipment';
+        }
+
+        if($data->asset_type == '4'){
+            $asset_type = 'Printer & Device';
+        }
+
+        $this->asset_type               = $asset_type;
         $this->asset_name               = $data->asset_name;
-        $this->location                 = \App\Models\DophomebaseMaster::where('id', $data->location)->first()->nama_dop;
+        $this->location                 = @\App\Models\DophomebaseMaster::where('id', $data->location)->first()->nama_dop;
+        // $this->location                 = @$data->location;
         $this->quantity                 = $data->quantity;
         $this->dimension                = $data->dimension;
         $this->detail                   = $data->detail;

@@ -16,7 +16,7 @@ class Data extends Component
     
     public function render()
     {
-        $data = \App\Models\AssetRequest::select('asset_transfer_request.*', 'asset_request.id as id_asset_req', 'asset_request.dana_from', 'asset_request.dana_amount')
+        $data = \App\Models\AssetRequest::select('asset_transfer_request.*', 'asset_request.id as id_asset_req', 'asset_request.serial_number', 'asset_request.dana_from', 'asset_request.dana_amount')
                                         ->where('asset_request.company_name', Session::get('company_id'))
                                         ->where('asset_request.status', '1')
                                         ->leftjoin('asset_transfer_request', 'asset_request.id', '=', 'asset_transfer_request.id_asset_request')

@@ -14,16 +14,16 @@
             </select>
         </div>
 
-        <div class="col-md-2" wire:ignore>
+        <!-- <div class="col-md-2" wire:ignore>
             <select class="form-control" style="width:100%;" wire:model="month">
                 <option value=""> --- Month --- </option>
                 @for($i = 1; $i <= 12; $i++)
                     <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
                 @endfor
             </select>
-        </div>
+        </div> -->
 
-        <div class="col-md-1">                
+        <div class="col-md-2">                
             <select class="form-control" wire:model="project">
                 <option value=""> --- Project --- </option>
                 @foreach(\App\Models\ClientProject::orderBy('id', 'desc')
@@ -45,7 +45,20 @@
     </div>
 
     <div class="row">
-        <div class="col-md-3">
+
+        <div class="col-md-2">
+            <div class="card">
+                <div class="header">
+                    <h2>Annual request Hotel & Flight by Category</h2>
+                </div>
+                <div class="body">
+                    <div id="m_donut_chart1"></div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-md-2">
             <div class="card">
                 <div class="header">
                     <h2>Annual request Hotel only by Category</h2>
@@ -61,21 +74,12 @@
                     </ul> -->
                 </div>
                 <div class="body">
-                    <div id="m_donut_chart1"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card">
-                <div class="header">
-                    <h2>Annual request Hotel & Flight by Category</h2>
-                </div>
-                <div class="body">
                     <div id="m_donut_chart2"></div>
                 </div>
             </div>
         </div>
+
+        
     </div>
     
         
@@ -95,8 +99,8 @@
 var labels = {!!$labels!!};
 var datasets = {!!$datasets!!};
 var datasetsamount = {!!$datasetsamount!!};
-var pie1 = {!!$pie1!!};
-var pie2 = {!!$pie2!!};
+// var pies1 = {!!$pie1!!};
+// var pies2 = {!!$pie2!!};
 // var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
 
 
@@ -108,8 +112,11 @@ $( document ).ready(function() {
 Livewire.on('init-chart',(data)=>{
     labels = JSON.parse(data.labels);
     datasets = JSON.parse(data.datasets);
-    pie1 = JSON.parse(data.pie1);
-    pie2 = JSON.parse(data.pie2);
+    
+
+    // pies1 = JSON.parse(data.pies1);
+    // pies2 = JSON.parse(data.pies2);
+    
 
     
     datasetsamount = JSON.parse(data.datasetsamount);
@@ -119,8 +126,8 @@ function init_chart_databasenoc(){
     var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
     var chBar = document.getElementById("chBar");
     var chBar1 = document.getElementById("chBar1");
-    var pie1 = document.getElementById("m_donut_chart1");
-    var pie2 = document.getElementById("m_donut_chart2");
+    // var pie1 = document.getElementById("m_donut_chart1");
+    // var pie2 = document.getElementById("m_donut_chart2");
                        
     if (chBar) {
         new Chart(chBar, {
@@ -178,53 +185,43 @@ function init_chart_databasenoc(){
         });
     }
 
-    if (pie1) {
-        Morris.Donut({
-            element: 'm_donut_chart1',
-            data: [
-            {
-                label: "Online Sales",
-                value: 45,
+    // if (pie1) {
+    //     Morris.Donut({
+    //         element: 'm_donut_chart1',
+ 
+    //         data: pies1,
 
-            }, {
-                label: "Store Sales",
-                value: 35
-            },{
-                label: "Email Sales",
-                value: 8
-            }, {
-                label: "Agent Sales",
-                value: 12
-            }],
+            
 
-            resize: true,
-            colors: ['#2cbfb7', '#3dd1c9', '#60ded7', '#a1ece8']
-        });
-    }
+    //         resize: true,
+    //         colors: ['#2cbfb7', '#3dd1c9', '#60ded7', '#a1ece8']
+    //     });
+    // }
 
-    if (pie2) {
-        Morris.Donut({
-            element: 'm_donut_chart2',
-            data: [
-            {
-                label: "Online Sales",
-                value: 45,
+    // if (pie2) {
+    //     Morris.Donut({
+    //         element: 'm_donut_chart2',
+    //         // data: [
+    //         // {
+    //         //     label: "Online Sales",
+    //         //     value: 45,
 
-            }, {
-                label: "Store Sales",
-                value: 35
-            },{
-                label: "Email Sales",
-                value: 8
-            }, {
-                label: "Agent Sales",
-                value: 12
-            }],
+    //         // }, {
+    //         //     label: "Store Sales",
+    //         //     value: 35
+    //         // },{
+    //         //     label: "Email Sales",
+    //         //     value: 8
+    //         // }, {
+    //         //     label: "Agent Sales",
+    //         //     value: 12
+    //         // }],
+    //         data: pies2,
 
-            resize: true,
-            colors: ['#2cbfb7', '#3dd1c9', '#60ded7', '#a1ece8']
-        });
-    }
+    //         resize: true,
+    //         colors: ['#2cbfb7', '#3dd1c9', '#60ded7', '#a1ece8']
+    //     });
+    // }
 
 }
 </script>

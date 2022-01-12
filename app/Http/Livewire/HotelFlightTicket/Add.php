@@ -43,7 +43,6 @@ class Add extends Component
     public function save()
     {
 
-
         $data                           = new \App\Models\HotelFlightTicket();
         $data->company_name             = Session::get('company_id');
         $data->project                  = $this->project;
