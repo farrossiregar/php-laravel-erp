@@ -152,6 +152,7 @@
                                                     <h5>Transfer From</h4>
                                                 </div>
                                                 <br>
+                                                <!-- <input type="text" class="form-control" wire:model="transferid" readonly/> -->
                                                 
                                                 <div class="col-md-12 form-group">
                                                     <label>PIC</label>
@@ -161,13 +162,21 @@
                                                     @enderror
                                                 </div>
 
-                                                <!-- <div class="col-md-12 form-group">
+                                                <div class="col-md-12 form-group">
                                                     <label>Bank Account</label>
-                                                    <input type="text" class="form-control" wire:model="transfer_from_bankaccount" />
+                                                    <input type="text" class="form-control" wire:model="transfer_from_bank_account" />
                                                     @error('file')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                     @enderror
-                                                </div> -->
+                                                </div>
+
+                                                <div class="col-md-12 form-group">
+                                                    <label>Bank Name</label>
+                                                    <input type="text" class="form-control" wire:model="transfer_from_bank_name" />
+                                                    @error('file')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
                                                 
                                             </div>
                                         </div>
@@ -190,6 +199,14 @@
                                                 <div class="col-md-12 form-group">
                                                     <label>Bank Account</label>
                                                     <input type="text" class="form-control" wire:model="pic_bank_account" readonly/>
+                                                    @error('file')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-12 form-group">
+                                                    <label>Bank Name</label>
+                                                    <input type="text" class="form-control" wire:model="pic_bank_name" readonly/>
                                                     @error('file')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                     @enderror

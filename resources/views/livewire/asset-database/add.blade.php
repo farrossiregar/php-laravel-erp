@@ -25,7 +25,7 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        <div class="col-md-6 form-group">
+                                        <!-- <div class="col-md-6 form-group">
                                             <label>Position</label>
                                             <input type="text" class="form-control"  wire:model="position" readonly>
                                            
@@ -33,7 +33,7 @@
                                             @error('position')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div>
+                                        </div> -->
                                         <div class="col-md-6 form-group">
                                             <label>Project</label>
                                             <!-- <select onclick="" class="form-control" wire:model="project">
@@ -56,7 +56,7 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-
+                                        
                                         
                                         <div class="col-md-6 form-group">
                                             <label>PIC phone</label>
@@ -73,6 +73,15 @@
                                            
 
                                             @error('pic_ba')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>PIC Bank Name</label>
+                                            <input type="text" class="form-control"  wire:model="pic_bank_name" >
+
+                                            @error('position')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
