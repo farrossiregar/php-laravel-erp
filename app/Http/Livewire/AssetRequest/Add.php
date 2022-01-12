@@ -45,7 +45,7 @@ class Add extends Component
 
         $this->region = \App\Models\Region::where('id', $get_project->region_id)->first()->region_code;
 
-        $this->datalocation = \App\Models\Dophomebasemaster::where('status', '1')->where('project', $get_project->name)->where('region', $this->region)->orderBy('id', 'desc')->get();
+        $this->datalocation = \App\Models\DophomebaseMaster::where('status', '1')->where('project', $get_project->name)->where('region', $this->region)->orderBy('id', 'desc')->get();
 
         if($this->asset_type){
             $this->dataassetname = \App\Models\AssetDatabase::where('asset_type', $this->asset_type)->get();
@@ -55,7 +55,7 @@ class Add extends Component
 
         if($this->asset_name){
             $getasset = \App\Models\AssetDatabase::where('asset_name', $this->asset_name)->first();
-            $this->location             = @\App\Models\Dophomebasemaster::where('id', $getasset->location)->first()->nama_dop;
+            $this->location             = @\App\Models\DophomebaseMaster::where('id', $getasset->location)->first()->nama_dop;
             $this->dimension            = @$getasset->dimension;
             $this->detail               = $getasset->detail;
             $this->stock                = (int)$getasset->stok;

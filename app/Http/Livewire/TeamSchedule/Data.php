@@ -55,10 +55,11 @@ class Data extends Component
         
 	    // return $pdf->stream();
         $pdf = PDF::loadView('livewire/team-schedule/generateusertimesheetpdf', ['data'=>$data])->output();
-        return response()->streamDownload(
-            fn () => print($pdf),
-            "generateusertimesheetpdf".$id.".pdf"
-        );
+	    return $pdf->stream();
+        
+        // return response()->streamDownload(
+        //     fn () => print($pdf)"generateusertimesheetpdf".$id.".pdf"
+        // );
         
     }
 
