@@ -47,8 +47,10 @@ class LocationOfFieldTeamController extends Controller
         $data->long = $request->long;
         $data->save();
 
-        $data = LocationOfFieldTeamHistory::where('employee_id',\Auth::user()->employee->id)->first();
-        $data = new LocationOfFieldTeamHistory();
+        $data = LocationOfFieldTeamHistory::where('employee_id',\Auth::user()->employee->id)->whereDate('created_at',date('Y-m-d'))->first();
+        
+        if(!$data) $data = new LocationOfFieldTeamHistory();
+        
         $data->employee_id = \Auth::user()->employee->id;
         $data->employee_raw = \Auth::user()->employee;
         $data->lat = $request->lat;

@@ -38,24 +38,16 @@
                         <th>{{ __('NO') }}</th>
                         <th>{{ __('UPLOADED') }}</th>                                  
                         <th>{{ __('DATE SUBMISSION') }}</th>                                    
-                        <th>{{ __('NIK / NAMA') }}</th>                             
+                        <th>{{ __('NIK') }}</th>                             
+                        <th>{{ __('NAMA') }}</th>                             
                         <th>{{ __('TOWER INDEX') }}</th>
                         <th>{{ __('SITE ID') }}</th>
                         <th>{{ __('SITE NAME') }}</th>
                         <th>{{ __('SITE OWNER') }}</th>
-                        <th>{{ __('CLUSTER') }}</th>
                         <th>{{ __('REGION') }}</th>
-                        <th>{{ __('RECTIFIER 1 QTY MODULE') }}</th>
-                        <th>{{ __('RECTIFIER 1 BATTERY BRAND') }}</th>
-                        <th>{{ __('RECTIFIER 1 BATTERY QTY (PCS)') }}</th>
-                        <th>{{ __('RECTIFIER 2 QTY MODULE') }}</th>
-                        <th>{{ __('RECTIFIER 2 BATTERY BRAND') }}</th>
-                        <th>{{ __('RECTIFIER 2 BATTERY QTY (PCS)') }}</th>
-                        <th>{{ __('RECTIFIER 3 QTY MODULE') }}</th>
-                        <th>{{ __('RECTIFIER 3 BATTERY BRAND') }}</th>
-                        <th>{{ __('RECTIFIER 3 BATTERY QTY (PCS)') }}</th>
-                        <th>{{ __('PHOTO') }}</th>
-                        <th>{{ __('CATATAN') }}</th>
+                        <th>{{ __('SUB REGION') }}</th>
+                        <th>{{ __('CLUSTER') }}</th>
+                        <th>{{ __('COORDINATOR') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,32 +56,16 @@
                         <td style="width: 50px;">{{$data->firstItem() + $k}}</td>
                         <td>{{date('d M Y',strtotime($item->created_at))}}</td> 
                         <td><a href="{{route('customer-asset-management.history',['data'=>$item->id])}}">{{ $item->tanggal_submission?date('d-M-Y',strtotime($item->tanggal_submission)):''}}</a></td> 
-                        <td>
-                            @if(isset($item->site->employee->name))
-                                {{$item->site->employee->name}}
-                            @endif
-                        </td> 
+                        <td>{{isset($item->employee->nik) ? $item->employee->nik : '-'}}</td> 
+                        <td>{{isset($item->employee->name) ? $item->employee->name : '-'}}</td> 
                         <td>{{isset($item->tower->name)?$item->tower->name : ''}}</td> 
                         <td>{!!isset($item->site_code)?"<a href=\"". route('sites.edit',$item->site_id)."\">{$item->site_code}</a>" : ''!!}</td> 
                         <td>{{isset($item->site_name)?$item->site_name : ''}}</td> 
                         <td>{{isset($item->site_owner)?$item->site_owner : ''}}</td>
-                        <td>{{isset($item->cluster->name)?$item->cluster->name : ''}}</td> 
                         <td>{{isset($item->region->region)?$item->region->region : ''}}</td>
-                        <td>{{$item->qty_module_1}}</td>
-                        <td>{{$item->battery_brand_1}}</td>
-                        <td>{{$item->battery_qty_1}}</td>
-                        <td>{{$item->qty_module_2}}</td>
-                        <td>{{$item->battery_brand_2}}</td>
-                        <td>{{$item->battery_qty_2}}</td>
-                        <td>{{$item->qty_module_3}}</td>
-                        <td>{{$item->battery_brand_3}}</td>
-                        <td>{{$item->battery_qty_3}}</td>
-                        <td>
-                            @if($item->photo_kondisition)
-                                <a href="{{asset($item->photo_kondisition)}}"><i class="fa fa-image"></i></a>
-                            @endif
-                        </td>
-                        <td>{{$item->catatan}}</td>
+                        <td>{{isset($item->sub_region->name)?$item->sub_region->name : ''}}</td>
+                        <td>{{isset($item->cluster->name)?$item->cluster->name : ''}}</td> 
+                        <td>{{isset($item->coordinator->name)?$item->coordinator->name : ''}}</td> 
                     @endforeach
                 </tbody>
             </table>

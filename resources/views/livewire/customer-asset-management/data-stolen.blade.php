@@ -87,6 +87,11 @@
                             @if($item->photo_kondition)
                                 <a href="{{asset($item->photo_kondition)}}"><i class="fa fa-image"></i></a>
                             @endif
+                            @if($item->images)
+                                @foreach($item->images as $img)
+                                    <a href="{{asset($img->file)}}" target="_blank"><i class="fa fa-image"></i></a>
+                                @endforeach
+                            @endif
                         </td>
                         <td>{{$item->catatan}}</td>
                         <td>

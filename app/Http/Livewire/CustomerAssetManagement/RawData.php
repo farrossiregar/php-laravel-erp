@@ -21,7 +21,11 @@ class RawData extends Component
         $data = CustomerAssetManagement::select('customer_asset_management.*','sites.site_owner',\DB::raw('sites.site_id as site_code'),\DB::raw('sites.name as site_name'))
                     ->leftJoin('sites','sites.id','=','customer_asset_management.site_id')
                     ->where('is_stolen',0)
-                    ->orderBy('tanggal_submission','DESC');
+                    ->orderBy('customer_asset_management.created_at','DESC')
+                    ->where(function($table){
+                        $table->where('coordinator_id',\Auth::user()->employee->id)
+                                ->orWhere('user_id',\Auth::user()->employee->id);
+                    });
         if($this->region) $data = $data->where('customer_asset_management.region_name',$this->region);
         if($this->keyword) $data = $data->where(function($table){
             foreach(\Illuminate\Support\Facades\Schema::getColumnListing('customer_asset_management') as $column){

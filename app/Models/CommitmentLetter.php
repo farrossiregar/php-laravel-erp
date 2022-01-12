@@ -19,6 +19,11 @@ class CommitmentLetter extends Model
         return $this->belongsTo(Employee::class,'employee_id');
     }
 
+    public function pic_project()
+    {
+        return $this->hasOne(Employee::class,'id','pic_project_id');
+    }
+
     public function region_()
     {
         return $this->belongsTo(Region::class,'region_id');

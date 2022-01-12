@@ -23,7 +23,7 @@ class Datahup extends Component
         
         
         $data = CommitmentLetter::with('project_','region_')->where('company_name', '1')->orderBy('id', 'desc');
-
+        if(check_access('commitment-letter.pic')) $data->where('commitment_letter.pic_project_id',\Auth::user()->employee->id);
         if(check_access('commitment-letter.admin') || check_access('commitment-letter.pic') ){
             if($this->keyword) $data->where(function($table){
                 $table->Where('project',"LIKE","%{$this->keyword}%")

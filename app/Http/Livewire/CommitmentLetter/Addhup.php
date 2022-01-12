@@ -19,7 +19,7 @@ class Addhup extends Component
     protected $paginationTheme = 'bootstrap';
     use WithFileUploads;
     public $dataproject, $company_name, $project, $region, $region_area, $ktp_id, $nik_pmt, $leader, $employee_name, $employeelist, $leaderlist=[], $regionarealist=[], $type_letter, $inputletter, $title_letter;
-    public $project_id,$region_id,$employee_id;
+    public $project_id,$region_id,$employee_id,$pic_project_id;
 
     public function render()
     {
@@ -94,7 +94,7 @@ class Addhup extends Component
             // }
 
             // $this->regionarealist = RegionCluster::where('region_id', $getproject->region_id)->orderBy('id', 'desc')->get();
-            $this->employeelist = Employee::whereIn('user_access_id', [85, 84])
+            $this->employeelist = Employee::select('employees.*')->whereIn('user_access_id', [85, 84])
                                                             ->join('employee_projects','employee_projects.employee_id','=','employees.id')
                                                             ->where(function($table){
                                                                 if($this->region_id) $table->where('employees.region_id',$this->region_id);
@@ -136,6 +136,7 @@ class Addhup extends Component
         $data->employee_id = $this->employee_id;
         $data->project_id = $this->project_id;
         $data->region_id = $this->region_id;
+        $data->pic_project_id = $this->pic_project_id;
         if($this->type_letter == '3'){
             $data->type_letter      = $this->title_letter;
         }else{

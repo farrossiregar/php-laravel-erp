@@ -9,7 +9,7 @@ use App\Models\ClientProjectRegion;
 
 class Index extends Component
 {
-    public $region_id,$keyword,$region;
+    public $region_id,$keyword,$region,$user_access_id;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $project_id;
@@ -37,8 +37,13 @@ class Index extends Component
 
     public function init_data()
     {
-        $data = modelLocation::select('location_of_field_teams.*','employees.name','employees.nik')
+        $data = modelLocation::select('location_of_field_teams.*','employees.name','employees.nik','employees.telepon',\DB::raw('user_access.name AS position'),'employees.foto')
                                     ->join('employees','employees.id','=','location_of_field_teams.employee_id')
+                                    ->join('user_access','user_access.id','=','employees.user_access_id')
+                                    ->where(function($table){
+                                        if($this->user_access_id) $table->where('employees.user_access_id',$this->user_access_id);
+                                    })
+                                    ->whereNull('deleted_at')
                                     ->groupBy('employee_id')
                                     ->reorder()
                                     ->orderBy('location_of_field_teams.id','DESC');

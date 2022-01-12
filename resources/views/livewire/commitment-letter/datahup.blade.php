@@ -31,8 +31,8 @@
                         <td>{{isset($item->project_->name) ? $item->project_->name : '-'}}</td>
                         <td>{{isset($item->region_->region) ? $item->region_->region : '-'}}</td>
                         <td>{{isset($item->employee->nik)?$item->employee->nik:'-'}}</td>
-                        <td>{{isset($item->employee->nik)?$item->employee->name:'-'}}</td>
-                        <td>{{ $item->leader }}</td>
+                        <td>{{isset($item->employee->name)?$item->employee->name:'-'}}</td>
+                        <td>{{isset($item->pic_project->nik)?$item->pic_project->name:'-'}}</td>
                         <td>
                             <?php
                                 if(Auth::user()->name == $item->createdby){
@@ -42,7 +42,6 @@
                                 }
                             ?>
                         </td>
-                        
                         <td>
                             <?php
 
@@ -114,15 +113,15 @@
                             @if(check_access('commitment-letter.admin'))
                                 @if($item->doc != '')
                                     @if($item->status == NULL || $item->status == '')
-                                    <a href="javascript:;" wire:click="$emit('modalapprovecommitmentletter','{{ $item->id }}')" title="Approve" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclinecommitmentletter','{{ $item->id }}')" title="Decline" class="btn btn-danger"><i class="fa fa-close"></i> Decline</a>
+                                    <a href="javascript:;" wire:click="$emit('modalapprovecommitmentletter','{{ $item->id }}')" title="Approve" class="badge badge-success badge-active"><i class="fa fa-check"></i> Approve</a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclinecommitmentletter','{{ $item->id }}')" title="Decline" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Decline</a>
                                     @endif
                                 @endif
                             @endif
 
                             @if(check_access('commitment-letter.pic'))
                                 @if($item->status == '0')
-                                    <a href="javascript:;" wire:click="$emit('modaleditcommitmentletter','{{ $item->id }}')" class="btn btn-danger"><i class="fa fa-edit"></i> Revise </a>
+                                    <a href="javascript:;" wire:click="$emit('modaleditcommitmentletter','{{ $item->id }}')" class="badge badge-danger badge-active"><i class="fa fa-edit"></i> Revise </a>
                                 @endif
                             @endif
                         </td>

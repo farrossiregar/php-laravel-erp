@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\CustomerAssetManagementImage;
 
 class CustomerAssetManagementHistory extends Model
 {
@@ -11,6 +12,11 @@ class CustomerAssetManagementHistory extends Model
 
     protected $table = 'customer_asset_management_history';
 
+    public function images()
+    {
+        return $this->hasMany(CustomerAssetManagementImage::class,'customer_asset_management_id','id');
+    }
+    
     public function employee()
     {
         return $this->belongsTo(\App\Models\Employee::class);

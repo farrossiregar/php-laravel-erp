@@ -60,6 +60,9 @@
                         <th>{{ __('RESOLVE DATE') }}</th>
                         <th>{{ __('STATUS') }}</th>
                         <th class="text-center">{{ __('ATTACHMENT')}}</th>
+                        <th>{{ __('COORDINATOR') }}</th>
+                        <th>{{ __('SERVICE MANAGER') }}</th>
+                        <th>{{ __('OSM') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -88,7 +91,7 @@
                                 <span class="badge badge-warning">Waiting Pickup</span>
                             @endif
                             @if($item->status==1)
-                                <span class="badge badge-info">Pickup</span>
+                                <span class="badge badge-info">In Progress</span>
                             @endif
                             @if($item->status==2)
                                 <span class="badge badge-success">Resolved</span>
@@ -99,6 +102,9 @@
                                 <a href="{{asset($item->file_attachment)}}" target="_blank"><i class="fa fa-image"></i></a>
                             @endif
                         </td>
+                        <td>{{isset($item->coordinator->name)?$item->coordinator->name : '-'}}</td>
+                        <td>{{isset($item->sm->name)?$item->sm->name : '-'}}</td>
+                        <td>{{isset($item->osm->name)?$item->osm->name : '-'}}</td>
                     </tr>
                     @endforeach
                 </tbody>

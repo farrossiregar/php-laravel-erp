@@ -43,12 +43,23 @@ class Upload extends Component
                 $date = $i[1]? @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($i[1]):'';
                 $region = $i[2];
                 $area = $i[3];
-                $cluster = $i[4];
+                $cluster_name = $i[4];
                 $signum = $i[5];
                 $name = $i[6];
                 $problem = $i[7];
                 $treshold = $i[8];
-                $nik = $i[9];
+                $coordinator = $i[9];
+                $sm = $i[10];
+                $osm = $i[11];
+                
+                $coordinator = Employee::where('nik',$coordinator)->first();
+                if($coordinator) $data->coordinator_id = $coordinator->id;
+
+                $sm = Employee::where('nik',$sm)->first();
+                if($sm) $data->sm_id = $coordinator->id;
+                
+                $osm = Employee::where('nik',$osm)->first();
+                if($osm) $data->osm_id = $osm->id;
                 
                 if(empty($date) and empty($region) and empty($area)) continue;
 
@@ -57,7 +68,6 @@ class Upload extends Component
                 $data->id_ = $signum;
                 $data->region = $region;
                 $data->servicearea4 = $i[3];
-
                 // find region 
                 $region = Region::where("region","LIKE", "%{$region}%")->orWhere('region_code',"LIKE","%{$region}%")->first();
                 if($region) {
@@ -65,20 +75,22 @@ class Upload extends Component
                     if($sub_region){
                         $data->region_id = $region->id;
                         // find cluster
-                        $cluster = Cluster::where(['region_id'=>$region->id,'sub_region_id'=>$sub_region->id])->where("name","LIKE", "%{$cluster}%")->first();
+                        $cluster = Cluster::where(['region_id'=>$region->id,'sub_region_id'=>$sub_region->id])->where("name","LIKE", "%{$cluster_name}%")->first();
                         if(!$cluster) {
                             $cluster = new Cluster();
                             $cluster->region_id = $region->id;
                             $cluster->sub_region_id = $sub_region->id;
-                            $cluster->name = $cluster;
+                            $cluster->name = $cluster_name;
                             $cluster->save();
                         }
                         $data->cluster_id = $cluster->id;
                     }
                 }
-                $employee = Employee::where('nik',$nik)->first();
+                
+                $employee = Employee::where('nik',$signum)->first();
                 if($employee) $data->employee_id = $employee->id;
-                if($region)$data->region_id = $region->id;
+                if($region) $data->region_id = $region->id;
+
                 $data->employee_id = $employee->id;
                 $data->threshold = $treshold;
                 $data->wo_close_manual = 1;

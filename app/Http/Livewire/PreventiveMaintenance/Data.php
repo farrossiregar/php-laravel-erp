@@ -250,7 +250,7 @@ class Data extends Component
                     $data->pm_type  = $pm_type;
                     
                     // find region
-                    $region_id = Region::where('region',$region)->first();
+                    $region_id = Region::where('region',$region)->orWhere('region_code',$region)->first();
                     if($region_id) {
                         $data->region_id  = $region_id->id;
                         $sub_region_id = SubRegion::where('region_id',$region_id->id)->where(function($table) use($sub_region){

@@ -4,6 +4,13 @@ namespace App\Http\Livewire\CustomerAssetManagement;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use App\Models\Employee;
+use App\Models\CustomerAssetManagement;
+use App\Models\Region;
+use App\Models\SubRegion;
+use App\Models\Cluster;
+use App\Models\Site;
+use App\Models\Tower;
 
 class Upload extends Component
 {
@@ -18,6 +25,9 @@ class Upload extends Component
         $this->validate([
             'file'=>'required|mimes:xls,xlsx|max:51200' // 50MB maksimal
         ]);
+        
+        \LogActivity::add('[web] Customer Asset Management - Upload');
+
         $path = $this->file->getRealPath();
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $data = $reader->load($path);
@@ -29,111 +39,75 @@ class Upload extends Component
             $data_notification = [];
             foreach($sheetData as $key => $i){
                 if($key<1) continue; // skip header
-                foreach($i as $k=>$a){ $i[$k] = trim($a); }
+                foreach($i as $k=>$a){$i[$k] = trim($a);}
                 $tanggal_submission = $i[1];
-                $nama = $i[2];
-                $nik = $i[3];
-                $tower_index = $i[4];
-                $site_id = $i[5];
-                $site_name = $i[6];
-                $cluster = $i[7];
-                $region = $i[8];
-                $region1 = $i[9];
-                $apakah_di_site_ini_ada_battery = $i[10];
-                $berapa_unit = $i[11];
-                $merk_baterai = $i[12];
-                $kapasitas_baterai = $i[13];    
-                $kapan_baterai_dilaporkan_hilang = (int)$i[14]?\PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($i[14]):'';
-                $apakah_baterai_pernah_direlokasi = $i[14];    
-                $direlokasi_ke_site_id = $i[15];    
-                $direlokasi_ke_site_name = $i[16];    
-                $apakah_cabinet_baterai_dipasang_gembok = $i[17];    
-                $apakah_dipasang_baterai_cage = $i[18];    
-                $apakah_dipasang_cabinet_belting = $i[19];    
-                $catatan = $i[20];    
-                $check = $i[20];    
-                $smartsheet_done_submit = $i[21];    
+                $nik = $i[2];
+                $tower_index = $i[3];
+                $site_id = $i[4];
+                $site_name = $i[5];
+                $region = $i[6];
+                $sub_region = $i[7];
+                $cluster = $i[8];
+                $coordinator = $i[9];
                 
-                $employee = \App\Models\Employee::where(['nik'=>$nik])->first();
+                $employee = Employee::where(['nik'=>$nik])->first();
                 // find employee
-                $data = new \App\Models\CustomerAssetManagement();
-                if(!$employee){
-                    if(!empty($nama) || !empty($nik)){
-                        $employee = new \App\Models\Employee();
-                        $employee->nik = $nik;
-                        $employee->name = $nama;
-                        $employee->save();
-                        $data->employee_id = $employee->id;
+                $data = new CustomerAssetManagement();
+                if($employee) $data->employee_id = $employee->id;
+                
+                $coordinator = Employee::where('nik',$coordinator)->first();
+                if($coordinator) $data->coordinator_id = $coordinator->id;
+
+                $region_id = Region::where('region',$region)->first();
+                if($region_id) $data->region_id = $region_id->id;
+
+                if($region_id){
+                    $sub_region_id = SubRegion::where(['region_id'=>$region_id->id,'name'=>$sub_region])->first();
+                    if($sub_region_id){
+                        $data->sub_region_id = $sub_region_id->id;
+                        $cluster_id = Cluster::where(['region_id'=>$region_id->id,'sub_region_id'=>$sub_region_id->id,'name'=>$cluster])->first();
+                        if(!$cluster_id){
+                            $cluster_id = new Cluster();
+                            $cluster_id->name = $cluster;
+                            $cluster_id->region_id = $region_id->id;
+                            $cluster_id->sub_region_id = $sub_region_id->id;
+                            $cluster_id->save();
+                        }
+                        $data->region_cluster_id = $cluster_id->id;
                     }
                 }
-                $region_id = \App\Models\Region::where('region',$region)->first();
-                if(!$region_id){
-                    $region_id = new \App\Models\Region();
-                    $region_id->region = $region;
-                    // $region_id->region_code = $region;
-                    $region_id->save();
-                }
-                // find cluster
-                $cluster_id = \App\Models\Cluster::where(['region_id'=>$region_id->id,'name'=>$cluster])->first();
-                if(!$cluster_id){
-                    $cluster_id = new \App\Models\Cluster();
-                    $cluster_id->name = $cluster;
-                    $cluster_id->region_id = $region_id->id;
-                    $cluster_id->save();
-                }
+                
                 // find site
-                $site = \App\Models\Site::where('site_id',$site_id)->first();
+                $site = Site::where('site_id',$site_id)->first();
                 if(!$site){
-                    $site = new \App\Models\Site();
+                    $site = new Site();
+                    if($employee) $site->employee_id = $employee->id;
                     $site->site_id = $site_id;
                     $site->name = $site_name;
                     $site->region_id = $region_id->id;
                     $site->cluster_id = $cluster_id->id;
                     $site->save();
                 }
+                
+                if($employee) $site->employee_id = $employee->id;
+                $site->save();
+
+                $data->site_id = $site->id;
                 // find Tower
                 if(!empty($tower_index)){
-                    $tower = \App\Models\Tower::where('name',$tower_index)->first();
+                    $tower = Tower::where('name',$tower_index)->first();
                     if(!$tower){
-                        $tower = new \App\Models\Tower();
+                        $tower = new Tower();
                         $tower->name = $tower_index;
                         $tower->site_id = $site->id;
                         $tower->save();
                     }
+                    $data->tower_id = $tower->id;
                 }
-                //
-                if($direlokasi_ke_site_id){
-                    $direlokasi_ke_site = \App\Models\Site::where('site_id',$direlokasi_ke_site_id)->first();
-                    if(!$direlokasi_ke_site){
-                        $direlokasi_ke_site = new \App\Models\Site();
-                        $direlokasi_ke_site->site_id = $direlokasi_ke_site_id;
-                        $direlokasi_ke_site->name = $direlokasi_ke_site_name;
-                        $direlokasi_ke_site->save();
-                    }
-                    $direlokasi_ke_site_id = $direlokasi_ke_site->id;
-                }
-                if($tanggal_submission) $data->tanggal_submission = date('Y-m-d',strtotime($tanggal_submission));
-                $data->user_id = \Auth::user()->id;
-                $data->tower_id = $tower->id;
-                $data->site_id = $site->id;
-                $data->region_id = $region_id->id;
-                $data->region_cluster_id = $cluster_id->id;
-                $data->region_name = $region1;
-                $data->apakah_di_site_ini_ada_battery = strtolower($apakah_di_site_ini_ada_battery) == 'yes'? 1 : 0; 
-                $data->berapa_unit = $berapa_unit; 
-                $data->merk_baterai = $merk_baterai; 
-                $data->kapasitas_baterai = $kapasitas_baterai;
 
-                if($kapan_baterai_dilaporkan_hilang) $data->kapan_baterai_dilaporkan_hilang = date('Y-m-d',$kapan_baterai_dilaporkan_hilang);
-                
-                $data->apakah_baterai_pernah_direlokasi = strtolower($apakah_baterai_pernah_direlokasi) == 'ya'? 1 : 0;
-                $data->direlokasi_ke_site_id = $direlokasi_ke_site_id;
-                $data->apakah_cabinet_baterai_dipasang_gembok = strtolower($apakah_cabinet_baterai_dipasang_gembok)=='yes' ? 1 : 0;
-                $data->apakah_dipasang_baterai_cage = strtolower($apakah_dipasang_baterai_cage)=='yes' ? 1 : 0;
-                $data->apakah_dipasang_cabinet_belting = strtolower($apakah_dipasang_cabinet_belting)=='yes' ? 1 : 0;
-                $data->catatan = $catatan;
-                $data->check = $check;
-                $data->smartsheet_done_submit = strtolower($smartsheet_done_submit)=='yes' ? 1 : 0;
+                $data->user_id = \Auth::user()->employee->id;
+                $data->site_id = $site->id;
+                $data->client_project_id = session()->get('project_id');
                 $data->save();
                 $total_success++;
             }

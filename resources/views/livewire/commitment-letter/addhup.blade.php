@@ -52,10 +52,10 @@
                                         <div class="col-md-12 form-group">
                                             <label>Leader</label>
                                             
-                                            <select onclick="" class="form-control" wire:model="leader">
+                                            <select onclick="" class="form-control" wire:model="pic_project_id">
                                                 <option value=""> --- Leader --- </option>
                                                 @foreach($leaderlist as $item)
-                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                                <option value="{{ $item->employee_id }}">{{ $item->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('leader')

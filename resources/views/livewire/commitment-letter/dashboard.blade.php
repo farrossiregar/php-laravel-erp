@@ -119,7 +119,7 @@
                                         $total = count($done) / count($grand) * 100;
                                     }
                                     
-                                    echo $total.'%';
+                                    echo floor($total).'%';
                                 ?>
                                 </td>
                                 

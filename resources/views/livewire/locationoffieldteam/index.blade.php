@@ -16,6 +16,21 @@
                     <div class="col-md-2 form-group">
                         <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                     </div>
+                    <div class="col-md-2">
+                        <select class="form-control" wire:model="user_access_id">
+                            <option value="">--- User Access ---</option>
+                            <optgroup label="Project">
+                                @foreach(\App\Models\UserAccess::where('is_project',1)->orderBy('name')->get() as $i)
+                                <option value="{{$i->id}}">{{$i->name}}</option>
+                                @endforeach
+                            </optgroup>
+                            <optgroup label="Non Project">
+                                @foreach(\App\Models\UserAccess::where('is_project',0)->orderBy('name')->get() as $i)
+                                <option value="{{$i->id}}">{{$i->name}}</option>
+                                @endforeach
+                            </optgroup>
+                        </select>
+                    </div>
                     <div class="col-md-6">
                         <span wire:loading>
                             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -30,6 +45,7 @@
                                 <th style="width:50">No</th>                                    
                                 <th>NIK</th>   
                                 <th>Employee</th>   
+                                <th>User Access</th>   
                                 <th>Region</th>   
                                 <th>Telepon</th>   
                                 <th>Latitude</th>
@@ -40,10 +56,12 @@
                         <tbody>
                             @php($num=$data->firstItem())
                             @foreach($data as $k => $item)
+                                @if(!isset($item->_employee->name)) @continue @endif
                                 <tr>
                                     <td>{{$num}}</td>
                                     <td>{{$item->nik}}</td>
                                     <td><a href="javascript:void(0)" onclick="openMarker({{$k}})" class="text-danger" style="font-size:18px;"><i class="fa fa-map-marker"></i></a> {{isset($item->_employee->name) ? $item->_employee->name : ''}}</td>
+                                    <td>{{isset($item->_employee->access->name)?$item->_employee->access->name:'-'}}</td>    
                                     <td>
                                         @if(isset($item->_employee->region->region))
                                             <a href="javascript:void(0)" wire:click="$set('region_id', {{$item->_employee->region_id}})">{{isset($item->_employee->region->region) ? $item->_employee->region->region : ''}}</a>
@@ -83,12 +101,21 @@
         });
 
         @foreach($raw_data as $key => $em)
+            @if(!isset($item->_employee->name)) @continue @endif
             @if(empty($em->lat) and empty($em->long)) @continue @endif
                 
-            var content  = '<div class="p-2">';
-                content += '<p>NIK : {{$em->nik}}<br />';
-                content += 'Name : {{$em->name}}<br />';
-                content += '</p></div>';
+            var content  = '<div class="p-2"><table><tbody>';
+                @if($em->foto)
+                    content += '<tr><td rowspan="8"><img src="{{asset($em->foto)}}" style="height:100px;margin-right:10px;" /></td></tr>';
+                @endif
+                content += '<tr><th>NIK</th><td> : {{$em->nik}}</td></tr>';
+                content += '<tr><th>Name</th><td>: {{$em->name}}</td></tr>';
+                content += '<tr><th>Position</th><td> : {{$em->position}}</td></tr>';
+                content += '<tr><th>Telepon</th><td> : {{$em->telepon}}</td></tr>';
+                content += '<tr><th>Latitude</th><td> : {{$em->lat}}</td></tr>';
+                content += '<tr><th>Longitude</th><td> : {{$em->long}}</td></tr>';
+                content += '<tr><th>Last Update</th><td> : {{$em->updated_at}}</td></tr>';
+                content += '</tbody></table></div>';
 
             addMarker({lat:{{$em->lat}}, lng:{{$em->long}}},content,{{$key}})
         @endforeach
@@ -115,7 +142,7 @@
 
         google.maps.event.addListener(marker, 'click', (function (marker, key) {
             return function () {
-                map.setZoom(11);
+                map.setZoom(12);
                 map.setCenter(marker.getPosition());
                     infowindow.open({
                         anchor: marker,
@@ -133,32 +160,38 @@
             markers[i].setMap(map);
         }
     }
-
     function clearMarkers() {
         setMapOnAll(null);
     }
-
     // Deletes all markers in the array by removing references to them.
     function deleteMarkers() {
         clearMarkers();
         markers = [];
     }
-
     function openMarker(key){
         console.log("Open marker : "+key);
         google.maps.event.trigger(markers[key], 'click');
     }
-
     Livewire.on('reinit-map',(data)=>{
         var result = data    
         clearMarkers();
         markers = [];
         
         for (var key in result) {
-            var content  = '<div class="p-2">';
-                content += '<p>NIK : '+result[key]['nik']+'<br />';
-                content += 'Name : '+result[key]['name']+'<br />';
-                content += '</p></div>';
+            var content  = '<div class="p-2"><table><tbody>';
+                if(result[key]['foto']){
+                    content += '<tr><td rowspan="8"><img src="'+result[key]['foto']+'" style="height:100px;margin-right:10px;" /></td></tr>';
+                }
+                
+                content += '<tr><th>NIK</th><td> : '+result[key]['nik']+'</td></tr>';
+                content += '<tr><th>Name</th><td>: '+result[key]['name']+'</td></tr>';
+                content += '<tr><th>Position</th><td> : '+result[key]['position']+'</td></tr>';
+                content += '<tr><th>Telepon</th><td> : '+result[key]['telepon']+'</td></tr>';
+                content += '<tr><th>Latitude</th><td> : '+result[key]['lat']+'</td></tr>';
+                content += '<tr><th>Longitude</th><td> : '+result[key]['long']+'</td></tr>';
+                content += '<tr><th>Last Update</th><td> : '+result[key]['updated_at']+'</td></tr>';
+                content += '</tbody></table></div>';
+
             addMarker( { lat: parseFloat(result[key]['lat']), lng: parseFloat(result[key]['long']) } ,content,result[key]['id']);
         }
 
