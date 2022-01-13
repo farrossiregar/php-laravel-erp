@@ -56,6 +56,7 @@
                     <tr>
                         <th class="align-middle">No</th>
                         <th class="align-middle">Date Create</th>
+                        <th class="align-middle">Expired Date</th>
                         <th class="align-middle">Asset PIC</th> 
                         <th class="align-middle">PIC Phone</th> 
                         <th class="align-middle">PIC Bank Account</th> 
@@ -78,6 +79,23 @@
                         <td>{{ $key + 1 }}</td>
                        
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
+                        <td>
+                            <?php
+                                $diff    = abs(strtotime(date('Y-m-d H:i:s')) - strtotime(date_format(date_create($item->expired_date), 'Y-m-d H:i:s')));
+                                $years   = floor($diff / (365*60*60*24)); 
+                                $months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
+                                $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+                                $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
+                                $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
+                        
+                                if($days >= 1){
+                                    echo '<b><p style="color: red;">'.date_format(date_create($item->expired_date), 'd M Y').'</p></b>';
+                                }else{
+                                    echo '<b>'.date_format(date_create($item->expired_date), 'd M Y').'</b>';
+                                }
+                            ?>
+                            
+                        </td>
                         <td>{{ $item->pic }}</td>
                         <td>{{ $item->pic_telephone }}</td>
                         <td>{{ $item->pic_bank_account }}</td>                     

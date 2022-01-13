@@ -183,6 +183,16 @@
                                             
                                         </div>
 
+                                        <div class="col-md-6 form-group">
+                                            <label>Expired Date</label>
+                                            <input type="date"  class="form-control"  wire:model="expired_date" >
+                                            @error('expired_date')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+
+                                            
+                                        </div>
+
                                        
                                     </div>
                                 </div>

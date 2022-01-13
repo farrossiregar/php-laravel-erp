@@ -19,7 +19,7 @@ class Add extends Component
     
     use WithFileUploads;
     public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $position, $datalocation, $dataassetname;
-    public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link, $pic_ba, $pic_phone, $pic_bank_name;
+    public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link, $pic_ba, $pic_phone, $pic_bank_name, $expired_date;
 
     public function render()
     {
@@ -114,6 +114,7 @@ class Add extends Component
         }
         
         $data->link                     = $this->link;
+        $data->expired_date             = $this->expired_date;
         $data->save();
 
         // $notif = get_user_from_access('asset-database.hq-ga');

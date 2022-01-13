@@ -33,7 +33,7 @@
                 <option value=""> --- Region --- </option>
                 @foreach(\App\Models\Region::orderBy('id', 'desc')
                                 ->get() as $item)
-                <option value="{{ $item->id }}">{{ $item->region_code }}</option>
+                <option value="{{ $item->region_code }}">{{ $item->region_code }}</option>
                 @endforeach
             </select>
         </div>
@@ -42,7 +42,7 @@
             <select class="form-control" wire:model="project">
                 <option value=""> --- Project --- </option>
                 @foreach($dataproject as $item)
-                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                <option value="{{ $item->id }}">{{ $item->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -50,7 +50,7 @@
 
     <br>
     <div class="row">
-        <div class="col-md-2">
+        <!-- <div class="col-md-2">
             <div class="card overflowhidden number-chart" style="background-color: #fac091;">
                 <div class="body">
                     <div class="number">
@@ -59,49 +59,45 @@
                     </div>
                     <small class="text-muted">Asset Request > 2 Weeks</small>
                 </div>
-                <!-- <div class="sparkline" data-type="line" data-spot-Radius="0" data-offset="90" data-width="100%" data-height="50px"
-                data-line-Width="1" data-line-Color="#fac091" data-fill-Color="#fac091">1,4,2,3,6,2</div> -->
+                <div class="sparkline" data-type="line" data-spot-Radius="0" data-offset="90" data-width="100%" data-height="50px"
+                data-line-Width="1" data-line-Color="#fac091" data-fill-Color="#fac091">1,4,2,3,6,2</div>
             </div>
-        </div>
+        </div> -->
 
         <div class="col-md-3">
-            <div class="card overflowhidden number-chart">
+            <div class="card overflowhidden number-chart" style="background-color: #fac091;">
                 <div class="body">
                     <div class="number">
                         <h6>Total Asset Aging</h6>
-                        <span id="asset_aging"></span>
+                        <span id="totalasset">0</span>
                     </div>
-                    <small class="text-muted">Asset > 3 Years</small>
+                    <small class="text-muted">Total Asset Aging</small>
                 </div>
                
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card overflowhidden number-chart">
+            <div class="card overflowhidden number-chart" style="background-color: #604a7b;">
                 <div class="body">
                     <div class="number">
-                        <h6>Asset Aging</h6>
-                        <span>73</span>
+                        <h6 style="color: white;">Asset Aging</h6>
+                        <span id="aging" style="color: white;">0</span>
                     </div>
-                    <small class="text-muted">Asset > 3 Years</small>
+                    <small class="text-muted"><p style="color: white;">Asset > 3 Years</p> </small>
                 </div>
-                <div class="sparkline" data-type="line" data-spot-Radius="0" data-offset="90" data-width="100%" data-height="50px"
-                data-line-Width="1" data-line-Color="#604a7b" data-fill-Color="#604a7b">1,4,2,3,6,2</div>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card overflowhidden number-chart">
+            <div class="card overflowhidden number-chart" style="background-color: #92cddc;">
                 <div class="body">
                     <div class="number">
                         <h6>Expired Asset</h6>
-                        <span>73</span>
+                        <span id="expired">0</span>
                     </div>
-                    <small class="text-muted">Asset > 3 Years</small>
+                    <small class="text-muted">Expired Asset</small>
                 </div>
-                <div class="sparkline" data-type="line" data-spot-Radius="0" data-offset="90" data-width="100%" data-height="50px"
-                data-line-Width="1" data-line-Color="#92cddc" data-fill-Color="#92cddc">1,4,2,3,6,2</div>
             </div>
         </div>
     </div>
@@ -127,21 +123,14 @@
 <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
 
 <script>
-var labels = {!!$labels!!};
-var datasets = {!!$datasets!!};
+var labels      = {!!$labels!!};
+var datasets    = {!!$datasets!!};
+var totalasset  = {!!$totalasset!!};
+var aging       = {!!$aging!!};
+var expired     = {!!$expired!!};
 
 // var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
 
-// var dataslt = [];
-// for(var i = 0; i < series.length; i++)  {
-//     dataslt.push({
-//             data: series[i],
-//             backgroundColor: colors[i],
-//             borderColor: colors[i],
-//             borderWidth: 4,
-//             pointBackgroundColor: colors[0]
-//         });
-// }
 
 $( document ).ready(function() {
     // $('.multiselect_month').multiselect({ 
@@ -155,8 +144,15 @@ $( document ).ready(function() {
     init_chart_databasenoc();
 });
 Livewire.on('init-chart',(data)=>{
-    labels = JSON.parse(data.labels);
-    datasets = JSON.parse(data.datasets);
+    labels      = JSON.parse(data.labels);
+    datasets    = JSON.parse(data.datasets);
+    totalasset  = JSON.parse(data.totalasset);
+    aging       = JSON.parse(data.aging);
+    expired     = JSON.parse(data.expired);
+
+    $('#totalasset').html(totalasset);
+    $('#aging').html(aging);
+    $('#expired').html(expired);
 
     
     
