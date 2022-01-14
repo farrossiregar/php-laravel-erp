@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\AssetRequest;
+namespace App\Http\Livewire\ClaimingProcess;
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -11,7 +11,7 @@ use DateTime;
 use Auth;
 
 
-class Add extends Component
+class Claim extends Component
 {
     use WithPagination;
     // public $date, $employee_id;
@@ -29,10 +29,6 @@ class Add extends Component
         $this->employee_name        = $user->name;
         $this->position             = get_position($user->user_access_id);
         $this->location             = '';
-        // $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
-        // $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
-
-        // $this->stock = 0;
         $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
                                 ->where('company_id', Session::get('company_id'))
                                 ->where('is_project', '1')
@@ -69,7 +65,7 @@ class Add extends Component
             $this->reference_pic        = '';
         }
 
-        return view('livewire.asset-request.add');
+        return view('livewire.claiming-process.claim');
     }
 
   

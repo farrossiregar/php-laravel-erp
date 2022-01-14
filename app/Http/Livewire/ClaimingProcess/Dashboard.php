@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\AssetRequest;
+namespace App\Http\Livewire\ClaimingProcess;
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -36,7 +36,7 @@ class Dashboard extends Component
         }
 
         $this->generate_chart();
-        return view('livewire.asset-request.dashboard');
+        return view('livewire.claiming-process.dashboard');
     }
 
     public function mount()

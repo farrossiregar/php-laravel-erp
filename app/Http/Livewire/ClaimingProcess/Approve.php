@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\AssetRequest;
+namespace App\Http\Livewire\ClaimingProcess;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
