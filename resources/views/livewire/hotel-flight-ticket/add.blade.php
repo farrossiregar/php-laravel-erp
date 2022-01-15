@@ -39,6 +39,15 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
+
+                                        <div class="col-md-12 form-group">
+                                            <label>Position</label>
+                                            <input type="text" class="form-control" wire:model="position" readonly/>
+                                            
+                                            @error('position')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
                                         
                                         <div class="col-md-12 form-group">
                                             <label>Date </label>
@@ -48,9 +57,19 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
+                                        <div class="col-md-12 form-group">
+                                            <label>Claim Category</label>
+                                            <select onclick="" class="form-control" wire:model="claim_category">
+                                                <option value=""> --- Claim Category --- </option>
+                                                <option value="1">Entertainment</option>
+                                                <option value="2">Medical</option>
+                                                <option value="3">Transport</option>
+                                                <option value="4">Parking</option>
+                                            </select>
+                                        </div>
 
                                         <div class="col-md-12 form-group">
-                                            <label>Ticket Type</label>
+                                            <label>Ticket Type</label> <span style="color: red;"> Limit : <b>{{ $limit }}</b></span>
                                             <select onclick="" class="form-control" wire:model="ticket_type">
                                                 <option value=""> --- Ticket Type --- </option>
                                                 <option value="1">Hotel & Flight</option>
@@ -61,19 +80,6 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-
-                                        <!-- <div class="col-md-12 form-group">
-                                            <label>Category</label>
-                                            <select onclick="" class="form-control" wire:model="project">
-                                                <option value=""> --- Ticket Type --- </option>
-                                                <option value="1">Hotel & Flight</option>
-                                                <option value="2">Hotel only</option>
-                                                
-                                            </select>
-                                            @error('employee_id')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div> -->
 
                                         @if($tickettype == true)
                                         <div class="col-md-6 form-group">
@@ -137,12 +143,13 @@
                                        
                                     </div>
                                 </div>
-                                
+                                @if($limit || $limit > 0)
                                 <div class="col-md-12 form-group">
                                     <hr />
                                     
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                 </div>
+                                @endif
                             </div>
                         </form>
                     </div>

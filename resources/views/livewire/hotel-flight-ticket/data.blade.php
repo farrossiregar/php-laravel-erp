@@ -51,7 +51,9 @@
                         <th rowspan="2" class="align-middle">Status</th> 
                         <th rowspan="2" class="align-middle">Action</th> 
                         <th rowspan="2" class="align-middle">Date Create</th>
+                        <th rowspan="2" class="align-middle">Ticket ID</th>
                         <th rowspan="2" class="align-middle">User</th> 
+                        <th rowspan="2" class="align-middle">Position</th> 
                         <th rowspan="2" class="align-middle">NIK</th> 
                         <!-- <th rowspan="2" class="align-middle">Company Name</th>  -->
                         <th rowspan="2" class="align-middle">Project</th> 
@@ -127,8 +129,11 @@
                                 @endif
                             @endif
                         </td>
+                        
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
+                        <td><b>{{ strtoupper($item->ticket_id) }}</b></td>
                         <td>{{ $item->name }}</td>
+                        <td>{{ \App\Models\UserAccess::where('id', $item->position)->orderBy('id', 'asc')->first()->name }}</td>
                         <td>{{ $item->nik }}</td>
                         <td>{{ $item->project }}</td>
                         <td>{{ $item->region }}</td>
@@ -141,7 +146,23 @@
                                 }
                             ?>
                         </td>
-                        <td>{{ $item->category }}</td>
+                        <td>
+                            @if($item->category == '1')
+                                Entertainment
+                            @endif
+
+                            @if($item->category == '2')
+                                Medical
+                            @endif
+
+                            @if($item->category == '3')
+                                Transport
+                            @endif
+
+                            @if($item->category == '4')
+                                Parking
+                            @endif
+                        </td>
                         
                         <td>
                             <?php

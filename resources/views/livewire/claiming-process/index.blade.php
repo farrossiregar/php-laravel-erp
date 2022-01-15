@@ -25,7 +25,7 @@
 </div>
 
 <div class="modal fade" id="modal-claimingprocess-claim" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="max-width:40%;">
         <div class="modal-content">
             <livewire:claiming-process.claim />
         </div>
@@ -61,7 +61,7 @@
 </div>
 
 <div class="modal fade" id="modal-claimingprocess-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="max-width:40%;">
         <div class="modal-content">
             <livewire:claiming-process.detail />
         </div>

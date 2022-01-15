@@ -18,9 +18,9 @@
 
 
     @if(check_access('asset-request.hq-user') || check_access('asset-request.regional-logistic-admin'))
-    <div class="col-md-1" style="margin: 0 10px;">
+    <!-- <div class="col-md-1" style="margin: 0 10px;">
         <a href="javascript:;" wire:click="$emit('modalclaimticket')" class="btn btn-info"><i class="fa fa-plus"></i> Claiming Request </a>
-    </div>  
+    </div>   -->
     @endif
     
     
@@ -33,7 +33,7 @@
                     <tr>
                         <th class="align-middle">No</th>
                         <th class="align-middle">Status</th> 
-                        <th class="align-middle">Action</th> 
+                        <th class="align-middle">Claim</th> 
                         <th class="align-middle">Date Create</th>
                         <th class="align-middle">Ticket ID</th> 
                         <th class="align-middle">User Request</th> 
@@ -47,30 +47,53 @@
                 <tbody>
                     @foreach($data as $key => $item)
                     <tr>
-                    <td>{{ $key + 1 }}</td>
-                    <td>
-                            @if($item->status == '2')
-                                <label class="badge badge-success" data-toggle="tooltip" title="Hotel & Flight Request is Approved by HQ GA">Approved by HQ GA</label>
-                            @endif
+                        <td>{{ $key + 1 }}</td>
+                        <td>
+                            <?php
+                                $dataclaim = \App\Models\ClaimingProcess::where('ticket_id', $item->ticket_id)->first();
+                            ?>
+                            @if($dataclaim)
+                                @if($dataclaim->status == '3')
+                                    <label class="badge badge-success" data-toggle="tooltip" title="Claim Request is Approved by FA">Approved by FA</label>
+                                @endif
 
-                            @if($item->status == '1')
-                                <label class="badge badge-success" data-toggle="tooltip" title="Hotel & Flight Request is Approved by L1 Manager">Approved by L1 Manager</label>
-                            @endif
+                                @if($dataclaim->status == '2')
+                                    <label class="badge badge-success" data-toggle="tooltip" title="Claim Request is Approved by GA">Approved by GA</label>
+                                @endif
 
-                            @if($item->status == '0')
-                                <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Decline</label>
-                            @endif
+                                @if($dataclaim->status == '1')
+                                    <label class="badge badge-success" data-toggle="tooltip" title="Claim Request is Approved by Department Manager">Approved by Department Manager</label>
+                                @endif
 
-                            @if($item->status == '' || $item->status == 'null')
-                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
+                                @if($dataclaim->status == '0')
+                                    <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Decline</label>
+                                @endif
+
+                                @if($dataclaim->status == '' || $item->status == 'null')
+                                    <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
+                                @endif
                             @endif
                         </td>
                         <td>
-                            <a href="javascript:;" wire:click="$emit('modaledithotelflightticket','{{ $item->id }}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
                             
+
+                            @if(\App\Models\ClaimingProcess::where('ticket_id', $item->ticket_id)->first())
+                                <label class="badge badge-success" data-toggle="tooltip" title="claimed">Claimed</label>
+
+                                <!-- if(check_access('hotel-flight-ticket.l1-manager')) -->
+                                    <!-- if($item->status == '') -->
+                                    
+                                    <a href="javascript:;" wire:click="$emit('modalapprovehotelflightticket',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclinehotelflightticket',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                    <!-- endif -->
+
+                                <!-- endif -->
+                            @else
+                                <a href="javascript:;" wire:click="$emit('modalclaimticket', '{{$item->id}}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
+                            @endif
                         </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
-                        <td></td>
+                        <td><b>{{ strtoupper($item->ticket_id) }}</b></td>
                         <td>{{ $item->name }}</td>
 
                         <td>{{ $item->nik }}</td>

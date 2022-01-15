@@ -13,91 +13,80 @@ use Auth;
 
 class Claim extends Component
 {
+    protected $listeners = [
+        'modalclaimticket'=>'modalclaimticket',
+    ];
+
     use WithPagination;
     // public $date, $employee_id;
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $position, $datalocation, $dataassetname, $stock;
-    public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link, $reference_pic;
+    
+
+    public $claim_category, $position;
+
+    public $company_name, $project, $client_project_id, $region, $employee_name, $date, $ticket_type, $tickettype, $meeting_location, $file;
+    public $departure_airport, $arrival_airport, $departure_time, $arrival_time, $airline, $agency, $flight_price;
+    public $hotel_price, $hotel_name, $hotel_location, $ticket_id;
 
     public function render()
     {
 
-        $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-        
-        $this->employee_name        = $user->name;
-        $this->position             = get_position($user->user_access_id);
-        $this->location             = '';
-        $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
-                                ->where('company_id', Session::get('company_id'))
-                                ->where('is_project', '1')
-                                ->get();
-
-        
-
-        $get_project = \App\Models\ClientProject::where('id', \App\Models\EmployeeProject::where('employee_id', Auth::user()->id)->first()->client_project_id)->first();
-        $this->project = $get_project->name;
-
-        $this->region = \App\Models\Region::where('id', $get_project->region_id)->first()->region_code;
-
-        $this->datalocation = \App\Models\DophomebaseMaster::where('status', '1')->where('project', $get_project->name)->where('region', $this->region)->orderBy('id', 'desc')->get();
-
-        if($this->asset_type){
-            $this->dataassetname = \App\Models\AssetDatabase::where('asset_type', $this->asset_type)->get();
-        }else{
-            $this->dataassetname = [];
-        }
-
-        if($this->asset_name){
-            $getasset = \App\Models\AssetDatabase::where('asset_name', $this->asset_name)->first();
-            $this->location             = @\App\Models\DophomebaseMaster::where('id', $getasset->location)->first()->nama_dop;
-            $this->dimension            = @$getasset->dimension;
-            $this->detail               = $getasset->detail;
-            $this->stock                = (int)$getasset->stok;
-            $this->reference_pic        = $getasset->reference_pic;
-            
-        }else{
-            $this->location             = '';
-            $this->dimension            = '';
-            $this->detail               = '';
-            $this->Stock                = 0;
-            $this->reference_pic        = '';
-        }
+       
 
         return view('livewire.claiming-process.claim');
+    }
+
+    public function modalclaimticket($id)
+    {
+        // $this->selected_id = $id;
+        // $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
+        
+        // $this->employee_name        = $user->name;
+        // $this->position             = get_position($user->user_access_id);
+        
+
+        $this->selected_id              = $id;
+        $data                           = \App\Models\HotelFlightTicket::where('id', $this->selected_id)->first();
+    
+        $this->ticket_id                = $data->ticket_id;
+        $this->employee_name            = $data->name;
+        $this->project                  = $data->project;
+        $this->date                     = $data->date;
+        $this->meeting_location         = $data->meeting_location;
+        $this->region                   = $data->region;
+        $this->claim_category           = $data->category;
+        if($data->ticket_type == '1'){
+            $this->tickettype = true;
+        }else{
+            $this->tickettype = false;
+        }
+
+        $this->departure_airport        = $data->departure_airport;
+        $this->arrival_airport          = $data->arrival_airport;
+        $this->departure_time           = date_format(date_create($data->departure_time), 'H:i');
+        $this->arrival_time             = date_format(date_create($data->arrival_time), 'H:i');
+        $this->airline                  = $data->airline;
+        $this->agency                   = $data->agency;
+        $this->flight_price             = $data->flight_price;
+
+        $this->hotel_price              = $data->hotel_price;
+        $this->hotel_name               = $data->hotel_name;
+        $this->hotel_location           = $data->hotel_location;
     }
 
   
     public function save()
     {
 
-        $user                           = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-        $data                           = new \App\Models\AssetRequest();
-        $data->company_name             = Session::get('company_id');
-        $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
-        $data->project                  = $this->project;
-        
-        
-        $data->region                   = $this->region;
-        $data->name                     = $this->employee_name;
-        $data->nik                      = $user->nik;
-        $data->asset_type               = $this->asset_type;
-        $data->asset_name               = $this->asset_name;
-        $data->location                 = $this->location;
-        $data->quantity                 = $this->quantity;
-        $data->dimension                = $this->dimension;
-        $data->detail                   = $this->detail;
-        $data->quantity                 = $this->quantity;
-        $data->reason_request           = $this->reason_request;
-        
-        $data->save();
+        // $datareq                        = \App\Models\HotelFlightTicket::where('id', $this->selected_id)->first();
 
+        $data                           = new \App\Models\ClaimingProcess();
+        $data->ticket_id                = $this->ticket_id;
+        $data->claim_category           = $this->claim_category;
+        $data->save();
         
-        $stock          = \App\Models\AssetDatabase::where('asset_name', $this->asset_name)->first();
-        $sisa           = $stock->stok - $this->quantity;
-        $stock->stok    = $sisa;
-        $stock->save();
         
 
         // $notif = get_user_from_access('asset-request.hq-ga');
@@ -109,9 +98,9 @@ class Claim extends Component
         //     }
         // }
 
-        session()->flash('message-success',"Asset Request Berhasil diinput");
+        session()->flash('message-success',"Claim Request Berhasil diinput");
         
-        return redirect()->route('asset-request.index');
+        return redirect()->route('claiming-process.index');
     }
 
     public function weekOfMonth3($strDate) {

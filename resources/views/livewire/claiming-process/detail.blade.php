@@ -5,7 +5,7 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-edit"></i> Update Hotel & Flight Ticket Request</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-eye"></i> Detail Request</h5>
                 </div>
 
                 <div class="body pt-0">

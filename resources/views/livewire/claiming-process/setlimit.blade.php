@@ -78,7 +78,8 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{$key + 1}}</td>
-                        <td></td>
+                        <td>
+                            <a href="javascript:;" wire:click="$emit('modaladdlimit')"><i class="fa fa-edit"></i></a></td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>{{ $item->year }}</td>
                         <td>
