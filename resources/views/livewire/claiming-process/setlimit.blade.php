@@ -3,6 +3,38 @@
         <input type="date" class="form-control" wire:model="date" />
     </div>
 
+    <div class="col-md-1">
+        <select class="form-control" wire:model="year">
+            <option value=""> --- Year --- </option>
+            @foreach(\App\Models\ClaimingProcessLimit::orderBy('year', 'desc')
+                                ->groupBy('year')
+                                ->get() as $item)
+            <option><?php echo $item->year; ?></option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <select class="form-control" wire:model="year">
+            <option value=""> --- User Access --- </option>
+            @foreach(\App\Models\UserAccess::orderBy('id', 'asc')
+                                ->get() as $item)
+            <option><?php echo $item->name; ?></option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <select onclick="" class="form-control" wire:model="claim_category">
+            <option value=""> --- Claim Category --- </option>
+            <option value="1">Entertainment</option>
+            <option value="2">Medical</option>
+            <option value="3">Transport</option>
+            <option value="4">Parking</option>
+        </select>
+    </div>
+
+
     
     <!-- <div class="col-md-2" wire:ignore>
         <select class="form-control" style="width:100%;" wire:model="filterproject">
@@ -34,6 +66,8 @@
                         <th class="align-middle">No</th>
                         <th class="align-middle">Action</th> 
                         <th class="align-middle">Date Create</th>
+                        <th class="align-middle">Year</th>
+                        <th class="align-middle">Claim Category</th> 
                         <th class="align-middle">User Access</th> 
                         <th class="align-middle">Limit</th> 
                         
@@ -45,9 +79,28 @@
                     <tr>
                         <td>{{$key + 1}}</td>
                         <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
+                        <td>{{ $item->year }}</td>
+                        <td>
+                            @if($item->claim_category == '1')
+                                Entertainment
+                            @endif
+
+                            @if($item->claim_category == '2')
+                                Medical
+                            @endif
+
+                            @if($item->claim_category == '3')
+                                Transport
+                            @endif
+
+                            @if($item->claim_category == '4')
+                                Parking
+                            @endif
+                            
+                        </td>
+                        <td>{{ \App\Models\UserAccess::where('id', $item->user_access)->orderBy('id', 'asc')->first()->name }}</td>
+                        <td>{{ $item->limit }}</td>
                     </tr>
                     
                     <!-- <tr>

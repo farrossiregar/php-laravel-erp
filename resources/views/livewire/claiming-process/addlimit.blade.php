@@ -48,7 +48,24 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        
+                                        <div class="col-md-12 form-group">
+                                            <label>Year</label>
+                                            <select class="form-control" wire:model="year">
+                                                <option value=""> --- Year --- </option>
+                                                <?php
+                                                    $year = date('Y');
+                                                    for($i = $year; $i <= ($year + 1); $i++){
+                                                ?>
+                                                <option><?php echo $i; ?></option>
+                                                <?php
+                                                    }
+                                                ?>
+                                            </select>
+                                            
+                                            @error('year')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
                                       
                                     </div>
                                 </div>
