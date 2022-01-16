@@ -10,7 +10,7 @@ use DB;
 class Approve extends Component
 {
     protected $listeners = [
-        'modalapproveassetrequest'=>'approveassetrequest',
+        'modalapproveclaimingprocess'=>'modalapproveclaimingprocess',
     ];
 
     use WithFileUploads;
@@ -20,10 +20,10 @@ class Approve extends Component
     
     public function render()
     {
-        return view('livewire.asset-request.approve');
+        return view('livewire.claiming-process.approve');
     }
 
-    public function approveassetrequest($id)
+    public function modalapproveclaimingprocess($id)
     {
         $this->selected_id = $id;
     }
@@ -32,25 +32,22 @@ class Approve extends Component
     public function save()
     {
         $type_approve = $this->selected_id;
-        $data = \App\Models\AssetRequest::where('id', $this->selected_id)->first();
-        if($type_approve[1] == '1'){
-            $data->status = '1';
-        }else{
-            $data->status = '2';
-        }
+        
+        $data = \App\Models\ClaimingProcess::where('ticket_id', $type_approve[0])->first();
+        $data->status = $type_approve[1];
         $data->note     = $this->note;
         
         $data->save();
 
 
         $datahistory = new \App\Models\LogActivity();
-        $datahistory->subject = 'Approvalhistoryassetrequest'.$type_approve[0];
+        $datahistory->subject = 'Approvalhistoryclaimingprocess'.$type_approve[0];
         $datahistory->var = '{"status":"'.$data->status.'","note":"'.$this->note.'"}';
         $datahistory->save();
 
 
-        session()->flash('message-success',"Berhasil, Asset Request sudah diapprove!!!");
+        session()->flash('message-success',"Berhasil, Claiming Process sudah diapprove!!!");
         
-        return redirect()->route('asset-request.index');
+        return redirect()->route('claiming-process.index');
     }
 }

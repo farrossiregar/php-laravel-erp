@@ -10,7 +10,7 @@ use DB;
 class Decline extends Component
 {
     protected $listeners = [
-        'modaldeclineassetrequest'=>'declineassetrequest',
+        'modaldeclineclaimingprocess'=>'modaldeclineclaimingprocess',
     ];
 
     use WithFileUploads;
@@ -20,10 +20,10 @@ class Decline extends Component
     
     public function render()
     {       
-        return view('livewire.asset-request.decline');
+        return view('livewire.claiming-process.decline');
     }
 
-    public function declineassetrequest($id)
+    public function modaldeclineclaimingprocess($id)
     {
         $this->selected_id = $id;
         // dd($id[0]);
@@ -33,25 +33,27 @@ class Decline extends Component
     public function save()
     {
         
-        $data = \App\Models\AssetRequest::where('id', $this->selected_id)->first();
+       $type_approve = $this->selected_id;
         
-        $data->status   = '0';
+        $data = \App\Models\ClaimingProcess::where('ticket_id', $type_approve[0])->first();
+        $data->status = 0;
         $data->note     = $this->note;
-
+        
         $data->save();
 
+
         $datahistory = new \App\Models\LogActivity();
-        $datahistory->subject = 'Approvalhistoryassetrequest'.$this->selected_id;
+        $datahistory->subject = 'Approvalhistoryclaimingprocess'.$type_approve[0];
         $datahistory->var = '{"status":"'.$data->status.'","note":"'.$this->note.'"}';
         $datahistory->save();
 
-        // $message  = "<p>Dear {$data->name}<br />, Asset Request is Decline </p>";
-        // \Mail::to($data->email)->send(new GeneralEmail("[PMT E-PM] - Asset Request",$message));
+        // $message  = "<p>Dear {$data->name}<br />, Claim Request is Decline </p>";
+        // \Mail::to($data->email)->send(new GeneralEmail("[PMT E-PM] - Claim Request",$message));
 
-        session()->flash('message-success',"Berhasil, Asset Request is Decline !!!");
+        session()->flash('message-success',"Berhasil, Claiming Request is Decline !!!");
 
         // \LogActivity::add('[web] Duty Roster - Home Base Input');
         
-        return redirect()->route('asset-request.index');
+        return redirect()->route('claiming-process.index');
     }
 }

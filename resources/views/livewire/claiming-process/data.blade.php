@@ -4,7 +4,7 @@
     </div>
 
     
-    <!-- <div class="col-md-2" wire:ignore>
+    <div class="col-md-2" wire:ignore>
         <select class="form-control" style="width:100%;" wire:model="filterproject">
             <option value=""> --- Project --- </option>
             @foreach(\App\Models\ClientProject::orderBy('id', 'desc')
@@ -14,7 +14,11 @@
                 <option value="{{$item->id}}">{{$item->name}}</option>
             @endforeach
         </select>
-    </div> -->
+    </div>
+
+    <div class="col-md-2">
+        <input type="text" class="form-control" wire:model="name" />
+    </div>
 
 
     @if(check_access('asset-request.hq-user') || check_access('asset-request.regional-logistic-admin'))
@@ -41,6 +45,7 @@
                         <th class="align-middle">Project</th> 
                         <th class="align-middle">Region</th> 
                         <th class="align-middle">Ticket Type</th> 
+                        <th class="align-middle">Transfer Receipt</th> 
                     </tr>
                    
                 </thead>
@@ -53,41 +58,63 @@
                                 $dataclaim = \App\Models\ClaimingProcess::where('ticket_id', $item->ticket_id)->first();
                             ?>
                             @if($dataclaim)
-                                @if($dataclaim->status == '3')
-                                    <label class="badge badge-success" data-toggle="tooltip" title="Claim Request is Approved by FA">Approved by FA</label>
-                                @endif
+                                <a href="javascript:;" wire:click="$emit('modalapprovalhistoryclaimingprocess','{{ $dataclaim->ticket_id }}')">
+                                    @if($dataclaim->status == '3')
+                                        <label class="badge badge-success" data-toggle="tooltip" title="Claim Request is Approved by FA">Approved by FA</label>
+                                    @endif
 
-                                @if($dataclaim->status == '2')
-                                    <label class="badge badge-success" data-toggle="tooltip" title="Claim Request is Approved by GA">Approved by GA</label>
-                                @endif
+                                    @if($dataclaim->status == '2')
+                                        <label class="badge badge-success" data-toggle="tooltip" title="Claim Request is Approved by GA">Approved by GA</label>
+                                    @endif
 
-                                @if($dataclaim->status == '1')
-                                    <label class="badge badge-success" data-toggle="tooltip" title="Claim Request is Approved by Department Manager">Approved by Department Manager</label>
-                                @endif
+                                    @if($dataclaim->status == '1')
+                                        <label class="badge badge-success" data-toggle="tooltip" title="Claim Request is Approved by Department Manager">Approved by Department Manager</label>
+                                    @endif
 
-                                @if($dataclaim->status == '0')
-                                    <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Decline</label>
-                                @endif
+                                    @if($dataclaim->status == '0')
+                                        <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Decline</label>
+                                    @endif
 
-                                @if($dataclaim->status == '' || $item->status == 'null')
-                                    <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
-                                @endif
+                                    @if($dataclaim->status == '' || $item->status == 'null')
+                                        <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
+                                    @endif
+                                </a>
                             @endif
                         </td>
                         <td>
                             
-
+                            <?php
+                                $dataclaim = \App\Models\ClaimingProcess::where('ticket_id', $item->ticket_id)->first();
+                            ?>
                             @if(\App\Models\ClaimingProcess::where('ticket_id', $item->ticket_id)->first())
                                 <label class="badge badge-success" data-toggle="tooltip" title="claimed">Claimed</label>
 
-                                <!-- if(check_access('hotel-flight-ticket.l1-manager')) -->
-                                    <!-- if($item->status == '') -->
-                                    
-                                    <a href="javascript:;" wire:click="$emit('modalapprovehotelflightticket',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                        <a href="javascript:;" wire:click="$emit('modaldeclinehotelflightticket',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
-                                    <!-- endif -->
+                                @if(check_access('claiming-process.department-manager'))
+                                    @if($dataclaim->status == '')
+                                    dept
+                                    <a href="javascript:;" wire:click="$emit('modalapproveclaimingprocess',['{{ $item->ticket_id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclineclaimingprocess',['{{ $item->ticket_id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                    @endif
 
-                                <!-- endif -->
+                                @endif
+
+                                @if(check_access('claiming-process.ga'))
+                                    @if($dataclaim->status == '1')
+                                    ga
+                                    <a href="javascript:;" wire:click="$emit('modalapproveclaimingprocess',['{{ $item->ticket_id }}', '2'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclineclaimingprocess',['{{ $item->ticket_id }}', '2'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                    @endif
+
+                                @endif
+
+                                @if(check_access('claiming-process.fa'))
+                                    @if($dataclaim->status == '2')
+                                    fa
+                                    <a href="javascript:;" wire:click="$emit('modalapproveclaimingprocess',['{{ $item->ticket_id }}', '3'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclineclaimingprocess',['{{ $item->ticket_id }}', '3'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                    @endif
+
+                                @endif
                             @else
                                 <a href="javascript:;" wire:click="$emit('modalclaimticket', '{{$item->id}}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
                             @endif
@@ -109,93 +136,11 @@
                             ?>
                             <a href="javascript:;" wire:click="$emit('modaldetailticket','{{ $item->id }}')"><?php echo $tickettype;?></a>
                         </td>
+                        <td>
+                            <a href="javascript:;" wire:click="$emit('modalimportreceipt', '{{$item->ticket_id}}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
+                        </td>
                     </tr>
-                    
-                    <!-- <tr>
-                        <td>{{ $key + 1 }}</td>
-                        <td>
-                            <a href="javascript:;" wire:click="$emit('modalapprovalhistoryassetrequest','{{ $item->id }}')">
-                            @if($item->status == '1')
-                                <label class="badge badge-success" data-toggle="tooltip" title="Asset Request is Approved">Approved</label>
-                            @endif
-
-                            @if($item->status == '0')
-                                <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Decline</label>
-                            @endif
-                            </a>
-
-                            @if($item->status == '' || $item->status == 'null')
-                                <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
-                            @endif
-                        </td>
-                        <td>
-                            @if(check_access('asset-request.hq-ga'))
-                                @if($item->status == '')
-                                   
-                                    <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
-                                @endif
-
-                            @endif
-
-
-                            
-                        </td>
-                        <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
-                        <td>{{ $item->name }}</td>
-
-                        <td>{{ $item->nik }}</td>
-                        <td>{{ $item->project }}</td>
-                        <td>{{ $item->region }}</td>
-
-                        <td>
-                            @if($item->asset_type == '1')
-                                Air Conditioner & Fan
-                            @endif
-
-                            @if($item->asset_type == '2')
-                                Furniture & Fixture
-                            @endif
-
-                            @if($item->asset_type == '3')
-                                Computer Equipment
-                            @endif
-
-                            @if($item->asset_type == '4')
-                                Printer & Device
-                            @endif
-
-                        </td>
-                        <td>{{ $item->asset_name }}</td>
-                        <td>
-                            
-                                @if($item->dana_from == '')
-                                    @if($item->status == '1')
-                                        @if(check_access('asset-request.hq-ga'))
-                                            <a href="javascript:;" wire:click="$emit('modaleditassetrequest','{{ $item->id }}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
-                                        @endif
-                                    @endif
-                                @else
-                                    @if($item->dana_from == '1')
-                                        e-PL
-                                    @else
-                                        Petty Cash
-                                    @endif
-                                    
-                                @endif
-                            
-                        </td>
-                        
-                        <td>{{ $item->pr_no }}</td>
-                        <td>{{ "Rp " . number_format($item->dana_amount,2,',','.') }}</td>
-                        <td><b>{{ strtoupper($item->serial_number) }}</b></td>
-                        <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td>
-                        <td>{{ $item->dimension }}</td>
-                        <td>{{ $item->detail }}</td>
-                        <td>{{ $item->quantity }}</td>
-                        <td>{{ $item->reason_request }}</td>
-                        <td><a href="javascript:;" wire:click="$emit('modaldetailimage','{{ $item->id }}')"><i class="fa fa-eye"></i></a></td>
-                    </tr> -->
+                
                     
                     
                     @endforeach

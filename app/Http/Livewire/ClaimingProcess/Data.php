@@ -11,7 +11,7 @@ use DB;
 class Data extends Component
 {
     use WithPagination;
-    public $project, $date, $filterproject, $employee_name;
+    public $project, $date, $name;
     protected $paginationTheme = 'bootstrap';
     
     public function render()
@@ -21,8 +21,9 @@ class Data extends Component
         // if($this->filteryear) $data->whereYear('date',$this->filteryear);
         // if($this->filtermonth) $data->whereMonth('date',$this->filtermonth);                
         
-        // if($this->date) $data->where(DB::Raw('date(created_at)'),$this->date);                        
-        // if($this->filterproject) $data->where('client_project_id',$this->filterproject);                        
+        if($this->date) $data->where(DB::Raw('date(created_at)'),$this->date);                        
+        if($this->project) $data->where('project',$this->project);                        
+        if($this->name) $data->where('name',$this->name);                        
         
         return view('livewire.claiming-process.data')->with(['data'=>$data->paginate(50)]);   
     }

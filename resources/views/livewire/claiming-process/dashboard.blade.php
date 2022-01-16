@@ -25,6 +25,18 @@
         </div>
 
         <div class="col-md-2">                
+            <select class="form-control" wire:model="claim_category">
+                <option value=""> --- Category --- </option>
+                
+                <option value="1"></option>
+                <option value="2"></option>
+                <option value="3"></option>
+                <option value="4"></option>
+                
+            </select>
+        </div>
+
+        <!-- <div class="col-md-2">                
             <select class="form-control" wire:model="region">
                 <option value=""> --- Region --- </option>
                 @foreach(\App\Models\Region::orderBy('id', 'desc')
@@ -41,7 +53,7 @@
                 <option value="{{ $item->name }}">{{ $item->name }}</option>
                 @endforeach
             </select>
-        </div>
+        </div> -->
     </div>
 
     <br>
@@ -50,13 +62,25 @@
             <div class="card overflowhidden number-chart" style="background-color: #fac091;">
                 <div class="body">
                     <div class="number">
-                        <h6>Asset Request Aging</h6>
+                        <h6>Total Claim Request</h6>
                         <span id="aging"></span>
                     </div>
-                    <small class="text-muted">Asset Request > 2 Weeks</small>
+                    <small class="text-muted">Total Claim Request</small>
                 </div>
                 <!-- <div class="sparkline" data-type="line" data-spot-Radius="0" data-offset="90" data-width="100%" data-height="50px"
                 data-line-Width="1" data-line-Color="#fac091" data-fill-Color="#fac091">1,4,2,3,6,2</div> -->
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="card overflowhidden number-chart" style="background-color: #c3e6cb;">
+                <div class="body">
+                    <div class="number">
+                        <h6>Total Claim Request Decline</h6>
+                        <span id="aging"></span>
+                    </div>
+                    <small class="text-muted">Total Claim Request Decline</small>
+                </div>
             </div>
         </div>
         <br>
@@ -68,13 +92,10 @@
             </label>
         </div>
     </div>
-    <div class="mt-4" style="height: 300px">
+    <!-- <div class="mt-4" style="height: 300px">
         <canvas id="chBar"></canvas>
-    </div>
-<!-- 
-    <div class="mt-4" style="height: 300px">
-        <canvas id="chBar1"></canvas>
     </div> -->
+
 </div>
 @push('after-scripts')
 <script src="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>

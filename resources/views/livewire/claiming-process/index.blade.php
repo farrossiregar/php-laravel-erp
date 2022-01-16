@@ -43,7 +43,7 @@
 
 
 
-<div class="modal fade" id="modal-assetrequest-approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-claimingprocess-approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <livewire:claiming-process.approve />
@@ -52,7 +52,7 @@
 </div>
 
 
-<div class="modal fade" id="modal-assetrequest-decline" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-claimingprocess-decline" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <livewire:claiming-process.decline />
@@ -69,10 +69,39 @@
 </div>
 
 
+<div class="modal fade" id="modal-claimingprocess-approvalhistory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:claiming-process.approvalhistory />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-claimingprocess-importreceipt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:claiming-process.importreceipt />
+        </div>
+    </div>
+</div>
+
+
 
 
 
 @section('page-script')
+    Livewire.on('modalapproveclaimingprocess',(data)=>{
+        $("#modal-claimingprocess-approve").modal('show');
+    });
+    
+    Livewire.on('modaldeclineclaimingprocess',(data)=>{
+        $("#modal-claimingprocess-decline").modal('show');
+    });
+
+    Livewire.on('modalimportreceipt',(data)=>{
+        $("#modal-claimingprocess-importreceipt").modal('show');
+    });
+    
     Livewire.on('modalclaimticket',(data)=>{
         $("#modal-claimingprocess-claim").modal('show');
     });
@@ -87,6 +116,10 @@
 
     Livewire.on('modaldetailticket',(data)=>{
         $("#modal-claimingprocess-detail").modal('show');
+    });
+
+    Livewire.on('modalapprovalhistoryclaimingprocess',(data)=>{
+        $("#modal-claimingprocess-approvalhistory").modal('show');
     });
 
 @endsection
