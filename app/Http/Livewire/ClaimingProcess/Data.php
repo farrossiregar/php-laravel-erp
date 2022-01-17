@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Session;
 use DB;
+use Auth;
 
 
 class Data extends Component
@@ -16,7 +17,15 @@ class Data extends Component
     
     public function render()
     {
-        $data = \App\Models\HotelFlightTicket::where('company_name', Session::get('company_id'))->where('status', '2')->orderBy('created_at', 'desc');
+        $user = Auth::user();
+        
+        if(check_access('claiming-process.department-manager') || check_access('claiming-process.ga') || check_access('claiming-process.fa')){
+            $data = \App\Models\HotelFlightTicket::where('company_name', Session::get('company_id'))->where('status', '2')->orderBy('created_at', 'desc');
+        }else{
+            
+            $data = \App\Models\HotelFlightTicket::where('nik', $user->nik)->where('status', '2')->orderBy('created_at', 'desc');
+        }
+        
         
         // if($this->filteryear) $data->whereYear('date',$this->filteryear);
         // if($this->filtermonth) $data->whereMonth('date',$this->filtermonth);                

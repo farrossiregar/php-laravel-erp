@@ -25,35 +25,15 @@
         </div>
 
         <div class="col-md-2">                
-            <select class="form-control" wire:model="claim_category">
-                <option value=""> --- Category --- </option>
-                
-                <option value="1"></option>
-                <option value="2"></option>
-                <option value="3"></option>
-                <option value="4"></option>
-                
-            </select>
-        </div>
-
-        <!-- <div class="col-md-2">                
-            <select class="form-control" wire:model="region">
-                <option value=""> --- Region --- </option>
-                @foreach(\App\Models\Region::orderBy('id', 'desc')
-                                ->get() as $item)
-                <option value="{{ $item->id }}">{{ $item->region_code }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="col-md-2">                
             <select class="form-control" wire:model="project">
                 <option value=""> --- Project --- </option>
                 @foreach($dataproject as $item)
                 <option value="{{ $item->name }}">{{ $item->name }}</option>
                 @endforeach
             </select>
-        </div> -->
+        </div> 
+        
+       
     </div>
 
     <br>
@@ -63,7 +43,7 @@
                 <div class="body">
                     <div class="number">
                         <h6>Total Claim Request</h6>
-                        <span id="aging"></span>
+                        <span id="total"></span>
                     </div>
                     <small class="text-muted">Total Claim Request</small>
                 </div>
@@ -76,10 +56,10 @@
             <div class="card overflowhidden number-chart" style="background-color: #c3e6cb;">
                 <div class="body">
                     <div class="number">
-                        <h6>Total Claim Request Decline</h6>
-                        <span id="aging"></span>
+                        <h6>Decline Claim Request</h6>
+                        <span id="reject"></span>
                     </div>
-                    <small class="text-muted">Total Claim Request Decline</small>
+                    <small class="text-muted">Decline Claim Request</small>
                 </div>
             </div>
         </div>
@@ -102,22 +82,9 @@
 <script src="{{ asset('assets/vendor/chartjs/Chart.bundle.min.js') }}?v=2"></script>
 
 <script>
-var labels = {!!$labels!!};
-var datasets = {!!$datasets!!};
-var aging = {!!$aging!!};
+var total = {!!$total!!};
+var reject = {!!$reject!!};
 
-// var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
-
-// var dataslt = [];
-// for(var i = 0; i < series.length; i++)  {
-//     dataslt.push({
-//             data: series[i],
-//             backgroundColor: colors[i],
-//             borderColor: colors[i],
-//             borderWidth: 4,
-//             pointBackgroundColor: colors[0]
-//         });
-// }
 
 $( document ).ready(function() {
     // $('.multiselect_month').multiselect({ 
@@ -131,10 +98,12 @@ $( document ).ready(function() {
     init_chart_databasenoc();
 });
 Livewire.on('init-chart',(data)=>{
-    labels = JSON.parse(data.labels);
-    datasets = JSON.parse(data.datasets);
-    aging = data.aging;
-    $('#aging').html(aging);
+    total = JSON.parse(data.total);
+    reject = JSON.parse(data.reject);
+    total = data.total;
+    reject = data.reject;
+    $('#total').html(total);
+    $('#reject').html(reject);
     // console.log(aging);
 
     
@@ -146,40 +115,12 @@ function init_chart_databasenoc(){
     var chBar = document.getElementById("chBar");
     // var chBar1 = document.getElementById("chBar1");
                        
-    if (chBar) {
-        new Chart(chBar, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: datasets,
-            },
-            options: {
-                maintainAspectRatio: false,
-                responsive: true,
-                legend: {
-                    display: true,
-                    position:'bottom'
-                },
-                title: {
-                    display: true,
-                    text: 'REQUEST ASSET - MONTHLY'
-                },
-                scales: {
-                    xAxes: [{
-                        barPercentage: 0.4,
-                        categoryPercentage: 0.5
-                    }]
-                }
-            }
-        });
-    }
-
-    // if (chBar1) {
-    //     new Chart(chBar1, {
+    // if (chBar) {
+    //     new Chart(chBar, {
     //         type: 'bar',
     //         data: {
     //             labels: labels,
-    //             datasets: datasetsamount,
+    //             datasets: datasets,
     //         },
     //         options: {
     //             maintainAspectRatio: false,
@@ -190,7 +131,7 @@ function init_chart_databasenoc(){
     //             },
     //             title: {
     //                 display: true,
-    //                 text: 'AMOUNT SPENT - MONTHLY'
+    //                 text: 'REQUEST ASSET - MONTHLY'
     //             },
     //             scales: {
     //                 xAxes: [{
@@ -201,6 +142,8 @@ function init_chart_databasenoc(){
     //         }
     //     });
     // }
+
+   
 }
 </script>
 @endpush

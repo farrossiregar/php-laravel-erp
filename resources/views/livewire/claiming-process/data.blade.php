@@ -5,7 +5,7 @@
 
     
     <div class="col-md-2" wire:ignore>
-        <select class="form-control" style="width:100%;" wire:model="filterproject">
+        <select class="form-control" style="width:100%;" wire:model="project">
             <option value=""> --- Project --- </option>
             @foreach(\App\Models\ClientProject::orderBy('id', 'desc')
                                 ->where('company_id', Session::get('company_id'))
