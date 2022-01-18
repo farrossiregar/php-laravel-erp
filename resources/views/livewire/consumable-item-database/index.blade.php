@@ -1,18 +1,22 @@
-@section('title', __('Asset Database - Index'))
+@section('title', __('Consumable Item Database - Index'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data">{{ __('Data') }}</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#datareq">{{ __('Item Request') }}</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#dataitem">{{ __('Item Database') }}</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active show " id="dashboard">
-                    <livewire:asset-database.dashboard />
+                    <livewire:consumable-item-database.dashboard />
                 </div>
-                <div class="tab-pane" id="data">
-                    <livewire:asset-database.data />
+                <div class="tab-pane" id="datareq">
+                    <livewire:consumable-item-database.datareq />
+                </div>
+                <div class="tab-pane" id="dataitem">
+                    <livewire:consumable-item-database.dataitem />
                 </div>
                
             </div>
@@ -21,19 +25,10 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-assetdatabase-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-consumableitemdatabase-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <livewire:asset-database.add />
-        </div>
-    </div>
-</div>
-
-
- <div class="modal fade" id="modal-assetdatabase-detailimage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:asset-database.detailimage />
+            <livewire:consumable-item-database.add />
         </div>
     </div>
 </div>
@@ -41,8 +36,7 @@
 
 
 
-
-<div class="modal fade" id="modal-assetdatabase-importasset" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-consumableitemdatabase-importasset" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <livewire:asset-database.importasset />
@@ -52,28 +46,19 @@
 
 
 @section('page-script')
-    Livewire.on('modaladdassetdatabase',(data)=>{
+    Livewire.on('modaladdconsumableitemdatabase',(data)=>{
         
-        $("#modal-assetdatabase-add").modal('show');
+        $("#modal-consumableitemdatabase-add").modal('show');
     });
 
-    Livewire.on('modalimportasset',(data)=>{
-        $("#modal-assetdatabase-importasset").modal('show');
+    Livewire.on('modalimportconsumableitemdatabase',(data)=>{
+        $("#modal-consumableitemdatabase-import").modal('show');
     });
 
 
-    Livewire.on('modaleditassetrequest',(data)=>{
-        $("#modal-assetrequest-edit").modal('show');
+    Livewire.on('modaleditconsumableitemdatabase',(data)=>{
+        $("#modal-consumableitemdatabase-edit").modal('show');
     });
-
-    Livewire.on('modaldetaillocation',(data)=>{
-        $("#modal-assetrequest-detaillocation").modal('show');
-    });
-
-    Livewire.on('modaldetailimage',(data)=>{
-        $("#modal-assetdatabase-detailimage").modal('show');
-    });
-
 
    
 
