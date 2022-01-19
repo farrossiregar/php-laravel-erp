@@ -39,7 +39,7 @@
 
     
     <div class="col-md-1" style="margin-right: 40px;">
-        <a href="javascript:;" wire:click="$emit('modalimportasset')" class="btn btn-info"><i class="fa fa-upload"></i> Consumable Item Database </a>
+        <a href="javascript:;" wire:click="$emit('modalimportconsumableitemdatabase')" class="btn btn-info"><i class="fa fa-upload"></i> Consumable Item Database </a>
     </div>  
     
     
@@ -66,7 +66,7 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td><a href="javascript:;" wire:click="$emit('modaldetailimage','{{ $item->id }}')"><i class="fa fa-edit"></i></a></td>
+                        <td><a href="javascript:;" wire:click="$emit('modaleditconsumableitemdatabase','{{ $item->id }}')"><i class="fa fa-edit"></i></a></td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>
                             @if($item->item_category == '1')

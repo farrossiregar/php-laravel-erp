@@ -33,13 +33,18 @@
     </div>
 </div>
 
-
-
-
 <div class="modal fade" id="modal-consumableitemdatabase-importasset" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:asset-database.importasset />
+            <livewire:consumable-item-database.importasset />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-consumableitemdatabase-edititem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:consumable-item-database.edititem />
         </div>
     </div>
 </div>
@@ -47,17 +52,16 @@
 
 @section('page-script')
     Livewire.on('modaladdconsumableitemdatabase',(data)=>{
-        
         $("#modal-consumableitemdatabase-add").modal('show');
     });
 
     Livewire.on('modalimportconsumableitemdatabase',(data)=>{
-        $("#modal-consumableitemdatabase-import").modal('show');
+        $("#modal-consumableitemdatabase-importasset").modal('show');
     });
 
 
     Livewire.on('modaleditconsumableitemdatabase',(data)=>{
-        $("#modal-consumableitemdatabase-edit").modal('show');
+        $("#modal-consumableitemdatabase-edititem").modal('show');
     });
 
    
