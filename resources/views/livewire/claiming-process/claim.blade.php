@@ -10,8 +10,7 @@
 
                 <div class="body pt-0">
                     <div class="form-group">
-                        <form wire:submit.prevent="save">
-                            @csrf
+                        
                             <div class="row">
                                 <div class="col-md-12">
                                     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demodetail">Detail Asset</button>
@@ -203,13 +202,90 @@
                                     </div>
                                 </div>
                                 
-                                <div class="col-md-12 form-group">
-                                    <hr />
-                                    
-                                    <button type="submit" class="btn btn-info close-modal">Claim</button>
-                                </div>
+                                <form wire:submit.prevent="save">
+                                    @csrf
+                                    <div class="col-md-12 form-group">
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                <br><br>
+                                                <label for="">Entertainment</label>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label for="">Limit</label>
+                                                <input type="text" class="form-control" wire:model="limit" readonly>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label for="">Claim</label>
+                                                <input type="text" class="form-control" wire:model="departure_airport">
+                                            
+                                                @error('departure_airport')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                <br><br>
+                                                <label for="">Medical</label>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label for="">Limit</label>
+                                                <input type="text" class="form-control" wire:model="limit" readonly>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label for="">Claim</label>
+                                                <input type="text" class="form-control" wire:model="claim">
+                                            
+                                                @error('departure_airport')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                <br><br>
+                                                <label for="">Transport</label>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label for="">Limit</label>
+                                                <input type="text" class="form-control" wire:model="limit" readonly>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label for="">Claim</label>
+                                                <input type="text" class="form-control" wire:model="claim">
+                                            
+                                                @error('departure_airport')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                <br><br>
+                                                <label for="">Parking</label>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label for="">Limit</label>
+                                                <input type="text" class="form-control" wire:model="limit" readonly>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label for="">Claim</label>
+                                                <input type="text" class="form-control" wire:model="claim">
+                                            
+                                                @error('departure_airport')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <button type="submit" class="btn btn-info close-modal">Claim</button>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+                        
                     </div>
                 </div>
             </div>

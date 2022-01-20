@@ -39,7 +39,7 @@
 
     
     <div class="col-md-1" style="margin-right: 40px;">
-        <a href="javascript:;" wire:click="$emit('modalimportasset')" class="btn btn-info"><i class="fa fa-plus"></i> Consumable Item Request </a>
+        <a href="javascript:;" wire:click="$emit('modaladdconsumableitemdatabase')" class="btn btn-info"><i class="fa fa-plus"></i> Consumable Item Request </a>
     </div>  
     
     

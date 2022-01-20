@@ -148,19 +148,11 @@
                         </td>
                         <td>
                             @if($item->category == '1')
-                                Entertainment
-                            @endif
-
-                            @if($item->category == '2')
-                                Medical
-                            @endif
-
-                            @if($item->category == '3')
-                                Transport
-                            @endif
-
-                            @if($item->category == '4')
-                                Parking
+                                Training
+                            @elseif($item->category == '2')
+                                Meeting
+                            @else
+                                {{ $item->category }}
                             @endif
                         </td>
                         

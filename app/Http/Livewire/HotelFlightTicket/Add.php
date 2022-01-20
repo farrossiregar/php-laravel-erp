@@ -20,7 +20,7 @@ class Add extends Component
     
     use WithFileUploads;
     public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $date, $ticket_type, $tickettype;
-    public $departure_airport, $arrival_airport, $meeting_location, $file, $claim_category, $limit, $position;
+    public $departure_airport, $arrival_airport, $meeting_location, $file, $claim_category, $claim_category2, $limit, $position;
 
     public function render()
     {
@@ -71,7 +71,12 @@ class Add extends Component
         $data->position                 = $user->user_access_id;
         // $data->employee_id              = $dataemployee[2];
         
-        $data->category                 = $this->claim_category;
+        if($this->claim_category == '3'){
+            $data->category                 = $this->claim_category2;
+        }else{
+            $data->category                 = $this->claim_category;
+        }
+        
         $data->ticket_type              = $this->ticket_type;
         $data->meeting_location         = $this->meeting_location;
         

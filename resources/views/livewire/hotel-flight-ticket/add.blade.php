@@ -58,18 +58,30 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-12 form-group">
-                                            <label>Claim Category</label>
+                                            <label>Category</label>
                                             <select onclick="" class="form-control" wire:model="claim_category">
-                                                <option value=""> --- Claim Category --- </option>
-                                                <option value="1">Entertainment</option>
-                                                <option value="2">Medical</option>
-                                                <option value="3">Transport</option>
-                                                <option value="4">Parking</option>
+                                                <option value=""> --- Category --- </option>
+                                                <option value="1">Meeting</option>
+                                                <option value="2">Training</option>
+                                                <option value="3">Other</option>
+                                                
                                             </select>
                                         </div>
 
+                                        @if($this->claim_category == '3')
                                         <div class="col-md-12 form-group">
-                                            <label>Ticket Type</label> <span style="color: red;"> Limit : <b>{{ $limit }}</b></span>
+                                            <label>Other Category</label>
+                                            <input type="text" class="form-control"  wire:model="claim_category2">
+                                           
+
+                                            @error('claim_category')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        @endif
+
+                                        <div class="col-md-12 form-group">
+                                            <label>Ticket Type</label></span>
                                             <select onclick="" class="form-control" wire:model="ticket_type">
                                                 <option value=""> --- Ticket Type --- </option>
                                                 <option value="1">Hotel & Flight</option>
@@ -143,13 +155,13 @@
                                        
                                     </div>
                                 </div>
-                                @if($limit || $limit > 0)
+                                
                                 <div class="col-md-12 form-group">
                                     <hr />
                                     
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                 </div>
-                                @endif
+                                
                             </div>
                         </form>
                     </div>

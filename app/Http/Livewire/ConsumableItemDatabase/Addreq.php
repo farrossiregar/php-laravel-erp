@@ -11,7 +11,7 @@ use DateTime;
 use Auth;
 
 
-class Add extends Component
+class Addreq extends Component
 {
     use WithPagination;
     // public $date, $employee_id;
@@ -50,7 +50,7 @@ class Add extends Component
         }
 
         
-        return view('livewire.consumable-item-database.add');
+        return view('livewire.consumable-item-database.addreq');
     }
 
   

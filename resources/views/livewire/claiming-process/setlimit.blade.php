@@ -24,7 +24,7 @@
         </select>
     </div>
 
-    <div class="col-md-3">
+    <!-- <div class="col-md-3">
         <select onclick="" class="form-control" wire:model="claim_category">
             <option value=""> --- Claim Category --- </option>
             <option value="1">Entertainment</option>
@@ -32,7 +32,7 @@
             <option value="3">Transport</option>
             <option value="4">Parking</option>
         </select>
-    </div>
+    </div> -->
 
 
     
@@ -66,10 +66,16 @@
                         <th class="align-middle">No</th>
                         <th class="align-middle">Action</th> 
                         <th class="align-middle">Date Create</th>
-                        <th class="align-middle">Year</th>
+                        <th class="align-middle">Employee Name</th>
+                        <th class="align-middle">NIK</th>
+                        <th class="align-middle">Entertainment</th>
+                        <th class="align-middle">Medical</th>
+                        <th class="align-middle">Transport</th>
+                        <th class="align-middle">Parking</th>
+                        <!-- <th class="align-middle">Year</th>
                         <th class="align-middle">Claim Category</th> 
                         <th class="align-middle">User Access</th> 
-                        <th class="align-middle">Limit</th> 
+                        <th class="align-middle">Limit</th>  -->
                         
                     </tr>
                    
@@ -81,27 +87,13 @@
                         <td>
                             <a href="javascript:;" wire:click="$emit('modaladdlimit')"><i class="fa fa-edit"></i></a></td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
-                        <td>{{ $item->year }}</td>
-                        <td>
-                            @if($item->claim_category == '1')
-                                Entertainment
-                            @endif
-
-                            @if($item->claim_category == '2')
-                                Medical
-                            @endif
-
-                            @if($item->claim_category == '3')
-                                Transport
-                            @endif
-
-                            @if($item->claim_category == '4')
-                                Parking
-                            @endif
-                            
-                        </td>
-                        <td>{{ \App\Models\UserAccess::where('id', $item->user_access)->orderBy('id', 'asc')->first()->name }}</td>
-                        <td>{{ $item->limit }}</td>
+                       
+                        <td>{{ $item->employee_name }}</td>
+                        <td>{{ $item->nik }}</td>
+                        <td>Rp, {{ number_format($item->entertainment,2,',','.') }}</td>
+                        <td>Rp, {{ number_format($item->medical,2,',','.') }}</td>
+                        <td>Rp, {{ number_format($item->transport,2,',','.') }}</td>
+                        <td>Rp, {{ number_format($item->parking,2,',','.') }}</td>
                     </tr>
                     
                     <!-- <tr>

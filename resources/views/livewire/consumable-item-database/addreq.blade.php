@@ -5,7 +5,7 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Asset Database</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Consumable Item Request</h5>
                 </div>
 
                 <div class="body pt-0">
