@@ -94,9 +94,30 @@
                                         </div>
 
                                         @if($tickettype == true)
+                                        <?php
+                                            // $airport = file_get_contents('https://gist.githubusercontent.com/tdreyno/4278655/raw/7b0762c09b519f40397e4c3e100b097d861f5588/airports.json');
+                                            // echo $airport[0]->code;
+                                            // print_r($airport);
+                                            $airport = '[{"code":"cgk","city":"jakarta"},{"code":"sub","city":"surabaya"},{"code":" DPS","city":"Denpasar"},{"code":"UPG","city":"Makassar"},{"code":"BPN","city":"balikpapan"},{"code":"jog","city":"yogyakarta"},{"code":"srg","city":"semarang"},{"code":"bth","city":"batam"},{"code":"pku","city":"pekanbaru"},{ "code":"ard","city":"alor Island"},{"code":"AMQ","city":"Ambon"},{"code":"ABU","city":"Atambua"},{"code":"btj","city":"banda Aceh"},{"code":"TKG","city":"Bandar Lampung"},{"code":"BDO","city":"Bandung"},{"code":"BDJ","city":"Banjarmasin "},{"code":"bwx","city":"banyuwangi"},{"code":"buw","city":"baubau"},{"code ":"BKS","city":"Bengkulu"},{"code":"BEJ","city":"Berau"},{"code":"BIK","city":"biak"},{"code":"bmu","city":"bima"},{"code":"wub","city":"buli"},{"code ":"ENE","city":"Ende"},{"code":"FKQ","city":"Fak Fak"},{"code":"GTO","city":"Gorontalo"},{"code":"GNS","city":"Gunung Sitoli"},{"code":"HLP","city":"Jakarta Halim"},{"code":"DJB","city":"Jambi"},{"code":"DJJ","city":"Jayapura"},{"code":"kbu","city":"kotabaru"},{"code":"kng","city":"kaimana"},{"code":"kdi", "city":"kendari"},{"code":"ktg","city":"ketapang"},{"code":"koe","city":"ku pang"},{"code":"lbj","city":"labuanbajo"},{"code":"lah","city":"labuha"},{"code":"lka","city":"larantuka"},{"code":"lsw","city":"lhokseumawe"},{"code" :"LOP","city":"Lombok"},{"code":"LUW","city":"Luwuk"},{"code":"MLG","city": "Malang"},{"code":"MJU","city":"Mamuju"},{"code":"MDC","city":"Manado"},{"code":"mkw","city":"manokwari"},{"code":"mof","city":"maumere"},{"code":"kno ","city":"medan"},{"code":"mna","city":"melonguane"},{"code":"mkq","city":" Merauke"},{"code":"MEQ","city":"Meulaboh"},{"code":"NBX","city":"Nabire"},{ "code":"ntx","city":"natuna"},{"code":"nnx","city":"nunukan"},{"code":"pdg","city":"padang"},{"code":"pky","city":"palangkaraya"},{"code":"plm","city" :"Palembang"},{"code":"PLW","city":"Palu"},{"code":"NSW","city":"Pangandara n"},{"code":"pgk","city":"pangkal Pinang"},{"code":"PKN","city":"Pangkalan Bun"},{"code":"PUM","city":"Pomala"},{"code":"PNK","city":"Pontianak"},{"code":"psj","city":"poso"},{"code":"rtg","city":"ruteng"},{"code":"sri","city ":"Samarinda"},{"code":"SMQ","city":"Sampit"},{"code":"FLZ","city":"Sibolga "},{"code":"dtb","city":"silangit"},{"code":"soc","city":"solo"}]';
+                                            $airport = json_decode($airport);
+                                        ?>
                                         <div class="col-md-6 form-group">
                                             <label>Departure Airport</label>
-                                            <input type="text" class="form-control" wire:model="departure_airport">
+                                            <input list="airport1" type="text" class="form-control" wire:model="departure_airport">
+                                            
+                                            <datalist id="airport1" >
+                                            <?php
+                                                foreach($airport as $item){
+                                                    // if($item->country != 'Indonesia'){
+                                                    //     continue;
+                                                    // }else{
+                                            ?>
+                                                        <option value="{{strtoupper(@$item->city)}} - {{strtoupper(@$item->code)}}">
+                                            <?php
+                                                    // }
+                                                }
+                                            ?>
+                                            </datalist>
                                            
                                             @error('departure_airport')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -105,7 +126,21 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Arrival Airport</label>
-                                            <input type="text" class="form-control" wire:model="arrival_airport">
+                                            <input list="airport2" type="text" class="form-control" wire:model="arrival_airport">
+                                            
+                                            <datalist id="airport2" >
+                                            <?php
+                                                foreach($airport as $item){
+                                                //     if($item->country != 'Indonesia'){
+                                                //         continue;
+                                                //     }else{
+                                            ?>
+                                                        <option value="{{strtoupper(@$item->city)}} - {{strtoupper(@$item->code)}}">
+                                            <?php
+                                                //     }
+                                                }
+                                            ?>
+                                            </datalist>
                                            
                                             @error('arrival_airport')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>

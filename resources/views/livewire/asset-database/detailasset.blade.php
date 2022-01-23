@@ -5,7 +5,7 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Asset Database</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-eye"></i> Detail Asset Database</h5>
                 </div>
 
                 <div class="body pt-0">
@@ -79,6 +79,7 @@
                                         <div class="col-md-6 form-group">
                                             <label>Reference Picture</label>
                                             <input type="file" class="form-control" name="file" wire:model="file" />
+                                            <img src="" alt="" wire:model="file">
                                             @error('file')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
@@ -90,18 +91,18 @@
                                             @error('link')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div>
 
+                                        </div>
 
                                         <div class="col-md-6 form-group">
                                             <label>Serial Number</label>
                                             <input type="text"  class="form-control"  wire:model="serial_number" >
-                                        
+                                           
+
                                             @error('quantity')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-
 
                                         <div class="col-md-6 form-group">
                                             <label>Expired Date</label>
@@ -138,7 +139,7 @@
                                 <div class="col-md-12 form-group">
                                     <hr />
                                     
-                                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Update</button>
+                                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                 </div>
                             </div>
                         </form>

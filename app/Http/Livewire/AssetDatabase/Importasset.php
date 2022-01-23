@@ -54,23 +54,28 @@ class Importasset extends Component
                 if($i[0]!="") 
                 
                     $data = new \App\Models\AssetDatabase();
-                    $data->company_id                       = '1';
-                    $data->save();
-                    // $data->project                          = $i[2];
-                    // $data->region                           = $i[3];
-                    // $data->pic                              = $i[4];
-                    // $data->pic_telephone                    = $i[5];
-                    // $data->pic_bank_account                 = $i[6];
-                    // $data->asset_type                       = $i[7];
-                    // $data->asset_name                       = $i[8];
+                    if($i[1] == 'HUP'){
+                        $company = '1';
+                    }else{
+                        $company = '2';
+                    }
+                    $data->company_id                       = $company;
+                    
+                    $data->project                          = $i[2];
+                    $data->region                           = $i[3];
+                    $data->asset_type                       = $i[4];
+                    $data->asset_name                       = $i[5];
+                    $data->serial_number                    = $i[6];
+                    $data->dimension                        = $i[7];
+                    $data->detail                           = $i[8];
                     
                     // // $data->project                               = \App\Models\AssetDatabase::where('name', $i[2])->first()->id;
                     // $data->dimension                        = $i[9];
                     // $data->detail                           = $i[10];
                     
-                    // $data->save();
+                    $data->save();
 
-                    // $total_success++;
+                    $total_success++;
                 
             }
 
@@ -98,8 +103,7 @@ class Importasset extends Component
                                     ->setCategory("Member");
 
         $objPHPExcel->getActiveSheet()->getStyle('A1:B1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('c2d7f3');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'Account');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', '(Multiple Items)');
+       
         // $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setSize(16);
         $objPHPExcel->getActiveSheet()->getStyle('A1')->getAlignment()->setWrapText(false);
 
@@ -108,18 +112,15 @@ class Importasset extends Component
                     ->setCellValue('B1', 'Company')
                     ->setCellValue('C1', 'Project')
                     ->setCellValue('D1', 'Region')
-                    ->setCellValue('E1', 'PIC')
-                    ->setCellValue('F1', 'PIC Phone')
-                    ->setCellValue('G1', 'PIC Bank Account')
-                    ->setCellValue('H1', 'Asset Type')
-                    ->setCellValue('I1', 'Asset Name')
-                    ->setCellValue('J1', 'Dimension')
-                    ->setCellValue('K1', 'Detail')
-                    ->setCellValue('L1', 'Qty');
+                    ->setCellValue('E1', 'Asset Type')
+                    ->setCellValue('F1', 'Asset Name')
+                    ->setCellValue('G1', 'Serial Number')
+                    ->setCellValue('H1', 'Dimension')
+                    ->setCellValue('I1', 'Detail');
                     
         
-        $objPHPExcel->getActiveSheet()->getStyle('A1:L1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('ffcfcf');
-        $objPHPExcel->getActiveSheet()->getStyle('A1:L1')->getFont()->setBold( true );
+        // $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('ffcfcf');
+        // $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->getFont()->setBold( true );
         $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
         // $objPHPExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(34);
@@ -132,12 +133,9 @@ class Importasset extends Component
         $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setAutoSize(true);
         
         //$objPHPExcel->getActiveSheet()->freezePane('A4');
-        $objPHPExcel->getActiveSheet()->setAutoFilter('B1:E1');
+        $objPHPExcel->getActiveSheet()->setAutoFilter('A1:I1');
         
         $num=2;
 

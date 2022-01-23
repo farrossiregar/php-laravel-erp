@@ -26,7 +26,7 @@
         </select>
     </div>
 
-    <div class="col-md-2" wire:ignore>
+    <div class="col-md-1" wire:ignore>
         <select onclick="" class="form-control" wire:model="category">
             <option value=""> --- Category --- </option>
             <option value="1">Air Conditioner & Fan</option>
@@ -37,12 +37,13 @@
     </div>
 
 
-<!--     
-    <div class="col-md-1" style="margin-right: 40px;">
+
+    <div class="col-md-2" >
         <a href="javascript:;" wire:click="$emit('modalimportasset')" class="btn btn-info"><i class="fa fa-upload"></i> Upload Asset Database </a>
-    </div>   -->
-    <div class="col-md-2" style="margin-left: 20px;">
-        <a href="javascript:;" wire:click="$emit('modaladdassetdatabase')" class="btn btn-info"><i class="fa fa-plus"></i> Add Asset Database </a>
+    </div> 
+
+    <div class="col-md-2">
+        <a href="javascript:;" wire:click="$emit('modaladdassetdatabase')" class="btn btn-info"><i class="fa fa-plus"></i> Request Asset Database </a>
     </div>  
     
     
@@ -50,26 +51,38 @@
     <div class="col-md-12">
         <br><br>
         <div class="table-responsive">
-            <table class="table table-striped m-b-0 c_list">
+            <table class="table table-bordered table-striped m-b-0 c_list">
                 <thead>
 
                     <tr>
-                        <th class="align-middle">No</th>
-                        <th class="align-middle">Date Create</th>
-                        <th class="align-middle">Expired Date</th>
-                        <th class="align-middle">Asset PIC</th> 
-                        <th class="align-middle">PIC Phone</th> 
-                        <th class="align-middle">PIC Bank Account</th> 
+                        <th rowspan="2" class="align-middle">No</th>
+                        <th rowspan="2" class="align-middle">Date Create</th>
+                        <th rowspan="2" class="align-middle">Asset Status</th>
+                        <!-- <th rowspan="2" class="align-middle">Expired Date</th> -->
                         
-                        <th class="align-middle">Asset Type</th> 
+                        <th colspan="4" class="text-center align-middle">1. Detail Asset</th>
+                        <th colspan="3" class="text-center align-middle">2. Asset Request</th> 
+                        <th colspan="4" class="text-center align-middle">3. Asset Transfer</th> 
+                        
+                    </tr>
+                    <tr>
                         <th class="align-middle">Asset Name</th> 
+                        <th class="align-middle">Asset Type</th> 
                         <th class="align-middle">Project</th> 
                         <th class="align-middle">Region</th> 
-                        <th class="align-middle">Location</th> 
-                        <th class="align-middle">Dimension</th> 
-                        <th class="align-middle">Detail</th> 
-                        <th class="align-middle">Qty</th>
-                        <th class="align-middle">Reference/Link</th> 
+                        <!-- <th class="align-middle">Location</th>  -->
+
+                        <th class="align-middle">Req Status</th> 
+                        <th class="align-middle">Request ID</th> 
+                        <th class="align-middle">Dana Amount</th> 
+                        <!-- <th class="align-middle">PR No</th> 
+                        <th class="align-middle">Dana Amount</th> 
+                        <th class="align-middle">Dana From</th>  -->
+                        
+
+                        <th class="align-middle">Transfer Status</th> 
+                        <th class="align-middle">Transfer ID</th> 
+                        <th class="align-middle">Asset PIC</th> 
                     </tr>
                    
                 </thead>
@@ -77,9 +90,17 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                       
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
+                        
                         <td>
+                            @if($item->pic)
+                                <label class="badge badge-info" data-toggle="tooltip" title="Assigned">Assigned</label>
+                            @else
+                                <label class="badge badge-success" data-toggle="tooltip" title="Idle">Idle</label>
+                            @endif
+                        </td>
+
+                        <!-- <td>
                             <?php
                                 $diff    = abs(strtotime(date('Y-m-d H:i:s')) - strtotime(date_format(date_create($item->expired_date), 'Y-m-d H:i:s')));
                                 $years   = floor($diff / (365*60*60*24)); 
@@ -94,13 +115,9 @@
                                     echo '<b>'.date_format(date_create($item->expired_date), 'd M Y').'</b>';
                                 }
                             ?>
-                            
-                        </td>
-                        <td>{{ $item->pic }}</td>
-                        <td>{{ $item->pic_telephone }}</td>
-                        <td>{{ $item->pic_bank_account }}</td>                     
+                        </td> -->
                         
-
+                        <td><a href="javascript:;" wire:click="$emit('modaldetailasset', '{{$item->id}}')"><i class="fa fa-edit"></i> {{ $item->asset_name }}</a></td>
                         <td>
                             @if($item->asset_type == '1')
                                 Air Conditioner & Fan
@@ -120,16 +137,86 @@
 
                         </td>
                         
-                        <td>{{ $item->asset_name }}</td>
+                        
+                        
                         <td>{{ \App\Models\ClientProject::where('id', $item->project)->first()->name }}</td>
                         <td>{{ $item->region }}</td>
-                       
-                        <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td>
-                        <td>{{ $item->dimension }}</td>
-                        <td>{{ $item->detail }}</td>
-                        <td>{{ $item->stok }}</td>
+                        <!-- <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td> -->
+                        <!-- <td>{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</td> -->
+
+                        <td>
+                            <a href="javascript:;" wire:click="$emit('modalapprovalhistoryassetrequest','{{ $item->id }}')">
+                            @if($item->status == '1')
+                                <label class="badge badge-success" data-toggle="tooltip" title="Asset Request is Approved">Approved</label>
+                            @endif
+
+                            @if($item->status == '0')
+                                <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Decline</label>
+                            @endif
+                            </a>
+
+                            @if($item->status == '' || $item->status == 'null')
+                                <!-- <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label> -->
+                                @if(check_access('asset-request.hq-ga'))
+                                    @if($item->status == '')
+                                    
+                                        <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest','{{ $item->id }}')"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                    @endif
+
+                                @endif
+                            @endif
+                        </td>
+                        <td>
+                            @if($item->request_id)
+                                <a href="javascript:;" wire:click="$emit('modaldetailrequest', '{{$item->id}}')"><i class="fa fa-edit"></i> {{ $item->request_id }}  </a>
+                            @else
+                                @if($item->status == '1')
+                                    <a href="javascript:;" wire:click="$emit('modaldetailrequest', '{{$item->id}}')"><i class="fa fa-plus"></i></a>
+                                @endif
+                            @endif
+                        </td>
+                        <td>{{ "Rp " . number_format($item->dana_amount,2,',','.') }}</td>
+                        <!-- <td>{{ $item->pr_no }}</td>
+                        <td>{{ $item->dana_amount }}</td>
+                        <td>{{ $item->dana_from }}</td> -->
+
                         
-                        <td><a href="javascript:;" wire:click="$emit('modaldetailimage','{{ $item->id }}')"><i class="fa fa-eye"></i></a></td>
+                        <!-- <td><a href="javascript:;" wire:click="$emit('modaldetailimage','{{ $item->id }}')"><i class="fa fa-eye"></i></a></td> -->
+
+                        <td>
+                            @if($item->status == '2')
+                                <label class="badge badge-success" data-toggle="tooltip" title="Transfered">Transfered</label>
+                            @endif
+
+                            @if($item->status == '1' && $item->request_id != '')
+                                <!-- <label class="badge badge-success" data-toggle="tooltip" title="Asset Transfer Request is Approved">Approved</label> -->
+                                @if(check_access('asset-transfer-request.ga'))
+                                
+                                        <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                    
+                                   
+                                @endif
+                            @endif
+
+                            @if($item->status == '0')
+                                <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Decline</label>
+                            @endif
+
+                            
+                        </td>
+                        <td>
+                            @if($item->pic)
+                                <a href="javascript:;" wire:click="$emit('modaldetailtransfer', '{{$item->transfer_id}}')"><i class="fa fa-edit"></i> {{ $item->transfer_id }}  </a>
+                            @else
+                                <a href="javascript:;" wire:click="$emit('modaldetailtransfer', '')"><i class="fa fa-plus"></i></a>
+                            @endif
+                        </td>
+                        <td style="text-align: center;">
+                            <b> {{ $item->pic }} </b> <br>
+                            {{ $item->nik }}
+                        </td>
                     </tr>
                     
                     
