@@ -60,14 +60,16 @@ class Detailasset extends Component
         $data                   = \App\Models\AssetDatabase::where('id', $this->selected_id)->first();
         $this->asset_type       = $data->asset_type;
         $this->asset_name       = $data->asset_name;
-        $this->location         = $data->location;
-        $this->dimension        = $data->dimension;
-        $this->file             = $data->reference_pic;
-        $this->link             = $data->link;
-        $this->serial_number    = $data->serial_number;
+        $this->region           = $data->region;
+        $this->project          = $data->project;
+        // $this->location         = $data->location;
+        // $this->dimension        = $data->dimension;
+        // $this->file             = $data->reference_pic;
+        // $this->link             = $data->link;
+        // $this->serial_number    = $data->serial_number;
         $this->expired_date     = $data->expired_date;
-        $this->detail           = $data->detail;
-        $this->reason_request   = $data->reason_request;
+        // $this->detail           = $data->detail;
+        // $this->reason_request   = $data->reason_request;
         
         
     }
@@ -85,23 +87,23 @@ class Detailasset extends Component
        
         $data->asset_type               = $this->asset_type;
         $data->asset_name               = $this->asset_name;
-        $data->location                 = $this->location;
-        $data->dimension                = $this->dimension;
-        $data->detail                   = $this->detail;
+        // $data->location                 = $this->location;
+        // $data->dimension                = $this->dimension;
+        // $data->detail                   = $this->detail;
         
         // $this->validate([
         //     'file'=>'required|mimes:jpg,jpeg,png|max:51200' // 50MB maksimal
         // ]);
 
-        if($this->file){
-            $reference_request = 'reference-request'.date('Ymd').'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/Asset_database/',$reference_request);
+        // if($this->file){
+        //     $reference_request = 'reference-request'.date('Ymd').'.'.$this->file->extension();
+        //     $this->file->storePubliclyAs('public/Asset_database/',$reference_request);
 
-            $data->reference_pic         = $reference_request;
-        }
+        //     $data->reference_pic         = $reference_request;
+        // }
         
-        $data->link                     = $this->link;
-        $data->serial_number            = $this->serial_number;
+        // $data->link                     = $this->link;
+        // $data->serial_number            = $this->serial_number;
         $data->expired_date             = $this->expired_date;
         $data->save();
 

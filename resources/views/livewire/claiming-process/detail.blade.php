@@ -117,7 +117,7 @@
 
                                                     <div class="col-md-6 form-group">
                                                         <label>Departure Time</label>
-                                                        <input type="time" class="form-control" wire:model="departure_time">
+                                                        <input type="time" class="form-control" wire:model="departure_time" readonly>
                                                     
                                                         @error('departure_time')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -126,7 +126,7 @@
 
                                                     <div class="col-md-6 form-group">
                                                         <label>Arrival Time</label>
-                                                        <input type="time" class="form-control" wire:model="arrival_time">
+                                                        <input type="time" class="form-control" wire:model="arrival_time" readonly>
                                                     
                                                         @error('arrival_time')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -135,7 +135,7 @@
 
                                                     <div class="col-md-6 form-group">
                                                         <label>Airline</label>
-                                                        <input type="text" class="form-control" wire:model="airline">
+                                                        <input type="text" class="form-control" wire:model="airline" readonly>
                                                     
                                                         @error('airline')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -144,7 +144,7 @@
 
                                                     <div class="col-md-6 form-group">
                                                         <label>Agency</label>
-                                                        <input type="text" class="form-control" wire:model="agency">
+                                                        <input type="text" class="form-control" wire:model="agency" readonly>
                                                     
                                                         @error('agency')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -153,7 +153,7 @@
 
                                                     <div class="col-md-12 form-group">
                                                         <label>Flight Price</label>
-                                                        <input type="text" class="form-control" wire:model="flight_price">
+                                                        <input type="text" class="form-control" wire:model="flight_price" readonly>
                                                     
                                                         @error('flight_price')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -162,7 +162,10 @@
 
                                                     <div class="col-md-12 form-group">
                                                         <label>Confirmation Flight</label>
-                                                        <input type="file" class="form-control" name="file" wire:model="file" />
+                                                        <br>
+                                                        <a href="<?php echo asset('storage/hotel_flight_ticket/'.$file); ?>" target="_blank"><i class="fa fa-download"></i> Download Confirmation Flight</a>
+                                                        <!-- <br>
+                                                        <img src="<?php echo asset('storage/hotel_flight_ticket/'.$file); ?>"  class="img-rounded" alt="" width="160" height="90"> -->
                                                     
                                                         @error('leader')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -188,7 +191,7 @@
                                                     <hr>
                                                     <div class="col-md-6 form-group">
                                                         <label>Hotel Price</label>
-                                                        <input type="text" class="form-control" wire:model="hotel_price">
+                                                        <input type="text" class="form-control" wire:model="hotel_price" readonly>
                                                     
                                                         @error('hotel_price')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -197,7 +200,7 @@
 
                                                     <div class="col-md-6 form-group">
                                                         <label>Hotel Name</label>
-                                                        <input type="text" class="form-control" wire:model="hotel_name">
+                                                        <input type="text" class="form-control" wire:model="hotel_name" readonly>
                                                     
                                                         @error('hotel_name')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -207,7 +210,7 @@
                                                     <div class="col-md-12 form-group">
                                                         <label>Hotel Location</label>
                                                         <!-- <input type="text" class="form-control" wire:model="departure_airport"> -->
-                                                        <textarea name="" id="" cols="30" rows="2" class="form-control" wire:model="hotel_location"></textarea>
+                                                        <textarea name="" id="" cols="30" rows="2" class="form-control" wire:model="hotel_location" readonly></textarea>
                                                         @error('hotel_location')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                         @enderror
@@ -218,37 +221,16 @@
                                         </div>
 
                                        
-
-                                       
-
-                                        <!-- <div class="col-md-6 form-group">
-                                            <label>Start Plan Schedule</label>
-                                            <input type="time" class="form-control" wire:model="start_time_plan">
-                                           
-                                            @error('leader')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label>End Plan Schedule</label>
-                                            <input type="time" class="form-control"  wire:model="end_time_plan">
-                                           
-                                            @error('leader')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div> -->
-                                      
-                                       
                                         
                                        
                                     </div>
                                 </div>
                                 
-                                <div class="col-md-12 form-group">
+                                <!-- <div class="col-md-12 form-group">
                                     <hr />
                                     
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
-                                </div>
+                                </div> -->
                             </div>
                         </form>
                     </div>

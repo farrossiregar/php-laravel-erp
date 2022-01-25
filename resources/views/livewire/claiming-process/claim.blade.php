@@ -13,7 +13,7 @@
                         
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demodetail">Detail Asset</button>
+                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demodetail">Detail Request</button>
                                     <br>
                                     <div class="row collapse" id="demodetail" >
                                        <br>
@@ -212,11 +212,11 @@
                                             </div>
                                             <div class="col-md-4 form-group">
                                                 <label for="">Limit</label>
-                                                <input type="text" class="form-control" wire:model="limit" readonly>
+                                                <input type="text" class="form-control" wire:model="entertainment" readonly>
                                             </div>
                                             <div class="col-md-4 form-group">
                                                 <label for="">Claim</label>
-                                                <input type="text" class="form-control" wire:model="departure_airport">
+                                                <input type="text" class="form-control" wire:model="claim_ent">
                                             
                                                 @error('departure_airport')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -231,11 +231,11 @@
                                             </div>
                                             <div class="col-md-4 form-group">
                                                 <label for="">Limit</label>
-                                                <input type="text" class="form-control" wire:model="limit" readonly>
+                                                <input type="text" class="form-control" wire:model="medical" readonly>
                                             </div>
                                             <div class="col-md-4 form-group">
                                                 <label for="">Claim</label>
-                                                <input type="text" class="form-control" wire:model="claim">
+                                                <input type="text" class="form-control" wire:model="claim_med">
                                             
                                                 @error('departure_airport')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -250,11 +250,11 @@
                                             </div>
                                             <div class="col-md-4 form-group">
                                                 <label for="">Limit</label>
-                                                <input type="text" class="form-control" wire:model="limit" readonly>
+                                                <input type="text" class="form-control" wire:model="transport" readonly>
                                             </div>
                                             <div class="col-md-4 form-group">
                                                 <label for="">Claim</label>
-                                                <input type="text" class="form-control" wire:model="claim">
+                                                <input type="text" class="form-control" wire:model="claim_trans">
                                             
                                                 @error('departure_airport')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -269,11 +269,11 @@
                                             </div>
                                             <div class="col-md-4 form-group">
                                                 <label for="">Limit</label>
-                                                <input type="text" class="form-control" wire:model="limit" readonly>
+                                                <input type="text" class="form-control" wire:model="parking" readonly>
                                             </div>
                                             <div class="col-md-4 form-group">
                                                 <label for="">Claim</label>
-                                                <input type="text" class="form-control" wire:model="claim">
+                                                <input type="text" class="form-control" wire:model="claim_parking">
                                             
                                                 @error('departure_airport')
                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>

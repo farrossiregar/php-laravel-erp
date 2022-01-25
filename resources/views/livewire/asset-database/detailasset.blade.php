@@ -13,8 +13,9 @@
                         <form wire:submit.prevent="save">
                             @csrf
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row">
+                                <div class="col-md-12" >
+                                    <div class="row  form-group" style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px 0; width: 100%; margin: auto;">
+                                        <br>
 
                                       
 
@@ -50,6 +51,38 @@
                                         </div>
 
                                         <div class="col-md-6 form-group">
+                                            <label>Region</label>
+                                            
+                                            <select name="" id="" class="form-control"  wire:model="region">
+                                                <option value="" selected>-- Region --</option>
+                                                @foreach(\App\Models\Region::orderBy('id', 'asc')->get() as $item)
+                                                    <option value="{{$item->region}}">{{$item->region}}</option>
+                                                @endforeach
+                                            </select>
+
+                                            @error('region')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>Project</label>
+                                            
+                                            <select name="" id="" class="form-control"  wire:model="project">
+                                                <option value="" selected>-- Project --</option>
+                                                @foreach(\App\Models\ClientProject::where('company_id', Session::get('company_id'))
+                                                                        ->where('is_project', '1')
+                                                                        ->get() as $item)
+                                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                                @endforeach
+                                            </select>
+
+                                            @error('region')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <!-- <div class="col-md-6 form-group">
                                             <label>Location</label>
                                             
                                             <select name="" id="" class="form-control"  wire:model="location">
@@ -63,9 +96,9 @@
                                             @error('location')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div>
+                                        </div> -->
 
-                                        <div class="col-md-6 form-group">
+                                        <!-- <div class="col-md-6 form-group">
                                             <label>Dimension (H/L/W)</label>
                                             <input type="text"  class="form-control"  wire:model="dimension" >
                                            
@@ -73,13 +106,13 @@
                                             @error('dimension')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div>
+                                        </div> -->
 
                                        
-                                        <div class="col-md-6 form-group">
+                                        <!-- <div class="col-md-6 form-group">
                                             <label>Reference Picture</label>
                                             <input type="file" class="form-control" name="file" wire:model="file" />
-                                            <img src="" alt="" wire:model="file">
+                                            <img src="<?php echo asset('storage/Asset_database/'.$file); ?>" class="img-rounded" alt="" width="160" height="90">
                                             @error('file')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
@@ -102,7 +135,7 @@
                                             @error('quantity')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div>
+                                        </div> -->
 
                                         <div class="col-md-6 form-group">
                                             <label>Expired Date</label>
@@ -114,7 +147,7 @@
                                             
                                         </div>
 
-                                        <div class="col-md-6 form-group">
+                                        <!-- <div class="col-md-6 form-group">
                                             <label>Detail Asset</label>
                                             <textarea name="" id="" cols="30" rows="6" class="form-control"  wire:model="detail"></textarea>
 
@@ -130,7 +163,7 @@
                                             @error('detail')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div>
+                                        </div> -->
 
                                        
                                     </div>

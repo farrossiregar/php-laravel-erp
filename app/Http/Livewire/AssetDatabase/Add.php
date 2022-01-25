@@ -19,7 +19,7 @@ class Add extends Component
     
     use WithFileUploads;
     public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $position, $datalocation, $dataassetname;
-    public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link, $pic_ba, $pic_phone, $pic_bank_name, $expired_date;
+    public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link, $pic_ba, $pic_phone, $pic_bank_name, $expired_date, $serial_number;
 
     public function render()
     {
@@ -51,30 +51,7 @@ class Add extends Component
             $this->dataassetname = [];
         }
 
-        // $this->dataassetname = \App\Models\ClientProject::orderBy('id', 'desc')->get();
-        // if($this->project){
-        //     $getproject = \App\Models\ClientProject::where('id', $this->project)
-        //                                             ->where('company_id', Session::get('company_id'))
-        //                                             ->where('is_project', '1')
-        //                                             ->first();
-
-        //     if($getproject){
-        //         if($getproject->region_id){
-        //             $this->region = \App\Models\Region::where('id', $getproject->region_id)->first()->region_code;
-        //         }else{
-        //             $this->region = '';
-        //         }
-        //     }else{
-        //         $this->region = '';
-        //     }
-
-        //     if($this->region){
-        //         $this->datalocation = \App\Models\Dophomebasemaster::where('project', $getproject->name)
-        //                                                             ->where('region', $this->region)
-        //                                                             ->where('status', '1')
-        //                                                             ->orderBy('id', 'desc')->get();
-        //     }
-        // }
+       
         
         return view('livewire.asset-database.add');
     }
@@ -90,30 +67,31 @@ class Add extends Component
         $data->project                  = \App\Models\ClientProject::where('name', $this->project)->first()->id;
         
         $data->region                   = $this->region;
-        $data->pic                      = $this->employee_name;
-        $data->pic_telephone            = $this->pic_phone;
-        $data->pic_bank_account         = $this->pic_ba;
-        $data->pic_bank_name            = $this->pic_bank_name;
+        // $data->pic                      = $this->employee_name;
+        // $data->pic_telephone            = $this->pic_phone;
+        // $data->pic_bank_account         = $this->pic_ba;
+        // $data->pic_bank_name            = $this->pic_bank_name;
         // $data->nik                      = $user->nik;
         $data->asset_type               = $this->asset_type;
         $data->asset_name               = $this->asset_name;
         $data->location                 = $this->location;
-        $data->stok                     = $this->quantity;
+        // $data->stok                     = $this->quantity;
         $data->dimension                = $this->dimension;
-        $data->detail                   = $this->detail;
+        // $data->detail                   = $this->detail;
+        // $data->reason_request           = $this->reason_request;
         
-        $this->validate([
-            'file'=>'required|mimes:jpg,jpeg,png|max:51200' // 50MB maksimal
-        ]);
+        // $this->validate([
+        //     'file'=>'required|mimes:jpg,jpeg,png|max:51200' // 50MB maksimal
+        // ]);
 
-        if($this->file){
-            $reference_request = 'reference-request'.date('Ymd').'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/Asset_database/',$reference_request);
+        // if($this->file){
+        //     $reference_request = 'reference-request'.date('Ymd').'.'.$this->file->extension();
+        //     $this->file->storePubliclyAs('public/Asset_database/',$reference_request);
 
-            $data->reference_pic         = $reference_request;
-        }
+        //     $data->reference_pic         = $reference_request;
+        // }
         
-        $data->link                     = $this->link;
+        // $data->link                     = $this->link;
         $data->expired_date             = $this->expired_date;
         $data->save();
 
@@ -131,14 +109,7 @@ class Add extends Component
         return redirect()->route('asset-database.index');
     }
 
-    public function weekOfMonth3($strDate) {
-		$dateArray = explode("-", $strDate);
-		$date = new DateTime();
-		$date->setDate($dateArray[0], $dateArray[1], $dateArray[2]);
-		return floor((date_format($date, 'j') - 1) / 7) + 1;  
-	  }
-
-
+  
 }
 
 
