@@ -12,6 +12,6 @@ class Index extends Component
         //     session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
         //     $this->redirect('/');
         // }
-        return view('livewire.asset-database.index');
+        return view('livewire.hrga-petty-cash.index');
     }
 }

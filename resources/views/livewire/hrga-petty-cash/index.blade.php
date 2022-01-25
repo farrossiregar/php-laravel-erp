@@ -12,7 +12,7 @@
                     <livewire:asset-database.dashboard />
                 </div>
                 <div class="tab-pane" id="data">
-                    <livewire:asset-database.data />
+                    <livewire:hrga-petty-cash.data />
                 </div>
                
             </div>

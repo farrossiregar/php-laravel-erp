@@ -53,14 +53,18 @@
                     <tr>
                         <th class="align-middle">No</th>
                         <th class="align-middle">Status</th>
-                        <th class="align-middle">Action</th>
+                        
                         <th class="align-middle">Date Create</th>
                         <th class="align-middle">Item Category</th>
                         <th class="align-middle">Item Name</th>
-                        <th class="align-middle">Stock</th>
-                        <th class="align-middle">Price</th>
+                        <th class="align-middle">Req Amount</th>
+                        <th class="align-middle">Price (Unit)</th>
+                        <th class="align-middle">Approval Req</th>
+                        <th class="align-middle">Approved Amount</th>
                         <th class="align-middle">Total Price</th>
+                        <th class="align-middle">Approval Dana</th>
                         <th class="align-middle">Dana Release</th>
+                        <th class="align-middle">Settlement</th>
                         <th class="align-middle">Dana Return</th>
                         
                     </tr>
@@ -85,16 +89,7 @@
                                 <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
                             @endif
                         </td>
-                        <td>
-                            @if(check_access('asset-request.hq-ga'))
-                                @if($item->status == '')
-                                   
-                                    <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
-                                @endif
-
-                            @endif
-                        </td>
+                       
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>
                             @if($item->item_category == '1')
@@ -117,8 +112,40 @@
                         <td>{{ $item->item_name }}</td>
                         <td>{{ $item->amount }}</td>
                         <td>Rp, {{ number_format($item->price,2,",",".") }}</td>
+                        <td>
+                            @if(check_access('asset-request.hq-ga'))
+                                @if($item->status == '')
+                                   
+                                    <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                @endif
+
+                            @endif
+                        </td>
+                        <td>
+                            @if($item->approved_amount)
+                                <a href=""><i class="fa fa-plus" style="color: #17a2b8;"></i></a>
+                            @else
+                                {{ $item->amount }} <a href=""><i class="fa fa-edit" style="color: #f3ad06;"></i></a>
+                            @endif
+                            
+                        </td>
+                        
                         <td>Rp, {{ number_format($item->total_price,2,",",".") }}</td>
+                        <td>
+                            @if(check_access('asset-request.hq-ga'))
+                                @if($item->status == '')
+                                   
+                                    <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                @endif
+
+                            @endif
+                        </td>
                         <td>Rp, {{ number_format($item->release_dana_pettycash,2,",",".") }}</td>
+                        <td>
+                            <a href=""><i class="fa fa-plus" style="color: #17a2b8;"></i></a>
+                        </td>
                         <td>Rp, {{ number_format($item->return_dana_pettycash,2,",",".") }}</td>
                         
                         <!-- <td>
@@ -138,34 +165,7 @@
                             ?>
                             
                         </td>
-                        <td>{{ $item->pic }}</td>
-                        <td>{{ $item->pic_telephone }}</td>
-                        <td>{{ $item->pic_bank_account }}</td>                     
                         
-
-                        <td>
-                            @if($item->asset_type == '1')
-                                Air Conditioner & Fan
-                            @endif
-
-                            @if($item->asset_type == '2')
-                                Furniture & Fixture
-                            @endif
-
-                            @if($item->asset_type == '3')
-                                Computer Equipment
-                            @endif
-
-                            @if($item->asset_type == '4')
-                                Printer & Device
-                            @endif
-
-                        </td>
-                        
-                        <td>{{ $item->asset_name }}</td>
-                        <td></td>
-                        <td>{{ $item->region }}</td>
-                       
                         <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td>
                         <td>{{ $item->dimension }}</td>
                         <td>{{ $item->detail }}</td>

@@ -16,16 +16,16 @@ class Data extends Component
     
     public function render()
     {
-        $data = \App\Models\AssetDatabase::where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
+        $data = \App\Models\HrgaPettyCash::orderBy('created_at', 'desc');
         
         // if($this->filteryear) $data->whereYear('date',$this->filteryear);
         // if($this->filtermonth) $data->whereMonth('date',$this->filtermonth);                
         
-        if($this->date) $data->where(DB::Raw('date(created_at)'),$this->date);                        
-        if($this->project) $data->where('project',$this->project);                        
-        if($this->category) $data->where('asset_type',$this->category);                        
-        if($this->region) $data->where('region',$this->region);                        
+        // if($this->date) $data->where(DB::Raw('date(created_at)'),$this->date);                        
+        // if($this->project) $data->where('project',$this->project);                        
+        // if($this->category) $data->where('asset_type',$this->category);                        
+        // if($this->region) $data->where('region',$this->region);                        
         
-        return view('livewire.asset-database.data')->with(['data'=>$data->paginate(50)]);   
+        return view('livewire.hrga-petty-cash.data')->with(['data'=>$data->paginate(50)]);   
     }
 }

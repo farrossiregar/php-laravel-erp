@@ -26,7 +26,7 @@
 </div>
 
 <div class="modal fade" id="modal-consumableitemdatabase-addreq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <livewire:consumable-item-database.addreq />
         </div>
