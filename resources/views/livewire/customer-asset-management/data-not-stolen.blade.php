@@ -70,7 +70,7 @@
                                 @endif
                             </td> 
                             <td>{{isset($item->tower->name)?$item->tower->name : ''}}</td> 
-                            <td>{!!isset($item->site_code)?"<a href=\"". route('sites.edit',$item->site_id)."\">{$item->site_code}</a>" : ''!!}</td> 
+                            <td>{!!isset($item->site_code)?$item->site_code: ''!!}</td> 
                             <td>{{isset($item->site_name)?$item->site_name : ''}}</td> 
                             <td>{{isset($item->site_owner)?$item->site_owner : ''}}</td>
                             <td>{{isset($item->cluster->name)?$item->cluster->name : ''}}</td> 
@@ -85,8 +85,13 @@
                             <td>{{$item->battery_brand_3}}</td>
                             <td>{{$item->battery_qty_3}}</td>
                             <td>
-                                @if($item->photo_kondisition)
-                                    <a href="{{asset($item->photo_kondisition)}}"><i class="fa fa-image"></i></a>
+                                @if($item->photo_kondition)
+                                    <a href="{{asset($item->photo_kondition)}}"><i class="fa fa-image"></i></a>
+                                @endif
+                                @if($item->images)
+                                    @foreach($item->images as $img)
+                                        <a href="{{asset($img->file)}}" target="_blank"><i class="fa fa-image"></i></a>
+                                    @endforeach
                                 @endif
                             </td>
                             <td>{{$item->catatan}}</td>

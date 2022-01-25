@@ -152,20 +152,21 @@ class TrainingMaterialController extends Controller
 
     public function submitJawaban(Request $r)
     {
-        $nilai = 0;
-        $exam = TrainingExam::where(['training_material_id'=>$r->training_material_id])->get();
-        foreach($exam as $k => $item){
-            if($item->jenis_soal ==2){
-                if($item->jawaban == $r->jawaban[$k][0]){
-                    $nilai +=$item->nilai_soal;
-                }
-            }
-        }
+        $find = TrainingExamResult::where(['training_material_id'=>$r->training_material_id,'employee_id'=>Auth::user()->employee->id])->first();
+        
+        if($find)  return response()->json(['message'=>'failed','data'=>'Kamu sudah melakukan submit training'], 200);
+
+        $nilai = TrainingExamSubmit::select(\DB::raw('SUM(training_exam.nilai_soal) as total_nilai'))
+                                ->join('training_exam','training_exam.id','=','training_exam_submit.training_exam_id')
+                                ->where('training_exam_submit.jawaban',\DB::raw('training_exam.kunci_jawaban'))
+                                ->where('training_exam_submit.employee_id',\Auth::user()->employee->id)
+                                ->where('training_exam_submit.training_material_id',$r->training_material_id)
+                                ->first();
 
         $data = new TrainingExamResult();
         $data->training_material_id = $r->training_material_id;
         $data->employee_id = \Auth::user()->employee->id;
-        $data->nilai = $nilai;
+        $data->nilai = $nilai?$nilai->total_nilai:0;
         $data->total_soal = TrainingExam::where('training_material_id',$r->training_material_id)->count();
         $data->save();
 

@@ -41,6 +41,7 @@
                 </div>
                 <div class="col-md-2">
                     <a href="{{route('employee.insert')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Employee</a>
+                    <!-- <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_upload"><i class="fa fa-upload"></i> Upload</a> -->
                     <span wire:loading>
                         <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                         <span class="sr-only">{{ __('Loading...') }}</span>
@@ -139,6 +140,33 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_upload" wire:ignore.self tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form method="POST" wire:submit.prevent="upload">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-mobile-phone"></i> Upload</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true close-btn">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="file" wire:model="file_upload" />
+                            @error('file_upload')
+                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
     <div class="modal fade" id="modal_device_info" wire:ignore.self tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">

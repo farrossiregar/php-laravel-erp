@@ -19,6 +19,7 @@
                             </ol>
                             <p>Jawaban : <strong>{{$alphabet[$item->kunci_jawaban]}}</strong></p>
                         @endif
+                        <p>Nilai / Bobot Soal : <strong>{{$item->nilai_soal}}</strong></p>
                         <hr />
                     @endforeach
                     @if($data_soal->count()==0)

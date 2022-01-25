@@ -83,15 +83,15 @@ class CustomerAssetManagementController extends Controller
         $data->site_id = $find->site_id;
         $data->status = $r->is_stolen=='Ya' ? 1 : 2;
         $data->is_stolen = $r->is_stolen=='Ya' ? 1 : 2;
-        $data->qty_module_1 = $r->qty_module_1;
-        $data->battery_brand_1 = $r->battery_brand_1;
-        $data->battery_qty_1 = $r->battery_qty_1;
-        $data->qty_module_2 = $r->qty_module_2;
-        $data->battery_brand_2 = $r->battery_brand_2;
-        $data->battery_qty_2 = $r->battery_qty_2;
-        $data->qty_module_3 = $r->qty_module_3;
-        $data->battery_brand_3 = $r->battery_brand_3;
-        $data->battery_qty_3 = $r->battery_qty_3;
+        if($r->qty_module_1)$data->qty_module_1 = $r->qty_module_1;
+        if($r->battery_brand_1)$data->battery_brand_1 = $r->battery_brand_1;
+        if($r->battery_qty_1)$data->battery_qty_1 = $r->battery_qty_1;
+        if($r->qty_module_2)$data->qty_module_2 = $r->qty_module_2;
+        if($r->battery_brand_2)$data->battery_brand_2 = $r->battery_brand_2;
+        if($r->battery_qty_2)$data->battery_qty_2 = $r->battery_qty_2;
+        if($r->qty_module_3)$data->qty_module_3 = $r->qty_module_3;
+        if($r->battery_brand_3)$data->battery_brand_3 = $r->battery_brand_3;
+        if($r->battery_qty_3)$data->battery_qty_3 = $r->battery_qty_3;
         $data->catatan = $r->catatan;
         $data->save();
 

@@ -40,6 +40,8 @@ class Index extends Component
         $data = modelLocation::select('location_of_field_teams.*','employees.name','employees.nik','employees.telepon',\DB::raw('user_access.name AS position'),'employees.foto')
                                     ->join('employees','employees.id','=','location_of_field_teams.employee_id')
                                     ->join('user_access','user_access.id','=','employees.user_access_id')
+                                    ->join('employee_projects','employee_projects.employee_id','=','employees.id')
+                                    ->where('employee_projects.client_project_id',$this->project_id)
                                     ->where(function($table){
                                         if($this->user_access_id) $table->where('employees.user_access_id',$this->user_access_id);
                                     })
