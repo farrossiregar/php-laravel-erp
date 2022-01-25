@@ -31,6 +31,7 @@
                         <th class="align-middle">Action</th> 
                         
                         <th class="align-middle">Serial Number</th>
+                        <th class="align-middle">Transfer ID</th>
                         <th class="align-middle">Date Apply</th>
                         <th class="align-middle">Dana From</th> 
                         <th class="align-middle">Dana Amount</th> 
@@ -93,7 +94,8 @@
 
                         </td>
                         
-                        <td><b>{{ $item->serial_number }}</b> </td>
+                        <td><b>{{ strtoupper($item->serial_number) }}</b> </td>
+                        <td><b>{{ strtoupper($item->transfer_id) }}</b> </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>
                             @if($item->dana_from == '1')

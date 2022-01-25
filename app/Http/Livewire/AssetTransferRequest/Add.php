@@ -25,7 +25,7 @@ class Add extends Component
     public $selected_id, $transfer_from, $transfer_to, $transfer_reason;
     public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $position, $datalocation;
     public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link, $reference_pic;
-    public $pic_asset, $pic_bank_account;
+    public $pic_asset, $pic_bank_account, $pic_bank_name, $transferid, $transfer_from_bank_account, $transfer_from_bank_name;
 
     public function render()
     {
@@ -49,7 +49,23 @@ class Add extends Component
         $this->region                   = $data->region;
         $this->name                     = $data->employee_name;
         $this->nik                      = $data->nik;
-        $this->asset_type               = $data->asset_type;
+        if($data->asset_type == '1'){
+            $asset_type = 'Air Conditioner & Fan';
+        }
+
+        if($data->asset_type == '2'){
+            $asset_type = 'Furniture & Fixture';
+        }
+
+        if($data->asset_type == '3'){
+            $asset_type = 'Computer Equipment';
+        }
+
+        if($data->asset_type == '4'){
+            $asset_type = 'Printer & Device';
+        }
+
+        $this->asset_type               = $asset_type;
         $this->asset_name               = $data->asset_name;
         $this->location                 = \App\Models\DophomebaseMaster::where('id', $data->location)->first()->nama_dop;
         $this->quantity                 = $data->quantity;
@@ -59,26 +75,33 @@ class Add extends Component
         $this->reason_request           = $data->reason_request;
         $this->reference_pic            = $data->reference_pic;
         $this->link                     = $data->link;
+        $this->transferid               = $data->serial_number;
         
         $dataasset                      = \App\Models\AssetDatabase::where('asset_type', $data->asset_type)->where('asset_name', $data->asset_name)->first();
         
         $this->pic_asset                = $dataasset->pic;
         $this->pic_bank_account         = $dataasset->pic_bank_account;
+        $this->pic_bank_name            = $dataasset->pic_bank_name;
+        
+        
     }
   
     public function save()
     {
 
-        $user                           = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-        $data                           = new \App\Models\AssetTransferRequest();
-        $data->id_asset_request         = $this->selected_id;
-        $data->transfer_from            = $this->transfer_from;
-        $data->transfer_to              = $this->pic_asset;
-        $data->transfer_reason          = $this->transfer_reason;
-        $data->company_name             = Session::get('company_id');
-        $data->client_project_id        = $this->client_project_id;
-        $data->project                  = $this->project;
-        $data->region                   = $this->region;
+        $user                                   = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
+        $data                                   = new \App\Models\AssetTransferRequest();
+        $data->id_asset_request                 = $this->selected_id;
+        $data->transfer_from                    = $this->transfer_from;
+        $data->transfer_to                      = $this->pic_asset;
+        $data->transfer_reason                  = $this->transfer_reason;
+        $data->company_name                     = Session::get('company_id');
+        $data->client_project_id                = $this->client_project_id;
+        $data->project                          = $this->project;
+        $data->region                           = $this->region;
+        $data->transfer_id                      = str_replace('ar', 'trid', $this->transferid);
+        $data->transfer_from_bank_name          = $this->transfer_from_bank_name;
+        $data->transfer_from_bank_account       = $this->transfer_from_bank_account;
       
         $data->save();
 

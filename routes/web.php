@@ -104,6 +104,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('asset-database',App\Http\Livewire\AssetDatabase\Index::class)->name('asset-database.index');
     Route::get('asset-request',App\Http\Livewire\AssetRequest\Index::class)->name('asset-request.index');
     Route::get('asset-transfer-request',App\Http\Livewire\AssetTransferRequest\Index::class)->name('asset-transfer-request.index');
+    Route::get('claiming-process',App\Http\Livewire\ClaimingProcess\Index::class)->name('claiming-process.index');
+    Route::get('hrga-petty-cash',App\Http\Livewire\HrgaPettyCash\Index::class)->name('hrga-petty-cash.index');
+    Route::get('consumable-item-request',App\Http\Livewire\ConsumableItemRequest\Index::class)->name('consumable-item-request.index');
+    Route::get('consumable-item-database',App\Http\Livewire\ConsumableItemDatabase\Index::class)->name('consumable-item-database.index');
     Route::get('tracking-monitoring',App\Http\Livewire\TrackingMonitoring\Index::class)->name('tracking-monitoring.index');
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
     Route::get('employee/insert',App\Http\Livewire\Employee\Insert::class)->name('employee.insert');

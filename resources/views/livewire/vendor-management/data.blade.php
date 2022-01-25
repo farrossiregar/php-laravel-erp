@@ -149,11 +149,11 @@
                         <td class="text-center"><a href="{{route('vendor-management.initial-tools-facilities',$item->id)}}">{{$item->initial_tools_facilities ? $item->initial_tools_facilities : 0}}</a></td>
                         <td class="text-center"><a href="{{route('vendor-management.initial-ehs',$item->id)}}">{{$item->initial_ehs_quality_management ? $item->initial_ehs_quality_management : 0}}</a></td>
                         <td class="text-center">{{$item->initial ? $item->initial : 0}}</td>
-                        <td class="text-center"><a href="{{route('vendor-management.general-information',$item->id);}}">{{$item->general_information ? $item->general_information : 0}}</a></td>
-                        <td class="text-center"><a href="{{route('vendor-management.team-availability',$item->id);}}">{{$item->team_availability_capability ? $item->team_availability_capability : 0}}</a></td>
-                        <td class="text-center"><a href="{{route('vendor-management.tools-facilities',$item->id);}}">{{$item->tools_facilities ? $item->tools_facilities : 0}}</a></td>
-                        <td class="text-center"><a href="{{route('vendor-management.ehs',$item->id);}}">{{$item->ehs_quality_management ? $item->ehs_quality_management : 0}}</a></td>
-                        <td class="text-center"><a href="{{route('vendor-management.commercial-compliance',$item->id);}}">{{$item->commercial_compliance ? $item->commercial_compliance : 0}}</a></td>
+                        <td class="text-center"><a href="{{route('vendor-management.general-information',$item->id)}}">{{$item->general_information ? $item->general_information : 0}}</a></td>
+                        <td class="text-center"><a href="{{route('vendor-management.team-availability',$item->id)}}">{{$item->team_availability_capability ? $item->team_availability_capability : 0}}</a></td>
+                        <td class="text-center"><a href="{{route('vendor-management.tools-facilities',$item->id)}}">{{$item->tools_facilities ? $item->tools_facilities : 0}}</a></td>
+                        <td class="text-center"><a href="{{route('vendor-management.ehs',$item->id)}}">{{$item->ehs_quality_management ? $item->ehs_quality_management : 0}}</a></td>
+                        <td class="text-center"><a href="{{route('vendor-management.commercial-compliance',$item->id)}}">{{$item->commercial_compliance ? $item->commercial_compliance : 0}}</a></td>
                         <td class="text-center">{{$item->scoring ? $item->scoring : 0}}</td>
                         {{-- <td class="text-center"><a href="javascript:;"  wire:click="$emit('modalinitialscore','{{ $item->id }}')">{{ $item->initial?$item->initial : 0 }}</a></td> --}}
                         {{-- <td><a href="javascript:;"  wire:click="$emit('modaldetailscore','{{ $item->id }}')" data-toggle="tooltip" title="{{ $item->scoring }}" title="Upload"></a></td> --}}

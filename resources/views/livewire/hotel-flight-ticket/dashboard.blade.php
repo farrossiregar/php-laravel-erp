@@ -30,7 +30,7 @@
                                 ->where('company_id', Session::get('company_id'))
                                 ->where('is_project', '1')
                                 ->get() as $item)
-                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                <option value="{{ $item->name }}">{{ $item->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -46,7 +46,7 @@
 
     <div class="row">
 
-        <div class="col-md-2">
+        <!-- <div class="col-md-2">
             <div class="card">
                 <div class="header">
                     <h2>Annual request Hotel & Flight by Category</h2>
@@ -62,22 +62,13 @@
             <div class="card">
                 <div class="header">
                     <h2>Annual request Hotel only by Category</h2>
-                    <!-- <ul class="header-dropdown">
-                        <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="javascript:void(0);">Action</a></li>
-                                <li><a href="javascript:void(0);">Another Action</a></li>
-                                <li><a href="javascript:void(0);">Something else</a></li>
-                            </ul>
-                        </li>
-                    </ul> -->
+                    
                 </div>
                 <div class="body">
                     <div id="m_donut_chart2"></div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         
     </div>
@@ -112,22 +103,19 @@ $( document ).ready(function() {
 Livewire.on('init-chart',(data)=>{
     labels = JSON.parse(data.labels);
     datasets = JSON.parse(data.datasets);
-    
+    datasetsamount = JSON.parse(data.datasetsamount);
 
     // pies1 = JSON.parse(data.pies1);
     // pies2 = JSON.parse(data.pies2);
     
-
-    
-    datasetsamount = JSON.parse(data.datasetsamount);
     init_chart_databasenoc();
 });
 function init_chart_databasenoc(){
     var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
     var chBar = document.getElementById("chBar");
     var chBar1 = document.getElementById("chBar1");
-    // var pie1 = document.getElementById("m_donut_chart1");
-    // var pie2 = document.getElementById("m_donut_chart2");
+    var pie1 = document.getElementById("m_donut_chart1");
+    var pie2 = document.getElementById("m_donut_chart2");
                        
     if (chBar) {
         new Chart(chBar, {
@@ -188,11 +176,7 @@ function init_chart_databasenoc(){
     // if (pie1) {
     //     Morris.Donut({
     //         element: 'm_donut_chart1',
- 
     //         data: pies1,
-
-            
-
     //         resize: true,
     //         colors: ['#2cbfb7', '#3dd1c9', '#60ded7', '#a1ece8']
     //     });
@@ -209,12 +193,6 @@ function init_chart_databasenoc(){
     //         // }, {
     //         //     label: "Store Sales",
     //         //     value: 35
-    //         // },{
-    //         //     label: "Email Sales",
-    //         //     value: 8
-    //         // }, {
-    //         //     label: "Agent Sales",
-    //         //     value: 12
     //         // }],
     //         data: pies2,
 
