@@ -82,7 +82,7 @@ class Detailasset extends Component
         $data                           = \App\Models\AssetDatabase::where('id', $this->selected_id)->first();
         // $data->company_id               = Session::get('company_id');
         // $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
-        // $data->project                  = \App\Models\ClientProject::where('name', $this->project)->first()->id;
+        $data->project                  = $this->project;
         // $data->region                   = $this->region;
        
         $data->asset_type               = $this->asset_type;

@@ -52,8 +52,13 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>PIC Asset</label>
-                                            <input type="text"  class="form-control"  wire:model="pic" >
-                                           
+                                            <!-- <input type="text"  class="form-control"  wire:model="pic" > -->
+                                            <select name="" id="" class="form-control"  wire:model="pic">
+                                                <option value="" selected>-- PIC --</option>
+                                                @foreach(\App\Models\Employee::orderBy('id', 'desc')->get() as $item)
+                                                    <option value="{{$item->name}}">{{$item->name}} - {{$item->nik}}</option>
+                                                @endforeach
+                                            </select>
 
                                             @error('dana_amount')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>

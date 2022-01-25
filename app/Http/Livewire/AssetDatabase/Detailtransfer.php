@@ -91,7 +91,7 @@ class Detailtransfer extends Component
         $data                           = \App\Models\AssetDatabase::where('id', $this->selected_id)->first();        
         
         $data->pic                      = $this->pic;
-        $data->nik                      = $this->nik;
+        $data->nik                      = \App\Models\Employee::where('name', $this->pic)->first()->nik;
         $data->region                   = $this->region;
         $data->project                  = $this->project;
         $data->transfer_id              = 'TR'.date('ymdhis');

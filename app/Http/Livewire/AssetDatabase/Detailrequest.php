@@ -61,7 +61,7 @@ class Detailrequest extends Component
         $this->location         = $data->location;
         $this->dimension        = $data->dimension;
         $this->file             = $data->reference_pic;
-        // $this->link             = $data->link;
+        $this->link             = $data->link;
         // $this->serial_number    = $data->serial_number;
         $this->expired_date     = $data->expired_date;
         $this->detail           = $data->detail;
