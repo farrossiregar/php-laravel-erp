@@ -1,4 +1,4 @@
-@section('title', __('Asset Database - Index'))
+@section('title', __('HRGA Petty Cash - Index'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">

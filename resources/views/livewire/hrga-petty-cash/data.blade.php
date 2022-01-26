@@ -70,17 +70,20 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ date_format(date_create($item->date_create), 'd M Y') }}</td>
                         <td>
-                            @if($item->status == '0')
-                                <label class="badge badge-danger" data-toggle="tooltip" title="Decline">Decline</label>
+                            @if($item->status != '' || $item->status != NULL)
+                                <label class="badge badge-info" data-toggle="tooltip" title="Dana Request">Dana Request</label>
                             @else
+                                
                                 <label class="badge badge-success" data-toggle="tooltip" title="Dana Release">Dana Release</label>
                             @endif
                         </td>
                         <td>
                             @if($item->status == '')
                                 
-                                <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest','{{ $item->id }}')"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])" class="btn btn-info"><i class="fa fa-check "></i> Release Dana</a>
+                                
+                                <!-- <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest','{{ $item->id }}')"><i class="fa fa-close " style="color: #de4848;"></i></a> -->
                             @endif
                         </td>
                         <td>{{ $item->request_from }}</td>
