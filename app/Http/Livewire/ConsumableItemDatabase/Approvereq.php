@@ -31,13 +31,23 @@ class Approvereq extends Component
   
     public function save()
     {
-        $type_approve       = $this->selected_id;
-        $data               = \App\Models\ConsumableItemRequest::where('id', $type_approve[0])->first();
-        $data->status       = $type_approve[1];
-        $data->note         = $this->note;
+        $type_approve                   = $this->selected_id;
+        $data                           = \App\Models\ConsumableItemRequest::where('id', $type_approve[0])->first();
+        $data->status                   = $type_approve[1];
+        $data->release_dana_pettycash   = $data->total_price;
+        $data->note                     = $this->note;
         
         $data->save();
 
+        // dd($type_approve);
+        if($type_approve[1] == '2'){
+            $datapettycash                  = new \App\Models\HrgaPettyCash();
+            $datapettycash->dana_release    = $data->total_price;
+            $datapettycash->request_from    = 'ConsumableItemRequest';
+            $datapettycash->id_modul        = $type_approve[0];
+            
+            $datapettycash->save();
+        }
 
         $datahistory = new \App\Models\LogActivity();
         $datahistory->subject = 'Approvalhistoryassetrequest'.$type_approve[0];

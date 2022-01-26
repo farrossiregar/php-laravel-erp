@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-2">
+    <!-- <div class="col-md-2">
         <input type="date" class="form-control" wire:model="date" />
     </div>
 
@@ -34,7 +34,7 @@
             <option value="3">Computer Equipment</option>
             <option value="4">Printer & Device</option>
         </select>
-    </div>
+    </div> -->
 
 
 <!--     
@@ -57,8 +57,9 @@
                         <th class="align-middle">No</th>
                         <th class="align-middle">Date Create</th>
                         <th class="align-middle">Status</th>
-                        <th class="align-middle">Action</th>
+                        <!-- <th class="align-middle">Action</th> -->
                         <th class="align-middle">Request From</th>
+                        <th class="align-middle">Id Modul</th>
                         <th class="align-middle">Dana Request</th> 
                         
                     </tr>
@@ -77,16 +78,15 @@
                                 <label class="badge badge-success" data-toggle="tooltip" title="Dana Release">Dana Release</label>
                             @endif
                         </td>
-                        <td>
+                        <!-- <td>
                             @if($item->status == '')
                                 
                                 <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])" class="btn btn-info"><i class="fa fa-check "></i> Release Dana</a>
-                                
-                                <!-- <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest','{{ $item->id }}')"><i class="fa fa-close " style="color: #de4848;"></i></a> -->
+                              
                             @endif
-                        </td>
+                        </td> -->
                         <td>{{ $item->request_from }}</td>
+                        <td>{{ $item->id_modul }}</td>
                         <td>{{ "Rp " . number_format($item->dana_release,2,',','.') }}</td>
                         <!-- <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>
@@ -106,29 +106,7 @@
                             ?>
                             
                         </td>
-                        <td>{{ $item->pic }}</td>
-                        <td>{{ $item->pic_telephone }}</td>
-                        <td>{{ $item->pic_bank_account }}</td>                     
-                        
-
-                        <td>
-                            @if($item->asset_type == '1')
-                                Air Conditioner & Fan
-                            @endif
-
-                            @if($item->asset_type == '2')
-                                Furniture & Fixture
-                            @endif
-
-                            @if($item->asset_type == '3')
-                                Computer Equipment
-                            @endif
-
-                            @if($item->asset_type == '4')
-                                Printer & Device
-                            @endif
-
-                        </td>
+                       
                         
                        
                         <td><a href="javascript:;" wire:click="$emit('modaldetailimage','{{ $item->id }}')"><i class="fa fa-eye"></i></a></td> -->
