@@ -8,9 +8,13 @@
         <div class="col-md-1">                
             <select class="form-control" wire:model="year">
                 <option value=""> --- Year --- </option>
-                @foreach(\App\Models\ToolsNoc::select('year')->groupBy('year')->whereNotNull('year')->get() as $item) 
-                <option>{{$item->year}}</option>
-                @endforeach 
+                
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                
             </select>
         </div>
 
@@ -23,15 +27,15 @@
             </select>
         </div>
 
-        <div class="col-md-2">                
-            <select onclick="" class="form-control" wire:model="category">
-                <option value=""> --- Category --- </option>
-                <option value="1">Air Conditioner & Fan</option>
-                <option value="2">Furniture & Fixture</option>
-                <option value="3">Computer Equipment</option>
-                <option value="4">Printer & Device</option>
+        <!-- <div class="col-md-2">                
+            <select onclick="" class="form-control" wire:model="category_item">
+                <option value=""> --- Category Item --- </option>
+                <option value="1">Stationary</option>
+                <option value="2">Pantry Supplies</option>
+                <option value="3">Electrical Supplies</option>
+                <option value="4">Office Supplies</option>
             </select>
-        </div>
+        </div> -->
 
         
     </div>
@@ -200,9 +204,9 @@
 <script>
 var labels      = {!!$labels!!};
 var datasets    = {!!$datasets!!};
-var totalasset  = {!!$totalasset!!};
-var aging       = {!!$aging!!};
-var expired     = {!!$expired!!};
+// var totalasset  = {!!$totalasset!!};
+// var aging       = {!!$aging!!};
+// var expired     = {!!$expired!!};
 
 // var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
 
@@ -221,13 +225,13 @@ $( document ).ready(function() {
 Livewire.on('init-chart',(data)=>{
     labels      = JSON.parse(data.labels);
     datasets    = JSON.parse(data.datasets);
-    totalasset  = JSON.parse(data.totalasset);
-    aging       = JSON.parse(data.aging);
-    expired     = JSON.parse(data.expired);
+    // totalasset  = JSON.parse(data.totalasset);
+    // aging       = JSON.parse(data.aging);
+    // expired     = JSON.parse(data.expired);
 
-    $('#totalasset').html(totalasset);
-    $('#aging').html(aging);
-    $('#expired').html(expired);
+    // $('#totalasset').html(totalasset);
+    // $('#aging').html(aging);
+    // $('#expired').html(expired);
 
     
     

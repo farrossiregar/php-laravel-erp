@@ -54,14 +54,14 @@ class Dashboard extends Component
     
     public function generate_chart()
     {
-        // $this->labels = [];
-        // $this->datasets = [];
+        $this->labels = [];
+        $this->datasets = [];
         // $this->datasetsamount = [];
         // $this->mo = [];
 
-        $this->totalasset = [];
-        $this->aging = [];
-        $this->expired = [];
+        // $this->totalasset = [];
+        // $this->aging = [];
+        // $this->expired = [];
 
         // if($this->year){
         //     $this->year = $this->year;
@@ -84,7 +84,7 @@ class Dashboard extends Component
 
         $color = ['#ffb1c1','#4b89d6', '#007bff','#28a745','#333333'];
         
-        $tickettype = ['1', '2'];
+        $category = ['1', '2', '3', '4'];
         $reqstatus = ['open', 'reject', 'close'];
         
         
@@ -111,90 +111,132 @@ class Dashboard extends Component
         // }
 
 
-        $total_asset = \App\Models\AssetDatabase::orderBy('id', 'desc');
-        if($this->category){
-            $total_asset = $total_asset->where('asset_type', $this->category);
-        }
+        // $total_asset = \App\Models\AssetDatabase::orderBy('id', 'desc');
+        // if($this->category){
+        //     $total_asset = $total_asset->where('asset_type', $this->category);
+        // }
 
-        if($this->project){
-            $total_asset = $total_asset->where('project', $this->project);
-            if($this->region){
-                $total_asset = $total_asset->where('region', $this->region);
-            }
-        }
+        // if($this->project){
+        //     $total_asset = $total_asset->where('project', $this->project);
+        //     if($this->region){
+        //         $total_asset = $total_asset->where('region', $this->region);
+        //     }
+        // }
 
-        $this->totalasset = count($total_asset->get());
+        // $this->totalasset = count($total_asset->get());
 
 
-        $countaging = 0;
-        $aging =  \App\Models\AssetDatabase::orderBy('id', 'desc');
-        if($this->category){
-            $aging = $aging->where('asset_type', $this->category);
-        }
-        if($this->project){
-            $aging = $aging->where('project', $this->project);
-            if($this->region){
-                $aging = $aging->where('region', $this->region);
-            }
-        }
+        // $countaging = 0;
+        // $aging =  \App\Models\AssetDatabase::orderBy('id', 'desc');
+        // if($this->category){
+        //     $aging = $aging->where('asset_type', $this->category);
+        // }
+        // if($this->project){
+        //     $aging = $aging->where('project', $this->project);
+        //     if($this->region){
+        //         $aging = $aging->where('region', $this->region);
+        //     }
+        // }
 
-        $aging = $aging->get();
+        // $aging = $aging->get();
         
-        foreach($aging as $k => $item){
-            $diff    = abs(strtotime(date('Y-m-d H:i:s')) - strtotime(date_format(date_create($item->created_at), 'Y-m-d H:i:s')));
-            $years   = floor($diff / (365*60*60*24)); 
-            $months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
-            $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-            $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
-            $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
+        // foreach($aging as $k => $item){
+        //     $diff    = abs(strtotime(date('Y-m-d H:i:s')) - strtotime(date_format(date_create($item->created_at), 'Y-m-d H:i:s')));
+        //     $years   = floor($diff / (365*60*60*24)); 
+        //     $months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
+        //     $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+        //     $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
+        //     $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
     
-            if($years >= 3){
-                $countaging = $countaging + 1;
-            }
-        }
-        $this->aging = $countaging;
+        //     if($years >= 3){
+        //         $countaging = $countaging + 1;
+        //     }
+        // }
+        // $this->aging = $countaging;
 
 
 
-        $countexpired = 0;
-        $expired = \App\Models\AssetDatabase::orderBy('id', 'desc');
-        if($this->category){
-            $expired = $expired->where('asset_type', $this->category);
-        }
+        // $countexpired = 0;
+        // $expired = \App\Models\AssetDatabase::orderBy('id', 'desc');
+        // if($this->category){
+        //     $expired = $expired->where('asset_type', $this->category);
+        // }
 
-        if($this->project){
-            $expired = $expired->where('project', $this->project);
-            if($this->region){
-                $expired = $expired->where('region', $this->region);
-            }
-        }
+        // if($this->project){
+        //     $expired = $expired->where('project', $this->project);
+        //     if($this->region){
+        //         $expired = $expired->where('region', $this->region);
+        //     }
+        // }
 
-        $expired = $expired->get();
+        // $expired = $expired->get();
         
-        foreach($expired as $k => $item){
-            $diff    = abs(strtotime(date('Y-m-d H:i:s')) - strtotime(date_format(date_create($item->expired_date), 'Y-m-d H:i:s')));
-            $years   = floor($diff / (365*60*60*24)); 
-            $months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
-            $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-            $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
-            $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
+        // foreach($expired as $k => $item){
+        //     $diff    = abs(strtotime(date('Y-m-d H:i:s')) - strtotime(date_format(date_create($item->expired_date), 'Y-m-d H:i:s')));
+        //     $years   = floor($diff / (365*60*60*24)); 
+        //     $months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
+        //     $days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+        //     $hours   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60)); 
+        //     $minuts  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60); 
     
-            if($days >= 1){
-                $countexpired = $countexpired + 1;
-            }else{
-                $countexpired = 0;
+        //     if($days >= 1){
+        //         $countexpired = $countexpired + 1;
+        //     }else{
+        //         $countexpired = 0;
+        //     }
+        // }
+
+
+        // $this->expired = $countexpired;
+
+
+        $monthdata = \App\Models\ConsumableItemRequest::whereYear('created_at',$this->year)->groupBy(DB::Raw('month(created_at)'))->get();
+        foreach($monthdata as $k => $item){
+            $this->labels[$k] = date_format(date_create($item->created_at), 'M');
+        }
+
+        
+        foreach($monthdata as $k => $item){
+            foreach($category as $j => $itemcat){ 
+                if($itemcat == '1'){
+                    $titlecat = 'Stationary';
+                }
+
+                if($itemcat == '2'){
+                    $titlecat = 'Pantry Supplies';
+                }
+
+                if($itemcat == '3'){
+                    $titlecat = 'Electrical Supplies';
+                }
+
+                if($itemcat == '4'){
+                    $titlecat = 'Office Supplies';
+                }
+
+                $this->datasets[$j]['label']                = $titlecat;
+                $this->datasets[$j]['backgroundColor']      = $color[$j];
+                $this->datasets[$j]['fill']                 = 'boundary';
+                $this->datasets[$j]['data'][]               = json_decode(\App\Models\ConsumableItemRequest::select(DB::Raw('sum(total_price) as total_price'))->whereYear('created_at', $this->year)->whereMonth('created_at', date_format(date_create($item->date), 'm'))->where('item_category', $itemcat)->where('status', '2')->groupBy('item_category')->first());
+                // $this->datasets[$j]['data'][]               = 5;
+                // if($this->project){
+                //     $this->datasets[$j]['data'][]               = count(\App\Models\HotelFlightTicket::whereYear('date', $this->year)->whereMonth('date', date_format(date_create($item->date), 'm'))->where('project', $this->project)->where('ticket_type', $itemstatus)->where('status', '2')->get());
+                // }else{
+                //     $this->datasets[$j]['data'][]               = count(\App\Models\HotelFlightTicket::whereYear('date', $this->year)->whereMonth('date', date_format(date_create($item->date), 'm'))->where('ticket_type', $itemstatus)->where('status', '2')->get());
+                // }
+                
+                
+                
             }
         }
 
-
-        $this->expired = $countexpired;
-
+        // dd(json_decode(\App\Models\ConsumableItemRequest::select(DB::Raw('sum(total_price) as total_price'))->whereYear('created_at', '2022')->whereMonth('created_at', '01')->where('item_category', '1')->where('status', '2')->groupBy('item_category')->first()->total_price));
     
         $this->labels = json_encode($this->labels);
         $this->datasets = json_encode($this->datasets);
         
         
-        $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets,'totalasset'=>$this->totalasset,'aging'=>$this->aging,'expired'=>$this->expired]);
+        $this->emit('init-chart',['labels'=>$this->labels,'datasets'=>$this->datasets]);
     }
 
 

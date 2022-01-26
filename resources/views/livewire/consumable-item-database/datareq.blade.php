@@ -28,11 +28,11 @@
 
     <div class="col-md-2" wire:ignore>
         <select onclick="" class="form-control" wire:model="category">
-            <option value=""> --- Category --- </option>
-            <option value="1">Air Conditioner & Fan</option>
-            <option value="2">Furniture & Fixture</option>
-            <option value="3">Computer Equipment</option>
-            <option value="4">Printer & Device</option>
+            <option value=""> --- Category Item --- </option>
+            <option value="1">Stationary</option>
+            <option value="2">Pantry Supplies</option>
+            <option value="3">Electrical Supplies</option>
+            <option value="4">Office Supplies</option>
         </select>
     </div>
 
