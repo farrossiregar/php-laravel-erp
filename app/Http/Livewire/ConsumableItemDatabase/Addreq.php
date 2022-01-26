@@ -19,10 +19,25 @@ class Addreq extends Component
     
     use WithFileUploads;
     
-    public $item_name, $category_item, $amount;
+    public $item_name, $category_item, $amount, $dataitem, $price;
     public function render()
     {
-
+        $this->dataitem = [];
+        $this->price = [];
+        // dd(\App\Models\ConsumableItemDatabase::where('item_category', '1')->orderBy('id', 'asc')->get());
+        
+        if(check_access('consumable-item-database.ga-admin')){
+            if($this->category_item){
+                $this->dataitem = \App\Models\ConsumableItemDatabase::where('item_category', $this->category_item)->orderBy('id', 'asc')->get();
+                if($this->item_name){
+                    $this->price = \App\Models\ConsumableItemDatabase::where('item_name', $this->item_name)->first()->price;
+                }
+            }
+        }else{
+            if($this->item_name){
+                $this->price = \App\Models\ConsumableItemDatabase::where('item_name', $this->item_name)->first()->price;
+            }
+        }
         
         
         return view('livewire.consumable-item-database.addreq');
@@ -34,8 +49,14 @@ class Addreq extends Component
 
         $data                           = new \App\Models\ConsumableItemRequest();
         $data->item_name                = $this->item_name;
-        $data->item_category            = $this->category_item;
-        $data->stock                    = $this->amount;
+        if(check_access('consumable-item-database.hq-user')){
+            $data->item_category            = '1';
+        }else{
+            $data->item_category            = $this->category_item;
+        }
+        
+        $data->amount                   = $this->amount;
+        $data->price                    = $this->price;
         
         $data->save();
         

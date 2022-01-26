@@ -50,6 +50,39 @@
 </div>
 
 
+<div class="modal fade" id="modal-consumableitemdatabase-approvereq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:consumable-item-database.approvereq />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-consumableitemdatabase-declinereq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:consumable-item-database.declinereq />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-consumableitemdatabase-inputapprovedamount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:consumable-item-database.inputapprovedamount />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-consumableitemdatabase-importsettlement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:consumable-item-database.importsettlement />
+        </div>
+    </div>
+</div>
+
+
 @section('page-script')
     Livewire.on('modaladdconsumableitemdatabase',(data)=>{
         $("#modal-consumableitemdatabase-addreq").modal('show');
@@ -64,6 +97,22 @@
         $("#modal-consumableitemdatabase-edititem").modal('show');
     });
 
-   
+    Livewire.on('modalapproveconsumableitemdatabase',(data)=>{
+        $("#modal-consumableitemdatabase-approvereq").modal('show');
+    });
 
+    Livewire.on('modaldeclineconsumableitemdatabase',(data)=>{
+        $("#modal-consumableitemdatabase-declinereq").modal('show');
+    });
+
+    Livewire.on('modalinputapprovedamount',(data)=>{
+        $("#modal-consumableitemdatabase-inputapprovedamount").modal('show');
+    });
+
+    Livewire.on('modalimportsettlement',(data)=>{
+        $("#modal-consumableitemdatabase-importsettlement").modal('show');
+    });
+
+   
+    
 @endsection

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\HrgaPettyCash;
+namespace App\Http\Livewire\ConsumableItemDatabase;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -10,7 +10,7 @@ use DB;
 class Declinereq extends Component
 {
     protected $listeners = [
-        'modaldeclineassetrequest'=>'modaldeclineassetrequest',
+        'modaldeclineconsumableitemdatabase'=>'modaldeclineconsumableitemdatabase',
     ];
 
     use WithFileUploads;
@@ -20,10 +20,10 @@ class Declinereq extends Component
     
     public function render()
     {       
-        return view('livewire.asset-database.declinereq');
+        return view('livewire.consumable-item-database.declinereq');
     }
 
-    public function modaldeclineassetrequest($id)
+    public function modaldeclineconsumableitemdatabase($id)
     {
         $this->selected_id = $id;
         // dd($id[0]);
@@ -33,7 +33,7 @@ class Declinereq extends Component
     public function save()
     {
         
-        $data = \App\Models\AssetDatabase::where('id', $this->selected_id)->first();
+        $data = \App\Models\ConsumableItemRequest::where('id', $this->selected_id)->first();
         
         $data->status   = '0';
         $data->note     = $this->note;
@@ -41,17 +41,17 @@ class Declinereq extends Component
         $data->save();
 
         $datahistory = new \App\Models\LogActivity();
-        $datahistory->subject = 'Approvalhistoryassetrequest'.$this->selected_id;
+        $datahistory->subject = 'Approvalhistoryitemrequest'.$this->selected_id;
         $datahistory->var = '{"status":"'.$data->status.'","note":"'.$this->note.'"}';
         $datahistory->save();
 
         // $message  = "<p>Dear {$data->name}<br />, Asset Request is Decline </p>";
         // \Mail::to($data->email)->send(new GeneralEmail("[PMT E-PM] - Asset Request",$message));
 
-        session()->flash('message-success',"Berhasil, Asset Request is Decline !!!");
+        session()->flash('message-success',"Berhasil, Item Request is Decline !!!");
 
         // \LogActivity::add('[web] Duty Roster - Home Base Input');
         
-        return redirect()->route('asset-database.index');
+        return redirect()->route('consumable-item-database.index');
     }
 }

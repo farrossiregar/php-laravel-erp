@@ -17,7 +17,7 @@
                                     <div class="row">
 
 
-                                        <div class="col-md-6 form-group">
+                                        <!-- <div class="col-md-6 form-group">
                                             <label>Category Item</label>
                                             <select onclick="" class="form-control" wire:model="category_item">
                                                 <option value=""> --- Category Item --- </option>
@@ -30,9 +30,10 @@
                                             @error('asset_type')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div>
+                                        </div> -->
 
-                                        <!-- <div class="col-md-6 form-group">
+                                        @if(check_access('consumable-item-database.ga-admin'))
+                                        <div class="col-md-6 form-group">
                                             <label>Category Item</label>
                                             <select onclick="" class="form-control" wire:model="category_item">
                                                 <option value=""> --- Category Item --- </option>
@@ -47,21 +48,11 @@
                                         </div>
 
                                         <div class="col-md-6 form-group">
-                                            <label>Category Item</label>
-                                            <input type="text" class="form-control" value="Stationary">
-                                            <input type="hidden" class="form-control" wire:model="category_item" value="1">
-
-                                            @error('category_item')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div> -->
-
-                                        <div class="col-md-6 form-group">
                                             
                                             <label>Name of Item</label>
                                             <input list="asset_name1" class="form-control"  wire:model="item_name">
                                             <datalist id="asset_name1" >
-                                                @foreach(\App\Models\ConsumableItemDatabase::orderBy('id', 'asc')->get() as $item)
+                                                @foreach($dataitem as $item)
                                                 <option value="{{ $item->item_name }}">
                                                 @endforeach
                                             </datalist>
@@ -70,10 +61,50 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
+                                        @endif
+                                        
+                                        @if(check_access('consumable-item-database.hq-user'))
+                                        <div class="col-md-6 form-group">
+                                            <label>Category Item</label>
+                                            <input type="text" class="form-control" value="Stationary" readonly>
+                                            <input type="hidden" class="form-control" wire:model="category_item" value="1">
+
+                                            @error('category_item')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            
+                                            <label>Name of Item</label>
+                                            <input list="asset_name1" class="form-control"  wire:model="item_name">
+                                            <datalist id="asset_name1" >
+                                                @foreach(\App\Models\ConsumableItemDatabase::where('item_category', '1')->get() as $item)
+                                                <option value="{{ $item->item_name }}">
+                                                @endforeach
+                                            </datalist>
+
+                                            @error('asset_name')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        @endif
+
+                                        
 
                                         <div class="col-md-6 form-group">
                                             <label>Amount</label>
                                             <input type="number" class="form-control"  wire:model="amount">
+                                           
+
+                                            @error('amount')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>Price (Unit)</label>
+                                            <input type="number" class="form-control"  wire:model="price" readonly>
                                            
 
                                             @error('amount')
