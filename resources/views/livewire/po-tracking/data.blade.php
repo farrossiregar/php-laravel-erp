@@ -114,7 +114,7 @@
                                 @if($item->status==2)  {{-- Esar Upload --}}
                                     @if($is_edit_esar)
                                         <a href="{{route('po-tracking.generate-esar',$item->id)}}" target="_blank" class="dropdown-item"><i class="fa fa-download"></i> Generate ESAR</a>
-                                        <a href="javascript:void(0);" class="dropdown-item text-success" wire:click="$emit('modalesarupload','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload"><i class="fa fa-upload"></i> {{__('Upload Approved ESAR')}}</a>
+                                        <a href="javascript:void(0);" class="dropdown-item text-success" wire:click="$emit('modalesarupload','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload"><i class="fa fa-upload"></i> {{__('Supporting Docs')}}</a>
                                     @endif
                                 @endif
                                 @if($item->status==3) {{-- Finance Acceptance --}}
@@ -127,8 +127,7 @@
                                 @endif
                                 
                                 @if(isset($item->esar->approved_esar_filename))
-                                    <a href="javascript:void(0);" class="dropdown-item" wire:click="$emit('modalesarupload','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" ata-toggle="tooltip" title="Download Approved ESAR"><i class="fa fa-download"></i> {{__('Approved ESAR')}}</a>
-                                    {{-- <a href="{{asset('storage/po_tracking/ApprovedEsar/'.$item->esar->approved_esar_filename)}}" class="dropdown-item" data-toggle="tooltip" title="Download Approved ESAR"><i class="fa fa-download"></i> {{__('Approved ESAR')}}</a> --}}
+                                    <a href="javascript:void(0);" class="dropdown-item" wire:click="$emit('modalesarupload','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" ata-toggle="tooltip" title="Download Approved ESAR"><i class="fa fa-download"></i> {{__('Supporting Docs')}}</a>
                                 @endif
                                 @if(isset($item->acceptance->accdoc_filename))
                                     <a href="{{asset('storage/po_tracking/AcceptanceDocs/'.$item->acceptance->accdoc_filename)}}" class="dropdown-item" data-toggle="tooltip" title="Download Acceptance Docs & Invoice"><i class="fa fa-download"></i> {{__('Acceptance Docs & Invoice')}}</a>
@@ -138,7 +137,7 @@
                         </td>
                         <td class="text-center">
                             @if($item->status==0)
-                                <label class="badge badge-info" data-toggle="tooltip" title="Regional - Upload approved BAST {{$item->is_revisi==1?' - Revisi : '.$item->note : ''}}">Regional {{$item->is_revisi==1?' - R ' : ''}}</label>
+                                <label class="badge badge-info" data-toggle="tooltip" title="Regional - Upload approved BAST {{$item->is_revisi==1?' - Revisi : '.$item->note : ''}}">Regional / SM {{$item->is_revisi==1?' - R ' : ''}}</label>
                             @endif
                             @if($item->status==1)
                                 <label class="badge badge-warning" data-toggle="tooltip" title="E2E - Review">E2E Review </label>
@@ -150,7 +149,7 @@
                                 <label class="badge badge-danger" data-toggle="tooltip" title="Finance - Upload Acceptance Docs and Invoice">Finance </label>
                             @endif
                             @if($item->status==4)
-                                <label class="badge badge-success" data-toggle="tooltip" title="Done">Done </label>
+                                <label class="badge badge-success" data-toggle="tooltip" title="Completed">Completed </label>
                             @endif
                         </td>
                         <td>{{ $item->change_history }}</td>

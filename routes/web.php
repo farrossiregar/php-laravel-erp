@@ -151,7 +151,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('flm-engineer',function(){ })->name('flm-engineer.index');
     Route::get('homebase',function(){ })->name('homebase.index');
     Route::get('flm-tools',function(){ })->name('flm-tools.index');
-    Route::get('region-tools',function(){ })->name('region-tools.index');
+    Route::get('region-tools',App\Http\Livewire\RegionTools\Index::class)->name('region-tools.index');
     Route::get('monitoring',App\Http\Livewire\Monitoring\Index::class)->name('monitoring.index');
     Route::get('migration',App\Http\Livewire\Migration\Index::class)->name('migration.index');
     Route::get('business-opportunities',App\Http\Livewire\BusinessOpportunities\Index::class)->name('business-opportunities.index');

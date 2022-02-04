@@ -79,7 +79,7 @@
                     <td>{{ $item->region }}</td>    
                     <td class="text-center">
                         @if($item->status==0 || $item->status == null || $item->status == '0')
-                            <label class="badge badge-info" data-toggle="tooltip" title="Regional - Waiting to Submit">Waiting to Submit</label>
+                            <label class="badge badge-info" data-toggle="tooltip" title="Regional / SM - Waiting to Submit">Waiting to Submit</label>
                         @endif
                         @if($item->status==1)
                             <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%, Waiting to Transfer Budget">Finance - Approved</label>
@@ -182,7 +182,6 @@
         </table>
     </div>
     <br />
-    
 </div>
 
 <!--    MODAL PO STP      -->
@@ -195,28 +194,11 @@
     </div>
 </div>
 <!--    MODAL PO STP      -->
-
-
-
 @section('page-script')
-
-
-<script>
-
-    Livewire.on('modal-stp',(data)=>{
-        console.log(data);
-        $("#modal-potrackingstp-upload").modal('show');
-    });
-
- 
-</script>
-
-
-
-
-
+    <script>
+        Livewire.on('modal-stp',(data)=>{
+            console.log(data);
+            $("#modal-potrackingstp-upload").modal('show');
+        });
+    </script>
 @endsection
-
-
-
-

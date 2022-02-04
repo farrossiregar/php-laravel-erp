@@ -1,6 +1,6 @@
 <form wire:submit.prevent="save">
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Upload Approved ESAR</h5>
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Supporting Docs</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true close-btn">×</span>
         </button>
@@ -11,7 +11,7 @@
         @foreach($files as $k => $item)
             <div wire:key="{{$k}}" >
                 <div class="form-group">
-                    <input type="text" class="form-control" wire:model="title.{{$k}}" placeholder="ESAR / Verification Docs" />
+                    <input type="text" class="form-control" wire:model="title.{{$k}}" placeholder="File Name" />
                 </div>
                 <div class="form-group">
                     <input type="file" class="form-control" wire:model="file.{{$k}}" />

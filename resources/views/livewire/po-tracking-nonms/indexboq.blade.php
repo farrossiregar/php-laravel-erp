@@ -1,38 +1,21 @@
 @section('title', __('PO Tracking Non MS Index'))
 @section('parentPageTitle', 'Home')
-
-
-<?php
-    $user = \Auth::user();
-?>
-
 <div class="header row">
+    <div class="col-md-2">
+        <input type="text" class="form-control" wire:model="keyword" placeholder="Keyword" />
+    </div>
     <div class="col-md-2">
         <input type="date" class="form-control" wire:model="date" />
     </div>
-
-    <!-- <div class="col-md-2">
-        <select name="region" class="form-control" id="region" wire:model="date">
-            @foreach(App\Models\Region::all() as $item)
-            <option value="{{ $item->id }}">{{ $item->region_code }}</option>
-            @endforeach
-        </select>
-    </div> -->
-    
-
     @if(check_access('po-tracking-nonms.edit-boq'))
-    <div class="col-md-2">
-        <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking Ericson')}}</a>
-    </div>
+        <div class="col-md-2">
+            <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO')}}</a>
+        </div>
     @endif
-
 </div>
-
-<div class="body pt-0">
-
-    
+<div class="body pt-0">    
     <div class="table-responsive">
-        <table class="table table-striped m-b-0 c_list">
+        <table class="table table-striped m-b-0 c_list table-nowrap-th">
             <thead>
                 <tr>
                     <th>No</th>
@@ -42,16 +25,12 @@
                     <th>Status</th>    
                     <th>Note from PMG</th>    
                     <th>Note Bast from E2E</th>
-                    <th>Total Price</th>
-                    <th>Total Actual Price</th>
+                    <th>Customer Price</th>
+                    <th>PR Price</th>
                     <th>Total Profit Margin</th>
                     <th>Extra Budget</th>
-                    @if(check_access('po-tracking-nonms.select-coordinator'))
                     <th>Coordinator</th>
-                    @endif
-                    @if(check_access('po-tracking-nonms.select-field-team'))
                     <th>Field Team</th>
-                    @endif
                     <th>Action</th>
                 </tr>
             </thead>
@@ -74,11 +53,11 @@
                             @endif
                         @endif
                     </td>    
-                    <td><a href="{{route('po-tracking-nonms.edit-boq',['id'=>$item->id]) }}">{{ $item->no_tt }}</a></td>  
+                    <td><a href="{{ route('po-tracking-nonms.edit-boq',['id'=>$item->id]) }}">{{ $item->no_tt }}</a></td>  
                     <td>{{ $item->region }}</td>    
                     <td class="text-center">
                         @if($item->status==0 || $item->status == null || $item->status == '0')
-                            <label class="badge badge-info" data-toggle="tooltip" title="Regional - Waiting to Submit">Waiting to Submit</label>
+                            <label class="badge badge-info" data-toggle="tooltip" title="Regional / SM - Waiting to Submit">Waiting to Submit</label>
                         @endif
                         @if($item->status==1)
                             <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%, Waiting to Transfer Budget">Finance - Approved</label>
@@ -126,28 +105,31 @@
                         <div class="text-<?php echo $color; ?>">{{ $total_profit }}%</div>
                     </td>
                     <td>Rp {{ format_idr(get_extra_budget($item->id)) }}</td>
-                    @if(check_access('po-tracking-nonms.select-coordinator'))
-                    <td>@livewire('po-tracking-nonms.select-coordinator-ericson',['data'=>$item->id],key($item->id))</td>
-                    @endif
-                    @if(check_access('po-tracking-nonms.select-field-team'))
-                        @if($item->coordinator_id == $user->id)
-                            <td>@livewire('po-tracking-nonms.select-field-team-ericson',['data'=>$item->id],key($item->id))</td>
-                        @else
-                            @if($item->coordinator_id != '')
+                    <td>
+                        @if($item->status==4 and $item->coordinator_id =='')
+                            <a href="javascript:void(0)" data-target="#modal_select_coordinator" wire:click="set_data({{$item->id}})" data-toggle="modal"><i class="fa fa-plus"></i> select coordinator</a>
+                        @endif
+                        {{isset($item->coordinator->name)?$item->coordinator->name : ''}}
+                    </td>
+                    <td>
+                        @if(check_access('po-tracking-nonms.select-field-team'))
+                            @if($item->coordinator_id == \Auth::user()->employee->id)
                                 <td>@livewire('po-tracking-nonms.select-field-team-ericson',['data'=>$item->id],key($item->id))</td>
                             @else
-                                <td>{{ $item->field_team_id }}</td>
+                                @if($item->coordinator_id != '')
+                                    <td>@livewire('po-tracking-nonms.select-field-team-ericson',['data'=>$item->id],key($item->id))</td>
+                                @else
+                                    <td>{{ $item->field_team_id }}</td>
+                                @endif
                             @endif
                         @endif
-                    @endif
-                    <td> 
-                        
+                    </td>
+                    <td>
                         @if(check_access('po-tracking-nonms.detail-photo'))
                             @if($item->bast_status == '')
                                 <a href="{{route('po-tracking-nonms.detailfoto',['id'=>$item->id]) }}" ><i class="fa fa-eye"></i> Detail Foto</a>
                             @endif
                         @endif
-                        
                         @if(check_access('po-tracking-nonms.preview-bast'))
                             @if($item->bast_status == 1)
                                 <!--    Start E2E Preview Bast   -->
@@ -155,10 +137,8 @@
                                 <!--    End E2E Preview Bast    -->
                             @endif
                         @endif
-
                         @if(check_access('po-tracking-nonms.upload-accdoc'))
                         <!--    Start Finance Upload Huawei Acceptance Docs    -->
-                        
                             @if($item->e2e_to_fin == '1')
                                 @if($item->acc_doc == null || $item->acc_doc == '')
                                     @if($item->gr_cust == null || $item->gr_cust == '')
@@ -183,13 +163,51 @@
         </table>
     </div>
     <br />
+    <!--    MODAL PO BOQ      -->
+    <div class="modal fade" wire:ignore.self id="modal_select_coordinator" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form wire:submit.prevent="assign_coordinator">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Select Coordinator</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true close-btn">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Coordinator</label>
+                            <select class="form-control" wire:model="coordinator_id">
+                                <option value="">-- select --</option>
+                                @foreach($coordinators as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info close-modal"><i class="fa fa-upload"></i> Upload</button>
+                    </div>
+                    <div wire:loading>
+                        <div class="page-loader-wrapper" style="display:block">
+                            <div class="loader" style="display:block">
+                                <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                                <p>Please wait...</p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--    MODAL PO BOQ      -->
+
 </div>
 
 <!--    MODAL PO BOQ      -->
 <div class="modal fade" id="modal-potrackingboq-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            
             <livewire:po-tracking-nonms.importboq />
         </div>
     </div>

@@ -21,8 +21,9 @@ class Index extends Component
 
     public function mount()
     {
-        $this->projects = Department::where('is_project',1)->get();
-        $this->non_projects = Department::where('is_project',0)->get();
+        // $this->projects = Department::where('is_project',1)->get();
+        $this->non_projects = Department::get();
+        // $this->non_projects = Department::where('is_project',0)->get();
     }
     
     public function deleteSub($id)
