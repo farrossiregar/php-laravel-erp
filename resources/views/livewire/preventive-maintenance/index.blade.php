@@ -1,4 +1,3 @@
-
 @section('title', 'Preventive Maintenance')
 <div class="row clearfix">
     @push('after-scripts')

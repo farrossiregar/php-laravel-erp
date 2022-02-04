@@ -4,6 +4,7 @@
             <select class="form-control" wire:model="year">
                 <option value=""> --- Year --- </option>
                 @foreach(\App\Models\SiteListTrackingDetail::select(\DB::raw('YEAR(period) as tahun'))->groupBy('tahun')->get() as $item) 
+                @if($item->tahun==0) @continue @endif
                 <option>{{$item->tahun}}</option>
                 @endforeach 
             </select>

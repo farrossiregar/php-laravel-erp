@@ -152,6 +152,7 @@ function send_wa($param)
     $message = $message;
     $number = str_replace_first('0','62', $param['phone']);
     $number = str_replace('-', '', $number);
+    $number = str_replace('+', '', $number);
     
     $curl = curl_init(); 
     $token = "HioVXgQTselUx6alx9GmtfcJgpySCDnH3FCZh2tARb0C7vRtQon5shmOwx0KmGl1";
@@ -178,7 +179,7 @@ function send_wa($param)
     return $result;
 }
 
-function get_user_from_access($link,$client_project_id=null)
+function get_user_from_access($link,$client_project_id=null,$region_id=null)
 {
     $cek = \App\Models\UserAccessModule::select('users.*',\DB::raw('employees.id as employee_id'),'employees.device_token',\DB::raw('employees.email as email_employee'))
             ->where('modules_items.link',$link)
@@ -188,9 +189,15 @@ function get_user_from_access($link,$client_project_id=null)
             ->join('employees','employees.user_id','=','users.id')
             ->groupBy('users.id');
 
-    if($client_project_id)
-        $cek->leftJoin('employee_projects','employee_projects.employee_id','=','employees.id')
-            ->where('employee_projects.client_project_id',$client_project_id);
+    if($region_id) $cek->where('employees.region_id',$region_id);
+    if($client_project_id){
+        $cek->leftJoin('employee_projects','employee_projects.employee_id','=','employees.id');
+        if(is_array($client_project_id))
+            $cek->whereIn('employee_projects.client_project_id',$client_project_id);
+        else    
+            $cek->where('employee_projects.client_project_id',$client_project_id);
+    }
+        
     
     return $cek->get();
 }
@@ -209,8 +216,8 @@ function check_access($link,$type=1){
 
 
 function check_access_data($link, $reg = ''){
-    $reg_id = \App\Models\Region::where('region_code', $reg)->first();
-    if($reg){
+    $reg_id = \App\Models\Region::where('region_code', $reg)->orWhere('region',$reg)->first();
+    if($reg_id){
         $cek = DB::table('user_access_modules as user_access_modules')
                     ->where('modules_items.link',$link)
                     ->where('employees.region_id',$reg_id->id)

@@ -139,7 +139,9 @@
             }
 
             // $('.metismenu').metisMenu();
-
+            Livewire.on('modal',(action)=>{
+                if(action=='hide') $('.modal').modal('hide');
+            });
             Livewire.on('message-success',(msg)=>{
                 $('.alert-success').show();
                 $('.alert-success .message').html(msg);

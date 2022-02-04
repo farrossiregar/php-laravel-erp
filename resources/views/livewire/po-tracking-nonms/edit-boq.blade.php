@@ -12,7 +12,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <table class="table table-striped m-b-0 c_list">
+                                        <table class="table table-striped m-b-0 c_list table-nowrap-th">
                                             <tr>
                                                 <th>Total Ericson Price</th>                               
                                                 <th>Total Price After Input</th>                                                          
@@ -66,7 +66,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">
-                            <table class="table table-striped m-b-0 c_list">
+                            <table class="table table-striped m-b-0 c_list table-nowrap-th">
                                 <tr>
                                     <th>No</th>                               
                                     <th>Project Code</th>                               
@@ -80,10 +80,10 @@
                                     <th>Region</th>                               
                                     <th>Remark</th>                               
                                     <th>Reff</th>                                
-                                    <th>Price</th>     
+                                    <th>Customer Price</th>     
                                     <th>Total Price</th>                              
-                                    <th>Input Price</th>    
-                                    <th>Total After Input</th>                               
+                                    <th>Price PR</th>    
+                                    <th>Total After Price PR</th>                               
                                     <th>Profit (%)</th>                                                               
                                 </tr>
                                 @foreach($data as $key => $item)
@@ -105,19 +105,15 @@
                                     <td>
                                         @if(check_access('po-tracking-nonms.input-price'))
                                             @if($item->input_price == null || $item->input_price == '')
-                                                <a href="javascript:;" wire:click="$emit('modalinputboqprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-inputprice" title="Input Price" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input Price')}}</a>
+                                                <a href="javascript:;" wire:click="$emit('modalinputboqprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-inputprice" title="Input Price" class="badge badge-primary badge-active"><i class="fa fa-plus"></i> {{__('Input Price')}}</a>
                                             @else
-                                                <a href="javascript:;" wire:click="$emit('modalinputboqprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-inputprice" title="Input Price" class="btn btn-primary"><i class="fa fa-edit"></i> </a>
+                                                <a href="javascript:;" wire:click="$emit('modalinputboqprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-inputprice" title="Input Price"><i class="fa fa-edit"></i></a>
                                             @endif
                                         @endif
                                         Rp {{ format_idr($item->input_price) }}
                                     </td>  
-                                    <td>
-                                        <?php
-                                            echo 'Rp '. format_idr($item->qty * $item->input_price);
-                                        ?>
-                                    </td>                                                             
-                                    <td><div class="btn btn-{{$item->profit >= 30 ? 'success' : 'danger'}}">{{ $item->profit }}%</div></td>                                   
+                                    <td>{{format_idr($item->qty * $item->input_price)}}</td>                                                             
+                                    <td><div class="text-{{$item->profit >= 30 ? 'success' : 'danger'}}">{{ $item->profit }}%</div></td>                                   
                                 </tr>
                                 @endforeach
                             </table>
@@ -156,9 +152,6 @@
                             @if($status == 1)
                                 <a href="javascript:;" wire:click="$emit('modalsubmitfinreg','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-submitfinreg" title="Submit to Finance Regional" class="btn btn-primary"> {{__('Submit To Finance Regional')}}</a>                    
                             @endif
-                            <!-- @if($status == '2')
-                                <span class="btn btn-danger"> Revised </span>
-                            @endif -->
                             @if($status == '0' || $status == '' || $status == null || $status == '3' || $status == '2')
                                 <a href="javascript:;" wire:click="$emit('modalsubmitdocpononms','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-submit" title="Submit Price" class="btn btn-primary"><i class="fa fa-check"></i> {{__('Submit Price')}}</a>                                  
                             @endif

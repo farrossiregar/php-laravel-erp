@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
             @if(isset($bast))
-            <a href="{{asset("storage/po_tracking/bast/{$bast->bast_filename}")}}" target="_blank"><i class="fa fa-download"></i> File BAST</a>
+            <a href="{{asset("storage/po_tracking/Bast/{$bast->bast_filename}")}}" target="_blank"><i class="fa fa-download"></i> File BAST</a>
             @endif
         </div>
     </div>

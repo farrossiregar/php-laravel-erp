@@ -31,5 +31,6 @@ return [
                             6=>'IT Support',
                             7=>'Preventive Maintenance',
                             8=>'Duty Roster - Site List',
-                            9=>'Work Force Management']
+                            9=>'Work Force Management',
+                            10=>'PO Tracking Non MS']
 ];

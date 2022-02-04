@@ -20,6 +20,7 @@ Route::get('/', Home::class)->name('home')->middleware('auth');
 Route::get('login', App\Http\Livewire\Login::class)->name('login');
 // All login
 Route::group(['middleware' => ['auth']], function(){    
+    
     Route::get('profile',App\Http\Livewire\Profile::class)->name('profile');
     Route::get('back-to-admin',[App\Http\Controllers\IndexController::class,'backtoadmin'])->name('back-to-admin');
     Route::get('setting',App\Http\Livewire\Setting::class)->name('setting');
@@ -151,7 +152,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('flm-engineer',function(){ })->name('flm-engineer.index');
     Route::get('homebase',function(){ })->name('homebase.index');
     Route::get('flm-tools',function(){ })->name('flm-tools.index');
-    Route::get('region-tools',function(){ })->name('region-tools.index');
+    Route::get('region-tools',App\Http\Livewire\RegionTools\Index::class)->name('region-tools.index');
     Route::get('monitoring',App\Http\Livewire\Monitoring\Index::class)->name('monitoring.index');
     Route::get('migration',App\Http\Livewire\Migration\Index::class)->name('migration.index');
     Route::get('business-opportunities',App\Http\Livewire\BusinessOpportunities\Index::class)->name('business-opportunities.index');
