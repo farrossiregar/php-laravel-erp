@@ -1,4 +1,4 @@
-@section('title', __('Asset Database - Index'))
+@section('title', __('HRGA Petty Cash - Index'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -12,7 +12,7 @@
                     <livewire:asset-database.dashboard />
                 </div>
                 <div class="tab-pane" id="data">
-                    <livewire:asset-database.data />
+                    <livewire:hrga-petty-cash.data />
                 </div>
                
             </div>

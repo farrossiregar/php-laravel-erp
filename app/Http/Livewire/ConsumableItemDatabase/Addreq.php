@@ -18,37 +18,27 @@ class Addreq extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $position, $datalocation, $dataassetname;
-    public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link, $pic_ba, $pic_phone, $pic_bank_name, $expired_date;
-
+    
+    public $item_name, $category_item, $amount, $dataitem, $price;
     public function render()
     {
-
-        $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
+        $this->dataitem = [];
+        $this->price = [];
+        // dd(\App\Models\ConsumableItemDatabase::where('item_category', '1')->orderBy('id', 'asc')->get());
         
-        $this->employee_name = $user->name;
-        $this->position = get_position($user->user_access_id);
-
-        $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
-                                ->where('company_id', Session::get('company_id'))
-                                ->where('is_project', '1')
-                                ->get();
-
-        
-
-        $get_project = \App\Models\ClientProject::where('id', \App\Models\EmployeeProject::where('employee_id', Auth::user()->id)->first()->client_project_id)->first();
-        $this->project = $get_project->name;
-
-        $this->region = \App\Models\Region::where('id', $get_project->region_id)->first()->region_code;
-
-        $this->datalocation = \App\Models\Dophomebasemaster::where('status', '1')->where('project', $get_project->name)->where('region', $this->region)->orderBy('id', 'desc')->get();
-
-        if($this->asset_type){
-            $this->dataassetname = \App\Models\AssetDatabase::where('asset_type', $this->asset_type)->get();
+        if(check_access('consumable-item-database.ga-admin')){
+            if($this->category_item){
+                $this->dataitem = \App\Models\ConsumableItemDatabase::where('item_category', $this->category_item)->orderBy('id', 'asc')->get();
+                if($this->item_name){
+                    $this->price = \App\Models\ConsumableItemDatabase::where('item_name', $this->item_name)->first()->price;
+                }
+            }
         }else{
-            $this->dataassetname = [];
+            if($this->item_name){
+                $this->price = \App\Models\ConsumableItemDatabase::where('item_name', $this->item_name)->first()->price;
+            }
         }
-
+        
         
         return view('livewire.consumable-item-database.addreq');
     }
@@ -57,39 +47,19 @@ class Addreq extends Component
     public function save()
     {
 
-        $user                           = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-        $data                           = new \App\Models\AssetDatabase();
-        $data->company_id               = Session::get('company_id');
-        $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
-        $data->project                  = \App\Models\ClientProject::where('name', $this->project)->first()->id;
-        
-        $data->region                   = $this->region;
-        $data->pic                      = $this->employee_name;
-        $data->pic_telephone            = $this->pic_phone;
-        $data->pic_bank_account         = $this->pic_ba;
-        $data->pic_bank_name            = $this->pic_bank_name;
-        // $data->nik                      = $user->nik;
-        $data->asset_type               = $this->asset_type;
-        $data->asset_name               = $this->asset_name;
-        $data->location                 = $this->location;
-        $data->stok                     = $this->quantity;
-        $data->dimension                = $this->dimension;
-        $data->detail                   = $this->detail;
-        
-        $this->validate([
-            'file'=>'required|mimes:jpg,jpeg,png|max:51200' // 50MB maksimal
-        ]);
-
-        if($this->file){
-            $reference_request = 'reference-request'.date('Ymd').'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/Asset_database/',$reference_request);
-
-            $data->reference_pic         = $reference_request;
+        $data                           = new \App\Models\ConsumableItemRequest();
+        $data->item_name                = $this->item_name;
+        if(check_access('consumable-item-database.hq-user')){
+            $data->item_category            = '1';
+        }else{
+            $data->item_category            = $this->category_item;
         }
         
-        $data->link                     = $this->link;
-        $data->expired_date             = $this->expired_date;
+        $data->amount                   = $this->amount;
+        $data->price                    = $this->price;
+        
         $data->save();
+        
 
         // $notif = get_user_from_access('asset-database.hq-ga');
         // foreach($notif as $user){
@@ -100,9 +70,9 @@ class Addreq extends Component
         //     }
         // }
 
-        session()->flash('message-success',"Asset Database Berhasil diinput");
+        session()->flash('message-success',"Consumable Item Request Berhasil diinput");
         
-        return redirect()->route('asset-database.index');
+        return redirect()->route('consumable-item-database.index');
     }
 
     public function weekOfMonth3($strDate) {

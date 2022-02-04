@@ -5,7 +5,7 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-eye"></i> Detail Asset Database</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Transfer Asset</h5>
                 </div>
 
                 <div class="body pt-0">
@@ -13,124 +13,68 @@
                         <form wire:submit.prevent="save">
                             @csrf
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row">
-
-                                      
-
-                                        <div class="col-md-6 form-group">
-                                            <label>Type of Asset</label>
-                                            <!-- <input type="text" class="form-control"  wire:model="asset_type" > -->
-                                            <select onclick="" class="form-control" wire:model="asset_type">
-                                                <option value=""> --- Type of Asset --- </option>
-                                                <option value="1">Air Conditioner & Fan</option>
-                                                <option value="2">Furniture & Fixture</option>
-                                                <option value="3">Computer Equipment</option>
-                                                <option value="4">Printer & Device</option>
-                                            </select>
-
-                                            @error('asset_type')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
+                                <div class="col-md-12" >
+                                    <div class="row  form-group" style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px 0; width: 100%; margin: auto;">
+                                        <br>
+                                        
 
                                         <div class="col-md-6 form-group">
+                                            <label>Region</label>
                                             
-                                            <label>Name of Asset</label>
-                                            <input list="asset_name1" class="form-control"  wire:model="asset_name">
-                                            <datalist id="asset_name1" >
-                                                @foreach($dataassetname as $item)
-                                                <option value="{{ $item->asset_name }}">
-                                                @endforeach
-                                            </datalist>
-
-                                            @error('asset_name')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-6 form-group">
-                                            <label>Location</label>
-                                            
-                                            <select name="" id="" class="form-control"  wire:model="location">
-                                                <option value="" selected>-- Location --</option>
-                                                <option value="007">Jakarta (HQ)</option>
-                                                @foreach(\App\Models\DophomebaseMaster::where('status', '1')->orderBy('id', 'asc')->get() as $item)
-                                                    <option value="{{$item->id}}">{{$item->nama_dop}}</option>
+                                            <select name="" id="" class="form-control"  wire:model="region">
+                                                <option value="" selected>-- Region --</option>
+                                                @foreach(\App\Models\Region::orderBy('id', 'asc')->get() as $item)
+                                                    <option value="{{$item->region}}">{{$item->region}}</option>
                                                 @endforeach
                                             </select>
 
-                                            @error('location')
+                                            @error('region')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
 
                                         <div class="col-md-6 form-group">
-                                            <label>Dimension (H/L/W)</label>
-                                            <input type="text"  class="form-control"  wire:model="dimension" >
-                                           
-
-                                            @error('dimension')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
-                                       
-                                        <div class="col-md-6 form-group">
-                                            <label>Reference Picture</label>
-                                            <input type="file" class="form-control" name="file" wire:model="file" />
-                                            <img src="" alt="" wire:model="file">
-                                            @error('file')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-6 form-group">
-                                            <label>Link</label>
-                                            <input type="text"  class="form-control"  wire:model="link" >
-                                            @error('link')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-
-                                        </div>
-
-                                        <div class="col-md-6 form-group">
-                                            <label>Serial Number</label>
-                                            <input type="text"  class="form-control"  wire:model="serial_number" >
-                                           
-
-                                            @error('quantity')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-6 form-group">
-                                            <label>Expired Date</label>
-                                            <input type="date"  class="form-control"  wire:model="expired_date" >
-                                            @error('expired_date')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-
+                                            <label>Project</label>
                                             
-                                        </div>
+                                            <select name="" id="" class="form-control"  wire:model="project">
+                                                <option value="" selected>-- Project --</option>
+                                                @foreach(\App\Models\ClientProject::where('company_id', Session::get('company_id'))
+                                                                        ->where('is_project', '1')
+                                                                        ->get() as $item)
+                                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                                @endforeach
+                                            </select>
 
-                                        <div class="col-md-6 form-group">
-                                            <label>Detail Asset</label>
-                                            <textarea name="" id="" cols="30" rows="6" class="form-control"  wire:model="detail"></textarea>
-
-                                            @error('detail')
+                                            @error('region')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
 
                                         <div class="col-md-6 form-group">
-                                            <label>Reason Request</label>
-                                            <textarea name="" id="" cols="30" rows="6" class="form-control"  wire:model="reason_request"></textarea>
+                                            <label>PIC Asset</label>
+                                            <!-- <input type="text"  class="form-control"  wire:model="pic" > -->
+                                            <select name="" id="" class="form-control"  wire:model="pic">
+                                                <option value="" selected>-- PIC --</option>
+                                                @foreach(\App\Models\Employee::orderBy('id', 'desc')->get() as $item)
+                                                    <option value="{{$item->name}}">{{$item->name}} - {{$item->nik}}</option>
+                                                @endforeach
+                                            </select>
 
-                                            @error('detail')
+                                            @error('dana_amount')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>NIK</label>
+                                            <input type="text"  class="form-control"  wire:model="nik" >
+                                           
+
+                                            @error('dana_amount')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        
 
                                        
                                     </div>
@@ -150,23 +94,6 @@
     </div>
 
     @push('after-scripts')
-    
-        <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.min.js') }}"></script>
-        <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}" />
-        <script>
-            $('.asset_name').select2();
-            $('.asset_name').on('select2:select', function (e) {
-                var data = e.params.data;
-                @this.set('filter_asset_name',data.id)
-            });
-            $('.insert_asset_name').select2();
-            $('.insert_asset_name').on('select2:select', function (e) {
-                var data = e.params.data;
-                @this.set('asset_name',data.id)
-            });
-            
-            
-        </script>
         <script type="text/javascript">
         
 
@@ -222,7 +149,5 @@
             input[0].setSelectionRange(caret_pos, caret_pos);
         }
         </script>
-
-        
         @endpush
 </div>

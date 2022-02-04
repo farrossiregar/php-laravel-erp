@@ -68,6 +68,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-assetdatabase-detaildana" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:asset-database.detaildana />
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modal-assetdatabase-approvereq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -101,6 +109,31 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <livewire:asset-database.detailtransfer />
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal-assetdatabase-approvetrans" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:asset-database.approvetrans />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-assetdatabase-declinetrans" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:asset-database.declinetrans />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-assetdatabase-approvalhistorytrans" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:asset-database.approvalhistorytrans />
         </div>
     </div>
 </div>
@@ -139,6 +172,10 @@
         $("#modal-assetdatabase-detailrequest").modal('show');
     });
 
+    Livewire.on('modaldetaildana',(data)=>{
+        $("#modal-assetdatabase-detaildana").modal('show');
+    });
+
     Livewire.on('modaldetailtransfer',(data)=>{
         $("#modal-assetdatabase-detailtransfer").modal('show');
     });
@@ -157,5 +194,19 @@
     });
     <!-- END ASSET REQUEST -->
    
+
+    <!-- START ASSET TRANSFER -->
+    Livewire.on('modalapproveassettrans',(data)=>{
+        $("#modal-assetdatabase-approvetrans").modal('show');
+    });
+
+    Livewire.on('modalapprovalhistoryassettrans',(data)=>{
+        $("#modal-assetdatabase-approvalhistorytrans").modal('show');
+    });
+
+    Livewire.on('modaldeclineassettrans',(data)=>{
+        $("#modal-assetdatabase-declinetrans").modal('show');
+    });
+    <!-- END ASSET TRANSFER -->
 
 @endsection

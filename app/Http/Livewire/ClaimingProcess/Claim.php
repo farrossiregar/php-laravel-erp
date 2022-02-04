@@ -9,7 +9,7 @@ use App\Mail\GeneralEmail;
 use Session;
 use DateTime;
 use Auth;
-
+use DB;
 
 class Claim extends Component
 {
@@ -28,7 +28,9 @@ class Claim extends Component
 
     public $company_name, $project, $client_project_id, $region, $employee_name, $date, $ticket_type, $tickettype, $meeting_location, $file;
     public $departure_airport, $arrival_airport, $departure_time, $arrival_time, $airline, $agency, $flight_price;
-    public $hotel_price, $hotel_name, $hotel_location, $ticket_id;
+    public $hotel_price, $hotel_name, $hotel_location, $ticket_id, $nik;
+    public $entertainment, $medical, $transport, $parking;
+    public $claim_ent, $claim_med, $claim_trans, $claim_parking;
 
     public function render()
     {
@@ -74,6 +76,18 @@ class Claim extends Component
         $this->hotel_price              = $data->hotel_price;
         $this->hotel_name               = $data->hotel_name;
         $this->hotel_location           = $data->hotel_location;
+        $this->nik                      = $data->nik;
+
+        $datalimit                      = \App\Models\ClaimingProcessLimit::where('nik', $data->nik)->first();
+        $limitent                       = json_decode(\App\Models\ClaimingProcess::select(DB::Raw('sum(entertainment) as entertainment'))->where('nik', $data->nik)->where('status', '3')->groupBy('nik')->get())[0]->entertainment;
+        $limitmed                       = json_decode(\App\Models\ClaimingProcess::select(DB::Raw('sum(medical) as medical'))->where('nik', $data->nik)->where('status', '3')->groupBy('nik')->get())[0]->medical;
+        $limittrans                     = json_decode(\App\Models\ClaimingProcess::select(DB::Raw('sum(transport) as transport'))->where('nik', $data->nik)->where('status', '3')->groupBy('nik')->get())[0]->transport;
+        $limitpark                      = json_decode(\App\Models\ClaimingProcess::select(DB::Raw('sum(parking) as parking'))->where('nik', $data->nik)->where('status', '3')->groupBy('nik')->get())[0]->parking;
+        // dd($datalimit->entertainment - $limitent);
+        $this->entertainment            = $datalimit->entertainment - $limitent;
+        $this->medical                  = $datalimit->medical - $limitmed;
+        $this->transport                = $datalimit->transport - $limittrans;
+        $this->parking                  = $datalimit->parking - $limitpark;
     }
 
   
@@ -84,8 +98,14 @@ class Claim extends Component
 
         $data                           = new \App\Models\ClaimingProcess();
         $data->ticket_id                = $this->ticket_id;
+        $data->nik                      = $this->nik;
         $data->claim_category           = $this->claim_category;
+        $data->entertainment            = $this->claim_ent;
+        $data->medical                  = $this->claim_med;
+        $data->transport                = $this->claim_trans;
+        $data->parking                  = $this->claim_parking;
         $data->save();
+        
         
         
 

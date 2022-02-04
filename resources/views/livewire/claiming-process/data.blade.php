@@ -38,13 +38,13 @@
                         <th class="align-middle">No</th>
                         <th class="align-middle">Status</th> 
                         <th class="align-middle">Claim</th> 
+                        <th class="align-middle">Approve</th> 
                         <th class="align-middle">Date Create</th>
                         <th class="align-middle">Ticket ID</th> 
+                        <th class="align-middle">Ticket Type</th> 
                         <th class="align-middle">User Request</th> 
-                        <th class="align-middle">NIK</th> 
                         <th class="align-middle">Project</th> 
                         <th class="align-middle">Region</th> 
-                        <th class="align-middle">Ticket Type</th> 
                         <th class="align-middle">Transfer Receipt</th> 
                     </tr>
                    
@@ -89,43 +89,42 @@
                             @if(\App\Models\ClaimingProcess::where('ticket_id', $item->ticket_id)->first())
                                 <label class="badge badge-success" data-toggle="tooltip" title="claimed">Claimed</label>
 
-                                @if(check_access('claiming-process.department-manager'))
-                                    @if($dataclaim->status == '')
-                                    dept
-                                    <a href="javascript:;" wire:click="$emit('modalapproveclaimingprocess',['{{ $item->ticket_id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineclaimingprocess',['{{ $item->ticket_id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
-                                    @endif
-
-                                @endif
-
-                                @if(check_access('claiming-process.ga'))
-                                    @if($dataclaim->status == '1')
-                                    ga
-                                    <a href="javascript:;" wire:click="$emit('modalapproveclaimingprocess',['{{ $item->ticket_id }}', '2'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineclaimingprocess',['{{ $item->ticket_id }}', '2'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
-                                    @endif
-
-                                @endif
-
-                                @if(check_access('claiming-process.fa'))
-                                    @if($dataclaim->status == '2')
-                                    fa
-                                    <a href="javascript:;" wire:click="$emit('modalapproveclaimingprocess',['{{ $item->ticket_id }}', '3'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineclaimingprocess',['{{ $item->ticket_id }}', '3'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
-                                    @endif
-
-                                @endif
+                                
                             @else
                                 <a href="javascript:;" wire:click="$emit('modalclaimticket', '{{$item->id}}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
                             @endif
                         </td>
+                        <td>
+                            @if(check_access('claiming-process.department-manager'))
+                                @if($dataclaim->status == '')
+                                
+                                <a href="javascript:;" wire:click="$emit('modalapproveclaimingprocess',['{{ $item->ticket_id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                <a href="javascript:;" wire:click="$emit('modaldeclineclaimingprocess',['{{ $item->ticket_id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                @endif
+
+                            @endif
+
+                            @if(check_access('claiming-process.ga'))
+                                @if($dataclaim->status == '1')
+                                
+                                <a href="javascript:;" wire:click="$emit('modalapproveclaimingprocess',['{{ $item->ticket_id }}', '2'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                <a href="javascript:;" wire:click="$emit('modaldeclineclaimingprocess',['{{ $item->ticket_id }}', '2'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                @endif
+
+                            @endif
+
+                            @if(check_access('claiming-process.fa'))
+                                @if($dataclaim->status == '2')
+                                
+                                <a href="javascript:;" wire:click="$emit('modalapproveclaimingprocess',['{{ $item->ticket_id }}', '3'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                <a href="javascript:;" wire:click="$emit('modaldeclineclaimingprocess',['{{ $item->ticket_id }}', '3'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                @endif
+
+                            @endif
+
+                        </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td><b>{{ strtoupper($item->ticket_id) }}</b></td>
-                        <td>{{ $item->name }}</td>
-
-                        <td>{{ $item->nik }}</td>
-                        <td>{{ $item->project }}</td>
-                        <td>{{ $item->region }}</td>
                         <td>
                             <?php
                                 if($item->ticket_type == '1'){
@@ -136,8 +135,18 @@
                             ?>
                             <a href="javascript:;" wire:click="$emit('modaldetailticket','{{ $item->id }}')"><?php echo $tickettype;?></a>
                         </td>
+                        <td style="text-align: center;">
+                            <b>{{ $item->name }}</b> <br>
+                            {{ $item->nik }}
+                        </td>
+
+                        <td>{{ $item->project }}</td>
+                        <td>{{ $item->region }}</td>
+                        
                         <td>
+                            @if($dataclaim->status == '3')
                             <a href="javascript:;" wire:click="$emit('modalimportreceipt', '{{$item->ticket_id}}')"><i class="fa fa-edit " style="color: #f3ad06;"></i></a>
+                            @endif
                         </td>
                     </tr>
                 

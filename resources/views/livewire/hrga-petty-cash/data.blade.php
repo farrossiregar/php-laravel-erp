@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-2">
+    <!-- <div class="col-md-2">
         <input type="date" class="form-control" wire:model="date" />
     </div>
 
@@ -34,17 +34,17 @@
             <option value="3">Computer Equipment</option>
             <option value="4">Printer & Device</option>
         </select>
-    </div>
+    </div> -->
 
 
 <!--     
     <div class="col-md-1" style="margin-right: 40px;">
         <a href="javascript:;" wire:click="$emit('modalimportasset')" class="btn btn-info"><i class="fa fa-upload"></i> Upload Asset Database </a>
     </div>   -->
-    <div class="col-md-2" style="margin-left: 20px;">
+    <!-- <div class="col-md-2" style="margin-left: 20px;">
         <a href="javascript:;" wire:click="$emit('modaladdassetdatabase')" class="btn btn-info"><i class="fa fa-plus"></i> Add Asset Database </a>
     </div>  
-    
+     -->
     
     
     <div class="col-md-12">
@@ -56,20 +56,12 @@
                     <tr>
                         <th class="align-middle">No</th>
                         <th class="align-middle">Date Create</th>
-                        <th class="align-middle">Expired Date</th>
-                        <th class="align-middle">Asset PIC</th> 
-                        <th class="align-middle">PIC Phone</th> 
-                        <th class="align-middle">PIC Bank Account</th> 
+                        <th class="align-middle">Status</th>
+                        <!-- <th class="align-middle">Action</th> -->
+                        <th class="align-middle">Request From</th>
+                        <th class="align-middle">Id Modul</th>
+                        <th class="align-middle">Dana Request</th> 
                         
-                        <th class="align-middle">Asset Type</th> 
-                        <th class="align-middle">Asset Name</th> 
-                        <th class="align-middle">Project</th> 
-                        <th class="align-middle">Region</th> 
-                        <th class="align-middle">Location</th> 
-                        <th class="align-middle">Dimension</th> 
-                        <th class="align-middle">Detail</th> 
-                        <th class="align-middle">Qty</th>
-                        <th class="align-middle">Reference/Link</th> 
                     </tr>
                    
                 </thead>
@@ -77,8 +69,26 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                       
-                        <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
+                        <td>{{ date_format(date_create($item->date_create), 'd M Y') }}</td>
+                        <td>
+                            @if($item->status != '' || $item->status != NULL)
+                                <label class="badge badge-info" data-toggle="tooltip" title="Dana Request">Dana Request</label>
+                            @else
+                                
+                                <label class="badge badge-success" data-toggle="tooltip" title="Dana Release">Dana Release</label>
+                            @endif
+                        </td>
+                        <!-- <td>
+                            @if($item->status == '')
+                                
+                                <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])" class="btn btn-info"><i class="fa fa-check "></i> Release Dana</a>
+                              
+                            @endif
+                        </td> -->
+                        <td>{{ $item->request_from }}</td>
+                        <td>{{ $item->id_modul }}</td>
+                        <td>{{ "Rp " . number_format($item->dana_release,2,',','.') }}</td>
+                        <!-- <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>
                             <?php
                                 $diff    = abs(strtotime(date('Y-m-d H:i:s')) - strtotime(date_format(date_create($item->expired_date), 'Y-m-d H:i:s')));
@@ -96,40 +106,10 @@
                             ?>
                             
                         </td>
-                        <td>{{ $item->pic }}</td>
-                        <td>{{ $item->pic_telephone }}</td>
-                        <td>{{ $item->pic_bank_account }}</td>                     
-                        
-
-                        <td>
-                            @if($item->asset_type == '1')
-                                Air Conditioner & Fan
-                            @endif
-
-                            @if($item->asset_type == '2')
-                                Furniture & Fixture
-                            @endif
-
-                            @if($item->asset_type == '3')
-                                Computer Equipment
-                            @endif
-
-                            @if($item->asset_type == '4')
-                                Printer & Device
-                            @endif
-
-                        </td>
-                        
-                        <td>{{ $item->asset_name }}</td>
-                        <td>{{ \App\Models\ClientProject::where('id', $item->project)->first()->name }}</td>
-                        <td>{{ $item->region }}</td>
                        
-                        <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td>
-                        <td>{{ $item->dimension }}</td>
-                        <td>{{ $item->detail }}</td>
-                        <td>{{ $item->stok }}</td>
                         
-                        <td><a href="javascript:;" wire:click="$emit('modaldetailimage','{{ $item->id }}')"><i class="fa fa-eye"></i></a></td>
+                       
+                        <td><a href="javascript:;" wire:click="$emit('modaldetailimage','{{ $item->id }}')"><i class="fa fa-eye"></i></a></td> -->
                     </tr>
                     
                     

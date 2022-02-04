@@ -3,7 +3,7 @@
         <input type="date" class="form-control" wire:model="date" />
     </div>
 
-    
+<!--     
     <div class="col-md-2" wire:ignore>
         <select class="form-control" style="width:100%;" wire:model="project">
             <option value=""> --- Project --- </option>
@@ -24,7 +24,7 @@
                 <option value="{{$item->region_code}}">{{$item->region_code}}</option>
             @endforeach
         </select>
-    </div>
+    </div> -->
 
     <div class="col-md-2" wire:ignore>
         <select onclick="" class="form-control" wire:model="category">

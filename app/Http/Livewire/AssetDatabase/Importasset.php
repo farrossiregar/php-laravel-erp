@@ -61,15 +61,27 @@ class Importasset extends Component
                     }
                     $data->company_id                       = $company;
                     
-                    $data->project                          = $i[2];
+                    // $data->project                          = $i[2];
                     $data->region                           = $i[3];
-                    $data->asset_type                       = $i[4];
+                    if($i[4] == 'Air Conditioner & Fan'){
+                        $assettype = '1';
+                    }elseif($i[4] == 'Furniture & Fixture'){
+                        $assettype = '2';
+                    }elseif($i[4] == 'Computer Equipment'){
+                        $assettype = '3';
+                    }else{
+                        $assettype = '4';
+                    }
+                    $data->asset_type                       = $assettype;
                     $data->asset_name                       = $i[5];
-                    $data->serial_number                    = $i[6];
-                    $data->dimension                        = $i[7];
-                    $data->detail                           = $i[8];
+
+                    $data->expired_date                     = $i[6];
+                    // $data->serial_number                    = $i[6];
+                    // $data->dimension                        = $i[7];
+                    // $data->detail                           = $i[8];
                     
-                    // // $data->project                               = \App\Models\AssetDatabase::where('name', $i[2])->first()->id;
+                    $data->project                          = \App\Models\ClientProject::where('name', $i[2])->first()->id;
+                    
                     // $data->dimension                        = $i[9];
                     // $data->detail                           = $i[10];
                     
@@ -114,15 +126,16 @@ class Importasset extends Component
                     ->setCellValue('D1', 'Region')
                     ->setCellValue('E1', 'Asset Type')
                     ->setCellValue('F1', 'Asset Name')
-                    ->setCellValue('G1', 'Serial Number')
-                    ->setCellValue('H1', 'Dimension')
-                    ->setCellValue('I1', 'Detail');
+                    ->setCellValue('G1', 'Expired Date (YYYY-MM-DD)');
+                    // ->setCellValue('G1', 'Serial Number')
+                    // ->setCellValue('H1', 'Dimension')
+                    // ->setCellValue('I1', 'Detail');
                     
         
         // $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('ffcfcf');
         // $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->getFont()->setBold( true );
-        $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:G1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:G1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
         // $objPHPExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(34);
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
@@ -131,11 +144,11 @@ class Importasset extends Component
         $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+        // $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+        // $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
         
         //$objPHPExcel->getActiveSheet()->freezePane('A4');
-        $objPHPExcel->getActiveSheet()->setAutoFilter('A1:I1');
+        $objPHPExcel->getActiveSheet()->setAutoFilter('A1:G1');
         
         $num=2;
 
