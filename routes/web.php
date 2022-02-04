@@ -107,6 +107,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('hrga-petty-cash',App\Http\Livewire\HrgaPettyCash\Index::class)->name('hrga-petty-cash.index');
     Route::get('consumable-item-request',App\Http\Livewire\ConsumableItemRequest\Index::class)->name('consumable-item-request.index');
     Route::get('consumable-item-database',App\Http\Livewire\ConsumableItemDatabase\Index::class)->name('consumable-item-database.index');
+    Route::get('ticketing-system-complain',App\Http\Livewire\TicketingSystemComplain\Index::class)->name('ticketing-system-complain.index');
     Route::get('tracking-monitoring',App\Http\Livewire\TrackingMonitoring\Index::class)->name('tracking-monitoring.index');
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
     Route::get('employee/insert',App\Http\Livewire\Employee\Insert::class)->name('employee.insert');
