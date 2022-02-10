@@ -10,11 +10,11 @@ use DB;
 class Approve extends Component
 {
     protected $listeners = [
-        'modalapprovehotelflightticket'=>'approvehotelflightticket',
+        'modalapproveaccountpayable'=>'modalapproveaccountpayable',
     ];
 
     use WithFileUploads;
-    public $selected_id;    
+    public $selected_id, $note;    
     public $usertype;
 
     
@@ -23,7 +23,7 @@ class Approve extends Component
         return view('livewire.account-payable.approve');
     }
 
-    public function approvehotelflightticket($id)
+    public function modalapproveaccountpayable($id)
     {
         $this->selected_id = $id;
     }
@@ -31,16 +31,16 @@ class Approve extends Component
   
     public function save()
     {
-        $type_approve = $this->selected_id;
-        $data = \App\Models\HotelFlightTicket::where('id', $this->selected_id)->first();
-        if($type_approve[1] == '1'){
-            $data->status = '1';
-        }else{
-            $data->status = '2';
-        }
-        
-        
+        $type_approve       = $this->selected_id;
+        $data               = \App\Models\AccountPayable::where('id', $type_approve[0])->first();
+        $data->status       = $type_approve[1];
+        $data->note         = $this->note;
         $data->save();
+
+        $datahistory = new \App\Models\LogActivity();
+        $datahistory->subject = 'Approvalhistoryaccountpayable'.$type_approve[0];
+        $datahistory->var = '{"status":"'.$data->status.'","note":"'.$this->note.'"}';
+        $datahistory->save();
 
     
         // $notif = get_user_from_access('account-payable.toc-leader');
@@ -55,7 +55,7 @@ class Approve extends Component
 
 
 
-        session()->flash('message-success',"Berhasil, Hotel & Flight Ticket sudah diapprove!!!");
+        session()->flash('message-success',"Berhasil, Request Account Payable sudah diapprove!!!");
         
         return redirect()->route('account-payable.index');
     }

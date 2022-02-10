@@ -5,7 +5,7 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Request Account Payable </h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-edit"></i> Revise Account Payable </h5>
                 </div>
 
                 <div class="body pt-0">

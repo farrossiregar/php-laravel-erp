@@ -12,8 +12,12 @@ use Auth;
 use DB;
 
 
-class Add extends Component
+class Revisi extends Component
 {
+    protected $listeners = [
+        'modalrevisiaccountpayable'=>'modalrevisiaccountpayable',
+    ];
+
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     
@@ -28,14 +32,22 @@ class Add extends Component
 
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
         
-        $this->employee_name = $user->name;
-        $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
-        $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
-        $this->position = \App\Models\UserAccess::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->user_access_id)->first()->name;
-        $this->department = \App\Models\Department::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->department_id)->first()->name;
+        $this->employee_name    = $user->name;
+        $this->project          = \App\Models\ClientProject::where('id', $user->project)->first()->name;
+        $this->region           = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
+        $this->position         = \App\Models\UserAccess::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->user_access_id)->first()->name;
+        $this->department       = \App\Models\Department::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->department_id)->first()->name;
        
 
-        return view('livewire.account-payable.add');
+        return view('livewire.account-payable.revisi');
+    }
+
+    public function modalrevisiaccountpayable($id)
+    {
+        $this->selected_id      = $id;
+        $data                   = \App\Models\AccountPayable::where('id', $this->selected_id)->first();
+        $this->request_type     = $data->request_type;
+        $this->subrequest_type  = $data->subrequest_type;
     }
 
   
@@ -49,12 +61,11 @@ class Add extends Component
         // $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
         
         
-        // $dataemployee                   = explode(" - ",$this->employee_name);
         $data->region                   = $this->region;
         $data->name                     = $this->employee_name;
         $data->nik                      = $user->nik;
         $data->position                 = $user->user_access_id;
-        // $data->employee_id              = $dataemployee[2];
+        $data->status                   = '';
         
        
         

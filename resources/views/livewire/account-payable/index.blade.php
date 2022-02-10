@@ -3,17 +3,14 @@
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
+            
             <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data">{{ __('Data') }}</a></li>
-                <!-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#datapmt">{{ __('Data PMT') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#datahup">{{ __('Data HUP') }}</a></li> -->
+                
+                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#data">{{ __('Data') }}</a></li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active show " id="dashboard">
-                    <livewire:account-payable.dashboard />
-                </div>
-                <div class="tab-pane" id="data">
+               
+                <div class="tab-pane active show" id="data">
                     <livewire:account-payable.data />
                 </div>
                
@@ -23,10 +20,18 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-hotelflight-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-accountpayable-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <livewire:account-payable.add />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-accountpayable-revisi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:account-payable.revisi />
         </div>
     </div>
 </div>
@@ -42,7 +47,7 @@
 </div>
 
 
-<div class="modal fade" id="modal-hotelflightticket-approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-accountpayable-approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <livewire:account-payable.approve />
@@ -51,7 +56,7 @@
 </div>
 
 
-<div class="modal fade" id="modal-hotelflightticket-decline" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-accountpayable-decline" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <livewire:account-payable.decline />
@@ -64,9 +69,14 @@
 
 
 @section('page-script')
-    Livewire.on('modaladdhotelflight',(data)=>{
+    Livewire.on('modaladdaccountpayable',(data)=>{
         
-        $("#modal-hotelflight-add").modal('show');
+        $("#modal-accountpayable-add").modal('show');
+    });
+
+    Livewire.on('modalrevisiaccountpayable',(data)=>{
+        
+        $("#modal-accountpayable-revisi").modal('show');
     });
 
 
@@ -75,13 +85,13 @@
     });
 
 
-    Livewire.on('modalapprovehotelflightticket',(data)=>{
-        $("#modal-hotelflightticket-approve").modal('show');
+    Livewire.on('modalapproveaccountpayable',(data)=>{
+        $("#modal-accountpayable-approve").modal('show');
     });
 
 
-    Livewire.on('modaldeclinehotelflightticket',(data)=>{
-        $("#modal-hotelflightticket-decline").modal('show');
+    Livewire.on('modaldeclineaccountpayable',(data)=>{
+        $("#modal-accountpayable-decline").modal('show');
     });
 
 @endsection

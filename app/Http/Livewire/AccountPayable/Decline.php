@@ -10,7 +10,7 @@ use DB;
 class Decline extends Component
 {
     protected $listeners = [
-        'modaldeclinehotelflightticket'=>'declinehotelflightticket',
+        'modaldeclineaccountpayable'=>'modaldeclineaccountpayable',
     ];
 
     use WithFileUploads;
@@ -23,7 +23,7 @@ class Decline extends Component
         return view('livewire.account-payable.decline');
     }
 
-    public function declinehotelflightticket($id)
+    public function modaldeclineaccountpayable($id)
     {
         $this->selected_id = $id;
         // dd($id[0]);
@@ -33,12 +33,17 @@ class Decline extends Component
     public function save()
     {
         
-        $data = \App\Models\HotelFlightTicket::where('id', $this->selected_id)->first();
+        $data = \App\Models\AccountPayable::where('id', $this->selected_id)->first();
         
         $data->status   = '0';
         $data->note     = $this->note;
 
         $data->save();
+
+        $datahistory = new \App\Models\LogActivity();
+        $datahistory->subject = 'Approvalhistoryaccountpayable'.$this->selected_id;
+        $datahistory->var = '{"status":"'.$data->status.'","note":"'.$this->note.'"}';
+        $datahistory->save();
 
         // send notifikasi
         // $notif = get_user_from_access('hotel-flight-ticket.toc-leader');
@@ -52,10 +57,10 @@ class Decline extends Component
 
 
         
-        session()->flash('message-success',"Berhasil, Hotel & Flight Ticket is Decline !!!");
+        session()->flash('message-success',"Berhasil, Request Account Payable is Decline !!!");
 
         // \LogActivity::add('[web] Duty Roster - Home Base Input');
         
-        return redirect()->route('hotel-flight-ticket.index');
+        return redirect()->route('account-payable.index');
     }
 }
