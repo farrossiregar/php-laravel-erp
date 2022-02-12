@@ -126,22 +126,48 @@
                             @if(check_access('hotel-flight-ticket.hq-ga'))
                                 @if($item->status == '2')
 
-                                    @if($item->request_type == '1' || $item->request_type == '2' || $item->request_type == '3')
-                                        @if(check_access('hotel-flight-ticket.hq-ga'))
-                                            <a href="javascript:;" wire:click="$emit('modaledithotelflightticket','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                    @if(check_access('hotel-flight-ticket.hq-ga'))    
+                                        @if($item->request_type == '1')
+                                            <a href="javascript:;" wire:click="$emit('modaladdpettycashaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                        @endif
+
+                                        @if($item->request_type == '2')
+                                            <a href="javascript:;" wire:click="$emit('modaladdweeklyopexaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                        @endif
+
+                                        @if($item->request_type == '3')
+                                            <a href="javascript:;" wire:click="$emit('modaladdotheropexaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
                                         @endif
                                     @endif
 
-                                    @if($item->request_type == '4' || $item->request_type == '5' || $item->request_type == '6')
-                                        @if(check_access('hotel-flight-ticket.hq-ga'))
-                                            <a href="javascript:;" wire:click="$emit('modaledithotelflightticket','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+
+                                    @if(check_access('hotel-flight-ticket.hq-ga'))
+                                        @if($item->request_type == '4')
+                                            <a href="javascript:;" wire:click="$emit('modaladdrectificationaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                        @endif
+
+                                        @if($item->request_type == '5')
+                                            <a href="javascript:;" wire:click="$emit('modaladdsubcontaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                        @endif
+
+                                        @if($item->request_type == '6')
+                                            <a href="javascript:;" wire:click="$emit('modaladdsitekeeperaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
                                         @endif
                                     @endif
 
-                                    @if($item->request_type == '7' || $item->request_type == '8' || $item->request_type == '9')
-                                        @if(check_access('hotel-flight-ticket.hq-ga'))
-                                            <a href="javascript:;" wire:click="$emit('modaledithotelflightticket','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                    @if(check_access('hotel-flight-ticket.hq-ga'))
+                                        @if($item->request_type == '7')
+                                            <a href="javascript:;" wire:click="$emit('modaladdhqadministrationaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
                                         @endif
+
+                                        @if($item->request_type == '8')
+                                            <a href="javascript:;" wire:click="$emit('modaladdpayrollaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                        @endif
+
+                                        @if($item->request_type == '9')
+                                            <a href="javascript:;" wire:click="$emit('modaladdsuppliervendoraccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                        @endif
+                                            
                                     @endif
 
                                 @endif
@@ -429,7 +455,9 @@
                             @endif
                         </td>
                         <td><a href="{{ $item->additional_doc }}"><i class="fa fa-download"> {{ strtoupper($item->doc_name) }}</i></a></td>
-                        <td></td>
+                        <td>
+                        <a href="javascript:;" wire:click="$emit('modaltreasuryaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                        </td>
                         <!-- 
                         
                         <td>
