@@ -25,7 +25,10 @@
         </div>
       
     </div>
-    @if($bank_account_name == '' && $bank_account_number == '' && $bank_name == '')
+    <?php
+        $check = \App\Models\AccountPayable::where('id', $selected_id)->first();
+    ?>
+    @if(@$check->bank_account_name == '' && @$check->bank_account_number == '' && @$check->bank_name == '')
     <div class="modal-footer">
         <button type="button" class="btn btn-success  close-modal"  wire:click="save"><i class="fa fa-check"></i> Submit</button>
     </div>

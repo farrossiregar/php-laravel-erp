@@ -45,7 +45,7 @@ class Addpettycash extends Component
     {
         $this->selected_id = $id;
 
-        $data                           = \App\Models\AccountPayablePettycash::where('id_master', $this->selected_id)->first();
+        $data                           = @\App\Models\AccountPayablePettycash::where('id_master', $this->selected_id)->first();
         $this->id_master                = $this->selected_id;
         $this->department               = @$data->department;
         $this->advance_req_no           = @$data->advance_req_no;
@@ -97,7 +97,7 @@ class Addpettycash extends Component
         ]);
 
         if($this->file){
-            $ap_doc = 'ap_pettycash'.date('Ymd').'.'.$this->file->extension();
+            $ap_doc = 'ap_pettycash'.$this->selected_id.'.'.$this->file->extension();
             $this->file->storePubliclyAs('public/Account_Payable/Petty_Cash/',$ap_doc);
 
             $data->doc_settlement               = $ap_doc;

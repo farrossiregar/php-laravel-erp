@@ -206,7 +206,7 @@
                             @endif
                             @if($item->request_type == '2')
                                 @if($item->update_req == '1')
-                                    <a href="javascript:;" wire:click="$emit('modaldetailreqaccountpayable','{{ $item->id }}')">
+                                    <a href="javascript:;" wire:click="$emit('modaladdweeklyopexaccountpayable','{{ $item->id }}')">
                                     Weekly Opex
                                     </a>
                                 @else
