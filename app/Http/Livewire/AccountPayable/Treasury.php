@@ -14,8 +14,7 @@ class Treasury extends Component
     ];
 
     use WithFileUploads;
-    public $selected_id, $note;    
-    public $usertype;
+    public $selected_id, $bank_account_name, $bank_account_number, $bank_name;    
 
     
     public function render()
@@ -26,21 +25,30 @@ class Treasury extends Component
     public function modaltreasuryaccountpayable($id)
     {
         $this->selected_id = $id;
+
+        $data                           = \App\Models\AccountPayable::where('id', $this->selected_id)->first();
+        $this->bank_account_name        = $data->bank_account_name;
+        $this->bank_account_number      = $data->bank_account_number;
+        $this->bank_name                = $data->bank_name;
     }
 
   
     public function save()
     {
-        $type_approve       = $this->selected_id;
-        $data               = \App\Models\AccountPayable::where('id', $type_approve[0])->first();
-        $data->status       = $type_approve[1];
-        $data->note         = $this->note;
+        // $type_approve       = $this->selected_id;
+
+        
+        $data                           = \App\Models\AccountPayable::where('id', $this->selected_id)->first();
+        $data->bank_account_name        = $this->bank_account_name;
+        $data->bank_account_number      = $this->bank_account_number;
+        $data->bank_name                = $this->bank_name;
+        
         $data->save();
 
-        $datahistory = new \App\Models\LogActivity();
-        $datahistory->subject = 'Approvalhistoryaccountpayable'.$type_approve[0];
-        $datahistory->var = '{"status":"'.$data->status.'","note":"'.$this->note.'"}';
-        $datahistory->save();
+        // $datahistory = new \App\Models\LogActivity();
+        // $datahistory->subject = 'Approvalhistoryaccountpayable'.$type_approve[0];
+        // $datahistory->var = '{"status":"'.$data->status.'","note":"'.$this->note.'"}';
+        // $datahistory->save();
 
     
         // $notif = get_user_from_access('account-payable.toc-leader');

@@ -1,35 +1,23 @@
 <form wire:submit.prevent="save">
     @csrf
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-check"></i> Treasury Account Payable</h5>
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-check"></i> Detail Request Account Payable</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true close-btn">×</span>
         </button>
     </div>
     <div class="modal-body">
+        
         <div class="form-group">
-            <label>Bank Account Name</label>
-            <input type="text" class="form-control" wire:model="bank_account_name">
-            
-        </div>
-        <div class="form-group">
-            <label>Bank Account Number</label>
-            <input type="text" class="form-control" wire:model="bank_account_number">
-            
-        </div>
-
-        <div class="form-group">
-            <label>Bank Name</label>
-            <input type="text" class="form-control" wire:model="bank_name">
+            <label>Note</label>
+            <textarea class="form-control" wire:model="note"></textarea>
             
         </div>
       
     </div>
-    @if($bank_account_name == '' && $bank_account_number == '' && $bank_name == '')
     <div class="modal-footer">
         <button type="button" class="btn btn-success  close-modal"  wire:click="save"><i class="fa fa-check"></i> Submit</button>
     </div>
-    @endif
      <!-- <div wire:loading>
         <div class="page-loader-wrapper" style="display:block">
             <div class="loader" style="display:block">

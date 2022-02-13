@@ -12,11 +12,11 @@ use Auth;
 use DB;
 
 
-class Addpettycash extends Component
+class Detailpettycash extends Component
 {
 
     protected $listeners = [
-        'modaladdpettycashaccountpayable'=>'modaladdpettycashaccountpayable',
+        'modaldetailpettycashaccountpayable'=>'modaldetailpettycashaccountpayable',
     ];
 
     use WithPagination;
@@ -24,46 +24,41 @@ class Addpettycash extends Component
     
     use WithFileUploads;
     public $selected_id, $department, $advance_req_no, $advance_nominal, $advance_date, $settlement_date, $settlement_nominal, $total_settlement, $cash_transaction_no;
-    public $description, $difference, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file;
+    public $description, $difference, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file, $doc_settlement;
 
     public function render()
     {
 
-        // $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
         
-        // $this->employee_name = $user->name;
-        // $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
-        // $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
-        // $this->position = \App\Models\UserAccess::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->user_access_id)->first()->name;
-        // $this->department = \App\Models\Department::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->department_id)->first()->name;
-       
-
-        return view('livewire.account-payable.addpettycash');
+        return view('livewire.account-payable.detailpettycash');
     }
 
-    public function modaladdpettycashaccountpayable($id)
+    public function modaldetailpettycashaccountpayable($id)
     {
         $this->selected_id = $id;
-
+        
+        
         $data                           = \App\Models\AccountPayablePettycash::where('id_master', $this->selected_id)->first();
         $this->id_master                = $this->selected_id;
-        $this->department               = @$data->department;
-        $this->advance_req_no           = @$data->advance_req_no;
-        $this->month                    = @$data->advance_req_no;
-        $this->year                     = @$data->advance_req_no;
-        $this->week                     = @$data->advance_req_no;
-        $this->advance_nominal          = @$data->advance_nominal;
-        $this->advance_date             = @$data->advance_date;
-        $this->cash_transaction_no      = @$data->cash_transaction_no;
-        $this->settlement_date          = @$data->settlement_date;
-        $this->description              = @$data->description;
-        $this->settlement_nominal       = @$data->settlement_nominal;
-        $this->total_settlement         = @$data->total_settlement;
-        $this->difference               = @$data->difference;
-        $this->account_no_recorded      = @$data->account_no_recorded;
-        $this->account_name_recorded    = @$data->account_name_recorded;
-        $this->nominal_recorded         = @$data->nominal_recorded;
-        $this->doc_settlement           = @$data->doc_settlement;
+        $this->department               = $data->department;
+        $this->advance_req_no           = $data->advance_req_no;
+        $this->month                    = $data->advance_req_no;
+        $this->year                     = $data->advance_req_no;
+        $this->week                     = $data->advance_req_no;
+        $this->advance_nominal          = $data->advance_nominal;
+        $this->advance_date             = $data->advance_date;
+        $this->cash_transaction_no      = $data->cash_transaction_no;
+        $this->settlement_date          = $data->settlement_date;
+        $this->description              = $data->description;
+        $this->settlement_nominal       = $data->settlement_nominal;
+        $this->total_settlement         = $data->total_settlement;
+        $this->difference               = $data->difference;
+        $this->account_no_recorded      = $data->account_no_recorded;
+        $this->account_name_recorded    = $data->account_name_recorded;
+        $this->nominal_recorded         = $data->nominal_recorded;
+        $this->doc_settlement           = $data->doc_settlement;
+
+        
     }
 
   
@@ -84,10 +79,12 @@ class Addpettycash extends Component
         $data->settlement_date          = $this->settlement_date;
         $data->description              = $this->description;
         $data->settlement_nominal       = $this->settlement_nominal;
+        $data->total_settlement         = $this->total_settlement;
         $data->difference               = $this->difference;
         $data->account_no_recorded      = $this->account_no_recorded;
         $data->account_name_recorded    = $this->account_name_recorded;
         $data->nominal_recorded         = $this->nominal_recorded;
+        
         
         
        
@@ -97,7 +94,7 @@ class Addpettycash extends Component
         ]);
 
         if($this->file){
-            $ap_doc = 'ap_pettycash'.date('Ymd').'.'.$this->file->extension();
+            $ap_doc = 'ap_pettycash'.$this->selected_id.'.'.$this->file->extension();
             $this->file->storePubliclyAs('public/Account_Payable/Petty_Cash/',$ap_doc);
 
             $data->doc_settlement               = $ap_doc;

@@ -64,6 +64,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-accountpayable-detailreq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:account-payable.detailreq />
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modal-accountpayable-treasury" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -149,6 +157,15 @@
 </div>
 
 
+<div class="modal fade" id="modal-accountpayable-detailpettycash" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:account-payable.detailpettycash />
+        </div>
+    </div>
+</div>
+
+
 
 
 
@@ -176,6 +193,10 @@
 
     Livewire.on('modaldeclineaccountpayable',(data)=>{
         $("#modal-accountpayable-decline").modal('show');
+    });
+
+    Livewire.on('modaldetailreqaccountpayable',(data)=>{
+        $("#modal-accountpayable-detailreq").modal('show');
     });
 
     Livewire.on('modaltreasuryaccountpayable',(data)=>{
@@ -232,5 +253,9 @@
         $("#modal-accountpayable-addsuppliervendor").modal('show');
     });
 
+
+    Livewire.on('modaldetailpettycashaccountpayable',(data)=>{
+        $("#modal-accountpayable-detailpettycash").modal('show');
+    });
 
 @endsection

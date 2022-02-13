@@ -5,7 +5,7 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Update Request Petty Cash </h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-eye"></i> Detail Request Petty Cash </h5>
                 </div>
 
                 <div class="body pt-0">
@@ -15,54 +15,12 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <!-- <div class="col-md-6 form-group">
-                                            <label>Employee Name</label>
-                                            <input list="petty_cash_category1" class="form-control"  wire:model="employee_name" readonly>
-                                           
-
-                                            @error('employee_name')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label>Project</label>
-                                            <input type="text" class="form-control" wire:model="project" readonly/>
-                                            @error('employee_id')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label>Region</label>
-                                            <input type="text" class="form-control" wire:model="region" readonly/>
-                                            
-                                            @error('date')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-6 form-group">
-                                            <label>Position</label>
-                                            <input type="text" class="form-control" wire:model="position" readonly/>
-                                            
-                                            @error('position')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-6 form-group">
-                                            <label>Departement</label>
-                                            <input type="text" wire:model="department" class="form-control" readonly/>
-                                            
-                                            @error('department')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div> -->
-
+                                        
                                         
 
                                         <div class="col-md-6 form-group">
                                             <label>Department</label>
-                                            <select onclick="" class="form-control" wire:model="department">
+                                            <select onclick="" class="form-control" readonly wire:model="department">
                                                 <option value=""> --- Department --- </option>
                                                 @foreach(\App\Models\Department::orderBy('id', 'desc')->get() as $item)
                                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -80,7 +38,7 @@
 
                                                 <div class="col-md-6 form-group">
                                                     <label>Advance Request No </label>
-                                                    <input type="text" class="form-control" placeholder="Dept/YearMonth/Req No" wire:model="advance_req_no">
+                                                    <input type="text" class="form-control" placeholder="Dept/YearMonth/Req No" readonly wire:model="advance_req_no">
                                                 
                                                     @error('advance_req_no')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -89,7 +47,7 @@
 
                                                 <div class="col-md-6 form-group">
                                                     <label>Advance Nominal </label>
-                                                    <input type="number" class="form-control" wire:model="advance_nominal">
+                                                    <input type="number" class="form-control" readonly wire:model="advance_nominal">
                                                 
                                                     @error('advance_nominal')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -98,7 +56,7 @@
 
                                                 <div class="col-md-6 form-group">
                                                     <label>Advance Date </label>
-                                                    <input type="date" class="form-control" value="<?php echo date('d/m/Y'); ?>" wire:model="advance_date">
+                                                    <input type="date" class="form-control" value="<?php echo date('d/m/Y'); ?>" readonly wire:model="advance_date">
                                                 
                                                     @error('advance_date')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -117,7 +75,7 @@
 
                                                 <div class="col-md-6 form-group">
                                                     <label>Settlement Date </label>
-                                                    <input type="date" class="form-control" wire:model="settlement_date">
+                                                    <input type="date" class="form-control" readonly wire:model="settlement_date">
                                                 
                                                     @error('settlement_date')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -126,7 +84,7 @@
 
                                                 <div class="col-md-6 form-group">
                                                     <label>Settlement Nominal </label>
-                                                    <input type="number" class="form-control" wire:model="settlement_nominal">
+                                                    <input type="number" class="form-control" readonly wire:model="settlement_nominal">
                                                 
                                                     @error('settlement_nominal')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -135,7 +93,7 @@
 
                                                 <div class="col-md-6 form-group">
                                                     <label>Total Settlement </label>
-                                                    <input type="number" class="form-control" wire:model="total_settlement">
+                                                    <input type="number" class="form-control" readonly wire:model="total_settlement">
                                                 
                                                     @error('total_settlement')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -151,7 +109,7 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Cash Transaction No </label>
-                                            <input type="text" class="form-control" placeholder="001/Date/Month/Year/CashOut" wire:model="cash_transaction_no">
+                                            <input type="text" class="form-control" placeholder="001/Date/Month/Year/CashOut" readonly wire:model="cash_transaction_no">
                                            
                                             @error('advance_date')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -162,7 +120,7 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Description </label>
-                                            <textarea name="" id="" cols="30" rows="4" class="form-control" wire:model="description"></textarea>
+                                            <textarea name="" id="" cols="30" rows="4" class="form-control" readonly wire:model="description"></textarea>
                                            
                                             @error('settlement_date')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -173,7 +131,7 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Difference </label>
-                                            <input type="number" class="form-control" wire:model="difference">
+                                            <input type="number" class="form-control" readonly wire:model="difference">
                                            
                                             @error('difference')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -191,7 +149,7 @@
 
                                                 <div class="col-md-6 form-group">
                                                     <label>Account No Recorded </label>
-                                                    <input type="text" class="form-control" wire:model="account_no_recorded">
+                                                    <input type="text" class="form-control" readonly wire:model="account_no_recorded">
                                                 
                                                     @error('account_no_recorded')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -200,7 +158,7 @@
 
                                                 <div class="col-md-6 form-group">
                                                     <label>Account Name Recorded </label>
-                                                    <input type="text" class="form-control" wire:model="account_name_recorded">
+                                                    <input type="text" class="form-control" readonly wire:model="account_name_recorded">
                                                 
                                                     @error('account_name_recorded')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -209,7 +167,7 @@
 
                                                 <div class="col-md-6 form-group">
                                                     <label>Nominal Recorded </label>
-                                                    <input type="text" class="form-control" wire:model="nominal_recorded">
+                                                    <input type="text" class="form-control" readonly wire:model="nominal_recorded">
                                                 
                                                     @error('nominal_recorded')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -221,41 +179,26 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Attachment Document for Settlement</label>
-                                            <input type="file" class="form-control" wire:model="file">
+                                            <!-- <input type="file" class="form-control" readonly wire:model="file"> -->
+                                            <br><br>
+                                            <td><a href="<?php echo asset('storage/Account_Payable/Petty_Cash/'.$doc_settlement) ?>" target="_blank"><i class="fa fa-download"></i> {{ $doc_settlement }}</a></td>
                                            
                                             @error('leader')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
 
-                                        <!-- 
-
-                                        <div class="col-md-6 form-group">
-                                            <label>Document Type </label>
-                                            <input list="doc_id" type="text" class="form-control" wire:model="doc_name">
-                                            <datalist id="doc_id" >
-                                                <option value="PO">
-                                                <option value="Invoice">
-                                            </datalist>
-
-                                           
-                                            @error('leader')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                         -->
-                                        
-                                        
+                                       
                                        
                                     </div>
                                 </div>
-                                @if(!\App\Models\AccountPayablePettycash::where('id_master', $selected_id)->first())
-                                <div class="col-md-12 form-group">
+                                
+                                <!-- <div class="col-md-12 form-group">
                                     <hr />
                                     
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
-                                </div>
-                                @endif
+                                </div> -->
+                                
                             </div>
                         </form>
                     </div>
