@@ -9,21 +9,23 @@ use App\Models\PoTrackingNonms;
 use App\Models\Employee;
 use App\Models\EmployeeProject;
 use Illuminate\Support\Arr;
+use Livewire\WithFileUploads;
 
 class Indexboq extends Component
 {
-    use WithPagination;
-    public $date,$keyword,$coordinator_id,$coordinators=[],$selected_data;
+    use WithPagination,WithFileUploads;
+    public $date,$keyword,$coordinator_id,$coordinators=[],$selected_data,$is_service_manager=false;
+    public $is_coordiantor=false,$field_teams=[],$field_team_id,$url_bast,$note,$file_bast,$file_gr;
     protected $paginationTheme = 'bootstrap';
     
     public function render()
     {
-        if(check_access('po-tracking-nonms.index-regional')){
-            $data = PoTrackingNonms::where('region', isset(\Auth::user()->employee->region->region)?\Auth::user()->employee->region->region:'')
-                                    ->where('type_doc', '2')
-                                    ->orderBy('id', 'DESC'); 
-        }else $data = PoTrackingNonms::where('type_doc', '2')->orderBy('id', 'DESC');
-        
+        $data = PoTrackingNonms::where('type_doc', 2)->orderBy('id', 'DESC');
+                                    
+        if(check_access('po-tracking-nonms.index-regional')) $data->where('region', isset(\Auth::user()->employee->region->region)?\Auth::user()->employee->region->region:''); 
+        if(check_access('is-coordinator')) $data->where('coordinator_id',\Auth::user()->employee->id);
+        if(check_access('is-field-team')) $data->where('field_team_id',\Auth::user()->employee->id);
+
         if($this->keyword) $data->where(function($table){
                             $table->where('po_no',"LIKE","%{$this->keyword}%")
                                     ->orWhere('region',"LIKE","%{$this->keyword}%")
@@ -32,7 +34,7 @@ class Indexboq extends Component
                                     ->orWhere('pekerjaan',"LIKE","%{$this->keyword}%");
                         });
         if($this->date) $data->whereDate('created_at',$this->date);
-        
+                
         return view('livewire.po-tracking-nonms.indexboq')->with(['data'=>$data->paginate(50)]);
     }
 
@@ -41,10 +43,70 @@ class Indexboq extends Component
         $client_project_ids = Arr::pluck(EmployeeProject::select('client_project_id')->where(['employee_id'=>\Auth::user()->employee->id])->get()->toArray(),'client_project_id');
         
         $this->coordinators = get_user_from_access('is-coordinator',$client_project_ids,\Auth::user()->employee->region_id);
+        $this->field_teams = get_user_from_access('is-field-team',$client_project_ids,\Auth::user()->employee->region_id);
+        $this->is_service_manager = check_access('is-service-manager');
+        $this->is_coordinator = check_access('is-coordinator');
     }
 
-    public function set_data(PoTrackingNonms $selected_data){
-        $this->selected_data = $selected_data;
+    public function set_data(PoTrackingNonms $id){
+        $this->selected_data = $id;
+        $this->url_bast = asset($id->bast);
+    }
+
+    public function e2e_upload_bast_and_gr()
+    {
+        $this->validate([
+            'file_bast'=>'required|file|mimes:xlsx,csv,xls,doc,docx,pdf,image',
+            'file_gr'=>'required|file|mimes:xlsx,csv,xls,doc,docx,pdf,image'
+        ]);
+
+        $bast =  "bast_approved.".$this->file_bast->extension();
+        $gr =  "gr_approved.".$this->file_gr->extension();
+        $this->file_bast->storeAs("public/po-tracking-nonms/{$this->selected_data->id}", $bast);
+        $this->file_gr->storeAs("public/po-tracking-nonms/{$this->selected_data->id}", $gr);
+        $this->selected_data->approved_bast = "storage/po-tracking-nonms/{$this->selected_data->id}/{$bast}";
+        $this->selected_data->gr_cust = "storage/po-tracking-nonms/{$this->selected_data->id}/{$gr}";
+        $this->selected_data->status = 9; // Finance
+        $this->selected_data->save();
+
+        $this->emit('message-success',"BAST and GR uploaded");
+        $this->emit('modal','hide');
+    }
+
+    public function e2e_reject_bast()
+    {
+        $this->validate(['note'=>'required']);
+        $this->selected_data->note_e2e_bast = $this->note;
+        $this->selected_data->bast_status = 3;
+        $this->selected_data->save(); 
+
+        $this->emit('message-success',"Budget request rejected");
+        $this->emit('modal','hide');
+    }
+
+    public function e2e_approve_bast()
+    {
+        $this->validate(['note'=>'required']);
+        $this->selected_data->note_e2e_bast = $this->note;
+        $this->selected_data->status = 8;
+        $this->selected_data->save();
+        
+        $this->emit('message-success',"Budget request approved");
+        $this->emit('modal','hide');
+    }
+
+    public function assign_field_team()
+    {
+        $this->validate([
+            'field_team_id'=>'required'
+        ]);
+        $this->selected_data->field_team_id = $this->field_team_id;
+        $this->selected_data->save();
+        
+        $message = 'Work order number '. $this->selected_data->no_tt." need your action.";
+        //if(isset($this->selected_data->field_team->device_token)) push_notification_android($this->selected_data->field_team->device_token,"PO Tracking Non MS" ,$message,10);
+        
+        $this->emit('modal','hide');
     }
 
     public function assign_coordinator()
@@ -56,7 +118,7 @@ class Indexboq extends Component
         $this->selected_data->save();
         
         $message = 'Work order number '. $this->selected_data->no_tt." need your action.";
-        if(isset($this->selected_data->coordinator->device_token)) push_notification_android($this->selected_data->coordinator->device_token,"PO Tracking Non MS" ,$message,10);
+        //if(isset($this->selected_data->coordinator->device_token)) push_notification_android($this->selected_data->coordinator->device_token,"PO Tracking Non MS" ,$message,10);
         
         $this->emit('modal','hide');
     }

@@ -3,7 +3,7 @@
         <div class="card">
             <div class="header row">
                 <div class="col-md-1">
-                    <a href="#" data-toggle="modal" data-target="#modal-sitetracking-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Site Tracking')}}</a>
+                    <a href="#" data-target="#modal_sitetracking_upload" data-toggle="modal" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Site Tracking')}}</a>
                 </div>
             </div>
             <div class="body pt-0">
@@ -48,26 +48,18 @@
             </div>
         </div>
     </div>
-</div>
-
-
-
-<div class="modal fade" id="modal-sitetracking-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:sitetracking.insert />
-
+    <div class="modal fade" id="modal_sitetracking_upload"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <livewire:sitetracking.insert />
+            </div>
         </div>
     </div>
 </div>
-
-
-
 @section('page-script')
-Livewire.on('sitetracking-upload',()=>{
-    $("#modal-sitetracking-upload").modal('hide');
-});
-
+    Livewire.on('sitetracking-upload',()=>{
+        $("#modal-sitetracking-upload").modal('hide');
+    });
 @endsection
 
 

@@ -6,21 +6,15 @@
         </button>
     </div>
     <div class="modal-body">
-        <div class="row">
-            <div class="form-group col-md-6">
-                <label>Amount</label>
-                <input type="number" class="form-control" wire:model="amount" />
-                @error('amount')
-                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                @enderror
-            </div>
-            <div class="form-group col-md-6">
-                <label>File Transfer</label>
-                <input type="file" class="form-control" wire:model="file" />
-                @error('file')
-                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                @enderror
-            </div>
+        <div class="form-group">
+            <label>Amount</label> : Rp. {{format_idr($amount)}}
+        </div>
+        <div class="form-group">
+            <label>File Transfer</label>
+            <input type="file" class="form-control" wire:model="file" />
+            @error('file')
+                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+            @enderror
         </div>
     </div>
     <div class="modal-footer">

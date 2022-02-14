@@ -117,7 +117,8 @@
                         <thead>
                             <tr style="background:#eee;">
                                 <th style="width:50px;">No</th>                                    
-                                <th>Employee</th>   
+                                <th>NIK</th>   
+                                <th>Name</th>   
                                 <th>Score</th>          
                                 <th>Date Submited</th>   
                                 <th></th>
@@ -127,6 +128,7 @@
                         @foreach(\App\Models\TrainingExamResult::where(['training_material_id'=>$data->id])->get() as $k => $result)
                             <tr>
                                 <td>{{$k+1}}</td>
+                                <td>{{isset($result->employee->nik)?$result->employee->nik:''}}</td>
                                 <td>{{isset($result->employee->name)?$result->employee->name:''}}</td>
                                 <td>{{$result->nilai}}</td>
                                 <td>{{date('d-M-Y',strtotime($result->created_at))}}</td>

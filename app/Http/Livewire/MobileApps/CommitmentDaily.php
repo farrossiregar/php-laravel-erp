@@ -172,7 +172,7 @@ class CommitmentDaily extends Component
                             ->setCellValue('L'.$num,$i->regulasi_terkait_penggunaan_kendaraan==1 ? "Yes" : "No")
                             ->setCellValue('M'.$num,$i->regulasi_bcg==1 ? "Yes" : "No")
                             ->setCellValue('N'.$num,$i->regulasi_terkait_cyber_security==1 ? "Yes" : "No")
-                            ->setCellValue('O'.$num,date('d-M-Y H:i',strtotime($i->created_at)));
+                            ->setCellValue('O'.$num,date('d-M-Y H:i',strtotime($i->updated_at)));
             }else{
                 $activeSheet->setCellValue('D'.$num,"-")
                             ->setCellValue('E'.$num,"-")

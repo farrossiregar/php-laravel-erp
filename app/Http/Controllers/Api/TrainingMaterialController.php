@@ -152,7 +152,7 @@ class TrainingMaterialController extends Controller
 
     public function submitJawaban(Request $r)
     {
-        $find = TrainingExamResult::where(['training_material_id'=>$r->training_material_id,'employee_id'=>Auth::user()->employee->id])->first();
+        $find = TrainingExamResult::where(['training_material_id'=>$r->training_material_id,'employee_id'=>\Auth::user()->employee->id])->first();
         
         if($find)  return response()->json(['message'=>'failed','data'=>'Kamu sudah melakukan submit training'], 200);
 

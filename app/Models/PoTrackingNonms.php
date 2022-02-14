@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PoTrackingNonmsBuktiTransfer;
 
 class PoTrackingNonms extends Model
 {
@@ -18,5 +19,10 @@ class PoTrackingNonms extends Model
     public function coordinator()
     {
         return $this->hasOne(Employee::class,'id','coordinator_id');
+    }
+
+    public function bukti_transfer()
+    {
+        return $this->hasMany(PoTrackingNonmsBuktiTransfer::class,'po_tracking_nonms_master_id','id');
     }
 }

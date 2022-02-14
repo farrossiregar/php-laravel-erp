@@ -1,19 +1,14 @@
-@section('title', __('PO Tracking Non MS Index'))
+@section('title', __('PO Tracking Non MS'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
             <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#boq">{{ __('Ericson') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#stp">{{ __('Stp') }}</a></li>
+                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#boq">{{ __('Ericsson Indosat') }}</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane show active" id="boq">
                     <livewire:po-tracking-nonms.indexboq />
-                </div>
-                
-                <div class="tab-pane" id="stp">
-                    <livewire:po-tracking-nonms.indexstp />
                 </div>
             </div>
         </div>
@@ -24,7 +19,6 @@
 <div class="modal fade" id="modal-potrackinginput-pono" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            
             <livewire:po-tracking-nonms.inputpono />
         </div>
     </div>

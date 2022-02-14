@@ -18,10 +18,10 @@ class WorkOrderController extends Controller
         $general_notification = Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereIn('type',[1,2,3])->whereDate('created_at',date('Y-m-d'))->get()->count();
         $general_notification += Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereNotIn('type',[1,2,3])->get()->count();
 
-        $open_work_order = PoTrackingNonms::whereNull('bast_status')->count();
-        $accepted_work_order = PoTrackingNonms::where('bast_status',1)->orWhere('bast_status',3)->count();
-        $closed_work_order = PoTrackingNonms::where('bast_status',2)->count();
-        $wfm = WorkFlowManagement::where('employee_id',\Auth::user()->employee->id)->where('status','<>',2)->get()->count();
+        $open_work_order = PoTrackingNonms::where('field_team_id',\Auth::user()->employee->id)->whereNull('bast_status')->count();
+        $accepted_work_order = PoTrackingNonms::where('field_team_id',\Auth::user()->employee->id)->where('bast_status',1)->orWhere('bast_status',3)->count();
+        $closed_work_order = PoTrackingNonms::where('field_team_id',\Auth::user()->employee->id)->where('bast_status',2)->count();
+        $wfm = WorkFlowManagement::where('field_team_id',\Auth::user()->employee->id)->where('employee_id',\Auth::user()->employee->id)->where('status','<>',2)->get()->count();
         
         return response()->json(['message'=>'success','general_notification'=>$general_notification,'open_work_order'=>$open_work_order,'accepted_work_order'=>$accepted_work_order,'closed_work_order'=>$closed_work_order,'wfm'=>$wfm?$wfm:0], 200);
     }
@@ -52,7 +52,7 @@ class WorkOrderController extends Controller
     public function workOrderOpen()
     {
         $data = [];
-        $param = PoTrackingNonms::whereNull('bast_status')->orderBy('id','DESC')->get();
+        $param = PoTrackingNonms::whereNull('bast_status')->where('field_team_id',\Auth::user()->employee->id)->orderBy('id','DESC')->get();
         
         foreach($param as $k => $item){
             $data[$k] = $item;
@@ -67,7 +67,7 @@ class WorkOrderController extends Controller
     public function workOrderAccepted()
     {
         $data = [];
-        $param = PoTrackingNonms::where('bast_status',1)->orWhere('bast_status',3)->get();
+        $param = PoTrackingNonms::where('bast_status',1)->where('field_team_id',\Auth::user()->employee->id)->orWhere('bast_status',3)->get();
         
         foreach($param as $k => $item){
             $data[$k] = $item;
@@ -82,7 +82,7 @@ class WorkOrderController extends Controller
     public function workOrderClosed()
     {
         $data = [];
-        $param = PoTrackingNonms::where('bast_status',2)->get();
+        $param = PoTrackingNonms::where('bast_status',2)->where('field_team_id',\Auth::user()->employee->id)->get();
         
         foreach($param as $k => $item){
             $data[$k] = $item;
@@ -129,7 +129,7 @@ class WorkOrderController extends Controller
     public function submitBast(Request $r)
     {
         $data = PoTrackingNonms::find($r->id);
-        $data->status = 5;
+        $data->status = 7;
         $data->bast_status = 1;
         $data->save();
 

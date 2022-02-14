@@ -30,14 +30,13 @@ class Bast extends Component
     {
         $this->validate([
             'file_bast'=>'required|mimes:xls,xlsx,pdf|max:51200', // 50MB maksimal
-            'file_gr'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
+            // 'file_gr'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
         ]);
 
         if($this->file_bast){
             $bast = 'pononms-bast'.$this->data->id.'.'.$this->file_bast->extension();
-            $this->file_bast->storePubliclyAs('public/po_tracking_nonms/Bast/',$bast);
-
-            $this->data->bast         = $bast;
+            $this->file_bast->storeAs('public/po_tracking_nonms/bast/',$bast);
+            $this->data->bast = "storage/po_tracking_nonms/bast/{$bast}";
             $this->data->bast_status  = 2;
             $this->data->bast_status_note  = $this->note;
             $this->data->save();
@@ -50,7 +49,7 @@ class Bast extends Component
         }
 
         $this->bast_status = 2; // Approve
-        $this->data->status = 6; // Finance - Upload approved Acceptance doc and invoice
+        $this->data->status = 7; // E2E Review
         $this->data->bast_status_note = $this->note;
         $this->data->save();
 

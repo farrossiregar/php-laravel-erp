@@ -181,7 +181,7 @@ function send_wa($param)
 
 function get_user_from_access($link,$client_project_id=null,$region_id=null)
 {
-    $cek = \App\Models\UserAccessModule::select('users.*',\DB::raw('employees.id as employee_id'),'employees.device_token',\DB::raw('employees.email as email_employee'))
+    $cek = \App\Models\UserAccessModule::select('users.*',\DB::raw('employees.id as employee_id'),\DB::raw('employees.name as employee_name'),'employees.device_token',\DB::raw('employees.email as email_employee'))
             ->where('modules_items.link',$link)
             ->join('modules_items','modules_items.id','=','user_access_modules.module_id')
             ->join('modules','modules.id','=','modules_items.module_id')

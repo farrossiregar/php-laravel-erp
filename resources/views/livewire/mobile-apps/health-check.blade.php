@@ -91,7 +91,9 @@
                             <td>{{isset($item->lokasi_kantor) ? $item->lokasi_kantor : ''}}</td>
                             <td>{{isset($item->department) ? $item->department : ''}}</td>
                             <td class="text-center" title="{{$item->status_bekerja=="WFH (Others)" ? $item->status_bekerja_others : "" }}">{{$item->status_bekerja}}</td>
-                            <td class="text-center" title="{{$item->kondisi_badan==2?$item->kondisi_badan_sakit : ''}}">{{$item->kondisi_badan==1?"Sehat" : "Sakit"}}</td>
+                            <td class="text-center" title="{{$item->kondisi_badan==2?$item->kondisi_badan_sakit : ''}}">
+                                {{$item->kondisi_badan==1?"Sehat" : "Sakit - ".$item->kondisi_badan_sakit}} 
+                            </td>
                             <td class="text-center" title="{{$item->tinggal_serumah_covid==1 ? $item->tinggal_serumah_covid_ya : "" }}">{{$item->tinggal_serumah_covid==1?"Ya":"Tidak"}}</td>
                             <td class="text-center" title="{{$item->bepergian_keluar_kota==1?$item->bepergian_keluar_kota_ya : ''}}">{{$item->bepergian_keluar_kota==1?"Ya":"Tidak"}}</td>
                             <td class="text-center" title="{{$item->mengunjungi_keluarga==1?$item->mengunjungi_keluarga_ya:''}}">{{$item->mengunjungi_keluarga==1?"Ya":"Tidak"}}</td>

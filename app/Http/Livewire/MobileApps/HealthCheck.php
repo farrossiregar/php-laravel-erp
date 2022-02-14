@@ -166,7 +166,7 @@ class HealthCheck extends Component
                             ->setCellValue('I'.$num,$i->lokasi_kantor)
                             ->setCellValue('J'.$num,$i->department)
                             ->setCellValue('K'.$num,$i->status_bekerja)
-                            ->setCellValue('L'.$num,$i->kondisi_badan==1?"Sehat" : "Sakit")
+                            ->setCellValue('L'.$num,$i->kondisi_badan==1?"Sehat" : "Sakit - ".$i->kondisi_badan_sakit)
                             ->setCellValue('M'.$num,$i->tinggal_serumah_covid==1 ? "Yes" : "No")
                             ->setCellValue('N'.$num,$i->bepergian_keluar_kota==1?"Ya":"Tidak")
                             ->setCellValue('O'.$num,$i->mengunjungi_keluarga==1?"Ya":"Tidak");
