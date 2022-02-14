@@ -101,6 +101,7 @@ Route::group(['middleware' => ['auth']], function(){
     // Route::get('team-schedule/generateusertimesheetpdf/{id}',App\Http\Livewire\TeamSchedule\Generateusertimesheetpdf::class)->name('team-schedule.generateusertimesheetpdf');
     Route::get('timesheet-record',App\Http\Livewire\TimesheetRecord\Index::class)->name('timesheet-record.index');
     Route::get('hotel-flight-ticket',App\Http\Livewire\HotelFlightTicket\Index::class)->name('hotel-flight-ticket.index');
+    Route::get('account-payable',App\Http\Livewire\AccountPayable\Index::class)->name('account-payable.index');
     Route::get('asset-database',App\Http\Livewire\AssetDatabase\Index::class)->name('asset-database.index');
     Route::get('asset-request',App\Http\Livewire\AssetRequest\Index::class)->name('asset-request.index');
     Route::get('asset-transfer-request',App\Http\Livewire\AssetTransferRequest\Index::class)->name('asset-transfer-request.index');
@@ -108,6 +109,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('hrga-petty-cash',App\Http\Livewire\HrgaPettyCash\Index::class)->name('hrga-petty-cash.index');
     Route::get('consumable-item-request',App\Http\Livewire\ConsumableItemRequest\Index::class)->name('consumable-item-request.index');
     Route::get('consumable-item-database',App\Http\Livewire\ConsumableItemDatabase\Index::class)->name('consumable-item-database.index');
+    Route::get('ticketing-system-complain',App\Http\Livewire\TicketingSystemComplain\Index::class)->name('ticketing-system-complain.index');
     Route::get('tracking-monitoring',App\Http\Livewire\TrackingMonitoring\Index::class)->name('tracking-monitoring.index');
     Route::get('employee',App\Http\Livewire\Employee\Index::class)->name('employee.index');
     Route::get('employee/insert',App\Http\Livewire\Employee\Insert::class)->name('employee.insert');
