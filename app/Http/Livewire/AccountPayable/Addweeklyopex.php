@@ -101,6 +101,11 @@ class Addweeklyopex extends Component
        
         $data->save();
 
+
+        $datamaster                           = \App\Models\AccountPayable::where('id', $this->selected_id)->first();
+        $datamaster->update_req               = '1';
+        $datamaster->save();
+
         // $notif = get_user_from_access('hotel-flight-ticket.noc-manager');
         // foreach($notif as $user){
         //     if($user->email){
@@ -113,7 +118,7 @@ class Addweeklyopex extends Component
        
 
 
-        session()->flash('message-success',"Request Account Payable Berhasil diinput");
+        session()->flash('message-success',"Request Weekly Opex Berhasil diinput");
         
         return redirect()->route('account-payable.index');
     }

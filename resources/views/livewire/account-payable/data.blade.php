@@ -140,36 +140,50 @@
                                         @endif
 
                                         @if($item->request_type == '3')
-                                            <a href="javascript:;" wire:click="$emit('modaladdotheropexaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @if(!\App\Models\AccountPayableOtheropex::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdotheropexaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
                                         @endif
                                     @endif
 
 
                                     @if(check_access('hotel-flight-ticket.hq-ga'))
                                         @if($item->request_type == '4')
-                                            <a href="javascript:;" wire:click="$emit('modaladdrectificationaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @if(!\App\Models\AccountPayableRectification::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdrectificationaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
                                         @endif
 
                                         @if($item->request_type == '5')
-                                            <a href="javascript:;" wire:click="$emit('modaladdsubcontaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @if(!\App\Models\AccountPayableSubcont::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdsubcontaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
                                         @endif
 
                                         @if($item->request_type == '6')
-                                            <a href="javascript:;" wire:click="$emit('modaladdsitekeeperaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @if(!\App\Models\AccountPayableSitekeeper::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdsitekeeperaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
                                         @endif
                                     @endif
 
                                     @if(check_access('hotel-flight-ticket.hq-ga'))
                                         @if($item->request_type == '7')
-                                            <a href="javascript:;" wire:click="$emit('modaladdhqadministrationaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @if(!\App\Models\AccountPayableHqadministration::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdhqadministrationaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
                                         @endif
 
                                         @if($item->request_type == '8')
-                                            <a href="javascript:;" wire:click="$emit('modaladdpayrollaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @if(!\App\Models\AccountPayablePayroll::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdpayrollaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
                                         @endif
 
                                         @if($item->request_type == '9')
-                                            <a href="javascript:;" wire:click="$emit('modaladdsuppliervendoraccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @if(!\App\Models\AccountPayableSuppliervendor::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdsuppliervendoraccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
                                         @endif
                                             
                                     @endif
@@ -215,23 +229,23 @@
                             @endif
                             @if($item->request_type == '3')
                                 @if($item->update_req == '1')
-                                    <a href="javascript:;" wire:click="$emit('modaldetailreqaccountpayable','{{ $item->id }}')">
+                                    <a href="javascript:;" wire:click="$emit('modaladdotheropexaccountpayable','{{ $item->id }}')">
                                     Other Opex
                                     </a>
                                 @else
                                     Other Opex
                                 @endif
                             @endif
-                            @if($item->request_type == '4' && $item->update_req == '1')
+                            @if($item->request_type == '4')
                                 @if($item->update_req == '1')
-                                    <a href="javascript:;" wire:click="$emit('modaldetailreqaccountpayable','{{ $item->id }}')">
+                                    <a href="javascript:;" wire:click="$emit('modaladdrectificationaccountpayable','{{ $item->id }}')">
                                     Rectification
                                     </a>
                                 @else
                                     Rectification
                                 @endif
                             @endif
-                            @if($item->request_type == '5' && $item->update_req == '1')
+                            @if($item->request_type == '5')
                                 @if($item->update_req == '1')
                                     <a href="javascript:;" wire:click="$emit('modaldetailreqaccountpayable','{{ $item->id }}')">
                                     Subcont
@@ -240,7 +254,7 @@
                                     Subcont
                                 @endif
                             @endif
-                            @if($item->request_type == '6' && $item->update_req == '1')
+                            @if($item->request_type == '6')
                                 @if($item->update_req == '1')
                                     <a href="javascript:;" wire:click="$emit('modaldetailreqaccountpayable','{{ $item->id }}')">
                                         Site Keeper
@@ -249,7 +263,7 @@
                                     Site Keeper
                                 @endif
                             @endif
-                            @if($item->request_type == '7' && $item->update_req == '1')
+                            @if($item->request_type == '7')
                                 @if($item->update_req == '1')
                                     <a href="javascript:;" wire:click="$emit('modaldetailreqaccountpayable','{{ $item->id }}')">
                                         HQ Administration
@@ -258,7 +272,7 @@
                                     HQ Administration
                                 @endif
                             @endif
-                            @if($item->request_type == '8' && $item->update_req == '1')
+                            @if($item->request_type == '8')
                                 @if($item->update_req == '1')
                                     <a href="javascript:;" wire:click="$emit('modaldetailreqaccountpayable','{{ $item->id }}')">
                                         Payroll
@@ -267,7 +281,7 @@
                                     Payroll
                                 @endif
                             @endif
-                            @if($item->request_type == '9' && $item->update_req == '1')
+                            @if($item->request_type == '9')
                                 @if($item->update_req == '1')
                                     <a href="javascript:;" wire:click="$emit('modaldetailreqaccountpayable','{{ $item->id }}')">
                                         Supplier/Vendor

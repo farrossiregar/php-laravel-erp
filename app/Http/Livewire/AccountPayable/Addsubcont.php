@@ -14,28 +14,52 @@ use DB;
 
 class Addsubcont extends Component
 {
+
+    protected $listeners = [
+        'modaladdsubcontaccountpayable'=>'modaladdsubcontaccountpayable',
+    ];
+
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $date, $position, $department;
-    
-    
-    public $request_type, $subrequest_type, $file, $doc_name;
+    public $selected_id, $project_code, $period,$rect_name, $pr_no, $nominal, $transfer_date, $cash_transaction_no, $advance, $settlement_date, $settlement_nominal;
+    public $difference, $remarks, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file;
 
     public function render()
     {
-
-        $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-        
-        $this->employee_name = $user->name;
-        $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
-        $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
-        $this->position = \App\Models\UserAccess::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->user_access_id)->first()->name;
-        $this->department = \App\Models\Department::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->department_id)->first()->name;
-       
-
         return view('livewire.account-payable.addsubcont');
+    }
+
+    public function modaladdsubcontaccountpayable($id)
+    {
+        $this->selected_id = $id;
+        
+        $data                           = @\App\Models\AccountPayableSubcont::where('id_master', $this->selected_id)->first();
+        $this->id_master                = @$data->id_master;
+        $this->project_code             = @$data->project_code;
+        $this->project_name             = @\App\Models\ClientProject::where('id', $data->project_code)->first()->name;
+        $this->month                    = @$data->project_code;
+        $this->year                     = @$data->project_code;
+        $this->week                     = @$data->project_code;
+        // $this->description              = @$data->description;
+        $this->rect_name                = @$data->rect_name;
+        $this->pr_no                    = @$data->pr_no;
+        
+        $this->nominal                  = @$data->nominal;
+       
+        $this->transfer_date            = @$data->transfer_date;
+        $this->cash_transaction_no      = @$data->cash_transaction_no;
+        $this->advance                  = @$data->advance;
+        $this->settlement_date          = @$data->settlement_date;
+        $this->settlement_nominal       = @$data->settlement_nominal;
+       
+        $this->difference               = @$data->difference;
+        $this->remarks                  = @$data->remarks;
+        $this->account_no_recorded      = @$data->account_no_recorded;
+        $this->account_name_recorded    = @$data->account_name_recorded;
+        $this->nominal_recorded         = @$data->nominal_recorded;
+        $this->doc_settlement           = @$data->doc_settlement;
     }
 
   

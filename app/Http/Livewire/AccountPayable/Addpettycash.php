@@ -105,6 +105,10 @@ class Addpettycash extends Component
         
         $data->save();
 
+        $datamaster                           = \App\Models\AccountPayable::where('id', $this->selected_id)->first();
+        $datamaster->update_req               = '1';
+        $datamaster->save();
+
         
 
         // $notif = get_user_from_access('hotel-flight-ticket.noc-manager');
