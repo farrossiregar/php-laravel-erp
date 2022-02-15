@@ -247,7 +247,7 @@
                             @endif
                             @if($item->request_type == '5')
                                 @if($item->update_req == '1')
-                                    <a href="javascript:;" wire:click="$emit('modaldetailreqaccountpayable','{{ $item->id }}')">
+                                    <a href="javascript:;" wire:click="$emit('modaladdsubcontaccountpayable','{{ $item->id }}')">
                                     Subcont
                                     </a>
                                 @else
@@ -256,7 +256,7 @@
                             @endif
                             @if($item->request_type == '6')
                                 @if($item->update_req == '1')
-                                    <a href="javascript:;" wire:click="$emit('modaldetailreqaccountpayable','{{ $item->id }}')">
+                                    <a href="javascript:;" wire:click="$emit('modaladdsitekeeperaccountpayable','{{ $item->id }}')">
                                         Site Keeper
                                     </a>
                                 @else
@@ -265,7 +265,7 @@
                             @endif
                             @if($item->request_type == '7')
                                 @if($item->update_req == '1')
-                                    <a href="javascript:;" wire:click="$emit('modaldetailreqaccountpayable','{{ $item->id }}')">
+                                    <a href="javascript:;" wire:click="$emit('modaladdhqadministrationaccountpayable','{{ $item->id }}')">
                                         HQ Administration
                                     </a>
                                 @else
@@ -274,7 +274,7 @@
                             @endif
                             @if($item->request_type == '8')
                                 @if($item->update_req == '1')
-                                    <a href="javascript:;" wire:click="$emit('modaldetailreqaccountpayable','{{ $item->id }}')">
+                                    <a href="javascript:;" wire:click="$emit('modaladdpayrollaccountpayable','{{ $item->id }}')">
                                         Payroll
                                     </a>
                                 @else
@@ -283,7 +283,7 @@
                             @endif
                             @if($item->request_type == '9')
                                 @if($item->update_req == '1')
-                                    <a href="javascript:;" wire:click="$emit('modaldetailreqaccountpayable','{{ $item->id }}')">
+                                    <a href="javascript:;" wire:click="$emit('modaladdsuppliervendoraccountpayable','{{ $item->id }}')">
                                         Supplier/Vendor
                                     </a>
                                 @else
@@ -537,15 +537,6 @@
                             @endif
                         </td>
                         <!-- 
-                        
-                        <td>
-                            <?php
-                                if($item->attachment != '' || $item->attachment != NULL){
-                                    echo '<a href="'.asset('storage/hotel_flight_ticket/'.$item->attachment.'').'" target="_blank"><i class="fa fa-download"></i></a>';
-                                }
-                            ?>
-                        </td>
-                        
                         
 
                         <td><?php if($item->flight_price){ echo 'Rp,'.format_idr($item->flight_price); }else{ echo ''; } ?></td>

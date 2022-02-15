@@ -47,6 +47,33 @@
                                             @enderror
                                         </div>
 
+                                        <div class="col-md-6 form-group">
+                                            <label>Month </label>
+                                            <select name="" id="" class="form-control">
+                                                <option value=""> --- Month --- </option>
+                                                @for($i = 1; $i <= 12; $i++)
+                                                    <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
+                                                @endfor
+                                            </select>
+                                           
+                                            @error('period')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6">     
+                                            <label>Year </label>           
+                                            <select class="form-control" >
+                                                <option value=""> --- Year --- </option>
+                                                <option value="2022">2022</option>
+                                                <option value="2021">2021</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2017">2017</option>
+                                            </select>
+                                        </div>
+
                                         <!-- <div class="col-md-12 form-group">
                                             <label>Description </label>
                                             <textarea name="" id="" cols="30" rows="4" class="form-control" wire:model="description"></textarea>
