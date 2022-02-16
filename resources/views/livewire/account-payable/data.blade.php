@@ -98,7 +98,7 @@
                             @endif
                         </td>
                         <td>
-                            @if(check_access('hotel-flight-ticket.l1-manager'))
+                            @if(check_access('account-payable.pmg'))
                                 @if($item->status == '')
                                    
                                     <a href="javascript:;" wire:click="$emit('modalapproveaccountpayable',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
@@ -115,7 +115,8 @@
                             @endif
                             
 
-                            @if(check_access('hotel-flight-ticket.hq-ga'))
+                            
+                            @if(check_access('account-payable.fin-spv') || check_access('account-payable.fin-mngr') || check_access('account-payable.sr-fin-acc-mngr'))
                                 @if($item->status == '1')
                                    
                                     <a href="javascript:;" wire:click="$emit('modalapproveaccountpayable',['{{ $item->id }}', '2'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
@@ -123,10 +124,10 @@
                                 @endif
                             @endif
 
-                            @if(check_access('hotel-flight-ticket.hq-ga'))
+                            <!-- if(check_access('account-payable.sr-fin-acc-mngr')) -->
                                 @if($item->status == '2')
 
-                                    @if(check_access('hotel-flight-ticket.hq-ga'))    
+                                    @if(check_access('account-payable.fin-spv'))    
                                         @if($item->request_type == '1')
                                             @if(!\App\Models\AccountPayablePettycash::where('id_master', $item->id)->first())
                                                 <a href="javascript:;" wire:click="$emit('modaladdpettycashaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
@@ -147,7 +148,7 @@
                                     @endif
 
 
-                                    @if(check_access('hotel-flight-ticket.hq-ga'))
+                                    @if(check_access('account-payable.fin-mngr'))
                                         @if($item->request_type == '4')
                                             @if(!\App\Models\AccountPayableRectification::where('id_master', $item->id)->first())
                                                 <a href="javascript:;" wire:click="$emit('modaladdrectificationaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
@@ -167,7 +168,7 @@
                                         @endif
                                     @endif
 
-                                    @if(check_access('hotel-flight-ticket.hq-ga'))
+                                    @if(check_access('account-payable.sr-fin-acc-mngr'))
                                         @if($item->request_type == '7')
                                             @if(!\App\Models\AccountPayableHqadministration::where('id_master', $item->id)->first())
                                                 <a href="javascript:;" wire:click="$emit('modaladdhqadministrationaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
@@ -189,7 +190,7 @@
                                     @endif
 
                                 @endif
-                            @endif
+                            <!-- endif -->
                         </td>
                         
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
