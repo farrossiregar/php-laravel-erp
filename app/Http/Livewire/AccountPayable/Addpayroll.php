@@ -41,20 +41,33 @@ class Addpayroll extends Component
         $data                           = @\App\Models\AccountPayablePayroll::where('id_master', $this->selected_id)->first();
         $this->id_master                = @$data->id_master;
         $this->project_code             = @$data->project_code;
-        $this->project_name             = @\App\Models\ClientProject::where('id', $data->project_code)->first()->name;
+        $this->project_name             = @\App\Models\ClientProject::where('id', $this->project_code)->first()->name;
         $this->month                    = @$data->month;
         $this->year                     = @$data->year;
         // $this->week                     = @$data->project_code;
-        $this->transfer_to              = @$data->transfer_to;
-        $this->invoice_no               = @$data->invoice_no;
-        $this->invoice_date             = @$data->invoice_date;
-        $this->total_transfer           = @$data->total_transfer;
-        $this->transfer_date            = @$data->transfer_date;
+        $this->employee_number          = @$data->employee_number;
+        $this->basic_salary             = @$data->basic_salary;
+        $this->pulse_allowance          = @$data->pulse_allowance;
+        $this->position_allowance       = @$data->position_allowance;
+        $this->homebase_allowance       = @$data->homebase_allowance;
+        $this->transport_allowance      = @$data->transport_allowance;
+        $this->motor_allowance          = @$data->motor_allowance;
+        $this->overtime_allowance       = @$data->overtime_allowance;
+
+        $this->refund_pph21             = @$data->refund_pph21;
+        $this->staff_claim              = @$data->staff_claim;
+        $this->incentive                = @$data->incentive;
+        $this->jamsostek_payable        = @$data->jamsostek_payable;
+        $this->jamsostek_payable_jp     = @$data->jamsostek_payable_jp;
+        $this->bpjs_kesehatan           = @$data->bpjs_kesehatan;
+        $this->pph21                    = @$data->pph21;
+        $this->piutang                  = @$data->piutang;
+        $this->own_risk                 = @$data->own_risk;
+        $this->unpaid_leave             = @$data->unpaid_leave;
+        $this->pinalty                  = @$data->pinalty;
+        $this->thp                      = @$data->thp;
+
         $this->cash_transaction_no      = @$data->cash_transaction_no;
-        $this->advance                  = @$data->advance;
-        $this->settlement_date          = @$data->settlement_date;
-        $this->settlement_nominal       = @$data->settlement_nominal;
-        $this->difference               = @$data->difference;
         $this->account_no_recorded      = @$data->account_no_recorded;
         $this->account_name_recorded    = @$data->account_name_recorded;
         $this->nominal_recorded         = @$data->nominal_recorded;
@@ -73,15 +86,28 @@ class Addpayroll extends Component
         $data->year                     = $this->year;
         // $data->week                     = $this->project_code;
         $data->employee_number          = $this->employee_number;
-        $data->invoice_no               = $this->invoice_no;
-        $data->invoice_date             = $this->invoice_date;
-        $data->total_transfer           = $this->total_transfer;
-        $data->transfer_date            = $this->transfer_date;
+        $data->basic_salary             = $this->basic_salary;
+        $data->pulse_allowance          = $this->pulse_allowance;
+        $data->position_allowance       = $this->position_allowance;
+        $data->homebase_allowance       = $this->homebase_allowance;
+        $data->transport_allowance      = $this->transport_allowance;
+        $data->motor_allowance          = $this->motor_allowance;
+        $data->overtime_allowance       = $this->overtime_allowance;
+
+        $data->refund_pph21             = $this->refund_pph21;
+        $data->staff_claim              = $this->staff_claim;
+        $data->incentive                = $this->incentive;
+        $data->jamsostek_payable        = $this->jamsostek_payable;
+        $data->jamsostek_payable_jp     = $this->jamsostek_payable_jp;
+        $data->bpjs_kesehatan           = $this->bpjs_kesehatan;
+        $data->pph21                    = $this->pph21;
+        $data->piutang                  = $this->piutang;
+        $data->own_risk                 = $this->own_risk;
+        $data->unpaid_leave             = $this->unpaid_leave;
+        $data->pinalty                  = $this->pinalty;
+        $data->thp                      = $this->thp;
+
         $data->cash_transaction_no      = $this->cash_transaction_no;
-        $data->advance                  = $this->advance;
-        $data->settlement_date          = $this->settlement_date;
-        $data->settlement_nominal       = $this->settlement_nominal;
-        $data->difference               = $this->difference;
         $data->account_no_recorded      = $this->account_no_recorded;
         $data->account_name_recorded    = $this->account_name_recorded;
         $data->nominal_recorded         = $this->nominal_recorded;
@@ -91,10 +117,10 @@ class Addpayroll extends Component
         ]);
 
         if($this->file){
-            $ap_doc = 'ap_hqadministration'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/Account_Payable/HQ_Administration/',$ap_doc);
+            $ap_doc = 'ap_payroll'.$this->selected_id.'.'.$this->file->extension();
+            $this->file->storePubliclyAs('public/Account_Payable/Payroll/',$ap_doc);
 
-            $data->doc_settlement               = $ap_doc;
+            $data->attachment_hr               = $ap_doc;
         }
         
         
