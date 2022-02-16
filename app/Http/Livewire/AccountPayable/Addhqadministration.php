@@ -14,28 +14,47 @@ use DB;
 
 class Addhqadministration extends Component
 {
+    protected $listeners = [
+        'modaladdhqadministrationaccountpayable'=>'modaladdhqadministrationaccountpayable',
+    ];
+
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $date, $position, $department;
-    
-    
-    public $request_type, $subrequest_type, $file, $doc_name;
+    public $selected_id, $department, $month, $year, $transfer_to, $description, $request_type, $invoice_no, $invoice_date, $total_transfer, $transfer_date, $cash_transaction_no, $advance, $settlement_date, $settlement_nominal;
+    public $difference, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file;
 
     public function render()
     {
 
-        $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-        
-        $this->employee_name = $user->name;
-        $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
-        $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
-        $this->position = \App\Models\UserAccess::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->user_access_id)->first()->name;
-        $this->department = \App\Models\Department::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->department_id)->first()->name;
-       
-
         return view('livewire.account-payable.addhqadministration');
+    }
+
+    public function modaladdhqadministrationaccountpayable($id)
+    {
+        $this->selected_id = $id;
+
+        $data                           = @\App\Models\AccountPayableHqadministration::where('id_master', $this->selected_id)->first();
+        $this->id_master                = @$data->id_master;
+        $this->department               = @$data->department;
+        $this->request_type             = @$data->request_type;
+        $this->month                    = @$data->month;
+        $this->year                     = @$data->year;
+        // $this->week                     = @$data->project_code;
+        $this->transfer_to              = @$data->transfer_to;
+        $this->invoice_no               = @$data->invoice_no;
+        $this->invoice_date             = @$data->invoice_date;
+        $this->total_transfer           = @$data->total_transfer;
+        $this->transfer_date            = @$data->transfer_date;
+        $this->cash_transaction_no      = @$data->cash_transaction_no;
+        $this->advance                  = @$data->advance;
+        $this->settlement_date          = @$data->settlement_date;
+        $this->settlement_nominal       = @$data->settlement_nominal;
+        $this->difference               = @$data->difference;
+        $this->account_no_recorded      = @$data->account_no_recorded;
+        $this->account_name_recorded    = @$data->account_name_recorded;
+        $this->nominal_recorded         = @$data->nominal_recorded;
     }
 
   
@@ -43,37 +62,46 @@ class Addhqadministration extends Component
     {
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
-        $data                           = new \App\Models\AccountPayable();
-        // $data->company_name             = Session::get('company_id');
-        $data->project                  = $this->project;
-        // $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
-        
-        
-        // $dataemployee                   = explode(" - ",$this->employee_name);
-        $data->region                   = $this->region;
-        $data->name                     = $this->employee_name;
-        $data->nik                      = $user->nik;
-        $data->position                 = $user->user_access_id;
-        // $data->employee_id              = $dataemployee[2];
-        
-       
+        $data                           = new \App\Models\AccountPayableHqadministration();
+        $data->id_master                = $this->selected_id;
+        $data->department               = $this->department;
+        $data->request_type             = $this->request_type;
+        $data->month                    = $this->month;
+        $data->year                     = $this->year;
+        // $data->week                     = $this->project_code;
+        $data->transfer_to              = $this->transfer_to;
+        $data->invoice_no               = $this->invoice_no;
+        $data->invoice_date             = $this->invoice_date;
+        $data->total_transfer           = $this->total_transfer;
+        $data->transfer_date            = $this->transfer_date;
+        $data->cash_transaction_no      = $this->cash_transaction_no;
+        $data->advance                  = $this->advance;
+        $data->settlement_date          = $this->settlement_date;
+        $data->settlement_nominal       = $this->settlement_nominal;
+        $data->difference               = $this->difference;
+        $data->account_no_recorded      = $this->account_no_recorded;
+        $data->account_name_recorded    = $this->account_name_recorded;
+        $data->nominal_recorded         = $this->nominal_recorded;
         
         $this->validate([
             'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
         ]);
 
         if($this->file){
-            $ap_doc = 'ap_doc'.date('Ymd').'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/Account_Payable/',$ap_doc);
+            $ap_doc = 'ap_hqadministration'.$this->selected_id.'.'.$this->file->extension();
+            $this->file->storePubliclyAs('public/Account_Payable/HQ_Administration/',$ap_doc);
 
-            $data->additional_doc               = $ap_doc;
-            $data->doc_name                     = $this->doc_name;
+            $data->doc_settlement               = $ap_doc;
         }
         
-        $data->department                       = $this->department;
-        $data->request_type                     = $this->request_type;
-        $data->subrequest_type                  = $this->subrequest_type;
+        
+       
         $data->save();
+
+
+        $datamaster                           = \App\Models\AccountPayable::where('id', $this->selected_id)->first();
+        $datamaster->update_req               = '1';
+        $datamaster->save();
 
         // $notif = get_user_from_access('hotel-flight-ticket.noc-manager');
         // foreach($notif as $user){
@@ -87,7 +115,7 @@ class Addhqadministration extends Component
        
 
 
-        session()->flash('message-success',"Request Account Payable Berhasil diinput");
+        session()->flash('message-success',"Request HQ Administration Berhasil diinput");
         
         return redirect()->route('account-payable.index');
     }

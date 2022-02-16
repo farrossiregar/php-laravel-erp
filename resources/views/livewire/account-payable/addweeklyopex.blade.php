@@ -39,7 +39,7 @@
                                             @enderror
                                         </div>
 
-                                        <div class="col-md-6 form-group">
+                                        <div class="col-md-12 form-group">
                                             <label>Description </label>
                                             <textarea name="" id="" cols="30" rows="4" class="form-control" wire:model="description"></textarea>
                                            
@@ -105,7 +105,7 @@
                                         </div>
                                         
 
-                                        <div class="col-md-6 form-group">
+                                        <div class="col-md-12 form-group">
                                             <label>Settlement Description </label>
                                             <textarea name="" id="" cols="30" rows="4" class="form-control" wire:model="description"></textarea>
                                            
