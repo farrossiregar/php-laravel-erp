@@ -27,11 +27,11 @@
                                                 @endforeach
                                             </select>
                                         </div>
-
+<!-- 
                                         <div class="col-md-6 form-group">
                                             <label>Project Code</label>
                                             <input type="text" class="form-control" style="width:100%;" wire:model="" readonly>
-                                        </div>
+                                        </div> -->
 
 
                                         <div class="col-md-6 form-group">
@@ -256,7 +256,14 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Attachment Data from HR</label>
-                                            <input type="file" class="form-control" wire:model="file">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <input type="file" class="form-control" wire:model="file">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <a href="<?php echo asset('storage/Account_Payable/Payroll/'.$attachment_hr) ?>" target="_blank"><i class="fa fa-download"></i> Download</a>
+                                                </div>
+                                            </div>
                                            
                                             @error('file')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>

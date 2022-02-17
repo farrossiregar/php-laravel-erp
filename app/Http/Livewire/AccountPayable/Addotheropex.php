@@ -22,8 +22,8 @@ class Addotheropex extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $selected_id, $project_code, $period, $description, $pr_no, $po_no, $nominal, $transfer_date, $cash_transaction_no, $advance, $settlement_date, $settlement_nominal;
-    public $difference, $remarks, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file;
+    public $selected_id, $project_code, $period, $month, $year, $description, $pr_no, $po_no, $nominal, $transfer_date, $cash_transaction_no, $advance, $settlement_date, $settlement_nominal;
+    public $difference, $remarks, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file, $doc_settlement;
 
 
     public function render()
@@ -41,9 +41,9 @@ class Addotheropex extends Component
         $this->id_master                = @$data->id_master;
         $this->project_code             = @$data->project_code;
         $this->project_name             = @\App\Models\ClientProject::where('id', $data->project_code)->first()->name;
-        $this->month                    = @$data->project_code;
-        $this->year                     = @$data->project_code;
-        $this->week                     = @$data->project_code;
+        $this->month                    = @$data->month;
+        $this->year                     = @$data->year;
+        $this->week                     = '';
         $this->description              = @$data->description;
         $this->pr_no                    = @$data->pr_no;
         $this->po_no                    = @$data->po_no;
@@ -68,13 +68,17 @@ class Addotheropex extends Component
     {
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
-        $data                           = new \App\Models\AccountPayableOtheropex();
+        if(!@\App\Models\AccountPayableOtheropex::where('id_master', $this->selected_id)->first()){
+            $data                           = new \App\Models\AccountPayableOtheropex();
+        }else{
+            $data                           = \App\Models\AccountPayableOtheropex::where('id_master', $this->selected_id)->first();
+        }
         $data->id_master                = $this->selected_id;
         $data->project_code             = $this->project_code;
         $data->project_name             = \App\Models\ClientProject::where('id', $data->project_code)->first()->name;
-        $data->month                    = $this->project_code;
-        $data->year                     = $this->project_code;
-        $data->week                     = $this->project_code;
+        $data->month                    = $this->month;
+        $data->year                     = $this->year;
+        $data->week                     = '';
         $data->description              = $this->description;
         $data->pr_no                    = $this->pr_no;
         $data->po_no                    = $this->po_no;
@@ -92,13 +96,19 @@ class Addotheropex extends Component
         $data->account_name_recorded    = $this->account_name_recorded;
         $data->nominal_recorded         = $this->nominal_recorded;
         
-        
+        if(!@\App\Models\AccountPayableOtheropex::where('id_master', $this->selected_id)->first()){
+            $this->validate([
+                'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
+            ]);
+        }
+
         if($this->file){
             $ap_doc = 'ap_otheropex'.$this->selected_id.'.'.$this->file->extension();
             $this->file->storePubliclyAs('public/Account_Payable/Other_Opex/',$ap_doc);
 
             $data->doc_settlement               = $ap_doc;
         }
+    
         
         $data->save();
 

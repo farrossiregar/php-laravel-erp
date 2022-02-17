@@ -15,50 +15,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <!-- <div class="col-md-6 form-group">
-                                            <label>Employee Name</label>
-                                            <input list="petty_cash_category1" class="form-control"  wire:model="employee_name" readonly>
-                                           
-
-                                            @error('employee_name')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label>Project</label>
-                                            <input type="text" class="form-control" wire:model="project" readonly/>
-                                            @error('employee_id')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label>Region</label>
-                                            <input type="text" class="form-control" wire:model="region" readonly/>
-                                            
-                                            @error('date')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-6 form-group">
-                                            <label>Position</label>
-                                            <input type="text" class="form-control" wire:model="position" readonly/>
-                                            
-                                            @error('position')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-6 form-group">
-                                            <label>Departement</label>
-                                            <input type="text" wire:model="department" class="form-control" readonly/>
-                                            
-                                            @error('department')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div> -->
-
-                                        
+                                                                              
 
                                         <div class="col-md-6 form-group">
                                             <label>Department</label>
@@ -85,6 +42,36 @@
                                                     @error('advance_req_no')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                     @enderror
+                                                </div>
+
+                                                <div class="col-md-6 form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label>Month </label>
+                                                            <select name="" id="" class="form-control" wire:model="month">
+                                                                <option value=""> --- Month --- </option>
+                                                                @for($i = 1; $i <= 12; $i++)
+                                                                    <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
+                                                                @endfor
+                                                            </select>
+                                                        
+                                                            @error('period')
+                                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="col-md-6">     
+                                                            <label>Year </label>           
+                                                            <select class="form-control"  wire:model="year">
+                                                                <option value=""> --- Year --- </option>
+                                                                <option value="2022">2022</option>
+                                                                <option value="2021">2021</option>
+                                                                <option value="2020">2020</option>
+                                                                <option value="2019">2019</option>
+                                                                <option value="2018">2018</option>
+                                                                <option value="2017">2017</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                                 <div class="col-md-6 form-group">
@@ -221,7 +208,14 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Attachment Document for Settlement</label>
-                                            <input type="file" class="form-control" wire:model="file">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <input type="file" class="form-control" wire:model="file">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <a href="<?php echo asset('storage/Account_Payable/Petty_Cash/'.$doc_settlement) ?>" target="_blank"><i class="fa fa-download"></i> Download</a>
+                                                </div>
+                                            </div>
                                            
                                             @error('leader')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -249,13 +243,13 @@
                                        
                                     </div>
                                 </div>
-                                @if(!\App\Models\AccountPayablePettycash::where('id_master', $selected_id)->first())
+                                
                                 <div class="col-md-12 form-group">
                                     <hr />
                                     
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                 </div>
-                                @endif
+                                
                             </div>
                         </form>
                     </div>

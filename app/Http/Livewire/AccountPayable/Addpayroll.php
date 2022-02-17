@@ -25,7 +25,7 @@ class Addpayroll extends Component
     public $selected_id, $project_code, $project_name, $month, $year, $employee_number, $basic_salary, $pulse_allowance, $position_allowance, $homebase_allowance;
     public $transport_allowance, $motor_allowance, $overtime_allowance, $refund_pph21, $staff_claim, $incentive, $jamsostek_payable, $jamsostek_payable_jp, $bpjs_kesehatan;
     public $pph21, $piutang, $own_risk, $unpaid_leave, $pinalty, $thp, $cash_transaction_no, $advance, $settlement_date, $settlement_nominal;
-    public $account_no_recorded, $account_name_recorded, $nominal_recorded, $file;
+    public $account_no_recorded, $account_name_recorded, $nominal_recorded, $file, $attachment_hr;
 
     public function render()
     {
@@ -71,6 +71,7 @@ class Addpayroll extends Component
         $this->account_no_recorded      = @$data->account_no_recorded;
         $this->account_name_recorded    = @$data->account_name_recorded;
         $this->nominal_recorded         = @$data->nominal_recorded;
+        $this->attachment_hr            = @$data->attachment_hr;
     }
 
   
@@ -78,7 +79,11 @@ class Addpayroll extends Component
     {
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
-        $data                           = new \App\Models\AccountPayablePayroll();
+        if(!@\App\Models\AccountPayablePayroll::where('id_master', $this->selected_id)->first()){
+            $data                           = new \App\Models\AccountPayablePayroll();
+        }else{
+            $data                           = \App\Models\AccountPayablePayroll::where('id_master', $this->selected_id)->first();
+        }
         $data->id_master                = $this->selected_id;
         $data->project_code             = $this->project_code;
         $data->project_name             = @\App\Models\ClientProject::where('id', $this->project_code)->first()->name;
@@ -112,15 +117,17 @@ class Addpayroll extends Component
         $data->account_name_recorded    = $this->account_name_recorded;
         $data->nominal_recorded         = $this->nominal_recorded;
         
-        $this->validate([
-            'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
-        ]);
+        if(!@\App\Models\AccountPayablePayroll::where('id_master', $this->selected_id)->first()->attachment_hr){
+            $this->validate([
+                'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
+            ]);
 
-        if($this->file){
-            $ap_doc = 'ap_payroll'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/Account_Payable/Payroll/',$ap_doc);
+            if($this->file){
+                $ap_doc = 'ap_payroll'.$this->selected_id.'.'.$this->file->extension();
+                $this->file->storePubliclyAs('public/Account_Payable/Payroll/',$ap_doc);
 
-            $data->attachment_hr               = $ap_doc;
+                $data->attachment_hr               = $ap_doc;
+            }
         }
         
         

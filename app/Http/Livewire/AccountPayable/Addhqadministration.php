@@ -23,7 +23,7 @@ class Addhqadministration extends Component
     
     use WithFileUploads;
     public $selected_id, $department, $month, $year, $transfer_to, $description, $request_type, $invoice_no, $invoice_date, $total_transfer, $transfer_date, $cash_transaction_no, $advance, $settlement_date, $settlement_nominal;
-    public $difference, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file;
+    public $difference, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file, $doc_settlement;
 
     public function render()
     {
@@ -55,6 +55,7 @@ class Addhqadministration extends Component
         $this->account_no_recorded      = @$data->account_no_recorded;
         $this->account_name_recorded    = @$data->account_name_recorded;
         $this->nominal_recorded         = @$data->nominal_recorded;
+        $this->doc_settlement           = @$data->doc_settlement;
     }
 
   
@@ -62,7 +63,11 @@ class Addhqadministration extends Component
     {
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
-        $data                           = new \App\Models\AccountPayableHqadministration();
+        if(!@\App\Models\AccountPayableHqadministration::where('id_master', $this->selected_id)->first()){
+            $data                           = new \App\Models\AccountPayableHqadministration();
+        }else{
+            $data                           = \App\Models\AccountPayableHqadministration::where('id_master', $this->selected_id)->first();
+        }
         $data->id_master                = $this->selected_id;
         $data->department               = $this->department;
         $data->request_type             = $this->request_type;
@@ -83,15 +88,18 @@ class Addhqadministration extends Component
         $data->account_name_recorded    = $this->account_name_recorded;
         $data->nominal_recorded         = $this->nominal_recorded;
         
-        $this->validate([
-            'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
-        ]);
 
-        if($this->file){
-            $ap_doc = 'ap_hqadministration'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/Account_Payable/HQ_Administration/',$ap_doc);
+        if(!@\App\Models\AccountPayableHqadministration::where('id_master', $this->selected_id)->first()->doc_settlement){
+            $this->validate([
+                'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
+            ]);
 
-            $data->doc_settlement               = $ap_doc;
+            if($this->file){
+                $ap_doc = 'ap_hqadministration'.$this->selected_id.'.'.$this->file->extension();
+                $this->file->storePubliclyAs('public/Account_Payable/HQ_Administration/',$ap_doc);
+
+                $data->doc_settlement               = $ap_doc;
+            }
         }
         
         

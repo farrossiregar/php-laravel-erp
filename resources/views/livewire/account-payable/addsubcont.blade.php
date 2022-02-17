@@ -42,7 +42,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <label>Month </label>
-                                                    <select name="" id="" class="form-control">
+                                                    <select name="" id="" class="form-control" wire:model="month">
                                                         <option value=""> --- Month --- </option>
                                                         @for($i = 1; $i <= 12; $i++)
                                                             <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
@@ -55,7 +55,7 @@
                                                 </div>
                                                 <div class="col-md-6">     
                                                     <label>Year </label>           
-                                                    <select class="form-control" >
+                                                    <select class="form-control" wire:model="year">
                                                         <option value=""> --- Year --- </option>
                                                         <option value="2022">2022</option>
                                                         <option value="2021">2021</option>
@@ -271,7 +271,16 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Attachment Document for Settlement</label>
-                                            <input type="file" class="form-control" wire:model="file">
+                                            
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <input type="file" class="form-control" wire:model="file">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <a href="<?php echo asset('storage/Account_Payable/Subcont/'.$doc_settlement) ?>" target="_blank"><i class="fa fa-download"></i> Download</a>
+                                                </div>
+                                            </div>
+                                            
                                            
                                             @error('leader')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -282,6 +291,7 @@
                                        
                                     </div>
                                 </div>
+                                
                                 
                                 <div class="col-md-12 form-group">
                                     <hr />

@@ -77,6 +77,7 @@ class Addsuppliervendor extends Component
         $this->account_no_recorded      = @$data->account_no_recorded;
         $this->account_name_recorded    = @$data->account_name_recorded;
         $this->nominal_recorded         = @$data->nominal_recorded;
+        $this->settlement_doc           = @$data->settlement_doc;
     }
 
 
@@ -85,7 +86,11 @@ class Addsuppliervendor extends Component
     {
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
-        $data                           = new \App\Models\AccountPayableSuppliervendor();
+        if(!@\App\Models\AccountPayableSuppliervendor::where('id_master', $this->selected_id)->first()->settlement_doc){
+            $data                           = new \App\Models\AccountPayableSuppliervendor();
+        }else{
+            $data                           = \App\Models\AccountPayableSuppliervendor::where('id_master', $this->selected_id)->first();
+        }
         $data->id_master                = $this->selected_id;
         $data->request_detail_option    = $this->request_detail_option;
         $data->project_code             = $this->project_code;
@@ -124,15 +129,31 @@ class Addsuppliervendor extends Component
         $data->account_name_recorded    = $this->account_name_recorded;
         $data->nominal_recorded         = $this->nominal_recorded;
         
-        $this->validate([
-            'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
-        ]);
 
-        if($this->file){
-            $ap_doc = 'ap_suppliervendor'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/Account_Payable/Supplier_Vendor/',$ap_doc);
+        if(!@\App\Models\AccountPayableSuppliervendor::where('id_master', $this->selected_id)->first()->request_doc){
+            $this->validate([
+                'request_doc'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
+            ]);
 
-            $data->settlement_doc               = $ap_doc;
+            if($this->request_doc){
+                $req_doc = 'ap_suppliervendor_reqdoc'.$this->selected_id.'.'.$this->request_doc->extension();
+                $this->request_doc->storePubliclyAs('public/Account_Payable/Supplier_Vendor/',$req_doc);
+
+                $data->request_doc               = $req_doc;
+            }
+        }
+
+        if(!@\App\Models\AccountPayableSuppliervendor::where('id_master', $this->selected_id)->first()->settlement_doc){
+            $this->validate([
+                'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
+            ]);
+
+            if($this->file){
+                $ap_doc = 'ap_suppliervendor'.$this->selected_id.'.'.$this->file->extension();
+                $this->file->storePubliclyAs('public/Account_Payable/Supplier_Vendor/',$ap_doc);
+
+                $data->settlement_doc               = $ap_doc;
+            }
         }
         
         

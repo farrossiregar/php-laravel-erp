@@ -22,8 +22,8 @@ class Addweeklyopex extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $selected_id, $project_code, $period, $description, $budget_opex, $previous_balance, $total_transfer, $transfer_date, $cash_transaction_no, $settlement_date, $settlement_nominal, $total_settlement;
-    public $settlement_description, $admin_to_team, $difference_admin_team, $difference_hq_admin, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file;
+    public $selected_id, $project_code, $period, $month, $year, $description, $budget_opex, $previous_balance, $total_transfer, $transfer_date, $cash_transaction_no, $settlement_date, $settlement_nominal, $total_settlement;
+    public $settlement_description, $admin_to_team, $difference_admin_team, $difference_hq_admin, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file, $doc_settlement;
 
     public function render()
     {
@@ -38,9 +38,9 @@ class Addweeklyopex extends Component
         $this->id_master                = @$data->id_master;
         $this->project_code             = @$data->project_code;
         $this->project_name             = @\App\Models\ClientProject::where('id', $data->project_code)->first()->name;
-        $this->month                    = @$data->project_code;
-        $this->year                     = @$data->project_code;
-        $this->week                     = @$data->project_code;
+        $this->month                    = @$data->month;
+        $this->year                     = @$data->year;
+        $this->week                     = '';
         $this->description              = @$data->description;
         $this->budget_opex              = @$data->budget_opex;
         $this->previous_balance         = @$data->previous_balance;
@@ -63,13 +63,17 @@ class Addweeklyopex extends Component
     {
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
-        $data                           = new \App\Models\AccountPayableWeeklyopex();
+        if(!@\App\Models\AccountPayableWeeklyopex::where('id_master', $this->selected_id)->first()){
+            $data                           = new \App\Models\AccountPayableWeeklyopex();
+        }else{
+            $data                           = \App\Models\AccountPayableWeeklyopex::where('id_master', $this->selected_id)->first();
+        }
         $data->id_master                = $this->selected_id;
         $data->project_code             = $this->project_code;
         $data->project_name             = \App\Models\ClientProject::where('id', $this->project_code)->first()->name;
-        $data->month                    = $this->project_code;
-        $data->year                     = $this->project_code;
-        $data->week                     = $this->project_code;
+        $data->month                    = $this->month;
+        $data->year                     = $this->year;
+        $data->week                     = '';
         $data->description              = $this->description;
         $data->budget_opex              = $this->budget_opex;
         $data->previous_balance         = $this->previous_balance;
@@ -86,9 +90,11 @@ class Addweeklyopex extends Component
         $data->account_name_recorded    = $this->account_name_recorded;
         $data->nominal_recorded         = $this->nominal_recorded;
         
-        $this->validate([
-            'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
-        ]);
+        if(!@\App\Models\AccountPayableWeeklyopex::where('id_master', $this->selected_id)->first()->doc_settlement){
+            $this->validate([
+                'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
+            ]);
+        }
 
         if($this->file){
             $ap_doc = 'ap_weeklyopex'.$this->selected_id.'.'.$this->file->extension();

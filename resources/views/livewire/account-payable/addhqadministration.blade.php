@@ -197,7 +197,14 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Attachment Document for Settlement</label>
-                                            <input type="file" class="form-control" wire:model="file">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <input type="file" class="form-control" wire:model="file">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <a href="<?php echo asset('storage/Account_Payable/HQ_Administration/'.$doc_settlement) ?>" target="_blank"><i class="fa fa-download"></i> Download</a>
+                                                </div>
+                                            </div>
                                            
                                             @error('leader')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -207,6 +214,7 @@
                                        
                                     </div>
                                 </div>
+                                
                                 
                                 <div class="col-md-12 form-group">
                                     <hr />

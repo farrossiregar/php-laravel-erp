@@ -23,9 +23,9 @@ class Addsubcont extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $selected_id, $project_code, $contract_no, $period, $subcont_name, $invoice_no, $invoice_name, $invoice_date, $po_no, $pr_no, $other_cost, $total_nominal;
+    public $selected_id, $project_code, $contract_no, $period, $month, $year, $subcont_name, $invoice_no, $invoice_name, $invoice_date, $po_no, $pr_no, $other_cost, $total_nominal;
     public $vat, $wht, $total_transfer, $transfer_date, $cash_transaction_no, $advance, $settlement_date, $settlement_nominal;
-    public $difference, $remarks, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file;
+    public $difference, $remarks, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file, $doc_settlement;
 
     public function render()
     {
@@ -41,8 +41,8 @@ class Addsubcont extends Component
         $this->project_code             = @$data->project_code;
         $this->project_name             = @\App\Models\ClientProject::where('id', $data->project_code)->first()->name;
         $this->contract_no              = @$data->contract_no;
-        $this->month                    = @$data->project_code;
-        $this->year                     = @$data->project_code;
+        $this->month                    = @$data->month;
+        $this->year                     = @$data->year;
         $this->week                     = @$data->project_code;
         
         $this->subcont_name             = @$data->subcont_name;
@@ -75,13 +75,17 @@ class Addsubcont extends Component
     {
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
-        $data                           = new \App\Models\AccountPayableSubcont();
+        if(!@\App\Models\AccountPayableSubcont::where('id_master', $this->selected_id)->first()){
+            $data                           = new \App\Models\AccountPayableSubcont();
+        }else{
+            $data                           = \App\Models\AccountPayableSubcont::where('id_master', $this->selected_id)->first();
+        }
         $data->id_master                = $this->selected_id;
         $data->project_code             = $this->project_code;
         $data->project_name             = \App\Models\ClientProject::where('id', $data->project_code)->first()->name;
         $data->contract_no              = $this->contract_no;
-        $data->month                    = $this->project_code;
-        $data->year                     = $this->project_code;
+        $data->month                    = $this->month;
+        $data->year                     = $this->year;
         $data->week                     = $this->project_code;
         $data->subcont_name             = $this->subcont_name;
         $data->invoice_no               = $this->invoice_no;
@@ -107,16 +111,19 @@ class Addsubcont extends Component
         $data->account_name_recorded    = $this->account_name_recorded;
         $data->nominal_recorded         = $this->nominal_recorded;
         
-        $this->validate([
-            'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
-        ]);
+        if(!@\App\Models\AccountPayableSubcont::where('id_master', $this->selected_id)->first()->doc_settlement){
+            $this->validate([
+                'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
+            ]);
 
-        if($this->file){
-            $ap_doc = 'ap_subcont'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/Account_Payable/Subcont/',$ap_doc);
+            if($this->file){
+                $ap_doc = 'ap_subcont'.$this->selected_id.'.'.$this->file->extension();
+                $this->file->storePubliclyAs('public/Account_Payable/Subcont/',$ap_doc);
 
-            $data->doc_settlement               = $ap_doc;
+                $data->doc_settlement               = $ap_doc;
+            }
         }
+
         $data->save();
 
         $datamaster                           = \App\Models\AccountPayable::where('id', $this->selected_id)->first();

@@ -23,8 +23,8 @@ class Addrectification extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $selected_id, $project_code, $period,$rect_name, $pr_no, $nominal, $transfer_date, $cash_transaction_no, $advance, $settlement_date, $settlement_nominal;
-    public $difference, $remarks, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file;
+    public $selected_id, $project_code, $period, $month, $year, $rect_name, $pr_no, $nominal, $transfer_date, $cash_transaction_no, $advance, $settlement_date, $settlement_nominal;
+    public $difference, $remarks, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file, $doc_settlement;
 
     public function render()
     {
@@ -41,9 +41,9 @@ class Addrectification extends Component
         $this->id_master                = @$data->id_master;
         $this->project_code             = @$data->project_code;
         $this->project_name             = @\App\Models\ClientProject::where('id', $data->project_code)->first()->name;
-        $this->month                    = @$data->project_code;
-        $this->year                     = @$data->project_code;
-        $this->week                     = @$data->project_code;
+        $this->month                    = @$data->month;
+        $this->year                     = @$data->year;
+        $this->week                     = '';
         // $this->description              = @$data->description;
         $this->rect_name                = @$data->rect_name;
         $this->pr_no                    = @$data->pr_no;
@@ -69,13 +69,17 @@ class Addrectification extends Component
     {
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
-        $data                           = new \App\Models\AccountPayableRectification();
+        if(!@\App\Models\AccountPayableRectification::where('id_master', $this->selected_id)->first()){
+            $data                           = new \App\Models\AccountPayableRectification();
+        }else{
+            $data                           = \App\Models\AccountPayableRectification::where('id_master', $this->selected_id)->first();
+        }
         $data->id_master                = $this->selected_id;
         $data->project_code             = $this->project_code;
         $data->project_name             = \App\Models\ClientProject::where('id', $data->project_code)->first()->name;
-        $data->month                    = $this->project_code;
-        $data->year                     = $this->project_code;
-        $data->week                     = $this->project_code;
+        $data->month                    = $this->month;
+        $data->year                     = $this->year;
+        $data->week                     = '';
         // $data->description              = $this->description;
         $data->rect_name                = $this->rect_name;
         $data->pr_no                    = $this->pr_no;
@@ -94,12 +98,17 @@ class Addrectification extends Component
         $data->account_name_recorded    = $this->account_name_recorded;
         $data->nominal_recorded         = $this->nominal_recorded;
         
-        
-        if($this->file){
-            $ap_doc = 'ap_rectification'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/Account_Payable/Rectification/',$ap_doc);
+        if(!@\App\Models\AccountPayableRectification::where('id_master', $this->selected_id)->first()->doc_settlement){
+            $this->validate([
+                'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
+            ]);
+            
+            if($this->file){
+                $ap_doc = 'ap_rectification'.$this->selected_id.'.'.$this->file->extension();
+                $this->file->storePubliclyAs('public/Account_Payable/Rectification/',$ap_doc);
 
-            $data->doc_settlement               = $ap_doc;
+                $data->doc_settlement               = $ap_doc;
+            }
         }
         
         
