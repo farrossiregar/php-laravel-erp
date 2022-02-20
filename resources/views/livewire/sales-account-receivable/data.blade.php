@@ -55,7 +55,7 @@
 
     
     <div class="col-md-1" style="margin: 0 10px;">
-        <a href="javascript:;" wire:click="$emit('modaladdaccountpayable')" class="btn btn-info"><i class="fa fa-plus"></i> Request AP </a>
+        <a href="javascript:;" wire:click="$emit('modaladdaccountpayable')" class="btn btn-info"><i class="fa fa-plus"></i> Invoice Listing </a>
     </div>  
     
     

@@ -11,7 +11,7 @@
             <div class="tab-content">
                
                 <div class="tab-pane active show" id="data">
-                    <livewire:account-payable.data />
+                    <livewire:sales-account-receivable.data />
                 </div>
                
             </div>
@@ -23,7 +23,7 @@
 <div class="modal fade" id="modal-accountpayable-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <livewire:account-payable.add />
+            <livewire:sales-account-receivable.add />
         </div>
     </div>
 </div>
@@ -31,7 +31,7 @@
 <div class="modal fade" id="modal-accountpayable-revisi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <livewire:account-payable.revisi />
+            
         </div>
     </div>
 </div>
@@ -41,7 +41,7 @@
 <div class="modal fade" id="modal-hotelflight-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:account-payable.edit />
+            
         </div>
     </div>
 </div>
@@ -50,7 +50,7 @@
 <div class="modal fade" id="modal-accountpayable-approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:account-payable.approve />
+            <livewire:sales-account-receivable.approve />
         </div>
     </div>
 </div>
@@ -59,7 +59,7 @@
 <div class="modal fade" id="modal-accountpayable-decline" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:account-payable.decline />
+            <livewire:sales-account-receivable.decline />
         </div>
     </div>
 </div>

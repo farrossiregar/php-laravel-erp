@@ -18,10 +18,8 @@ class Add extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $date, $position, $department;
-    
-    
-    public $request_type, $subrequest_type, $file, $doc_name;
+    public $kind_of_invoice, $project, $region, $customer_name, $month, $year, $invoice_no, $tax_invoice_no, $po_no, $po_date, $invoice_description;
+    public $currency, $qty, $price_perunit, $total, $top;
 
     public function render()
     {
@@ -43,36 +41,20 @@ class Add extends Component
     {
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
-        $data                           = new \App\Models\AccountPayable();
-        // $data->company_name             = Session::get('company_id');
+        $data                           = new \App\Models\SalesAccountReceivable();
+       
         $data->project                  = $this->project;
+        $data->region                   = $this->region;
         // $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
         
         
         // $dataemployee                   = explode(" - ",$this->employee_name);
         $data->region                   = $this->region;
-        $data->name                     = $this->employee_name;
-        $data->nik                      = $user->nik;
-        $data->position                 = $user->user_access_id;
-        // $data->employee_id              = $dataemployee[2];
-        
+        $data->cust_name                     = $this->customer_name;
+
        
         
-        $this->validate([
-            'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
-        ]);
-
-        if($this->file){
-            $ap_doc = 'ap_doc'.date('Ymd').'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/Account_Payable/',$ap_doc);
-
-            $data->additional_doc               = $ap_doc;
-            $data->doc_name                     = $this->doc_name;
-        }
         
-        $data->department                       = $this->department;
-        $data->request_type                     = $this->request_type;
-        $data->subrequest_type                  = $this->subrequest_type;
         $data->save();
 
         // $notif = get_user_from_access('hotel-flight-ticket.noc-manager');
@@ -87,7 +69,7 @@ class Add extends Component
        
 
 
-        session()->flash('message-success',"Request Account Payable Berhasil diinput");
+        session()->flash('message-success',"Request Sales Account Receivable Berhasil diinput");
         
         return redirect()->route('sales-account-receivable.index');
     }
