@@ -41,19 +41,25 @@ class Add extends Component
     {
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
-        $data                           = new \App\Models\SalesAccountReceivable();
-       
-        $data->project                  = $this->project;
+        $data                           = new \App\Models\SalesInvoiceListingDetails();
+        $data->kind_of_invoice          = $this->kind_of_invoice;
+        $data->project_name             = $this->project;
+        $data->project_code             = \App\Models\ClientProject::where('name', $this->project)->first()->id;
         $data->region                   = $this->region;
-        // $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
-        
-        
-        // $dataemployee                   = explode(" - ",$this->employee_name);
-        $data->region                   = $this->region;
-        $data->cust_name                     = $this->customer_name;
-
-       
-        
+        $data->cust_name                = $this->customer_name;
+        $data->month                    = $this->month;
+        $data->year                     = $this->year;
+        $data->invoice_no               = $this->invoice_no;
+        $data->tax_invoice_no           = $this->tax_invoice_no;
+        $data->invoice_date             = date('Y-m-d');
+        $data->po_no                    = $this->po_no;
+        $data->po_date                  = $this->po_date;
+        $data->invoice_description      = $this->invoice_description;
+        $data->currency                 = $this->currency;
+        $data->qty                      = $this->qty;
+        $data->price_perunit            = $this->price_perunit;
+        $data->total                    = $this->total;
+        $data->top                      = $this->top;    
         
         $data->save();
 
@@ -69,7 +75,7 @@ class Add extends Component
        
 
 
-        session()->flash('message-success',"Request Sales Account Receivable Berhasil diinput");
+        session()->flash('message-success',"Request Sales Invoice Listing Details Berhasil diinput");
         
         return redirect()->route('sales-account-receivable.index');
     }
