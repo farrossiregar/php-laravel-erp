@@ -158,7 +158,9 @@
                             <b>{{ $item->po_no }}</b><br>
                             {{ date_format(date_create($item->po_date), 'd M Y') }}
                         </td>
-                        <td><b>{{ date('F', mktime(0, 0, 0, $item->month, 10)) }} {{ $item->year }}</b></td>
+                        <td>
+                            <a href="javascript:;" wire:click="$emit('modaltreasuryaccountpayable','{{ $item->id }}')"><i class="fa fa-edit" style="color: #22af46;"></i></a>
+                        </td>
                         <td><b>{{ date('F', mktime(0, 0, 0, $item->month, 10)) }} {{ $item->year }}</b></td>
                         <!-- 
                         <td>
