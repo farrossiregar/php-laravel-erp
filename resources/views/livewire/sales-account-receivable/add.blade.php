@@ -141,7 +141,7 @@
                                                                     <h5>Invoice Description</h5>
                                                                 </div>
                                                             <br>
-                                                            <?php for($i=1; $i<4; $i++){ ?>
+                                                            <?php for($i=1; $i<=5; $i++){ ?>
                                                             <div class="col-md-12 form-group">
                                                                 <label>Item Description {{ $i }}</label>
                                                                 <!-- <textarea name="" id="" cols="30" rows="4" class="form-control" wire:model="invoice_description"></textarea> -->
@@ -154,7 +154,7 @@
                                                             <div class="row" style="margin: 0 4px;">
                                                                 <div class="col-md-3 form-group">
                                                                     <label>Currency</label>
-                                                                    <input list="curr" type="text" class="form-control" wire:model="currency">
+                                                                    <input list="curr" type="text" class="form-control" wire:model="currency<?php echo $i; ?>">
                                                                     <datalist id="curr" >
                                                                         <option value="IDR">
                                                                         <option value="USD">
@@ -171,7 +171,7 @@
 
                                                                 <div class="col-md-3 form-group">
                                                                     <label>QTY </label>
-                                                                    <input type="number" class="form-control" wire:model="qty">
+                                                                    <input type="number" class="form-control" wire:model="qty<?php echo $i; ?>">
                                                                 
                                                                     @error('qty')
                                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -180,7 +180,7 @@
 
                                                                 <div class="col-md-3 form-group">
                                                                     <label>Price per Unit </label>
-                                                                    <input type="number" class="form-control" wire:model="price_perunit">
+                                                                    <input type="number" class="form-control" wire:model="price_perunit<?php echo $i; ?>">
                                                                 
                                                                     @error('price_perunit')
                                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -189,14 +189,55 @@
 
                                                                 <div class="col-md-3 form-group">
                                                                     <label>Total </label>
-                                                                    <input type="number" class="form-control" wire:model="total">
+                                                                    <input type="number" class="form-control" wire:model="total<?php echo $i; ?>" readonly>
                                                                 
                                                                     @error('total')
                                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                                     @enderror
                                                                 </div>
-                                                            </div><hr><br><br>
+                                                            </div>
                                                             <?php } ?>
+
+                                                            
+                                                            
+                                                            
+                                                            <div class="row" style="margin: 0 4px; width: 100%; margin-top: 60px;">
+                                                                <div class="col-md-9 form-group" style="width:75%;">
+                                                                    <label for="">Total Item</label>
+                                                                </div>                                        
+                                                                <div class="col-md-3 form-group" style="width:25%;">
+                                                                    <input type="number" class="form-control" wire:model="total_item" readonly>
+                                                                </div>                                      
+                                                            </div>
+
+                                                            <div class="row" style="margin: 0 4px; width: 100%;">
+                                                                <div class="col-md-3 form-group" style="width:25%;">
+                                                                    <!-- <label for="">VAT</label> -->
+                                                                    <select class="form-control"  wire:model="vat" >
+                                                                        <option value=""> --- VAT --- </option>
+                                                                        <option value="1">YES</option>
+                                                                        <option value="0">NO</option>
+                                                                    </select>
+                                                                </div> 
+                                                                <div class="col-md-3 form-group" style="width:25%;">
+                                                                    
+                                                                </div>                                        
+                                                                <div class="col-md-3 form-group" style="width:25%;">
+                                                                    
+                                                                </div>                                        
+                                                                <div class="col-md-3 form-group" style="width:25%;">
+                                                                    <input type="number" class="form-control" wire:model="result_vat" readonly>
+                                                                </div>                                      
+                                                            </div>
+
+                                                            <div class="row" style="margin: 0 4px; width: 100%;">
+                                                                <div class="col-md-9 form-group" style="width:75%;">
+                                                                    <label for="">Amount + VAT</label>
+                                                                </div>                                        
+                                                                <div class="col-md-3 form-group" style="width:25%;">
+                                                                    <input type="number" class="form-control" wire:model="amount_vat" readonly>
+                                                                </div>                                      
+                                                            </div>
                                                         </div>
                                                         
                                                     </div>

@@ -19,7 +19,12 @@ class Add extends Component
     
     use WithFileUploads;
     public $kind_of_invoice, $project, $region, $customer_name, $month, $year, $invoice_no, $tax_invoice_no, $po_no, $po_date, $invoice_description;
-    public $currency, $qty, $price_perunit, $total, $top;
+    public $currency1, $qty1, $price_perunit1, $total1;
+    public $currency2, $qty2, $price_perunit2, $total2;
+    public $currency3, $qty3, $price_perunit3, $total3;
+    public $currency4, $qty4, $price_perunit4, $total4;
+    public $currency5, $qty5, $price_perunit5, $total5;
+    public $top, $total_item, $vat, $result_vat, $amount_vat;
 
     public function render()
     {
@@ -32,6 +37,37 @@ class Add extends Component
         $this->position = \App\Models\UserAccess::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->user_access_id)->first()->name;
         $this->department = \App\Models\Department::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->department_id)->first()->name;
        
+        if(isset($this->qty1) && isset($this->price_perunit1)){
+            $this->total1 = $this->qty1 * $this->price_perunit1;
+        }
+
+        if(isset($this->qty2) && isset($this->price_perunit2)){
+            $this->total2 = $this->qty2 * $this->price_perunit2;
+        }
+
+        if(isset($this->qty3) && isset($this->price_perunit3)){
+            $this->total3 = $this->qty3 * $this->price_perunit3;
+        }
+
+        if(isset($this->qty4) && isset($this->price_perunit4)){
+            $this->total4 = $this->qty4 * $this->price_perunit4;
+        }
+
+        if(isset($this->qty5) && isset($this->price_perunit5)){
+            $this->total5 = $this->qty5 * $this->price_perunit5;
+        }
+
+        $this->total_item = $this->total1 + $this->total2 + $this->total3 + $this->total4 + $this->total5;
+
+        if(isset($this->total_item)){
+            if($this->vat == '1'){
+                $this->result_vat = ($this->total_item * 10) / 100;
+                $this->amount_vat = $this->result_vat + $this->total_item;
+            }else{
+                $this->result_vat = 0;
+                $this->amount_vat = $this->result_vat + $this->total_item;
+            }
+        }
 
         return view('livewire.sales-account-receivable.add');
     }
