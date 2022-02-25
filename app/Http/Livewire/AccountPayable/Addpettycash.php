@@ -23,20 +23,11 @@ class Addpettycash extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $selected_id, $department, $advance_req_no, $advance_nominal, $advance_date, $settlement_date, $settlement_nominal, $total_settlement, $cash_transaction_no;
-    public $description, $difference, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file;
+    public $selected_id, $department, $month, $year, $advance_req_no, $advance_nominal, $advance_date, $settlement_date, $settlement_nominal, $total_settlement, $cash_transaction_no;
+    public $description, $difference, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file, $doc_settlement;
 
     public function render()
     {
-
-        // $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-        
-        // $this->employee_name = $user->name;
-        // $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
-        // $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
-        // $this->position = \App\Models\UserAccess::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->user_access_id)->first()->name;
-        // $this->department = \App\Models\Department::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->department_id)->first()->name;
-       
 
         return view('livewire.account-payable.addpettycash');
     }
@@ -49,8 +40,8 @@ class Addpettycash extends Component
         $this->id_master                = $this->selected_id;
         $this->department               = @$data->department;
         $this->advance_req_no           = @$data->advance_req_no;
-        $this->month                    = @$data->advance_req_no;
-        $this->year                     = @$data->advance_req_no;
+        $this->month                    = @$data->month;
+        $this->year                     = @$data->year;
         $this->week                     = @$data->advance_req_no;
         $this->advance_nominal          = @$data->advance_nominal;
         $this->advance_date             = @$data->advance_date;
@@ -71,12 +62,16 @@ class Addpettycash extends Component
     {
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
-        $data                           = new \App\Models\AccountPayablePettycash();
+        if(!@\App\Models\AccountPayablePettycash::where('id_master', $this->selected_id)->first()){
+            $data                           = new \App\Models\AccountPayablePettycash();
+        }else{
+            $data                           = \App\Models\AccountPayablePettycash::where('id_master', $this->selected_id)->first();
+        }
         $data->id_master                = $this->selected_id;
         $data->department               = $this->department;
         $data->advance_req_no           = $this->advance_req_no;
-        $data->month                    = $this->advance_req_no;
-        $data->year                     = $this->advance_req_no;
+        $data->month                    = $this->month;
+        $data->year                     = $this->year;
         $data->week                     = $this->advance_req_no;
         $data->advance_nominal          = $this->advance_nominal;
         $data->advance_date             = $this->advance_date;
@@ -91,19 +86,24 @@ class Addpettycash extends Component
         
         
        
-        
-        $this->validate([
-            'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
-        ]);
+        if(!@\App\Models\AccountPayablePettycash::where('id_master', $this->selected_id)->first()->doc_settlement){
+            $this->validate([
+                'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
+            ]);
 
-        if($this->file){
-            $ap_doc = 'ap_pettycash'.$this->selected_id.'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/Account_Payable/Petty_Cash/',$ap_doc);
+            if($this->file){
+                $ap_doc = 'ap_pettycash'.$this->selected_id.'.'.$this->file->extension();
+                $this->file->storePubliclyAs('public/Account_Payable/Petty_Cash/',$ap_doc);
 
-            $data->doc_settlement               = $ap_doc;
+                $data->doc_settlement               = $ap_doc;
+            }
         }
         
         $data->save();
+
+        $datamaster                           = \App\Models\AccountPayable::where('id', $this->selected_id)->first();
+        $datamaster->update_req               = '1';
+        $datamaster->save();
 
         
 
@@ -119,7 +119,7 @@ class Addpettycash extends Component
        
 
 
-        session()->flash('message-success',"Request Petty Cash Account Payable Berhasil diinput");
+        session()->flash('message-success',"Request Petty Cash Berhasil diinput");
         
         return redirect()->route('account-payable.index');
     }

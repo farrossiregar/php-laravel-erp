@@ -102,6 +102,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('timesheet-record',App\Http\Livewire\TimesheetRecord\Index::class)->name('timesheet-record.index');
     Route::get('hotel-flight-ticket',App\Http\Livewire\HotelFlightTicket\Index::class)->name('hotel-flight-ticket.index');
     Route::get('account-payable',App\Http\Livewire\AccountPayable\Index::class)->name('account-payable.index');
+    Route::get('sales-account-receivable',App\Http\Livewire\SalesAccountReceivable\Index::class)->name('sales-account-receivable.index');
     Route::get('asset-database',App\Http\Livewire\AssetDatabase\Index::class)->name('asset-database.index');
     Route::get('asset-request',App\Http\Livewire\AssetRequest\Index::class)->name('asset-request.index');
     Route::get('asset-transfer-request',App\Http\Livewire\AssetTransferRequest\Index::class)->name('asset-transfer-request.index');

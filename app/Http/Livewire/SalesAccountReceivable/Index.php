@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\AccountPayable;
+namespace App\Http\Livewire\SalesAccountReceivable;
 
 use Livewire\Component;
 
@@ -12,6 +12,6 @@ class Index extends Component
             session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
             $this->redirect('/');
         }
-        return view('livewire.account-payable.index');
+        return view('livewire.sales-account-receivable.index');
     }
 }
