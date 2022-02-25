@@ -21,17 +21,21 @@
                     <tr>
                         <th>No</th>
                         <th>PO No</th>    
+                        <th>Date PO Release (sc)</th>    
+                        <th>Date PO Release (sys)</th>    
                         <th>WO Number</th>    
                         <th>Region</th>    
                         <th class="text-center">Status</th>    
                         <th>Transfer</th>
                         <th>Note from PMG</th>    
                         <th>Note Bast from E2E</th>
+                        <th>BAST Number</th>
                         <th>Customer Price</th>
                         <th>PR Price</th>
                         <th>Total Profit Margin</th>
                         <th>Coordinator</th>
                         <th>Field Team</th>
+                        <th>Extra Budget</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -54,6 +58,8 @@
                                 @endif
                             @endif
                         </td>    
+                        <td>{{$item->date_po_released ? date_po_released : '-'}}</td>
+                        <td>{{$item->date_po_system ? date_po_system : '-'}}</td>
                         <td><a href="{{ route('po-tracking-nonms.edit-boq',['id'=>$item->id]) }}">{{ $item->no_tt }}</a></td>  
                         <td>{{ $item->region }}</td>    
                         <td class="text-center">
@@ -106,6 +112,7 @@
                         </td>
                         <td>{{ $item->status_note }}</td>    
                         <td>{{ $item->bast_status_note }}</td>
+                        <td>{{ $item->bast_number ? $item->bast_number :''}}</td>
                         <td>Rp {{ format_idr(get_total_price($item->id)) }}</td> 
                         <td>Rp {{ format_idr(get_total_actual_price($item->id)) }}</td>                               
                         <td>
@@ -136,6 +143,20 @@
                             {{isset($item->field_team->name)?$item->field_team->name : ''}}
                         </td>
                         <td>
+                            @if(empty($item->extra_budget))
+                                -
+                            @else
+                                @if($item->extra_budget!="")
+                                    @if($item->status_extra_budget==1)
+                                        <span class="badge badge-warning">Waiting Approval</span>
+                                    @endif
+                                    @if($item->status_extra_budget==2)
+                                        {{format_idr($item->extra_budget)}}
+                                    @endif      
+                                @endif                  
+                            @endif
+                        </td>
+                        <td>
                             @if(check_access('po-tracking-nonms.import-grcust') and $item->status==8)
                                 <a href="javascript:;" class="badge badge-info badge-active" wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_e2e_upload_bast_gr"><i class="fa fa-upload"></i> Upload BAST & GR</a>
                             @endif
@@ -157,46 +178,21 @@
                                     <a href="javascript:;" wire:click="$emit('modalimportaccdoc',{{$item->id}})"  data-toggle="modal" data-target="#modal-potrackingnonms-importaccdoc" title="Upload" class="badge badge-info badge-active"><i class="fa fa-upload"></i> {{__('Acceptance Docs & Invoice')}}</a>
                                 @endif
                             @endif
+                            @if($item->status==10)
+                                @if($item->status_extra_budget=="")
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_extra_budget" wire:click="$emit('set-data',{{$item->id}})" class="badge badge-info badge-active"><i class="fa fa-plus"></i> Extra Budget</a>
+                                @endif
+                                @if($item->status_extra_budget==1 and $is_finance)
+                                    <a href="javascript:void(0)" class="badge badge-info badge-active" wire:click="$emit('set-data',{{$item->id}})" data-target="#modal_process_extra_budget" data-toggle="modal"><i class="fa fa-check-circle"></i> Process Extra Budget</a>
+                                @endif
+                            @endif
                         </td>
                     </tr>
                     @endforeach
-                    
                 </tbody>
             </table>
         </div>
         <br />
-
-        <div class="modal fade" wire:ignore.self id="modal_end" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <form wire:submit.prevent="e2e_upload_bast_and_gr">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-info"></i> Review</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true close-btn">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            @if(isset($selected_data))
-                                <div class="form-group">
-                                    <a href="{{asset($selected_data->approved_bast)}}" target="_blank"><i class="fa fa-download"></i> Approved BAST</a>
-                                </div>
-                                <div class="form-group">
-                                    <a href="{{asset($selected_data->gr_cust)}}" target="_blank"><i class="fa fa-download"></i> GR From Customer</a>
-                                </div>
-                                <div class="form-group">
-                                    <a href="{{asset($selected_data->acc_doc)}}" target="_blank"><i class="fa fa-download"></i> Acceptance</a>
-                                </div>
-                                <div class="form-group">
-                                    <a href="{{asset($selected_data->file_invoice)}}" target="_blank"><i class="fa fa-download"></i> Invoice</a>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
         <div class="modal fade" wire:ignore.self id="modal_e2e_upload_bast_gr" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <form wire:submit.prevent="e2e_upload_bast_and_gr">
@@ -383,12 +379,13 @@
         </div>
     </div>
     <!--    MODAL PO BOQ      -->
-    @section('page-script')
+</div>
+@livewire('po-tracking-nonms.extra-budget')
+@livewire('po-tracking-nonms.process-extra-budget')
+@push('after-scripts')
     <script>
         Livewire.on('modal-boq',(data)=>{
-            console.log(data);
             $("#modal-potrackingboq-upload").modal('show');
         });
     </script>
-    @endsection
-</div>
+@endpush

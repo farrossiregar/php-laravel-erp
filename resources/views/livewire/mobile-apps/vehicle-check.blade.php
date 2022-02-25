@@ -74,7 +74,7 @@
                     <td>{{isset($item->sub_region->name) ? $item->sub_region->name : ''}}</td>
                     <td>{{isset($item->employee->nik) ? $item->employee->nik : ''}}</td>
                     <td>{{$item->name}}</td>
-                    <td>{{date('d-M-Y',strtotime($item->created_at))}}</td>
+                    <td>{{date('d-M-Y',strtotime($item->updated_at))}}</td>
                     @if($item->is_submit==1)
                         <td>{{$item->plat_nomor}}</td>
                         <td>

@@ -294,7 +294,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="mb-2">
+                                    <!-- <div class="mb-2">
                                         <div class="row border mx-0 py-2 mt-2" x-show="open" @click.away="open = false">
                                             <div class="form-group col-md-6">
                                                 <label>Password</label>
@@ -311,7 +311,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="col-md-4">
                                     <h5>Android</h5>

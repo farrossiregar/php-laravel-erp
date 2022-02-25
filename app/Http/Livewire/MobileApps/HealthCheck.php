@@ -159,7 +159,7 @@ class HealthCheck extends Component
                 ->setCellValue('D'.$num,isset($i->employee->nik) ? $i->employee->nik : '')
                 ->setCellValue('E'.$num,$i->name)
                 ->setCellValue('F'.$num,isset($i->employee->access->name) ? $i->employee->access->name : '')
-                ->setCellValue('G'.$num,date('d-M-Y H:i',strtotime($i->created_at)));
+                ->setCellValue('G'.$num,date('d-M-Y H:i',strtotime($i->updated_at)));
 
             if($i->is_submit ==1){
                 $activeSheet->setCellValue('H'.$num,$i->company)

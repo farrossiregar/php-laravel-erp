@@ -13,9 +13,8 @@ class Inputpono extends Component
     ];
 
     use WithFileUploads;
-    public $po_no;
+    public $po_no,$date_po;
     public $selected_id;
-
     
     public function render()
     {
@@ -29,9 +28,10 @@ class Inputpono extends Component
 
     public function save()
     {
-       
         $data = \App\Models\PoTrackingNonms::where('id', $this->selected_id)->first();
         $data->po_no = $this->po_no;
+        $data->date_po_released = $this->date_po;
+        $data->date_po_system = date('Y-m-d');
         $data->save();
 
         session()->flash('message-success',"PO No updated success");

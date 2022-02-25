@@ -33,17 +33,18 @@
     </div>
 </div>
 <!--    MODAL PO NON MS IMPORT ACCEPTANCE DOC HUAWEI      -->
-<script>
-    Livewire.on('modalinputpono',(data)=>{
-        console.log(data);
-        $("#modal-potrackingstp-upload").modal('show');
-    });
-    Livewire.on('modalimportaccdoc',(data)=>{
-        console.log(data);
-        $("#modal-potrackingstp-upload").modal('show');
-    });
-</script>
-
+@push('after-scripts')
+    <script>
+        Livewire.on('modalinputpono',(data)=>{
+            console.log(data);
+            $("#modal-potrackingstp-upload").modal('show');
+        });
+        Livewire.on('modalimportaccdoc',(data)=>{
+            console.log(data);
+            $("#modal-potrackingstp-upload").modal('show');
+        });
+    </script>
+@endpush
 
 
 

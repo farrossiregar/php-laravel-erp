@@ -129,6 +129,7 @@ class WorkOrderController extends Controller
     public function submitBast(Request $r)
     {
         $data = PoTrackingNonms::find($r->id);
+        $data->bast_number  = str_pad((PoTrackingNonms::count()+1),6, '0', STR_PAD_LEFT)."/".date('m').'/HUP/'.date('Y');
         $data->status = 7;
         $data->bast_status = 1;
         $data->save();

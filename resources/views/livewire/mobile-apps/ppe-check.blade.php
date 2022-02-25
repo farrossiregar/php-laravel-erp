@@ -80,7 +80,7 @@
                         @endif
                         {{isset($item->employee->nik) ? $item->employee->nik : ''}}</td>
                     <td>{{$item->name}}</td>
-                    <td>{{date('d-M-Y',strtotime($item->created_at))}}</td>
+                    <td>{{date('d-M-Y',strtotime($item->updated_at))}}</td>
                     <!-- <td>{{$item->site_id}}</td>
                     <td>{{$item->site_name}}</td> -->
                     <td class="text-center">

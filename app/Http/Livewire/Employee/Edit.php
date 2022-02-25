@@ -14,6 +14,7 @@ use App\Models\RegionCluster;
 use App\Models\ClientProjectRegion;
 use Illuminate\Support\Arr;
 use App\Models\LogActivity;
+use Illuminate\Validation\Rule;
 use Livewire\WithPagination;
 
 
@@ -164,12 +165,12 @@ class Edit extends Component
     {   
         $this->validate([
             'name' => 'required',
-            'nik' => 'required',
+            'nik' => ['required',Rule::unique('employees')->ignore($this->user)->whereNull('deleted_at')],
             //'place_of_birth' => 'required',
             //'date_of_birth' => 'required',
             //'marital_status' => 'required',
             //'blood_type' => 'required',
-            'email' => 'required',
+            'email' => ['required','email',Rule::unique('employees')->ignore($this->user)->whereNull('deleted_at')],
             //'employee_status' => 'required',
             'telepon' => 'required',
             //'religion' => 'required',

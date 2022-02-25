@@ -1,5 +1,4 @@
 <form wire:submit.prevent="save">
-    @csrf
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Upload File BAST</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -7,6 +6,14 @@
         </button>
     </div>
     <div class="modal-body">
+        <div class="form-group">
+            <label>BAST Number</label>
+            <input type="text" class="form-control" wire:model="bast_number" />
+        </div>
+        <div class="form-group">
+            <label>Date</label>
+            <input type="date" class="form-control" wire:model="bast_approved" />
+        </div>
         <div class="form-group">
             <input type="file" class="form-control" name="file" wire:model="file" />
             @error('file')
@@ -17,7 +24,7 @@
     <div class="modal-footer">
         <button type="submit" class="btn btn-info close-modal"><i class="fa fa-upload"></i> Upload</button>
     </div>
-    <div wire:loading>
+    <div wire:loading wire:target="save">
         <div class="page-loader-wrapper" style="display:block">
             <div class="loader" style="display:block">
                 <div class="lds-ring"><div></div><div></div><div></div><div></div></div>

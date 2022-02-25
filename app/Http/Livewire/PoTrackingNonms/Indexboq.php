@@ -16,8 +16,11 @@ class Indexboq extends Component
     use WithPagination,WithFileUploads;
     public $date,$keyword,$coordinator_id,$coordinators=[],$selected_data,$is_service_manager=false;
     public $is_coordiantor=false,$field_teams=[],$field_team_id,$url_bast,$note,$file_bast,$file_gr;
+    public $extra_budget, $file_extra_budget;
+    public $is_finance=false;
     protected $paginationTheme = 'bootstrap';
-    
+    protected $listeners = ['refresh'=>'$refresh'];
+
     public function render()
     {
         $data = PoTrackingNonms::where('type_doc', 2)->orderBy('id', 'DESC');
@@ -46,6 +49,7 @@ class Indexboq extends Component
         $this->field_teams = get_user_from_access('is-field-team',$client_project_ids,\Auth::user()->employee->region_id);
         $this->is_service_manager = check_access('is-service-manager');
         $this->is_coordinator = check_access('is-coordinator');
+        $this->is_finance = check_access('is-finance');
     }
 
     public function set_data(PoTrackingNonms $id){

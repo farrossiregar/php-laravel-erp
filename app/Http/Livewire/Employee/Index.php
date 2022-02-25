@@ -45,6 +45,11 @@ class Index extends Component
         \LogActivity::add('[web] Employee');
     }
 
+    public function updated()
+    {
+        $this->resetPage();
+    }
+
     public function set_device($id)  
     {
         $employee = Employee::find($id);

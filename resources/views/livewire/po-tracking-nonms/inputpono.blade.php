@@ -11,6 +11,10 @@
             <label>PO No</label>
             <input type="text" class="form-control" name="po_no" wire:model="po_no" />
         </div>
+        <div class="form-group">
+            <label>Date PO</label>
+            <input type="date" class="form-control" wire:model="date_po" />
+        </div>
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>

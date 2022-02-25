@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Employee;
 use App\Models\EmployeeProject;
 use App\Models\SubRegion;
+use Illuminate\Validation\Rule;
 
 class Insert extends Component
 {
@@ -63,12 +64,12 @@ class Insert extends Component
     {   
         $this->validate([
             'name' => 'required',
-            'nik' => 'required',
+            'nik' => ['required',Rule::unique('employees')->whereNull('deleted_at')],
             // 'place_of_birth' => 'required',
             // 'date_of_birth' => 'required',
             // 'marital_status' => 'required',
             // 'blood_type' => 'required',
-            'email' => 'required|unique:employees',
+            'email' => ['required','email',Rule::unique('employees')->whereNull('deleted_at')],
             //'join_date' => 'required',
             //'employee_status' => 'required',
             'telepon' => 'required',
@@ -76,8 +77,8 @@ class Insert extends Component
             // 'address' => 'required',
             'department_id' => 'required',
             'user_access_id' => 'required',
-            'password' => 'required|string|min:8',
-            'confirm'=>'required|same:password',
+            //'password' => 'required|string|min:8',
+            //'confirm'=>'required|same:password',
 
         ]);
 
@@ -86,6 +87,8 @@ class Insert extends Component
             $find_employee = Employee::where('user_id',$find_user->id)->first();
             if(!$find_employee) $find_user->delete();
         }
+
+        $this->password = random_int(100000, 999999);
 
         // insert table users
         $user = new User();

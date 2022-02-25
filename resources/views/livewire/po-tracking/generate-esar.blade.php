@@ -84,9 +84,9 @@
                 <td>{{ @$po_tracking->site_id }}</td>
                 <td>{{ @$po_tracking->site_name }}</td>
                 <td>{{ @$po_tracking->item_description }}</td>
-                <td>{{ @$po_tracking->unit }}</td>
-                <td>{{ @$po_tracking->requested_qty }}</td>
-                <td>{{ @$po_tracking->due_qty }}</td>
+                <td>Liter</td>
+                <td>{{ @$po_tracking->std_fuel_consump }}</td>
+                <td>{{ @$po_tracking->fuel_consumption_used }}</td>
                 <td><?php echo date_format(date_create($po_tracking->start_date), 'd-m-Y'); ?></td>
                 <td><?php echo date_format(date_create($po_tracking->end_date), 'd-m-Y'); ?></td>
                 <td>{{ @$po_tracking->note_to_receiver }}</td>

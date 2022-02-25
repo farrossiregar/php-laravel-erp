@@ -160,7 +160,7 @@ class PpeCheck extends Component
                 ->setCellValue('C'.$num,isset($i->sub_region->name) ? $i->sub_region->name : '')
                 ->setCellValue('D'.$num,isset($i->employee->nik) ? $i->employee->nik : '')
                 ->setCellValue('E'.$num,$i->name)
-                ->setCellValue('F'.$num,date('d-M-Y',strtotime($i->created_at)));
+                ->setCellValue('F'.$num,date('d-M-Y',strtotime($i->updated_at)));
             if($i->is_submit==1){
                 $activeSheet
                     ->setCellValue('G'.$num,$i->foto_dengan_ppe==1 ? "Yes" : "No")
