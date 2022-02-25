@@ -145,7 +145,7 @@
                                                             <div class="col-md-12 form-group">
                                                                 <label>Item Description {{ $i }}</label>
                                                                 <!-- <textarea name="" id="" cols="30" rows="4" class="form-control" wire:model="invoice_description"></textarea> -->
-                                                                <input type="text" class="form-control" wire:model="invoice_description">
+                                                                <input type="text" class="form-control" wire:model="item_description<?php echo $i; ?>">
                                                                 
                                                                 @error('invoice_description')
                                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>

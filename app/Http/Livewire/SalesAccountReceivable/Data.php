@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Session;
 use Auth;
+use PDF;
 
 class Data extends Component
 {
@@ -50,5 +51,29 @@ class Data extends Component
         // if($this->request_type) $data->where('request_type',$this->request_type);                        
         
         return view('livewire.sales-account-receivable.data')->with(['data'=>$data->paginate(50)]);   
+    }
+
+
+    public function exportsalesinvoice($id){
+        // dd($id);
+        // $pdf = \App::make('dompdf.wrapper');
+        // // $pdf->loadView('livewire.po-tracking-nonms.generate-bast',['data'=>'']);
+        // $pdf->loadView('livewire.vendor-management.downloadscoring',['vendor_management'=>'1']);
+        
+        // return $pdf->stream();
+
+
+        $pdf = \App::make('dompdf.wrapper');
+        $this->data = \App\Models\SalesInvoiceListingDetails::where('id', $id)->first();
+        $pdf->loadView('livewire.sales-account-receivable.exportsalesinvoice',['sales_invoice'=>$this->data]);
+        // $pdf->stream();
+        $filename = 'exportsalesinvoice'.$id.'.pdf';
+        // return $pdf->download($filename);
+        
+        $output = $pdf->output();
+        
+        
+        // $destinationPath = public_path($filename);
+        \Storage::put($filename .'.pdf',$output);
     }
 }

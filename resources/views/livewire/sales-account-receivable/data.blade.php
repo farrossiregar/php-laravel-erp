@@ -76,6 +76,8 @@
                         <th rowspan="2" class="align-middle">Period</th> 
                         <th rowspan="2" class="align-middle" style="text-align:center;">PO</th> 
                         <th rowspan="2" class="align-middle">Payment</th> 
+                        <th rowspan="2" class="align-middle">Export Sales Invoice</th> 
+                        <th rowspan="2" class="align-middle">Export Credit Note</th> 
                         <th rowspan="2" class="align-middle">Aging</th> 
                     </tr>
                    
@@ -160,6 +162,12 @@
                         </td>
                         <td>
                             <a href="javascript:;" wire:click="$emit('modaltreasuryaccountpayable','{{ $item->id }}')"><i class="fa fa-edit" style="color: #22af46;"></i></a>
+                        </td>
+                        <td>
+                            <a href="#" wire:click="exportsalesinvoice({{ $item->id }})" title="Export" ><i style="color: #dc3545;" class="fa fa-download"></i> </a>
+                        </td>
+                        <td>
+                            <a href="#" wire:click="exportsalesinvoice({{ $item->id }})" title="Export" ><i style="color: #dc3545;" class="fa fa-download"></i> </a>
                         </td>
                         <td><b>{{ date('F', mktime(0, 0, 0, $item->month, 10)) }} {{ $item->year }}</b></td>
                         <!-- 
