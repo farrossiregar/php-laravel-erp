@@ -76,4 +76,20 @@ class Data extends Component
         // $destinationPath = public_path($filename);
         \Storage::put($filename .'.pdf',$output);
     }
+
+    public function exportcreditnote($id){
+
+        $pdf = \App::make('dompdf.wrapper');
+        $this->data = \App\Models\SalesInvoiceListingDetails::where('id', $id)->first();
+        $pdf->loadView('livewire.sales-account-receivable.exportcreditnote',['credit_note'=>$this->data]);
+        // $pdf->stream();
+        $filename = 'exportcreditnote'.$id;
+        // return $pdf->download($filename);
+        
+        $output = $pdf->output();
+        
+        
+        // $destinationPath = public_path($filename);
+        \Storage::put($filename .'.pdf',$output);
+    }
 }
