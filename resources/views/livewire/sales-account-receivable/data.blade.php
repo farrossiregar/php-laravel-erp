@@ -53,11 +53,11 @@
         </select>
     </div>
 
-    
+    @if(check_access('sales-account-receivable.e2e'))
     <div class="col-md-1" style="margin: 0 10px;">
         <a href="javascript:;" wire:click="$emit('modaladdaccountpayable')" class="btn btn-info"><i class="fa fa-plus"></i> Invoice Listing </a>
     </div>  
-    
+    @endif
     
     <div class="col-md-12">
         <br><br>
@@ -68,7 +68,7 @@
                     <tr>
                         <th rowspan="2" class="align-middle">No</th>
                         <th rowspan="2" class="align-middle">Status</th> 
-                        <th rowspan="2" class="align-middle">Action</th> 
+                        <!-- <th rowspan="2" class="align-middle">Action</th>  -->
                         <th rowspan="2" class="align-middle">Date Create</th>
                         <th rowspan="2" class="align-middle">Customer Name</th> 
                         <th rowspan="2" class="align-middle" style="text-align:center;">Project</th> 
@@ -76,9 +76,10 @@
                         <th rowspan="2" class="align-middle">Period</th> 
                         <th rowspan="2" class="align-middle" style="text-align:center;">PO</th> 
                         <th rowspan="2" class="align-middle">Payment</th> 
+                        <th rowspan="2" class="align-middle">Aging</th> 
                         <th rowspan="2" class="align-middle">Sales Invoice</th> 
                         <th rowspan="2" class="align-middle">Credit Note</th> 
-                        <th rowspan="2" class="align-middle">Aging</th> 
+                        
                     </tr>
                    
                 </thead>
@@ -116,7 +117,7 @@
                                 <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
                             @endif
                         </td>
-                        <td>
+                        <!-- <td>
                             @if(check_access('account-payable.pmg'))
                                 @if($item->status == '')
                                    
@@ -142,7 +143,7 @@
                                     <a href="javascript:;" wire:click="$emit('modaldeclineaccountpayable','{{ $item->id }}')"><i class="fa fa-close " style="color: #de4848;"></i></a>
                                 @endif
                             @endif
-                        </td>
+                        </td> -->
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         <td>
                             {{ $item->cust_name }}
@@ -161,7 +162,14 @@
                             {{ date_format(date_create($item->po_date), 'd M Y') }}
                         </td>
                         <td>
-                            <a href="javascript:;" wire:click="$emit('modaltreasuryaccountpayable','{{ $item->id }}')"><i class="fa fa-edit" style="color: #22af46;"></i></a>
+                            @if(check_access('sales-account-receivable.treasury'))
+                                <a href="javascript:;" wire:click="$emit('modaltreasuryaccountpayable','{{ $item->id }}')"><i class="fa fa-edit" style="color: #22af46;"></i></a>
+                            @endif
+                        </td>
+                        <td>
+                            @if(check_access('sales-account-receivable.acc'))
+                                <a href="javascript:;" wire:click="$emit('modaltreasuryaccountpayable','{{ $item->id }}')"><i class="fa fa-edit" style="color: #22af46;"></i></a>
+                            @endif
                         </td>
                         <td>
                             <a href="#" wire:click="exportsalesinvoice({{ $item->id }})" title="Export Sales Invoice" ><i style="color: #17a2b8;" class="fa fa-download"></i> </a>
@@ -169,9 +177,7 @@
                         <td>
                             <a href="#" wire:click="exportcreditnote({{ $item->id }})" title="Export Credit Note" ><i style="color: #17a2b8;" class="fa fa-download"></i> </a>
                         </td>
-                        <td>
-                            <a href="javascript:;" wire:click="$emit('modaltreasuryaccountpayable','{{ $item->id }}')"><i class="fa fa-edit" style="color: #22af46;"></i></a>
-                        </td>
+                        
                         <!-- 
                         <td>
                             

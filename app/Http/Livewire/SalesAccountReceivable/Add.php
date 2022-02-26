@@ -24,7 +24,7 @@ class Add extends Component
     public $item_description3, $currency3, $qty3, $price_perunit3, $total3;
     public $item_description4, $currency4, $qty4, $price_perunit4, $total4;
     public $item_description5, $currency5, $qty5, $price_perunit5, $total5;
-    public $top, $total_item, $vat, $result_vat, $amount_vat;
+    public $top, $total_item, $vat, $result_vat, $amount_vat, $deduction, $art23, $art4, $net_amount;
 
     public function render()
     {
@@ -69,6 +69,8 @@ class Add extends Component
             }
         }
 
+        $this->net_amount = $this->amount_vat - $this->deduction + $this->art23 + $this->art4;
+
         return view('livewire.sales-account-receivable.add');
     }
 
@@ -96,6 +98,10 @@ class Add extends Component
         // $data->price_perunit            = $this->price_perunit;
         $data->total                    = $this->total_item;
         $data->top                      = $this->top;    
+        $data->deduction                = $this->deduction;    
+        $data->art23                    = $this->art23;    
+        $data->art4                     = $this->art4;    
+        $data->net_amount                     = $this->net_amount;    
         
         $data->save();
 

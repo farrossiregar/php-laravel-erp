@@ -257,6 +257,42 @@
                                         </div>
 
                                         <div class="col-md-6 form-group">
+                                            <label>Deduction </label>
+                                            <input type="number" class="form-control" wire:model="deduction">
+                                           
+                                            @error('deduction')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>WHT ART 23 </label>
+                                            <input type="number" class="form-control" wire:model="art23">
+                                           
+                                            @error('art23')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>WHT ART 4 </label>
+                                            <input type="number" class="form-control" wire:model="art4">
+                                           
+                                            @error('art4')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>Invoice Net Amount </label>
+                                            <input type="number" class="form-control" wire:model="net_amount" readonly>
+                                           
+                                            @error('net_amount')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
                                             <label>TOP </label>
                                             <input type="number" class="form-control" wire:model="top">
                                            
