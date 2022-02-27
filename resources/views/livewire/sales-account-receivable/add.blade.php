@@ -293,10 +293,19 @@
                                         </div>
 
                                         <div class="col-md-6 form-group">
-                                            <label>TOP </label>
+                                            <label>TOP (Days)</label>
                                             <input type="number" class="form-control" wire:model="top">
                                            
                                             @error('top')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>Due date</label>
+                                            <input type="date" class="form-control" wire:model="due_date" readonly>
+                                           
+                                            @error('due_date')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>

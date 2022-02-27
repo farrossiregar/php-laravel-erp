@@ -11,7 +11,7 @@ use PDF;
 class Data extends Component
 {
     use WithPagination;
-    public $project, $filterproject, $filterweek, $filtermonth, $filteryear, $employee_name, $request_type;
+    public $project, $filterproject, $filterweek, $filtermonth, $filteryear, $employee_name, $cust_name;
     protected $paginationTheme = 'bootstrap';
     
     public function render()
@@ -45,10 +45,10 @@ class Data extends Component
 
         $data = \App\Models\SalesInvoiceListingDetails::orderBy('created_at', 'desc');
 
-        // if($this->filteryear) $data->whereYear('created_at',$this->filteryear);
-        // if($this->filtermonth) $data->whereMonth('created_at',$this->filtermonth);                
-        // if($this->filterproject) $data->where('project',\App\Models\ClientProject::where('id', $this->filterproject)->first()->name);                        
-        // if($this->request_type) $data->where('request_type',$this->request_type);                        
+        if($this->filteryear) $data->whereYear('created_at',$this->filteryear);
+        if($this->filtermonth) $data->whereMonth('created_at',$this->filtermonth);                
+        if($this->filterproject) $data->where('project_name',\App\Models\ClientProject::where('id', $this->filterproject)->first()->name);                        
+        if($this->cust_name) $data->where('cust_name', 'Like', '%'.$this->cust_name.'%');                        
         
         return view('livewire.sales-account-receivable.data')->with(['data'=>$data->paginate(50)]);   
     }

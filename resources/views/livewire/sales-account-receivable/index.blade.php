@@ -28,148 +28,48 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-accountpayable-revisi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-salesaccountreceivable-detailinvoicedesc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            
+            <livewire:sales-account-receivable.detailinvoicedesc />
         </div>
     </div>
 </div>
 
-
-
-<div class="modal fade" id="modal-hotelflight-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="modal-accountpayable-approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:sales-account-receivable.approve />
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="modal-accountpayable-decline" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:sales-account-receivable.decline />
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-accountpayable-detailreq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:account-payable.detailreq />
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-accountpayable-treasury" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:account-payable.treasury />
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="modal-accountpayable-addpettycash" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-salesaccountreceivable-updateaging" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <livewire:account-payable.addpettycash />
+            <livewire:sales-account-receivable.updateaging />
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal-accountpayable-addweeklyopex" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-salesaccountreceivable-treasurysalesar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <livewire:account-payable.addweeklyopex />
+            <livewire:sales-account-receivable.treasurysalesar />
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="modal-accountpayable-addotheropex" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:account-payable.addotheropex />
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="modal-accountpayable-addrectification" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:account-payable.addrectification />
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-accountpayable-addsubcont" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:account-payable.addsubcont />
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-accountpayable-addsitekeeper" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:account-payable.addsitekeeper />
-        </div>
-    </div>
-</div>
-
-
-
-<div class="modal fade" id="modal-accountpayable-addhqadministration" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:account-payable.addhqadministration />
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-accountpayable-addpayroll" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:account-payable.addpayroll />
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-accountpayable-addsuppliervendor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:account-payable.addsuppliervendor />
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="modal-accountpayable-detailpettycash" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:account-payable.detailpettycash />
-        </div>
-    </div>
-</div>
-
-
-
 
 
 @section('page-script')
+    Livewire.on('detailinvoicedesc',(data)=>{
+        
+        $("#modal-salesaccountreceivable-detailinvoicedesc").modal('show');
+    });
+
+    Livewire.on('updateaging',(data)=>{
+        
+        $("#modal-salesaccountreceivable-updateaging").modal('show');
+    });
+
+    Livewire.on('treasurysalesar',(data)=>{
+        
+        $("#modal-salesaccountreceivable-treasurysalesar").modal('show');
+    });
+
+
     Livewire.on('modaladdaccountpayable',(data)=>{
         
         $("#modal-accountpayable-add").modal('show');
