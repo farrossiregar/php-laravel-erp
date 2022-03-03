@@ -14,4 +14,9 @@ class Index extends Component
         // }
         return view('livewire.po-tracking-nonms.index');
     }
+
+    public function mount()
+    {
+        \LogActivity::add('[web] PO Non MS');
+    }
 }

@@ -20,8 +20,8 @@
                                                 <th class="text-center">Status</th>
                                             </tr>
                                             <tr>
-                                                <td class="text-center">Rp {{ format_idr($total_before[0]->price) }}</td>                               
-                                                <td class="text-center">Rp {{ format_idr($total_after[0]->input_price) }}</td>    
+                                                <td class="text-center">Rp {{ format_idr(@$total_before[0]->price) }}</td>                               
+                                                <td class="text-center">Rp {{ format_idr(@$total_after[0]->input_price) }}</td>    
                                                 <td class="text-center"><div class="btn btn-{{$total_profit >= 30 ? 'success' : 'danger' }}">{{ $total_profit }}%</div></td>       
                                                 <td  class="text-center">
                                                     @if($status==0 || $status == null || $status == '0')

@@ -59,20 +59,16 @@ class Submittofin extends Component
 
         $extra_budget = $total_before - $total_after;
 
-        if($extra_budget > 0){
+        if($extra_budget > 0)
             $data->acc_doc = '0';
-        }else{
+        else
             $data->acc_doc = '1';
-        }
+        
 
         $data->e2e_to_fin = '1';
-        
-        $data->save();
-        
+        $data->save();        
         $target_user = 'Finance';
 
-        // $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
-        //                         ->where('employees.user_access_id', '2')->get();
         $notif_user = check_access_data('po-tracking-nonms.notif-finance', '');
         
         $nameuser = [];
@@ -86,9 +82,9 @@ class Submittofin extends Component
             $message = "*Dear ".$target_user." - ".$nameuser[$no]."*\n\n";
             $message .= "*PO Tracking Non MS ".$typedoc." pada ".date('d M Y H:i:s')." menunggu Approved from Huawei dan Acceptance Doc and Invoice*\n\n";
             send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);    
-
-            // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
         }
+
+        \LogActivity::add('[web] PO Non MS - Submit doc to Finance');
 
         session()->flash('message-success',"Success!, PO Tracking Non MS Submit E2E Bast to ".$target_user);
         

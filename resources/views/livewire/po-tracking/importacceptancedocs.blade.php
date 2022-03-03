@@ -7,8 +7,16 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
+            <label>Acceptance Docs</label>
             <input type="file" class="form-control" name="file" wire:model="file" />
             @error('file')
+            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label>Invoice Docs</label>
+            <input type="file" class="form-control" wire:model="invoice_file" />
+            @error('invoice_file')
             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
             @enderror
         </div>

@@ -34,6 +34,8 @@ class Inputpono extends Component
         $data->date_po_system = date('Y-m-d');
         $data->save();
 
+        \LogActivity::add('[web] PO Non MS - Input PO No');
+
         session()->flash('message-success',"PO No updated success");
         
         return redirect()->route('po-tracking-nonms.index');

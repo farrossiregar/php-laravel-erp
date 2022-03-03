@@ -29,6 +29,8 @@ class Inputpriceboq extends Component
         $this->selected_id->profit = 100 - round(($this->input_price / $this->selected_id->price) * 100);
         $this->selected_id->save();
 
+        \LogActivity::add('[web] PO Non MS - Input Price');
+
         session()->flash('message-success',"PO Tracking Non MS Boq Price updated success");
         
         return redirect()->route('po-tracking-nonms.edit-boq',['id'=>$this->selected_id->id_po_nonms_master]);

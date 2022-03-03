@@ -73,6 +73,8 @@ class Indexboq extends Component
         $this->selected_data->status = 9; // Finance
         $this->selected_data->save();
 
+        \LogActivity::add('[web] PO Non MS - Upload BAS dan GR');
+
         $this->emit('message-success',"BAST and GR uploaded");
         $this->emit('modal','hide');
     }
@@ -84,6 +86,8 @@ class Indexboq extends Component
         $this->selected_data->bast_status = 3;
         $this->selected_data->save(); 
 
+        \LogActivity::add('[web] PO Non MS - Reject BAST');
+
         $this->emit('message-success',"Budget request rejected");
         $this->emit('modal','hide');
     }
@@ -94,6 +98,8 @@ class Indexboq extends Component
         $this->selected_data->note_e2e_bast = $this->note;
         $this->selected_data->status = 8;
         $this->selected_data->save();
+
+        \LogActivity::add('[web] PO Non MS - Approve BAST');
         
         $this->emit('message-success',"Budget request approved");
         $this->emit('modal','hide');
@@ -107,6 +113,8 @@ class Indexboq extends Component
         $this->selected_data->field_team_id = $this->field_team_id;
         $this->selected_data->save();
         
+        \LogActivity::add('[web] PO Non MS - Assign Field Team');
+
         $message = 'Work order number '. $this->selected_data->no_tt." need your action.";
         //if(isset($this->selected_data->field_team->device_token)) push_notification_android($this->selected_data->field_team->device_token,"PO Tracking Non MS" ,$message,10);
         
@@ -121,6 +129,8 @@ class Indexboq extends Component
         $this->selected_data->coordinator_id = $this->coordinator_id;
         $this->selected_data->save();
         
+        \LogActivity::add('[web] PO Non MS - Assign Coordinator');
+
         $message = 'Work order number '. $this->selected_data->no_tt." need your action.";
         //if(isset($this->selected_data->coordinator->device_token)) push_notification_android($this->selected_data->coordinator->device_token,"PO Tracking Non MS" ,$message,10);
         

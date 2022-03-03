@@ -10,4 +10,9 @@ class Index extends Component
     {
         return view('livewire.po-tracking.index');        
     }
+
+    public function mount()
+    {
+        \LogActivity::add('[web] PO Fuel Reimbursement');
+    }
 }

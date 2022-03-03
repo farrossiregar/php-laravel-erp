@@ -212,6 +212,8 @@ class Insert extends Component
                 }    
             }
 
+            \LogActivity::add('[web] PO Fuel Reimbursement - Import');
+
             session()->flash('message-success',"Upload success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
             
             return redirect()->route('po-tracking.index');   

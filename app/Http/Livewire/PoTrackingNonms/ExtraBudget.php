@@ -36,6 +36,8 @@ class ExtraBudget extends Component
         $this->selected_data->status_extra_budget = 1; // Finance
         $this->selected_data->save();
 
+        \LogActivity::add('[web] PO Fuel Reimbursement - Extra Budget');
+
         $this->emit('message-success',"Extra budget submited");
         $this->emit('refresh');
         $this->emit('modal','hide');   

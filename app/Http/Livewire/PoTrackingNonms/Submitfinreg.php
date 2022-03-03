@@ -72,6 +72,8 @@ class Submitfinreg extends Component
             // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
         }
 
+        \LogActivity::add('[web] PO Non MS - Transfer budget to regional');
+
         session()->flash('message-success',"Success!, Budget for PO Tracking Non MS has been Succeed Transfered to ".$target_user." ".$this->data->region);
         
         return redirect()->route('po-tracking-nonms.index');

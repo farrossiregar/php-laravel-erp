@@ -34,6 +34,8 @@ class Approvebast extends Component
         $this->po->status = 2;
         $this->po->note = $this->note;
         $this->save();
+
+        \LogActivity::add('[web] PO Fuel Reimbursement - Approve BAST');
     }
 
     public function reject()
@@ -46,6 +48,8 @@ class Approvebast extends Component
         $this->po->is_revisi = 1;
         $this->po->note = $this->note;
         $this->save();
+
+        \LogActivity::add('[web] PO Fuel Reimbursement - Reject BAST');
     }
 
     public function save()

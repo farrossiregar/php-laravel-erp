@@ -91,7 +91,11 @@ class Insert extends Component
         $this->password = random_int(100000, 999999);
 
         // insert table users
-        $user = new User();
+        if($find_user) 
+            $user = $find_user;
+        else
+            $user = new User();
+            
         $user->user_access_id = $this->user_access_id;
         $user->name = $this->name;
         $user->email = $this->email;

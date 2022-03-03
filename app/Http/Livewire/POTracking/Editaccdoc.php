@@ -22,14 +22,11 @@ class Editaccdoc extends Component
     public $status;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    
-
 
     public function render()
     {
         return view('livewire.po-tracking.edit-accdoc');
     }
-
 
     public function mount($id)
     {
@@ -47,10 +44,5 @@ class Editaccdoc extends Component
         
 
         $this->id = $id;
-        
-        
-        
     }
-
-    
 }

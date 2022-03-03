@@ -14,7 +14,7 @@ class Importacceptancedocs extends Component
     ];
 
     use WithFileUploads;
-    public $file,$po;
+    public $file,$po,$invoice_file;
     public function render()
     {
         return view('livewire.po-tracking.importacceptancedocs');
@@ -28,7 +28,8 @@ class Importacceptancedocs extends Component
     public function save()
     {
         $this->validate([
-            'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
+            'file'=>'required|mimes:xls,xlsx,pdf|max:51200', // 50MB maksimal
+            'invoice_file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
         ]);
 
         if($this->file){
@@ -43,10 +44,16 @@ class Importacceptancedocs extends Component
             $data->accdoc_filename = $accdoc;
             $data->accdoc_date = date('Y-m-d H:i:s');
             $data->save();
-
-            $this->po->status = 4; // Done
-            $this->po->save();
         }
+
+        if($this->invoice_file){
+            $invoice = 'potracking-invoice'.$this->po->po_reimbursement_id.'.'.$this->invoice_file->extension();
+            $this->invoice_file->storePubliclyAs('public/po_tracking/AcceptanceDocs/',$invoice);
+            $this->po->invoice_file = $invoice;
+        }
+        
+        $this->po->status = 4; // Done
+        $this->po->save();
 
         session()->flash('message-success',"Upload Acceptance Docs PO No ".$this->po->po_reimbursement_id." success");
 

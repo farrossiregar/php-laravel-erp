@@ -16,12 +16,10 @@
                 <option value="4">Done</option>
             </select>
         </div>
-        @if(check_access('po-tracking.import'))
-        <div class="col-md-1">
-            <a href="#" data-toggle="modal" data-target="#modal-potracking-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking')}}</a>
-        </div> 
-        @endif
-        <div class="col-md-3">
+        <div class="col-md-6">
+            @if(check_access('po-tracking.import'))
+                <a href="#" data-toggle="modal" data-target="#modal-potracking-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking')}}</a> 
+            @endif
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>
@@ -36,8 +34,10 @@
                         <th rowspan="2">No</th>                               
                         <th rowspan="2">Date Uploaded</th>  
                         <th rowspan="2" class="text-center">Status</th>
+                        <th rowspan="2">PO Number</th>
                         <th rowspan="2">BAST Number</th>
                         <th rowspan="2">BAST Approved</th>
+                        <th rowspan="2">Region</th>
                         <th rowspan="2">Cluster</th>
                         <th rowspan="2">Sub Cluster</th>
                         <th rowspan="2">Site ID</th>
@@ -155,11 +155,15 @@
                                     <a href="javascript:void(0);" class="dropdown-item" wire:click="$emit('modalesarupload','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" ata-toggle="tooltip" title="Download Approved ESAR"><i class="fa fa-download"></i> {{__('Supporting Docs')}}</a>
                                 @endif
                                 @if(isset($item->acceptance->accdoc_filename))
-                                    <a href="{{asset('storage/po_tracking/AcceptanceDocs/'.$item->acceptance->accdoc_filename)}}" class="dropdown-item" data-toggle="tooltip" title="Download Acceptance Docs & Invoice"><i class="fa fa-download"></i> {{__('Acceptance Docs & Invoice')}}</a>
+                                    <a href="{{asset('storage/po_tracking/AcceptanceDocs/'.$item->acceptance->accdoc_filename)}}" class="dropdown-item" target="_blank"  data-toggle="tooltip" title="Download Acceptance Docs & Invoice"><i class="fa fa-download"></i> {{__('Acceptance Docs')}}</a>
+                                @endif
+                                @if(isset($item->invoice_file))
+                                    <a href="{{asset('storage/po_tracking/AcceptanceDocs/'.$item->invoice_file)}}" target="_blank" class="dropdown-item"><i class="fa fa-download"></i> {{__('Invoice Docs')}}</a>
                                 @endif
                                 </div>
                             </div>
                         </td>
+                        <td>-</td>
                         <td class="text-center">
                             @if($item->status==0)
                                 <label class="badge badge-info" data-toggle="tooltip" title="Regional - Upload approved BAST {{$item->is_revisi==1?' - Revisi : '.$item->note : ''}}">Regional / SM {{$item->is_revisi==1?' - R ' : ''}}</label>
@@ -179,6 +183,7 @@
                         </td>
                         <td>{{$item->bast_number?$item->bast_number:'-'}}</td>
                         <td>{{$item->bast_approved?date('d-M-Y',strtotime($item->bast_approved)):'-'}}</td>
+                        <td>-</td>
                         <td>{{$item->cluster}}</td>
                         <td>{{$item->sub_cluster}}</td>
                         <td>{{$item->site_id}}</td>

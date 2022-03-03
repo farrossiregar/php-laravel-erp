@@ -29,6 +29,8 @@ class ProcessExtraBudget extends Component
         $this->selected_data->note_extra_budget = $this->note;
         $this->selected_data->save();
 
+        \LogActivity::add('[web] PO Non MS - Approve Extra Budget');
+
         $this->emit('message-success',"Extra budget submited");
         $this->emit('refresh');
         $this->emit('modal','hide');   
@@ -43,6 +45,8 @@ class ProcessExtraBudget extends Component
         $this->selected_data->status_extra_budget = 3;
         $this->selected_data->note_extra_budget = $this->note;
         $this->selected_data->save();
+
+        \LogActivity::add('[web] PO Non MS - Reject Extra Budget');
 
         $this->emit('message-success',"Extra budget submited");
         $this->emit('refresh');

@@ -385,9 +385,9 @@ function get_extra_budget($id){
 
 
     $total_before = json_decode($total_before);
-    $total_before = $total_before[0]->price;
+    $total_before = @$total_before[0]->price;
     $total_after = json_decode($total_after);
-    $total_after = $total_after[0]->input_price;
+    $total_after = @$total_after[0]->input_price;
 
     $extra_budget = $total_before - $total_after;
 

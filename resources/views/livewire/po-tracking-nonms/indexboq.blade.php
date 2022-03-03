@@ -8,11 +8,16 @@
         <div class="col-md-2">
             <input type="date" class="form-control" wire:model="date" />
         </div>
-        @if(check_access('po-tracking-nonms.edit-boq'))
-            <div class="col-md-2">
-                <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO')}}</a>
-            </div>
-        @endif
+        <div class="col-md-8">
+            @if(check_access('po-tracking-nonms.edit-boq'))
+                <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import WO')}}</a>
+            @endif
+            <a href="javascript:void(0)" class="btn btn-info"><i class="fa fa-plus"></i> Add PO</a>
+            <span wire:loading>
+                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                <span class="sr-only">{{ __('Loading...') }}</span>
+            </span>
+        </div>
     </div>
     <div class="body pt-0">    
         <div class="table-responsive">
