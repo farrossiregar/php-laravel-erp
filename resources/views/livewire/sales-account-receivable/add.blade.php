@@ -145,7 +145,7 @@
                                                             <div class="col-md-12 form-group">
                                                                 <label>Item Description {{ $i }}</label>
                                                                 <!-- <textarea name="" id="" cols="30" rows="4" class="form-control" wire:model="invoice_description"></textarea> -->
-                                                                <input type="text" class="form-control" wire:model="invoice_description">
+                                                                <input type="text" class="form-control" wire:model="item_description<?php echo $i; ?>">
                                                                 
                                                                 @error('invoice_description')
                                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -257,10 +257,55 @@
                                         </div>
 
                                         <div class="col-md-6 form-group">
-                                            <label>TOP </label>
+                                            <label>Deduction </label>
+                                            <input type="number" class="form-control" wire:model="deduction">
+                                           
+                                            @error('deduction')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>WHT ART 23 </label>
+                                            <input type="number" class="form-control" wire:model="art23">
+                                           
+                                            @error('art23')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>WHT ART 4 </label>
+                                            <input type="number" class="form-control" wire:model="art4">
+                                           
+                                            @error('art4')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>Invoice Net Amount </label>
+                                            <input type="number" class="form-control" wire:model="net_amount" readonly>
+                                           
+                                            @error('net_amount')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>TOP (Days)</label>
                                             <input type="number" class="form-control" wire:model="top">
                                            
                                             @error('top')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>Due date</label>
+                                            <input type="date" class="form-control" wire:model="due_date" readonly>
+                                           
+                                            @error('due_date')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>

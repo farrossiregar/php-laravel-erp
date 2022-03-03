@@ -61,7 +61,7 @@
                         <td>{{ $key + 1 }}</td>
                         <td><label class="badge badge-info" data-toggle="tooltip" title="">{{ date_format(date_create($item->created_at), 'd M Y') }}</label></td>
                         <td>{{calculate_aging($item->created_at)}}</td>
-                        {{-- <td>
+                        <td>
                         <?php
                                 $date_evaluation = date('Y-m-d', strtotime("+90 days", strtotime($item->supplier_registered_date)));
                                 // echo $date_evaluation.' - '.$item->supplier_registered_date;
