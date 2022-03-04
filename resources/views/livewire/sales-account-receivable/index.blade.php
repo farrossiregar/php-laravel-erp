@@ -28,6 +28,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-salesaccountreceivable-addpo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:sales-account-receivable.addpo />
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modal-salesaccountreceivable-detailinvoicedesc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -73,6 +81,11 @@
     Livewire.on('modaladdaccountpayable',(data)=>{
         
         $("#modal-accountpayable-add").modal('show');
+    });
+
+    Livewire.on('addposalesar',(data)=>{
+        
+        $("#modal-salesaccountreceivable-addpo").modal('show');
     });
 
     Livewire.on('modalrevisiaccountpayable',(data)=>{

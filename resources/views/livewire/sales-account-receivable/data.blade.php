@@ -43,7 +43,7 @@
 
     @if(check_access('sales-account-receivable.e2e'))
     <div class="col-md-1" style="margin: 0 10px;">
-        <a href="javascript:;" wire:click="$emit('modaladdaccountpayable')" class="btn btn-info"><i class="fa fa-plus"></i> Invoice Listing </a>
+        <a href="javascript:;" wire:click="$emit('addposalesar')" class="btn btn-info"><i class="fa fa-plus"></i> Invoice Listing </a>
     </div>  
     @endif
     
@@ -58,13 +58,15 @@
                         <!-- <th rowspan="2" class="align-middle">Status</th>  -->
                         <!-- <th rowspan="2" class="align-middle">Action</th>  -->
                         <th rowspan="2" class="align-middle">Date Create</th>
-                        <th rowspan="2" class="align-middle">TOP</th> 
-                        <th rowspan="2" class="align-middle">Due Date</th> 
+                        <th rowspan="2" class="align-middle" style="text-align:center;">PO</th> 
+                        <th rowspan="2" class="align-middle">Period</th> 
                         <th rowspan="2" class="align-middle">Customer Name</th> 
                         <th rowspan="2" class="align-middle" style="text-align:center;">Project</th> 
+                        
                         <th rowspan="2" class="align-middle" style="text-align:center;">Invoice</th> 
-                        <th rowspan="2" class="align-middle">Period</th> 
-                        <th rowspan="2" class="align-middle" style="text-align:center;">PO</th> 
+                        <th rowspan="2" class="align-middle">TOP</th> 
+                        <th rowspan="2" class="align-middle">Due Date</th> 
+                        
                         <th rowspan="2" class="align-middle">Credit Note</th> 
                         <th rowspan="2" class="align-middle">Invoice Net Amount</th> 
                         
@@ -82,8 +84,11 @@
                         <td>{{ $key + 1 }}</td>
                        
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
-                        <td>{{ $item->top }}</td>
-                        <td>{{ date_format(date_create($item->due_date), 'd M Y') }}</td>
+                        <td style="text-align:center;" >
+                            <b>{{ $item->po_no }}</b><br>
+                            {{ date_format(date_create($item->po_date), 'd M Y') }}
+                        </td>
+                        <td><b>{{ date('F', mktime(0, 0, 0, $item->month, 10)) }} {{ $item->year }}</b></td>
                         <td>
                             {{ $item->cust_name }}
                         </td>
@@ -91,15 +96,24 @@
                             <b>{{ $item->project_name }}</b><br>
                             {{ $item->region }}
                         </td>
+
+                        
+                        
                         <td style="text-align:center;" class="align-middle">
-                            <b>{{ $item->invoice_no }}</b><br>
-                            {{ $item->tax_invoice_no }}
+                            @if($item->invoice_no)
+                                <a href="javascript:;" wire:click="$emit('modaladdaccountpayable')">
+                                    <b>{{ $item->invoice_no }}</b>
+                                </a><br> 
+                                {{ $item->tax_invoice_no }}
+                            @else
+                                <span><a href="javascript:;" wire:click="$emit('modaladdaccountpayable')"><i class="fa fa-plus"></i></a></span>
+                            @endif
+                            
                         </td>
-                        <td><b>{{ date('F', mktime(0, 0, 0, $item->month, 10)) }} {{ $item->year }}</b></td>
-                        <td style="text-align:center;" >
-                            <b>{{ $item->po_no }}</b><br>
-                            {{ date_format(date_create($item->po_date), 'd M Y') }}
-                        </td>
+                        <td>{{ $item->top }}</td>
+                        <td>{{ date_format(date_create($item->due_date), 'd M Y') }}</td>
+                        
+                        
                         <td><b>{{ $item->credit_note_number }}</b></td>
                         <td><b><a href="javascript:;" wire:click="$emit('detailinvoicedesc','{{ $item->id }}')">Rp, {{ format_idr($item->total) }}</a></b></td>
                         
