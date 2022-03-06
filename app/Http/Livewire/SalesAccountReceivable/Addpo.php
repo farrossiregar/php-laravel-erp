@@ -14,6 +14,10 @@ use DB;
 
 class Addpo extends Component
 {
+    protected $listeners = [
+        'updateinvoicesalesar'=>'updateinvoicesalesar',
+    ];
+
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     
@@ -78,24 +82,30 @@ class Addpo extends Component
         return view('livewire.sales-account-receivable.addpo');
     }
 
+    public function updateinvoicesalesar($id)
+    {
+        $this->selected_id = $id;
+    }
+
   
     public function save()
     {
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
-        $data                           = new \App\Models\SalesInvoiceListingDetails();
-        $data->kind_of_invoice          = $this->kind_of_invoice;
-        $data->project_name             = $this->project;
-        $data->project_code             = \App\Models\ClientProject::where('name', $this->project)->first()->id;
-        $data->region                   = $this->region;
-        $data->cust_name                = $this->customer_name;
-        $data->month                    = $this->month;
-        $data->year                     = $this->year;
+        // $data                           = new \App\Models\SalesInvoiceListingDetails();
+        $data                           = \App\Models\SalesInvoiceListingDetails::where('id', $this->selected_id)->first();
+        // $data->kind_of_invoice          = $this->kind_of_invoice;
+        // $data->project_name             = $this->project;
+        // $data->project_code             = \App\Models\ClientProject::where('name', $this->project)->first()->id;
+        // $data->region                   = $this->region;
+        // $data->cust_name                = $this->customer_name;
+        // $data->month                    = $this->month;
+        // $data->year                     = $this->year;
         $data->invoice_no               = $this->invoice_no;
         $data->tax_invoice_no           = $this->tax_invoice_no;
         $data->invoice_date             = date('Y-m-d');
-        $data->po_no                    = $this->po_no;
-        $data->po_date                  = $this->po_date;
+        // $data->po_no                    = $this->po_no;
+        // $data->po_date                  = $this->po_date;
         // $data->invoice_description      = $this->invoice_description;
         // $data->currency                 = $this->currency;
         // $data->qty                      = $this->qty;
