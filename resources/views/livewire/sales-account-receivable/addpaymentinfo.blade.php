@@ -5,7 +5,7 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Update Sales PO </h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Update Payment Info </h5>
                 </div>
 
                 <div class="body pt-0">
@@ -15,7 +15,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-6 form-group">
+                                        <!-- <div class="col-md-6 form-group">
                                             <label>Kind of Invoice</label>
                                             <input list="kind_invoice" type="text" class="form-control" wire:model="kind_of_invoice">
                                             <datalist id="kind_invoice" >
@@ -33,7 +33,7 @@
                                             <div class="row">
                                                 <div class="col-md-6 form-group">
                                                     <label>Project</label>
-                                                    <input type="text" class="form-control" wire:model="project" readonly/>
+                                                    <input type="text" class="form-control" wire:model="project" />
                                                     @error('employee_id')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                     @enderror
@@ -41,7 +41,7 @@
 
                                                 <div class="col-md-6 form-group">
                                                     <label>Region</label>
-                                                    <input type="text" class="form-control" wire:model="region" readonly/>
+                                                    <input type="text" class="form-control" wire:model="region" />
                                                     
                                                     @error('date')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -88,9 +88,9 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
 
-                                        <!-- <div class="col-md-6 form-group">
+                                        <!-- <div class="col-md-4 form-group">
                                             <label>Invoice No</label>
                                             <input class="form-control"  wire:model="invoice_no" >
                                            
@@ -108,10 +108,26 @@
                                             @error('tax_invoice_no')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
+                                        </div>
+                                        <div class="col-md-2 form-group">
+                                            <label>Currency</label>
+                                            <input list="curr" type="text" class="form-control" wire:model="currency">
+                                            <datalist id="curr" >
+                                                <option value="IDR">
+                                                <option value="USD">
+                                                <option value="SGD">
+                                                <option value="GBP">
+                                                <option value="AUD">
+                                                <option value="EUR">
+                                            </datalist>
+                                        
+                                            @error('currency')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
                                         </div> -->
 
 
-                                        <div class="col-md-6 form-group">
+                                        <!-- <div class="col-md-6 form-group">
                                             <label>PO NO </label>
                                             <input type="text" class="form-control" wire:model="po_no">
                                            
@@ -127,7 +143,7 @@
                                             @error('po_date')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div>
+                                        </div> -->
 
                                         <!-- <div class="col-md-12 form-group">
                                             <div class="row">
@@ -151,25 +167,11 @@
                                                                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                                 @enderror
                                                             </div>
+                                                            
                                                             <div class="row" style="margin: 0 4px;">
-                                                                <div class="col-md-3 form-group">
-                                                                    <label>Currency</label>
-                                                                    <input list="curr" type="text" class="form-control" wire:model="currency<?php echo $i; ?>">
-                                                                    <datalist id="curr" >
-                                                                        <option value="IDR">
-                                                                        <option value="USD">
-                                                                        <option value="SGD">
-                                                                        <option value="GBP">
-                                                                        <option value="AUD">
-                                                                        <option value="EUR">
-                                                                    </datalist>
                                                                 
-                                                                    @error('currency')
-                                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                                                    @enderror
-                                                                </div>
 
-                                                                <div class="col-md-3 form-group">
+                                                                <div class="col-md-4 form-group">
                                                                     <label>QTY </label>
                                                                     <input type="number" class="form-control" wire:model="qty<?php echo $i; ?>">
                                                                 
@@ -178,7 +180,7 @@
                                                                     @enderror
                                                                 </div>
 
-                                                                <div class="col-md-3 form-group">
+                                                                <div class="col-md-4 form-group">
                                                                     <label>Price per Unit </label>
                                                                     <input type="number" class="form-control" wire:model="price_perunit<?php echo $i; ?>">
                                                                 
@@ -187,7 +189,7 @@
                                                                     @enderror
                                                                 </div>
 
-                                                                <div class="col-md-3 form-group">
+                                                                <div class="col-md-4 form-group">
                                                                     <label>Total </label>
                                                                     <input type="number" class="form-control" wire:model="total<?php echo $i; ?>" readonly>
                                                                 
@@ -256,7 +258,7 @@
                                             </div>
                                         </div>
 
-                                        <!-- <div class="col-md-6 form-group">
+                                        <div class="col-md-6 form-group">
                                             <label>Deduction </label>
                                             <input type="number" class="form-control" wire:model="deduction">
                                            
@@ -308,7 +310,7 @@
                                             @error('due_date')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div> -->
+                                        </div>
                                         
                                        
                                     </div>

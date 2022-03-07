@@ -12,10 +12,10 @@ use Auth;
 use DB;
 
 
-class Add extends Component
+class Addpaymentinfo extends Component
 {
     protected $listeners = [
-        'modaladdinvoice'=>'modaladdinvoice',
+        'addpaymentinfo'=>'addpaymentinfo',
     ];
 
 
@@ -80,10 +80,10 @@ class Add extends Component
 
         $this->net_amount = $this->amount_vat - ($this->deduction + $this->art23 + $this->art4);
 
-        return view('livewire.sales-account-receivable.add');
+        return view('livewire.sales-account-receivable.addpaymentinfo');
     }
 
-    public function modaladdinvoice($id)
+    public function addpaymentinfo($id)
     {
         $this->selected_id = $id;
     }

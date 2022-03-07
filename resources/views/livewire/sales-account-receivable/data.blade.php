@@ -43,7 +43,7 @@
 
     @if(check_access('sales-account-receivable.e2e'))
     <div class="col-md-1" style="margin: 0 10px;">
-        <a href="javascript:;" wire:click="$emit('addposalesar')" class="btn btn-info"><i class="fa fa-plus"></i> Invoice Listing </a>
+        <a href="javascript:;" wire:click="$emit('addposalesar')" class="btn btn-info"><i class="fa fa-plus"></i> Add PO Listing </a>
     </div>  
     @endif
     
@@ -70,7 +70,8 @@
                         <th rowspan="2" class="align-middle">Credit Note</th> 
                         <th rowspan="2" class="align-middle">Invoice Net Amount</th> 
                         
-                        <th rowspan="2" class="align-middle">Payment</th> 
+                        <th rowspan="2" class="align-middle">Treasury</th> 
+                        <th rowspan="2" class="align-middle">Payment Info</th> 
                         <th rowspan="2" class="align-middle">Aging</th> 
                         <th rowspan="2" class="align-middle">Sales Invoice</th> 
                         <th rowspan="2" class="align-middle">Credit Note</th> 
@@ -101,12 +102,12 @@
                         
                         <td style="text-align:center;" class="align-middle">
                             @if($item->invoice_no)
-                                <a href="javascript:;" wire:click="$emit('modaladdaccountpayable')">
+                                <a href="javascript:;" wire:click="$emit('modaladdinvoice', '{{ $item->id }}')">
                                     <b>{{ $item->invoice_no }}</b>
                                 </a><br> 
                                 {{ $item->tax_invoice_no }}
                             @else
-                                <span><a href="javascript:;" wire:click="$emit('modaladdaccountpayable')"><i class="fa fa-plus"></i></a></span>
+                                <span><a href="javascript:;" wire:click="$emit('modaladdinvoice', '{{ $item->id }}')"><i class="fa fa-plus"></i></a></span>
                             @endif
                             
                         </td>
@@ -125,6 +126,15 @@
                                     <a href="javascript:;" wire:click="$emit('treasurysalesar','{{ $item->id }}')"><i class="fa fa-edit" style="color: #22af46;"></i></a>
                                 @endif
                             @endif
+                        </td>
+                        <td>
+                            <!-- if(check_access('sales-account-receivable.treasury')) -->
+                                @if($item->paid_amount_bank)
+                                    <a href="javascript:;" wire:click="$emit('addpaymentinfo','{{ $item->id }}')"><i class="fa fa-eye" style="color: #17a2b8;"></i></a>
+                                @else
+                                    <a href="javascript:;" wire:click="$emit('addpaymentinfo','{{ $item->id }}')"><i class="fa fa-edit" style="color: #22af46;"></i></a>
+                                @endif
+                            <!-- endif -->
                         </td>
                         <td>
                             <?php
