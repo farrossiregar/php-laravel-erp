@@ -64,6 +64,7 @@
                         <th rowspan="2" class="align-middle" style="text-align:center;">Project</th> 
                         
                         <th rowspan="2" class="align-middle" style="text-align:center;">Invoice</th> 
+                        <th rowspan="2" class="align-middle">Payment Info</th> 
                         <th rowspan="2" class="align-middle">TOP</th> 
                         <th rowspan="2" class="align-middle">Due Date</th> 
                         
@@ -71,7 +72,7 @@
                         <th rowspan="2" class="align-middle">Invoice Net Amount</th> 
                         
                         <th rowspan="2" class="align-middle">Treasury</th> 
-                        <th rowspan="2" class="align-middle">Payment Info</th> 
+                        
                         <th rowspan="2" class="align-middle">Aging</th> 
                         <th rowspan="2" class="align-middle">Sales Invoice</th> 
                         <th rowspan="2" class="align-middle">Credit Note</th> 
@@ -111,6 +112,15 @@
                             @endif
                             
                         </td>
+                        <td>
+                            <!-- if(check_access('sales-account-receivable.treasury')) -->
+                                @if($item->paid_amount_bank)
+                                    <a href="javascript:;" wire:click="$emit('addpaymentinfo','{{ $item->id }}')"><i class="fa fa-eye" style="color: #17a2b8;"></i></a>
+                                @else
+                                    <a href="javascript:;" wire:click="$emit('addpaymentinfo','{{ $item->id }}')"><i class="fa fa-edit" style="color: #22af46;"></i></a>
+                                @endif
+                            <!-- endif -->
+                        </td>
                         <td>{{ $item->top }}</td>
                         <td>{{ date_format(date_create($item->due_date), 'd M Y') }}</td>
                         
@@ -121,21 +131,13 @@
                         <td>
                             @if(check_access('sales-account-receivable.treasury'))
                                 @if($item->paid_amount_bank)
-                                    <a href="javascript:;" wire:click="$emit('treasurysalesar','{{ $item->id }}')"><i class="fa fa-eye" style="color: #17a2b8;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('treasurysalesar','{{ $item->id }}')"><b>{{ $item->cash_transaction_no }}</b></a>
                                 @else
                                     <a href="javascript:;" wire:click="$emit('treasurysalesar','{{ $item->id }}')"><i class="fa fa-edit" style="color: #22af46;"></i></a>
                                 @endif
                             @endif
                         </td>
-                        <td>
-                            <!-- if(check_access('sales-account-receivable.treasury')) -->
-                                @if($item->paid_amount_bank)
-                                    <a href="javascript:;" wire:click="$emit('addpaymentinfo','{{ $item->id }}')"><i class="fa fa-eye" style="color: #17a2b8;"></i></a>
-                                @else
-                                    <a href="javascript:;" wire:click="$emit('addpaymentinfo','{{ $item->id }}')"><i class="fa fa-edit" style="color: #22af46;"></i></a>
-                                @endif
-                            <!-- endif -->
-                        </td>
+                       
                         <td>
                             <?php
                                 if($item->due_date){

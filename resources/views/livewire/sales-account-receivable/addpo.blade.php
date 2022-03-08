@@ -120,14 +120,14 @@
                                             @enderror
                                         </div>
 
-                                        <div class="col-md-6 form-group">
+                                        <!-- <div class="col-md-6 form-group">
                                             <label>PO Date </label>
                                             <input type="date" class="form-control" wire:model="po_date">
                                            
                                             @error('po_date')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div>
+                                        </div> -->
 
                                         <!-- <div class="col-md-12 form-group">
                                             <div class="row">

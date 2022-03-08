@@ -95,11 +95,11 @@ class Addpo extends Component
         $data->cust_name                = $this->customer_name;
         $data->month                    = $this->month;
         $data->year                     = $this->year;
-        $data->invoice_no               = $this->invoice_no;
-        $data->tax_invoice_no           = $this->tax_invoice_no;
-        $data->invoice_date             = date('Y-m-d');
-        // $data->po_no                    = $this->po_no;
-        // $data->po_date                  = $this->po_date;
+        // $data->invoice_no               = $this->invoice_no;
+        // $data->tax_invoice_no           = $this->tax_invoice_no;
+        // $data->invoice_date             = date('Y-m-d');
+        $data->po_no                    = $this->po_no;
+        $data->po_date                  = date('Y-m-d');
         // $data->invoice_description      = $this->invoice_description;
         // $data->currency                 = $this->currency;
         // $data->qty                      = $this->qty;

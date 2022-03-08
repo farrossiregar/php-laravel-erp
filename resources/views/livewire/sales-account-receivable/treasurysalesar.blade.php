@@ -20,19 +20,19 @@
                         <br>
                         <div class="form-group">
                             <label>Paid Amount in Bank</label>
-                            <input type="number" name="" id="" class="form-control" wire:model="paid_amount_bank" readonly>
+                            <input type="number" name="" id="" class="form-control" wire:model="paid_amount" readonly>
                             
                         </div>
 
                         <div class="form-group">
                             <label>Bank & Account No</label>
-                            <input type="text" name="" id="" class="form-control" wire:model="bank">
+                            <input type="text" name="" id="" class="form-control" wire:model="bank_from">
                             
                         </div>
 
                         <div class="form-group">
                             <label>PIC</label>
-                            <input type="text" name="" id="" class="form-control" wire:model="pic">
+                            <input type="text" name="" id="" class="form-control" wire:model="pic_from">
                             
                         </div>
                     </div>
@@ -71,7 +71,7 @@
 
                         <div class="form-group">
                             <label>Difference</label>
-                            <input type="number" name="" id="" class="form-control" wire:model="difference" >
+                            <input type="number" name="" id="" class="form-control" wire:model="difference" readonly >
                             
                         </div>
                     
