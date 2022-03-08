@@ -258,6 +258,15 @@
                                             </div>
                                         </div>
 
+                                        <div class="col-md-12 form-group">
+                                            <label>Total Invoice (Amount + VAT) </label>
+                                            <input type="number" class="form-control" wire:model="amount_vat" readonly>
+                                           
+                                            @error('deduction')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
                                         <div class="col-md-6 form-group">
                                             <label>Deduction </label>
                                             <input type="number" class="form-control" wire:model="deduction">

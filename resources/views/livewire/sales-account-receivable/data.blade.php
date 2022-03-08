@@ -64,12 +64,14 @@
                         <th rowspan="2" class="align-middle" style="text-align:center;">Project</th> 
                         
                         <th rowspan="2" class="align-middle" style="text-align:center;">Invoice</th> 
+                        <th rowspan="2" class="align-middle">Invoice Net Amount</th> 
+
                         <th rowspan="2" class="align-middle">Payment Info</th> 
                         <th rowspan="2" class="align-middle">TOP</th> 
                         <th rowspan="2" class="align-middle">Due Date</th> 
                         
                         <th rowspan="2" class="align-middle">Credit Note</th> 
-                        <th rowspan="2" class="align-middle">Invoice Net Amount</th> 
+                        
                         
                         <th rowspan="2" class="align-middle">Treasury</th> 
                         
@@ -103,22 +105,17 @@
                         
                         <td style="text-align:center;" class="align-middle">
                             @if($item->invoice_no)
-                                <a href="javascript:;" wire:click="$emit('modaladdinvoice', '{{ $item->id }}')">
-                                    <b>{{ $item->invoice_no }}</b>
-                                </a><br> 
+                                <b>{{ $item->invoice_no }}</b><br> 
                                 {{ $item->tax_invoice_no }}
                             @else
                                 <span><a href="javascript:;" wire:click="$emit('modaladdinvoice', '{{ $item->id }}')"><i class="fa fa-plus"></i></a></span>
                             @endif
                             
                         </td>
+                        <td><b><a href="javascript:;" wire:click="$emit('detailinvoicedesc','{{ $item->id }}')">Rp, {{ format_idr($item->total) }}</a></b></td>
                         <td>
-                            <!-- if(check_access('sales-account-receivable.treasury')) -->
-                                @if($item->paid_amount_bank)
-                                    <a href="javascript:;" wire:click="$emit('addpaymentinfo','{{ $item->id }}')"><i class="fa fa-eye" style="color: #17a2b8;"></i></a>
-                                @else
-                                    <a href="javascript:;" wire:click="$emit('addpaymentinfo','{{ $item->id }}')"><i class="fa fa-edit" style="color: #22af46;"></i></a>
-                                @endif
+                            <!-- if(check_access('sales-account-receivable.fin-manager)) -->
+                            <a href="javascript:;" wire:click="$emit('addpaymentinfo','{{ $item->id }}')"><i class="fa fa-edit" style="color: #22af46;"></i></a>
                             <!-- endif -->
                         </td>
                         <td>{{ $item->top }}</td>
@@ -126,7 +123,7 @@
                         
                         
                         <td><b>{{ $item->credit_note_number }}</b></td>
-                        <td><b><a href="javascript:;" wire:click="$emit('detailinvoicedesc','{{ $item->id }}')">Rp, {{ format_idr($item->total) }}</a></b></td>
+                        
                         
                         <td>
                             @if(check_access('sales-account-receivable.treasury'))

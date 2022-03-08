@@ -16,6 +16,7 @@ class Detailinvoicedesc extends Component
     use WithFileUploads;
     public $selected_id, $note;    
     public $art23, $art4, $deduction, $net_amount, $vat, $total;
+    public $invoice_no, $tax_invoice_no, $currency;
 
     
     public function render()
@@ -33,6 +34,10 @@ class Detailinvoicedesc extends Component
         $this->net_amount   = $data->net_amount;
         $this->total        = $data->total;
         $this->vat          = $data->vat;
+
+        $this->invoice_no               = $data->invoice_no;
+        $this->tax_invoice_no           = $data->tax_invoice_no;
+        $this->currency                 = $data->currency;
     }
 
   
