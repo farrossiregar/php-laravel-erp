@@ -20,10 +20,18 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-accountpayable-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-salesaccountreceivable-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <livewire:sales-account-receivable.add />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-salesaccountreceivable-addpo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:sales-account-receivable.addpo />
         </div>
     </div>
 </div>
@@ -52,6 +60,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-salesaccountreceivable-addpaymentinfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:sales-account-receivable.addpaymentinfo />
+        </div>
+    </div>
+</div>
+
 
 @section('page-script')
     Livewire.on('detailinvoicedesc',(data)=>{
@@ -69,11 +85,22 @@
         $("#modal-salesaccountreceivable-treasurysalesar").modal('show');
     });
 
-
-    Livewire.on('modaladdaccountpayable',(data)=>{
-        
-        $("#modal-accountpayable-add").modal('show');
+    Livewire.on('addpaymentinfo',(data)=>{
+        $("#modal-salesaccountreceivable-addpaymentinfo").modal('show');
     });
+
+
+    Livewire.on('modaladdinvoice',(data)=>{
+        
+        $("#modal-salesaccountreceivable-add").modal('show');
+    });
+
+    Livewire.on('addposalesar',(data)=>{
+        
+        $("#modal-salesaccountreceivable-addpo").modal('show');
+    });
+
+    
 
     Livewire.on('modalrevisiaccountpayable',(data)=>{
         
@@ -102,6 +129,8 @@
     Livewire.on('modaltreasuryaccountpayable',(data)=>{
         $("#modal-accountpayable-treasury").modal('show');
     });
+
+   
 
     Livewire.on('modaladdpettycashaccountpayable',(data)=>{
         

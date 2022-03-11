@@ -7,6 +7,27 @@
         </button>
     </div>
     <div class="modal-body">
+        <div class="col-md-12 form-group">  
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <label>Invoice No</label>
+                    <input class="form-control"  wire:model="invoice_no" readonly>
+
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label>Tax Invoice Number (Faktur Pajak)</label>
+                    <input class="form-control"  wire:model="tax_invoice_no" readonly>
+
+                </div>
+                <div class="col-md-2 form-group">
+                    <label>Currency</label>
+                    <input list="curr" type="text" class="form-control" wire:model="currency" readonly>
+                    
+                </div>
+            </div>
+        </div>
+
         @foreach(\App\Models\SalesInvoiceListingDetaildesc::where('id_master', $selected_id)->orderBy('id', 'asc')->get() as $key => $item)
         <?php
             $i = $key+1;
@@ -17,25 +38,25 @@
             
         </div>
         <div class="row" style="margin: 0 4px;">
-            <div class="col-md-3 form-group">
+            <!-- <div class="col-md-3 form-group">
                 <label>Currency</label>
                 <input list="curr" type="text" class="form-control" value="<?php echo $item->currency; ?>" readonly>
                 
-            </div>
+            </div> -->
 
-            <div class="col-md-3 form-group">
+            <div class="col-md-4 form-group">
                 <label>QTY </label>
                 <input type="number" class="form-control" value="<?php echo $item->qty; ?>" readonly>
             
             </div>
 
-            <div class="col-md-3 form-group">
+            <div class="col-md-4 form-group">
                 <label>Price per Unit </label>
                 <input type="number" class="form-control" value="<?php echo $item->price_perunit; ?>" readonly>
             
             </div>
 
-            <div class="col-md-3 form-group">
+            <div class="col-md-4 form-group">
                 <label>Total </label>
                 <input type="number" class="form-control" value="<?php echo $item->total; ?>" readonly>
             
@@ -82,7 +103,7 @@
             </div>                                      
         </div>
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-6 form-group">
                 <label>Deduction </label>
                 <input type="number" class="form-control" value="<?php echo $deduction; ?>" readonly>
@@ -111,7 +132,7 @@
                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                 @enderror
             </div>
-        </div>
+        </div> -->
         
       
     </div>

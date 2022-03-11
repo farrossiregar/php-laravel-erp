@@ -14,11 +14,16 @@ use DB;
 
 class Add extends Component
 {
+    protected $listeners = [
+        'modaladdinvoice'=>'modaladdinvoice',
+    ];
+
+
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $kind_of_invoice, $project, $region, $customer_name, $month, $year, $invoice_no, $tax_invoice_no, $po_no, $po_date, $invoice_description;
+    public $kind_of_invoice, $project, $region, $customer_name, $month, $year, $invoice_no, $tax_invoice_no, $po_no, $po_date, $invoice_description, $currency, $selected_id;
     public $item_description1, $currency1, $qty1, $price_perunit1, $total1;
     public $item_description2, $currency2, $qty2, $price_perunit2, $total2;
     public $item_description3, $currency3, $qty3, $price_perunit3, $total3;
@@ -78,37 +83,55 @@ class Add extends Component
         return view('livewire.sales-account-receivable.add');
     }
 
+    public function modaladdinvoice($id)
+    {
+        $this->selected_id = $id;
+
+        $data                           = \App\Models\SalesInvoiceListingDetails::where('id', $this->selected_id)->first();
+        $this->invoice_no               = $data->invoice_no;
+        $this->tax_invoice_no           = $data->tax_invoice_no;
+        $this->currency                 = $data->currency;
+        $this->vat                      = $data->vat;
+        
+        $this->amount_vat               = $data->total;
+        // dd($data->total);
+        
+    }
+
   
     public function save()
     {
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
-        $data                           = new \App\Models\SalesInvoiceListingDetails();
-        $data->kind_of_invoice          = $this->kind_of_invoice;
-        $data->project_name             = $this->project;
-        $data->project_code             = \App\Models\ClientProject::where('name', $this->project)->first()->id;
-        $data->region                   = $this->region;
-        $data->cust_name                = $this->customer_name;
-        $data->month                    = $this->month;
-        $data->year                     = $this->year;
+        // $data                           = new \App\Models\SalesInvoiceListingDetails();
+        $data                           = \App\Models\SalesInvoiceListingDetails::where('id', $this->selected_id)->first();
+        // dd($this->selected_id);
+        // $data->kind_of_invoice          = $this->kind_of_invoice;
+        // $data->project_name             = $this->project;
+        // $data->project_code             = \App\Models\ClientProject::where('name', $this->project)->first()->id;
+        // $data->region                   = $this->region;
+        // $data->cust_name                = $this->customer_name;
+        // $data->month                    = $this->month;
+        // $data->year                     = $this->year;
         $data->invoice_no               = $this->invoice_no;
         $data->tax_invoice_no           = $this->tax_invoice_no;
         $data->invoice_date             = date('Y-m-d');
-        $data->po_no                    = $this->po_no;
-        $data->po_date                  = $this->po_date;
+        // $data->po_no                    = $this->po_no;
+        // $data->po_date                  = $this->po_date;
         // $data->invoice_description      = $this->invoice_description;
-        // $data->currency                 = $this->currency;
+        $data->currency                     = $this->currency;
         // $data->qty                      = $this->qty;
         // $data->price_perunit            = $this->price_perunit;
-        $data->total                    = $this->total_item;
-        $data->top                      = $this->top;    
-        $data->deduction                = $this->deduction;    
-        $data->art23                    = $this->art23;    
-        $data->art4                     = $this->art4;    
-        $data->net_amount               = $this->net_amount;    
+        // $data->total                    = $this->total_item;
+        $data->total                       = $this->amount_vat;
+        // $data->top                      = $this->top;    
+        // $data->deduction                = $this->deduction;    
+        // $data->art23                    = $this->art23;    
+        // $data->art4                     = $this->art4;    
+        // $data->net_amount               = $this->net_amount;    
         $data->vat                      = $this->vat;    
-        $data->due_date                 = $this->due_date;    
-        $data->credit_note_number       = $this->getNextId().'/CN'.'/'.substr(strtoupper($this->customer_name), 0, 3).'/'.$this->month.'/'.$this->year;    
+        // $data->due_date                 = $this->due_date;    
+        // $data->credit_note_number       = $this->getNextId().'/CN'.'/'.substr(strtoupper($this->customer_name), 0, 3).'/'.$this->month.'/'.$this->year;    
         
         $data->save();
 
@@ -118,7 +141,7 @@ class Add extends Component
             $datadetail                     = new \App\Models\SalesInvoiceListingDetaildesc();
             $datadetail->id_master          = $data->id;
             $datadetail->item_description   = $this->item_description1;
-            $datadetail->currency           = $this->currency1;
+            // $datadetail->currency           = $this->currency1;
             $datadetail->qty                = $this->qty1;
             $datadetail->price_perunit      = $this->price_perunit1;
             $datadetail->total              = $this->qty1 * $this->price_perunit1;
@@ -129,7 +152,7 @@ class Add extends Component
             $datadetail                     = new \App\Models\SalesInvoiceListingDetaildesc();
             $datadetail->id_master          = $data->id;
             $datadetail->item_description   = $this->item_description2;
-            $datadetail->currency           = $this->currency2;
+            // $datadetail->currency           = $this->currency2;
             $datadetail->qty                = $this->qty2;
             $datadetail->price_perunit      = $this->price_perunit2;
             $datadetail->total              = $this->qty1 * $this->price_perunit2;
@@ -140,7 +163,7 @@ class Add extends Component
             $datadetail                     = new \App\Models\SalesInvoiceListingDetaildesc();
             $datadetail->id_master          = $data->id;
             $datadetail->item_description   = $this->item_description3;
-            $datadetail->currency           = $this->currency3;
+            // $datadetail->currency           = $this->currency3;
             $datadetail->qty                = $this->qty3;
             $datadetail->price_perunit      = $this->price_perunit3;
             $datadetail->total              = $this->qty1 * $this->price_perunit3;
@@ -151,7 +174,7 @@ class Add extends Component
             $datadetail                     = new \App\Models\SalesInvoiceListingDetaildesc();
             $datadetail->id_master          = $data->id;
             $datadetail->item_description   = $this->item_description4;
-            $datadetail->currency           = $this->currency4;
+            // $datadetail->currency           = $this->currency4;
             $datadetail->qty                = $this->qty4;
             $datadetail->price_perunit      = $this->price_perunit4;
             $datadetail->total              = $this->qty1 * $this->price_perunit4;
@@ -162,7 +185,7 @@ class Add extends Component
             $datadetail                     = new \App\Models\SalesInvoiceListingDetaildesc();
             $datadetail->id_master          = $data->id;
             $datadetail->item_description   = $this->item_description5;
-            $datadetail->currency           = $this->currency5;
+            // $datadetail->currency           = $this->currency5;
             $datadetail->qty                = $this->qty5;
             $datadetail->price_perunit      = $this->price_perunit5;
             $datadetail->total              = $this->qty1 * $this->price_perunit5;
