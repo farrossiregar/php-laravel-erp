@@ -17,7 +17,7 @@ class Indexboq extends Component
     public $date,$keyword,$coordinator_id,$coordinators=[],$selected_data,$is_service_manager=false;
     public $is_coordiantor=false,$field_teams=[],$field_team_id,$url_bast,$note,$file_bast,$file_gr;
     public $extra_budget, $file_extra_budget;
-    public $is_finance=false;
+    public $is_finance=false,$wo_id=[];
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['refresh'=>'$refresh'];
 
@@ -50,6 +50,11 @@ class Indexboq extends Component
         $this->is_service_manager = check_access('is-service-manager');
         $this->is_coordinator = check_access('is-coordinator');
         $this->is_finance = check_access('is-finance');
+    }
+
+    public function updated($propertyName)
+    {
+        if($propertyName=='wo_id') $this->emit('set_wo',$this->wo_id);
     }
 
     public function set_data(PoTrackingNonms $id){

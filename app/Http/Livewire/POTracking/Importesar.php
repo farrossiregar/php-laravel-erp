@@ -48,7 +48,7 @@ class Importesar extends Component
     public function save()
     {
         $this->validate([
-            'file.*'=>'required|mimes:pdf|max:51200' // 50MB maksimal
+            'file.*'=>'required|mimes:pdf,msg,xls,xlsx|max:51200' // 50MB maksimal
         ]);
         foreach($this->files as $k => $item){
             if($this->file[$k]){

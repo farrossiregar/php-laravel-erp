@@ -12,7 +12,7 @@
             @if(check_access('po-tracking-nonms.edit-boq'))
                 <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import WO')}}</a>
             @endif
-            <a href="javascript:void(0)" class="btn btn-info"><i class="fa fa-plus"></i> Add PO</a>
+            <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal-potrackinginput-pono"><i class="fa fa-plus"></i> Add PO</a>
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>
@@ -25,19 +25,40 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th></th>
                         <th>PO No</th>    
                         <th>Date PO Release (sc)</th>    
                         <th>Date PO Release (sys)</th>    
                         <th>WO Number</th>    
                         <th>Region</th>    
                         <th class="text-center">Status</th>    
+                        <th>Site ID</th>
+                        <th>Site Name</th>
+                        <th>Category Material</th>
+                        <th>Item Kode/PO Reference</th>
+                        <th>Item Material</th>
+                        <th>UOM</th>
+                        <th>QTY</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                        <th>SNO Material</th>
+                        <th>SNO Rectification</th>
+                        <th>PO</th>
+                        <th>PO Line Item</th>
+                        <th>BAST NO</th>
+                        <th>GR NO</th>
+                        <th>GR Date</th>
+                        <th>Invoice Date</th>
+                        <th>Invoice No</th>
+                        <th>Payment Date</th>
                         <th>Transfer</th>
-                        <th>Note from PMG</th>    
+                        <!-- <th>Note from PMG</th>    
                         <th>Note Bast from E2E</th>
                         <th>BAST Number</th>
                         <th>Customer Price</th>
                         <th>PR Price</th>
                         <th>Total Profit Margin</th>
+                         -->
                         <th>Coordinator</th>
                         <th>Field Team</th>
                         <th>Extra Budget</th>
@@ -49,11 +70,19 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>
+                            @if($item->bast_status==1)
+                                <label class="fancy-checkbox">
+                                    <input type="checkbox" wire:model="wo_id" value="{{$item->id}}">
+                                    <span></span>
+                                </label>
+                            @endif
+                        </td>
+                        <td>
                             @if(check_access('po-tracking-nonms.po-no'))
                                 @if($item->po_no != null || $item->po_no != '')
                                     {{ $item->po_no }}
                                 @else
-                                    <a href="javascript:;" wire:click="$emit('modalinputpono','{{$item->id}}')" class="badge badge-info badge-active"  data-toggle="modal" data-target="#modal-potrackinginput-pono" title="Upload"> <i class="fa fa-plus"></i> {{__('PO No')}}</a>
+                                    <!-- <a href="javascript:;" wire:click="$emit('modalinputpono','{{$item->id}}')" class="badge badge-info badge-active"  data-toggle="modal" data-target="#modal-potrackinginput-pono" title="Upload"> <i class="fa fa-plus"></i> {{__('PO No')}}</a> -->
                                 @endif
                             @else
                                 @if($item->po_no != null || $item->po_no != '')
@@ -108,6 +137,25 @@
                                 <a href="javascript:void(0)" class="badge badge-success"  wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_end"><i class="fa fa-check-circle"></i> End</a>
                             @endif
                         </td>
+                        <td>{{$item->site_id}}</td>
+                        <td>{{$item->site_name}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td class="text-center">
                             @if(isset($item->bukti_transfer))
                                 @foreach($item->bukti_transfer as $bukti_transfer)
@@ -115,7 +163,7 @@
                                 @endforeach
                             @endif
                         </td>
-                        <td>{{ $item->status_note }}</td>    
+                        <!-- <td>{{ $item->status_note }}</td>    
                         <td>{{ $item->bast_status_note }}</td>
                         <td>{{ $item->bast_number ? $item->bast_number :''}}</td>
                         <td>Rp {{ format_idr(get_total_price($item->id)) }}</td> 
@@ -134,7 +182,9 @@
                                 }
                             ?>
                             <span class="text-<?php echo $color; ?>">{{ $total_profit }}%</span>
-                            / Rp {{ format_idr(get_extra_budget($item->id)) }}</td>
+                            / Rp {{ format_idr(get_extra_budget($item->id)) }}
+                        </td> -->
+
                         <td>
                             @if($item->status==5 and $item->coordinator_id =='' and $is_service_manager)
                                 <a href="javascript:void(0)" data-target="#modal_select_coordinator" wire:click="set_data({{$item->id}})" data-toggle="modal" class="badge badge-info badge-active"><i class="fa fa-plus"></i> coordinator</a>
@@ -385,6 +435,17 @@
     </div>
     <!--    MODAL PO BOQ      -->
 </div>
+
+<!--    MODAL PO NON MS INPUT PO NO      -->
+<div class="modal fade" id="modal-potrackinginput-pono" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-nonms.inputpono />
+        </div>
+    </div>
+</div>
+<!--    MODAL PO NON MS INPUT PO NO      -->
+
 @livewire('po-tracking-nonms.extra-budget')
 @livewire('po-tracking-nonms.process-extra-budget')
 @push('after-scripts')

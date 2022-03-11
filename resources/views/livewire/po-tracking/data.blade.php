@@ -31,84 +31,23 @@
             <table class="table table-hover m-b-0 c_list table-nowrap-th">
                 <thead>
                     <tr style="background: #eee;">
-                        <th rowspan="2">No</th>                               
-                        <th rowspan="2">Date Uploaded</th>  
-                        <th rowspan="2" class="text-center">Status</th>
-                        <th rowspan="2">PO Number</th>
-                        <th rowspan="2">BAST Number</th>
-                        <th rowspan="2">BAST Approved</th>
-                        <th rowspan="2">Region</th>
-                        <th rowspan="2">Cluster</th>
-                        <th rowspan="2">Sub Cluster</th>
-                        <th rowspan="2">Site ID</th>
-                        <th rowspan="2">Site Name</th>
-                        <th rowspan="2">TT Number</th>
-                        <th colspan="4" class="text-center">Portable Genset Ready on Site(BASED ON FEAT DATA)</th>
-                        <th colspan="9" class="text-center">PLN SERVICE OUTAGE</th>
-                        <th rowspan="2">EID CHECK</th>
-                        <!-- <th>ID</th>  
+                        <th>No</th>                               
+                        <th>Date Uploaded</th>  
+                        <th>PO Number</th>
+                        <th>PO Date</th>
                         <th class="text-center">Status</th>
-                        <th>Change History</th> 
-                        <th>Rep Office</th>  
-                        <th>Customer</th>  
-                        <th>Project Name</th>  
-                        <th>Project Code</th>  
-                        <th>Site ID</th>  
-                        <th>Sub Contract NO</th>  
-                        <th>PR NO</th>  
-                        <th>Sales Contract NO</th>  
-                        <th>PO Status</th>  
-                        <th>PO NO</th>  
-                        <th>Site Code</th>  
-                        <th>Site Name</th>  
-                        <th>PO Line NO</th>  
-                        <th>Shipment NO</th>  
-                        <th>Item Description</th>  
-                        <th>Requested QTY</th>  
-                        <th>Unit</th>  
-                        <th>Unit Price</th>  
-                        <th>Center Area</th>  
-                        <th>Start Date</th>  
-                        <th>End Date</th>  
-                        <th>Billed QTY</th>  
-                        <th>Due QTY</th>  
-                        <th>QTY Cancel</th>  
-                        <th>Item Code</th>  
-                        <th>Version NO</th>  
-                        <th>Line Amount</th>  
-                        <th>Bidding Area</th>  
-                        <th>Tax Rate</th>  
-                        <th>Currency</th>  
-                        <th>Ship To</th>  
-                        <th>Engineering Code</th>  
-                        <th>Engineering Name</th>  
-                        <th>Payment Terms</th>  
-                        <th>Category</th>  
-                        <th>Payment Method</th>  
-                        <th>Product Category</th>  
-                        <th>Bill To</th>  
-                        <th>Subproject Code</th>  
-                        <th>Expired Date</th>  
-                        <th>Publish Date</th>  
-                        <th>Acceptance Date</th>  
-                        <th>FF Buyer</th>  
-                        <th>Note to Receiver</th>  
-                        <th>Fob Lookup Code</th>   -->
-                    </tr>
-                    <tr>
-                        <th>Start</th>
-                        <th>End</th>
-                        <th>Duration</th>
-                        <th>Capacity (KVA)</th>
-                        <th>Std Fuel consump (l/h)</th>
-                        <th>Fuel Consumption Used</th>
-                        <th>Date Refuel</th>
-                        <th>Fuel Refuel</th> 
-                        <th>BBM Type</th>
-                        <th>Article Code</th>
-                        <th>Price/Liter</th>
-                        <th>Total Prices</th>
-                        <th>Acceptable Amount (Rp)</th> 
+                        <th>Period</th>
+                        <th>Region<s/th>
+                        <th>Branch</th>
+                        <th>BOQ</th>
+                        <th>No BAST</th>
+                        <th>No GR</th>
+                        <th>GR Date</th>
+                        <th>No Invoice</th>
+                        <th>Invoice Date</th>
+                        <th>Actual Amount (Based on Bon)</th>
+                        <th>Amount To be Claimed (Acceptable EID)</th>
+                        <th>Date of Payment</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -150,7 +89,6 @@
                                 @if(isset($item->bast->bast_filename))
                                     <a href="{{asset("storage/po_tracking/Bast/{$item->bast->bast_filename}")}}" class="dropdown-item" data-toggle="tooltip" title="Download BAST"><i class="fa fa-download"></i> {{__('BAST')}}</a>
                                 @endif
-                                
                                 @if(isset($item->esar->approved_esar_filename))
                                     <a href="javascript:void(0);" class="dropdown-item" wire:click="$emit('modalesarupload','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" ata-toggle="tooltip" title="Download Approved ESAR"><i class="fa fa-download"></i> {{__('Supporting Docs')}}</a>
                                 @endif
@@ -163,7 +101,8 @@
                                 </div>
                             </div>
                         </td>
-                        <td>-</td>
+                        <td>{{$item->po_no}}</td>
+                        <td>{{$item->po_date}}</td>
                         <td class="text-center">
                             @if($item->status==0)
                                 <label class="badge badge-info" data-toggle="tooltip" title="Regional - Upload approved BAST {{$item->is_revisi==1?' - Revisi : '.$item->note : ''}}">Regional / SM {{$item->is_revisi==1?' - R ' : ''}}</label>
@@ -181,28 +120,32 @@
                                 <label class="badge badge-success" data-toggle="tooltip" title="Completed">Completed </label>
                             @endif
                         </td>
-                        <td>{{$item->bast_number?$item->bast_number:'-'}}</td>
-                        <td>{{$item->bast_approved?date('d-M-Y',strtotime($item->bast_approved)):'-'}}</td>
-                        <td>-</td>
-                        <td>{{$item->cluster}}</td>
-                        <td>{{$item->sub_cluster}}</td>
-                        <td>{{$item->site_id}}</td>
-                        <td>{{$item->site_name}}</td>
-                        <td>{{$item->tt_number}}</td>
-                        <td>{{$item->start_date}}</td>
-                        <td>{{$item->end_date}}</td>
-                        <td>{{$item->duration}}</td>
-                        <td>{{$item->capacity_kva}}</td>
-                        <td>{{$item->std_fuel_consump}}</td>
-                        <td>{{$item->fuel_consumption_used}}</td>
-                        <td>{{$item->date_refuel}}</td>
+                        <td>{{date('Y M',strtotime($item->period))}}</td>
+                        <td>{{$item->region}}</td>
+                        <td>{{$item->branch}}</td>
+                        <td>{{$item->boq}}</td>
+                        <td>
+                            @if(isset($item->bast->bast_filename))
+                                <a href="{{asset("storage/po_tracking/Bast/{$item->bast->bast_filename}")}}" target="_blank">{{$item->bast_number}}</a>
+                            @else
+                                {{$item->bast_number}}
+                            @endif
+                        </td>
+                        <td>{{$item->gr_no}}</td>
+                        <td>{{$item->gr_date}}</td>
+                        <td>{{$item->invoice_no}}</td>
+                        <td>{{$item->invoice_date}}</td>
+                        <td class="text-right">{{format_idr($item->actual_amount)}}</td>
+                        <td class="text-right">{{format_idr($item->amunt_to_be_claim)}}</td>
+                        <td>{{$item->date_of_payment}}</td>
+<!--                         
                         <td>{{$item->fuel_refuel}}</td>
                         <td>{{$item->bbm_type}}</td>
                         <td class="text-right">{{format_idr($item->article_code)}}</td>
                         <td class="text-right">{{format_idr($item->price_liter)}}</td>
                         <td class="text-right">{{format_idr($item->total_price)}}</td>
                         <td class="text-right">{{format_idr($item->acceptable_amount)}}</td>
-                        <td>{{$item->eid_check}}</td>
+                        <td>{{$item->eid_check}}</td> -->
                         <!-- <td>
                             {{ $item->po_reimbursement_id }}
                             <div class="btn-group" role="group">
@@ -361,21 +304,21 @@
     </div>
     <!--    END MODAL ACCEPTANCE DOCS      -->
     @push('after-scripts')
-    <script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/daterange/daterangepicker.css') }}" />
-    <script>
-        $('.date_uploaded').daterangepicker({
-            opens: 'left',
-            locale: {
-                cancelLabel: 'Clear'
-            },
-            autoUpdateInput: false,
-        }, function(start, end, label) {
-            @this.set("date_start", start.format('YYYY-MM-DD'));
-            @this.set("date_end", end.format('YYYY-MM-DD'));
-            $('.date_uploaded').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
-        });
-    </script>
+        <script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/daterange/daterangepicker.css') }}" />
+        <script>
+            $('.date_uploaded').daterangepicker({
+                opens: 'left',
+                locale: {
+                    cancelLabel: 'Clear'
+                },
+                autoUpdateInput: false,
+            }, function(start, end, label) {
+                @this.set("date_start", start.format('YYYY-MM-DD'));
+                @this.set("date_end", end.format('YYYY-MM-DD'));
+                $('.date_uploaded').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
+            });
+        </script>
     @endpush
 </div>

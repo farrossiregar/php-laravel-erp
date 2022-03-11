@@ -15,15 +15,7 @@
     </div>
     @livewire('po-tracking-nonms.bast')
 </div>
-<!--    MODAL PO NON MS INPUT PO NO      -->
-<div class="modal fade" id="modal-potrackinginput-pono" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:po-tracking-nonms.inputpono />
-        </div>
-    </div>
-</div>
-<!--    MODAL PO NON MS INPUT PO NO      -->
+
 <!--    MODAL PO NON MS IMPORT ACCEPTANCE DOC HUAWEI      -->
 <div class="modal fade" id="modal-potrackingnonms-importaccdoc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

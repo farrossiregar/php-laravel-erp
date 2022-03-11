@@ -11,7 +11,7 @@
             @error('file')
             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
             @enderror
-            <a href="{{asset('template/po-fuel-reimbursement-template-new.xlsx')}}"><i class="fa fa-download"></i> Download Template</a>
+            <a href="{{asset('template/template-po-fuel-reimbursement.xlsx')}}"><i class="fa fa-download"></i> Download Template</a>
         </div>
     </div>
     <div class="modal-footer">
