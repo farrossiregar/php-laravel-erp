@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PoTrackingNonmsBuktiTransfer;
 use App\Models\PoTrackingNonmsBast;
+use App\Models\PoTrackingNonmsPo;
 
 class PoTrackingNonms extends Model
 {
@@ -29,6 +30,11 @@ class PoTrackingNonms extends Model
 
     public function bast_file()
     {
-        return $this->hasMany(PoTrackingNonmsBast::class,'po_tracking_nonms_id','id');
+        return $this->hasMany(PoTrackingNonmsBast::class,'po_tracking_nonms_id','id')->orderBy(\DB::raw('ordering IS NULL, ordering'), 'asc');;
+    }
+
+    public function po__()
+    {
+        return $this->hasOne(PoTrackingNonmsPo::class,'id','po_tracking_nonms_po_id');
     }
 }

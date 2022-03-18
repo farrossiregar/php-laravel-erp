@@ -5,10 +5,10 @@
             <div class="header row">
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="col-md-6">
-                            <b><h5>PO Tracking Non MS</h5></b> 
+                        <div class="col-md-4">
+                            <b><h5>{{$po_tracking->no_tt}}</h5></b> 
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
@@ -77,38 +77,34 @@
                         <div class="table-responsive">
                             <table class="table table-striped m-b-0 c_list table-nowrap-th">
                                 <tr>
-                                    <th>No</th>                               
-                                    <th>Project Code</th>                               
-                                    <th>Item Code</th>                               
-                                    <th>Site Id</th>                               
-                                    <th>Site Name</th>                               
+                                    <th>No</th>       
+                                    <th>PO</th>
+                                    <th>PO Line Item</th>
+                                    <th>SNo Material</th>
+                                    <th>SNO Rectification</th>                            
+                                    <th>Category Material</th>                               
+                                    <th>Item Code</th>                             
                                     <th>Item Description</th>                               
                                     <th>UOM</th>                               
-                                    <th>Quantity</th>                               
-                                    <th>Supplier</th>                               
-                                    <th>Region</th>                               
-                                    <th>Remark</th>                               
-                                    <th>Reff</th>                                
+                                    <th>Quantity</th>                            
                                     <th>Customer Price</th>     
                                     <th>Total Price</th>                              
                                     <th>Price PR</th>    
                                     <th>Total After Price PR</th>                               
-                                    <th>Profit (%)</th>                                                               
+                                    <th>Profit (%)</th>                                                              
                                 </tr>
                                 @foreach($data as $key => $item)
                                 <tr>
-                                    <td>{{ $key+1 }}</td>                               
-                                    <td>{{ $item->project }}</td>                               
-                                    <td>{{ $item->item_code }}</td>                               
-                                    <td>{{ $item->site_id }}</td>                               
-                                    <td>{{ $item->site_name }}</td>                               
+                                    <td>{{ $key+1 }}</td>     
+                                    <td class="text-center">{{$item->po}}</td>                               
+                                    <td class="text-center">{{$item->po_line_item}}</td>                               
+                                    <td class="text-center">{{$item->sno_material}}</td>                               
+                                    <td class="text-center">{{$item->sno_rectification}}</td>                           
+                                    <td>{{ $item->category_material }}</td>                               
+                                    <td>{{ $item->item_code }}</td>                     
                                     <td>{{ $item->item_description }}</td>                               
-                                    <td>{{ $item->uom }}</td>                               
-                                    <td>{{ $item->qty }}</td>                               
-                                    <td>{{ $item->supplier }}</td>                               
-                                    <td>{{ $item->region }}</td>                               
-                                    <td>{{ $item->remark }}</td>                               
-                                    <td>{{ $item->reff }}</td>                               
+                                    <td class="text-center">{{ $item->uom }}</td>                               
+                                    <td class="text-center">{{ $item->qty }}</td>            
                                     <td>Rp {{ format_idr($item->price) }}</td>   
                                     <td>Rp {{ format_idr($item->qty * $item->price) }}</td>                             
                                     <td>
@@ -121,8 +117,8 @@
                                         @endif
                                         Rp {{ format_idr($item->input_price) }}
                                     </td>  
-                                    <td>Rp. {{format_idr($item->qty * $item->input_price)}}</td>                                                             
-                                    <td><div class="text-{{$item->profit >= 30 ? 'success' : 'danger'}}">{{ $item->profit }}%</div></td>                                   
+                                    <td>Rp. {{format_idr($item->input_price)}}</td>                                                             
+                                    <td><div class="text-{{$item->profit >= 30 ? 'success' : 'danger'}}">{{ $item->profit }}%</div></td>                                  
                                 </tr>
                                 @endforeach
                             </table>
@@ -154,10 +150,13 @@
                         @if($status == 1)
                             <a href="javascript:;" data-toggle="modal" data-target="#modal-approve-finance" class="btn btn-primary"><i class="fa fa-check-circle"></i> {{__('Process Budget')}}</a>                    
                         @endif
-                        @if(check_access('po-tracking-nonms.submit-doc'))
-                            @if($status == 2)
+                        @if($status == 2)
+                            @if($is_finance)
                                 <a href="javascript:;" wire:click="$emit('modalsubmitfinreg','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-submitfinreg" title="Submit to Finance Regional" class="btn btn-primary"><i class="fa fa-check-circle"></i> {{__('Transfer Budget')}}</a>                    
                             @endif
+                        @endif
+                        @if(check_access('po-tracking-nonms.submit-doc'))
+                            
                             @if($status == '0' || $status == '' || $status == null)
                                 <a href="javascript:;" wire:click="$emit('modalsubmitdocpononms','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-submit" title="Submit Price" class="btn btn-primary"><i class="fa fa-check"></i> {{__('Submit Price')}}</a>                                  
                             @endif

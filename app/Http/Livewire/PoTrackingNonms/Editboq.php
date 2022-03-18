@@ -10,7 +10,7 @@ use DB;
 class Editboq extends Component
 {
     public $po_tracking,$note;
-    public $data, $total_before, $total_after, $total_profit, $id_master, $status,$bast_status;
+    public $data, $total_before, $total_after, $total_profit, $id_master, $status,$bast_status,$is_finance;
     public function render()
     {
         return view('livewire.po-tracking-nonms.edit-boq');
@@ -44,6 +44,7 @@ class Editboq extends Component
 
         $this->status = $id->status;
         $this->bast_status = $id->bast_status;
+        $this->is_finance = check_access('is-finance');
     }
 
 

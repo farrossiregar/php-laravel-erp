@@ -23,7 +23,7 @@ class Indexboq extends Component
 
     public function render()
     {
-        $data = PoTrackingNonms::where('type_doc', 2)->orderBy('id', 'DESC');
+        $data = PoTrackingNonms::where('type_doc', 2)->orderBy('updated_at', 'DESC');
                                     
         if(check_access('po-tracking-nonms.index-regional')) $data->where('region', isset(\Auth::user()->employee->region->region)?\Auth::user()->employee->region->region:''); 
         if(check_access('is-coordinator')) $data->where('coordinator_id',\Auth::user()->employee->id);
@@ -116,12 +116,13 @@ class Indexboq extends Component
             'field_team_id'=>'required'
         ]);
         $this->selected_data->field_team_id = $this->field_team_id;
+        $this->selected_data->status = 6;
         $this->selected_data->save();
         
         \LogActivity::add('[web] PO Non MS - Assign Field Team');
 
         $message = 'Work order number '. $this->selected_data->no_tt." need your action.";
-        //if(isset($this->selected_data->field_team->device_token)) push_notification_android($this->selected_data->field_team->device_token,"PO Tracking Non MS" ,$message,10);
+        if(isset($this->selected_data->field_team->device_token)) push_notification_android($this->selected_data->field_team->device_token,"PO Tracking Non MS" ,$message,10);
         
         $this->emit('modal','hide');
     }
@@ -132,12 +133,13 @@ class Indexboq extends Component
             'coordinator_id'=>'required'
         ]);
         $this->selected_data->coordinator_id = $this->coordinator_id;
+        $this->selected_data->status = 6;
         $this->selected_data->save();
         
         \LogActivity::add('[web] PO Non MS - Assign Coordinator');
 
         $message = 'Work order number '. $this->selected_data->no_tt." need your action.";
-        //if(isset($this->selected_data->coordinator->device_token)) push_notification_android($this->selected_data->coordinator->device_token,"PO Tracking Non MS" ,$message,10);
+        if(isset($this->selected_data->coordinator->device_token)) push_notification_android($this->selected_data->coordinator->device_token,"PO Tracking Non MS" ,$message,10);
         
         $this->emit('modal','hide');
     }

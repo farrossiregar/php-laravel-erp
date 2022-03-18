@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\PoTrackingNonms;
 
 use Livewire\Component;
-use App\Models\PoTrackingNonms;
+use App\Models\PoTrackingNonmsPo;
 
 class ProcessExtraBudget extends Component
 {
@@ -14,7 +14,7 @@ class ProcessExtraBudget extends Component
         return view('livewire.po-tracking-nonms.process-extra-budget');
     }
 
-    public function setData(PoTrackingNonms $id)
+    public function setData(PoTrackingNonmsPo $id)
     {
         $this->selected_data = $id;
     }

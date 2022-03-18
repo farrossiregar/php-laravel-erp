@@ -1,34 +1,23 @@
-@section('title', __('PO Tracking MS Index'))
+@section('title', __('PO Tracking MS'))
 @section('parentPageTitle', 'Home')
-
 <div class="row clearfix">
     <div class="col-lg-12">
-        <div><br></div>
-        <div><br></div>
-        <div><br></div>
         <div class="card">
             <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data">{{ __('Data') }}</a></li>
-                <!-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#datamaster">{{ __('Data Master Homebase') }}</a></li> -->
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_ericsson">{{ __('Ericsson') }}</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_huawei">{{ __('Huawei') }}</a></li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active show " id="dashboard">
-                    <livewire:po-tracking-ms.data />
+                <div class="tab-pane active show" id="tab_ericsson">
+                    @livewire('po-tracking-ms.ericsson')
                 </div>
-                <div class="tab-pane" id="data">
-                    <livewire:po-tracking-ms.data />
+                <div class="tab-pane" id="tab_huawei">
+                    @livewire('po-tracking-ms.huawei')
                 </div>
-                
             </div>
         </div>
-        
     </div>
 </div>
-
-
-
-
 <div class="modal fade" id="modal-potrackingms-uploadmspo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

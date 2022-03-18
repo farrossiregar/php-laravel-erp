@@ -34,68 +34,86 @@ class Importboq extends Component
     public function save()
     {
         $this->validate([
-            'file'=>'required|mimes:xls,xlsx|max:51200' // 50MB maksimal
+            'file'=>'required|mimes:xlsx|max:51200' // 50MB maksimal
         ]);
 
         $path           = $this->file->getRealPath();
        
         $reader         = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $reader->setReadDataOnly(true);
-        $data           = $reader->load($path);
-        $sheetDatas     = $data->getActiveSheet()->toArray();
-        $sheetData      = $data->getActiveSheet();
-        // check wo number
-        
-        $this->validate(['wo_number'=>'unique:po_tracking_nonms_master,no_tt,'.$sheetData->getCell('D6')->getValue()],[
-            'wo_number.unique' => 'WO Number sudah ada !'
-        ]);
-            
-        $datamaster                 = new PoTrackingNonms();
-        $datamaster->po_no          = '';
-        $datamaster->region         = $sheetData->getCell('D7')->getValue();
-        $datamaster->site_id        = '';
-        $datamaster->site_name      = '';
-        $datamaster->no_tt          = $sheetData->getCell('D6')->getValue();
-        $datamaster->status         = '';
-        $datamaster->type_doc       = '2'; //BOQ
-        $datamaster->pekerjaan      = $sheetData->getCell('D11')->getValue();
-        $datamaster->created_at     = date('Y-m-d H:i:s');
-        $datamaster->updated_at     = date('Y-m-d H:i:s');
-        $datamaster->save();
-
-        $datamaster_latest = PoTrackingNonms::select('id')->orderBy('id', 'DESC')->first();
+        $data_xls           = $reader->load($path);
+        $sheetDatas     = $data_xls->getActiveSheet()->toArray();
         if(count($sheetDatas) > 0){
             $countLimit = 1;
             $total_failed = 0;
             $total_success = 0;
+
             foreach($sheetDatas as $key => $i){
-                if($key<13) continue; // skip header
+                if($key<1) continue; // skip header
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
-                
-                if($i[4]=="" || $i[5]=="" || $i[6]=="") continue; // jika tidak ada data maka skip
-                
-                $potrackingboq                          = new PoTrackingNonmsBoq();
-                $potrackingboq->site_id                    = $i[4];
-                $potrackingboq->site_name                  = $i[5];
-                $potrackingboq->item_description           = $i[6];
-                $potrackingboq->uom                        = $i[7];
-                $potrackingboq->qty                        = $i[8];
-                $potrackingboq->supplier                   = $i[9];
-                $potrackingboq->region                     = $i[10];
-                $potrackingboq->remark                     = $i[11];
-                $potrackingboq->reff                       = $i[12];
-                $potrackingboq->price                      = $i[13];
-                $potrackingboq->total_price                = $i[14];
-                $potrackingboq->id_po_nonms_master         = $datamaster_latest->id + 0;
-                $potrackingboq->created_at                 = date('Y-m-d H:i:s');
-                $potrackingboq->updated_at                 = date('Y-m-d H:i:s');
-                $potrackingboq->save();
 
+                $no_wo = $i[0];
+                $region = $i[1];
+                $site_id = $i[2];
+                $site_name = $i[3];
+                $category_material = $i[4];
+                $item_code = $i[5];
+                $item_material = $i[6];
+                $uom = $i[7];
+                $qty = $i[8];
+                $unit_price = $i[9];
+                $total = $i[10];
+                $sno_material = $i[11];
+                $sno_rectification = $i[12];
+                $po = $i[13];
+                $po_line = $i[14];
+                $bast_no = $i[15];
+                $gr_no = $i[16];
+                $gr_date = $i[17];
+                $invoice_date = $i[18];
+                $invoice_no = $i[19];
+                $payment_date = $i[20];
+
+                if(!$no_wo) continue; // jika tidak ada data maka skip
+
+                $data = PoTrackingNonms::where('no_tt',$no_wo)->where(function($table){
+                    $table->whereNull('status')->orWhere('status',0);
+                })->whereNull('po_tracking_nonms_po_id')->first();
+                
+                if(!$data) {
+                    $data = new PoTrackingNonms();
+                    $data->no_tt = $no_wo;
+                    $data->region = $region;
+                    $data->site_id = $site_id;
+                    $data->site_name = $site_name;
+                    $data->type_doc = 2;
+                    $data->bast_number = $bast_no;
+                    $data->gr_no = $gr_no;
+                    if($gr_date) $data->gr_date = @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($gr_date)->format('Y-m-d');
+                    if($invoice_date) $data->invoice_date = @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($invoice_date)->format('Y-m-d');
+                    $data->no_invoice = $invoice_no;
+                    if($payment_date) $data->payment_date = @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($payment_date)->format('Y-m-d');
+                    $data->save();
+                }
+
+                $potrackingboq = new PoTrackingNonmsBoq();
+                $potrackingboq->category_material = $category_material;
+                $potrackingboq->item_code = $item_code;
+                $potrackingboq->item_description = $item_material;
+                $potrackingboq->uom = $uom;
+                $potrackingboq->qty = $qty;
+                $potrackingboq->price = $unit_price;
+                $potrackingboq->total_price = $total;
+                $potrackingboq->sno_material = $sno_material;
+                $potrackingboq->sno_rectification = $sno_rectification;
+                $potrackingboq->po = $po;
+                $potrackingboq->po_line_item = $po_line;
+                $potrackingboq->id_po_nonms_master = $data->id;
+                $potrackingboq->save();
                 $total_success++;
             }
         }
-
 
         // $region_user = DB::table(env('DB_DATABASE').'.employees as employees')
         //                         ->where('employees.user_access_id', '29')
@@ -105,22 +123,22 @@ class Importboq extends Component
 
         // if(count($region_user) > 0){
             // $epluser = Employee::select('name', 'telepon', 'email')->where('region_id', $region_user[0]->region_id)->get();
-            $epluser = check_access_data('po-tracking-nonms.notif-regional', $datamaster->region);
+            // $epluser = check_access_data('po-tracking-nonms.notif-regional', $data->region);
             
-            $nameuser = [];
-            $emailuser = [];
-            $phoneuser = [];
+            // $nameuser = [];
+            // $emailuser = [];
+            // $phoneuser = [];
             
-            foreach($epluser as $no => $itemuser){
-                $nameuser[$no] = $itemuser->name;
-                $emailuser[$no] = $itemuser->email;
-                $phoneuser[$no] = $itemuser->telepon;
-                $message = "*Dear Operation Region ".$datamaster->region." - ".$nameuser[$no]."*\n\n";
-                $message .= "*PO Tracking Non MS Ericson Region ".$datamaster->region." Uploaded on ".date('d M Y H:i:s')."*\n\n";
-                send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);   
+            // foreach($epluser as $no => $itemuser){
+            //     $nameuser[$no] = $itemuser->name;
+            //     $emailuser[$no] = $itemuser->email;
+            //     $phoneuser[$no] = $itemuser->telepon;
+            //     $message = "*Dear Operation Region ".$data->region." - ".$nameuser[$no]."*\n\n";
+            //     $message .= "*PO Tracking Non MS Ericson Region ".$data->region." Uploaded on ".date('d M Y H:i:s')."*\n\n";
+            //     send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);   
 
-                // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
-            }
+            //     // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
+            // }
         // }
 
         session()->flash('message-success',"Upload PO Tracking Non MS Ericson success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
