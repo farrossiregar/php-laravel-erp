@@ -98,7 +98,7 @@
             <form wire:submit.prevent="save">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Upload</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Upload Ericsson</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true close-btn">×</span>
                     </button>
@@ -114,14 +114,14 @@
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-upload"></i> Upload</button>
                 </div>
-                <div wire:loading>
+                <!-- <div wire:loading>
                     <div class="page-loader-wrapper" style="display:block">
                         <div class="loader" style="display:block">
                             <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
                             <p>Please wait...</p>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </form>
             </div>
         </div>
