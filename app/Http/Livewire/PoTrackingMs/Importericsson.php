@@ -4,30 +4,39 @@ namespace App\Http\Livewire\PoTrackingMs;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Livewire\WithPagination;
+use Auth;
+use DB;
 
-class Ericsson extends Component
+class Importericsson extends Component
 {
+
     use WithFileUploads;
+    public $employee_id, $employee_name, $departement, $lokasi, $type_request, $request_room_detail;
+    public $purpose, $participant, $start_date_booking, $start_time_booking, $end_date_booking, $end_time_booking;
     public $file;
 
-    protected $rules = [
-        'file' => 'required',
-    ];
-
+    
     public function render()
     {
-        $data = \App\Models\PoMsEricsson::orderBy('created_at', 'desc');
-                                    
-
-        // if($this->date) $ata = $data->whereDate('created_at',$this->date);
+        $user = \Auth::user();
+        $this->employee_id = $user->id;
+        $this->employee_name = $user->name;
+        $this->departement = get_position($user->user_access_id);
+        // dd($user);
+        // if(!check_access('accident-report.index')){
+        //     session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
+        //     $this->redirect('/');
+        // }
         
-        return view('livewire.po-tracking-ms.ericsson')->with(['data'=>$data->paginate(50)]);
+        
+        return view('livewire.po-tracking-ms.importericsson');
+        
     }
 
+  
     public function save()
     {
-        dd('import ericsson');
+        
         $this->validate([
             'file'=>'required|mimes:xls,xlsx|max:51200' // 50MB maksimal
         ]);
@@ -38,28 +47,7 @@ class Ericsson extends Component
         $data           = $reader->load($path);
         $sheetDatas     = $data->getActiveSheet()->toArray();
         $sheetData      = $data->getActiveSheet();
-
-
-        // $site_exp       = explode(" / ", substr($sheetData->getCell('F3')->getValue(), 2));
-
-        // $site_id        = $site_exp[0];
-        // $site_name      = $site_exp[1];
-
-        // $datamaster                 = new \App\Models\PoMsEricsson();
-        // $datamaster->po_no          = '';
-        // $datamaster->region         = substr($sheetData->getCell('F5')->getValue(), 2);
-        // $datamaster->site_id        = $site_id;
-        // $datamaster->site_name      = $site_name;
-        // $datamaster->no_tt          = substr($sheetData->getCell('F6')->getValue(), 2);
-        // $datamaster->status         = '';
-        // $datamaster->type_doc       = '1'; //STP
-        // $datamaster->pekerjaan      = substr($sheetData->getCell('F7')->getValue(), 2);
-        // $datamaster->created_at     = date('Y-m-d H:i:s');
-        // $datamaster->updated_at     = date('Y-m-d H:i:s');
-        // $datamaster->save();
-
         
-        // $datamaster_latest = \App\Models\PoTrackingNonms::select('id')->orderBy('id', 'DESC')->first();
         if(count($sheetDatas) > 0){
             $countLimit = 1;
             $total_failed = 0;
@@ -67,16 +55,16 @@ class Ericsson extends Component
             foreach($sheetDatas as $key => $i){
                 
                 // dd($datamaster_latest->id);
-                if($key<11) continue; // skip header
-                if($key>12) break;
+                if($key<1) continue; // skip header
+                // if($key>12) break;
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
-                $data                          = new \App\Models\PoMsEricsson();
+                $data                                   = new \App\Models\PoMsEricsson();
                 if($i[0]!="") 
                 
                 $data->po_no                            = $i[0];
                 $data->item_number                      = $i[1];
                 $data->po_line_item                     = $i[2];
-                $data->date_po_released                 = $i[3];
+                $data->date_po_released                 = @$this->explode_date(2, $i[3]).'-'.@$this->explode_date(1, $i[3]).'-'.@$this->explode_date(0, $i[3]);
                 $data->type                             = $i[4];
                 $data->item_description                 = $i[5];
                 $data->period                           = $i[6];
@@ -98,25 +86,25 @@ class Ericsson extends Component
                 $data->no_cn                            = $i[22];
                 $data->date_submit_cn                   = $i[23];
 
-                $data->date_bast_approval               = $i[24];
-                $data->date_bast_approval_system        = $i[25];
-                $data->date_gr_req                      = $i[26];
+                $data->date_bast_approval               = @$this->explode_date2(2, $i[24]).'-'.@$this->explode_date2(0, $i[24]).'-'.@$this->explode_date2(1, $i[24]);
+                $data->date_bast_approval_system        = @$this->explode_date2(2, $i[25]).'-'.@$this->explode_date2(0, $i[25]).'-'.@$this->explode_date2(1, $i[25]);
+                $data->date_gr_req                      = @$this->explode_date2(2, $i[26]).'-'.@$this->explode_date2(0, $i[26]).'-'.@$this->explode_date2(1, $i[26]);
                 $data->no_gr                            = $i[27];
-                $data->date_gr_share                    = $i[28];
+                $data->date_gr_share                    = @$this->explode_date2(2, $i[28]).'-'.@$this->explode_date2(0, $i[28]).'-'.@$this->explode_date2(1, $i[28]);
                 $data->invoice_amount                   = $i[29];
                 $data->no_inv                           = $i[30];
-                $data->inv_date                         = $i[31];
+                $data->inv_date                         = @$this->explode_date2(2, $i[31]).'-'.@$this->explode_date2(0, $i[31]).'-'.@$this->explode_date2(1, $i[31]);
 
-                $data->payment_date                     = $i[32];
-
-                $data->date_bast_approval2              = $i[33];
-                $data->date_bast_approval_system2       = $i[34];
-                $data->date_gr_req2                     = $i[35];
+                $data->payment_date                     = @$this->explode_date2(2, $i[32]).'-'.@$this->explode_date2(0, $i[32]).'-'.@$this->explode_date2(1, $i[32]);
+                // dd($data->payment_date);
+                $data->date_bast_approval2              = @$this->explode_date2(2, $i[33]).'-'.@$this->explode_date2(0, $i[33]).'-'.@$this->explode_date2(1, $i[33]);
+                $data->date_bast_approval_system2       = @$this->explode_date2(2, $i[34]).'-'.@$this->explode_date2(0, $i[34]).'-'.@$this->explode_date2(1, $i[34]);
+                $data->date_gr_req2                     = @$this->explode_date2(2, $i[35]).'-'.@$this->explode_date2(0, $i[35]).'-'.@$this->explode_date2(1, $i[35]);
                 $data->no_gr2                           = $i[36];
-                $data->date_gr_share2                   = $i[37];
+                $data->date_gr_share2                   = @$this->explode_date2(2, $i[37]).'-'.@$this->explode_date2(0, $i[37]).'-'.@$this->explode_date2(1, $i[37]);
                 $data->invoice_amount2                  = $i[38];
                 $data->no_inv2                          = $i[39];
-                $data->inv_date2                        = $i[40];
+                $data->inv_date2                        = @$this->explode_date2(2, $i[40]).'-'.@$this->explode_date2(0, $i[40]).'-'.@$this->explode_date2(1, $i[40]);
 
                 $data->qty_site_hold                    = $i[41];
                 $data->type2                            = $i[42];
@@ -125,13 +113,13 @@ class Ericsson extends Component
                 $data->no_bast2                         = $i[45];
                 $data->claim                            = $i[46];
 
-                $data->date_bast_approval3              = $i[47];
-                $data->date_bast_approval_system3       = $i[48];
+                $data->date_bast_approval3              = @$this->explode_date2(2, $i[47]).'-'.@$this->explode_date2(0, $i[47]).'-'.@$this->explode_date2(1, $i[47]);
+                $data->date_bast_approval_system3       = @$this->explode_date2(2, $i[48]).'-'.@$this->explode_date2(0, $i[48]).'-'.@$this->explode_date2(1, $i[48]);
                 $data->req_gr                           = $i[49];
                 $data->gr_number                        = $i[50];
-                $data->date_gr_number_share             = $i[51];
+                $data->date_gr_number_share             = @$this->explode_date2(2, $i[51]).'-'.@$this->explode_date2(0, $i[51]).'-'.@$this->explode_date2(1, $i[51]);
                 $data->no_inv3                          = $i[52];
-                $data->inv_date3                        = $i[53];
+                $data->inv_date3                        = @$this->explode_date2(2, $i[53]).'-'.@$this->explode_date2(0, $i[53]).'-'.@$this->explode_date2(1, $i[53]);
 
                 $data->status_claim_hold_payment        = $i[54];
                 $data->amount_closing_site_hold_payment = $i[55];
@@ -141,9 +129,9 @@ class Ericsson extends Component
                 $data->claim2                           = $i[58];
                 $data->status_backlog_h1                = $i[59];
                 $data->no_gr3                           = $i[60];
-                $data->date_gr_share3                   = $i[61];
+                $data->date_gr_share3                   = @$this->explode_date2(2, $i[61]).'-'.@$this->explode_date2(0, $i[61]).'-'.@$this->explode_date2(1, $i[61]);
                 $data->no_inv_backlog_h1                = $i[62];
-                $data->date_inv_backlog_h1              = $i[63];
+                $data->date_inv_backlog_h1              = @$this->explode_date2(2, $i[63]).'-'.@$this->explode_date2(0, $i[63]).'-'.@$this->explode_date2(1, $i[63]);
                 $data->amount_closing_site_backlog_h1   = $i[64];
                 
                 // $data->material                   = $i[4];
@@ -170,4 +158,32 @@ class Ericsson extends Component
         return redirect()->route('po-tracking-ms.index');  
          
     }
+
+    public function explode_date($pos, $date){
+        $exp = explode("-", $date);
+
+        if($pos == 2){
+            $result = '20'.$exp[2];
+        }
+
+        if($pos == 1){
+            $date = date('Y').'-'.$exp[1].'-'.date('d');
+            $result = date('m', strtotime($date));
+        }
+
+        if($pos == 0){
+            $result = $exp[0];
+        }
+
+        return $result;
+    }
+
+    public function explode_date2($pos, $date){
+        $exp = explode("/", $date);
+
+        $result = $exp[$pos];
+
+        return $result;
+    }
+    
 }

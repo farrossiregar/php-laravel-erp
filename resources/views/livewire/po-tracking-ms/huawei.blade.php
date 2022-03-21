@@ -4,7 +4,7 @@
             <input type="text" class="form-control" wire:model="keyword" placeholder="Keyword" />
         </div>
         <div class="col-md-10">
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_upload_huawei" class="btn btn-info"><i class="fa fa-upload"></i> Upload</a>
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#modal-potrackingms-importhuawei" class="btn btn-info"><i class="fa fa-upload"></i> Upload</a>
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>
@@ -46,7 +46,36 @@
                     </tr>
                 </head>
                 <tbody>
-
+                    @foreach($data as $key => $item)
+                    <tr>
+                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $item->po_no }}</td>
+                        <td>{{ $item->po_no }}</td>
+                        <td>{{ $item->po_line_shipment }}</td>
+                        <td>{{ $item->region }}</td>
+                        <td>{{ $item->site_id }}</td>
+                        <td>{{ $item->site_name }}</td>
+                        <td>{{ $item->po_period }}</td>
+                        <td>{{ $item->type_po }}</td>
+                        <td>{{ $item->po_category }}</td>
+                        <td>{{ $item->item_description }}</td>
+                        <td>{{ $item->uom }}</td>
+                        <td>{{ $item->qty }}</td>
+                        <td>{{ $item->unit_price }}</td>
+                        <td>{{ $item->total_amount }}</td>
+                        <td>{{ $item->status }}</td>
+                        <td>{{ $item->bos_approved }}</td>
+                        <td>{{ $item->gm_approved }}</td>
+                        <td>{{ $item->gh_approved }}</td>
+                        <td>{{ $item->director_approved }}</td>
+                        <td>{{ $item->verification }}</td>
+                        <td>{{ $item->acceptance }}</td>
+                        <td>{{ $item->deduction }}</td>
+                        <td>{{ $item->ehs_other_deduction }}</td>
+                        <td>{{ $item->rp_deduction }}</td>
+                        <td>{{ $item->scar_no }}</td>
+                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
