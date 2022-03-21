@@ -4,8 +4,9 @@
     <div class="col-lg-12">
         <div class="card">
             <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_ericsson">{{ __('Ericsson') }}</a></li>
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab_ericsson">{{ __('Ericsson') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_huawei">{{ __('Huawei') }}</a></li>
+                <!-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_data">{{ __('Data') }}</a></li> -->
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active show" id="tab_ericsson">
@@ -14,10 +15,33 @@
                 <div class="tab-pane" id="tab_huawei">
                     @livewire('po-tracking-ms.huawei')
                 </div>
+                <!-- <div class="tab-pane" id="tab_data">
+                    
+                </div> -->
             </div>
         </div>
     </div>
 </div>
+
+
+
+<div class="modal fade" id="modal-potrackingms-importericsson" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-ms.importericsson />
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal-potrackingms-importhuawei" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:po-tracking-ms.importhuawei />
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modal-potrackingms-uploadmspo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

@@ -4,7 +4,7 @@
             <input type="text" class="form-control" wire:model="keyword" placeholder="Keyword" />
         </div>
         <div class="col-md-10">
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_upload_ericsson" class="btn btn-info"><i class="fa fa-upload"></i> Upload</a>
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#modal-potrackingms-importericsson" class="btn btn-info"><i class="fa fa-upload"></i> Upload</a>
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>
@@ -86,7 +86,84 @@
                     </tr>
                 </head>
                 <tbody>
+                    @foreach($data as $key => $item)
+                    <tr>
+                        <td>{{ $key + 1 }}</td>
+                        <td></td>
+                        <td>{{ $item->po_no }}</td>
+                        <td>{{ $item->item_number }}</td>
+                        <td>{{ $item->po_line_item }}</td>
+                        <td>{{ $item->date_po_release }}</td>
+                        <td>{{ $item->type }}</td>
+                        <td>{{ $item->item_description }}</td>
+                        <td>{{ $item->period }}</td>
+                        <td>{{ $item->region }}</td>
+                        <td>{{ $item->last_status }}</td>
+                        <td>{{ $item->no_bast }}</td>
+                        <td>{{ $item->qty_po }}</td>
+                        <td>{{ $item->qty_po_penagihan_60 }}</td>
+                        <td>{{ $item->gap_100_60 }}</td>
+                        <td>{{ $item->actual_qty }}</td>
+                        <td>{{ $item->pm_w }}</td>
+                        <td>{{ $item->pm_ny }}</td>
+                        <td>{{ $item->site_po_deduction }}</td>
+                        <td>{{ $item->price_unit }}</td>
+                        <td>{{ $item->po_amount_actual }}</td>
+                        <td>{{ $item->po_amount_after_deduction }}</td>
+                        <td>{{ $item->penalty }}</td>
+                        <td>{{ $item->amount_penalty }}</td>
+                        <td>{{ $item->no_cn }}</td>
+                        <td>{{ $item->date_submit_cn }}</td>
 
+                        <td>{{ $item->date_bast_approval }}</td>
+                        <td>{{ $item->date_bast_approval_system }}</td>
+                        <td>{{ $item->date_gr_req }}</td>
+                        <td>{{ $item->no_gr }}</td>
+                        <td>{{ $item->date_gr_share }}</td>
+                        <td>{{ $item->invoice_amount }}</td>
+                        <td>{{ $item->no_inv }}</td>
+                        <td>{{ $item->inv_date }}</td>
+
+                        <td>{{ $item->payment_date }}</td>
+
+                        <td>{{ $item->date_bast_approval2 }}</td>
+                        <td>{{ $item->date_bast_approval_system2 }}</td>
+                        <td>{{ $item->date_gr_req2 }}</td>
+                        <td>{{ $item->no_gr2 }}</td>
+                        <td>{{ $item->date_gr_share2 }}</td>
+                        <td>{{ $item->invoice_amount2 }}</td>
+                        <td>{{ $item->no_inv2 }}</td>
+                        <td>{{ $item->inv_date2 }}</td>
+
+                        <td>{{ $item->qty_site_hold }}</td>
+                        <td>{{ $item->type2 }}</td>
+                        <td>{{ $item->amount_hold_payment }}</td>
+                        <td>{{ $item->closing_site }}</td>
+                        <td>{{ $item->no_bast2 }}</td>
+                        <td>{{ $item->claim }}</td>
+
+                        <td>{{ $item->date_bast_approval3 }}</td>
+                        <td>{{ $item->date_bast_approval_system3 }}</td>
+                        <td>{{ $item->req_gr }}</td>
+                        <td>{{ $item->gr_number }}</td>
+                        <td>{{ $item->date_gr_number_share }}</td>
+                        <td>{{ $item->no_inv3 }}</td>
+                        <td>{{ $item->inv_date3 }}</td>
+
+                        <td>{{ $item->status_claim_hold_payment }}</td>
+                        <td>{{ $item->amount_closing_site_hold_payment }}</td>
+
+                        <td>{{ $item->no_bast3 }}</td>
+                        <td>{{ $item->closing_site2 }}</td>
+                        <td>{{ $item->claim2 }}</td>
+                        <td>{{ $item->status_backlog_h1 }}</td>
+                        <td>{{ $item->no_gr3 }}</td>
+                        <td>{{ $item->date_gr_share3 }}</td>
+                        <td>{{ $item->no_inv_backlog_h1 }}</td>
+                        <td>{{ $item->date_inv_backlog_h1 }}</td>
+                        <td>{{ $item->amount_closing_site_backlog_h1 }}</td>
+                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -98,7 +175,7 @@
             <form wire:submit.prevent="save">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Upload</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Upload Ericsson</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true close-btn">×</span>
                     </button>
@@ -114,14 +191,14 @@
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-upload"></i> Upload</button>
                 </div>
-                <div wire:loading>
+                <!-- <div wire:loading>
                     <div class="page-loader-wrapper" style="display:block">
                         <div class="loader" style="display:block">
                             <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
                             <p>Please wait...</p>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </form>
             </div>
         </div>
