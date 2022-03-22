@@ -142,8 +142,7 @@ class Importericsson extends Component
                 // $data->total_price                = str_replace(",", "", str_replace('Rp ', '', $i[12]));
                 // $data->id_po_nonms_master         = $datamaster_latest->id + 0;
 
-                $data->created_at                 = date('Y-m-d H:i:s');
-                $data->updated_at                 = date('Y-m-d H:i:s');
+                $data->status = 1; // Regional
                 $data->save();
 
                 $total_success++;

@@ -42,7 +42,7 @@
                         <th>EHS Deduction / Other Deduction</th>    
                         <th>RP Deduction</th>    
                         <th>Scar No</th>    
-                        
+                        <th></th>
                     </tr>
                 </head>
                 <tbody>
@@ -74,6 +74,7 @@
                         <td>{{ $item->ehs_other_deduction }}</td>
                         <td>{{ $item->rp_deduction }}</td>
                         <td>{{ $item->scar_no }}</td>
+                        <td></td>
                     </tr>
                     @endforeach
                 </tbody>
