@@ -33,3 +33,4 @@
 .badge.badge-warning.badge-active {background:#f3ad06;color:white}
 .badge.badge-info.badge-active {background:#3C89DA;color:white}
 .badge.badge-primary.badge-active {background:#007bff;color:white}
+.file_manager .file .hover{display:block;right:0;top:0;}

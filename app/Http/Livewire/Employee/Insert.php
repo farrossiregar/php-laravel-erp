@@ -99,6 +99,7 @@ class Insert extends Component
         $user->user_access_id = $this->user_access_id;
         $user->name = $this->name;
         $user->email = $this->email;
+        $user->nik = $this->nik;
         $user->telepon = $this->telepon;
         $user->password = Hash::make($this->password);
         $user->save();

@@ -69,7 +69,7 @@ class UserController extends Controller
             if(\Auth::user()->employee->is_use_android==0) return response(['status'=>401,'message'=>'Unauthorised : '. $r->email. ' : '. $r->password], 200);
 
             Employee::find(\Auth::user()->employee->id)->update(['device_token'=>$r->device_token,'device'=>isset($r->device_info) ? $r->device_info : '']);
-            
+             
             $data = $this->get_var_();
             
             \LogActivity::add('[apps] Login Success');
@@ -77,6 +77,8 @@ class UserController extends Controller
             return response(['status'=>200,'message'=>'success','data'=> $data], 200);
         }
         else{
+            \LogActivity::add('[apps] Login Failed');
+
             return response(['status'=>401,'message'=>'Unauthorised : '. $r->email. ' : '. $r->password], 200);
         }
     }

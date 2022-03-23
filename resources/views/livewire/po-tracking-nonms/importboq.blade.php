@@ -11,7 +11,7 @@
             <label>File</label>
             <input type="file" class="form-control" name="file" wire:model="file" />
             <br>
-            <a href="<?=asset('template/template-boq-ericson.xlsx')?>" target="_blank"><i class="fa fa-download"></i> Download Sample BOQ </a>
+            <a href="<?=asset('template/po-nonms.xlsx')?>" target="_blank"><i class="fa fa-download"></i> Download Sample BOQ </a>
             @error('file')
             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
             @enderror

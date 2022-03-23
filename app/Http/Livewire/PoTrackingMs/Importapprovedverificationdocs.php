@@ -59,7 +59,6 @@ class Importapprovedverificationdocs extends Component
         session()->flash('message-success',"Upload PDS for Record, Tracking and Monitoring PO to Payment For MS PO success");
         
         return redirect()->route('po-tracking-ms.index',['id'=>$data->id]);
-
     }
 
 

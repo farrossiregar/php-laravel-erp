@@ -4,7 +4,7 @@ namespace App\Http\Livewire\PoTrackingNonms;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Models\PoTrackingNonms;
+use App\Models\PoTrackingNonmsPo;
 
 class ExtraBudget extends Component
 {
@@ -16,7 +16,7 @@ class ExtraBudget extends Component
         return view('livewire.po-tracking-nonms.extra-budget');
     }
 
-    public function setData(PoTrackingNonms $id)
+    public function setData(PoTrackingNonmsPo $id)
     {
         $this->selected_data = $id;
     }
@@ -24,7 +24,7 @@ class ExtraBudget extends Component
     public function save()
     {
         $this->validate([
-            'file_extra_budget'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'file_extra_budget'=>'required|mimes:jpeg,png,jpg,gif,svg,pdf,xls,xlsx|max:2048',
             'extra_budget'=>'required'
         ]);
 

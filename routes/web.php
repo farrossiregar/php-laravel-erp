@@ -18,6 +18,18 @@ date_default_timezone_set("Asia/Bangkok");
 
 Route::get('/', Home::class)->name('home')->middleware('auth');
 Route::get('login', App\Http\Livewire\Login::class)->name('login');
+Route::get('diskalert',function(){
+
+    send_wa(['phone'=>'081289992707','message'=>'Disk penuh, silahkan cek']);
+    send_wa(['phone'=>'087775365856','message'=>'Disk penuh, silahkan cek']);
+});
+
+Route::post('diskalert',function(){
+
+    send_wa(['phone'=>'081289992707','message'=>'Disk penuh, silahkan cek']);
+    send_wa(['phone'=>'087775365856','message'=>'Disk penuh, silahkan cek']);
+});
+
 // All login
 Route::group(['middleware' => ['auth']], function(){    
     
@@ -75,6 +87,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('po-tracking/edit-bast/{id}',App\Http\Livewire\POTracking\Editbast::class)->name('po-tracking.edit-bast');
     Route::get('po-tracking/edit-accdoc/{id}',App\Http\Livewire\POTracking\Editaccdoc::class)->name('po-tracking.edit-accdoc');
     Route::get('po-tracking/generate-esar/{po_tracking}',[App\Http\Controllers\POTrackingGenerateEsarController::class,'index'])->name('po-tracking.generate-esar');
+    
+    /**
+     * PO Tracking Nonms
+     */
     Route::get('po-tracking-nonms',App\Http\Livewire\PoTrackingNonms\Index::class)->name('po-tracking-nonms.index');
     Route::get('po-tracking-nonms/indexboq',App\Http\Livewire\PoTrackingNonms\Indexboq::class)->name('po-tracking-nonms.indexboq');
     Route::get('po-tracking-nonms/indexstp',App\Http\Livewire\PoTrackingNonms\Indexstp::class)->name('po-tracking-nonms.indexstp');
@@ -82,11 +98,16 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('po-tracking-nonms/importstp',App\Http\Livewire\PoTrackingNonms\Importstp::class)->name('po-tracking-nonms.importstp');
     Route::get('po-tracking-nonms/edit-stp/{id}',App\Http\Livewire\PoTrackingNonms\Editstp::class)->name('po-tracking-nonms.edit-stp');
     Route::get('po-tracking-nonms/edit-boq/{id}',App\Http\Livewire\PoTrackingNonms\Editboq::class)->name('po-tracking-nonms.edit-boq');
+    Route::get('po-tracking-nonms/po-detail/{id}',App\Http\Livewire\PoTrackingNonms\PoDetail::class)->name('po-tracking-nonms.po-detail');
+    Route::get('po-tracking-nonms/po-create-bastl/{id}',App\Http\Livewire\PoTrackingNonms\PoCreateBast::class)->name('po-tracking-nonms.po-create-bast');
     Route::get('po-tracking-nonms/edit-bast/{id}',App\Http\Livewire\PoTrackingNonms\Editbast::class)->name('po-tracking-nonms.edit-bast');
     Route::get('po-tracking-nonms/generate-bast/{data}',[App\Http\Controllers\PoTrackingNonmsController::class,'generateBast'])->name('po-tracking-nonms.generate-bast');
     Route::get('po-tracking-nonms/generate-esar/{data}',[App\Http\Controllers\PoTrackingNonmsController::class,'generateEsar'])->name('po-tracking-nonms.generate-esar');
     Route::get('po-tracking-nonms/detailfoto/{id}',App\Http\Livewire\PoTrackingNonms\Detailfoto::class)->name('po-tracking-nonms.detailfoto');
     Route::get('po-tracking-nonms/approvedetailfoto',App\Http\Livewire\PoTrackingNonms\Approvedetailfoto::class)->name('po-tracking-nonms.approvedetailfoto');
+    Route::get('po-tracking-nonms/po-generate-bast/{data}',[App\Http\Controllers\PoTrackingNonmsController::class,'po_generate_bast'])->name('po-tracking-nonms.po-generate-bast');
+    
+
     Route::get('po-tracking-ms',App\Http\Livewire\PoTrackingMs\Index::class)->name('po-tracking-ms.index');
     Route::get('po-tracking-ms/preview/{id}',App\Http\Livewire\PoTrackingMs\Preview::class)->name('po-tracking-ms.preview');
     Route::get('dana-stpl',App\Http\Livewire\DanaStpl\Index::class)->name('dana-stpl.index');

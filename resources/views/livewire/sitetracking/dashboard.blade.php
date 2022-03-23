@@ -62,7 +62,9 @@
                         <td>{{isset($item->region_->region) ? $item->region_->region ." - ". $item->type : '-'}}</td>
                         @for($bulan=1;$bulan<=12;$bulan++)
                             <td>
-                                @php($sum = \App\Models\SiteListTrackingDetail::whereMonth('period',$bulan)->where(['region_id'=>$item->region_id,'type'=>$item->type])->get()->sum('qty_po'))
+                                @php($sum = @\App\Models\SiteListTrackingDetail::whereMonth('period',$bulan)->where(['region_id'=>$item->region_id,'type'=>$item->type])->where(function($table)use($year){
+                                    if($year) $table->whereYear('period',$year);
+                                })->get()->sum('qty_po'))
                                 {{isset($sum) ? format_idr($sum) : 0}}
                             </td>
                         @endfor

@@ -123,3 +123,36 @@
         {{$data->links()}}
     </div>
 </div>
+@push('after-scripts')
+    <script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/daterange/daterangepicker.css') }}" />
+    <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}" />
+    <script>
+        $('.employee_id').select2();
+        $('.employee_id').on('select2:select', function (e) {
+            var data = e.params.data;
+            @this.set('filter_employee_id',data.id)
+        });
+        $('.insert_employee_id').select2();
+        $('.insert_employee_id').on('select2:select', function (e) {
+            var data = e.params.data;
+            @this.set('employee_id',data.id)
+        });
+        $('.date_created').daterangepicker({
+            opens: 'left',
+            locale: {
+                cancelLabel: 'Clear'
+            },
+            autoUpdateInput: false,
+        }, function(start, end, label) {
+            @this.set("date_start", start.format('YYYY-MM-DD'));
+            @this.set("date_end", end.format('YYYY-MM-DD'));
+            $('.date_created').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
+        });
+        Livewire.on('refresh-page',()=>{
+            $(".modal").modal("hide");
+        });
+    </script>
+@endpush

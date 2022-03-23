@@ -4,7 +4,7 @@ namespace App\Http\Livewire\PoTrackingNonms;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Models\PoTrackingNonms;
+use App\Models\PoTrackingNonmsPo;
 
 class Importaccdoc extends Component
 {
@@ -20,7 +20,7 @@ class Importaccdoc extends Component
         return view('livewire.po-tracking-nonms.importaccdoc');
     }
 
-    public function dataacceptance(PoTrackingNonms $id)
+    public function dataacceptance(PoTrackingNonmsPo $id)
     {
         $this->data = $id;
     }
@@ -34,12 +34,12 @@ class Importaccdoc extends Component
 
         $accdoc = 'pononms-accdoc'.$this->data->id.'.'.$this->file->extension();
         $this->file->storePubliclyAs('public/po_tracking_nonms/acceptancedocs/',$accdoc);            
-        $this->data->acc_doc = "storage/po_tracking_nonms/acceptancedocs/{$accdoc}";
+        $this->data->acceptance_file = "storage/po_tracking_nonms/acceptancedocs/{$accdoc}";
 
         $invoice = 'pononms-invoice'.$this->data->id.'.'.$this->file_invoice->extension();
         $this->file->storePubliclyAs('public/po_tracking_nonms/acceptancedocs/',$invoice);            
-        $this->data->file_invoice = "storage/po_tracking_nonms/acceptancedocs/{$invoice}";
-        $this->data->status = 10; // End
+        $this->data->invoice_file = "storage/po_tracking_nonms/acceptancedocs/{$invoice}";
+        $this->data->status = 5; // End
         $this->data->save();
 
         $this->emit('message-success',"Upload Acceptance Docs PO Tracking Non MS success");

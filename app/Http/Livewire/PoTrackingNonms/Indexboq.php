@@ -17,13 +17,13 @@ class Indexboq extends Component
     public $date,$keyword,$coordinator_id,$coordinators=[],$selected_data,$is_service_manager=false;
     public $is_coordiantor=false,$field_teams=[],$field_team_id,$url_bast,$note,$file_bast,$file_gr;
     public $extra_budget, $file_extra_budget;
-    public $is_finance=false;
+    public $is_finance=false,$wo_id=[];
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['refresh'=>'$refresh'];
 
     public function render()
     {
-        $data = PoTrackingNonms::where('type_doc', 2)->orderBy('id', 'DESC');
+        $data = PoTrackingNonms::where('type_doc', 2)->orderBy('updated_at', 'DESC');
                                     
         if(check_access('po-tracking-nonms.index-regional')) $data->where('region', isset(\Auth::user()->employee->region->region)?\Auth::user()->employee->region->region:''); 
         if(check_access('is-coordinator')) $data->where('coordinator_id',\Auth::user()->employee->id);
@@ -50,6 +50,11 @@ class Indexboq extends Component
         $this->is_service_manager = check_access('is-service-manager');
         $this->is_coordinator = check_access('is-coordinator');
         $this->is_finance = check_access('is-finance');
+    }
+
+    public function updated($propertyName)
+    {
+        if($propertyName=='wo_id') $this->emit('set_wo',$this->wo_id);
     }
 
     public function set_data(PoTrackingNonms $id){
@@ -111,12 +116,13 @@ class Indexboq extends Component
             'field_team_id'=>'required'
         ]);
         $this->selected_data->field_team_id = $this->field_team_id;
+        $this->selected_data->status = 6;
         $this->selected_data->save();
         
         \LogActivity::add('[web] PO Non MS - Assign Field Team');
 
         $message = 'Work order number '. $this->selected_data->no_tt." need your action.";
-        //if(isset($this->selected_data->field_team->device_token)) push_notification_android($this->selected_data->field_team->device_token,"PO Tracking Non MS" ,$message,10);
+        if(isset($this->selected_data->field_team->device_token)) push_notification_android($this->selected_data->field_team->device_token,"PO Tracking Non MS" ,$message,10);
         
         $this->emit('modal','hide');
     }
@@ -127,12 +133,13 @@ class Indexboq extends Component
             'coordinator_id'=>'required'
         ]);
         $this->selected_data->coordinator_id = $this->coordinator_id;
+        $this->selected_data->status = 6;
         $this->selected_data->save();
         
         \LogActivity::add('[web] PO Non MS - Assign Coordinator');
 
         $message = 'Work order number '. $this->selected_data->no_tt." need your action.";
-        //if(isset($this->selected_data->coordinator->device_token)) push_notification_android($this->selected_data->coordinator->device_token,"PO Tracking Non MS" ,$message,10);
+        if(isset($this->selected_data->coordinator->device_token)) push_notification_android($this->selected_data->coordinator->device_token,"PO Tracking Non MS" ,$message,10);
         
         $this->emit('modal','hide');
     }

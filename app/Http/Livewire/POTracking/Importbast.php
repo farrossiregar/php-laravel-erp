@@ -33,8 +33,8 @@ class Importbast extends Component
     public function save()
     {
         $this->validate([
-            'bast_number' => 'required',
-            'bast_approved' => 'required',
+            // 'bast_number' => 'required',
+            // 'bast_approved' => 'required',
             'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
         ]);
 
@@ -49,10 +49,10 @@ class Importbast extends Component
             }
             $data->po_tracking_reimbursement_id = $this->po->id;
             $data->bast_filename = $bast;
-            $data->bast_date = date('Y-m-d H:i:s');
+            // $data->bast_date = date('Y-m-d H:i:s');
             $data->save();
-
-            $this->po->bast_number = $this->bast_number;
+            
+            if($this->bast_number) $this->po->bast_number = $this->bast_number;
             $this->po->bast_approved = $this->bast_approved;
             $this->po->status = 1; // change status regional upload BAST
             $this->po->save();

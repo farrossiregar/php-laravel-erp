@@ -14,10 +14,7 @@ use DB;
 
 class Addpo extends Component
 {
-    protected $listeners = [
-        'updateinvoicesalesar'=>'updateinvoicesalesar',
-    ];
-
+    
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     
@@ -82,102 +79,99 @@ class Addpo extends Component
         return view('livewire.sales-account-receivable.addpo');
     }
 
-    public function updateinvoicesalesar($id)
-    {
-        $this->selected_id = $id;
-    }
+    
 
   
     public function save()
     {
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
-        // $data                           = new \App\Models\SalesInvoiceListingDetails();
-        $data                           = \App\Models\SalesInvoiceListingDetails::where('id', $this->selected_id)->first();
-        // $data->kind_of_invoice          = $this->kind_of_invoice;
-        // $data->project_name             = $this->project;
-        // $data->project_code             = \App\Models\ClientProject::where('name', $this->project)->first()->id;
-        // $data->region                   = $this->region;
-        // $data->cust_name                = $this->customer_name;
-        // $data->month                    = $this->month;
-        // $data->year                     = $this->year;
-        $data->invoice_no               = $this->invoice_no;
-        $data->tax_invoice_no           = $this->tax_invoice_no;
-        $data->invoice_date             = date('Y-m-d');
-        // $data->po_no                    = $this->po_no;
-        // $data->po_date                  = $this->po_date;
+        $data                           = new \App\Models\SalesInvoiceListingDetails();
+        // $data                           = \App\Models\SalesInvoiceListingDetails::where('id', $this->selected_id)->first();
+        $data->kind_of_invoice          = $this->kind_of_invoice;
+        $data->project_name             = $this->project;
+        $data->project_code             = \App\Models\ClientProject::where('name', $this->project)->first()->id;
+        $data->region                   = $this->region;
+        $data->cust_name                = $this->customer_name;
+        $data->month                    = $this->month;
+        $data->year                     = $this->year;
+        // $data->invoice_no               = $this->invoice_no;
+        // $data->tax_invoice_no           = $this->tax_invoice_no;
+        // $data->invoice_date             = date('Y-m-d');
+        $data->po_no                    = $this->po_no;
+        $data->po_date                  = date('Y-m-d');
         // $data->invoice_description      = $this->invoice_description;
         // $data->currency                 = $this->currency;
         // $data->qty                      = $this->qty;
         // $data->price_perunit            = $this->price_perunit;
-        $data->total                    = $this->total_item;
-        $data->top                      = $this->top;    
-        $data->deduction                = $this->deduction;    
-        $data->art23                    = $this->art23;    
-        $data->art4                     = $this->art4;    
-        $data->net_amount               = $this->net_amount;    
-        $data->vat                      = $this->vat;    
-        $data->due_date                 = $this->due_date;    
-        $data->credit_note_number       = $this->getNextId().'/CN'.'/'.substr(strtoupper($this->customer_name), 0, 3).'/'.$this->month.'/'.$this->year;    
+        // $data->total                    = $this->total_item;
+        // $data->top                      = $this->top;    
+        // $data->deduction                = $this->deduction;    
+        // $data->art23                    = $this->art23;    
+        // $data->art4                     = $this->art4;    
+        // $data->net_amount               = $this->net_amount;    
+        // $data->vat                      = $this->vat;    
+        // $data->due_date                 = $this->due_date;    
+        // $data->credit_note_number       = $this->getNextId().'/CN'.'/'.substr(strtoupper($this->customer_name), 0, 3).'/'.$this->month.'/'.$this->year;    
         
         $data->save();
 
 
         
-        if(isset($this->item_description1) && isset($this->qty1) && isset($this->price_perunit1)){
-            $datadetail                     = new \App\Models\SalesInvoiceListingDetaildesc();
-            $datadetail->id_master          = $data->id;
-            $datadetail->item_description   = $this->item_description1;
-            $datadetail->currency           = $this->currency1;
-            $datadetail->qty                = $this->qty1;
-            $datadetail->price_perunit      = $this->price_perunit1;
-            $datadetail->total              = $this->qty1 * $this->price_perunit1;
-            $datadetail->save();
-        }
+        // if(isset($this->item_description1) && isset($this->qty1) && isset($this->price_perunit1)){
+        //     $datadetail                     = new \App\Models\SalesInvoiceListingDetaildesc();
+        //     $datadetail->id_master          = $data->id;
+        //     $datadetail->item_description   = $this->item_description1;
+        //     $datadetail->currency           = $this->currency1;
+        //     $datadetail->qty                = $this->qty1;
+        //     $datadetail->price_perunit      = $this->price_perunit1;
+        //     $datadetail->total              = $this->qty1 * $this->price_perunit1;
+        //     $datadetail->save();
+        // }
 
-        if(isset($this->item_description2) && isset($this->qty2) && isset($this->price_perunit2)){
-            $datadetail                     = new \App\Models\SalesInvoiceListingDetaildesc();
-            $datadetail->id_master          = $data->id;
-            $datadetail->item_description   = $this->item_description2;
-            $datadetail->currency           = $this->currency2;
-            $datadetail->qty                = $this->qty2;
-            $datadetail->price_perunit      = $this->price_perunit2;
-            $datadetail->total              = $this->qty1 * $this->price_perunit2;
-            $datadetail->save();
-        }
+        // if(isset($this->item_description2) && isset($this->qty2) && isset($this->price_perunit2)){
+        //     $datadetail                     = new \App\Models\SalesInvoiceListingDetaildesc();
+        //     $datadetail->id_master          = $data->id;
+        //     $datadetail->item_description   = $this->item_description2;
+        //     $datadetail->currency           = $this->currency2;
+        //     $datadetail->qty                = $this->qty2;
+        //     $datadetail->price_perunit      = $this->price_perunit2;
+        //     $datadetail->total              = $this->qty1 * $this->price_perunit2;
+        //     $datadetail->save();
+        // }
 
-        if(isset($this->item_description3) && isset($this->qty3) && isset($this->price_perunit3)){
-            $datadetail                     = new \App\Models\SalesInvoiceListingDetaildesc();
-            $datadetail->id_master          = $data->id;
-            $datadetail->item_description   = $this->item_description3;
-            $datadetail->currency           = $this->currency3;
-            $datadetail->qty                = $this->qty3;
-            $datadetail->price_perunit      = $this->price_perunit3;
-            $datadetail->total              = $this->qty1 * $this->price_perunit3;
-            $datadetail->save();
-        }
+        // if(isset($this->item_description3) && isset($this->qty3) && isset($this->price_perunit3)){
+        //     $datadetail                     = new \App\Models\SalesInvoiceListingDetaildesc();
+        //     $datadetail->id_master          = $data->id;
+        //     $datadetail->item_description   = $this->item_description3;
+        //     $datadetail->currency           = $this->currency3;
+        //     $datadetail->qty                = $this->qty3;
+        //     $datadetail->price_perunit      = $this->price_perunit3;
+        //     $datadetail->total              = $this->qty1 * $this->price_perunit3;
+        //     $datadetail->save();
+        // }
 
-        if(isset($this->item_description4) && isset($this->qty4) && isset($this->price_perunit4)){
-            $datadetail                     = new \App\Models\SalesInvoiceListingDetaildesc();
-            $datadetail->id_master          = $data->id;
-            $datadetail->item_description   = $this->item_description4;
-            $datadetail->currency           = $this->currency4;
-            $datadetail->qty                = $this->qty4;
-            $datadetail->price_perunit      = $this->price_perunit4;
-            $datadetail->total              = $this->qty1 * $this->price_perunit4;
-            $datadetail->save();
-        }
+        // if(isset($this->item_description4) && isset($this->qty4) && isset($this->price_perunit4)){
+        //     $datadetail                     = new \App\Models\SalesInvoiceListingDetaildesc();
+        //     $datadetail->id_master          = $data->id;
+        //     $datadetail->item_description   = $this->item_description4;
+        //     $datadetail->currency           = $this->currency4;
+        //     $datadetail->qty                = $this->qty4;
+        //     $datadetail->price_perunit      = $this->price_perunit4;
+        //     $datadetail->total              = $this->qty1 * $this->price_perunit4;
+        //     $datadetail->save();
+        // }
 
-        if(isset($this->item_description5) && isset($this->qty5) && isset($this->price_perunit5)){
-            $datadetail                     = new \App\Models\SalesInvoiceListingDetaildesc();
-            $datadetail->id_master          = $data->id;
-            $datadetail->item_description   = $this->item_description5;
-            $datadetail->currency           = $this->currency5;
-            $datadetail->qty                = $this->qty5;
-            $datadetail->price_perunit      = $this->price_perunit5;
-            $datadetail->total              = $this->qty1 * $this->price_perunit5;
-            $datadetail->save();
-        }
+        // if(isset($this->item_description5) && isset($this->qty5) && isset($this->price_perunit5)){
+        //     $datadetail                     = new \App\Models\SalesInvoiceListingDetaildesc();
+        //     $datadetail->id_master          = $data->id;
+        //     $datadetail->item_description   = $this->item_description5;
+        //     $datadetail->currency           = $this->currency5;
+        //     $datadetail->qty                = $this->qty5;
+        //     $datadetail->price_perunit      = $this->price_perunit5;
+        //     $datadetail->total              = $this->qty1 * $this->price_perunit5;
+        //     $datadetail->save();
+        // }
                         
 
         // $notif = get_user_from_access('hotel-flight-ticket.noc-manager');
@@ -192,7 +186,7 @@ class Addpo extends Component
        
 
 
-        session()->flash('message-success',"Request Sales Invoice Listing Details Berhasil diinput");
+        session()->flash('message-success',"Request Sales PO Berhasil diinput");
         
         return redirect()->route('sales-account-receivable.index');
     }

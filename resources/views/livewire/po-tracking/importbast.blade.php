@@ -1,19 +1,23 @@
 <form wire:submit.prevent="save">
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Upload File BAST</h5>
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Upload File BAST {{isset($po->bast_number) ? $po->bast_number : ''}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true close-btn">×</span>
         </button>
     </div>
     <div class="modal-body">
-        <div class="form-group">
-            <label>BAST Number</label>
-            <input type="text" class="form-control" wire:model="bast_number" />
-        </div>
-        <div class="form-group">
-            <label>Date</label>
-            <input type="date" class="form-control" wire:model="bast_approved" />
-        </div>
+        @if(isset($po))
+            @if(empty($po->bast_number))
+                <div class="form-group">
+                    <label>BAST Number</label>
+                    <input type="text" class="form-control" wire:model="bast_number" />
+                </div>
+                <!-- <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" class="form-control" wire:model="bast_approved" />
+                </div> -->
+            @endif
+        @endif
         <div class="form-group">
             <input type="file" class="form-control" name="file" wire:model="file" />
             @error('file')

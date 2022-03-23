@@ -5,7 +5,7 @@
         <div class="card">
             <div class="tab-content">      
                 <div class="header row">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Update Sales Invoice Listing Detail </h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Update Sales PO </h5>
                 </div>
 
                 <div class="body pt-0">
@@ -33,7 +33,7 @@
                                             <div class="row">
                                                 <div class="col-md-6 form-group">
                                                     <label>Project</label>
-                                                    <input type="text" class="form-control" wire:model="project" />
+                                                    <input type="text" class="form-control" wire:model="project" readonly/>
                                                     @error('employee_id')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                     @enderror
@@ -41,7 +41,7 @@
 
                                                 <div class="col-md-6 form-group">
                                                     <label>Region</label>
-                                                    <input type="text" class="form-control" wire:model="region" />
+                                                    <input type="text" class="form-control" wire:model="region" readonly/>
                                                     
                                                     @error('date')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -120,14 +120,14 @@
                                             @enderror
                                         </div>
 
-                                        <div class="col-md-6 form-group">
+                                        <!-- <div class="col-md-6 form-group">
                                             <label>PO Date </label>
                                             <input type="date" class="form-control" wire:model="po_date">
                                            
                                             @error('po_date')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div>
+                                        </div> -->
 
                                         <!-- <div class="col-md-12 form-group">
                                             <div class="row">
