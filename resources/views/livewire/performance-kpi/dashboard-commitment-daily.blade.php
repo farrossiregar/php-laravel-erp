@@ -39,13 +39,21 @@
                             @endif
                             <td>{{isset($sub->sub_region->name) ? $sub->sub_region->name : ''}}</td>
                             @foreach(config('vars.commitment_daily_statement') as $key => $field)
-                                @php($done = \App\Models\CommitmentDaily::whereDate('updated_at',date('Y-m-d'))->where(['client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->where($key,1)->count())
-                                @php($not_done = \App\Models\CommitmentDaily::whereDate('updated_at',date('Y-m-d'))->where(['client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->where($key,NULL)->count())
-                                @php($tidak_bersedia = \App\Models\CommitmentDaily::whereDate('updated_at',date('Y-m-d'))->where(['client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->where($key,2)->count())
-                                @php($grand_total = $done+$not_done)
-                                <td class="text-center">{{$done}}</td>
-                                <td class="text-center">{{$not_done}}</td>
-                                <td class="text-center">{{$tidak_bersedia}}</td>
+                                @php($all_status = \App\Models\CommitmentDaily::from('commitment_dailys','cd')->select(
+                                    \DB::raw("(SELECT count(*) FROM commitment_dailys where date(commitment_dailys.updated_at)=date(cd.updated_at) and {$key}=1 and client_project_id=cd.client_project_id and region_id=cd.region_id and sub_region_id=cd.sub_region_id) as done"),
+                                    \DB::raw("(SELECT count(*) FROM commitment_dailys where date(commitment_dailys.updated_at)=date(cd.updated_at) and {$key} is null and client_project_id=cd.client_project_id and region_id=cd.region_id and sub_region_id=cd.sub_region_id) as not_done"),
+                                    \DB::raw("(SELECT count(*) FROM commitment_dailys where date(commitment_dailys.updated_at)=date(cd.updated_at) and {$key}=2 and client_project_id=cd.client_project_id and region_id=cd.region_id and sub_region_id=cd.sub_region_id) as tidak_bersedia"),
+                                        )->whereDate('updated_at',date('Y-m-d'))
+                                        ->where(['client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])
+                                        ->where($key,1)->first())
+
+                                {{-- @php($done = \App\Models\CommitmentDaily::whereDate('updated_at',date('Y-m-d'))->where(['client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->where($key,1)->count()) --}}
+                                {{-- @php($not_done = \App\Models\CommitmentDaily::whereDate('updated_at',date('Y-m-d'))->where(['client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->where($key,NULL)->count()) --}}
+                                {{-- @php($tidak_bersedia = \App\Models\CommitmentDaily::whereDate('updated_at',date('Y-m-d'))->where(['client_project_id'=> $p->id,'region_id'=>$region->region_id,'sub_region_id'=>$sub->region_cluster_id])->where($key,2)->count()) --}}
+                                @php($grand_total = $all_status->done+$all_status->not_done)
+                                <td class="text-center">{{$all_status->done}}</td>
+                                <td class="text-center">{{$all_status->not_done}}</td>
+                                <td class="text-center">{{$all_status->tidak_bersedia}}</td>
                                 <td class="text-center">{{$grand_total}}</td>
                                 @if($done ==0) 
                                     <td class="bg-danger text-center" style="color:white;">0%</td> 
