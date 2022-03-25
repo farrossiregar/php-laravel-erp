@@ -22,7 +22,7 @@ class Editboq extends Component
         $this->data             = PoTrackingNonmsBoq::where('id_po_nonms_master', $id->id)->get();  
         
         $this->total_before     = PoTrackingNonmsBoq::where('id_po_nonms_master', $id->id)
-                                                    ->select(DB::raw("SUM(price) as price"))    
+                                                    ->select(DB::raw("SUM(price) as price"),DB::raw("SUM(qty) as total_qty"))    
                                                     ->groupBy('id_po_nonms_master')  
                                                     ->get();  
 
@@ -38,7 +38,7 @@ class Editboq extends Component
         $total_after = json_decode($this->total_after);
         $total_after = @$total_after[0]->input_price;
         if($total_before && $total_after)
-            $this->total_profit = 100 - round(($total_after / $total_before) * 100);
+            $this->total_profit = 100 - round(($total_after / ($total_before*$this->total_before[0]->total_qty)) * 100);
         else
             $this->total_profit = '100';
 

@@ -10,16 +10,6 @@
     <div class="col-md-2">
         <input type="date" class="form-control" wire:model="date" />
     </div>
-
-    <!-- <div class="col-md-2">
-        <select name="region" class="form-control" id="region" wire:model="date">
-            @foreach(App\Models\Region::all() as $item)
-            <option value="{{ $item->id }}">{{ $item->region_code }}</option>
-            @endforeach
-        </select>
-    </div> -->
-    
-
     @if(check_access('po-tracking-nonms.edit-stp'))
     <div class="col-md-2">
         <a href="#" data-toggle="modal" data-target="#modal-potrackingstp-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import PO Tracking STP')}}</a>
@@ -183,7 +173,6 @@
     </div>
     <br />
 </div>
-
 <!--    MODAL PO STP      -->
 <div class="modal fade" id="modal-potrackingstp-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

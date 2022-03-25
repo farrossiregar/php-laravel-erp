@@ -2,7 +2,6 @@
     @if($edit)
         <select class="form-control" wire:model="field_team_id" wire:keydown.escape="$set('edit',false)" wire:change="save">
             <option value=""> --- Coordinator --- </option>
-            
             @foreach(check_access_data('po-tracking-nonms.coordinator-list') as $user)
             <option value="{{$user->employee_id}}">{{$user->name}}</option>
             @endforeach

@@ -50,7 +50,7 @@
             </div>
             <div class="body pt-0">
                 <div class="table-responsive">
-                    <table class="table table-striped m-b-0 c_list table-nowrap-th table-hover">
+                    <table class="table table-striped m-b-0 c_list table-nowrap-th table-hover" id="table_">
                         <thead>
                             <tr>
                                 <th>No</th>                                    

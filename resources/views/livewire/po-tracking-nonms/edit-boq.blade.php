@@ -14,13 +14,13 @@
                                     <div class="table-responsive">
                                         <table class="table table-striped m-b-0 c_list table-nowrap-th">
                                             <tr>
-                                                <th>Total Ericson Price</th>                               
+                                                <th>Total Ericsson Price</th>                               
                                                 <th>Total Price After Input</th>                                                          
                                                 <th>Total Profit After Input (%)</th>         
                                                 <th class="text-center">Status</th>
                                             </tr>
                                             <tr>
-                                                <td class="text-center">Rp {{ format_idr(@$total_before[0]->price) }}</td>                               
+                                                <td class="text-center">Rp {{ format_idr(@$total_before[0]->price*$total_before[0]->total_qty) }}</td>                               
                                                 <td class="text-center">Rp {{ format_idr(@$total_after[0]->input_price) }}</td>    
                                                 <td class="text-center"><div class="btn btn-{{$total_profit >= 30 ? 'success' : 'danger' }}">{{ $total_profit }}%</div></td>       
                                                 <td  class="text-center">
@@ -28,7 +28,7 @@
                                                         @if($po_tracking->is_revise_finance==1)
                                                             <label class="badge badge-info" data-toggle="tooltip" title="{{$po_tracking->note_finance}}">Revise Finance</label>
                                                         @else
-                                                            <label class="badge badge-info" data-toggle="tooltip" title="Regional - Waiting to Submit">Waiting to Submit</label>
+                                                            <label class="badge badge-info" data-toggle="tooltip" title="Regional - Waiting PR Submission">Waiting PR Submission</label>
                                                         @endif
                                                     @endif
                                                     @if($status==1)
@@ -44,10 +44,10 @@
                                                         <label class="badge badge-warning" data-toggle="tooltip" title="PMG - Waiting PMG Review under 30%">PMG Review </label>
                                                     @endif
                                                     @if($status==5)
-                                                        <label class="badge badge-success" data-toggle="tooltip" title="Finance - Budget Successfully Transfered">Budget Transfered</label>
+                                                        <label class="badge badge-success" data-toggle="tooltip" title="Finance - Budget Successfully Transfered">Budget Transferred To Project Admin/Finance</label>
                                                     @endif
                                                     @if($status==6)
-                                                        <label class="badge badge-success" data-toggle="tooltip">Proccess Field Team</label>
+                                                        <label class="badge badge-success" data-toggle="tooltip">Pending Assignment To Field Team</label>
                                                     @endif
                                                     @if($status==7 && $bast_status == 1)
                                                         <label class="badge badge-warning" data-toggle="tooltip" title="E2E - Waiting Approved Bast by E2E">Waiting Approval </label>
@@ -89,7 +89,7 @@
                                     <th>Quantity</th>                            
                                     <th>Customer Price</th>     
                                     <th>Total Price</th>                              
-                                    <th>Price PR</th>    
+                                    <th>Budget Request</th>    
                                     <th>Total After Price PR</th>                               
                                     <th>Profit (%)</th>                                                              
                                 </tr>
@@ -147,8 +147,10 @@
                                 <a href="javascript:;" wire:click="$emit('modalapprovepononms','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-approve" title="Proccess" class="btn btn-primary"><i class="fa fa-check-circle"></i> {{__('Proccess')}}</a>
                             @endif
                         @endif
-                        @if($status == 1)
-                            <a href="javascript:;" data-toggle="modal" data-target="#modal-approve-finance" class="btn btn-primary"><i class="fa fa-check-circle"></i> {{__('Process Budget')}}</a>                    
+                        @if($is_finance)
+                            @if($status == 1)
+                                <a href="javascript:;" data-toggle="modal" data-target="#modal-approve-finance" class="btn btn-primary"><i class="fa fa-check-circle"></i> {{__('Process Budget')}}</a>                    
+                            @endif
                         @endif
                         @if($status == 2)
                             @if($is_finance)

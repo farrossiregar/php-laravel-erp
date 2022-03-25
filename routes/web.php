@@ -18,21 +18,27 @@ date_default_timezone_set("Asia/Bangkok");
 
 Route::get('/', Home::class)->name('home')->middleware('auth');
 Route::get('login', App\Http\Livewire\Login::class)->name('login');
-Route::get('diskalert',function(){
-
-    send_wa(['phone'=>'081289992707','message'=>'Disk penuh, silahkan cek']);
-    send_wa(['phone'=>'087775365856','message'=>'Disk penuh, silahkan cek']);
+Route::post('diskalert',function(){
+    send_wa(['phone'=>'081289992707','message'=>'Warning, Disk server alibaba penuh, silahkan cek']);
+    send_wa(['phone'=>'087775365856','message'=>"Warning, Disk server alibaba penuh, silahkan cek"]);
 });
 
-Route::post('diskalert',function(){
+Route::get('readerpdf',function(){
+    // Parse PDF file and build necessary objects.
+    $parser = new \Smalot\PdfParser\Parser();
+    // $pdf = $parser->parseFile('/var/www/erp-pmt/public/sample-pdf.pdf');
+    $pdf = $parser->parseFile('/var/www/erp-pmt/public/sample-pdf.pdf');
 
-    send_wa(['phone'=>'081289992707','message'=>'Disk penuh, silahkan cek']);
-    send_wa(['phone'=>'087775365856','message'=>'Disk penuh, silahkan cek']);
+    $text = $pdf->getText();
+    echo $text;
+
+    // $data = $pdf->getPages()[0]->getDataTm();
+    // $data = $pdf->getPages();
+    // dd($data);
 });
 
 // All login
 Route::group(['middleware' => ['auth']], function(){    
-    
     Route::get('profile',App\Http\Livewire\Profile::class)->name('profile');
     Route::get('back-to-admin',[App\Http\Controllers\IndexController::class,'backtoadmin'])->name('back-to-admin');
     Route::get('setting',App\Http\Livewire\Setting::class)->name('setting');

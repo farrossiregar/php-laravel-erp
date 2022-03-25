@@ -45,8 +45,11 @@ class GeneralNotification extends Command
     public function handle()
     {
         echo "General Notification\n";
-
-        foreach(Employee::select('employees.*')->join('employee_projects','employee_projects.employee_id','=','employees.id')->where('is_use_android',1)->groupBy('employees.id')->get() as $em){
+        $data_ = Employee::select('employees.*')->join('employee_projects','employee_projects.employee_id','=','employees.id')
+                            ->where('is_use_android',1)
+                            ->groupBy('employees.id')
+                            ;
+        foreach($data_->get() as $em){
             echo "Daily Commitment\n";   
             echo "Name : {$em->name}\n";   
             echo "==========================\n\n";

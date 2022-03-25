@@ -16,7 +16,7 @@ class Indexboq extends Component
     use WithPagination,WithFileUploads;
     public $date,$keyword,$coordinator_id,$coordinators=[],$selected_data,$is_service_manager=false;
     public $is_coordiantor=false,$field_teams=[],$field_team_id,$url_bast,$note,$file_bast,$file_gr;
-    public $extra_budget, $file_extra_budget;
+    public $extra_budget, $file_extra_budget,$scoope_of_works;
     public $is_finance=false,$wo_id=[];
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['refresh'=>'$refresh'];
@@ -115,13 +115,16 @@ class Indexboq extends Component
         $this->validate([
             'field_team_id'=>'required'
         ]);
+
+        $this->selected_data->scoope_of_works = $this->scoope_of_works;
         $this->selected_data->field_team_id = $this->field_team_id;
-        $this->selected_data->status = 6;
+        $this->selected_data->status = 7;
         $this->selected_data->save();
         
         \LogActivity::add('[web] PO Non MS - Assign Field Team');
 
-        $message = 'Work order number '. $this->selected_data->no_tt." need your action.";
+        $message =  'Work order number '. $this->selected_data->no_tt.", {$this->scoope_of_works}.";
+
         if(isset($this->selected_data->field_team->device_token)) push_notification_android($this->selected_data->field_team->device_token,"PO Tracking Non MS" ,$message,10);
         
         $this->emit('modal','hide');
