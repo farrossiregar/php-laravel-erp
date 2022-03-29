@@ -2,6 +2,45 @@
 
 use Illuminate\Support\Facades\DB;
 
+function count_notif($type){
+    if($type=='po-tracking-ms.index'){
+        $is_e2e = check_access('is-e2e');
+        $is_service_manager = check_access('is-service-manager');
+        $is_finance = check_access('is-finance');
+        $num = 0;
+        if($is_e2e){
+            $num += \App\Models\PoMsEricsson::where('status_',2)->orWhere('status_',3)->count();
+            $num += \App\Models\PoMsHuawei::where('status_',2)->orWhere('status_',3)->count();
+        }
+        if($is_service_manager){
+            $num += \App\Models\PoMsEricsson::where('status_',1)->count();
+            $num += \App\Models\PoMsHuawei::where('status_',1)->count();
+        }
+        if($is_finance){
+            $num += \App\Models\PoMsEricsson::where('status_',4)->count();
+            $num += \App\Models\PoMsHuawei::where('status_',4)->count();
+        }
+        return $num;
+    }
+
+    if($type=='po-tracking-nonms.index'){
+        $client_project_ids = Arr::pluck(\App\Models\EmployeeProject::select('client_project_id')->where(['employee_id'=>\Auth::user()->employee->id])->get()->toArray(),'client_project_id');
+
+        $coordinators = get_user_from_access('is-coordinator',$client_project_ids,\Auth::user()->employee->region_id);
+        $field_teams = get_user_from_access('is-field-team',$client_project_ids,\Auth::user()->employee->region_id);
+        $is_service_manager = check_access('is-service-manager');
+        $is_coordinator = check_access('is-coordinator');
+        $is_finance = check_access('is-finance');
+        
+        $num = 0;
+        if($is_service_manager) $num += \App\Models\PoTrackingNonms::where('status',0)->orWhereNull('status')->count();
+        if($is_finance) $num += \App\Models\PoTrackingNonms::where('status',1)->orWhere('status',2)->count();
+        
+        return $num;
+    }
+
+}
+
 /**
 * Converts an integer into the alphabet base (A-Z).
 *

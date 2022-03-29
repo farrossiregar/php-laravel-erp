@@ -43,7 +43,7 @@
                         <th>Acceptance</th>    
                         <th>Deduction (%)</th>    
                         <th>EHS Deduction / Other Deduction</th>    
-                        <th>RP Deduction</th>    
+                        <th class="text-right">RP Deduction</th>    
                         <th>Scar No</th>    
                         <th>Have Deduction</th>
                         <th>PDS</th>
@@ -122,7 +122,6 @@
                             @endif
                         </td>
                         <td>{{ $item->po_no }}</td>
-                        
                         <td>{{ $item->po_line_shipment }}</td>
                         <td>{{ $item->region }}</td>
                         <td>{{ $item->site_id }}</td>
@@ -144,9 +143,8 @@
                         <td>{{ $item->acceptance }}</td>
                         <td>{{ $item->deduction }}</td>
                         <td>{{ $item->ehs_other_deduction }}</td>
-                        <td>{{ $item->rp_deduction }}</td>
+                        <td class="text-right">{{ $item->rp_deduction }}</td>
                         <td>{{ $item->scar_no }}</td>
-
                         <td class="text-center">
                             @if($item->is_have_deduction==1)
                                 <span class="text-success"><i class="fa fa-check-circle"></i></span>

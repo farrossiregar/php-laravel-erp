@@ -249,10 +249,10 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label>Coordinator</label>
-                                        <select class="form-control" wire:model="coordinator_id" wire:ignore>
+                                        <select class="form-control select-coordinator" wire:ignore>
                                             <option value="">-- select --</option>
                                             @foreach($coordinators as $item)
-                                                <option value="{{$item->employee_id}}">{{$item->employee_name}}</option>
+                                                <option value="{{$item->employee_id}}">{{$item->nik}} / {{$item->employee_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -288,9 +288,9 @@
                                         <label>Scope of Work</label>
                                         <textarea class="form-control" wire:model="scoope_of_works"></textarea>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" wire:ignore>
                                         <label>Field Team</label>
-                                        <select class="form-control" wire:model="field_team_id" wire:ignore>
+                                        <select class="form-control select-field-team">
                                             <option value="">-- select --</option>
                                             @foreach($field_teams as $item)
                                                 <option value="{{$item->employee_id}}">{{$item->nik}} / {{$item->employee_name}}</option>
@@ -330,6 +330,25 @@
     <!--    MODAL PO BOQ      -->
 </div>
 
+@push('after-scripts')
+    <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}" />
+    <script>
+        $(document).ready(function() {    
+            $(".select-coordinator").select2();
+            $('.select-coordinator').on('select2:select', function (e) {
+                var data = e.params.data;
+                @this.set('coordinator_id',data.id);
+            });
+            $(".select-field-team").select2();
+            $('.select-field-team').on('select2:select', function (e) {
+                var data = e.params.data;
+                @this.set('field_team_id',data.id);
+            });
+        });
+    </script>
+@endpush
+
 <!--    MODAL PO NON MS INPUT PO NO      -->
 <div class="modal fade" id="modal-potrackinginput-pono" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -339,12 +358,10 @@
     </div>
 </div>
 <!--    MODAL PO NON MS INPUT PO NO      -->
-
 @livewire('po-tracking-nonms.extra-budget')
 @livewire('po-tracking-nonms.process-extra-budget')
 @push('after-scripts')
     <script>
-        
         Livewire.on('modal-boq',(data)=>{
             $("#modal-potrackingboq-upload").modal('show');
         });
