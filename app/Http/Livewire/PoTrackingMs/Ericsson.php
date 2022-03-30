@@ -12,7 +12,7 @@ class Ericsson extends Component
     use WithFileUploads;
     public $file,$is_e2e,$is_service_manager,$is_have_deduction=0,$selected;
     public $approval_file,$pds_file,$pds_amount,$file_verification,$acceptance_doc,$invoice_doc;
-    public $is_finance;
+    public $is_finance,$keyword;
     protected $rules = [
         'file' => 'required',
     ];
@@ -20,6 +20,14 @@ class Ericsson extends Component
     public function render()
     {
         $data = PoMsEricsson::orderBy('created_at', 'desc');
+
+        if($this->keyword){
+            if($this->keyword) $data = $data->where(function($table){
+                foreach(\Illuminate\Support\Facades\Schema::getColumnListing('po_ms_ericsson') as $column){
+                    $table->orWhere('po_ms_ericsson.'.$column,'LIKE',"%{$this->keyword}%");
+                }
+            });
+        }
                                 
         return view('livewire.po-tracking-ms.ericsson')->with(['data'=>$data->paginate(50)]);
     }

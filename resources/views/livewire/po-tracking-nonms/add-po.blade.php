@@ -60,12 +60,13 @@
                         <th>Region</th>
                         <th>Site ID</th>
                         <th>Site Name</th>
+                        <th>PO Line Item / Item Code / Item Description</th>
                         <th></th>
                     </tr>
                 </thead>
                 @if(!$wos)
                     <tr>
-                        <td colspan="6" class="text-center"><i>Empty</i></td>
+                        <td colspan="7" class="text-center"><i>Empty</i></td>
                     </tr>
                 @endif
                 @foreach($wos as $k => $item)
@@ -84,7 +85,15 @@
                             <td>{{$wo_row->region}}</td>
                             <td>{{$wo_row->site_id}}</td>
                             <td>{{$wo_row->site_name}}</td>
+                            <td>
+                                <select class="form-control">
+                                    @foreach(\App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master',$wo_id[$k])->get() as $boq)
+                                        <option value="">{{$boq->po_line_item}} / {{$boq->item_code}} / {{$boq->item_description}}</option>
+                                    @endforeach
+                                </select>
+                            </td>
                         @else
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>

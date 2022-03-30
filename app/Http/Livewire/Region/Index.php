@@ -33,4 +33,11 @@ class Index extends Component
         $sub->save();
         $this->reset('name_insert_sub_region');
     }
+
+    public function delete_sub_region(SubRegion $id)
+    {
+        $id->delete();
+
+        $this->emit('message-success','data deleted successfully');
+    }
 }

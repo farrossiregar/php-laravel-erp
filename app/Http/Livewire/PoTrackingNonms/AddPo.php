@@ -9,7 +9,7 @@ use App\Models\PoTrackingNonms;
 
 class AddPo extends Component
 {
-    public $wos=[],$error_message='',$po_number,$date_po,$contract,$date_contract;
+    public $wos=[],$error_message='',$po_number,$date_po,$contract,$date_contract,$po_line_item;
     public $wo_list=[],$wo_id=[],$works;
     public function render()
     {    
@@ -23,7 +23,8 @@ class AddPo extends Component
 
     public function updated()
     {
-        if($this->wo_id) $this->wo_list = PoTrackingNonms::whereNotIn('id',$this->wo_id)->get();
+        if($this->wo_id) $this->wo_list = PoTrackingNonms::whereNull('po_tracking_nonms_po_id')->get();
+        // if($this->wo_id) $this->wo_list = PoTrackingNonms::whereNull('po_tracking_nonms_po_id')->whereNotIn('id',$this->wo_id)->get();
     }
 
     public function delete_wo($k)
@@ -36,7 +37,9 @@ class AddPo extends Component
         if(!$this->wos) return $this->error_message = "WO Number required";
         
         $this->validate([
-            'po_number' => ['required',Rule::unique('po_tracking_nonms_po')],
+            // 'po_number' => ['required',Rule::unique('po_tracking_nonms_po')],
+            'po_number' => ['required'],
+            // 'po_line_item' => ['required',Rule::unique('po_tracking_nonms_po')],
             'date_po' => 'required'
         ]);
 

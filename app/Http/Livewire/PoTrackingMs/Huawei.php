@@ -9,23 +9,26 @@ use App\Models\PoMsHuawei;
 
 class Huawei extends Component
 {
-    // protected $paginationTheme = 'bootstrap';
-
+    protected $paginationTheme = 'bootstrap';
+    use WithPagination;
     use WithFileUploads;
     public $file,$is_e2e,$is_service_manager,$is_have_deduction=0,$selected;
     public $approval_file,$pds_file,$pds_amount,$file_verification,$acceptance_doc,$invoice_doc;
-    public $is_finance;
+    public $is_finance,$keyword;
     protected $rules = [
         'file' => 'required',
     ];
-
-
     public function render()
     {
-        $data = \App\Models\PoMsHuawei::orderBy('created_at', 'desc');
-                                    
-
-        // if($this->date) $ata = $data->whereDate('created_at',$this->date);
+        $data = PoMsHuawei::orderBy('created_at', 'desc');
+        
+        if($this->keyword) {
+                $data->where(function($table){
+                foreach(\Illuminate\Support\Facades\Schema::getColumnListing('po_ms_huawei') as $column){
+                    $table->orWhere('po_ms_huawei.'.$column,'LIKE',"%{$this->keyword}%");
+                }
+            });
+        }
         
         return view('livewire.po-tracking-ms.huawei')->with(['data'=>$data->paginate(50)]);
     }

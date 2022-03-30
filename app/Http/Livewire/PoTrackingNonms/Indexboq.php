@@ -29,13 +29,13 @@ class Indexboq extends Component
         if(check_access('is-coordinator')) $data->where('coordinator_id',\Auth::user()->employee->id);
         if(check_access('is-field-team')) $data->where('field_team_id',\Auth::user()->employee->id);
 
-        if($this->keyword) $data->where(function($table){
-                            $table->where('po_no',"LIKE","%{$this->keyword}%")
-                                    ->orWhere('region',"LIKE","%{$this->keyword}%")
-                                    ->orWhere('site_id',"LIKE","%{$this->keyword}%")
-                                    ->orWhere('site_name',"LIKE","%{$this->keyword}%")
-                                    ->orWhere('pekerjaan',"LIKE","%{$this->keyword}%");
-                        });
+        if($this->keyword){
+            if($this->keyword) $data = $data->where(function($table){
+                foreach(\Illuminate\Support\Facades\Schema::getColumnListing('po_tracking_nonms_master') as $column){
+                    $table->orWhere('po_tracking_nonms_master.'.$column,'LIKE',"%{$this->keyword}%");
+                }
+            });
+        }
         if($this->date) $data->whereDate('created_at',$this->date);
                 
         return view('livewire.po-tracking-nonms.indexboq')->with(['data'=>$data->paginate(50)]);

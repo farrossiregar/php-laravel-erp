@@ -32,6 +32,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>PO Number</th>    
+                                <th>PO Status</th>    
                                 <th>WO Number</th>    
                                 <th>Region</th>    
                                 <th class="text-center">Status</th>    
@@ -48,87 +49,88 @@
                         </thead>
                         <tbody>
                             @foreach($data as $key => $item)
-                            <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td>
-                                    @if(isset($item->po__->po_number))
-                                        <a href="{{route('po-tracking-nonms.po-detail',['id'=>$item->po_tracking_nonms_po_id])}}" target="_blank">{{ $item->po__->po_number }}
-                                    @endif
-                                </td>
-                                <td><a href="{{ route('po-tracking-nonms.edit-boq',['id'=>$item->id]) }}">{{ $item->no_tt }}</a></td>  
-                                <td>{{ $item->region }}</td>    
-                                <td class="text-center">
-                                    @if($item->status==0 || $item->status == null || $item->status == '0')
-                                        <label class="badge badge-info" data-toggle="tooltip" title="Regional / SM - Waiting PR Submission">Waiting PR Submission</label>
-                                    @endif
-                                    @if($item->status==1)
-                                        <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%, Waiting to Transfer Budget">Finance In Review</label>
-                                    @endif
-                                    @if($item->status==2)
-                                        <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%, Waiting to Transfer Budget">Finance - Approved</label>
-                                    @endif
-                                    @if($item->status==3)
-                                        <label class="badge badge-danger" data-toggle="tooltip" title="PMG - Revise Request, Profit < 30%">PMG Revise</label>
-                                    @endif
-                                    @if($item->status==4)
-                                        <label class="badge badge-warning" data-toggle="tooltip" title="PMG - Waiting PMG Review under 30%">PMG Review </label>
-                                    @endif
-                                    @if($item->status==5)
-                                        <label class="badge badge-info" data-toggle="tooltip">Budget Transferred To Project Admin/Finance</label>
-                                    @endif
-                                    @if($item->status==6)
-                                        <label class="badge badge-info" data-toggle="tooltip">Pending Assignment To Field Team</label>
-                                    @endif
-                                    @if($item->status ==7)
-                                        <label class="badge badge-info">Ongoing Execution</label>
-                                    @endif
-                                    @if($item->status >=8)
-                                        <label class="badge badge-info" data-toggle="tooltip">Field Team Submitted</label>
-                                    @endif
-                                    
-                                </td>
-                                <td>{{$item->site_id}}</td>
-                                <td>{{$item->site_name}}</td>
-                                <td class="text-right">Rp {{ format_idr(get_total_actual_price($item->id)) }}</td>                               
-                                <td class="text-right">Rp {{ format_idr(get_total_price($item->id)) }}</td> 
-                                <td class="text-center">
-                                    <?php
-                                        if(get_total_price($item->id) && get_total_actual_price($item->id))
-                                            $total_profit = 100 - round((get_total_price($item->id) / get_total_actual_price($item->id)) * 100);
-                                        else
-                                            $total_profit = 100;
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>
+                                        @if(isset($item->po__->po_number))
+                                            <a href="{{route('po-tracking-nonms.po-detail',['id'=>$item->po_tracking_nonms_po_id])}}" target="_blank">{{ $item->po__->po_number }}
+                                        @endif
+                                    </td>
+                                    <td></td>
+                                    <td><a href="{{ route('po-tracking-nonms.edit-boq',['id'=>$item->id]) }}">{{ $item->no_tt }}</a></td>  
+                                    <td>{{ $item->region }}</td>    
+                                    <td class="text-center">
+                                        @if($item->status==0 || $item->status == null || $item->status == '0')
+                                            <label class="badge badge-info" data-toggle="tooltip" title="Regional / SM - Waiting PR Submission">Waiting PR Submission</label>
+                                        @endif
+                                        @if($item->status==1)
+                                            <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%, Waiting to Transfer Budget">Finance In Review</label>
+                                        @endif
+                                        @if($item->status==2)
+                                            <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%, Waiting to Transfer Budget">Finance - Approved</label>
+                                        @endif
+                                        @if($item->status==3)
+                                            <label class="badge badge-danger" data-toggle="tooltip" title="PMG - Revise Request, Profit < 30%">PMG Revise</label>
+                                        @endif
+                                        @if($item->status==4)
+                                            <label class="badge badge-warning" data-toggle="tooltip" title="PMG - Waiting PMG Review under 30%">PMG Review </label>
+                                        @endif
+                                        @if($item->status==5)
+                                            <label class="badge badge-info" data-toggle="tooltip">Budget Transferred To Project Admin/Finance</label>
+                                        @endif
+                                        @if($item->status==6)
+                                            <label class="badge badge-info" data-toggle="tooltip">Pending Assignment To Field Team</label>
+                                        @endif
+                                        @if($item->status ==7)
+                                            <label class="badge badge-info">Ongoing Execution</label>
+                                        @endif
+                                        @if($item->status >=8)
+                                            <label class="badge badge-info" data-toggle="tooltip">Field Team Submitted</label>
+                                        @endif
                                         
-                                        if($total_profit >= 30){
-                                            $color = 'success';
-                                        }else{
-                                            $color = 'danger';
-                                        }
-                                    ?>
-                                    <span class="text-<?php echo $color; ?>">{{ $total_profit }}%</span>
-                                </td>
+                                    </td>
+                                    <td>{{$item->site_id}}</td>
+                                    <td>{{$item->site_name}}</td>
+                                    <td class="text-right">Rp {{ format_idr(get_total_actual_price($item->id)) }}</td>                               
+                                    <td class="text-right">Rp {{ format_idr(get_total_price($item->id)) }}</td> 
+                                    <td class="text-center">
+                                        <?php
+                                            if(get_total_price($item->id) && get_total_actual_price($item->id))
+                                                $total_profit = 100 - round((get_total_price($item->id) / get_total_actual_price($item->id)) * 100);
+                                            else
+                                                $total_profit = 100;
+                                            
+                                            if($total_profit >= 30){
+                                                $color = 'success';
+                                            }else{
+                                                $color = 'danger';
+                                            }
+                                        ?>
+                                        <span class="text-<?php echo $color; ?>">{{ $total_profit }}%</span>
+                                    </td>
 
-                                <td>
-                                    @if($item->status==5 and $item->coordinator_id =='' and $is_service_manager)
-                                        <a href="javascript:void(0)" data-target="#modal_select_coordinator" wire:click="set_data({{$item->id}})" data-toggle="modal" class="badge badge-info badge-active"><i class="fa fa-plus"></i> coordinator</a>
-                                    @endif
-                                    {{isset($item->coordinator->name)?$item->coordinator->name : ''}}
-                                </td>
-                                <td>
-                                    @if($item->status==6 and $item->field_team_id =='' and $is_coordinator)
-                                        <a href="javascript:void(0)" data-target="#modal_select_field_team" wire:click="set_data({{$item->id}})" data-toggle="modal" class="badge badge-info badge-active"><i class="fa fa-plus"></i> field team</a>
-                                    @endif
-                                    {{isset($item->field_team->name)?$item->field_team->name : ''}}
-                                </td>
-                                <td>
-                                    @if($item->bast_status)
-                                        <a href="{{route('po-tracking-nonms.detailfoto',['id'=>$item->id]) }}" ><i class="fa fa-image"></i> Foto</a>
-                                    @endif
-                                    @if(check_access('po-tracking-nonms.import-approvedbast') and $item->status==7 and $item->bast_status==2)
-                                        <a href="javascript:;" class="badge badge-info badge-active" wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_e2e_review"><i class="fa fa-check-circle"></i> Review</a>
-                                    @endif
-                                </td>
-                                <td>{{$item->scoope_of_works}}</td>
-                            </tr>
+                                    <td>
+                                        @if($item->status==5 and $item->coordinator_id =='' and $is_service_manager)
+                                            <a href="javascript:void(0)" data-target="#modal_select_coordinator" wire:click="set_data({{$item->id}})" data-toggle="modal" class="badge badge-info badge-active"><i class="fa fa-plus"></i> coordinator</a>
+                                        @endif
+                                        {{isset($item->coordinator->name)?$item->coordinator->name : ''}}
+                                    </td>
+                                    <td>
+                                        @if($item->status==6 and $item->field_team_id =='' and $is_coordinator)
+                                            <a href="javascript:void(0)" data-target="#modal_select_field_team" wire:click="set_data({{$item->id}})" data-toggle="modal" class="badge badge-info badge-active"><i class="fa fa-plus"></i> field team</a>
+                                        @endif
+                                        {{isset($item->field_team->name)?$item->field_team->name : ''}}
+                                    </td>
+                                    <td>
+                                        @if($item->bast_status)
+                                            <a href="{{route('po-tracking-nonms.detailfoto',['id'=>$item->id]) }}" ><i class="fa fa-image"></i> Foto</a>
+                                        @endif
+                                        @if(check_access('po-tracking-nonms.import-approvedbast') and $item->status==7 and $item->bast_status==2)
+                                            <a href="javascript:;" class="badge badge-info badge-active" wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_e2e_review"><i class="fa fa-check-circle"></i> Review</a>
+                                        @endif
+                                    </td>
+                                    <td>{{$item->scoope_of_works}}</td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>

@@ -30,11 +30,15 @@
                                         <a href="javascript:;" wire:click="$emit('emit-delete',{{$item->id}})" data-target="#modal_delete" data-toggle="modal" class="text-danger"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
-                                @foreach(\App\Models\SubRegion::where('region_id',$item->id)->get() as $sub)
+                                @foreach(\App\Models\SubRegion::where('region_id',$item->id)->get() as $key_sub => $sub)
                                     <tr>
                                         <td></td>
-                                        <td>{{$sub->name}}</td>
-                                        <td></td>
+                                        <td>
+                                            @livewire('region.editable',['data'=>$sub],key($sub->id))
+                                        </td>
+                                        <td>
+                                            <a href="javascript:void(0)" wire:click="delete_sub_region({{$sub->id}})" class="text-danger"><i class="fa fa-trash"></i></a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             @endforeach

@@ -20,7 +20,7 @@
                                                 <th class="text-center">Status</th>
                                             </tr>
                                             <tr>
-                                                <td class="text-center">Rp {{ format_idr(@$total_before[0]->price*$total_before[0]->total_qty) }}</td>                               
+                                                <td class="text-center">Rp {{ format_idr($total_ericson) }}</td>                               
                                                 <td class="text-center">Rp {{ format_idr(@$total_after[0]->input_price) }}</td>    
                                                 <td class="text-center"><div class="btn btn-{{$total_profit >= 30 ? 'success' : 'danger' }}">{{ $total_profit }}%</div></td>       
                                                 <td  class="text-center">
@@ -97,7 +97,7 @@
                                 <tr>
                                     <td>{{ $key+1 }}</td>     
                                     <td class="text-center">{{$item->po}}</td>                               
-                                    <td class="text-center">{{$item->po_line_item}}</td>                               
+                                    <td class="text-center">@livewire('po-tracking-nonms.editable',['data'=>$item,'field'=>'po_line_item'],key((int)$item->id+10))</td>                               
                                     <td class="text-center">{{$item->sno_material}}</td>                               
                                     <td class="text-center">{{$item->sno_rectification}}</td>                           
                                     <td>{{ $item->category_material }}</td>                               
@@ -157,8 +157,7 @@
                                 <a href="javascript:;" wire:click="$emit('modalsubmitfinreg','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-submitfinreg" title="Submit to Finance Regional" class="btn btn-primary"><i class="fa fa-check-circle"></i> {{__('Transfer Budget')}}</a>                    
                             @endif
                         @endif
-                        @if(check_access('po-tracking-nonms.submit-doc'))
-                            
+                        @if($is_service_manager)
                             @if($status == '0' || $status == '' || $status == null)
                                 <a href="javascript:;" wire:click="$emit('modalsubmitdocpononms','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-submit" title="Submit Price" class="btn btn-primary"><i class="fa fa-check"></i> {{__('Submit Price')}}</a>                                  
                             @endif

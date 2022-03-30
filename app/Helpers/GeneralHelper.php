@@ -466,14 +466,19 @@ function get_total_actual_price($id){
         $data_detail = \App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master', $id);
     }   
 
-    $total_before     = $data_detail->select(DB::raw("SUM(price) as price"),DB::raw("SUM(qty) as total_qty"))    
-                                    ->groupBy('id_po_nonms_master')  
+    $total_before     = $data_detail
+                                    //->select(DB::raw("SUM(price) as price"),DB::raw("SUM(qty) as total_qty"))    
+                                    // ->groupBy('id_po_nonms_master')  
                                     ->get();  
-
+    
+    $total_ = 0;
+    foreach($total_before as $item){
+        $total_ += $item->price * $item->qty;
+    }
     $total_before = json_decode($total_before);
-    $total_before = @$total_before[0]->price*$total_before[0]->total_qty;
+    // $total_before = @$total_before[0]->price*$total_before[0]->total_qty;
 
-    return $total_before;
+    return $total_;
 
 }
 
