@@ -38,14 +38,12 @@ class Importboq extends Component
         ]);
 
         $path           = $this->file->getRealPath();
-       
         $reader         = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $reader->setReadDataOnly(true);
         $data_xls           = $reader->load($path);
         $sheetDatas     = $data_xls->getActiveSheet()->toArray();
         if(count($sheetDatas) > 0){
-            $countLimit = 1;
-            $total_failed = 0;
+            $double_data = 0;
             $total_success = 0;
 
             foreach($sheetDatas as $key => $i){
@@ -66,14 +64,7 @@ class Importboq extends Component
                 $total = $i[10];
                 $sno_material = $i[11];
                 $sno_rectification = $i[12];
-                $po = $i[13];
-                $po_line = $i[14];
-                $bast_no = $i[15];
-                $gr_no = $i[16];
-                $gr_date = $i[17];
-                $invoice_date = $i[18];
-                $invoice_no = $i[19];
-                $payment_date = $i[20];
+                $po_line = $i[13];
 
                 if(!$no_wo) continue; // jika tidak ada data maka skip
 
@@ -81,22 +72,30 @@ class Importboq extends Component
                     $table->whereNull('status')->orWhere('status',0);
                 })->whereNull('po_tracking_nonms_po_id')->first();
                 
-                if(!$data) {
+                if(!$data){
                     $data = new PoTrackingNonms();
                     $data->no_tt = $no_wo;
                     $data->region = $region;
                     $data->site_id = $site_id;
                     $data->site_name = $site_name;
                     $data->type_doc = 2;
-                    $data->bast_number = $bast_no;
-                    $data->gr_no = $gr_no;
-                    if($gr_date) $data->gr_date = @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($gr_date)->format('Y-m-d');
-                    if($invoice_date) $data->invoice_date = @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($invoice_date)->format('Y-m-d');
-                    $data->no_invoice = $invoice_no;
-                    if($payment_date) $data->payment_date = @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($payment_date)->format('Y-m-d');
                     $data->save();
                 }
 
+                /**
+                 * check SNO Material /  SNO Rectification / Item code
+                 * tidak boleh sama persis jika sama persis dihitung double
+                 * */ 
+                $potrackingboq = PoTrackingNonmsBoq::where('id_po_nonms_master',$data->id)
+                                                    ->where('item_code',$item_code)
+                                                    ->where('sno_material',$sno_material)
+                                                    ->where('sno_rectification',$sno_rectification)
+                                                    ->where('po_line_item',$po_line)
+                                                    ->first();
+                if($potrackingboq) {
+                    $double_data++;
+                    continue;
+                }
                 $potrackingboq = new PoTrackingNonmsBoq();
                 $potrackingboq->category_material = $category_material;
                 $potrackingboq->item_code = $item_code;
@@ -107,7 +106,6 @@ class Importboq extends Component
                 $potrackingboq->total_price = $total;
                 $potrackingboq->sno_material = $sno_material;
                 $potrackingboq->sno_rectification = $sno_rectification;
-                $potrackingboq->po = $po;
                 $potrackingboq->po_line_item = $po_line;
                 $potrackingboq->id_po_nonms_master = $data->id;
                 $potrackingboq->save();
@@ -141,7 +139,7 @@ class Importboq extends Component
             // }
         // }
 
-        session()->flash('message-success',"Upload PO Tracking Non MS Ericson success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
+        session()->flash('message-success',"Upload PO Tracking Non MS Ericson success, Success : <strong>{$total_success}</strong>, Double Data <strong>{$double_data}</strong>");
         return redirect()->route('po-tracking-nonms.index');   
     }
 }

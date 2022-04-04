@@ -18,7 +18,7 @@ class Data extends Component
     public $keyword,$site_id,$description,$due_date,$project_id,$site_report,$site_owner,$regions=[],$sub_regions=[],$employees;
     public $site_category,$site_type,$site_name,$region_id,$pm_type,$cluster,$sub_cluster,$sub_region_id,$employee_id,$file,$selected,$file_report=[],$description_report;
     public $reports=[];
-    public $date_start,$date_end,$change_pic_id;
+    public $date_start,$date_end,$change_pic_id,$is_punch_list=false;
     protected $listeners = ['refresh-page'=>'$refresh'];
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -53,6 +53,12 @@ class Data extends Component
     public function updated($propertyName)
     {
         if($propertyName == 'region_id') $this->sub_regions = SubRegion::where('region_id',$this->region_id)->get();
+    }
+
+    public function upload_with_punch_list()
+    {
+        $this->is_punch_list = true;
+        $this->upload_report();
     }
 
     public function updatedFileReport()
@@ -150,6 +156,11 @@ class Data extends Component
                 $this->selected->upload_report_date = $this->selected->end_date;
                 $this->selected->save();
             }
+        }
+        
+        if($this->is_punch_list){
+            $this->selected->is_punch_list = 1;
+            $this->selected->save();
         }
 
         session()->flash('message-success','Report Uploaded.');

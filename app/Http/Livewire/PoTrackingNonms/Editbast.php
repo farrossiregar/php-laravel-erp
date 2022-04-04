@@ -21,18 +21,7 @@ class Editbast extends Component
 
     public function render()
     {
-        // if(check_access_controller('po-tracking.edit') == false){
-        //     session()->flash('message-error','Access denied.');
-        //     $this->redirect('/');
-        // }
-                                                   
-           
-        $data = $this->data;
-
-        $id_master = $this->id;
-        
-        return view('livewire.po-tracking-nonms.edit-bast');
-        
+        return view('livewire.po-tracking-nonms.edit-bast');   
     }
 
 

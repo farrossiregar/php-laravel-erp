@@ -30,12 +30,9 @@
                                     <td>
                                         @if(check_access('po-tracking-nonms.import-bast'))
                                             @if($item->bast == null || $item->bast == '')
-                                                @if($item->po_no != '' || $item->po_no != null)
-                                                    <!-- <a href="javascript:;" wire:click="$emit('modalimportbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importbast" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import Bast')}}</a> -->
-                                                @endif
+                                            
                                             @else
-                                                <!-- <a href="javascript:;" wire:click="$emit('modalimportbast','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-importbast" title="Upload" class="btn btn-primary"><i class="fa fa-edit"></i> </a> -->
-
+                                                
                                                 <a href="<?php echo asset('storage/po_tracking_nonms/Bast/'.$item->bast) ?>" target="_blank"><i class="fa fa-download"></i> Download Bast </a>
                                             @endif
                                         @else
@@ -67,8 +64,6 @@
                                                 <a href="<?php echo asset('storage/po_tracking_nonms/ApprovedBast/'.$item->approved_bast) ?>" target="_blank"><i class="fa fa-download"></i> Download Approved Bast </a>
                                             @endif
                                         @endif
-                                        
-                                        
                                     </td>  
                                     <td>
                                         @if(check_access('po-tracking-nonms.import-grcust'))

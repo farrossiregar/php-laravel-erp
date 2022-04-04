@@ -1,4 +1,4 @@
-@section('title', __('PO Tracking Non MS Index'))
+@section('title', __('PO Tracking Non MS'))
 @section('parentPageTitle', 'Home')
 <div>
     <ul class="nav nav-tabs">
@@ -18,7 +18,9 @@
                     @if(check_access('po-tracking-nonms.edit-boq'))
                         <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import WO')}}</a>
                     @endif
-                    <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal-potrackinginput-pono"><i class="fa fa-plus"></i> Add PO</a>
+                    @if($is_e2e)
+                        <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal-potrackinginput-pono"><i class="fa fa-plus"></i> Add PO</a>
+                    @endif
                     <span wire:loading>
                         <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                         <span class="sr-only">{{ __('Loading...') }}</span>
@@ -31,7 +33,6 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>PO Number</th>    
                                 <th>PO Status</th>    
                                 <th>WO Number</th>    
                                 <th>Region</th>    
@@ -52,11 +53,16 @@
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>
-                                        @if(isset($item->po__->po_number))
-                                            <a href="{{route('po-tracking-nonms.po-detail',['id'=>$item->po_tracking_nonms_po_id])}}" target="_blank">{{ $item->po__->po_number }}
+                                        @if($item->po_status==0)
+                                            <label class="badge badge-info">Open</label>
+                                        @endif
+                                        @if($item->po_status==1)
+                                            <label class="badge badge-warning">Partial</label>
+                                        @endif
+                                        @if($item->po_status==2)
+                                            <label class="badge badge-success">Complete</label>
                                         @endif
                                     </td>
-                                    <td></td>
                                     <td><a href="{{ route('po-tracking-nonms.edit-boq',['id'=>$item->id]) }}">{{ $item->no_tt }}</a></td>  
                                     <td>{{ $item->region }}</td>    
                                     <td class="text-center">

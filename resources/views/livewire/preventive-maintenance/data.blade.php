@@ -47,27 +47,40 @@
         <table class="table m-b-0 c_list">
             <thead>
                 <tr style="background:#eee;">
-                    <th style="width:50px;">No</th>    
-                    <th>Site ID</th>
-                    <th>Site Name</th>   
-                    <th>Task Description</th>   
-                    <th>Site Category</th>   
-                    <th>Site Type</th>   
-                    <th>PM Type</th>
-                    <th>Region</th>
-                    <th>Sub Region</th>
-                    <th>Cluster</th>
-                    <th>Sub Cluster</th>
-                    <th>NIK Karyawan</th>
-                    <th>Nama Karyawan</th>
-                    <th>Admin Project</th>
-                    <th>Assign Date</th>
-                    <th>Pickup Date</th>
-                    <th>Submitted Date</th>
-                    <th>Status</th>
-                    <th>Approved EID</th>
-                    <th>Note</th>
-                    <th></th>
+                    <th style="width:50px;" rowspan="2">No</th>    
+                    <th rowspan="2">Site ID</th>
+                    <th rowspan="2">Site Name</th>   
+                    <th rowspan="2">Task Description</th>   
+                    <th rowspan="2">Site Category</th>   
+                    <th rowspan="2">Site Type</th>   
+                    <th rowspan="2">PM Type</th>
+                    <th rowspan="2">Region</th>
+                    <th rowspan="2">Sub Region</th>
+                    <th rowspan="2">Cluster</th>
+                    <th rowspan="2">Sub Cluster</th>
+                    <th rowspan="2">NIK Karyawan</th>
+                    <th rowspan="2">Nama Karyawan</th>
+                    <th rowspan="2">Admin Project</th>
+                    <th rowspan="2">Assign Date</th>
+                    <th rowspan="2">Pickup Date</th>
+                    <th rowspan="2">Submitted Date</th>
+                    <th rowspan="2">Status PM</th>
+                    <th rowspan="2" class="text-center">Status Punch List</th>
+                    <th colspan="7" class="text-center">Document Tracking</th>
+                    <th rowspan="2">Note</th>
+                    <th rowspan="2"></th>
+                </tr>
+                <tr style="background:#eee;">
+                    {{-- <th class="text-center">TMG</th> --}}
+                    {{-- <th class="text-center">TLP</th> --}}
+                    <th>PM Report</th>
+                    <th>Open Punch List</th>
+                    <th>TT Number/Laporan PLN</th>
+                    <th>BOQ Evidence</th>
+                    <th>BOQ</th>
+                    <th>Rec Evidence</th>
+                    <th>Rec FEAT</th>
+                </tr>
             </thead>
             <tbody>
                 @php($is_upload_report = check_access('preventive-maintenance.upload-report'))
@@ -102,17 +115,39 @@
                             @if($item->status==1)
                                 <span class="badge badge-warning">Onprogress</span>
                             @endif
-                            @if($item->status==2)
+                            @if($item->status==2 and $item->is_upload_report==null)
                                 <span class="badge badge-success">Submitted</span>
+                            @elseif($item->is_upload_report==1)
+                                @if($item->is_punch_list==1)
+                                    <span class="badge badge-warning">Approved with Punch List</span>
+                                @else
+                                    <span class="badge badge-success">Approved EID</span>
+                                @endif
                             @endif
                         </td>
                         <td>
-                            @if($item->is_upload_report==1)
-                                <span class="badge badge-success">Approved EID</span>
+                            @if($item->is_punch_list==1)
+                                @if($item->site_type=='TLP')    
+                                    @if($item->status_punch_list_tlp==0)
+                                        <span class="badge badge-warning">Open</span>
+                                    @endif
+                                @endif
+                                @if($item->site_type=='TMG')
+                                    @if($item->status_punch_list_tmg==0)
+                                        <span class="badge badge-warning">Open</span>
+                                    @endif
+                                @endif
                             @endif
                         </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td>{{$item->note}}</td>
-                        <td>
+                        <td class="text-center">
                             @if($item->status==2 and $is_upload_report and $item->is_upload_report==0)
                                 <a href="javascript:void(0)" class="text-success" wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_upload_report"><i class="fa fa-upload"></i></a>
                             @else
@@ -204,9 +239,10 @@
                     <div class="modal-footer">
                         <span wire:loading>
                             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-                            <span class="sr-only">{{ __('Please wait checking your file...') }}</span> Please wait checking your file...
+                            <span class="sr-only">{{ __('Please wait...') }}</span> Please wait...
                         </span>
                         <button type="submit" wire:loading.remove wire:target="file_report" class="btn btn-success"><i class="fa fa-save"></i> Upload</button>
+                        <button type="button" wire:loading.remove wire:target="file_report" wire:click="upload_with_punch_list" class="btn btn-info"><i class="fa fa-check-circle"></i> Upload with Punch List</button>
                     </div>
                 </form>
             </div>

@@ -133,14 +133,17 @@
                             <tr>
                                 <th>No</th>
                                 <th>WO Number</th>    
-                                <th>Region</th>    
-                                <!-- <th class="text-center">Status</th>     -->
-                                <th>Site ID</th>
-                                <th>Site Name</th>
-                                <th>Coordinator</th>
-                                <th>Field Team</th>
-                                <th>Extra Budget</th>
-                                <th>Action</th>
+                                <th>PO Line Item</th>   
+                                <th>SNo Material</th>
+                                <th>SNO Rectification</th>                            
+                                <th>Category Material</th>                               
+                                <th>Item Code</th>                             
+                                <th>Item Description</th>                               
+                                <th>UOM</th>                               
+                                <th>Quantity</th>                            
+                                <th>Customer Price</th>          
+                                <th>Total</th>          
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -148,78 +151,21 @@
                                 @foreach($data->wos as $k => $item)
                                     <tr>
                                         <td>{{$k+1}}</td>
-                                        <td><a href="{{ route('po-tracking-nonms.edit-boq',['id'=>$item->id]) }}">{{ $item->no_tt }}</a></td>  
-                                        <td>{{ $item->region }}</td>    
-                                        <!-- <td class="text-center">
-                                            @if($item->status==0 || $item->status == null || $item->status == '0')
-                                                <label class="badge badge-info" data-toggle="tooltip" title="Regional / SM - Waiting to Submit">Waiting to Submit</label>
-                                            @endif
-                                            @if($item->status==1)
-                                                <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%, Waiting to Transfer Budget">Finance In Review</label>
-                                            @endif
-                                            @if($item->status==2)
-                                                <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%, Waiting to Transfer Budget">Finance - Approved</label>
-                                            @endif
-                                            @if($item->status==3)
-                                                <label class="badge badge-danger" data-toggle="tooltip" title="PMG - Revise Request, Profit < 30%">Revise</label>
-                                            @endif
-                                            @if($item->status==4)
-                                                <label class="badge badge-warning" data-toggle="tooltip" title="PMG - Waiting PMG Review under 30%">PMG Review </label>
-                                            @endif
-                                            @if($item->status==5)
-                                                <label class="badge badge-info" data-toggle="tooltip">Budget Transfer</label>
-                                            @endif
-                                            @if($item->status==6)
-                                                <label class="badge badge-info" data-toggle="tooltip">Proccess Field Team</label>
-                                            @endif
-                                            @if($item->status==7 && $item->bast_status == 1)
-                                                <label class="badge badge-warning" data-toggle="tooltip" title="E2E - Waiting Approved Bast by E2E">BAST - Waiting Approval </label>
-                                            @endif
-                                            @if($item->status==7 && $item->bast_status == 2)
-                                                <label class="badge badge-info" data-toggle="tooltip" title="E2E - Bast Approved">Bast Approved </label>
-                                            @endif
-                                            @if($item->status==7 && $item->bast_status == 3)
-                                                <label class="badge badge-danger" data-toggle="tooltip" title="Regional - Revise Bast">Bast Revisi</label>
-                                            @endif
-                                            @if($item->status==8)
-                                                <label class="badge badge-info" data-toggle="tooltip" title="E2E - Upload approved BAST & GR from customer">Upload BAST & GR</label>
-                                            @endif
-                                            @if($item->status==9)
-                                                <label class="badge badge-danger" data-toggle="tooltip" title="Finance - Upload Approved Acceptance docs and Invoice">Finance</label>
-                                            @endif
-                                            @if($item->status==10)
-                                                <a href="javascript:void(0)" class="badge badge-success"  wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_end"><i class="fa fa-check-circle"></i> End</a>
-                                            @endif
-                                        </td> -->
-                                        <td>{{$item->site_id}}</td>
-                                        <td>{{$item->site_name}}</td>
-                                        <!-- <td class="text-center">
-                                            @if(isset($item->bukti_transfer))
-                                                @foreach($item->bukti_transfer as $bukti_transfer)
-                                                    <a href="{{asset($bukti_transfer->file)}}" title="Finance - Budget Successfully Transfered" target="_blank"><i class="fa fa-image"></i> </a> 
-                                                @endforeach
-                                            @endif
-                                        </td> -->
-                                        <td>{{isset($item->coordinator->name)?$item->coordinator->name : ''}}</td>
-                                        <td>{{isset($item->field_team->name)?$item->field_team->name : ''}}</td>
-                                        <td>
-                                            @if(empty($item->extra_budget))
-                                                -
-                                            @else
-                                                @if($item->extra_budget!="")
-                                                    @if($item->status_extra_budget==1)
-                                                        <span class="badge badge-warning">Waiting Approval</span>
-                                                    @endif
-                                                    @if($item->status_extra_budget==2)
-                                                        {{format_idr($item->extra_budget)}}
-                                                    @endif      
-                                                @endif                  
-                                            @endif
-                                        </td>
+                                        <td><a href="{{ route('po-tracking-nonms.edit-boq',['id'=>$item->wo->id]) }}">{{ $item->wo->no_tt }}</a></td>  
+                                        <td>{{$item->po_line_item}}</td>
+                                        <td class="text-center">{{$item->sno_material}}</td>                               
+                                        <td class="text-center">{{$item->sno_rectification}}</td>                           
+                                        <td>{{ $item->category_material }}</td>                               
+                                        <td>{{ $item->item_code }}</td>                     
+                                        <td>{{ $item->item_description }}</td>                               
+                                        <td class="text-center">{{ $item->uom }}</td>                               
+                                        <td class="text-center">{{ $item->qty }}</td>            
+                                        <td>Rp {{ format_idr($item->price) }}</td>   
+                                        <td>Rp {{ format_idr($item->qty * $item->price) }}</td>
                                         <td>
                                             @if(check_access('po-tracking-nonms.detail-photo'))
-                                                @if($item->bast_status == '')
-                                                    <a href="{{route('po-tracking-nonms.detailfoto',['id'=>$item->id]) }}" ><i class="fa fa-eye"></i> Detail Foto</a>
+                                                @if($item->wo->bast_status == '')
+                                                    <a href="{{route('po-tracking-nonms.detailfoto',['id'=>$item->wo->id]) }}" ><i class="fa fa-eye"></i> Detail Foto</a>
                                                 @endif
                                             @endif
                                         </td>
