@@ -4,9 +4,7 @@ namespace App\Http\Livewire\PoTrackingNonms;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\PoTrackingPds;
 use App\Models\PoTrackingNonms;
-use App\Models\Employee;
 use App\Models\EmployeeProject;
 use Illuminate\Support\Arr;
 use Livewire\WithFileUploads;
@@ -17,7 +15,7 @@ class Indexboq extends Component
     public $date,$keyword,$coordinator_id,$coordinators=[],$selected_data,$is_service_manager=false;
     public $is_coordiantor=false,$field_teams=[],$field_team_id,$url_bast,$note,$file_bast,$file_gr;
     public $extra_budget, $file_extra_budget,$scoope_of_works;
-    public $is_finance=false,$wo_id=[];
+    public $is_finance=false,$wo_id=[],$is_e2e;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['refresh'=>'$refresh'];
 
@@ -50,6 +48,7 @@ class Indexboq extends Component
         $this->is_service_manager = check_access('is-service-manager');
         $this->is_coordinator = check_access('is-coordinator');
         $this->is_finance = check_access('is-finance');
+        $this->is_e2e = check_access('is-e2e');
     }
 
     public function updated($propertyName)

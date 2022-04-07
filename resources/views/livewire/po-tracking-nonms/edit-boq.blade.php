@@ -96,7 +96,11 @@
                                 @foreach($data as $key => $item)
                                 <tr>
                                     <td>{{ $key+1 }}</td>     
-                                    <td class="text-center">{{$item->po}}</td>                               
+                                    <td class="text-center">
+                                        @if($item->po_tracking_nonms_po_id)
+                                            <a href="{{route('po-tracking-nonms.po-detail',['id'=>$item->po_tracking_nonms_po_id])}}">{{$item->po}}</a>
+                                        @endif
+                                    </td>                               
                                     <td class="text-center">@livewire('po-tracking-nonms.editable',['data'=>$item,'field'=>'po_line_item'],key((int)$item->id+10))</td>                               
                                     <td class="text-center">{{$item->sno_material}}</td>                               
                                     <td class="text-center">{{$item->sno_rectification}}</td>                           

@@ -40,8 +40,8 @@ class Editboq extends Component
         $total_before = @$total_before[0]->price;
         $total_after = json_decode($this->total_after);
         $total_after = @$total_after[0]->input_price;
-        if($total_before && $total_after)
-            $this->total_profit = 100 - round(($total_after / ($total_before*$this->total_before[0]->total_qty)) * 100);
+        if($this->total_ericson && $total_after)
+            $this->total_profit = 100 - round(($total_after / $this->total_ericson) * 100);
         else
             $this->total_profit = '100';
 

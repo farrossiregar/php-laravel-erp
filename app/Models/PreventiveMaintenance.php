@@ -8,12 +8,28 @@ use App\Models\Site;
 use App\Models\Employee;
 use App\Models\Region;
 use App\Models\SubRegion;
+use App\Models\PreventiveMaintenancePunchlist;
 
 class PreventiveMaintenance extends Model
 {
     use HasFactory;
 
     protected $table = 'preventive_maintenance';
+
+    public function punch_list_laporan_pln()
+    {
+        return $this->hasMany(PreventiveMaintenancePunchlist::class,'preventive_maintenance_id','id')->where('type',3); // Evidence
+    }
+
+    public function punch_list_evidence()
+    {
+        return $this->hasMany(PreventiveMaintenancePunchlist::class,'preventive_maintenance_id','id')->where('type',1); // Evidence
+    }
+
+    public function punch_list_rectification()
+    {
+        return $this->hasMany(PreventiveMaintenancePunchlist::class,'preventive_maintenance_id','id')->where('type',2); // Rectification
+    }
 
     public function site()
     {

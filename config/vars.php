@@ -32,5 +32,6 @@ return [
                             7=>'Preventive Maintenance',
                             8=>'Duty Roster - Site List',
                             9=>'Work Force Management',
-                            10=>'PO Tracking Non MS']
+                            10=>'PO Tracking Non MS',
+                            11=>'Punch List']
 ];

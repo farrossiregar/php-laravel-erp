@@ -20,11 +20,20 @@ class WorkOrderController extends Controller
         $general_notification += Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereNotIn('type',[1,2,3])->get()->count();
 
         $open_work_order = PoTrackingNonms::where('field_team_id',\Auth::user()->employee->id)->whereNull('bast_status')->count();
-        $accepted_work_order = PoTrackingNonms::where('field_team_id',\Auth::user()->employee->id)->where('bast_status',1)->orWhere('bast_status',3)->count();
+        $accepted_work_order = PoTrackingNonms::where('field_team_id',\Auth::user()->employee->id)->where('is_accept_field_team',1)->where('bast_status',1)->orWhere('bast_status',3)->count();
         $closed_work_order = PoTrackingNonms::where('field_team_id',\Auth::user()->employee->id)->where('bast_status',2)->count();
         $wfm = 0;//WorkFlowManagement::where('field_team_id',\Auth::user()->employee->id)->where('employee_id',\Auth::user()->employee->id)->where('status','<>',2)->get()->count();
         
         return response()->json(['message'=>'success','general_notification'=>$general_notification,'open_work_order'=>$open_work_order,'accepted_work_order'=>$accepted_work_order,'closed_work_order'=>$closed_work_order,'wfm'=>$wfm?$wfm:0], 200);
+    }
+
+    public function wo_accept(Request $r)
+    {
+        $data = PoTrackingNonms::find($r->id);
+        $data->is_accept_field_team = 1 ;
+        $data->save();
+
+        return response()->json(['message'=>'submited'], 200);
     }
 
     public function workOrderGeneral()
@@ -53,12 +62,17 @@ class WorkOrderController extends Controller
     public function workOrderOpen()
     {
         $data = [];
-        $param = PoTrackingNonms::whereNull('bast_status')->where('field_team_id',\Auth::user()->employee->id)->orderBy('id','DESC')->get();
+        $param = PoTrackingNonms::whereNull('bast_status')->where('is_accept_field_team',0)->where('field_team_id',\Auth::user()->employee->id)->orderBy('id','DESC')->get();
         
         foreach($param as $k => $item){
             $data[$k] = $item;
+            $data[$k]['is_accept_field_team'] = $item->is_accept_field_team ? $item->is_accept_field_team : 0; 
             $data[$k]['region'] = $item->region?$item->region:'-';
             $data[$k]['type_doc_name'] = $item->type_doc==1?'STP' : 'Ericson';
+            $data[$k]['site_id'] = $item->site_id?$item->site_id : '-';
+            $data[$k]['site_name'] = $item->site_name?$item->site_name : '-';
+            $data[$k]['region'] = $item->region?$item->region : '-';
+            $data[$k]['no_tt'] = $item->no_tt?$item->no_tt : '-';
             $data[$k]['material'] = '-';
             $material = '';
             foreach(PoTrackingNonmsBoq::where('id_po_nonms_master',$item->id)->get() as $wo){
@@ -74,12 +88,19 @@ class WorkOrderController extends Controller
     public function workOrderAccepted()
     {
         $data = [];
-        $param = PoTrackingNonms::where('bast_status',1)->where('field_team_id',\Auth::user()->employee->id)->orWhere('bast_status',3)->get();
+        $param = PoTrackingNonms::whereNull('bast_status')->where('is_accept_field_team',1)->where('field_team_id',\Auth::user()->employee->id)->orWhere('bast_status',3)->get();
         
         foreach($param as $k => $item){
             $data[$k] = $item;
+            $data[$k]['type_doc_name'] = $item->type_doc==1?'STP' : 'Ericson';
+            $data[$k]['material'] = '-';
+            $data[$k]['is_accept_field_team'] = $item->is_accept_field_team ? $item->is_accept_field_team : 0; 
             $data[$k]['region'] = $item->region?$item->region:'-';
             $data[$k]['type_doc_name'] = $item->type_doc==1?'STP' : 'Ericson';
+            $data[$k]['site_id'] = $item->site_id?$item->site_id : '-';
+            $data[$k]['site_name'] = $item->site_name?$item->site_name : '-';
+            $data[$k]['region'] = $item->site_name?$item->region : '-';
+            $data[$k]['no_tt'] = $item->no_tt?$item->no_tt : '-';
             $data[$k]['material'] = '-';
             $material = '';
             foreach(PoTrackingNonmsBoq::where('id_po_nonms_master',$item->id)->get() as $wo){

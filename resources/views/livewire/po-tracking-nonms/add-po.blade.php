@@ -52,15 +52,15 @@
             </div>
         </div>
         <div class="form-group">
-            <table class="table table-striped">
-                <thead>
+            <table class="table">
+                <thead style="background:#eee;">
                     <tr>
                         <th style="width:50px">No</th>
                         <th>WO Number</th>
+                        <th>PO Line Item</th>
                         <th>Region</th>
                         <th>Site ID</th>
                         <th>Site Name</th>
-                        <th>PO Line Item / Item Code / Item Description</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -82,21 +82,18 @@
                         </td>
                         @if($wo_id[$k])
                             @php($wo_row = App\Models\PoTrackingNonms::find($wo_id[$k]))
-                            <td>{{$wo_row->region}}</td>
-                            <td>{{$wo_row->site_id}}</td>
-                            <td>{{$wo_row->site_name}}</td>
                             <td>
-                                <select class="form-control">
-                                    @foreach(\App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master',$wo_id[$k])->get() as $boq)
-                                        <option value="">{{$boq->po_line_item}} / {{$boq->item_code}} / {{$boq->item_description}}</option>
+                                <select class="form-control" wire:model="wo_line_item.{{$k}}">
+                                    <option value=""> -- Select -- </option>
+                                    @foreach(\App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master',$wo_id[$k])->whereNull('po')->get() as $boq)
+                                        <option value="{{$boq->id}}">{{$boq->po_line_item}} / {{$boq->item_code}} / {{$boq->item_description}}</option>
                                     @endforeach
                                 </select>
                             </td>
-                        @else
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{$wo_row->region}}</td>
+                            <td>{{$wo_row->site_id}}</td>
+                            <td>{{$wo_row->site_name}}</td>
+                        @else <td colspan="4"></td>
                         @endif
                         <td><a href="javascript:void(0)" class="text-danger" wire:click="delete_wo({{$k}})"><i class="fa fa-trash"></i></a></td>
                     </tr>

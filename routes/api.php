@@ -74,6 +74,10 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('health-check/store',[\App\Http\Controllers\Api\HealthCheckController::class,'store'])->name('api.health-check.store');
 	Route::get('health-check/get-today',[\App\Http\Controllers\Api\HealthCheckController::class,'getToday'])->name('api.health-check.get-today');
 	Route::post('user/update',[\App\Http\Controllers\Api\UserController::class,'update'])->name('api.user.update');
+	
+	/**
+	 * Work Order
+	 */
 	Route::get('work-order',[\App\Http\Controllers\Api\WorkOrderController::class,'data'])->name('api.work-order.data');
 	Route::get('work-order/notification',[\App\Http\Controllers\Api\WorkOrderController::class,'notification'])->name('api.work-order.notification');
 	Route::post('work-order/upload-bast-image',[\App\Http\Controllers\Api\WorkOrderController::class,'uploadBastImage'])->name('api.work-order.upload-bast-image');
@@ -83,15 +87,32 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('work-order/closed',[\App\Http\Controllers\Api\WorkOrderController::class,'workOrderClosed'])->name('api.work-order.closed');
 	Route::get('work-order/accepted',[\App\Http\Controllers\Api\WorkOrderController::class,'workOrderAccepted'])->name('api.work-order.accepted');
 	Route::get('work-order/general',[\App\Http\Controllers\Api\WorkOrderController::class,'workOrderGeneral'])->name('api.work-order.general');
+	Route::post('work-order/wo-accept',[\App\Http\Controllers\Api\WorkOrderController::class,'wo_accept'])->name('api.work-order.wo-accept');
+	
 	Route::get('drug-test/history',[\App\Http\Controllers\Api\DrugTestController::class,'history'])->name('api.drug-test.history');
 	Route::post('drug-test/upload-image',[\App\Http\Controllers\Api\DrugTestController::class,'uploadImage'])->name('api.drug-test.upload-image');
 	Route::get('drug-test/get-image/{id}',[\App\Http\Controllers\Api\DrugTestController::class,'getImage'])->name('api.drug-test.get-image');
+	
+
+	/**
+	 * Preventive Maintenance
+	 */
 	Route::get('preventive-maintenance/history',[\App\Http\Controllers\Api\PreventiveMaintenanceController::class,'history'])->name('api.preventive-maintenance.history');
 	Route::get('preventive-maintenance/get-image/{id}',[\App\Http\Controllers\Api\PreventiveMaintenanceController::class,'getImage'])->name('api.preventive-maintenance.get-image');
 	Route::post('preventive-maintenance/upload-image',[\App\Http\Controllers\Api\PreventiveMaintenanceController::class,'uploadImage'])->name('api.preventive-maintenance.upload-image');
 	Route::post('preventive-maintenance/submit',[\App\Http\Controllers\Api\PreventiveMaintenanceController::class,'submit'])->name('api.preventive-maintenance.submit');
 	Route::post('preventive-maintenance/set-pickup',[\App\Http\Controllers\Api\PreventiveMaintenanceController::class,'setPickup'])->name('api.preventive-maintenance.set-pickup');
 	Route::post('preventive-maintenance/set-solved',[\App\Http\Controllers\Api\PreventiveMaintenanceController::class,'setSolved'])->name('api.preventive-maintenance.set-solved');
+	
+	/**
+	 * Punch List
+	 */
+	Route::get('punch-list/history',[\App\Http\Controllers\Api\PunchlistController::class,'history'])->name('api.punch-list.history');
+	Route::post('punch-list/upload-image',[\App\Http\Controllers\Api\PunchlistController::class,'uploadImage'])->name('api.punch-list.upload-image');
+	Route::get('punch-list/get-image/{id}',[\App\Http\Controllers\Api\PunchlistController::class,'getImage'])->name('api.punch-list.get-image');
+	Route::post('punch-list/submit',[\App\Http\Controllers\Api\PunchlistController::class,'submit'])->name('api.punch-list.submit');
+	
+
 	Route::post('training-material/history',[\App\Http\Controllers\Api\TrainingMaterialController::class,'history'])->name('api.training-material.history');
 	Route::post('training-material/upload-image',[\App\Http\Controllers\Api\TrainingMaterialController::class,'uploadImage'])->name('api.training-material.upload-image');
 	Route::get('training-material/get-image/{id}',[\App\Http\Controllers\Api\TrainingMaterialController::class,'getImage'])->name('api.training-material.get-image');
