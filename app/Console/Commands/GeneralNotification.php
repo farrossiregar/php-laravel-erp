@@ -91,19 +91,19 @@ class GeneralNotification extends Command
                 //     $ppe->description = "Sudahkah anda melakukan PPE Check hari ini";
                 //     $ppe->save();
                     
-                //     $find = PpeCheck::where('employee_id',$em->id)->whereDate('created_at',date('Y-m-d'))->first();
-                //     if(!$find){
-                //         $data = new PpeCheck();
-                //         $data->employee_id = $em->id;
-                //         if($project) $data->client_project_id = $project->client_project_id; 
-                //         $data->region_id = $em->region_id;
-                //         $data->sub_region_id = $em->sub_region_id;
-                //         $data->save();
+                    $find = PpeCheck::where('employee_id',$em->id)->whereDate('created_at',date('Y-m-d'))->first();
+                    if(!$find){
+                        $data = new PpeCheck();
+                        $data->employee_id = $em->id;
+                        if($project) $data->client_project_id = $project->client_project_id; 
+                        $data->region_id = $em->region_id;
+                        $data->sub_region_id = $em->sub_region_id;
+                        $data->save();
 
-                //         if($em->device_token){
-                //             push_notification_android($em->device_token,$ppe->title,$ppe->description,2);
-                //         }
-                //     }
+                        // if($em->device_token){
+                        //     push_notification_android($em->device_token,$ppe->title,$ppe->description,2);
+                        // }
+                    }
                 // }
             
                 $vehicle = Notification::where(['employee_id'=>$em->id,'type'=>3])->whereDate('created_at',date('Y-m-d'))->first();
