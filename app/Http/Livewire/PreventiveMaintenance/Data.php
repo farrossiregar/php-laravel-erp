@@ -9,6 +9,7 @@ use App\Models\Region;
 use App\Models\SubRegion;
 use App\Models\Employee;
 use App\Models\EmployeeProject;
+use App\Models\PreventiveMaintenancePunchlist;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 
@@ -68,9 +69,101 @@ class Data extends Component
         ]);
     }
 
+    public function submit_justification_complete()
+    {
+        $this->selected->tt_number_created = date('Y-m-d');
+        $this->selected->status_punch_list_tlp = 1;
+        $this->selected->save();
+
+        $this->emit('message-success','TT Number/Laporan PLN submitted');
+        $this->emit('refresh-page');
+
+        \LogActivity::add('[web] PM Submitted TT Number');
+    }
+
+    public function submit_feat()
+    {
+        $this->selected->status_punch_list_tmg = 4;
+        $this->selected->boq_created = date('Y-m-d');
+        $this->selected->save();
+
+        if(isset($this->selected->employee->device_token)){
+            $message = "Site ID : {$this->selected->site_id}\nSite Name : {$this->selected->site_name}\n";
+            $message .= "Description : {$this->selected->description}\n";
+            $message .= "Site Category : {$this->selected->site_category}\n";
+            $message .= "Site Type : {$this->selected->site_type}\n";
+            $message .= "Region : ".(isset($this->selected->region->region) ? $this->selected->region->region : '')."\n";
+            
+            push_notification_android($this->selected->employee->device_token,'Punch List - Rectification Approved',$message,7);
+        }
+
+        \LogActivity::add('[web] Punch List Submit Rectification #ID:'. $this->selected->id);
+
+        $this->emit('message-success','Rectification submitted');
+        $this->emit('refresh-page');
+    }
+
+    public function  submit_boq()
+    {
+        $this->selected->status_punch_list_tmg = 2;
+        $this->selected->boq_created = date('Y-m-d');
+        $this->selected->save();
+
+        if(isset($this->selected->employee->device_token)){
+            $message = "Site ID : {$this->selected->site_id}\nSite Name : {$this->selected->site_name}\n";
+            $message .= "Description : {$this->selected->description}\n";
+            $message .= "Site Category : {$this->selected->site_category}\n";
+            $message .= "Site Type : {$this->selected->site_type}\n";
+            $message .= "Region : ".(isset($this->selected->region->region) ? $this->selected->region->region : '')."\n";
+            
+            push_notification_android($this->selected->employee->device_token,'Punch List - BoQ Approved by EID',$message,7);
+        }
+
+        \LogActivity::add('[web] Punch List Submit BOQ #ID:'. $this->selected->id);
+
+        $this->emit('message-success','BOQ submitted');
+        $this->emit('refresh-page');
+    }
+
+    public function delete_punch_list(PreventiveMaintenancePunchlist $data)
+    {
+        $data->delete();
+
+        $this->emit('message-success','Image deleted');
+        $this->selected = PreventiveMaintenanceModel::find($this->selected->id);
+
+        \LogActivity::add('[web] Punch List deleted image');
+    }
+
+    public function submit_tt_number()
+    {
+        $this->validate([
+            'file' => 'required|file|mimes:xlsx,csv,xls,doc,docx,pdf,image|max:51200', // 50MB Max
+            'description' => 'required'
+        ]);
+
+        $upload = new PreventiveMaintenancePunchlist();
+        $upload->preventive_maintenance_id = $this->selected->id;
+        $upload->save();
+
+        if($this->file){
+            $name = "tt_file_".$upload->id .".".$this->file->extension();
+            $this->file->storeAs("public/preventive-maintenance/{$this->selected->id}/punch-list", $name);
+            $upload->file = "storage/preventive-maintenance/{$this->selected->id}/punch-list/{$name}";
+            $upload->note = $this->description;
+            $upload->type = 3;
+            $upload->save();
+        }
+        
+        $this->emit('message-success','TT Number/Laporan PLN submitted');
+        $this->emit('refresh-page');
+
+        \LogActivity::add('[web] PM Submitted TT Number');
+    }
+
     public function init_data()
     {
-        $data = PreventiveMaintenanceModel::with(['employee','region','sub_region'])->orderBy('id','DESC');
+        $data = PreventiveMaintenanceModel::with(['employee','region','sub_region','punch_list_evidence'])->orderBy('updated_at','DESC');
         if(!check_access('preventive-maintenance.show-all-region')) $data->where('admin_project_id',\Auth::user()->employee->id);
         if($this->keyword) {
             $data->where(function($table){
@@ -159,6 +252,18 @@ class Data extends Component
         }
         
         if($this->is_punch_list){
+
+            if($this->selected->site_type=='TMG' and isset($this->selected->employee->device_token)){
+                $message = "Site ID : {$this->selected->site_id}\nSite Name : {$this->selected->site_name}\n";
+                $message .= "Description : {$this->selected->description}\n";
+                $message .= "Site Category : {$this->selected->site_category}\n";
+                $message .= "Site Type : {$this->selected->site_type}\n";
+                $message .= "Region : ".(isset($this->selected->region->region) ? $this->selected->region->region : '')."\n";
+                
+                push_notification_android($this->selected->employee->device_token,'Punch List - Take Evidence',$message,7);
+            }
+
+            $this->selected->open_punch_list_created = date('Y-m-d');
             $this->selected->is_punch_list = 1;
             $this->selected->save();
         }

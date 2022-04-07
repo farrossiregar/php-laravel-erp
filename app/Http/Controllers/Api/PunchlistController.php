@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PreventiveMaintenance;
-use App\Models\PreventiveMaintenanceUpload;
+use App\Models\PreventiveMaintenancePunchlist;
 
-class PunchListController extends Controller
+class PunchlistController extends Controller
 {
     public function history()
     {
         $data = [];
-        $param = PreventiveMaintenance::where('employee_id',\Auth::user()->employee->id)->orderBy('id','DESC');
+        $param = PreventiveMaintenance::where('employee_id',\Auth::user()->employee->id)
+                                        ->where(['is_punch_list'=>1,'site_type'=>'TMG'])
+                                        ->orderBy('updated_at','DESC');
         
         if(isset($_GET['keyword']) and $_GET['keyword']!="") $param->where(function($table){
                                             foreach(\Illuminate\Support\Facades\Schema::getColumnListing('preventive_maintenance') as $column){
@@ -28,7 +30,7 @@ class PunchListController extends Controller
 
         foreach($param->get() as $k => $item){
             $data[$k]['id'] = $item->id;
-            $data[$k]['status'] = $item->status;
+            $data[$k]['status'] = $item->status_punch_list_tmg;
             $data[$k]['user_signum'] = isset($item->employee->employee_code) ? $item->employee->employee_code : '';
             $data[$k]['user_name'] = \Auth::user()->employee->name;
             $data[$k]['resource_id'] = '-';
@@ -58,6 +60,11 @@ class PunchListController extends Controller
             $data[$k]['cluster'] = isset($item->cluster) ? $item->cluster : '-';
             $data[$k]['sub_cluster'] = isset($item->sub_cluster) ? $item->sub_cluster : '-';
             $data[$k]['admin_project'] = isset($item->admin->name) ? $item->admin->name : '-';
+            $data[$k]['assign_date'] = '-';
+            
+            if($item->status_punch_list_tmg==0) $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->updated_at));
+            if($item->status_punch_list_tmg==1) $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->updated_at));
+            if($item->status_punch_list_tmg==2) $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->updated_at));
         }
 
         \LogActivity::add('[apps] PM Data');
@@ -69,24 +76,19 @@ class PunchListController extends Controller
     {
         $data = PreventiveMaintenance::find($r->id);
 
-        if($data and empty($data->start_date)){
-            $data->start_date = date('Y-m-d');
-            $data->status = 1; // on progress
-            $data->save();
-        }
-
         if($data){
-            $upload = new PreventiveMaintenanceUpload();
-            $upload->preventive_maintenance = $data->id;
+            $upload = new PreventiveMaintenancePunchlist();
+            $upload->preventive_maintenance_id = $data->id;
             $upload->save();
 
             if($r->file){
                 $this->validate($r, ['file' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048']); // validate image
                 
                 $name = $upload->id .".".$r->file->extension();
-                $r->file->storeAs("public/preventive-maintenance/{$data->id}", $name);
-                $upload->image = "storage/preventive-maintenance/{$data->id}/{$name}";
-                $upload->description = $r->description;
+                $r->file->storeAs("public/preventive-maintenance/{$data->id}/punch-list", $name);
+                $upload->file = "storage/preventive-maintenance/{$data->id}/punch-list/{$name}";
+                $upload->note = $r->description;
+                $upload->type = $r->type;
                 $upload->save();
             }
         }
@@ -97,10 +99,10 @@ class PunchListController extends Controller
     public function getImage($id)
     {
         $data = [];
-        $temp = PreventiveMaintenanceUpload::where(['preventive_maintenance'=>$id])->get();
+        $temp = PreventiveMaintenancePunchlist::where(['preventive_maintenance_id'=>$id,'type'=>$_GET['type']])->get();
         foreach($temp as $k => $item){
             $data[$k] = $item;
-            $data[$k]['image'] = $item->image ? asset($item->image) : null;
+            $data[$k]['image'] = $item->file ? asset($item->file) : null;
         }
         return response()->json(['message'=>'success','data'=>$data], 200);
     }
@@ -109,14 +111,19 @@ class PunchListController extends Controller
     {
         $data = PreventiveMaintenance::find($r->id);
         
-        if($data){
-            $data->end_date = date('Y-m-d');
-            $data->employee_id = \Auth::user()->employee->id;
-            $data->status = 2; // complete
-            $data->save();
+        if($r->type==1) {
+            $data->status_punch_list_tmg = 1;
+            $data->boq_evidence_created = date('Y-m-d');
+            \LogActivity::add('[apps] Punch List Submit Evidence');
         }
 
-        \LogActivity::add('[apps] PM Complete');
+        if($r->type==2) {
+            $data->status_punch_list_tmg = 3;
+            $data->rec_feat_created = date('Y-m-d');
+            \LogActivity::add('[apps] Punch List Submit Rectification');
+        }
+
+        $data->save();
 
         return response()->json(['message'=>'submited','data'=>$data], 200);
     }
