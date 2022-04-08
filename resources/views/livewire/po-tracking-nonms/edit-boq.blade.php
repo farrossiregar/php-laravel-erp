@@ -163,7 +163,7 @@
                         @endif
                         @if($is_service_manager)
                             @if($status == '0' || $status == '' || $status == null)
-                                <a href="javascript:;" wire:click="$emit('modalsubmitdocpononms','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-submit" title="Submit Price" class="btn btn-primary"><i class="fa fa-check"></i> {{__('Submit Price')}}</a>                                  
+                                <a href="javascript:;" wire:click="$emit('modalsubmitdocpononms','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-submit" title="Submit Request" class="btn btn-primary"><i class="fa fa-check"></i> {{__('Submit Request')}}</a>                                  
                             @endif
                         @endif
                         <!--    End Submit to Finance or PMG by Regional    -->
