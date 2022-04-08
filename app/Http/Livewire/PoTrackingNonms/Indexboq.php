@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\PoTrackingNonms;
 use App\Models\EmployeeProject;
+use App\Models\Employee;
 use Illuminate\Support\Arr;
 use Livewire\WithFileUploads;
 
@@ -44,7 +45,8 @@ class Indexboq extends Component
         $client_project_ids = Arr::pluck(EmployeeProject::select('client_project_id')->where(['employee_id'=>\Auth::user()->employee->id])->get()->toArray(),'client_project_id');
         
         $this->coordinators = get_user_from_access('is-coordinator',$client_project_ids,\Auth::user()->employee->region_id);
-        $this->field_teams = get_user_from_access('is-field-team',$client_project_ids,\Auth::user()->employee->region_id);
+        $this->field_teams = Employee::select('employees.*')->join('employee_projects','employee_projects.employee_id','=','employees.id')->whereIn('client_project_id',$client_project_ids)->get();;
+
         $this->is_service_manager = check_access('is-service-manager');
         $this->is_coordinator = check_access('is-coordinator');
         $this->is_finance = check_access('is-finance');
@@ -112,7 +114,8 @@ class Indexboq extends Component
     public function assign_field_team()
     {
         $this->validate([
-            'field_team_id'=>'required'
+            'field_team_id'=>'required',
+            'scoope_of_works'=>'required'
         ]);
 
         $this->selected_data->scoope_of_works = $this->scoope_of_works;

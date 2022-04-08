@@ -45,7 +45,7 @@
                                 <th>Coordinator</th>
                                 <th>Field Team</th>
                                 <th>Scoope of Works</th>
-                                <th>Action</th>
+                                <!-- <th>Action</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -93,7 +93,6 @@
                                         @if($item->status >=8)
                                             <label class="badge badge-info" data-toggle="tooltip">Field Team Submitted</label>
                                         @endif
-                                        
                                     </td>
                                     <td>{{$item->site_id}}</td>
                                     <td>{{$item->site_name}}</td>
@@ -114,7 +113,6 @@
                                         ?>
                                         <span class="text-<?php echo $color; ?>">{{ $total_profit }}%</span>
                                     </td>
-
                                     <td>
                                         @if($item->status==5 and $item->coordinator_id =='' and $is_service_manager)
                                             <a href="javascript:void(0)" data-target="#modal_select_coordinator" wire:click="set_data({{$item->id}})" data-toggle="modal" class="badge badge-info badge-active"><i class="fa fa-plus"></i> coordinator</a>
@@ -127,14 +125,14 @@
                                         @endif
                                         {{isset($item->field_team->name)?$item->field_team->name : ''}}
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         @if($item->bast_status)
                                             <a href="{{route('po-tracking-nonms.detailfoto',['id'=>$item->id]) }}" ><i class="fa fa-image"></i> Foto</a>
                                         @endif
                                         @if(check_access('po-tracking-nonms.import-approvedbast') and $item->status==7 and $item->bast_status==2)
                                             <a href="javascript:;" class="badge badge-info badge-active" wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_e2e_review"><i class="fa fa-check-circle"></i> Review</a>
                                         @endif
-                                    </td>
+                                    </td> -->
                                     <td>{{$item->scoope_of_works}}</td>
                                 </tr>
                             @endforeach
@@ -244,7 +242,7 @@
                     </div>
                 </div>
 
-                <div class="modal fade" wire:ignore.self id="modal_select_coordinator" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" wire:ignore.self id="modal_select_coordinator" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <form wire:submit.prevent="assign_coordinator">
@@ -254,21 +252,21 @@
                                         <span aria-hidden="true close-btn">×</span>
                                     </button>
                                 </div>
-                                <div class="modal-body">
+                                <div class="modal-body" wire:ignore>
                                     <div class="form-group">
                                         <label>Coordinator</label>
-                                        <select class="form-control select-coordinator" wire:ignore>
+                                        <select class="form-control select-coordinator">
                                             <option value="">-- select --</option>
-                                            @foreach($coordinators as $item)
-                                                <option value="{{$item->employee_id}}">{{$item->nik}} / {{$item->employee_name}}</option>
+                                            @foreach($field_teams as $item)
+                                                <option value="{{$item->id}}">{{$item->nik}} / {{$item->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-upload"></i> Upload</button>
+                                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-upload"></i> Submit</button>
                                 </div>
-                                <div wire:loading>
+                                <div wire:loading wire:target="assign_coordinator">
                                     <div class="page-loader-wrapper" style="display:block">
                                         <div class="loader" style="display:block">
                                             <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
@@ -281,7 +279,7 @@
                     </div>
                 </div>
 
-                <div class="modal fade" wire:ignore.self id="modal_select_field_team" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" wire:ignore.self id="modal_select_field_team" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <form wire:submit.prevent="assign_field_team">
@@ -301,7 +299,7 @@
                                         <select class="form-control select-field-team">
                                             <option value="">-- select --</option>
                                             @foreach($field_teams as $item)
-                                                <option value="{{$item->employee_id}}">{{$item->nik}} / {{$item->employee_name}}</option>
+                                                <option value="{{$item->id}}">{{$item->nik}} / {{$item->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -309,7 +307,7 @@
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-upload"></i> Upload</button>
                                 </div>
-                                <div wire:loading>
+                                <div wire:loading wire:target="assign_field_team">
                                     <div class="page-loader-wrapper" style="display:block">
                                         <div class="loader" style="display:block">
                                             <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
