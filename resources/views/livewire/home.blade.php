@@ -118,11 +118,39 @@
                             @foreach(\App\Models\Module::select('modules.*')->where(['department_id'=>$department->id])->get() as $menu)
                                 <li class="">
                                     @if(Route::has($menu->link))
-                                        <a href="{{ route($menu->link)}}" onclick="document.location='{{route($menu->link)}}'">
+                                        <a href="{{ route($menu->link) }}" onclick="document.location='{{route($menu->link)}}'">
                                     @else
                                         <a href="javascript:void(0)" class="has-arrow">
                                     @endif
                                     {{$menu->name}}</a>
+
+                                    @if(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'is_show'=>1])->count()>0)
+                                        <ul>
+                                            @foreach(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'is_show'=>1])->get() as $action)    
+                                                @php($badge_notification = '<span class="badge badge-danger float-right">'.count_notif($action->link).'</span>')
+                                                <li  class="sub__">
+                                                    @if(Route::has($action->link))
+                                                        <a href="{{route($action->link)}}?project_id={{$menu->client_project_id}}"" class="pl-5"><i class="fa fa-dot-circle-o"></i> {{$action->name}} {!!$badge_notification!!}</a>
+                                                    @else
+                                                        <a href="javascript:void(0)" class="pl-5">{{$action->name}} {!!$badge_notification!!}</a>
+                                                    @endif
+                                                    @if($action->is_have_sub_menu==1)
+                                                        <ul>
+                                                            @foreach(\App\Models\ModulesItem::where(['parent_id'=>$action->id,'is_show'=>1])->get() as $sub)
+                                                                @php($badge_notification = '<span class="badge badge-danger float-right">'.count_notif($sub->link).'</span>')
+                                                                @if(Route::has($sub->link))
+                                                                    <li class="ml-2"> <a href="{{route($sub->link)}}?project_id={{$menu->client_project_id}}"" class="pl-5 custome_li"><i class="fa fa-dot-circle-o"></i> {{$sub->name}} {!!$badge_notification!!}</a></li>
+                                                                @else
+                                                                    <li class="ml-2"> <a href="javascript:void(0)" class="pl-5 custome_li"><i class="fa fa-dot-circle-o"></i>  {{$sub->name}}</a>  {!!$badge_notification!!}</li>
+                                                                @endif
+                                                            @endforeach
+                                                        </ul>                                                        
+                                                    @endif
+                                                </li> 
+                                            @endforeach
+                                        </ul>
+                                    @endif
+
                                 </li> 
                             @endforeach
                         @endif

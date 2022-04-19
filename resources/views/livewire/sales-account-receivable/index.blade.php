@@ -1,25 +1,19 @@
-@section('title', __('Sales Account Receivable - Index'))
-@section('parentPageTitle', 'Home')
+@section('title', __('Account Receivable'))
+@section('parentPageTitle', 'Finance & Accounting')
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
-            
             <ul class="nav nav-tabs">
-                
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#data">{{ __('Data') }}</a></li>
             </ul>
             <div class="tab-content">
-               
                 <div class="tab-pane active show" id="data">
                     <livewire:sales-account-receivable.data />
                 </div>
-               
             </div>
         </div>
-        
     </div>
 </div>
-
 <div class="modal fade" id="modal-salesaccountreceivable-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">

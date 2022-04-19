@@ -20,24 +20,20 @@ class Add extends Component
     use WithFileUploads;
     public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $date, $position, $department;
     
-    
     public $request_type, $subrequest_type, $file, $doc_name;
 
     public function render()
     {
-
-        $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-        
-        $this->employee_name = $user->name;
-        $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
-        $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
-        $this->position = \App\Models\UserAccess::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->user_access_id)->first()->name;
-        $this->department = \App\Models\Department::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->department_id)->first()->name;
-       
-
         return view('livewire.account-payable.add');
     }
 
+    public function mount()
+    {
+        $this->employee_name    = isset(Auth::user()->employee->name)?Auth::user()->employee->name : '-';
+        $this->project    = isset(Auth::user()->employee->region->region)?Auth::user()->employee->region->region : '-';
+        $this->position    = isset(Auth::user()->employee->access->name)?Auth::user()->employee->access->name : '-';
+        $this->department    = isset(Auth::user()->employee->department->name)?Auth::user()->employee->department->name : '-';
+    }
   
     public function save()
     {
