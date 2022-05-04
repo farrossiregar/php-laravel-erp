@@ -10,7 +10,7 @@ use Session;
 use DateTime;
 use Auth;
 use DB;
-
+use App\Models\AccountPayablePettycash;
 
 class Add extends Component
 {
@@ -40,19 +40,11 @@ class Add extends Component
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
         $data                           = new \App\Models\AccountPayable();
-        // $data->company_name             = Session::get('company_id');
         $data->project                  = $this->project;
-        // $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
-        
-        
-        // $dataemployee                   = explode(" - ",$this->employee_name);
         $data->region                   = $this->region;
         $data->name                     = $this->employee_name;
         $data->nik                      = $user->nik;
         $data->position                 = $user->user_access_id;
-        // $data->employee_id              = $dataemployee[2];
-        
-       
         
         $this->validate([
             'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
@@ -70,6 +62,29 @@ class Add extends Component
         $data->request_type                     = $this->request_type;
         $data->subrequest_type                  = $this->subrequest_type;
         $data->save();
+        $selected_id = $data->id;
+
+        if($this->request_type==1){
+            $data                           = new AccountPayablePettycash();
+            $data->id_master                = $selected_id;
+            $data->department               = isset(\Auth::user()->employee->department->name) ? \Auth::user()->employee->department->name : '';
+            $data->advance_req_no           = (isset(\Auth::user()->employee->department->name) ? substr(\Auth::user()->employee->department->name,0,1) : '').date('ym').(AccountPayablePettycash::count()+1);
+            $data->month                    = date('M');
+            $data->year                     = date('Y');
+            // $data->nominal_recorded = $data->
+            // $data->week                     = $this->advance_req_no;
+            // $data->advance_nominal          = $this->advance_nominal;
+            // $data->advance_date             = $this->advance_date;
+            // $data->cash_transaction_no      = $this->cash_transaction_no;
+            // $data->settlement_date          = $this->settlement_date;
+            $data->description = $this->subrequest_type;
+            // $data->settlement_nominal       = $this->settlement_nominal;
+            // $data->difference               = $this->difference;
+            // $data->account_no_recorded      = $this->account_no_recorded;
+            // $data->account_name_recorded    = $this->account_name_recorded;
+            // $data->nominal_recorded         = $this->nominal_recorded;
+            $data->save();
+        }
 
         // $notif = get_user_from_access('hotel-flight-ticket.noc-manager');
         // foreach($notif as $user){

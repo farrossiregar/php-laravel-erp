@@ -182,16 +182,10 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        
-                                        
-                                        
-                                       
                                     </div>
                                 </div>
-                                
                                 <div class="col-md-12 form-group">
                                     <hr />
-                                    
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                 </div>
                                 

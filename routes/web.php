@@ -141,6 +141,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('payroll',function(){})->name('payroll.index');
     Route::get('subcont',function(){})->name('subcont.index');
     Route::get('supplier-vendor',function(){})->name('supplier-vendor.index');
+    Route::get('finance-petty-cash',App\Http\Livewire\Finance\PettyCash::class)->name('finance-petty-cash.index');
     
     Route::get('asset-database',App\Http\Livewire\AssetDatabase\Index::class)->name('asset-database.index');
     Route::get('asset-request',App\Http\Livewire\AssetRequest\Index::class)->name('asset-request.index');
