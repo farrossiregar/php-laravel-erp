@@ -31,13 +31,14 @@ class Add extends Component
     public $item_description5, $currency5, $qty5, $price_perunit5, $total5;
     public $top, $total_item, $vat, $result_vat, $amount_vat, $deduction, $art23, $art4, $net_amount, $due_date;
 
+    public $is_e2e=false,$is_finance=false;
+
     public function render()
     {
-
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
         
         $this->employee_name = $user->name;
-        $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
+        // $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
         $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
         $this->position = \App\Models\UserAccess::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->user_access_id)->first()->name;
         $this->department = \App\Models\Department::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->department_id)->first()->name;
@@ -81,6 +82,12 @@ class Add extends Component
         $this->net_amount = $this->amount_vat - ($this->deduction + $this->art23 + $this->art4);
 
         return view('livewire.sales-account-receivable.add');
+    }
+
+    public function mount()
+    {
+        $this->is_e2e = check_access('is-e2e');
+        $this->is_finance = check_access('is-finance');
     }
 
     public function modaladdinvoice($id)

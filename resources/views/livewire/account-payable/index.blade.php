@@ -1,15 +1,12 @@
-@section('title', __('Account Payable - Index'))
-@section('parentPageTitle', 'Home')
+@section('title', __('Account Payable'))
+@section('parentPageTitle', 'Finance & Accounting')
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
-            
             <ul class="nav nav-tabs">
-                
                 <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#data">{{ __('Data') }}</a></li>
             </ul>
             <div class="tab-content">
-               
                 <div class="tab-pane active show" id="data">
                     <livewire:account-payable.data />
                 </div>

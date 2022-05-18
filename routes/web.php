@@ -128,8 +128,21 @@ Route::group(['middleware' => ['auth']], function(){
     // Route::get('team-schedule/generateusertimesheetpdf/{id}',App\Http\Livewire\TeamSchedule\Generateusertimesheetpdf::class)->name('team-schedule.generateusertimesheetpdf');
     Route::get('timesheet-record',App\Http\Livewire\TimesheetRecord\Index::class)->name('timesheet-record.index');
     Route::get('hotel-flight-ticket',App\Http\Livewire\HotelFlightTicket\Index::class)->name('hotel-flight-ticket.index');
+    
+    /**
+     * Finance & Accounting
+     */
     Route::get('account-payable',App\Http\Livewire\AccountPayable\Index::class)->name('account-payable.index');
     Route::get('sales-account-receivable',App\Http\Livewire\SalesAccountReceivable\Index::class)->name('sales-account-receivable.index');
+    Route::get('weekly-opex',function(){})->name('weekly-opex.index');
+    Route::get('rectification',function(){})->name('rectification.index');
+    Route::get('site-keeper',function(){})->name('site-keeper.index');
+    Route::get('hq-administration',function(){})->name('hq-administration.index');
+    Route::get('payroll',function(){})->name('payroll.index');
+    Route::get('subcont',function(){})->name('subcont.index');
+    Route::get('supplier-vendor',function(){})->name('supplier-vendor.index');
+    Route::get('finance-petty-cash',App\Http\Livewire\Finance\PettyCash::class)->name('finance-petty-cash.index');
+    
     Route::get('asset-database',App\Http\Livewire\AssetDatabase\Index::class)->name('asset-database.index');
     Route::get('asset-request',App\Http\Livewire\AssetRequest\Index::class)->name('asset-request.index');
     Route::get('asset-transfer-request',App\Http\Livewire\AssetTransferRequest\Index::class)->name('asset-transfer-request.index');

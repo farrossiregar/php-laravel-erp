@@ -1,5 +1,3 @@
-@section('title', __('Accident Report'))
-@section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -7,7 +5,6 @@
                 <div class="header row">
                     <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Request Account Payable </h5>
                 </div>
-
                 <div class="body pt-0">
                     <div class="form-group">
                         <form wire:submit.prevent="save">
@@ -18,8 +15,6 @@
                                         <div class="col-md-6 form-group">
                                             <label>Employee Name</label>
                                             <input list="petty_cash_category1" class="form-control"  wire:model="employee_name" readonly>
-                                           
-
                                             @error('employee_name')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
@@ -31,33 +26,20 @@
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        <!-- <div class="col-md-6 form-group">
-                                            <label>Region</label>
-                                            <input type="text" class="form-control" wire:model="region" readonly/>
-                                            
-                                            @error('date')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div> -->
-
                                         <div class="col-md-6 form-group">
                                             <label>Position</label>
                                             <input type="text" class="form-control" wire:model="position" readonly/>
-                                            
                                             @error('position')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-
                                         <div class="col-md-6 form-group">
                                             <label>Departement</label>
                                             <input type="text" wire:model="department" class="form-control" readonly/>
-                                            
                                             @error('department')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-
                                         <div class="col-md-6 form-group">
                                             <label>Request Type</label>
                                             <select onclick="" class="form-control" wire:model="request_type">
@@ -70,11 +52,8 @@
                                                 <option value="6">Site Keeper</option>
                                                 <option value="7">HQ Administration</option>
                                                 <option value="8">Payroll</option>
-                                                <option value="9">Supplier/Vendor</option>
-                                                
                                             </select>
                                         </div>
-
                                         <div class="col-md-6 form-group">
                                             <label>Sub Request Type</label>
                                             <select onclick="" class="form-control" wire:model="subrequest_type">
@@ -127,37 +106,36 @@
                                                 @endif
 
                                                 @if($request_type == '7')
-                                                <option value=""> --- Sub Request Type (HQ Adminstartion) --- </option>
-                                                <option value="1">BPJS Teragakerjaan</option>
-                                                <option value="2">BPJS Kesehatan</option>
-                                                <option value="3">Life Insurance</option>
-                                                <option value="4">Utilities - Electricity</option>
-                                                <option value="5">Utilities - Telephone</option>
-                                                <option value="6">Utilities - Internet</option>
-                                                <option value="7">Application Subscription (IT)</option>
-                                                <option value="8">IT/System Purchasing</option>
-                                                <option value="9">Staff Claim - Entertainment</option>
-                                                <option value="10">Staff Claim - Medical</option>
-                                                <option value="11">Staff Claim - Transport</option>
-                                                <option value="12">CSR (External & Internal)</option>
-                                                <option value="13">Homebase</option>
-                                                <option value="14">Office/Warehouse rental</option>
-                                                <option value="15">Legal Fee for vehicle</option>
-                                                <option value="16">Legal Fee</option>
-                                                <option value="17">Notary Fee</option>
-                                                <option value="18">Audit ISO</option>
-                                                <option value="19">Audit Financial Statement</option>
-                                                <option value="20">Appraissal Agent Fee</option>
-                                                <option value="21">E-commerce purchasing</option>
-                                                <option value="22">All taxes (Finance)</option>
-                                                <option value="23">Bank Loan Principle (Finance)</option>
-                                                <option value="24">Bank Loan Interest (Finance)</option>
-                                                <option value="25">Related/Third Party Loan Principle (Finance)</option>
-                                                <option value="26">Related/Third Party Loan Interest (Finance)</option>
-                                                <option value="27">Proxy (Finance)</option>
-                                                <option value="28">Dividend (Finance)</option>
-                                                <option value="29">Deposit (Finance)</option>
-                                                
+                                                    <option value=""> --- Sub Request Type (HQ Adminstartion) --- </option>
+                                                    <option value="1">BPJS Teragakerjaan</option>
+                                                    <option value="2">BPJS Kesehatan</option>
+                                                    <option value="3">Life Insurance</option>
+                                                    <option value="4">Utilities - Electricity</option>
+                                                    <option value="5">Utilities - Telephone</option>
+                                                    <option value="6">Utilities - Internet</option>
+                                                    <option value="7">Application Subscription (IT)</option>
+                                                    <option value="8">IT/System Purchasing</option>
+                                                    <option value="9">Staff Claim - Entertainment</option>
+                                                    <option value="10">Staff Claim - Medical</option>
+                                                    <option value="11">Staff Claim - Transport</option>
+                                                    <option value="12">CSR (External & Internal)</option>
+                                                    <option value="13">Homebase</option>
+                                                    <option value="14">Office/Warehouse rental</option>
+                                                    <option value="15">Legal Fee for vehicle</option>
+                                                    <option value="16">Legal Fee</option>
+                                                    <option value="17">Notary Fee</option>
+                                                    <option value="18">Audit ISO</option>
+                                                    <option value="19">Audit Financial Statement</option>
+                                                    <option value="20">Appraissal Agent Fee</option>
+                                                    <option value="21">E-commerce purchasing</option>
+                                                    <option value="22">All taxes (Finance)</option>
+                                                    <option value="23">Bank Loan Principle (Finance)</option>
+                                                    <option value="24">Bank Loan Interest (Finance)</option>
+                                                    <option value="25">Related/Third Party Loan Principle (Finance)</option>
+                                                    <option value="26">Related/Third Party Loan Interest (Finance)</option>
+                                                    <option value="27">Proxy (Finance)</option>
+                                                    <option value="28">Dividend (Finance)</option>
+                                                    <option value="29">Deposit (Finance)</option>
                                                 @endif
 
                                                 @if($request_type == '8')
@@ -188,9 +166,8 @@
                                         <div class="col-md-6 form-group">
                                             <label>Additional Document </label>
                                             <input type="file" class="form-control" wire:model="file">
-                                           
-                                            @error('leader')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @error('file')
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
 
@@ -201,22 +178,14 @@
                                                 <option value="PO">
                                                 <option value="Invoice">
                                             </datalist>
-
-                                           
-                                            @error('leader')
+                                            @error('doc_name')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        
-                                        
-                                        
-                                       
                                     </div>
                                 </div>
-                                
                                 <div class="col-md-12 form-group">
                                     <hr />
-                                    
                                     <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
                                 </div>
                                 
@@ -244,7 +213,6 @@
         function formatNumber(n) {
             return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         }
-
 
         function formatCurrency(input, blur) {
             var input_val = input.val();
