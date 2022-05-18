@@ -19,14 +19,16 @@ class AddPo extends Component
 
     public function mount()
     {
-        $this->wo_list = PoTrackingNonms::whereNull('po_tracking_nonms_po_id')->get();
+        $this->wo_list = PoTrackingNonms::get();
+        
         $this->date_po = date('Y-m-d');
         $this->date_contract = date('Y-m-d');
     }
 
     public function updated()
     {
-        if($this->wo_id) $this->wo_list = PoTrackingNonms::whereIn('po_status',[0,1])->get();
+        // if($this->wo_id) $this->wo_list = PoTrackingNonms::whereIn('po_status',[0,1])->get();
+        if($this->wo_id) $this->wo_list = PoTrackingNonms::get();
     }
 
     public function delete_wo($k)
@@ -57,6 +59,7 @@ class AddPo extends Component
         $po->contract = $this->contract;
         $po->date_contract = $this->date_contract;
         // $po->payment_amount = $payment_amount;
+        // $po->po_tracking_nonms_id = 0;
         $po->works = $this->works;
         $po->save();
 
@@ -66,7 +69,7 @@ class AddPo extends Component
             $boq->po_tracking_nonms_po_id = $po->id;
             $boq->po = $this->po_number;
             $boq->save();
-            $payment_amount = $boq->payment_amount;
+            $payment_amount = $boq->input_price;
         }
 
         $po->payment_amount = $payment_amount;

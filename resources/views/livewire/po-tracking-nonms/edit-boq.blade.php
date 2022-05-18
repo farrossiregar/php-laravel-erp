@@ -38,7 +38,7 @@
                                                         <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%, Waiting to Transfer Budget">Finance Approved</label>
                                                     @endif
                                                     @if($status==3)
-                                                        <label class="badge badge-danger" data-toggle="tooltip" title="PMG - Revise Request, Profit < 30%">Revise</label>
+                                                        <label class="badge badge-danger" data-toggle="tooltip" title="PMG - Revise Request, Profit < 30%">PMG Review</label>
                                                     @endif
                                                     @if($status==4)
                                                         <label class="badge badge-warning" data-toggle="tooltip" title="PMG - Waiting PMG Review under 30%">PMG Review </label>
@@ -113,10 +113,12 @@
                                     <td>Rp {{ format_idr($item->qty * $item->price) }}</td>                             
                                     <td>
                                         @if(check_access('po-tracking-nonms.input-price'))
-                                            @if($item->input_price == null || $item->input_price == '')
-                                                <a href="javascript:;" wire:click="$emit('modalinputboqprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-inputprice" title="Input Price" class="badge badge-primary badge-active"><i class="fa fa-plus"></i> {{__('Input Price')}}</a>
-                                            @else
-                                                <a href="javascript:;" wire:click="$emit('modalinputboqprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-inputprice" title="Input Price"><i class="fa fa-edit"></i></a>
+                                            @if($status == '0' || $status == '' || $status == null)
+                                                @if($item->input_price == null || $item->input_price == '')
+                                                    <a href="javascript:;" wire:click="$emit('modalinputboqprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-inputprice" title="Input Price" class="badge badge-primary badge-active"><i class="fa fa-plus"></i> {{__('Input Price')}}</a>
+                                                @else
+                                                    <a href="javascript:;" wire:click="$emit('modalinputboqprice','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-inputprice" title="Input Price"><i class="fa fa-edit"></i></a>
+                                                @endif
                                             @endif
                                         @endif
                                         Rp {{ format_idr($item->input_price) }}
@@ -146,9 +148,9 @@
                     <div class="col-md-12">
                         <hr />
                         <a href="{{route('po-tracking-nonms.index')}}" class="mr-3"><i class="fa fa-arrow-left"></i> Back</a>
-                        @if(check_access('po-tracking-nonms.approve-pmg'))
+                        @if($is_pmg)
                             @if($status == 3)
-                                <a href="javascript:;" wire:click="$emit('modalapprovepononms','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-approve" title="Proccess" class="btn btn-primary"><i class="fa fa-check-circle"></i> {{__('Proccess')}}</a>
+                                <a href="javascript:;" wire:click="$emit('modalapprovepononms','{{$id_master}}')"  data-toggle="modal" data-target="#modal-potrackingnonms-approve" title="Proccess" class="btn btn-primary"><i class="fa fa-check-circle"></i> {{__('Process')}}</a>
                             @endif
                         @endif
                         @if($is_finance)

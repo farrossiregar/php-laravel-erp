@@ -11,7 +11,7 @@ class Editboq extends Component
 {
     public $po_tracking,$note;
     public $data, $total_price_ericson, $total_after, $total_profit, $id_master, $status,$bast_status,$is_finance,$is_service_manager;
-    public $total_ericson  = 0;
+    public $total_ericson  = 0,$is_pmg = false;
     public function render()
     {
         return view('livewire.po-tracking-nonms.edit-boq');
@@ -43,12 +43,13 @@ class Editboq extends Component
         if($this->total_ericson && $total_after)
             $this->total_profit = 100 - round(($total_after / $this->total_ericson) * 100);
         else
-            $this->total_profit = '100';
+            $this->total_profit = 100;
 
         $this->status = $id->status;
         $this->bast_status = $id->bast_status;
         $this->is_finance = check_access('is-finance');
         $this->is_service_manager = check_access('is-service-manager');
+        $this->is_pmg = check_access('is-pmg');
     }
 
 

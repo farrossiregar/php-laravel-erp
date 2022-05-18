@@ -34,3 +34,4 @@
 .badge.badge-info.badge-active {background:#3C89DA;color:white}
 .badge.badge-primary.badge-active {background:#007bff;color:white}
 .file_manager .file .hover{display:block;right:0;top:0;}
+a.editable{text-decoration:none;border-bottom: dashed 1px #0088cc;}

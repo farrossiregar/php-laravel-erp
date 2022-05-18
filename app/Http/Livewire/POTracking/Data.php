@@ -15,11 +15,6 @@ class Data extends Component
     
     public function render()
     {
-        if(!check_access('po-tracking.index')){
-            session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
-            $this->redirect('/');
-        }
-
         $data = PoTrackingReimbursement::with('acceptance','bast','esar')->orderBy('id', 'DESC');
         
         if($this->keyword) $data = $data->where(function($table){

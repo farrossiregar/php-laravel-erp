@@ -67,7 +67,7 @@ class Importericsson extends Component
                 $data->date_po_released                 = @$this->explode_date(2, $i[3]).'-'.@$this->explode_date(1, $i[3]).'-'.@$this->explode_date(0, $i[3]);
                 $data->type                             = $i[4];
                 $data->item_description                 = $i[5];
-                $data->period                           = $i[6];
+                if($i[6]) $data->period = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($i[6]);
                 $data->region                           = $i[7];
                 $data->last_status                      = $i[8];
                 $data->no_bast                          = $i[9];

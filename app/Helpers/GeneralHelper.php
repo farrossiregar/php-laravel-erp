@@ -2,6 +2,19 @@
 
 use Illuminate\Support\Facades\DB;
 
+
+function HumanSize($Bytes)
+{
+  $Type=array("", "kilo", "mega", "giga", "tera", "peta", "exa", "zetta", "yotta");
+  $Index=0;
+  while($Bytes>=1024)
+  {
+    $Bytes/=1024;
+    $Index++;
+  }
+  return("".$Bytes." ".$Type[$Index]."bytes");
+}
+
 function count_notif($type){
     if($type=='po-tracking-ms.index'){
         $is_e2e = check_access('is-e2e');
@@ -209,7 +222,7 @@ function send_wa($param)
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
-    curl_setopt($curl, CURLOPT_URL, "https://console.wablas.com/api/send-message");
+    curl_setopt($curl, CURLOPT_URL, "https://solo.wablas.com/api/send-message");
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
     $result = curl_exec($curl);

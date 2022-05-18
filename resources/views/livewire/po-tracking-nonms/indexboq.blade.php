@@ -35,7 +35,7 @@
                                 <th>No</th>
                                 <th>PO Status</th>    
                                 <th>WO Number</th>    
-                                <th>Region</th>    
+                                <th>Sub Region</th>    
                                 <th class="text-center">Status</th>    
                                 <th>Site ID</th>
                                 <th>Site Name</th>
@@ -45,7 +45,7 @@
                                 <th>Coordinator</th>
                                 <th>Field Team</th>
                                 <th>Scoope of Works</th>
-                                <!-- <th>Action</th> -->
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -76,7 +76,7 @@
                                             <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%, Waiting to Transfer Budget">Finance - Approved</label>
                                         @endif
                                         @if($item->status==3)
-                                            <label class="badge badge-danger" data-toggle="tooltip" title="PMG - Revise Request, Profit < 30%">PMG Revise</label>
+                                            <label class="badge badge-danger" data-toggle="tooltip" title="PMG - Revise Request, Profit < 30%">PMG Review</label>
                                         @endif
                                         @if($item->status==4)
                                             <label class="badge badge-warning" data-toggle="tooltip" title="PMG - Waiting PMG Review under 30%">PMG Review </label>
@@ -125,15 +125,15 @@
                                         @endif
                                         {{isset($item->field_team->name)?$item->field_team->name : ''}}
                                     </td>
-                                    <!-- <td>
+                                    <td>{{$item->scoope_of_works}}</td>
+                                    <td>
                                         @if($item->bast_status)
                                             <a href="{{route('po-tracking-nonms.detailfoto',['id'=>$item->id]) }}" ><i class="fa fa-image"></i> Foto</a>
                                         @endif
-                                        @if(check_access('po-tracking-nonms.import-approvedbast') and $item->status==7 and $item->bast_status==2)
+                                        <!-- @if(check_access('po-tracking-nonms.import-approvedbast') and $item->status==7 and $item->bast_status==2)
                                             <a href="javascript:;" class="badge badge-info badge-active" wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_e2e_review"><i class="fa fa-check-circle"></i> Review</a>
-                                        @endif
-                                    </td> -->
-                                    <td>{{$item->scoope_of_works}}</td>
+                                        @endif -->
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

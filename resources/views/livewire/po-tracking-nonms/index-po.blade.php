@@ -33,7 +33,7 @@
                         <th>Project</th>
                         <th class="text-right">Amount</th>
                         <th class="text-right">Extra Budget</th>
-                        <th></th>
+                        <th><div style="width:50px;"></div></th>
                     </tr>
                 </head>
                 <tbody>
@@ -54,7 +54,7 @@
                                     <span class="badge badge-info" title="Finance Upload Acceptance and Invoice">Finance</span>
                                 @endif
                                 @if($item->status==5)
-                                    <span class="badge badge-success badge-active"><i class="fa fa-check-circle"></i> Done</span>
+                                    <span class="badge badge-success badge-active"><i class="fa fa-check-circle"></i> Invoiced</span>
                                 @endif
                             </td>
                             <td><a href="{{route('po-tracking-nonms.po-detail',['id'=>$item->id])}}">{{$item->po_number}}</a></td>
@@ -71,11 +71,11 @@
                             <td class="text-right">{{format_idr($item->payment_amount)}}</td>
                             <td class="text-right">
                                 @if($item->status==5)
-                                    @if($item->status_extra_budget=="")
-                                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#modal_extra_budget" wire:click="$emit('set-data',{{$item->id}})" class="badge badge-info badge-active"><i class="fa fa-plus"></i> Extra Budget</a></li>
+                                    @if($item->status_extra_budget=="" and $is_e2e)
+                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_extra_budget" wire:click="$emit('set-data',{{$item->id}})" class="badge badge-info badge-active"><i class="fa fa-plus"></i> Extra Budget</a>
                                     @endif
                                     @if($item->status_extra_budget==1 and $is_finance)
-                                        <li><a href="javascript:void(0)" class="badge badge-info badge-active" wire:click="$emit('set-data',{{$item->id}})" data-target="#modal_process_extra_budget" data-toggle="modal"><i class="fa fa-check-circle"></i> Process Extra Budget</a></li>
+                                        <a href="javascript:void(0)" class="badge badge-info badge-active" wire:click="$emit('set-data',{{$item->id}})" data-target="#modal_process_extra_budget" data-toggle="modal"><i class="fa fa-check-circle"></i> Process Extra Budget</a>
                                     @endif
                                     @if($item->status_extra_budget==2)
                                         {{format_idr($item->extra_budget)}}
@@ -85,7 +85,7 @@
                             <td class="header">
                                 <ul class="header-dropdown">
                                     <li class="dropdown">
-                                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Action</a>
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             <li><a href="{{route('po-tracking-nonms.po-detail',['id'=>$item->id])}}"><i class="fa fa-search"></i> Detail</a></li>
                                             @if($is_service_manager and $item->status==0)

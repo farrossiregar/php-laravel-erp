@@ -11,16 +11,14 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1" wire:model="status" >
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            Approve
+                        <label>
+                            <input type="radio" value="1" wire:model="status"> Approve
                         </label>
                     </div>
                     <br>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2" wire:model="status" >
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            Revise
+                        <label>
+                            <input type="radio" value="2" wire:model="status"> Revise
                         </label>
                     </div>
                     <br>

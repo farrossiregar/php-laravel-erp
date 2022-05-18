@@ -169,7 +169,7 @@
                         <td>{{ $item->date_po_release }}</td>
                         <td>{{ $item->type }}</td>
                         <td>{{ $item->item_description }}</td>
-                        <td>{{ $item->period }}</td>
+                        <td>{{ $item->period ? date('m-Y',strtotime($item->period)) : '-' }}</td>
                         <td>{{ $item->region }}</td>
                         <td>{{ $item->last_status }}</td>
                         <td>{{ $item->no_bast }}</td>
@@ -187,7 +187,6 @@
                         <td>{{ $item->amount_penalty }}</td>
                         <td>{{ $item->no_cn }}</td>
                         <td>{{ $item->date_submit_cn }}</td>
-
                         <td>{{ $item->date_bast_approval }}</td>
                         <td>{{ $item->date_bast_approval_system }}</td>
                         <td>{{ $item->date_gr_req }}</td>

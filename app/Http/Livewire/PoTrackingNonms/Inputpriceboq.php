@@ -26,7 +26,7 @@ class Inputpriceboq extends Component
     public function save()
     {  
         $this->selected_id->input_price = $this->input_price;
-        $this->selected_id->profit = 100 - round(($this->input_price / $this->selected_id->total_price) * 100);
+        $this->selected_id->profit = 100 - round(($this->input_price / ($this->selected_id->price * $this->selected_id->qty)) * 100);
         $this->selected_id->save();
 
         \LogActivity::add('[web] PO Non MS - Input Price');

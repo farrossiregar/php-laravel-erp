@@ -88,7 +88,10 @@ class WorkOrderController extends Controller
     public function workOrderAccepted()
     {
         $data = [];
-        $param = PoTrackingNonms::whereNull('bast_status')->where('is_accept_field_team',1)->where('field_team_id',\Auth::user()->employee->id)->orWhere('bast_status',3)->get();
+        $param = PoTrackingNonms::where('is_accept_field_team',1)
+                                ->where('field_team_id',\Auth::user()->employee->id)
+                                ->orWhere('bast_status',3)
+                                ->get();
         
         foreach($param as $k => $item){
             $data[$k] = $item;

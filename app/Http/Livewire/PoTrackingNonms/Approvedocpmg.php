@@ -52,9 +52,9 @@ class Approvedocpmg extends Component
             $status_type = 'success';
             $data->status = $this->status;
         }else{
-            $status_text = 'Rejected';
+            $status_text = 'Revise';
             $status_type = 'danger';
-            $data->status = $this->status;
+            $data->status = 0;
         }
 
         $data->status_note = $this->note;

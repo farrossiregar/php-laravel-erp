@@ -225,7 +225,6 @@
                             @php($enter2++)
                         @endforeach
                     @endif
-                @endforeach
             @endforeach
         @endif            
         </br>

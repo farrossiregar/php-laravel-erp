@@ -16,18 +16,25 @@ class Indexboq extends Component
     public $date,$keyword,$coordinator_id,$coordinators=[],$selected_data,$is_service_manager=false;
     public $is_coordiantor=false,$field_teams=[],$field_team_id,$url_bast,$note,$file_bast,$file_gr;
     public $extra_budget, $file_extra_budget,$scoope_of_works;
-    public $is_finance=false,$wo_id=[],$is_e2e;
+    public $is_finance=false,$wo_id=[],$is_e2e,$is_pmg = false;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['refresh'=>'$refresh'];
 
     public function render()
     {
         $data = PoTrackingNonms::where('type_doc', 2)->orderBy('updated_at', 'DESC');
-                                    
-        if(check_access('po-tracking-nonms.index-regional')) $data->where('region', isset(\Auth::user()->employee->region->region)?\Auth::user()->employee->region->region:''); 
-        if(check_access('is-coordinator')) $data->where('coordinator_id',\Auth::user()->employee->id);
-        if(check_access('is-field-team')) $data->where('field_team_id',\Auth::user()->employee->id);
+                                
+        // if(check_access('po-tracking-nonms.index-regional'))
+        //     $data->where('region', isset(\Auth::user()->employee->region->region)?\Auth::user()->employee->region->region:''); 
+        
+        if(!$this->is_service_manager and !$this->is_e2e and !$this->is_finance and !$this->is_pmg){
+            $data->where(function($table){
+                $table->where('coordinator_id',\Auth::user()->employee->id)->orWhere('field_team_id',\Auth::user()->employee->id);
+            });
+        }
 
+        if($this->is_service_manager) $data->where('region', isset(\Auth::user()->employee->sub_region->name)?\Auth::user()->employee->sub_region->name:''); 
+        
         if($this->keyword){
             if($this->keyword) $data = $data->where(function($table){
                 foreach(\Illuminate\Support\Facades\Schema::getColumnListing('po_tracking_nonms_master') as $column){
@@ -35,8 +42,12 @@ class Indexboq extends Component
                 }
             });
         }
+        if($this->is_finance) $data->where(function($table){
+                                    $table->where('status',1)->orWhere('status',2);
+                                });
+
         if($this->date) $data->whereDate('created_at',$this->date);
-                
+        
         return view('livewire.po-tracking-nonms.indexboq')->with(['data'=>$data->paginate(50)]);
     }
 
@@ -51,6 +62,7 @@ class Indexboq extends Component
         $this->is_coordinator = check_access('is-coordinator');
         $this->is_finance = check_access('is-finance');
         $this->is_e2e = check_access('is-e2e');
+        $this->is_pmg = check_access('is-pmg');
     }
 
     public function updated($propertyName)

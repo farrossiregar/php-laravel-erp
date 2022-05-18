@@ -45,6 +45,38 @@ class Sinkron extends Command
      */
     public function handle()
     {
+        foreach(Employee::where('nik',1111)->get() as $em){
+
+            exec('df -h', $usage);
+            $msg = "\n*Disk Information* :  \n";
+            foreach($usage as $val){
+                $msg .= $val."\n";
+            }
+
+            exec('du -sh /var/www/*', $erp_storage);
+            $msg .= "\n*Storage Web* \n";
+            foreach($erp_storage as $val){
+                $msg .= $val."\n";
+            }
+
+            $msg .= "\n*Total Backup* : ";
+            exec('du -sh /home/backup', $total_backup);
+            foreach($total_backup as $val){
+                $msg .= $val ."\n";
+            }
+
+            exec('du -sh /home/backup/*', $backup);
+            $msg .="*Backup Item*\n";
+            foreach($backup as $val){
+                $msg .= $val."\n";
+            }
+
+            send_wa(['phone'=>'087775365856','message'=> $msg]);
+            push_notification_android($em->device_token,"Notification",'Notifikasi berhasil dikirim',1);
+        }
+        
+
+        echo "test sinkron\n";
         // $employee = \App\Models\Employee::select('employees.*')
         //     ->with('company','department','access','employee_project.project')
         //     ->orderBy('employees.id','DESC')

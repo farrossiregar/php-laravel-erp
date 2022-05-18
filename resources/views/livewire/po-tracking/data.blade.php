@@ -101,8 +101,8 @@
                                 </div>
                             </div>
                         </td>
-                        <td>{{$item->po_no}}</td>
-                        <td>{{$item->po_date}}</td>
+                        <td>@livewire('p-o-tracking.editable',['data'=>$item,'field'=>'po_no'],key($item->id))</td>
+                        <td>@livewire('p-o-tracking.editable',['data'=>$item,'field'=>'po_date'],key($item->id))</td>
                         <td class="text-center">
                             @if($item->status==0)
                                 <label class="badge badge-info" data-toggle="tooltip" title="Regional - Upload approved BAST {{$item->is_revisi==1?' - Revisi : '.$item->note : ''}}">Regional / SM {{$item->is_revisi==1?' - R ' : ''}}</label>
@@ -123,7 +123,7 @@
                         <td>{{date('Y M',strtotime($item->period))}}</td>
                         <td>{{$item->region}}</td>
                         <td>{{$item->branch}}</td>
-                        <td>{{$item->boq}}</td>
+                        <td>@livewire('p-o-tracking.editable',['data'=>$item,'field'=>'boq'],key($item->id))</td>
                         <td>
                             @if(isset($item->bast->bast_filename))
                                 <a href="{{asset("storage/po_tracking/Bast/{$item->bast->bast_filename}")}}" target="_blank">{{$item->bast_number}}</a>
@@ -131,125 +131,13 @@
                                 {{$item->bast_number}}
                             @endif
                         </td>
-                        <td>{{$item->gr_no}}</td>
-                        <td>{{$item->gr_date}}</td>
-                        <td>{{$item->invoice_no}}</td>
-                        <td>{{$item->invoice_date}}</td>
+                        <td>@livewire('p-o-tracking.editable',['data'=>$item,'field'=>'gr_no'],key($item->id))</td>
+                        <td>@livewire('p-o-tracking.editable',['data'=>$item,'field'=>'gr_date'],key($item->id))</td>
+                        <td>@livewire('p-o-tracking.editable',['data'=>$item,'field'=>'invoice_no'],key($item->id))</td>
+                        <td>@livewire('p-o-tracking.editable',['data'=>$item,'field'=>'invoice_date'],key($item->id))</td>
                         <td class="text-right">{{format_idr($item->actual_amount)}}</td>
                         <td class="text-right">{{format_idr($item->amunt_to_be_claim)}}</td>
-                        <td>{{$item->date_of_payment}}</td>
-<!--                         
-                        <td>{{$item->fuel_refuel}}</td>
-                        <td>{{$item->bbm_type}}</td>
-                        <td class="text-right">{{format_idr($item->article_code)}}</td>
-                        <td class="text-right">{{format_idr($item->price_liter)}}</td>
-                        <td class="text-right">{{format_idr($item->total_price)}}</td>
-                        <td class="text-right">{{format_idr($item->acceptable_amount)}}</td>
-                        <td>{{$item->eid_check}}</td> -->
-                        <!-- <td>
-                            {{ $item->po_reimbursement_id }}
-                            <div class="btn-group" role="group">
-                                <a class="{{$item->status >=1 ? 'text-success' : 'text-warning' }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-{{$item->status==4?'download':'upload'}}"></i>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                @if($item->status==0) {{-- Upload Approved BAST --}}
-                                    @if($is_upload_bast)
-                                        <a class="dropdown-item" href="javascript:void(0);" wire:click="$emit('modal-bast',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingbast-upload"><i class="fa fa-upload"></i> Upload BAST</a>
-                                    @endif
-                                @endif
-                                @if($item->status==1) {{-- E2E Review Approve / Reject --}}
-                                    @if($is_approved_bast)
-                                        <a href="javascript:;" class="dropdown-item text-success" wire:click="$emit('modal-approvebast','{{$item->id}}')" data-toggle="modal" data-target="#modal-potrackingapprovebast-upload" title="Upload"><i class="fa fa-check-circle"></i> {{__('Proccess')}}</a>
-                                    @endif
-                                @endif
-                                @if($item->status==2)  {{-- Esar Upload --}}
-                                    @if($is_edit_esar)
-                                        <a href="{{route('po-tracking.generate-esar',$item->id)}}" target="_blank" class="dropdown-item"><i class="fa fa-download"></i> Generate ESAR</a>
-                                        <a href="javascript:void(0);" class="dropdown-item text-success" wire:click="$emit('modalesarupload','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" title="Upload"><i class="fa fa-upload"></i> {{__('Supporting Docs')}}</a>
-                                    @endif
-                                @endif
-                                @if($item->status==3) {{-- Finance Acceptance --}}
-                                    @if($is_edit_accdoc)
-                                        <a href="javascript:void(0)" class="dropdown-item text-success" wire:click="$emit('modal-acceptancedocs',{{$item->id}})" data-toggle="modal" data-target="#modal-potrackingacceptance-upload" title="Upload"><i class="fa fa-upload"></i> {{__('Upload Acceptance & Invoice Docs')}}</a>
-                                    @endif
-                                @endif
-                                @if(isset($item->bast->bast_filename))
-                                    <a href="{{asset("storage/po_tracking/Bast/{$item->bast->bast_filename}")}}" class="dropdown-item" data-toggle="tooltip" title="Download BAST"><i class="fa fa-download"></i> {{__('BAST')}}</a>
-                                @endif
-                                
-                                @if(isset($item->esar->approved_esar_filename))
-                                    <a href="javascript:void(0);" class="dropdown-item" wire:click="$emit('modalesarupload','{{$item->id}}')"  data-toggle="modal" data-target="#modal-potrackingesar-upload" ata-toggle="tooltip" title="Download Approved ESAR"><i class="fa fa-download"></i> {{__('Supporting Docs')}}</a>
-                                @endif
-                                @if(isset($item->acceptance->accdoc_filename))
-                                    <a href="{{asset('storage/po_tracking/AcceptanceDocs/'.$item->acceptance->accdoc_filename)}}" class="dropdown-item" data-toggle="tooltip" title="Download Acceptance Docs & Invoice"><i class="fa fa-download"></i> {{__('Acceptance Docs & Invoice')}}</a>
-                                @endif
-                                </div>
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            @if($item->status==0)
-                                <label class="badge badge-info" data-toggle="tooltip" title="Regional - Upload approved BAST {{$item->is_revisi==1?' - Revisi : '.$item->note : ''}}">Regional / SM {{$item->is_revisi==1?' - R ' : ''}}</label>
-                            @endif
-                            @if($item->status==1)
-                                <label class="badge badge-warning" data-toggle="tooltip" title="E2E - Review">E2E Review </label>
-                            @endif
-                            @if($item->status==2)
-                                <label class="badge badge-primary" data-toggle="tooltip" title="E2E - Generate ESAR, Upload ESAR and Verification Docs">E2E Upload</label>
-                            @endif
-                            @if($item->status==3)
-                                <label class="badge badge-danger" data-toggle="tooltip" title="Finance - Upload Acceptance Docs and Invoice">Finance </label>
-                            @endif
-                            @if($item->status==4)
-                                <label class="badge badge-success" data-toggle="tooltip" title="Completed">Completed </label>
-                            @endif
-                        </td>
-                        <td>{{ $item->change_history }}</td>
-                        <td>{{ $item->rep_office }}</td>
-                        <td>{{ $item->customer }}</td>
-                        <td>{{ $item->project_name }}</td>
-                        <td>{{ $item->project_code }}</td>
-                        <td>{{ $item->site_id }}</td>
-                        <td>{{ $item->sub_contract_no }}</td>
-                        <td>{{ $item->pr_no }}</td>
-                        <td>{{ $item->sales_contract_no }}</td>
-                        <td>{{ $item->po_status }}</td>
-                        <td>{{ $item->po_no }}</td>
-                        <td>{{ $item->site_code }}</td>
-                        <td>{{ $item->site_name }}</td>
-                        <td>{{ $item->po_line_no }}</td>
-                        <td>{{ $item->shipment_no }}</td>
-                        <td>{{ $item->item_description }}</td>
-                        <td>{{ $item->requested_qty }}</td>
-                        <td>{{ $item->unit }}</td>
-                        <td>{{ $item->unit_price }}</td>
-                        <td>{{ $item->center_area }}</td>
-                        <td>{{ $item->start_date }}</td>
-                        <td>{{ $item->end_date }}</td>
-                        <td>{{ $item->billed_qty }}</td>
-                        <td>{{ $item->due_qty }}</td>
-                        <td>{{ $item->qty_cancel }}</td>
-                        <td>{{ $item->item_code }}</td>
-                        <td>{{ $item->version_no }}</td>
-                        <td>{{ $item->line_amount }}</td>
-                        <td>{{ $item->bidding_area }}</td>
-                        <td>{{ $item->tax_rate }}</td>
-                        <td>{{ $item->currency }}</td>
-                        <td>{{ $item->ship_to }}</td>
-                        <td>{{ $item->engineering_code }}</td>
-                        <td>{{ $item->engineering_name }}</td>
-                        <td>{{ $item->payment_terms }}</td>
-                        <td>{{ $item->category }}</td>
-                        <td>{{ $item->payment_method }}</td>
-                        <td>{{ $item->product_category }}</td>
-                        <td>{{ $item->bill_to }}</td>
-                        <td>{{ $item->subproject_code }}</td>
-                        <td>{{ $item->expire_date }}</td>
-                        <td>{{ $item->publish_date }}</td>
-                        <td>{{ $item->acceptance_date }}</td>
-                        <td>{{ $item->ff_buyer }}</td>
-                        <td>{{ $item->note_to_receiver }}</td>
-                        <td>{{ $item->fob_lookup_code }}</td> -->
+                        <td>@livewire('p-o-tracking.editable',['data'=>$item,'field'=>'date_of_payment'],key($item->id))</td>                        
                     </tr>
                     @endforeach
                 </tbody>

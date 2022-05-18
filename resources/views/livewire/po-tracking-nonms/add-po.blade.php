@@ -83,7 +83,7 @@
                         @if($wo_id[$k])
                             @php($wo_row = App\Models\PoTrackingNonms::find($wo_id[$k]))
                             <td>
-                                <select class="form-control" wire:model="wo_line_item.{{$k}}">
+                                <select class="form-control" wire:model="wo_line_item.{{$k}}" required>
                                     <option value=""> -- Select -- </option>
                                     @foreach(\App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master',$wo_id[$k])->whereNull('po')->get() as $boq)
                                         <option value="{{$boq->id}}">{{$boq->po_line_item}} / {{$boq->item_code}} / {{$boq->item_description}}</option>
