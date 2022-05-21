@@ -87,7 +87,11 @@
                                 @endif
 
                                 @if($item->status == '1')
-                                    <label class="badge badge-success" data-toggle="tooltip" title="Account Payable Request is Approved by PMG">Approved by PMG</label>
+                                    @if($item->request_type == '1' || $item->request_type == '7' || $item->request_type == '8' || $item->request_type == '9')
+                                        <label class="badge badge-success" data-toggle="tooltip" title="Account Payable Request is Approved by PMG">Approved by AP Staff</label>
+                                    @else
+                                        <label class="badge badge-success" data-toggle="tooltip" title="Account Payable Request is Approved by PMG">Approved by PMG</label>
+                                    @endif
                                 @endif
 
                                 @if($item->status == '0')
@@ -100,6 +104,13 @@
                             </td>
                             <td>
                                 @if($is_pmg)
+                                    @if($item->status == '')
+                                        <a href="javascript:;" wire:click="$emit('modalapproveaccountpayable',['{{ $item->id }}', '1'])" class="badge badge-info badge-active"><i class="fa fa-check-circle"></i> Approve</a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclineaccountpayable','{{ $item->id }}')" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Reject</a>
+                                    @endif
+                                @endif
+
+                                @if($is_apstaff)
                                     @if($item->status == '')
                                         <a href="javascript:;" wire:click="$emit('modalapproveaccountpayable',['{{ $item->id }}', '1'])" class="badge badge-info badge-active"><i class="fa fa-check-circle"></i> Approve</a>
                                         <a href="javascript:;" wire:click="$emit('modaldeclineaccountpayable','{{ $item->id }}')" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Reject</a>

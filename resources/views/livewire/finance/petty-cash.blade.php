@@ -47,8 +47,19 @@
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'advance_date'],key($item->id))</td>
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
                                     <td>{{$item->settlement_date}}</td>
-                                    <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'description'],key($item->id))</td>
-                                    <td>{{$item->settlement_nominal}}</td>
+                                    <!-- <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'description'],key($item->id))</td> -->
+                                    <td>
+                                        <?php foreach(\App\Models\AdvanceSettlementAP::where('id_master', $item->id_master)->get() as $items){ ?>
+                                            <b>{{ $items->description }} </b> {{ ($items->settlement) ? ': Rp,'.$items->settlement : '' }} <br>
+                                        <?php } ?>
+                                    </td>
+                                    <td>
+                                        @if($item->settlement_nominal)
+                                        <a href="javascript:;" wire:click="$emit('modaladdpettycashaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                        @else
+                                        <a href="javascript:;" wire:click="$emit('modaladdpettycashaccountpayable','{{ $item->id }}')">{{ $item->settlement_nominal }}</a>
+                                        @endif
+                                    </td>
                                     <td>{{$item->total_settlement}}</td>
                                     <td>{{$item->difference}}</td>
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'account_no_recorded'],key($item->id))</td>
@@ -71,3 +82,22 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="modal-accountpayable-addpettycash" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:account-payable.addpettycash />
+        </div>
+    </div>
+</div>
+
+
+@section('page-script')
+
+    Livewire.on('modaladdpettycashaccountpayable',(data)=>{
+        
+        $("#modal-accountpayable-addpettycash").modal('show');
+    });
+
+@endsection

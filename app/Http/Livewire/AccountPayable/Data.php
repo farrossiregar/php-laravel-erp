@@ -13,7 +13,7 @@ class Data extends Component
     use WithPagination;
     public $project, $filterproject, $filterweek, $filtermonth, $filteryear, $employee_name, $request_type;
     protected $paginationTheme = 'bootstrap';
-    public $is_pmg=false,$is_finance_spv=false,$is_finance_manager=false,$is_finance_accounting_manager=false,$is_treasury=false;
+    public $is_pmg=true, $is_apstaff=true, $is_finance_spv=false,$is_finance_manager=false,$is_finance_accounting_manager=false,$is_treasury=false;
     public function render()
     {
         if($this->is_finance_spv){
@@ -50,8 +50,10 @@ class Data extends Component
 
     public function mount()
     {
-        $this->is_pmg = check_access('is-pmg');
-        $this->is_finance_spv = check_access('is-finance-spv');
+        // $this->is_pmg = check_access('is-pmg');
+        $this->is_pmg = true;
+        // $this->is_finance_spv = check_access('is-finance-spv');
+        $this->is_finance_spv = true;
         $this->is_finance_manager = check_access('is-finance-manager');
         $this->is_finance_accounting_manager = check_access('is-finance-accounting-manager');
         $this->is_treasury = check_access('is-treasury');
