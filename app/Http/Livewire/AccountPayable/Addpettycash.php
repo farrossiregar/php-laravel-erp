@@ -15,9 +15,9 @@ use DB;
 class Addpettycash extends Component
 {
 
-    protected $listeners = [
-        'modaladdpettycashaccountpayable'=>'modaladdpettycashaccountpayable',
-    ];
+    // protected $listeners = [
+    //     'modaladdpettycashaccountpayable'=>'modaladdpettycashaccountpayable',
+    // ];
 
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -27,66 +27,98 @@ class Addpettycash extends Component
     public $description, $difference, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file, $doc_settlement;
     public $description1, $description2, $description3, $description4, $description5;
 
+    public $project, $client_project_id, $region, $employee_name, $date, $position, $request_type, $subrequest_type, $doc_name;
+
     public function render()
     {
         $reqnum                                 = '003';
-        
-        if($this->department){
-            $this->advance_req_no               = \App\Models\Department::where('id', $this->department)->first()->name.'/'.date('Ym').'/'.$reqnum;
-        }else{
-            $this->advance_req_no               = '';
-        }
+
+        $this->employee_name                    = isset(Auth::user()->employee->name)?Auth::user()->employee->name : '-';
+        $this->project                          = isset(Auth::user()->employee->region->region)?Auth::user()->employee->region->region : '-';
+        $this->position                         = isset(Auth::user()->employee->access->name)?Auth::user()->employee->access->name : '-';
+        $this->department                       = isset(Auth::user()->employee->department->name)?Auth::user()->employee->department->name : '-';
+        $this->advance_req_no                   = $this->department.'/'.date('Ym').'/'.$reqnum;
+
+        // if($this->department){
+        //     $this->advance_req_no               = \App\Models\Department::where('id', $this->department)->first()->name.'/'.date('Ym').'/'.$reqnum;
+        // }else{
+        //     $this->advance_req_no               = '';
+        // }
         return view('livewire.account-payable.addpettycash');
     }
 
-    public function modaladdpettycashaccountpayable($id)
-    {
-        $this->selected_id = $id;
+    // public function modaladdpettycashaccountpayable($id)
+    // {
+    //     $this->selected_id = $id;
 
-        $reqnum                         = '003';
-        // dd(\App\Models\AccountPayablePettycash::orderBy('id', 'desc')->first());
-        $data                           = @\App\Models\AccountPayablePettycash::where('id_master', $this->selected_id)->first();
-        $this->id_master                = $this->selected_id;
+    //     $reqnum                         = '003';
+    //     // dd(\App\Models\AccountPayablePettycash::orderBy('id', 'desc')->first());
+    //     $data                           = @\App\Models\AccountPayablePettycash::where('id_master', $this->selected_id)->first();
+    //     $this->id_master                = $this->selected_id;
 
-        $this->department               = @$data->department;
-        if($this->department){
-            $this->advance_req_no               = $this->department.'/'.date('YM').'/'.$reqnum;
-        }else{
-            $this->advance_req_no               = '';
-        }
+    //     $this->department               = @$data->department;
+    //     if($this->department){
+    //         $this->advance_req_no               = $this->department.'/'.date('YM').'/'.$reqnum;
+    //     }else{
+    //         $this->advance_req_no               = '';
+    //     }
         
-        $this->advance_req_no           = @$data->advance_req_no;
-        $this->month                    = @$data->month;
-        $this->year                     = @$data->year;
-        $this->week                     = @$data->advance_req_no;
-        $this->advance_nominal          = @$data->advance_nominal;
-        $this->advance_date             = @$data->advance_date;
-        // $this->cash_transaction_no      = @$data->cash_transaction_no;
-        $this->cash_transaction_no      = $reqnum.'/'.date('d').'/'.date('m').'/'.date('Y').'/CashOut';
-        $this->settlement_date          = @$data->settlement_date;
-        $this->description              = @$data->description;
-        $this->settlement_nominal       = @$data->settlement_nominal;
-        $this->total_settlement         = @$data->total_settlement;
-        $this->difference               = @$data->difference;
-        $this->account_no_recorded      = @$data->account_no_recorded;
-        $this->account_name_recorded    = @$data->account_name_recorded;
-        $this->nominal_recorded         = @$data->nominal_recorded;
-        $this->doc_settlement           = @$data->doc_settlement;
+    //     $this->advance_req_no           = @$data->advance_req_no;
+    //     $this->month                    = @$data->month;
+    //     $this->year                     = @$data->year;
+    //     $this->week                     = @$data->advance_req_no;
+    //     $this->advance_nominal          = @$data->advance_nominal;
+    //     $this->advance_date             = @$data->advance_date;
+    //     // $this->cash_transaction_no      = @$data->cash_transaction_no;
+    //     $this->cash_transaction_no      = $reqnum.'/'.date('d').'/'.date('m').'/'.date('Y').'/CashOut';
+    //     $this->settlement_date          = @$data->settlement_date;
+    //     $this->description              = @$data->description;
+    //     $this->settlement_nominal       = @$data->settlement_nominal;
+    //     $this->total_settlement         = @$data->total_settlement;
+    //     $this->difference               = @$data->difference;
+    //     $this->account_no_recorded      = @$data->account_no_recorded;
+    //     $this->account_name_recorded    = @$data->account_name_recorded;
+    //     $this->nominal_recorded         = @$data->nominal_recorded;
+    //     $this->doc_settlement           = @$data->doc_settlement;
 
         
-    }
+    // }
 
   
     public function save()
     {
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
 
-        if(!@\App\Models\AccountPayablePettycash::where('id_master', $this->selected_id)->first()){
-            $data                           = new \App\Models\AccountPayablePettycash();
-        }else{
-            $data                           = \App\Models\AccountPayablePettycash::where('id_master', $this->selected_id)->first();
+        $datamaster                           = new \App\Models\AccountPayable();
+        $datamaster->project                  = $this->project;
+        $datamaster->region                   = $this->region;
+        $datamaster->name                     = $this->employee_name;
+        $datamaster->nik                      = $user->nik;
+        $datamaster->position                 = $user->user_access_id;
+        
+        $this->validate([
+            'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
+        ]);
+
+        if($this->file){
+            $ap_doc = 'ap_doc'.date('Ymd').'.'.$this->file->extension();
+            $this->file->storePubliclyAs('public/Account_Payable/',$ap_doc);
+
+            $datamaster->additional_doc               = $ap_doc;
+            $datamaster->doc_name                     = $this->doc_name;
         }
-        $data->id_master                = $this->selected_id;
+        
+        $datamaster->department                       = $this->department;
+        $datamaster->request_type                     = $this->request_type;
+        $datamaster->subrequest_type                  = $this->subrequest_type;
+        $datamaster->update_req                       = '1';
+        $datamaster->save();
+
+
+
+        
+        $data                           = new \App\Models\AccountPayablePettycash();
+        $data->id_master                = $datamaster->id;
         $data->department               = $this->department;
         $data->advance_req_no           = $this->advance_req_no;
         $data->month                    = $this->month;
@@ -99,60 +131,65 @@ class Addpettycash extends Component
         // $data->description              = $this->description;
         // $data->settlement_nominal       = $this->settlement_nominal;
         // $data->difference               = $this->difference;
-        // $data->account_no_recorded      = $this->account_no_recorded;
-        // $data->account_name_recorded    = $this->account_name_recorded;
-        // $data->nominal_recorded         = $this->nominal_recorded;
+        $data->account_no_recorded      = $this->account_no_recorded;
+        $data->account_name_recorded    = $this->account_name_recorded;
+        $data->nominal_recorded         = $this->nominal_recorded;
         
         
        
-        if(!@\App\Models\AccountPayablePettycash::where('id_master', $this->selected_id)->first()->doc_settlement){
+        // if(!@\App\Models\AccountPayablePettycash::where('id_master', $this->selected_id)->first()->doc_settlement){
             $this->validate([
                 'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
             ]);
 
-            if($this->file){
+            // if($this->file){
                 $ap_doc = 'ap_pettycash'.$this->selected_id.'.'.$this->file->extension();
                 $this->file->storePubliclyAs('public/Account_Payable/Petty_Cash/',$ap_doc);
 
                 $data->doc_settlement               = $ap_doc;
-            }
-        }
+            // }
+        // }
         
         $data->save();
 
-        if($this->description1){
-            $data                           = new \App\Models\AdvanceSettlementAP();
-            $data->description              = $this->description1;
-            $data->save();
+        if(@$this->description1){
+            $detaildata                           = new \App\Models\AdvanceSettlementAP();
+            $detaildata->id_master                = $datamaster->id;
+            // $detaildata->description              = @$this->description1;
+            $detaildata->save();
         }
 
-        if($this->description2){
-            $data                           = new \App\Models\AdvanceSettlementAP();
-            $data->description              = $this->description2;
-            $data->save();
+        if(@$this->description2){
+            $detaildata                           = new \App\Models\AdvanceSettlementAP();
+            $detaildata->id_master                = $datamaster->id;
+            // $detaildata->description              = @$this->description2;
+            $detaildata->save();
         }
 
-        if($this->description3){
-            $data                           = new \App\Models\AdvanceSettlementAP();
-            $data->description              = $this->description3;
-            $data->save();
+        if(@$this->description3){
+            $detaildata                           = new \App\Models\AdvanceSettlementAP();
+            $detaildata->id_master                = $datamaster->id;
+            // $detaildata->description              = @$this->description3;
+            $detaildata->save();
         }
 
-        if($this->description4){
-            $data                           = new \App\Models\AdvanceSettlementAP();
-            $data->description              = $this->description4;
-            $data->save();
+        if(@$this->description4){
+            $detaildata                           = new \App\Models\AdvanceSettlementAP();
+            $detaildata->id_master                = $datamaster->id;
+            // $detaildata->description              = @$this->description4;
+            $detaildata->save();
         }
 
-        if($this->description5){
-            $data                           = new \App\Models\AdvanceSettlementAP();
-            $data->description              = $this->description5;
-            $data->save();
+        if(@$this->description5){
+            $detaildata                           = new \App\Models\AdvanceSettlementAP();
+            $detaildata->id_master                = $datamaster->id;
+            // $detaildata->description              = @$this->description5;
+            $detaildata->save();
         }
 
-        $datamaster                           = \App\Models\AccountPayable::where('id', $this->selected_id)->first();
-        $datamaster->update_req               = '1';
-        $datamaster->save();
+        // $datamaster                           = \App\Models\AccountPayable::where('id', $this->selected_id)->first();
+        // $datamaster->update_req               = '1';
+        // $datamaster->save();
 
         
 
@@ -170,7 +207,7 @@ class Addpettycash extends Component
 
         session()->flash('message-success',"Request Petty Cash Berhasil diinput");
         
-        return redirect()->route('account-payable.index');
+        return redirect()->route('finance-petty-cash');
     }
 
     public function getNextId() 

@@ -6,6 +6,9 @@
                 <div class="col-md-2">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                 </div>
+                <div class="col-md-1" style="margin: 0 10px;">
+                    <a href="javascript:;" wire:click="$emit('modaladdpettycashaccountpayable')" class="btn btn-info"><i class="fa fa-plus"></i> Add Request</a>
+                </div>
                 <div class="col-md-8">
                     <span wire:loading>
                         <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -54,10 +57,10 @@
                                         <?php } ?>
                                     </td>
                                     <td>
-                                        @if($item->settlement_nominal)
-                                        <a href="javascript:;" wire:click="$emit('modaladdpettycashaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                        @if(!$item->settlement_nominal)
+                                        <a href="javascript:;" wire:click="$emit('modalupdatepettycashaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
                                         @else
-                                        <a href="javascript:;" wire:click="$emit('modaladdpettycashaccountpayable','{{ $item->id }}')">{{ $item->settlement_nominal }}</a>
+                                        <a href="javascript:;" wire:click="$emit('modalupdatepettycashaccountpayable','{{ $item->id }}')">{{ $item->settlement_nominal }}</a>
                                         @endif
                                     </td>
                                     <td>{{$item->total_settlement}}</td>
@@ -92,12 +95,25 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-accountpayable-updatepettycash" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:account-payable.updatepettycash />
+        </div>
+    </div>
+</div>
+
 
 @section('page-script')
 
     Livewire.on('modaladdpettycashaccountpayable',(data)=>{
         
         $("#modal-accountpayable-addpettycash").modal('show');
+    });
+
+    Livewire.on('modalupdatepettycashaccountpayable',(data)=>{
+        
+        $("#modal-accountpayable-updatepettycash").modal('show');
     });
 
 @endsection
