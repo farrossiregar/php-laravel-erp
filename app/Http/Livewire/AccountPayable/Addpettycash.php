@@ -31,13 +31,14 @@ class Addpettycash extends Component
 
     public function render()
     {
-        $reqnum                                 = '003';
+        // $reqnum                                 = '003';
 
         $this->employee_name                    = isset(Auth::user()->employee->name)?Auth::user()->employee->name : '-';
         $this->project                          = isset(Auth::user()->employee->region->region)?Auth::user()->employee->region->region : '-';
         $this->position                         = isset(Auth::user()->employee->access->name)?Auth::user()->employee->access->name : '-';
         $this->department                       = isset(Auth::user()->employee->department->name)?Auth::user()->employee->department->name : '-';
-        $this->advance_req_no                   = $this->department.'/'.date('Ym').'/'.$reqnum;
+        $this->advance_req_no                   = $this->department.'/'.date('Ym').'/'.$this->getNextId();
+        $this->cash_transaction_no              = $this->getNextId().'/'.date('d').'/'.date('m').'/'.date('Y').'/CashOut';
 
         // if($this->department){
         //     $this->advance_req_no               = \App\Models\Department::where('id', $this->department)->first()->name.'/'.date('Ym').'/'.$reqnum;
@@ -46,43 +47,6 @@ class Addpettycash extends Component
         // }
         return view('livewire.account-payable.addpettycash');
     }
-
-    // public function modaladdpettycashaccountpayable($id)
-    // {
-    //     $this->selected_id = $id;
-
-    //     $reqnum                         = '003';
-    //     // dd(\App\Models\AccountPayablePettycash::orderBy('id', 'desc')->first());
-    //     $data                           = @\App\Models\AccountPayablePettycash::where('id_master', $this->selected_id)->first();
-    //     $this->id_master                = $this->selected_id;
-
-    //     $this->department               = @$data->department;
-    //     if($this->department){
-    //         $this->advance_req_no               = $this->department.'/'.date('YM').'/'.$reqnum;
-    //     }else{
-    //         $this->advance_req_no               = '';
-    //     }
-        
-    //     $this->advance_req_no           = @$data->advance_req_no;
-    //     $this->month                    = @$data->month;
-    //     $this->year                     = @$data->year;
-    //     $this->week                     = @$data->advance_req_no;
-    //     $this->advance_nominal          = @$data->advance_nominal;
-    //     $this->advance_date             = @$data->advance_date;
-    //     // $this->cash_transaction_no      = @$data->cash_transaction_no;
-    //     $this->cash_transaction_no      = $reqnum.'/'.date('d').'/'.date('m').'/'.date('Y').'/CashOut';
-    //     $this->settlement_date          = @$data->settlement_date;
-    //     $this->description              = @$data->description;
-    //     $this->settlement_nominal       = @$data->settlement_nominal;
-    //     $this->total_settlement         = @$data->total_settlement;
-    //     $this->difference               = @$data->difference;
-    //     $this->account_no_recorded      = @$data->account_no_recorded;
-    //     $this->account_name_recorded    = @$data->account_name_recorded;
-    //     $this->nominal_recorded         = @$data->nominal_recorded;
-    //     $this->doc_settlement           = @$data->doc_settlement;
-
-        
-    // }
 
   
     public function save()
@@ -125,12 +89,9 @@ class Addpettycash extends Component
         $data->year                     = $this->year;
         $data->week                     = $this->advance_req_no;
         $data->advance_nominal          = $this->advance_nominal;
-        $data->advance_date             = $this->advance_date;
+        $data->advance_date             = date('Y-m-d');
         $data->cash_transaction_no      = $this->cash_transaction_no;
-        // $data->settlement_date          = $this->settlement_date;
-        // $data->description              = $this->description;
-        // $data->settlement_nominal       = $this->settlement_nominal;
-        // $data->difference               = $this->difference;
+       
         $data->account_no_recorded      = $this->account_no_recorded;
         $data->account_name_recorded    = $this->account_name_recorded;
         $data->nominal_recorded         = $this->nominal_recorded;
@@ -155,35 +116,35 @@ class Addpettycash extends Component
         if(@$this->description1){
             $detaildata                           = new \App\Models\AdvanceSettlementAP();
             $detaildata->id_master                = $datamaster->id;
-            // $detaildata->description              = @$this->description1;
+            $detaildata->description              = @$this->description1;
             $detaildata->save();
         }
 
         if(@$this->description2){
             $detaildata                           = new \App\Models\AdvanceSettlementAP();
             $detaildata->id_master                = $datamaster->id;
-            // $detaildata->description              = @$this->description2;
+            $detaildata->description              = @$this->description2;
             $detaildata->save();
         }
 
         if(@$this->description3){
             $detaildata                           = new \App\Models\AdvanceSettlementAP();
             $detaildata->id_master                = $datamaster->id;
-            // $detaildata->description              = @$this->description3;
+            $detaildata->description              = @$this->description3;
             $detaildata->save();
         }
 
         if(@$this->description4){
             $detaildata                           = new \App\Models\AdvanceSettlementAP();
             $detaildata->id_master                = $datamaster->id;
-            // $detaildata->description              = @$this->description4;
+            $detaildata->description              = @$this->description4;
             $detaildata->save();
         }
 
         if(@$this->description5){
             $detaildata                           = new \App\Models\AdvanceSettlementAP();
             $detaildata->id_master                = $datamaster->id;
-            // $detaildata->description              = @$this->description5;
+            $detaildata->description              = @$this->description5;
             $detaildata->save();
         }
 
@@ -212,7 +173,7 @@ class Addpettycash extends Component
 
     public function getNextId() 
     {
-        $statement = DB::select("show table status like 'account_payable'");
+        $statement = DB::select("show table status like 'account_payable_pettycash'");
         return $statement[0]->Auto_increment;
     }
 

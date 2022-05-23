@@ -84,8 +84,9 @@
                                                     <label>Document Type </label>
                                                     <input list="doc_id" type="text" class="form-control" wire:model="doc_name">
                                                     <datalist id="doc_id" >
-                                                        <option value="PO">
-                                                        <option value="Invoice">
+                                                        @foreach(\App\Models\AccountPayable::groupBy('doc_name')->get() as $item)
+                                                        <option value="{{ $item->doc_name }}">
+                                                        @endforeach
                                                     </datalist>
                                                     @error('doc_name')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>

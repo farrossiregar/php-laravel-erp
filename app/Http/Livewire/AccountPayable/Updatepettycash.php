@@ -24,7 +24,7 @@ class Updatepettycash extends Component
     
     use WithFileUploads;
     public $selected_id, $department, $month, $year, $advance_req_no, $advance_nominal, $advance_date, $settlement_date, $settlement_nominal, $total_settlement, $cash_transaction_no;
-    public $description, $difference, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file, $doc_settlement;
+    public $description, $id_master, $difference, $account_no_recorded, $account_name_recorded, $nominal_recorded, $file, $doc_settlement;
     public $description1, $description2, $description3, $description4, $description5;
     public $total_settlement1, $total_settlement2, $total_settlement3, $total_settlement4, $total_settlement5;
     
@@ -44,9 +44,10 @@ class Updatepettycash extends Component
     {
         $this->selected_id              = $id;   
 
-        // $reqnum                         = '003';
         $data                           = @\App\Models\AccountPayablePettycash::where('id', $this->selected_id)->first();
-        $this->id_master                = $this->selected_id;
+        // $this->selected_id                = $this->selected_id;
+        $this->id_master                = @$data->id_master;
+        
         $this->department               = @$data->department;
         $this->advance_req_no           = @$data->advance_req_no;
         $this->month                    = @$data->month;
@@ -55,11 +56,8 @@ class Updatepettycash extends Component
         $this->advance_nominal          = @$data->advance_nominal;
         $this->advance_date             = @$data->advance_date;
         $this->cash_transaction_no      = @$data->cash_transaction_no;
-        // $this->cash_transaction_no      = $reqnum.'/'.date('d').'/'.date('m').'/'.date('Y').'/CashOut';
         $this->settlement_date          = @$data->settlement_date;
-        // $this->description              = @$data->description;
         $this->settlement_nominal       = @$data->settlement_nominal;
-        // $this->total_settlement         = @$data->total_settlement;
         $this->difference               = @$data->difference;
         $this->account_no_recorded      = @$data->account_no_recorded;
         $this->account_name_recorded    = @$data->account_name_recorded;
@@ -71,14 +69,19 @@ class Updatepettycash extends Component
         $this->region                   = $datamaster->region;
         $this->employee_name            = $datamaster->name;
         $this->nik                      = $datamaster->nik;
-        $this->position                 = $datamaster->position;
+        $this->position                 = \App\Models\UserAccess::where('id', $datamaster->position)->first()->name;
         $this->doc_name                 = $datamaster->doc_name;
         $this->request_type             = $datamaster->request_type;
-        $this->subrequest_type          = \App\Models\RequestDetailOption::where('id', $datamaster->subrequest_type)->first()->request_detail_option;
+        $this->subrequest_type          = @\App\Models\RequestDetailOption::where('id', $datamaster->subrequest_type)->first()->request_detail_option;
 
         $this->settlement_nominal       = @$this->total_settlement1 + @$this->total_settlement2 + @$this->total_settlement3 + @$this->total_settlement4 + @$this->total_settlement5;
 
-        
+        // $detail_desc = \App\Models\AdvanceSettlementAP::where('id_master', $this->selected_id)->get();
+        // $this->total_settlement1              = @\App\Models\AdvanceSettlementAP::where('id_master', $this->selected_id)->where('description', $detail_desc[0]->description)->first();
+        // $this->total_settlement2              = @\App\Models\AdvanceSettlementAP::where('id_master', $this->selected_id)->where('description', $detail_desc[1]->description)->first();
+        // $this->total_settlement3              = @\App\Models\AdvanceSettlementAP::where('id_master', $this->selected_id)->where('description', $detail_desc[2]->description)->first();
+        // $this->total_settlement4              = @\App\Models\AdvanceSettlementAP::where('id_master', $this->selected_id)->where('description', $detail_desc[3]->description)->first();
+        // $this->total_settlement5              = @\App\Models\AdvanceSettlementAP::where('id_master', $this->selected_id)->where('description', $detail_desc[4]->description)->first();
     }
 
   
@@ -88,7 +91,7 @@ class Updatepettycash extends Component
 
         $data                           = \App\Models\AccountPayablePettycash::where('id', $this->selected_id)->first();
         
-        $data->id_master                = $this->selected_id;
+        // $data->id_master                = $this->selected_id;
         $data->department               = $this->department;
         $data->advance_req_no           = $this->advance_req_no;
         $data->month                    = $this->month;
@@ -97,7 +100,7 @@ class Updatepettycash extends Component
         $data->advance_nominal          = $this->advance_nominal;
         $data->advance_date             = $this->advance_date;
         $data->cash_transaction_no      = $this->cash_transaction_no;
-        // $data->settlement_date          = $this->settlement_date;
+        $data->settlement_date          = date('Y-m-d');
         // $data->description              = $this->description;
         $data->settlement_nominal       = $this->settlement_nominal;
         $data->difference               = $this->difference;
@@ -122,35 +125,36 @@ class Updatepettycash extends Component
         
         $data->save();
 
-        $detail_desc = \App\Models\AdvanceSettlementAP::where('id_master', $this->selected_id)->get();
+        $detail_desc = \App\Models\AdvanceSettlementAP::where('id_master', $data->id_master)->get();
         // dd($detail_desc[0]->description, $this->selected_id);
+        // dd($detail_desc);
         if($this->total_settlement1){
-            $detaildata                             = \App\Models\AdvanceSettlementAP::where('id_master', $this->selected_id)->where('description', $detail_desc[0]->description)->first();
+            $detaildata                             = \App\Models\AdvanceSettlementAP::where('id_master', $data->id_master)->where('description', $detail_desc[0]->description)->first();
             // dd($detaildata);
             $detaildata->settlement                 = $this->total_settlement1;
             $detaildata->save();
         }
 
         if($this->total_settlement2){
-            $detaildata                             = \App\Models\AdvanceSettlementAP::where('id_master', $this->selected_id)->where('description', $detail_desc[1]->description)->first();
+            $detaildata                             = \App\Models\AdvanceSettlementAP::where('id_master', $data->id_master)->where('description', $detail_desc[1]->description)->first();
             $detaildata->settlement                 = $this->total_settlement2;
             $detaildata->save();
         }
 
         if($this->total_settlement3){
-            $detaildata                             = \App\Models\AdvanceSettlementAP::where('id_master', $this->selected_id)->where('description', $detail_desc[2]->description)->first();
+            $detaildata                             = \App\Models\AdvanceSettlementAP::where('id_master', $data->id_master)->where('description', $detail_desc[2]->description)->first();
             $detaildata->settlement                 = $this->total_settlement3;
             $detaildata->save();
         }
 
         if($this->total_settlement4){
-            $detaildata                             = \App\Models\AdvanceSettlementAP::where('id_master', $this->selected_id)->where('description', $detail_desc[3]->description)->first();
+            $detaildata                             = \App\Models\AdvanceSettlementAP::where('id_master', $data->id_master)->where('description', $detail_desc[3]->description)->first();
             $detaildata->settlement                 = $this->total_settlement4;
             $detaildata->save();
         }
 
         if($this->total_settlement5){
-            $detaildata                             = \App\Models\AdvanceSettlementAP::where('id_master', $this->selected_id)->where('description', $detail_desc[0]->description)->first();
+            $detaildata                             = \App\Models\AdvanceSettlementAP::where('id_master', $data->id_master)->where('description', $detail_desc[0]->description)->first();
             $detaildata->settlement                 = $this->total_settlement5;
             $detaildata->save();
         }

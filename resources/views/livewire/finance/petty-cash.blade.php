@@ -49,7 +49,7 @@
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'advance_nominal'],key($item->id))</td>
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'advance_date'],key($item->id))</td>
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
-                                    <td>{{$item->settlement_date}}</td>
+                                    <td>{{ date_format(date_create($item->settlement_date), 'd M Y')}}</td>
                                     <!-- <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'description'],key($item->id))</td> -->
                                     <td>
                                         <?php foreach(\App\Models\AdvanceSettlementAP::where('id_master', $item->id_master)->get() as $items){ ?>
@@ -62,17 +62,29 @@
                                         <?php } ?>
                                     </td>
                                     <td>
+                                        <!-- <?php echo \App\Models\AccountPayable::where('id', $item->id_master)->first(); ?> -->
+                                        
                                         @if(!$item->settlement_nominal)
-                                        <a href="javascript:;" wire:click="$emit('modalupdatepettycashaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @if($is_apstaff)
+                                                @if(@\App\Models\AccountPayable::where('id', @$item->id_master)->first()->status == '2')
+                                                    <a href="javascript:;" wire:click="$emit('modalupdatepettycashaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                                @endif
+                                            @endif
                                         @else
-                                        <a href="javascript:;" wire:click="$emit('modalupdatepettycashaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i> {{$item->total_settlement}}</a>
+                                            @if($is_apstaff)
+                                                @if(@\App\Models\AccountPayable::where('id', @$item->id_master)->first()->status == '2')
+                                                    <a href="javascript:;" wire:click="$emit('modalupdatepettycashaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i> {{$item->total_settlement}}</a>
+                                                @endif
+                                            @else
+                                                <a href="javascript:;" ><i class="fa fa-edit " style="color: #22af46;"></i> {{$item->total_settlement}}</a>
+                                            @endif
                                         @endif
                                         
                                     </td>
-                                    <td>{{$item->difference}}</td>
+                                    <td>Rp, {{ format_idr($item->difference) }}</td>
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'account_no_recorded'],key($item->id))</td>
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'account_name_recorded'],key($item->id))</td>
-                                    <td>{{$item->nominal_recorded}}</td>
+                                    <td>Rp, {{ format_idr(@$item->nominal_recorded) }}</td>
                                     <td>{{$item->doc_settlement}}</td>
                                 </tr>
                             @endforeach

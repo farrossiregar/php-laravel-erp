@@ -13,7 +13,7 @@ class Data extends Component
     use WithPagination;
     public $project, $filterproject, $filterweek, $filtermonth, $filteryear, $employee_name, $request_type;
     protected $paginationTheme = 'bootstrap';
-    public $is_pmg=true, $is_apstaff=true, $is_finance_spv=false,$is_finance_manager=false,$is_finance_accounting_manager=false,$is_treasury=false;
+    public $is_pmg=true, $is_apstaff=true, $is_finance_spv=true,$is_finance_manager=true,$is_finance_accounting_manager=true,$is_treasury=true;
     public function render()
     {
         if($this->is_finance_spv){
@@ -38,7 +38,8 @@ class Data extends Component
             $data = AccountPayable::orderBy('created_at', 'desc');
         }else{
             $user = Auth::user();
-            $data = \App\Models\AccountPayable::where('nik', $user->nik)->orderBy('created_at', 'desc');
+            // $data = \App\Models\AccountPayable::where('nik', $user->nik)->orderBy('created_at', 'desc');
+            $data = \App\Models\AccountPayable::orderBy('created_at', 'desc');
         }
         if($this->filteryear) $data->whereYear('created_at',$this->filteryear);
         if($this->filtermonth) $data->whereMonth('created_at',$this->filtermonth);                
@@ -54,8 +55,10 @@ class Data extends Component
         $this->is_pmg = true;
         // $this->is_finance_spv = check_access('is-finance-spv');
         $this->is_finance_spv = true;
-        $this->is_finance_manager = check_access('is-finance-manager');
-        $this->is_finance_accounting_manager = check_access('is-finance-accounting-manager');
+        // $this->is_finance_manager = check_access('is-finance-manager');
+        $this->is_finance_manager = true;
+        // $this->is_finance_accounting_manager = check_access('is-finance-accounting-manager');
+        $this->is_finance_accounting_manager = true;
         $this->is_treasury = check_access('is-treasury');
     }
 }
