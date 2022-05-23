@@ -62,7 +62,8 @@
                                         
                                         <div class="col-md-6 form-group">
                                             <label>Sub Request Type</label>
-                                            <select onclick="" class="form-control" wire:model="subrequest_type">
+                                            <input type="text" class="form-control" wire:model="subrequest_type" readonly>
+                                            <!-- <select onclick="" class="form-control" wire:model="subrequest_type">
                                                
                                                 <option value=""> --- Sub Request Type (Petty Cash) --- </option>
                                                 <option value="1">Petty Cash Team HR</option>
@@ -72,28 +73,37 @@
                                                 <option value="5">Petty Cash TOC</option>
                                                 <option value="6">Petty Cash Finance</option>
                                                 <option value="7">Petty Cash PA (CEO)</option>
-                                            </select>
+                                            </select> -->
                                         </div>
 
                                         
 
                                         <div class="col-md-6 form-group">
                                             <div class="row">
-                                                <div class="col-md-6 form-group">
+                                                <div class="col-md-8 form-group">
                                                     <label>Additional Document </label>
-                                                    <input type="file" class="form-control" wire:model="file">
+                                                    <div class="row">
+                                                        <div class="col-md-8">
+                                                            <input type="file" class="form-control" wire:model="file">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <a href="<?php echo asset('storage/Account_Payable/Petty_Cash/'.$doc_settlement) ?>" target="_blank"><i class="fa fa-download"></i> Download</a>
+                                                        </div>
+                                                    
+                                                    </div>
                                                     @error('file')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                     @enderror
                                                 </div>
 
-                                                <div class="col-md-6 form-group">
-                                                    <label>Document Type </label>
-                                                    <input list="doc_id" type="text" class="form-control" wire:model="doc_name">
+                                                <div class="col-md-4 form-group">
+                                                    <label>Doc Type </label>
+                                                    <input type="text" class="form-control" wire:model="doc_name" readonly>
+                                                    <!-- <input list="doc_id" type="text" class="form-control" wire:model="doc_name">
                                                     <datalist id="doc_id" >
                                                         <option value="PO">
                                                         <option value="Invoice">
-                                                    </datalist>
+                                                    </datalist> -->
                                                     @error('doc_name')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                     @enderror
@@ -105,20 +115,22 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <label>Month </label>
-                                                    <select name="" id="" class="form-control" wire:model="month">
+                                                    <input type="text" class="form-control"  value="{{date('F', mktime(0, 0, 0, $month, 10))}}" readonly> 
+                                                    <!-- <select name="" id="" class="form-control" wire:model="month">
                                                         <option value=""> --- Month --- </option>
                                                         @for($i = 1; $i <= 12; $i++)
                                                             <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
                                                         @endfor
-                                                    </select>
+                                                    </select> -->
                                                 
                                                     @error('period')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                     @enderror
                                                 </div>
                                                 <div class="col-md-6">     
-                                                    <label>Year </label>           
-                                                    <select class="form-control"  wire:model="year">
+                                                    <label>Year </label>     
+                                                    <input type="text" class="form-control"  wire:model="year" readonly>      
+                                                    <!-- <select class="form-control"  wire:model="year">
                                                         <option value=""> --- Year --- </option>
                                                         <option value="2022">2022</option>
                                                         <option value="2021">2021</option>
@@ -126,7 +138,7 @@
                                                         <option value="2019">2019</option>
                                                         <option value="2018">2018</option>
                                                         <option value="2017">2017</option>
-                                                    </select>
+                                                    </select> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -157,7 +169,7 @@
 
                                                     <div class="col-md-6 form-group">
                                                         <label>Advance Nominal </label>
-                                                        <input type="number" class="form-control" wire:model="advance_nominal">
+                                                        <input type="number" class="form-control" wire:model="advance_nominal" readonly>
                                                     
                                                         @error('advance_nominal')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -190,15 +202,13 @@
                                                     <hr>
                     
                                                     <?php
-                                                        // for($i = 1; $i<=5; $i++){
-                                                        foreach(\App\Models\AdvanceSettlementAP::where('id_master', '25')->get() as $i => $items){
+                                                        foreach(\App\Models\AdvanceSettlementAP::where('id_master', $selected_id)->get() as $i => $items){
                                                             $i = $i+1;
                                                     ?>
                                                     
                                                     <div class="col-md-6 form-group">
                                                         <label>Description <?php echo $i; ?></label>
-                                                        <!-- <textarea name="" id="" cols="30" rows="4" class="form-control" wire:model="description"></textarea> -->
-                                                        <input type="number" class="form-control" wire:model="description" placeholder="<?php echo $items->description; ?>" readonly>
+                                                        <input type="text" class="form-control" wire:model="description<?php echo $i; ?>" value="{{ $items->description }}" placeholder="{{ $items->description }}" readonly>
 
                                                         @error('settlement_date')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -207,7 +217,7 @@
 
                                                     <div class="col-md-6 form-group">
                                                         <label>Total Settlement <?php echo $i; ?></label>
-                                                        <input type="number" class="form-control" wire:model="total_settlement">
+                                                        <input type="number" class="form-control" wire:model="total_settlement<?php echo $i; ?>" value="{{ $items->settlement }}" placeholder="{{ $items->settlement }}">
                                                     
                                                         @error('total_settlement')
                                                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>

@@ -45,7 +45,7 @@
                                     <td>{{$k+1}}</td>
                                     <td>{{$item->department}}</td>
                                     <td>{{$item->advance_req_no}}</td>
-                                    <td>{{$item->month}}</td>
+                                    <td>{{date('F', mktime(0, 0, 0, (int)$item->month, 10))}}</td>
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'advance_nominal'],key($item->id))</td>
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'advance_date'],key($item->id))</td>
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
@@ -53,17 +53,22 @@
                                     <!-- <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'description'],key($item->id))</td> -->
                                     <td>
                                         <?php foreach(\App\Models\AdvanceSettlementAP::where('id_master', $item->id_master)->get() as $items){ ?>
-                                            <b>{{ $items->description }} </b> {{ ($items->settlement) ? ': Rp,'.$items->settlement : '' }} <br>
+                                            <b>{{ $items->description }} </b> <br>
+                                        <?php } ?>
+                                    </td>
+                                    <td>
+                                        <?php foreach(\App\Models\AdvanceSettlementAP::where('id_master', $item->id_master)->get() as $items){ ?>
+                                            <b> {{ ($items->settlement) ? 'Rp,'.$items->settlement : '' }} </b> <br>
                                         <?php } ?>
                                     </td>
                                     <td>
                                         @if(!$item->settlement_nominal)
                                         <a href="javascript:;" wire:click="$emit('modalupdatepettycashaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
                                         @else
-                                        <a href="javascript:;" wire:click="$emit('modalupdatepettycashaccountpayable','{{ $item->id }}')">{{ $item->settlement_nominal }}</a>
+                                        <a href="javascript:;" wire:click="$emit('modalupdatepettycashaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i> {{$item->total_settlement}}</a>
                                         @endif
+                                        
                                     </td>
-                                    <td>{{$item->total_settlement}}</td>
                                     <td>{{$item->difference}}</td>
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'account_no_recorded'],key($item->id))</td>
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'account_name_recorded'],key($item->id))</td>
