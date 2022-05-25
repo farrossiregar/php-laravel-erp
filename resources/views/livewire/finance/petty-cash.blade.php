@@ -6,7 +6,6 @@
                 <div class="col-md-2">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                 </div>
-
                 <div class="col-md-2" wire:ignore>
                     <select class="form-control" style="width:100%;" wire:model="filtermonth">
                         <option value=""> --- Month --- </option>
@@ -15,19 +14,15 @@
                         @endfor
                     </select>
                 </div>
-               
                 <div class="col-md-2 form-group">
                     <select onclick="" class="form-control" wire:model="subrequest_type">
                         <option value=""> --- Request Type --- </option>
                         @foreach(\App\Models\RequestDetailOption::where('id_request_type', '1')->get() as $items)
-                        <option value="{{ $items->id_request_detail_option }}">{{ $items->request_detail_option }}</option>
+                            <option value="{{ $items->id_request_detail_option }}">{{ $items->request_detail_option }}</option>
                         @endforeach
-                     
                     </select>
                 </div>
-                
-                <div class="col-md-1" style="margin: 0 10px;">
-                    <a href="javascript:;" wire:click="$emit('modaladdpettycashaccountpayable')" class="btn btn-info"><i class="fa fa-plus"></i> Add Request</a>
+                <div class="col-md-5" style="margin: 0 10px;">
                     <a href="javascript:;" data-toggle="modal" data-target="#modal_petty_cash_budget" class="btn btn-success"><i class="fa fa-database"></i> Budget</a>
                     <a href="javascript:;" data-toggle="modal" data-target="#modal_petty_cash_type" class="btn btn-info"><i class="fa fa-database"></i> Type</a>
                 </div>
@@ -134,7 +129,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="modal_petty_cash_budget" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -142,34 +136,3 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="modal-accountpayable-addpettycash" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:account-payable.addpettycash />
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-accountpayable-updatepettycash" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:account-payable.updatepettycash />
-        </div>
-    </div>
-</div>
-
-
-@section('page-script')
-
-    Livewire.on('modaladdpettycashaccountpayable',(data)=>{
-        
-        $("#modal-accountpayable-addpettycash").modal('show');
-    });
-
-    Livewire.on('modalupdatepettycashaccountpayable',(data)=>{
-        
-        $("#modal-accountpayable-updatepettycash").modal('show');
-    });
-
-@endsection

@@ -43,26 +43,25 @@
             <option value="9">Supplier/Vendor</option>  
         </select>
     </div>
-    <!-- <div class="col-md-1" style="margin: 0 10px;">
-        <a href="javascript:;" wire:click="$emit('modaladdaccountpayable')" class="btn btn-info"><i class="fa fa-plus"></i> Request AP </a>
-    </div>   -->
+    <div class="col-md-1">
+        <a href="javascript:;" data-toggle="modal" data-target="#modal_add" class="btn btn-info"><i class="fa fa-plus"></i> Request AP </a>
+    </div>  
     <div class="col-md-12">
-        <br><br>
         <div class="table-responsive">
-            <table class="table table-bordered m-b-0 c_list">
+            <table class="table m-b-0 c_list">
                 <thead style="background: #eee;">
                     <tr>
-                        <th rowspan="2" class="align-middle">No</th>
-                        <th rowspan="2" class="align-middle">Status</th> 
-                        <th rowspan="2" class="align-middle">Action</th> 
-                        <th rowspan="2" class="align-middle">Date Create</th>
-                        <th rowspan="2" class="align-middle">Cash Transaction No</th>
-                        <th rowspan="2" class="align-middle">User</th> 
-                        <th rowspan="2" class="align-middle">Position</th> 
-                        <th rowspan="2" class="align-middle">Project</th> 
-                        <th rowspan="2" class="align-middle">Request Type</th> 
-                        <th rowspan="2" class="align-middle">Additional Document</th> 
-                        <th rowspan="2" class="align-middle">Detail Payment</th> 
+                        <th class="align-middle">No</th>
+                        <th class="align-middle">Status</th> 
+                        <th class="align-middle">Action</th> 
+                        <th class="align-middle">Date Create</th>
+                        <th class="align-middle">Cash Transaction No</th>
+                        <th class="align-middle">User</th> 
+                        <th class="align-middle">Position</th> 
+                        <th class="align-middle">Project</th> 
+                        <th class="align-middle">Request Type</th> 
+                        <th class="align-middle">Additional Document</th> 
+                        <th class="align-middle">Detail Payment</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -537,6 +536,14 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:account-payable.add />
         </div>
     </div>
 </div>
