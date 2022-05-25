@@ -43,9 +43,9 @@
             <option value="9">Supplier/Vendor</option>  
         </select>
     </div>
-    <div class="col-md-1" style="margin: 0 10px;">
+    <!-- <div class="col-md-1" style="margin: 0 10px;">
         <a href="javascript:;" wire:click="$emit('modaladdaccountpayable')" class="btn btn-info"><i class="fa fa-plus"></i> Request AP </a>
-    </div>  
+    </div>   -->
     <div class="col-md-12">
         <br><br>
         <div class="table-responsive">
@@ -56,6 +56,7 @@
                         <th rowspan="2" class="align-middle">Status</th> 
                         <th rowspan="2" class="align-middle">Action</th> 
                         <th rowspan="2" class="align-middle">Date Create</th>
+                        <th rowspan="2" class="align-middle">Cash Transaction No</th>
                         <th rowspan="2" class="align-middle">User</th> 
                         <th rowspan="2" class="align-middle">Position</th> 
                         <th rowspan="2" class="align-middle">Project</th> 
@@ -126,8 +127,10 @@
                                 
                                 @if($is_finance_spv || $is_finance_manager || $is_finance_accounting_manager)
                                     @if($item->status == '1')
-                                        <a href="javascript:;" wire:click="$emit('modalapproveaccountpayable',['{{ $item->id }}', '2'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                        <a href="javascript:;" wire:click="$emit('modaldeclineaccountpayable','{{ $item->id }}')"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                        <!-- <a href="javascript:;" wire:click="$emit('modalapproveaccountpayable',['{{ $item->id }}', '2'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclineaccountpayable','{{ $item->id }}')"><i class="fa fa-close " style="color: #de4848;"></i></a> -->
+                                        <a href="javascript:;" wire:click="$emit('modalapproveaccountpayable',['{{ $item->id }}', '2'])" class="badge badge-info badge-active"><i class="fa fa-check-circle"></i> Approve</a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclineaccountpayable','{{ $item->id }}')" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Reject</a>
                                     @endif
                                 @endif
 
@@ -188,6 +191,7 @@
                                 @endif
                             </td>
                             <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
+                            <td>{{ $item->cash_transaction_no }}</td>
                             <td class="align-middle">
                                 <b>{{ $item->name }}</b><br>
                                 {{ $item->nik }}
