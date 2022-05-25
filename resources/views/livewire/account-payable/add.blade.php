@@ -58,19 +58,18 @@
                                             <label>Sub Request Type</label>
                                             <select onclick="" class="form-control" wire:model="subrequest_type">
                                                 @if($request_type == '1')
-                                                <option value=""> --- Sub Request Type (Petty Cash) --- </option>
-                                                <!-- <option value="1">Petty Cash Team HR</option>
-                                                <option value="2">Petty Cash Team PL</option>
-                                                <option value="3">Petty Cash Team GA</option> -->
-                                                <option value="4">Petty Cash Team IT</option>
-                                                <option value="5">Petty Cash TOC</option>
-                                                <option value="6">Petty Cash Finance</option>
-                                                <option value="7">Petty Cash PA (CEO)</option>
+                                                    <option value=""> --- Sub Request Type (Petty Cash) --- </option>
+                                                    <!-- <option value="1">Petty Cash Team HR</option>
+                                                    <option value="2">Petty Cash Team PL</option>
+                                                    <option value="3">Petty Cash Team GA</option> -->
+                                                    <option value="4">Petty Cash Team IT</option>
+                                                    <option value="5">Petty Cash TOC</option>
+                                                    <option value="6">Petty Cash Finance</option>
+                                                    <option value="7">Petty Cash PA (CEO)</option>
 
-                                                @foreach(\App\Models\RequestDetailOption::where('id_request_type', '1')->get() as $item)
-                                                    <option value="{{ $item->id_detail_request_option }}">{{ $item->request_detail_option }}</option>
-                                                @endforeach
-
+                                                    @foreach(\App\Models\RequestDetailOption::where('id_request_type', '1')->get() as $item)
+                                                        <option value="{{ $item->id_detail_request_option }}">{{ $item->request_detail_option }}</option>
+                                                    @endforeach
                                                 @endif
 
                                                 @if($request_type == '2')

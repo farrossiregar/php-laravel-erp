@@ -7,7 +7,6 @@
                 <div class="header row">
                     <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus"></i> Add Request Petty Cash </h5>
                 </div>
-
                 <div class="body pt-0">
                     <div class="form-group">
                         <form wire:submit.prevent="save">
@@ -23,28 +22,26 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-6 form-group">
-                                            <label>Project</label>
+                                            <label>Project / Region</label>
                                             <input type="text" class="form-control" wire:model="project" readonly/>
                                             @error('employee_id')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        
-
                                         <div class="col-md-6 form-group">
                                             <div class="row">
                                                 <div class="col-md-6 form-group">
                                                     <label>Position</label>
                                                     <input type="text" class="form-control" wire:model="position" readonly/>
                                                     @error('position')
-                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                     @enderror
                                                 </div>
                                                 <div class="col-md-6 form-group">
                                                     <label>Departement</label>
                                                     <input type="text" wire:model="department" class="form-control" readonly/>
                                                     @error('department')
-                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -253,11 +250,8 @@
             </div>
         </div>
     </div>
-
     @push('after-scripts')
         <script type="text/javascript">
-        
-
         $("input[data-type='currency']").on({
             keyup: function() {
                 formatCurrency($(this));

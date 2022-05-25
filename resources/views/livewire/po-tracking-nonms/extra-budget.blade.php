@@ -16,13 +16,13 @@
                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                         @enderror
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>File</label>
                         <input type="file" class="form-control" wire:model="file_extra_budget" />
                         @error('file_extra_budget')
                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                         @enderror
-                    </div>
+                    </div> -->
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success"><i class="fa fa-upload"></i> Submit</button>

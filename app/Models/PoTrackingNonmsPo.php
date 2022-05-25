@@ -16,7 +16,6 @@ class PoTrackingNonmsPo extends Model
     public function wos()
     {
         return $this->hasMany(PoTrackingNonmsBoq::class,'po_tracking_nonms_po_id','id');
-        // return $this->hasMany(PoTrackingNonms::class,'po_tracking_nonms_po_id','id');
     }
 
     public function regional_employee()

@@ -15,10 +15,8 @@
                     <input type="date" class="form-control" wire:model="date" />
                 </div>
                 <div class="col-md-8">
-                    @if(check_access('po-tracking-nonms.edit-boq'))
-                        <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import WO')}}</a>
-                    @endif
                     @if($is_e2e)
+                        <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import WO')}}</a>
                         <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal-potrackinginput-pono"><i class="fa fa-plus"></i> Add PO</a>
                     @endif
                     <span wire:loading>

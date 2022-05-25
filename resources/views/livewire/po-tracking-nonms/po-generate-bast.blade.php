@@ -125,18 +125,16 @@
                 <th>Implemented Value</th>
             </tr>
             @if(isset($data->wos))
-                @foreach($data->wos as $k => $wo)
-                    @foreach(\App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master',$wo->id)->get() as $item)
-                        <tr>
-                            <td>{{$wo->site_id}}</td>
-                            <td>{{$wo->site_name}}</td>
-                            <td>{{$item->item_description}}</td>
-                            <td style="text-align:center">{{$item->qty}}</td>
-                            <td></td>
-                            <td style="text-right">{{format_idr($item->price)}}</td>
-                            <td style="text-right">{{format_idr($item->input_price)}}</td>
-                        </tr>
-                    @endforeach
+                @foreach($data->wos as $k => $wo)/
+                    <tr>
+                        <td>{{$wo->site_id}}</td>
+                        <td>{{$wo->site_name}}</td>
+                        <td>{{$wo->item_description}}</td>
+                        <td style="text-align:center">{{$wo->qty}}</td>
+                        <td></td>
+                        <td style="text-right">{{format_idr($wo->price)}}</td>
+                        <td style="text-right">{{format_idr($wo->input_price)}}</td>
+                    </tr>
                 @endforeach
             @endif
         </table>
@@ -195,8 +193,8 @@
                     <br />
                     <br />
                     
-                    @if(isset($bast->bast_file))
-                        @foreach($bast->bast_file as $kimg => $item)
+                    @if(isset($bast->wo->bast_file))
+                        @foreach($bast->wo->bast_file as $kimg => $item)
                             <div style="border:1px solid #000;padding:10px;float:left;width:30%;margin-right:10px;">
                                 <img src="{{asset($item->image)}}" style="width:100%;" />
                                 <div style="margin-top:10px; margin-left:-10px;margin-right:-10px;border-top:1px solid #000;text-align:center;">

@@ -34,7 +34,8 @@ class Data extends Component
                                 ->orWhere('request_type', '=', '8')
                                 ->orWhere('request_type', '=', '9');
                         })->orderBy('created_at', 'desc');
-        }elseif(check_access('is-pmg') || $this->is_treasury){
+
+        }elseif($this->is_pmg || $this->is_treasury){
             $data = AccountPayable::orderBy('created_at', 'desc');
         }else{
             $user = Auth::user();
@@ -44,21 +45,22 @@ class Data extends Component
         if($this->filteryear) $data->whereYear('created_at',$this->filteryear);
         if($this->filtermonth) $data->whereMonth('created_at',$this->filtermonth);                
         if($this->filterproject) $data->where('project',\App\Models\ClientProject::where('id', $this->filterproject)->first()->name);                        
-        if($this->request_type) $data->where('request_type',$this->request_type);                        
+        if($this->request_type) $data->where('request_type',$this->request_type);   
         
         return view('livewire.account-payable.data')->with(['data'=>$data->paginate(50)]);   
     }
 
     public function mount()
     {
-        // $this->is_pmg = check_access('is-pmg');
-        $this->is_pmg = true;
-        // $this->is_finance_spv = check_access('is-finance-spv');
-        $this->is_finance_spv = true;
-        // $this->is_finance_manager = check_access('is-finance-manager');
-        $this->is_finance_manager = true;
-        // $this->is_finance_accounting_manager = check_access('is-finance-accounting-manager');
-        $this->is_finance_accounting_manager = true;
+        $this->is_pmg = check_access('is-pmg');
+        // $this->is_pmg = true;
+        $this->is_finance_spv = check_access('is-finance-spv');
+        // $this->is_finance_spv = true;
+        $this->is_finance_manager = check_access('is-finance-manager');
+        // $this->is_finance_manager = true;
+        $this->is_finance_accounting_manager = check_access('is-finance-accounting-manager');
+        // $this->is_finance_accounting_manager = true;
         $this->is_treasury = check_access('is-treasury');
+        $this->is_apstaff = check_access('is-appstaf');
     }
 }

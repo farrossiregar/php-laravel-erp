@@ -6,11 +6,14 @@ use Livewire\Component;
 use App\Models\PoTrackingNonmsPo;
 use App\Models\PoTrackingNonmsBast;
 use Illuminate\Validation\Rule;
+use Livewire\WithFileUploads;
 
 class PoCreateBast extends Component
 {
+    use WithFileUploads;
+    
     public $data,$active_tab=null,$ordering=0,$description,$selected_bast;
-    public $bast_number,$bast_date,$gr_number,$gr_date,$works,$project,$payment_amount;
+    public $bast_number,$bast_date,$gr_number,$gr_date,$works,$project,$payment_amount,$extra_budget,$file_extra_budget;
     public function render()
     {
         return view('livewire.po-tracking-nonms.po-create-bast');
@@ -23,6 +26,17 @@ class PoCreateBast extends Component
 
     public function store()
     {
+
+        if($this->file_extra_budget){
+            $this->validate([
+                'file_extra_budget'=>'required|mimes:jpeg,png,jpg,gif,svg,pdf,xls,xlsx|max:2048',
+            ]);
+
+            $file_name =  "extra_budget.".$this->file_extra_budget->extension();
+            $this->file_extra_budget->storeAs("public/po-tracking-nonms/{$this->data->id}", $file_name);
+            $this->data->extra_budget_file = "storage/po-tracking-nonms/{$this->data->id}/{$file_name}";
+        }
+        
         $this->data->works = $this->works;
         $this->data->project = $this->project;
         $this->data->bast_number = $this->bast_number;
@@ -30,6 +44,8 @@ class PoCreateBast extends Component
         $this->data->gr_number = $this->gr_number;
         if($this->gr_date) $this->data->gr_date = $this->gr_date;
         $this->data->regional_employee_id = \Auth::user()->employee->id;
+        // $this->data->extra_budget = $this->extra_budget;
+        // $this->data->status_extra_budget = 1;
         $this->data->save();
     }
 

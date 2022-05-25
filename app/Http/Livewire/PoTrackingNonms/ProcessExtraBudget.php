@@ -21,19 +21,18 @@ class ProcessExtraBudget extends Component
 
     public function approve()
     {
-        $this->validate([
-            'note'=>'required'
-        ]);
-
         $this->selected_data->status_extra_budget = 2;
-        $this->selected_data->note_extra_budget = $this->note;
         $this->selected_data->save();
 
         \LogActivity::add('[web] PO Non MS - Approve Extra Budget');
+        
+        session()->flash('message-success',"Extra budget Acknowledge");
 
-        $this->emit('message-success',"Extra budget submited");
-        $this->emit('refresh');
-        $this->emit('modal','hide');   
+        return redirect()->route('po-tracking-nonms.index');
+
+        // $this->emit('message-success',"Extra budget Acknowledge");
+        // $this->emit('refresh');
+        // $this->emit('modal','hide');   
     }
 
     public function reject()
@@ -48,8 +47,12 @@ class ProcessExtraBudget extends Component
 
         \LogActivity::add('[web] PO Non MS - Reject Extra Budget');
 
-        $this->emit('message-success',"Extra budget submited");
-        $this->emit('refresh');
-        $this->emit('modal','hide');   
+        session()->flash('message-success',"Extra budget Acknowledge");
+
+        return redirect()->route('po-tracking-nonms.index');
+        
+        // $this->emit('message-success',"Extra budget Acknowledge");
+        // $this->emit('refresh');
+        // $this->emit('modal','hide');   
     }
 }

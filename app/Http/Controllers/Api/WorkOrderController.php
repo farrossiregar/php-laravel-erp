@@ -19,7 +19,7 @@ class WorkOrderController extends Controller
         $general_notification = Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereIn('type',[1,2,3])->whereDate('created_at',date('Y-m-d'))->get()->count();
         $general_notification += Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereNotIn('type',[1,2,3])->get()->count();
 
-        $open_work_order = PoTrackingNonms::where('field_team_id',\Auth::user()->employee->id)->whereNull('bast_status')->count();
+        $open_work_order = PoTrackingNonms::where('field_team_id',\Auth::user()->employee->id)->whereNull('bast_status')->where('is_accept_field_team',0)->count();
         $accepted_work_order = PoTrackingNonms::where('field_team_id',\Auth::user()->employee->id)->where('is_accept_field_team',1)->where('bast_status',1)->orWhere('bast_status',3)->count();
         $closed_work_order = PoTrackingNonms::where('field_team_id',\Auth::user()->employee->id)->where('bast_status',2)->count();
         $wfm = 0;//WorkFlowManagement::where('field_team_id',\Auth::user()->employee->id)->where('employee_id',\Auth::user()->employee->id)->where('status','<>',2)->get()->count();

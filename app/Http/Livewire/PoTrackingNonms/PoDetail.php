@@ -10,7 +10,7 @@ class PoDetail extends Component
 {
     use WithFileUploads;
 
-    public $data,$is_e2e,$gr_file,$bast_file,$bast_note;
+    public $data,$is_e2e,$gr_file,$bast_file,$bast_note,$file_extra_budget;
     public $is_finance;
     public function render()
     {
@@ -74,5 +74,24 @@ class PoDetail extends Component
         $this->data->save();
 
         $this->emit('message-success','BAST Revisi.');
+    }
+
+    public function upload()
+    {
+        $this->validate([
+            'file_extra_budget'=>'required|mimes:jpeg,png,jpg,gif,svg,pdf,xls,xlsx|max:2048',
+        ]);
+
+        $file_name =  "extra_budget.".$this->file_extra_budget->extension();
+        $this->file_extra_budget->storeAs("public/po-tracking-nonms/{$this->data->id}", $file_name);
+        
+        $this->data->extra_budget_file = "storage/po-tracking-nonms/{$this->data->id}/{$file_name}";
+        $this->data->save();
+
+        \LogActivity::add('[web] PO Fuel Reimbursement - Upload bukit Transfer - Extra Budget');
+
+        $this->emit('message-success',"Uploaded");
+        $this->emit('refresh');
+        $this->emit('modal','hide');   
     }
 }

@@ -55,8 +55,17 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-2 pt-2">
-                            <label>Amount </label>  : {{format_idr($data->payment_amount)}}
+                        <div class="col-md-3 pt-2">
+                            <!-- <div class="form-group">
+                                <label>Extra Budget : </label> {{format_idr($data->extra_budget)}}
+                                @if($data->extra_budget)
+                                    <small><br />Bukti Transfer jpeg,png,jpg,gif,svg,pdf,xls,xlsx|max:2mb</small>
+                                @endif
+                                <input type="file" class="form-control" wire:model="file_extra_budget" />
+                            </div> -->
+                            <div class="form-group">
+                                <label>Amount : </label> {{format_idr($data->payment_amount)}}
+                            </div>
                         </div>
                     </div>
                     <div class="table-responsive mt-4">
@@ -64,7 +73,7 @@
                             @if(isset($data->wos))
                                 @foreach($data->wos as $k => $item)
                                     @if($active_tab=="") @php($active_tab=$item->id) @endif
-                                    <li class="nav-item"><a class="nav-link {{$active_tab==$item->id ? 'active show' : ''}}" wire:click="$set('active_tab',{{$item->id}})" data-toggle="tab" href="#tab_{{$item->id}}">{{ $item->no_tt }}</a></li>
+                                    <li class="nav-item"><a class="nav-link {{$active_tab==$item->id ? 'active show' : ''}}" wire:click="$set('active_tab',{{$item->id}})" data-toggle="tab" href="#tab_{{$item->id}}">{{ $item->wo->no_tt }}</a></li>
                                 @endforeach
                             @endif
                             <li>
@@ -78,9 +87,9 @@
                             @if(isset($data->wos))
                                 @foreach($data->wos as $k => $item)
                                     <div class="tab-pane {{ $active_tab ==$item->id ? 'show active' : ''}}" id="tab_{{$item->id}}">
-                                        @if(isset($item->bast_file))
+                                        @if(isset($item->wo->bast_file))
                                             <div class="row">
-                                                @foreach($item->bast_file as $img)
+                                                @foreach($item->wo->bast_file as $img)
                                                     <div class="col-md-2" x-data="{open:false}">
                                                         <div class="p-3 text-center" @click.away="open = false">
                                                             <a href="javascript:void(0);" wire:click="delete_image({{$img->id}})" class="badge badge-danger badge-active" style="position: absolute;top: 2px;right: 30px;"><i class="fa fa-trash"></i></a>
