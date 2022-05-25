@@ -6,6 +6,26 @@
                 <div class="col-md-2">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                 </div>
+
+                <div class="col-md-2" wire:ignore>
+                    <select class="form-control" style="width:100%;" wire:model="filtermonth">
+                        <option value=""> --- Month --- </option>
+                        @for($i = 1; $i <= 12; $i++)
+                            <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
+                        @endfor
+                    </select>
+                </div>
+               
+                <div class="col-md-2 form-group">
+                    <select onclick="" class="form-control" wire:model="subrequest_type">
+                        <option value=""> --- Request Type --- </option>
+                        @foreach(\App\Models\RequestDetailOption::where('id_request_type', '1')->get() as $items)
+                        <option value="{{ $items->id_request_detail_option }}">{{ $items->request_detail_option }}</option>
+                        @endforeach
+                     
+                    </select>
+                </div>
+                
                 <div class="col-md-1" style="margin: 0 10px;">
                     <a href="javascript:;" wire:click="$emit('modaladdpettycashaccountpayable')" class="btn btn-info"><i class="fa fa-plus"></i> Add Request</a>
                 </div>
@@ -23,6 +43,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Dept</th>          
+                                <th>Detail Request Option</th>          
                                 <th>Advance Request No</th>          
                                 <th>Period(Bulan)</th>          
                                 <th>Advance Nominal</th>          
@@ -44,6 +65,7 @@
                                 <tr>
                                     <td>{{$k+1}}</td>
                                     <td>{{$item->department}}</td>
+                                    <td>{{ @\App\Models\RequestDetailOption::where('id_request_detail_option', $item->subrequest_type)->first()->request_detail_option }}</td>
                                     <td>{{$item->advance_req_no}}</td>
                                     <td>{{date('F', mktime(0, 0, 0, (int)$item->month, 10))}}</td>
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'advance_nominal'],key($item->id))</td>
