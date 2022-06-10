@@ -170,10 +170,6 @@ class Addpettycash extends Component
         //         \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - NOC Team Schedule",$message));
         //     }
         // }
-
-       
-
-
         session()->flash('message-success',"Request Petty Cash Berhasil diinput");
         
         return redirect()->route('finance-petty-cash.index');
@@ -182,6 +178,7 @@ class Addpettycash extends Component
     public function getNextId() 
     {
         $statement = DB::select("show table status like 'account_payable_pettycash'");
+        
         return $statement[0]->Auto_increment;
     }
 
@@ -190,10 +187,5 @@ class Addpettycash extends Component
 		$date = new DateTime();
 		$date->setDate($dateArray[0], $dateArray[1], $dateArray[2]);
 		return floor((date_format($date, 'j') - 1) / 7) + 1;  
-	  }
-
-
+	}
 }
-
-
-

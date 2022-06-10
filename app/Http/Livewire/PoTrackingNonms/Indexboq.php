@@ -19,10 +19,10 @@ class Indexboq extends Component
     public $is_finance=false,$wo_id=[],$is_e2e,$is_pmg = false;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['refresh'=>'$refresh'];
-
+    public $filter_field_team_id,$filter_field_teams=[];
     public function render()
     {
-        $data = PoTrackingNonms::where('type_doc', 2)->orderBy('updated_at', 'DESC');
+        $data = PoTrackingNonms::where('type_doc', 2)->orderBy('updated_at', 'DESC');//->whereIn('po_status',[0,1]);
                                 
         // if(check_access('po-tracking-nonms.index-regional'))
         //     $data->where('region', isset(\Auth::user()->employee->region->region)?\Auth::user()->employee->region->region:''); 
@@ -35,19 +35,17 @@ class Indexboq extends Component
 
         if($this->is_service_manager) $data->where('region', isset(\Auth::user()->employee->sub_region->name)?\Auth::user()->employee->sub_region->name:''); 
         
-        if($this->keyword){
-            if($this->keyword) $data = $data->where(function($table){
-                foreach(\Illuminate\Support\Facades\Schema::getColumnListing('po_tracking_nonms_master') as $column){
-                    $table->orWhere('po_tracking_nonms_master.'.$column,'LIKE',"%{$this->keyword}%");
-                }
-            });
-        }
+        if($this->keyword) $data = $data->where(function($table){
+            foreach(\Illuminate\Support\Facades\Schema::getColumnListing('po_tracking_nonms_master') as $column){
+                $table->orWhere('po_tracking_nonms_master.'.$column,'LIKE',"%{$this->keyword}%");
+            }
+        });
         if($this->is_finance) $data->where(function($table){
-                                    $table->where('status',1)->orWhere('status',2);
+                                    // $table->where('status',1)->orWhere('status',2);
                                 });
 
         if($this->date) $data->whereDate('created_at',$this->date);
-        
+        if($this->filter_field_team_id) $data->where('field_team_id',$this->filter_field_team_id);
         return view('livewire.po-tracking-nonms.indexboq')->with(['data'=>$data->paginate(50)]);
     }
 
@@ -57,7 +55,7 @@ class Indexboq extends Component
         
         $this->coordinators = get_user_from_access('is-coordinator',$client_project_ids,\Auth::user()->employee->region_id);
         $this->field_teams = Employee::select('employees.*')->join('employee_projects','employee_projects.employee_id','=','employees.id')->whereIn('client_project_id',$client_project_ids)->get();;
-
+        $this->filter_field_teams = PoTrackingNonms::groupBy('field_team_id')->get();
         $this->is_service_manager = check_access('is-service-manager');
         $this->is_coordinator = check_access('is-coordinator');
         $this->is_finance = check_access('is-finance');

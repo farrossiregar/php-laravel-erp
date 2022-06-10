@@ -83,7 +83,7 @@
                         @if($wo_id[$k])
                             @php($wo_row = App\Models\PoTrackingNonms::find($wo_id[$k]))
                             <td>
-                                <select class="form-control" wire:model="wo_line_item.{{$k}}" required>
+                                <select class="form-control select2_wo" wire:model="wo_line_item.{{$k}}" required>
                                     <option value=""> -- Select -- </option>
                                     @foreach(\App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master',$wo_id[$k])->whereNull('po')->get() as $boq)
                                         <option value="{{$boq->id}}">{{$boq->po_line_item}} / {{$boq->item_code}} / {{$boq->item_description}}</option>
@@ -110,3 +110,43 @@
         <button type="submit" class="btn btn-info close-modal"><i class="fa fa-edit"></i> Submit</button>
     </div>
 </form>
+@push('after-scripts')
+    <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}" />
+    <script>
+        Livewire.on('select-wo',()=>{
+            $('.select2_wo').each(function(){
+                $(this).select2();
+            });
+
+            // $(".select2_wo").select2();
+            // $('.select2_wo').on('select2:select', function (e) {
+            //     var data = e.params.data;
+            //     @this.set('change_pic_id',data.id);
+            // });
+        });
+
+        $(document).ready(function() {    
+            $(".select2_wo").select2();
+            $('.select2').on('select2:select', function (e) {
+                var data = e.params.data;
+                @this.set('employee_id',data.id);
+            });
+            
+            $('.date_created').daterangepicker({
+                opens: 'left',
+                locale: {
+                    cancelLabel: 'Clear'
+                },
+                autoUpdateInput: false,
+            }, function(start, end, label) {
+                @this.set("date_start", start.format('YYYY-MM-DD'));
+                @this.set("date_end", end.format('YYYY-MM-DD'));
+                $('.date_created').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
+            });
+            Livewire.on('refresh-page',()=>{
+                $(".modal").modal("hide");
+            });
+        });
+    </script>
+@endpush

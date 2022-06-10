@@ -13,6 +13,11 @@ class PoTrackingNonmsPo extends Model
 
     protected $table = 'po_tracking_nonms_po';
 
+    public function wos_group()
+    {
+        return $this->hasMany(PoTrackingNonmsBoq::class,'po_tracking_nonms_po_id','id')->groupBy('id_po_nonms_master');
+    }
+
     public function wos()
     {
         return $this->hasMany(PoTrackingNonmsBoq::class,'po_tracking_nonms_po_id','id');

@@ -51,7 +51,7 @@
                                 @elseif($item->status==3)
                                     <span class="badge badge-warning" title="Revisi BAST">Revisi</span>
                                 @elseif($item->status==4)
-                                    <span class="badge badge-info" title="Finance Upload Acceptance and Invoice">Finance</span>
+                                    <span class="badge badge-info" title="Finance Upload Acceptance and Invoice">Finance to Invoice</span>
                                 @endif
                                 @if($item->status==5)
                                     <span class="badge badge-success badge-active"><i class="fa fa-check-circle"></i> Invoiced</span>
@@ -64,8 +64,20 @@
                             <td>{{date('d-M-Y',strtotime($item->date_contract))}}</td>
                             <td>{{$item->bast_number}}</td>
                             <td>{{$item->bast_date}}</td>
-                            <td>{{$item->gr_number}}</td>
-                            <td>{{$item->gr_date}}</td>
+                            <td>
+                                @if($is_e2e)
+                                    @livewire('po-tracking-nonms.editable-po',['data'=>$item,'field'=>'gr_number'],key($item->id))
+                                @else
+                                    {{$item->gr_number}}
+                                @endif
+                            </td>
+                            <td>
+                                @if($is_e2e)
+                                    @livewire('po-tracking-nonms.editable-po',['data'=>$item,'field'=>'gr_date'],key($item->id))
+                                @else
+                                    {{$item->gr_date}}
+                                @endif
+                            </td>
                             <td>{{$item->works}}</td>
                             <td>{{$item->project}}</td>
                             <td class="text-right">{{format_idr($item->payment_amount)}}</td>

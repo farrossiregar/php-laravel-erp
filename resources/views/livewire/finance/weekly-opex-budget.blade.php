@@ -11,10 +11,11 @@
                 <thead style="background:#eee;">
                     <tr>
                         <th style="width:50px">No</th>
-                        <!-- <th>Year</th> -->
-                        <th>Department</th>
-                        <th>Sub Department</th>
-                        <th class="text-right">Monthly Budget</th>
+                        <th>Project</th>
+                        <th>Region</th>
+                        <th>Sub Region</th>
+                        <th>Week</th>
+                        <th class="text-right">Budget</th>
                         <th class="text-right">Actualized</th>
                         <th class="text-right">Remaining Budget</th>
                     </tr>
@@ -23,9 +24,8 @@
                     @foreach($data as $k =>  $item)
                         <tr>
                             <td>{{$k+1}}</td>
-                            <!-- <td>{{$item->year}}</td> -->
-                            <td>{{isset($item->department->name) ? $item->department->name : '-'}}</td>
-                            <td>{{isset($item->sub_department->name) ? $item->sub_department->name : '-'}}</td>
+                            <td>{{isset($item->project->name) ? $item->project->name : '-'}}</td>
+                            <td>{{$item->week}}</td>
                             <td class="text-right">{{format_idr($item->amount)}}</td>
                             <td class="text-right">{{format_idr($item->used)}}</td>
                             <td class="text-right">{{format_idr($item->remain)}}</td>
@@ -35,26 +35,25 @@
                         <tr>
                             <td></td>
                             <td>
-                                <select class="form-control" wire:model="department_id">
-                                    <option value=""> -- Select Department -- </option>
-                                    @foreach(\App\Models\Department::orderBy('name','ASC')->where('is_project',0)->get() as $item)
+                                <select class="form-control" wire:model="project_id">
+                                    <option value=""> -- Select Project -- </option>
+                                    @foreach(\App\Models\ClientProject::orderBy('name','ASC')->where('is_project',1)->get() as $item)
                                         <option value="{{$item->id}}">{{$item->name}}</option>
                                     @endforeach
                                 </select>
-                                @error('department_id')
+                                @error('project_id')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </td>
                             <td>
-                                <select class="form-control" wire:model="sub_department_id">
-                                    <option value=""> -- Select Sub Department -- </option>
-                                    @if($department_id)
-                                        @foreach(\App\Models\DepartmentSub::orderBy('name','ASC')->where('department_id',$department_id)->get() as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
-                                        @endforeach
-                                    @endif
+                                <select class="form-control" wire:model="week">
+                                    <option value=""> -- Select Week -- </option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
                                 </select>
-                                @error('department_id')
+                                @error('week')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </td>

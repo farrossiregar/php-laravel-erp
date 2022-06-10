@@ -56,13 +56,6 @@
                             </div>
                         </div>
                         <div class="col-md-3 pt-2">
-                            <!-- <div class="form-group">
-                                <label>Extra Budget : </label> {{format_idr($data->extra_budget)}}
-                                @if($data->extra_budget)
-                                    <small><br />Bukti Transfer jpeg,png,jpg,gif,svg,pdf,xls,xlsx|max:2mb</small>
-                                @endif
-                                <input type="file" class="form-control" wire:model="file_extra_budget" />
-                            </div> -->
                             <div class="form-group">
                                 <label>Amount : </label> {{format_idr($data->payment_amount)}}
                             </div>
@@ -70,13 +63,13 @@
                     </div>
                     <div class="table-responsive mt-4">
                         <ul class="nav nav-tabs">
-                            @if(isset($data->wos))
-                                @foreach($data->wos as $k => $item)
+                            @if(isset($data->wos_group))
+                                @foreach($data->wos_group as $k => $item)
                                     @if($active_tab=="") @php($active_tab=$item->id) @endif
                                     <li class="nav-item"><a class="nav-link {{$active_tab==$item->id ? 'active show' : ''}}" wire:click="$set('active_tab',{{$item->id}})" data-toggle="tab" href="#tab_{{$item->id}}">{{ $item->wo->no_tt }}</a></li>
                                 @endforeach
                             @endif
-                            <li>
+                            <li> 
                                 <span wire:loading>
                                     <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                                     <span class="sr-only">{{ __('Loading...') }}</span>
@@ -84,8 +77,8 @@
                             </li>
                         </ul>
                         <div class="tab-content">
-                            @if(isset($data->wos))
-                                @foreach($data->wos as $k => $item)
+                            @if(isset($data->wos_group))
+                                @foreach($data->wos_group as $k => $item)
                                     <div class="tab-pane {{ $active_tab ==$item->id ? 'show active' : ''}}" id="tab_{{$item->id}}">
                                         @if(isset($item->wo->bast_file))
                                             <div class="row">

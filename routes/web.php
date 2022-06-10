@@ -113,7 +113,6 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('po-tracking-nonms/approvedetailfoto',App\Http\Livewire\PoTrackingNonms\Approvedetailfoto::class)->name('po-tracking-nonms.approvedetailfoto');
     Route::get('po-tracking-nonms/po-generate-bast/{data}',[App\Http\Controllers\PoTrackingNonmsController::class,'po_generate_bast'])->name('po-tracking-nonms.po-generate-bast');
     
-
     Route::get('po-tracking-ms',App\Http\Livewire\PoTrackingMs\Index::class)->name('po-tracking-ms.index');
     Route::get('po-tracking-ms/preview/{id}',App\Http\Livewire\PoTrackingMs\Preview::class)->name('po-tracking-ms.preview');
     Route::get('dana-stpl',App\Http\Livewire\DanaStpl\Index::class)->name('dana-stpl.index');

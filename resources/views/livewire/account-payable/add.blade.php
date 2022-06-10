@@ -8,7 +8,7 @@
     <div class="modal-body">
         <div class="row">
             <div class="form-group col-md-12">
-                <label>Cash Transaction No</label> : 
+                <label>Cash Transaction No</label> : {{$cash_transaction_no}}
             </div>
             <div class="col-md-6 form-group">
                 <label>Request Type</label>
@@ -23,6 +23,9 @@
                     <option value="7">HQ Administration</option>
                     <option value="8">Payroll</option>
                 </select>
+                @error('request_type')
+                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                @enderror
             </div>
             <div class="col-md-6 form-group">
                 <label>Sub Request Type</label> {{session()->get('company_id')}}
@@ -33,18 +36,81 @@
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     @endif
+                    @if($request_type == 2)
+                        <option value=""> --- Sub Request Type (Weekly Opex) --- </option>
+                        <option value="Opex Region">OPEX Region</option>
+                        <option value="Opex Comcase">OPEX Comcase</option>
+                        <option value="Police Report">Police Report</option>
+                    @endif
                 </select>
+                @error('subrequest_type')
+                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                @enderror
             </div>
-            @if($request_type==1)
-                <div class="form-group col-md-6">
-                    <label>Advance Request No</label> : 
-                </div>
-            @endif
+            <div class="col-md-6 form-group">
+                <label>Additional Document </label>
+                <input type="file" class="form-control" wire:model="file">
+                @error('file')
+                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                @enderror
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Document Type </label>
+                <input type="text" class="form-control" wire:model="doc_name">
+                @error('doc_name')
+                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                @enderror
+            </div>
+            <div class="form-group col-md-12">
+                <table class="table">
+                    <thead style="background: #eee;">
+                        <tr>
+                            <th>No</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th></th>
+                        </tr>
+                    </thead> 
+                    <tbody>
+                        @php($num=1)
+                        @foreach($items as $k => $item)
+                            <tr>
+                                <td>{{$num}}</td>
+                                <td><input type="text" class="form-control" wire:model="item_description.{{$k}}" /> </td>
+                                <td><input type="number" class="form-control text-right" wire:model="item_amount.{{$k}}" /> </td>
+                                <td><a href="javascript:void(0)" class="text-danger" wire:click="delete_item({{$k}})"><i class="fa fa-close"></i></a></td>
+                            </tr>
+                            @php($num++)
+                        @endforeach
+                        <tr>
+                            <td colspan="4" class="text-center"><a href="javascript:void(0)" wire:click="add_item" class="badge badge-info badge-active"><i class="fa fa-plus"></i> Add Item</a></td>
+                        </tr>
+                        <tr style="background: #eee;">
+                            <th></th>
+                            <th class="text-right">Total</th>
+                            <th class="text-right">{{format_idr($total)}}</th>
+                            <th></th>
+                        </tr>
+                        <tr style="background: #eee;">
+                            <th></th>
+                            <th class="text-right">Budget</th>
+                            <th class="text-right">{{format_idr($budget)}}</th>
+                            <th></th>
+                        </tr>
+                        <tr style="background: #eee;">
+                            <th></th>
+                            <th class="text-right">Remain</th>
+                            <th class="text-right">{{format_idr($budget-$total)}}</th>
+                            <th></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-info">Submit</button>
-        <span wire:loading>
+        <button type="submit" class="btn btn-info" wire:loading.remove wire:target="save">Submit</button>
+        <span wire:loading wire:target="save">
             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
             <span class="sr-only">{{ __('Loading...') }}</span>
         </span>

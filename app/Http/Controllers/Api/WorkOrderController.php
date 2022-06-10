@@ -20,7 +20,10 @@ class WorkOrderController extends Controller
         $general_notification += Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereNotIn('type',[1,2,3])->get()->count();
 
         $open_work_order = PoTrackingNonms::where('field_team_id',\Auth::user()->employee->id)->whereNull('bast_status')->where('is_accept_field_team',0)->count();
-        $accepted_work_order = PoTrackingNonms::where('field_team_id',\Auth::user()->employee->id)->where('is_accept_field_team',1)->where('bast_status',1)->orWhere('bast_status',3)->count();
+        $accepted_work_order = PoTrackingNonms::where('field_team_id',\Auth::user()->employee->id)->where('is_accept_field_team',1)
+        ->where(function($table){
+            $table->where('bast_status',1)->orWhere('bast_status',3)->orWhereNull('bast_status');
+        })->count();
         $closed_work_order = PoTrackingNonms::where('field_team_id',\Auth::user()->employee->id)->where('bast_status',2)->count();
         $wfm = 0;//WorkFlowManagement::where('field_team_id',\Auth::user()->employee->id)->where('employee_id',\Auth::user()->employee->id)->where('status','<>',2)->get()->count();
         
@@ -46,7 +49,6 @@ class WorkOrderController extends Controller
             $data[$key]['date'] = date('d-M-Y',strtotime($item->created_at));
             $key++;
         }
-
         
         foreach(Notification::where(['employee_id'=>\Auth::user()->employee->id,'is_read'=>0])->whereNotIn('type',[1,2,3])->get() as $k => $item){
             $data[$key] = $item;
@@ -74,6 +76,7 @@ class WorkOrderController extends Controller
             $data[$k]['region'] = $item->region?$item->region : '-';
             $data[$k]['no_tt'] = $item->no_tt?$item->no_tt : '-';
             $data[$k]['material'] = '-';
+            $data[$k]['scoope_of_works'] = $item->scoope_of_works ? $item->scoope_of_works : '-';
             $material = '';
             foreach(PoTrackingNonmsBoq::where('id_po_nonms_master',$item->id)->get() as $wo){
                 $material .= $wo->item_description."\n";
@@ -90,11 +93,13 @@ class WorkOrderController extends Controller
         $data = [];
         $param = PoTrackingNonms::where('is_accept_field_team',1)
                                 ->where('field_team_id',\Auth::user()->employee->id)
-                                ->orWhere('bast_status',3)
-                                ->get();
+                                ->where(function($table){
+                                    $table->where('bast_status',1)->orWhere('bast_status',3)->orWhereNull('bast_status');
+                                })->get();
         
         foreach($param as $k => $item){
             $data[$k] = $item;
+            $data[$k]['scoope_of_works'] = $item->scoope_of_works ? $item->scoope_of_works : '-';
             $data[$k]['type_doc_name'] = $item->type_doc==1?'STP' : 'Ericson';
             $data[$k]['material'] = '-';
             $data[$k]['is_accept_field_team'] = $item->is_accept_field_team ? $item->is_accept_field_team : 0; 
@@ -106,6 +111,25 @@ class WorkOrderController extends Controller
             $data[$k]['no_tt'] = $item->no_tt?$item->no_tt : '-';
             $data[$k]['material'] = '-';
             $material = '';
+
+            switch($item->bast_status){
+                case '':
+                    $data[$k]['bast_status']='Open';
+                    break;
+                case 1:
+                    $data[$k]['bast_status']='Submitted';
+                    break;
+                case 2:
+                    $data[$k]['bast_status']='Complete';
+                    break;
+                case 3:
+                    $data[$k]['bast_status']='Revision';
+                    break;
+                default:
+                    $data[$k]['bast_status']='-';
+                    break;
+            }
+
             foreach(PoTrackingNonmsBoq::where('id_po_nonms_master',$item->id)->get() as $wo){
                 $material .= $wo->item_description."\n";
             }
@@ -127,6 +151,24 @@ class WorkOrderController extends Controller
             $data[$k]['type_doc_name'] = $item->type_doc==1?'STP' : 'Ericson';
             $data[$k]['material'] = '-';
             $material = '';
+
+            switch($item->bast_status){
+                case '':
+                    $data[$k]['bast_status']='Open';
+                    break;
+                case 1:
+                    $data[$k]['bast_status']='Submitted';
+                    break;
+                case 2:
+                    $data[$k]['bast_status']='Complete';
+                    break;
+                case 3:
+                    $data[$k]['bast_status']='Revision';
+                    break;
+                default:
+                    $data[$k]['bast_status']='-';
+                    break;
+            }
             foreach(PoTrackingNonmsBoq::where('id_po_nonms_master',$item->id)->get() as $wo){
                 $material .= $wo->item_description."\n";
             }

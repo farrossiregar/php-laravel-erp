@@ -14,7 +14,16 @@
                 <div class="col-md-2">
                     <input type="date" class="form-control" wire:model="date" />
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-2">
+                    <select class="form-control" wire:model="filter_field_team_id">
+                        <option value=""> -- Field Team -- </option>
+                        @foreach($filter_field_teams as $item)
+                            @if(!isset($item->field_team->nik)) @continue @endif
+                            <option value="{{$item->field_team_id}}">{{$item->field_team->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-6">
                     @if($is_e2e)
                         <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import WO')}}</a>
                         <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal-potrackinginput-pono"><i class="fa fa-plus"></i> Add PO</a>
@@ -42,7 +51,7 @@
                                 <th class="text-center">Total Gross Margin (%)</th> 
                                 <th>Coordinator</th>
                                 <th>Field Team</th>
-                                <th>Scoope of Works</th>
+                                <th>Scope of Works</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -68,7 +77,7 @@
                                             <label class="badge badge-info" data-toggle="tooltip" title="Regional / SM - Waiting PR Submission">Waiting PR Submission</label>
                                         @endif
                                         @if($item->status==1)
-                                            <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%, Waiting to Transfer Budget">Finance In Review</label>
+                                            <label class="badge badge-warning" data-toggle="tooltip" title="Finance - Profit >= 30%, Waiting to Transfer Budget">Finance In Review</label>
                                         @endif
                                         @if($item->status==2)
                                             <label class="badge badge-success" data-toggle="tooltip" title="Finance - Profit >= 30%, Waiting to Transfer Budget">Finance - Approved</label>

@@ -16,34 +16,36 @@ class Data extends Component
     public $is_pmg=false, $is_apstaff=false, $is_finance_spv=false,$is_finance_manager=false,$is_finance_accounting_manager=false,$is_treasury=true;
     public function render()
     {
-        if($this->is_finance_spv){
-            $data = \App\Models\AccountPayable::whereIn('status', ['1', '2'])->where(function ($query) {
-                            $query->where('request_type', '=', '1')
-                                ->orWhere('request_type', '=', '2')
-                                ->orWhere('request_type', '=', '3');
-                        })->orderBy('created_at', 'desc');
-        }elseif($this->is_finance_manager){
-            $data = \App\Models\AccountPayable::whereIn('status', ['1', '2'])->where(function ($query) {
-                            $query->where('request_type', '=', '4')
-                                ->orWhere('request_type', '=', '5')
-                                ->orWhere('request_type', '=', '6');
-                        })->orderBy('created_at', 'desc');
-        }elseif($this->is_finance_accounting_manager){
-            $data = \App\Models\AccountPayable::whereIn('status', ['1', '2'])->where(function ($query) {
-                            $query->where('request_type', '=', '7')
-                                ->orWhere('request_type', '=', '8')
-                                ->orWhere('request_type', '=', '9');
-                        })->orderBy('created_at', 'desc');
+        // if($this->is_finance_spv){
+        //     $data = \App\Models\AccountPayable::whereIn('status', ['1', '2'])->where(function ($query) {
+        //                     $query->where('request_type', '=', '1')
+        //                         ->orWhere('request_type', '=', '2')
+        //                         ->orWhere('request_type', '=', '3');
+        //                 })->orderBy('created_at', 'desc');
+        // }elseif($this->is_finance_manager){
+        //     $data = \App\Models\AccountPayable::whereIn('status', ['1', '2'])->where(function ($query) {
+        //                     $query->where('request_type', '=', '4')
+        //                         ->orWhere('request_type', '=', '5')
+        //                         ->orWhere('request_type', '=', '6');
+        //                 })->orderBy('created_at', 'desc');
+        // }elseif($this->is_finance_accounting_manager){
+        //     $data = \App\Models\AccountPayable::whereIn('status', ['1', '2'])->where(function ($query) {
+        //                     $query->where('request_type', '=', '7')
+        //                         ->orWhere('request_type', '=', '8')
+        //                         ->orWhere('request_type', '=', '9');
+        //                 })->orderBy('created_at', 'desc');
 
-        }elseif($this->is_pmg || $this->is_treasury){
-            $data = AccountPayable::orderBy('created_at', 'desc');
-        }else{
-            $user = Auth::user();
-            // $data = \App\Models\AccountPayable::where('nik', $user->nik)->orderBy('created_at', 'desc');
-            $data = \App\Models\AccountPayable::orderBy('created_at', 'desc');
-        }
+        // }elseif($this->is_pmg || $this->is_treasury){
+        //     $data = AccountPayable::orderBy('created_at', 'desc');
+        // }else{
+        //     $user = Auth::user();
+        //     // $data = \App\Models\AccountPayable::where('nik', $user->nik)->orderBy('created_at', 'desc');
+        //     $data = \App\Models\AccountPayable::orderBy('created_at', 'desc');
+        // }
 
-        $data = \App\Models\AccountPayable::orderBy('created_at', 'desc');
+        $data = AccountPayable::orderBy('created_at', 'desc');
+        
+        if(!$this->is_apstaff) $data->where('employee_id',\Auth::user()->employee->id);
         if($this->filteryear) $data->whereYear('created_at',$this->filteryear);
         if($this->filtermonth) $data->whereMonth('created_at',$this->filtermonth);                
         if($this->filterproject) $data->where('project',\App\Models\ClientProject::where('id', $this->filterproject)->first()->name);                        

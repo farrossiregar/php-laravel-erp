@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 class PettyCashBudget extends Component
 {
     protected $listeners = ['reload'=>'$refresh'];
-    public $filter_year,$insert=false,$year,$department_id,$budget,$message,$validate_unique;
+    public $filter_year,$insert=false,$year,$department_id,$budget,$message,$validate_unique,$sub_department_id;
     public function render()
     {
         $data = ModelPettyCashBudget::where('company_id',session()->get('company_id'))->orderBy('id','DESC');
@@ -28,7 +28,8 @@ class PettyCashBudget extends Component
                 })
             ],
             'department_id'=>'required',
-            'budget'=>'required'
+            'budget'=>'required',
+            'sub_department_id' => 'required'
         ],
         [
             'year.unique' => 'Data already exists'
@@ -38,6 +39,7 @@ class PettyCashBudget extends Component
         $data->company_id = session()->get('company_id');
         $data->year = $this->year;
         $data->department_id = $this->department_id;
+        $data->sub_department_id = $this->sub_department_id;
         $data->amount = $this->budget;
         $data->save();
 

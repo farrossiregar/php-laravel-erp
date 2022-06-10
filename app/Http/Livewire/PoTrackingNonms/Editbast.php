@@ -10,20 +10,16 @@ use App\Models\PoTrackingNonmsBoq;
 use Auth;
 use DB;
 
-
 class Editbast extends Component
 {
     public $data, $id_master, $extra_budget;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    
-
 
     public function render()
     {
         return view('livewire.po-tracking-nonms.edit-bast');   
     }
-
 
     public function mount($id)
     {
@@ -53,6 +49,4 @@ class Editbast extends Component
         $this->id_master = $id;
         
     }
-
-    
 }

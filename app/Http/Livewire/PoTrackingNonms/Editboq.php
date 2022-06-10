@@ -45,13 +45,18 @@ class Editboq extends Component
         else
             $this->total_profit = 100;
 
+        if($this->po_tracking){
+            // save total profit
+            $this->po_tracking->total_profit = $this->total_profit;
+            $this->po_tracking->save();
+        }
+
         $this->status = $id->status;
         $this->bast_status = $id->bast_status;
         $this->is_finance = check_access('is-finance');
         $this->is_service_manager = check_access('is-service-manager');
         $this->is_pmg = check_access('is-pmg');
-    }
-
+    } 
 
     public function finance_reject_budet()
     {

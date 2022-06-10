@@ -197,7 +197,7 @@
                             @if($item->is_punch_list==1)
                                 @if($item->site_type=='TMG')
                                     @if(isset($item->punch_list_rectification) and $item->punch_list_rectification->count()>0)
-                                        <a href="javascript:void(0)" wire:click="set_data({{$item->id}})" data-target="#modal_view_evidence" data-toggle="modal"><i class="fa fa-image"></i></a>
+                                        <a href="javascript:void(0)" wire:click="set_data({{$item->id}})" data-target="#modal_view_rectification" data-toggle="modal"><i class="fa fa-image"></i></a>
                                     @else
                                         -
                                     @endif
@@ -710,7 +710,7 @@
                                 <label>Sub Cluster</label>
                                 <input type="text" class="form-control" wire:model="sub_cluster" />
                             </div>
-                            <div wire:ignore class="form-group col-md-6">
+                            <div class="form-group col-md-6">
                                 <label>Employee (TE Only)</label>
                                 <select class="form-control select2">
                                     <option value="">-- Select --</option>
@@ -738,11 +738,15 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}" />
         <script>
             Livewire.on('set-pic',()=>{
-                $(".select2_pic").select2();
-                $('.select2_pic').on('select2:select', function (e) {
+                $(".select2").select2();
+                $('.select2').on('select2:select', function (e) {
                     var data = e.params.data;
                     @this.set('change_pic_id',data.id);
+                    // $('.select2').val({{$employee_id}}).trigger('change');
+                    $('.select2').select2().val({{$employee_id}}).trigger("change")
                 });
+                $('.select2').select2().val({{$employee_id}}).trigger("change")
+                // $('.select2').val({{$employee_id}}).trigger('change');
             });
 
             $(document).ready(function() {    
@@ -750,6 +754,10 @@
                 $('.select2').on('select2:select', function (e) {
                     var data = e.params.data;
                     @this.set('employee_id',data.id);
+                    setTimeout(function(){
+                        // $(this).val(data.id).trigger('change');
+                        $('.select2').select2().val(data.id).trigger("change")
+                    },1000);
                 });
                 
                 $('.date_created').daterangepicker({

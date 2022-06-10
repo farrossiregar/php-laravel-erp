@@ -23,7 +23,7 @@
                         <select class="form-control" wire:model="client_project_id">
                             <option value=""> --- Select Project --- </option>
                             @foreach(\App\Models\Company::get() as $company)
-                            <optgroup label="{{$company->code}}">
+                            <optgroup label="{{$company->name}}">
                                 @foreach(\App\Models\ClientProject::where('company_id',$company->id)->get() as $project)
                                     <option value="{{$project->id}}">{{$project->name}}</option>
                                 @endforeach

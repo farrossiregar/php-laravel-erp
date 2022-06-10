@@ -68,6 +68,7 @@ class Data extends Component
                                             if($this->sub_region_id)  $table->where('employees.sub_region_id',$this->sub_region_id);
                                             })
                                         ->get();
+        $this->emit('set-pic');
     }
 
     public function upload_with_punch_list()

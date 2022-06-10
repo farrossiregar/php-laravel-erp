@@ -36,35 +36,43 @@ class Submitdoc extends Component
 
         $data = PoTrackingNonms::where('id', $this->selected_id)->first();
         
-        if($data->type_doc == '1'){
-            $typedoc = 'STP';
-            $cekprofit = PoTrackingNonmsStp::where('id_po_nonms_master', $this->selected_id)->where('profit', '<', 30)->count();
-            if($cekprofit > 0){ // submit to PMG
-                $target_user = 'PMG';
+        // if($data->type_doc == '1'){
+        //     $typedoc = 'STP';
+        //     $cekprofit = PoTrackingNonmsStp::where('id_po_nonms_master', $this->selected_id)->where('profit', '<', 30)->count();
+        //     if($cekprofit > 0){ // submit to PMG
+        //         $target_user = 'PMG';
+        //         $data->status = 3;
+        //         $data->save();
+        //     }else{ // submit to Finance
+        //         $target_user = 'Finance';
+        //         $data->status = 1;
+        //         $data->save();
+        //     }
+        // }else{
 
-                $data->status = 3;
-                $data->save();
-            }else{ // submit to Finance
-                $target_user = 'Finance';
-                $data->status = 1;
-                $data->save();
-            }
-        }else{
-            $typedoc = 'BOQ';
-            $cekprofit = PoTrackingNonmsBoq::where('id_po_nonms_master', $this->selected_id)->where('profit', '<', 30)->count();
-            if($cekprofit > 0){ // submit to PMG
-                $target_user = 'PMG';
-                $data->status = 3;
-                $data->save();
-            }else{ // submit to Finance
-                $target_user = 'Finance';
-                $data->status = 1;
-                $data->save();
-            }
+        //     $typedoc = 'BOQ';
+        //     $cekprofit = PoTrackingNonmsBoq::where('id_po_nonms_master', $this->selected_id)->where('profit', '<', 30)->count();
+        //     if($cekprofit > 0){ // submit to PMG
+        //         $target_user = 'PMG';
+        //         $data->status = 3;
+        //         $data->save();
+        //     }else{ // submit to Finance
+        //         $target_user = 'Finance';
+        //         $data->status = 1;
+        //         $data->save();
+        //     }
+        // }
+
+        // jika range total profit kurang dari 30% maka approval dari pmg
+        if($data->total_profit < 30){ // submit to PMG
+            $target_user = 'PMG';
+            $data->status = 3;
+            $data->save();
+        }else{ // submit to Finance
+            $target_user = 'Finance';
+            $data->status = 1;
+            $data->save();
         }
-
-        // $notif_user = DB::table(env('DB_DATABASE').'.employees as employees')
-        //                         ->where('employees.user_access_id', $target_user_access_id)->get();
 
         if($target_user == 'PMG'){
             $notif_user = check_access_data('po-tracking-nonms.notif-pmg', '');

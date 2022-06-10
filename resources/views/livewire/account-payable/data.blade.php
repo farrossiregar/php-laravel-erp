@@ -2,12 +2,6 @@
     <div class="col-md-1">                
         <select class="form-control" wire:model="filteryear">
             <option value=""> --- Year --- </option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-            <option value="2019">2019</option>
-            <option value="2018">2018</option>
-            <option value="2017">2017</option>
         </select>
     </div>
     <div class="col-md-2" wire:ignore>
@@ -53,15 +47,16 @@
                     <tr>
                         <th class="align-middle">No</th>
                         <th class="align-middle">Status</th> 
-                        <th class="align-middle">Action</th> 
+                        <th class="align-middle"></th> 
                         <th class="align-middle">Date Create</th>
                         <th class="align-middle">Cash Transaction No</th>
-                        <th class="align-middle">User</th> 
-                        <th class="align-middle">Position</th> 
-                        <th class="align-middle">Project</th> 
-                        <th class="align-middle">Request Type</th> 
-                        <th class="align-middle">Additional Document</th> 
-                        <th class="align-middle">Detail Payment</th> 
+                        <!-- <th class="align-middle">NIK / Name</th>  -->
+                        <!-- <th class="align-middle">Position</th>  -->
+                        <!-- <th class="align-middle">Project</th>  -->
+                        <th class="align-middle">Request Type</th>
+                        <th class="text-center">Additional Document</th> 
+                        <th class="align-middle">Description</th> 
+                        <th class="text-right">Amount</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -69,20 +64,23 @@
                         <tr>
                             <td>{{ $key + 1 }}</td>
                             <td>
-                                @if($item->status == '2')
-                                    <?php
-                                        if($item->request_type == '1' || $item->request_type == '2' || $item->request_type == '3'){
-                                            $fin_app = 'Finance Supervisor';
-                                        }
-
-                                        if($item->request_type == '4' || $item->request_type == '5' || $item->request_type == '6'){
-                                            $fin_app = 'Finance Manager';
-                                        }
-
-                                        if($item->request_type == '7' || $item->request_type == '8' || $item->request_type == '9'){
-                                            $fin_app = 'Sr Finance & Acc Manager';
-                                        }
-                                    ?>
+                                @if($item->status==0)
+                                    <span class="badge badge-warning">Waiting AP Staff</span>
+                                @endif
+                                @if($item->status==1)
+                                    <span class="badge badge-info">Finance in review</span>
+                                @endif
+                                @if($item->status==2)
+                                    <span class="badge badge-success">Settled</span>
+                                @endif
+                                @if($item->status==3)
+                                    <span class="badge badge-danger" onclick="alert('{{$item->app_staff_note}}')" title="{{$item->app_staff_note}}">Reject</span>
+                                @endif
+                                
+                                <!-- @if($item->status == '2')
+                                    @if($item->request_type == '1' || $item->request_type == '2' || $item->request_type == '3') @php($fin_app = 'Finance Supervisor') @endif
+                                    @if($item->request_type == '4' || $item->request_type == '5' || $item->request_type == '6') @php($fin_app = 'Finance Manager') @endif
+                                    @if($item->request_type == '7' || $item->request_type == '8' || $item->request_type == '9') @php($fin_app = 'Sr Finance & Acc Manager') @endif
                                     <label class="badge badge-success" data-toggle="tooltip" title="Account Payable Request is Approved by {{$fin_app}}">Approved by {{$fin_app}}</label>
                                 @endif
 
@@ -100,7 +98,7 @@
 
                                 @if($item->status == '' || $item->status == 'null')
                                     <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
-                                @endif
+                                @endif -->
                             </td>
                             <td>
                                 @if($is_pmg)
@@ -120,7 +118,7 @@
                                 <!-- Revise User -->
                                 @if(!check_access('account-payable.fin-spv') || !check_access('account-payable.fin-mngr') || !check_access('account-payable.sr-fin-acc-mngr'))
                                     @if($item->status == '0')
-                                        <a href="javascript:;" wire:click="$emit('modalrevisiaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #de4848;"></i></a>
+                                        <!-- <a href="javascript:;" wire:click="$emit('modalrevisiaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #de4848;"></i></a> -->
                                     @endif
                                 @endif
                                 
@@ -190,24 +188,9 @@
                                 @endif
                             </td>
                             <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
-                            <td>{{ $item->cash_transaction_no }}</td>
+                            <td>{{ $item->cash_transaction_no }}</td>    
                             <td class="align-middle">
-                                <b>{{ $item->name }}</b><br>
-                                {{ $item->nik }}
-                            </td>
-                            <td>
-                                <b>{{ @\App\Models\Department::where('id', \App\Models\Employee::where('nik', $item->nik)->first()->department_id)->first()->name }}</b><br>
-                                {{ @\App\Models\UserAccess::where('id', $item->position)->orderBy('id', 'asc')->first()->name }}
-                            </td>
-                            
-                            <td class="align-middle">
-                                <b>{{ $item->project }}</b><br>
-                                {{ $item->region }}
-                            </td>
-                            
-                            <td class="align-middle">
-                                <b>
-                                @if($item->request_type == '1')
+                                @if($item->request_type == 1)
                                     @if($item->update_req == '1')
                                         <a href="javascript:;" wire:click="$emit('modaladdpettycashaccountpayable','{{ $item->id }}')">
                                         Petty Cash
@@ -215,6 +198,7 @@
                                     @else
                                         Petty Cash
                                     @endif
+                                    {{isset($item->petty_cash_type->name) ? " / {$item->petty_cash_type->name}" : ''}}
                                 @endif
                                 @if($item->request_type == '2')
                                     @if($item->update_req == '1')
@@ -288,7 +272,6 @@
                                         Supplier/Vendor
                                     @endif
                                 @endif
-                                </b>
                                 <br>
                                 @if($item->request_type == '1')
                                     @if($item->subrequest_type == '1')
@@ -522,16 +505,34 @@
                                     @endif
                                 @endif
                             </td>
-                            <td><a href="<?php echo asset('storage/Account_Payable/'.$item->additional_doc) ?>" target="_blank"><i class="fa fa-download"></i> {{ strtoupper($item->doc_name) }}</a></td>
+                            <td class="text-center">
+                                @if($item->additional_doc)
+                                    <a href="{{ asset($item->additional_doc)}}" target="_blank"><i class="fa fa-download"></i> {{ strtoupper($item->doc_name) }}</a>
+                                @else
+                                    -
+                                @endif
+                            </td>
                             <td>
-                                @if($is_treasury)
+                                @php($total=0)
+                                @if($item->request_type==1)
+                                    @if(isset($item->petty_cash->items))
+                                        @php($description_ = [])
+                                        @foreach($item->petty_cash->items as $i)
+                                            @php($description_[] = $i->description)
+                                            @php($total += $i->amount)
+                                        @endforeach
+                                        {{implode(", ", $description_)}}
+                                    @endif
+                                @endif
+                                <!-- @if($is_treasury)
                                     @if($item->bank_account_name != '' && $item->bank_account_number != '' && $item->bank_name != '')
                                         <a href="javascript:;" wire:click="$emit('modaltreasuryaccountpayable','{{ $item->id }}')"><i class="fa fa-eye " style="color: #17a2b8;"></i></a>
                                     @else
                                         <a href="javascript:;" wire:click="$emit('modaltreasuryaccountpayable','{{ $item->id }}')"><i class="fa fa-edit" style="color: #22af46;"></i></a>
                                     @endif
-                                @endif
+                                @endif -->
                             </td>    
+                            <td class="text-right">{{format_idr($total)}}</td>
                         </tr>
                     @endforeach
                 </tbody>

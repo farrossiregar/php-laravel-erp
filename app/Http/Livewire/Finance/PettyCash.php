@@ -10,14 +10,15 @@ class PettyCash extends Component
 {
     use WithPagination;
     public $filterproject, $filterweek, $filtermonth, $filteryear, $subrequest_type;
-    protected $paginationTheme = 'bootstrap';
+    protected $paginationTheme = 'bootstrap',$listeners=['refresh'=>'$refresh'];
     public $keyword;
-    public $is_apstaff=false;
+    public $is_apstaff=false,$is_finance=false;
     public function render()
     {
         $data = AccountPayablePettycash::select('account_payable_pettycash.*', 'account_payable.subrequest_type')
                                         ->join('account_payable','account_payable.id','=','account_payable_pettycash.id_master')
                                         ->where('account_payable.request_type','1')
+                                        ->where('account_payable_pettycash.company_id',session()->get('company_id'))
                                         ->orderBy('account_payable_pettycash.updated_at','DESC');
 
         if($this->filteryear) $data->whereYear('account_payable.created_at',$this->filteryear);
@@ -30,5 +31,6 @@ class PettyCash extends Component
     public function mount()
     {
         $this->is_apstaff = check_access('is-apstaff');
+        $this->is_finance = check_access('is-finance');
     }
 }
