@@ -42,6 +42,7 @@ class Data extends Component
         //     // $data = \App\Models\AccountPayable::where('nik', $user->nik)->orderBy('created_at', 'desc');
         //     $data = \App\Models\AccountPayable::orderBy('created_at', 'desc');
         // }
+        
 
         $data = AccountPayable::orderBy('created_at', 'desc');
         

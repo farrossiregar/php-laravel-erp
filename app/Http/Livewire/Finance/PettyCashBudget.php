@@ -21,6 +21,7 @@ class PettyCashBudget extends Component
 
     public function save()
     {
+        
         $this->validate([
             'year' => ['required',
                 Rule::unique('petty_cash_budget')->where(function ($query) {
@@ -35,6 +36,8 @@ class PettyCashBudget extends Component
             'year.unique' => 'Data already exists'
         ]);
 
+        
+
         $data = new ModelPettyCashBudget();
         $data->company_id = session()->get('company_id');
         $data->year = $this->year;
@@ -42,6 +45,8 @@ class PettyCashBudget extends Component
         $data->sub_department_id = $this->sub_department_id;
         $data->amount = $this->budget;
         $data->save();
+
+        
 
         $this->insert = false;
         $this->reset(['year','department_id','budget']);

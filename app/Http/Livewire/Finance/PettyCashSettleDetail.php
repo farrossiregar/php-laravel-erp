@@ -25,7 +25,7 @@ class PettyCashSettleDetail extends Component
                 $this->item_amount[$k] = $item->amount;
                 $this->item_description[$k] = $item->description;
                 $this->total += $item->amount;
-                $this->total_settle += $item->amount;
+                $this->total_settle += $item->amount_settle;
             }
         }
     }

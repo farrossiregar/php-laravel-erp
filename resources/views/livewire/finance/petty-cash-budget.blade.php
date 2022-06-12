@@ -14,6 +14,7 @@
                         <!-- <th>Year</th> -->
                         <th>Department</th>
                         <th>Sub Department</th>
+                        <th class="text-right">Year</th>
                         <th class="text-right">Monthly Budget</th>
                         <th class="text-right">Actualized</th>
                         <th class="text-right">Remaining Budget</th>
@@ -26,7 +27,10 @@
                             <!-- <td>{{$item->year}}</td> -->
                             <td>{{isset($item->department->name) ? $item->department->name : '-'}}</td>
                             <td>{{isset($item->sub_department->name) ? $item->sub_department->name : '-'}}</td>
-                            <td class="text-right">{{format_idr($item->amount)}}</td>
+                            <td class="text-right">{{isset($item->year) ? $item->year : '-'}}</td>
+                            <td class="text-right">@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'amount'],key($item->id))</td>
+                            <!-- <td class="text-right">{{format_idr($item->amount)}}</td> -->
+                          
                             <td class="text-right">{{format_idr($item->used)}}</td>
                             <td class="text-right">{{format_idr($item->remain)}}</td>
                         </tr>
@@ -58,6 +62,18 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </td>
+
+                            <td>
+                                <select class="form-control" wire:model="year">
+                                    <option value=""> -- Year -- </option>
+                                    
+                                    <option value="2022">2022</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2020">2020</option>
+                                    
+                                </select>
+                            </td>
+
                             <td>
                                 <input type="number" class="form-control text-right" wire:model="budget" placeholder="Budget" />
                                 @error('budget')

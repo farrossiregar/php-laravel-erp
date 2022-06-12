@@ -20,11 +20,17 @@
                         <th class="text-right">Remaining Budget</th>
                     </tr>
                 </thead>
+                <?php 
+                
+                ?>
                 <tbody>
                     @foreach($data as $k =>  $item)
                         <tr>
                             <td>{{$k+1}}</td>
                             <td>{{isset($item->project->name) ? $item->project->name : '-'}}</td>
+                            <td>{{isset($item->region->name) ? $item->region->name : '-'}}</td>
+                            <td>{{isset($item->subregion->name) ? $item->subregion->name : '-'}}</td>
+                            
                             <td>{{$item->week}}</td>
                             <td class="text-right">{{format_idr($item->amount)}}</td>
                             <td class="text-right">{{format_idr($item->used)}}</td>

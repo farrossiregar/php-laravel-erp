@@ -19,12 +19,15 @@ class Add extends Component
     public $budget=0,$remain=0,$project_code,$project_name;
     public function render()
     {
+        $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();
+        // dd($budget, session()->get('company_id'), \Auth::user()->employee->department_id);
         return view('livewire.account-payable.add');
     }
 
     public function mount()
     {
         $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();
+      
         if($budget){
             $this->budget = $budget->amount;
             $this->remain - $budget->remain;
@@ -100,6 +103,7 @@ class Add extends Component
             $petty_cash->year = date('Y');
             $petty_cash->company_id = session()->get('company_id');
             $petty_cash->status=0; // Waiting AP Staff
+            $petty_cash->total_settlement         = $this->total;
             $petty_cash->save();
 
             if($this->items){
@@ -160,8 +164,8 @@ class Add extends Component
 
         $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();
         if($budget){
-            $budget->amount = $budget->amount - $this->total;
-            $budget->remain = $budget->remain + $this->total;
+            // $budget->amount = $budget->amount - $this->total;
+            // $budget->remain = $budget->remain + $this->total;
             $budget->save();
         }   
 
