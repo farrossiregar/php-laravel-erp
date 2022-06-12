@@ -38,9 +38,12 @@
                     @endif
                     @if($request_type == 2)
                         <option value=""> --- Sub Request Type (Weekly Opex) --- </option>
-                        <option value="Opex Region">OPEX Region</option>
+                        <!-- <option value="Opex Region">OPEX Region</option>
                         <option value="Opex Comcase">OPEX Comcase</option>
-                        <option value="Police Report">Police Report</option>
+                        <option value="Police Report">Police Report</option> -->
+                        @foreach(\App\Models\WeeklyOpexType::where('company_id', session()->get('company_id'))->get() as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
                     @endif
                 </select>
                 @error('subrequest_type')

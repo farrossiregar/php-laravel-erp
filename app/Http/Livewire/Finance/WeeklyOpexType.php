@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Finance;
 
 use Livewire\Component;
 use Illuminate\Validation\Rule;
-use App\Models\WeeklyOpexType as ModelPettyCashType;
+use App\Models\WeeklyOpexType as ModelWeeklyOpexType;
 
 class WeeklyOpexType extends Component
 {
@@ -21,7 +21,7 @@ class WeeklyOpexType extends Component
     {
         $this->validate([
             'name' => ['required',
-                Rule::unique('petty_cash_type')->where(function ($query) {
+                Rule::unique('weekly_opex_type')->where(function ($query) {
                     return $query->where('company_id',session()->get('company_id'))->where('name', $this->name);
                 })
             ],
@@ -30,7 +30,7 @@ class WeeklyOpexType extends Component
             'name.unique' => 'Data already exists'
         ]);
 
-        $data = new ModelPettyCashType();
+        $data = new ModelWeeklyOpexType();
         $data->company_id = session()->get('company_id');
         $data->name = $this->name;
         $data->save();
