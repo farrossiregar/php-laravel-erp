@@ -47,12 +47,12 @@
                                 <th class="text-right">{{format_idr($total)}}</th>
                                 <th class="text-right">{{format_idr($total_settle)}}</th>
                             </tr>
-                            <tr style="background: #eee;">
+                            <!-- <tr style="background: #eee;">
                                 <th></th>
                                 <th class="text-right">Difference</th>
                                 <th></th>
                                 <th class="text-right">{{format_idr($total_difference)}}</th>
-                            </tr>
+                            </tr> -->
                         @endif
                     </tbody>
                 </table>

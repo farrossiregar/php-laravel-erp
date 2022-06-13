@@ -30,11 +30,11 @@ class Add extends Component
             $this->remain - $budget->remain;
         }
         
-        $project = EmployeeProject::where('employee_id',\Auth::user()->employee->id)->first();
-        if(isset($project->project->name)) {
-            $this->project_name = $project->project->name;
-            $this->project_code = $project->project->code;
-        }
+        // $project = EmployeeProject::where('employee_id',\Auth::user()->employee->id)->first();
+        // if(isset($project->project->name)) {
+        //     $this->project_name = $project->project->name;
+        //     $this->project_code = $project->project->code;
+        // }
 
         $this->cash_transaction_no = str_pad((AccountPayable::count()+1),6, '0', STR_PAD_LEFT).'/'.date('d').'/'.date('m').'/'.date('Y').'/CashOut';
     }
@@ -151,8 +151,6 @@ class Add extends Component
 
                 $data->doc_settlement               = $ap_doc;
             }
-            
-            
         
             $data->save();
             $weekly_opex->save();

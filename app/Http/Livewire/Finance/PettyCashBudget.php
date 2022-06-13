@@ -22,18 +22,20 @@ class PettyCashBudget extends Component
     public function save()
     {
         $this->validate([
-            'year' => ['required',
-                Rule::unique('petty_cash_budget')->where(function ($query) {
-                    return $query->where('company_id',session()->get('company_id'))->where('year', $this->year)->where('department_id', $this->department_id);
-                })
-            ],
+            // 'year' => ['required',
+            //     Rule::unique('petty_cash_budget')->where(function ($query) {
+            //         return $query->where('company_id',session()->get('company_id'))->where('year', $this->year)->where('department_id', $this->department_id);
+            //     })
+            // ],
             'department_id'=>'required',
             'budget'=>'required',
             'sub_department_id' => 'required'
-        ],
-        [
-            'year.unique' => 'Data already exists'
-        ]);
+        ]
+        // ,
+        // [
+        //     'year.unique' => 'Data already exists'
+        // ]
+    );
 
         $data = new ModelPettyCashBudget();
         $data->company_id = session()->get('company_id');

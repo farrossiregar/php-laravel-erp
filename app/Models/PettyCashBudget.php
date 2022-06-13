@@ -16,4 +16,9 @@ class PettyCashBudget extends Model
     {
         return $this->belongsTo(Department::class);
     }
+
+    public function sub_department()
+    {
+        return $this->belongsTo(DepartmentSub::class,'sub_department_id','id');
+    }
 }
