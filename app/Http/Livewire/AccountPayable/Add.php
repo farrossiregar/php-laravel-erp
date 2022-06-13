@@ -13,6 +13,7 @@ use App\Models\AccountPayableWeeklyopex;
 use App\Models\EmployeeProject;
 use App\Models\WeeklyOpexItem;
 use App\Models\WeeklyOpexBudget;
+use DateTime;
 
 class Add extends Component
 {
@@ -22,17 +23,49 @@ class Add extends Component
     public function render()
     {
         
+        if($this->request_type == '1'){
+            $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();
+        }
+        
+        if($this->request_type == '2'){
+            $budget = WeeklyOpexBudget::where(['company_id'=>session()->get('company_id'),'project'=>\Auth::user()->employee->project,'week'=>$this->weekOfMonth(date('Y-m-d')), 'region'=>\Auth::user()->employee->region_id])->first();
+        }
+      
+        if($this->request_type){
+            
+            if($budget){
+                $this->budget = $budget->amount;
+                $this->remain - $budget->remain;
+            }    
+        }else{
+            $this->budget = 0;
+            $this->remain = 0;
+        }
+
         return view('livewire.account-payable.add');
     }
 
     public function mount()
     {
-        $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();
+        // if($this->request_type == '1'){
+        //     $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();
+        // }
+        
+        // if($this->request_type == '2'){
+        //     $budget = WeeklyOpexBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();
+        // }
       
-        if($budget){
-            $this->budget = $budget->amount;
-            $this->remain - $budget->remain;
-        }
+        // if($this->request_type){
+            
+        //     if($budget){
+        //         $this->budget = $budget->amount;
+        //         $this->remain - $budget->remain;
+        //     }    
+        // }else{
+        //     $this->budget = 0;
+        //     $this->remain = 0;
+        // }
+        
         
         $project = EmployeeProject::where('employee_id',\Auth::user()->employee->id)->first();
         if(isset($project->project->name)) {
@@ -61,6 +94,7 @@ class Add extends Component
 
     public function save()
     {
+        
         $this->validate([
             'request_type' => 'required',
             'subrequest_type' => 'required',
@@ -135,13 +169,13 @@ class Add extends Component
             $weekly_opex->year                      = date('Y');//$this->year;
             $weekly_opex->week                      = '';
             
-            // $weekly_opex->company_id                = session()->get('company_id');
-            // $weekly_opex->status                    = 0; // Waiting AP Staff
+            $weekly_opex->company_id                = session()->get('company_id');
+            $weekly_opex->status                    = 0; // Waiting AP Staff
             $weekly_opex->total_settlement          = $this->total;
-            // $weekly_opex->previous_balance         = $this->previous_balance;
+            $weekly_opex->previous_balance          = AccountPayableWeeklyopex::orderBy('id', 'desc')->first()->budget_opex - AccountPayableWeeklyopex::orderBy('id', 'desc')->first()->total_transfer;
             $weekly_opex->total_transfer           = $this->total;
             // $weekly_opex->total_transfer           = $this->total_transfer;
-            // $weekly_opex->transfer_date            = $this->transfer_date;
+            $weekly_opex->transfer_date            = date('Y-m-d');
             
             // $weekly_opex->settlement_date          = $this->settlement_date;
             // $weekly_opex->settlement_nominal       = $this->settlement_nominal;
@@ -184,12 +218,12 @@ class Add extends Component
             }
         }
 
-        $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();
-        if($budget){
+        // $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();
+        // if($budget){
             // $budget->amount = $budget->amount - $this->total;
             // $budget->remain = $budget->remain + $this->total;
-            $budget->save();
-        }   
+            // $budget->save();
+        // }   
 
         // $notif = get_user_from_access('hotel-flight-ticket.noc-manager');
         // foreach($notif as $user){
@@ -204,4 +238,11 @@ class Add extends Component
         
         return redirect()->route('account-payable.index');
     }
+
+    public function weekOfMonth($strDate) {
+		$dateArray = explode("-", $strDate);
+		$date = new DateTime();
+		$date->setDate($dateArray[0], $dateArray[1], $dateArray[2]);
+		return floor((date_format($date, 'j') - 1) / 7) + 1;  
+	  }
 }

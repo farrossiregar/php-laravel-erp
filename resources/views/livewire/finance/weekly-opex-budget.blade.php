@@ -27,12 +27,12 @@
                     @foreach($data as $k =>  $item)
                         <tr>
                             <td>{{$k+1}}</td>
-                            <td>{{isset($item->project->name) ? $item->project->name : '-'}}</td>
-                            <td>{{isset($item->region->name) ? $item->region->name : '-'}}</td>
+                            <td>{{isset($item->project) ? \App\Models\ClientProject::where('id',$item->project)->first()->name : '-'}}</td>
+                            <td>{{isset($item->region) ? \App\Models\Region::where('id',$item->region)->first()->region : '-'}}</td>
                             <td>{{isset($item->subregion->name) ? $item->subregion->name : '-'}}</td>
                             
                             <td>{{$item->week}}</td>
-                            <td class="text-right">{{format_idr($item->amount)}}</td>
+                            <td class="text-right">@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'amount'],key($item->id))</td>
                             <td class="text-right">{{format_idr($item->used)}}</td>
                             <td class="text-right">{{format_idr($item->remain)}}</td>
                         </tr>

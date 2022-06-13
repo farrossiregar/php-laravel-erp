@@ -37,7 +37,7 @@ class WeeklyOpexProcess extends Component
         $this->selected->save();
         
         // save status master data
-        $this->selected->master->status=1;
+        $this->selected->status=1;
         $this->selected->master->save();
 
         session()->flash('message-success',__('Data processed successfully'));

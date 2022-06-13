@@ -73,23 +73,28 @@
                                     <td>{{$item->subregion}}</td>
                                     <td>{{$item->month}}</td>
                                     <td>{{$item->year}}</td>
-                                    <td>@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'budget_opex'],key($item->id))</td>
+                                    <!-- <td>livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'budget_opex'],key($item->id))</td> -->
+                                    <td>Rp, {{format_idr($item->budget_opex)}}</td>
                                     <td>Rp, {{format_idr($item->previous_balance) }}</td>
-                                    <td>{{$item->total_transfer}}</td>
+                                    <td>Rp, {{format_idr($item->total_transfer)}}</td>
                                     <td>{{$item->transfer_date}}</td>
-                                    <td>{{$item->cash_transaction_no}}</td>
+                                    <td>@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
                                     <td>{{$item->settlement_date}}</td>
                                     <td>
                                         {{$item->description}}
                                         @foreach(\App\Models\WeeklyOpexItem::where('weekly_opex_id', $item->id)->get() as $items)
-                                            {{ $items->description }}
+                                            {{ $items->description }} -
                                         @endforeach
                                        
                                     </td>
-                                    <td>{{$item->settlement_nominal}}</td>
+                                    <td>
+                                        @foreach(\App\Models\WeeklyOpexItem::where('weekly_opex_id', $item->id)->get() as $items)
+                                            Rp.{{ $items->amount }}, 
+                                        @endforeach
+                                    </td>
                                     <td>{{$item->total_settlement}}</td>
                                     <td>
-                                    @if($item->status==0 and $is_apstaff)
+                                        @if($item->status==0 and $is_apstaff)
                                             <a href="javascript:void(0)" wire:click="$emit('check_id',{{$item->id}})" class="badge badge-info badge-active" data-toggle="modal" data-target="#modal_process"><i class="fa fa-check-circle"></i> Process</a>
                                         @endif
                                         @if($item->status==1 and $is_finance)
@@ -130,6 +135,21 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <livewire:finance.weekly-opex-process />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_weekly_opex_settle" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:finance.weekly-opex-settle />
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_weekly_opex_settle_detail" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:finance.weekly-opex-settle-detail />
         </div>
     </div>
 </div>

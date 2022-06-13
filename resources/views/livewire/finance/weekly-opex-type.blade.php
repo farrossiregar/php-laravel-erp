@@ -19,7 +19,7 @@
                     @foreach($data as $k =>  $item)
                         <tr>
                             <td>{{$k+1}}</td>
-                            <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'name'],key($item->id))</td>
+                            <td>@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'name'],key($item->id))</td>
                             <td></td>
                         </tr>
                     @endforeach
