@@ -24,7 +24,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Status</th>
-                                <th>Project Code</th>          
+                                <!-- <th>Project Code</th>           -->
                                 <th>Project Name</th>          
                                 <th>Region</th>          
                                 <th>Sub Region</th>          
@@ -67,17 +67,17 @@
                                             <span class="badge badge-danger" onclick="alert('{{$item->app_staff_note}}')" title="{{$item->app_staff_note}}">Reject</span>
                                         @endif
                                     </td>
-                                    <td>{{$item->project_code}}</td>
+                                    <!-- <td>{{$item->project_code}}</td> -->
                                     <td>{{$item->project_name}}</td>
                                     <td>{{$item->region}}</td>
                                     <td>{{$item->subregion}}</td>
                                     <td>{{$item->month}}</td>
                                     <td>{{$item->year}}</td>
                                     <td>@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'budget_opex'],key($item->id))</td>
-                                    <td>@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'previous_balance'],key($item->id))</td>
+                                    <td>Rp, {{format_idr($item->previous_balance) }}</td>
                                     <td>{{$item->total_transfer}}</td>
                                     <td>{{$item->transfer_date}}</td>
-                                    <td>{{$item->cash_transfer_no}}</td>
+                                    <td>{{$item->cash_transaction_no}}</td>
                                     <td>{{$item->settlement_date}}</td>
                                     <td>
                                         {{$item->description}}

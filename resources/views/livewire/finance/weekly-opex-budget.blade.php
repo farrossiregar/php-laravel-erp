@@ -52,6 +52,28 @@
                                 @enderror
                             </td>
                             <td>
+                                <select class="form-control" wire:model="region">
+                                    <option value=""> -- Select Region -- </option>
+                                    @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $item)
+                                        <option value="{{$item->id}}">{{$item->region}}</option>
+                                    @endforeach
+                                </select>
+                                @error('project_id')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </td>
+                            <td>
+                                <select class="form-control" wire:model="subregion">
+                                    <option value=""> -- Select Subregion -- </option>
+                                    @foreach(\App\Models\Subregion::get() as $item)
+                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('project_id')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </td>
+                            <td>
                                 <select class="form-control" wire:model="week">
                                     <option value=""> -- Select Week -- </option>
                                     <option>1</option>

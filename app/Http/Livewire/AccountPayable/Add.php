@@ -22,7 +22,6 @@ class Add extends Component
     public function render()
     {
         
-        // dd(\Auth::user()->employee->employee_project->client_project_id);
         return view('livewire.account-payable.add');
     }
 
@@ -126,6 +125,8 @@ class Add extends Component
             $weekly_opex->budget_opex               = $this->budget;//$this->budget_opex;
             $weekly_opex->employee_id               = \Auth::user()->employee->id;
             $weekly_opex->id_master                 = $data->id;
+            $weekly_opex->region                    = isset(\Auth::user()->employee->region->region) ? \Auth::user()->employee->region->region : '-';
+            $weekly_opex->subregion                 = isset(\Auth::user()->employee->subregion->name) ? \Auth::user()->employee->subregion->name : '-';
 
             $weekly_opex->project_code              = isset(\Auth::user()->employee->employee_project->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project->client_project_id)->id : '';
             $weekly_opex->project_name              = isset(\Auth::user()->employee->employee_project->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project->client_project_id)->name : '';

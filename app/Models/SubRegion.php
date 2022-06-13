@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SubRegion extends Model
 {
-    use SoftDeletes;
+    // use SoftDeletes;
 
     use HasFactory;
 
     protected $table = 'sub_region';
     
-    protected $dates = ['deleted_at'];
+    // protected $dates = ['deleted_at'];
 }
