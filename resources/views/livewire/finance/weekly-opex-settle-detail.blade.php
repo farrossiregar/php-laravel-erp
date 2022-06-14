@@ -29,7 +29,7 @@
                                     <td>{{$item->description}}</td>
                                     <td class="text-right">{{format_idr($item->amount)}}</td>
                                     <!-- <td class="text-right">{{format_idr($item->amount_settle)}}</td> -->
-                                    <td class="text-right">@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'amount_settle'],key($item->id))</td>
+                                    <td class="text-right">@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'amount_settle'],key($item->id))</td>
                                 </tr>
                                 @php($num++)
                             @endforeach

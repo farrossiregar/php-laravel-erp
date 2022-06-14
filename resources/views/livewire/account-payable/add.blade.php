@@ -38,9 +38,12 @@
                     @endif
                     @if($request_type == 2)
                         <option value=""> --- Sub Request Type (Weekly Opex) --- </option>
-                        <option value="Opex Region">OPEX Region</option>
+                        <!-- <option value="Opex Region">OPEX Region</option>
                         <option value="Opex Comcase">OPEX Comcase</option>
-                        <option value="Police Report">Police Report</option>
+                        <option value="Police Report">Police Report</option> -->
+                        @foreach(\App\Models\WeeklyOpexType::where('company_id', session()->get('company_id'))->get() as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
                     @endif
                 </select>
                 @error('subrequest_type')
@@ -109,8 +112,8 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-info" wire:loading.remove wire:target="save">Submit</button>
-        <span wire:loading wire:target="save">
+        <button type="submit" class="btn btn-info" wire:loading.remove wire:target="save,request_type">Submit</button>
+        <span wire:loading wire:target="save,request_type">
             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
             <span class="sr-only">{{ __('Loading...') }}</span>
         </span>

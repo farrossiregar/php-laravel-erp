@@ -10,6 +10,15 @@
             <label>Cash Transaction No</label> : {{isset($data->cash_transaction_no) ? $data->cash_transaction_no : '-'}}
         </div>
         <div class="row">
+            <div class="form-group col-md-4">
+                <label>File</label>
+                <input type="file" class="form-control" wire:model="file" />
+                @error('file')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+        <div class="row">
             <div class="form-group col-md-12">
                 <table class="table">
                     <thead style="background: #eee;">
@@ -28,8 +37,7 @@
                                     <td>{{$num}}</td>
                                     <td>{{$item->description}}</td>
                                     <td class="text-right">{{format_idr($item->amount)}}</td>
-                                    <!-- <td class="text-right">{{format_idr($item->amount_settle)}}</td> -->
-                                    <td class="text-right">@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'amount_settle'],key($item->id))</td>
+                                    <td><input type="number" class="form-control text-right" wire:model="item_amount.{{$k}}" /> </td>
                                 </tr>
                                 @php($num++)
                             @endforeach
@@ -50,5 +58,12 @@
                 </table>
             </div>
         </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-info" wire:loading.remove wire:target="save">Submit</button>
+        <span wire:loading wire:target="save">
+            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+            <span class="sr-only">{{ __('Loading...') }}</span>
+        </span>
     </div>
 </form>

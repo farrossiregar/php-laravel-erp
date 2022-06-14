@@ -3,20 +3,20 @@
 namespace App\Http\Livewire\Finance;
 
 use Livewire\Component;
-use App\Models\AccountPayablePettycash;
+use App\Models\AccountPayableWeeklyopex;
 use Livewire\WithFileUploads;
 
-class PettyCashSettleDetail extends Component
+class WeeklyOpexSettleDetail extends Component
 {
     use WithFileUploads;
     protected $listeners = ['set_id'];
     public $file,$data,$total=0,$total_settle=0,$total_difference=0,$item_description,$item_amount=[];
     public function render()
     {
-        return view('livewire.finance.petty-cash-settle-detail');
+        return view('livewire.finance.weekly-opex-settle-detail');
     }
 
-    public function set_id(AccountPayablePettycash $data)
+    public function set_id(AccountPayableWeeklyopex $data)
     {
         $this->item_description = [];$this->item_amount=[];
         $this->data = $data;$this->total=0;$this->total_settle=0;$this->total_difference=0;
@@ -62,6 +62,6 @@ class PettyCashSettleDetail extends Component
 
         session()->flash('message-success',__('Data processed successfully'));
         
-        return redirect()->route('finance-petty-cash.index');
+        return redirect()->route('weekly-opex.index');
     }
 }

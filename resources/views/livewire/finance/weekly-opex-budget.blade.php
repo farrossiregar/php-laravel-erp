@@ -16,19 +16,25 @@
                         <th>Sub Region</th>
                         <th>Week</th>
                         <th class="text-right">Budget</th>
-                        <th class="text-right">Actualized</th>
-                        <th class="text-right">Remaining Budget</th>
+                        <!-- <th class="text-right">Actualized</th>
+                        <th class="text-right">Remaining Budget</th> -->
                     </tr>
                 </thead>
+                <?php 
+                
+                ?>
                 <tbody>
                     @foreach($data as $k =>  $item)
                         <tr>
                             <td>{{$k+1}}</td>
-                            <td>{{isset($item->project->name) ? $item->project->name : '-'}}</td>
+                            <td>{{isset($item->project) ? \App\Models\ClientProject::where('id',$item->project)->first()->name : '-'}}</td>
+                            <td>{{isset($item->region) ? \App\Models\Region::where('id',$item->region)->first()->region : '-'}}</td>
+                            <td>{{isset($item->sub_region->name) ? $item->sub_region->name : '-'}}</td>
+                            
                             <td>{{$item->week}}</td>
-                            <td class="text-right">{{format_idr($item->amount)}}</td>
-                            <td class="text-right">{{format_idr($item->used)}}</td>
-                            <td class="text-right">{{format_idr($item->remain)}}</td>
+                            <td class="text-right">@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'amount'],key($item->id))</td>
+                            <!-- <td class="text-right">{{format_idr($item->used)}}</td>
+                            <td class="text-right">{{format_idr($item->remain)}}</td> -->
                         </tr>
                     @endforeach
                     @if($insert)
@@ -40,6 +46,30 @@
                                     @foreach(\App\Models\ClientProject::orderBy('name','ASC')->where('is_project',1)->get() as $item)
                                         <option value="{{$item->id}}">{{$item->name}}</option>
                                     @endforeach
+                                </select>
+                                @error('project_id')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </td>
+                            <td>
+                                <select class="form-control" wire:model="region">
+                                    <option value=""> -- Select Region -- </option>
+                                    @foreach(\App\Models\Region::orderBy('region','ASC')->get() as $item)
+                                        <option value="{{$item->id}}">{{$item->region}}</option>
+                                    @endforeach
+                                </select>
+                                @error('project_id')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </td>
+                            <td>
+                                <select class="form-control" wire:model="subregion">
+                                    <option value=""> -- Select Subregion -- </option>
+                                    @if($region)
+                                        @foreach(\App\Models\SubRegion::where('region_id',$region)->get() as $item)
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
                                 @error('project_id')
                                     <span class="text-danger">{{ $message }}</span>
@@ -62,8 +92,10 @@
                                 @error('budget')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                            </td>
-                            <td>
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td colspan="5">
                                 <button wire:loading.remove wire:target="save" type="submit" class="badge badge-info badge-active"><i class="fa fa-save"></i> Save</button>
                                 <a href="javascript:void(0)" wire:loading.remove wire:target="save" wire:click="$set('insert',false)" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Cancel</a>
                             </td>
