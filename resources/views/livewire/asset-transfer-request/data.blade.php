@@ -30,12 +30,12 @@
                         <th class="align-middle">Detail Asset</th>
                         <th class="align-middle">Action</th> 
                         
-                        <th class="align-middle">Serial Number</th>
+                        <!-- <th class="align-middle">Serial Number</th> -->
                         <th class="align-middle">Transfer ID</th>
                         <th class="align-middle">Date Apply</th>
-                        <th class="align-middle">Dana From</th> 
-                        <th class="align-middle">Dana Amount</th> 
-                        <th class="align-middle">Dana Transfer</th> 
+                        <!-- <th class="align-middle">Dana From</th>  -->
+                        <!-- <th class="align-middle">Dana Amount</th>  -->
+                        <!-- <th class="align-middle">Dana Transfer</th>  -->
                         <th class="align-middle">Transfer From</th> 
                         <th class="align-middle">Transfer To</th> 
                         <th class="align-middle">Reason for Transfering</th> 
@@ -94,19 +94,19 @@
 
                         </td>
                         
-                        <td><b>{{ strtoupper($item->serial_number) }}</b> </td>
+                        <!-- <td><b>{{ strtoupper($item->serial_number) }}</b> </td> -->
                         <td><b>{{ strtoupper($item->transfer_id) }}</b> </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
-                        <td>
+                        <!-- <td>
                             @if($item->dana_from == '1')
                                 e-PL
                             @else
                                 Petty Cash
                             @endif
                             
-                        </td>
-                        <td>{{ "Rp " . number_format($item->dana_amount,2,',','.') }}</td>
-                        <td>{{ "Rp " . number_format($item->amount_transfer,2,',','.') }}</td>
+                        </td> -->
+                        <!-- <td>{{ "Rp " . number_format($item->dana_amount,2,',','.') }}</td> -->
+                        <!-- <td>{{ "Rp " . number_format($item->amount_transfer,2,',','.') }}</td> -->
                         <td>{{ $item->transfer_from }}</td>
                         <td>{{ $item->transfer_to }}</td>
                         <td>{{ $item->transfer_reason }}</td>
