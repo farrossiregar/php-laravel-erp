@@ -4,6 +4,7 @@ namespace App\Http\Livewire\PoTrackingNonms;
 
 use Livewire\Component;
 use App\Models\PoTrackingNonmsPo;
+use App\Models\PoTrackingNonmsBoq;
 
 class IndexPo extends Component
 {
@@ -20,5 +21,16 @@ class IndexPo extends Component
         $this->is_service_manager = check_access('is-service-manager');
         $this->is_e2e = check_access('is-e2e');
         $this->is_finance = check_access('is-finance');
+    }
+
+    public function calculate_amount(PoTrackingNonmsPo $id)
+    {
+        $payment_amount = 0;
+        foreach(PoTrackingNonmsBoq::where('po_tracking_nonms_po_id',$id->id)->get() as $k => $item){
+            $payment_amount = $item->input_price;
+        }
+
+        $id->payment_amount = $payment_amount;
+        $id->save();
     }
 }

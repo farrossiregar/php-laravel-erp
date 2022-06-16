@@ -7,59 +7,43 @@
             <div class="body">   
                 <form wire:submit.prevent="submit">
                     <div class="row">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>BAST Number</label>
-                                <input type="text" class="form-control" wire:model="bast_number" />
-                                @error('bast_number')
-                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>BAST Date</label>
-                                <input type="date" class="form-control" wire:model="bast_date" />
-                                @error('bast_date')
-                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                @enderror
-                            </div>
+                        <div class="form-group col-md-2">
+                            <label>BAST Number</label>
+                            <input type="text" class="form-control" wire:model="bast_number" />
+                            @error('bast_number')
+                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                            @enderror
                         </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>GR Number</label>
-                                <input type="text" class="form-control" wire:model="gr_number" />
-                                @error('gr_number')
-                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>GR Date</label>
-                                <input type="date" class="form-control" wire:model="gr_date" />
-                                @error('gr_date')
-                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                @enderror
-                            </div>
+                        <div class="form-group col-md-2">
+                            <label>BAST Date</label>
+                            <input type="date" class="form-control" wire:model="bast_date" />
+                            @error('bast_date')
+                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                            @enderror
                         </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>Works</label>
-                                <input type="text" class="form-control" wire:model="works" />
-                                @error('works')
-                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>Project</label>
-                                <input type="text" class="form-control" wire:model="project" />
-                                @error('project')
-                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                @enderror
-                            </div>
+                        <div class="form-group col-md-2">
+                            <label>Works</label>
+                            <input type="text" class="form-control" wire:model="works" />
+                            @error('works')
+                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                            @enderror
                         </div>
-                        <div class="col-md-3 pt-2">
-                            <div class="form-group">
-                                <label>Amount : </label> {{format_idr($data->payment_amount)}}
-                            </div>
+                        <div class="form-group col-md-2">
+                            <label>Project</label>
+                            <select class="form-control" wire:model="project">
+                                <option value=""> -- select -- </option>
+                                @foreach(\App\Models\ClientProject::where('is_project',1)->get() as $item)
+                                    <option>{{$item->name}}</option>
+                                @endforeach   
+                            </select>
+                            <!-- <input type="text" class="form-control" wire:model="project" /> -->
+                            @error('project')
+                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                            @enderror
                         </div>
+                        <!-- <div class="form-group col-md-2">
+                            <label>Amount : </label> {{format_idr($data->payment_amount)}}
+                        </div> -->
                     </div>
                     <div class="table-responsive mt-4">
                         <ul class="nav nav-tabs">

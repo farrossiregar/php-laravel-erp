@@ -370,6 +370,9 @@
         </div>
     </div>
 </div>
+<style>
+    .select2-container .select2-selection--single {height:36px !important;}
+</style>
 <!--    MODAL PO NON MS INPUT PO NO      -->
 @livewire('po-tracking-nonms.extra-budget')
 @livewire('po-tracking-nonms.process-extra-budget')

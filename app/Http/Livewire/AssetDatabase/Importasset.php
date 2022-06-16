@@ -27,19 +27,14 @@ class Importasset extends Component
     
     public function save()
     {
-
         $this->validate([
             'file'=>'required|mimes:xls,xlsx|max:51200' // 50MB maksimal
         ]);
 
-
         $path = $this->file->getRealPath();
-       
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $data = $reader->load($path);
         $sheetData = $data->getActiveSheet()->toArray();
-        // $sheetData = $data->getActiveSheet();
-        
        
         if(count($sheetData) > 0){
             $countLimit = 1;
@@ -51,46 +46,32 @@ class Importasset extends Component
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
               
-                if($i[0]!="") 
+                if($i[0]!="") continue;
                 
-                    $data = new \App\Models\AssetDatabase();
-                    if($i[1] == 'HUP'){
-                        $company = '1';
-                    }else{
-                        $company = '2';
-                    }
-                    $data->company_id                       = $company;
-                    
-                    // $data->project                          = $i[2];
-                    $data->region                           = $i[3];
-                    if($i[4] == 'Air Conditioner & Fan'){
-                        $assettype = '1';
-                    }elseif($i[4] == 'Furniture & Fixture'){
-                        $assettype = '2';
-                    }elseif($i[4] == 'Computer Equipment'){
-                        $assettype = '3';
-                    }else{
-                        $assettype = '4';
-                    }
-                    $data->asset_type                       = $assettype;
-                    $data->asset_name                       = $i[5];
-
-                    $data->expired_date                     = $i[6];
-                    // $data->serial_number                    = $i[6];
-                    // $data->dimension                        = $i[7];
-                    // $data->detail                           = $i[8];
-                    
-                    $data->project                          = \App\Models\ClientProject::where('name', $i[2])->first()->id;
-                    
-                    // $data->dimension                        = $i[9];
-                    // $data->detail                           = $i[10];
-                    
-                    $data->save();
-
-                    $total_success++;
+                $data = new \App\Models\AssetDatabase();
+                if($i[1] == 'HUP')
+                    $company = '1';
+                else
+                    $company = '2';
                 
+                $data->company_id                       = $company;
+                $data->region                           = $i[3];
+                if($i[4] == 'Air Conditioner & Fan')
+                    $assettype = '1';
+                elseif($i[4] == 'Furniture & Fixture')
+                    $assettype = '2';
+                elseif($i[4] == 'Computer Equipment')
+                    $assettype = '3';
+                else $assettype = '4';
+                
+                $data->asset_type                       = $assettype;
+                $data->asset_name                       = $i[5];
+                $data->expired_date                     = $i[6];
+                $data->project                          = \App\Models\ClientProject::where('name', $i[2])->first()->id;
+                $data->save();
+
+                $total_success++;
             }
-
         }
 
         session()->flash('message-success',"Upload Asset Success!!!");

@@ -93,15 +93,18 @@ class Importboq extends Component
                                                     ->where('po_line_item',$po_line)
                                                     ->first();
                 if($potrackingboq) {
-                    $double_data++;
-                    continue;
+                    $potrackingboq->qty = $potrackingboq->qty + $qty;
+                    // $double_data++;
+                    // continue;
+                }else{
+                    $potrackingboq = new PoTrackingNonmsBoq();
+                    $potrackingboq->qty = $qty;
                 }
-                $potrackingboq = new PoTrackingNonmsBoq();
+
                 $potrackingboq->category_material = $category_material;
                 $potrackingboq->item_code = $item_code;
                 $potrackingboq->item_description = $item_material;
                 $potrackingboq->uom = $uom;
-                $potrackingboq->qty = $qty;
                 $potrackingboq->price = $unit_price;
                 $potrackingboq->total_price = $total;
                 $potrackingboq->sno_material = $sno_material;
@@ -112,33 +115,6 @@ class Importboq extends Component
                 $total_success++;
             }
         }
-
-        // $region_user = DB::table(env('DB_DATABASE').'.employees as employees')
-        //                         ->where('employees.user_access_id', '29')
-        //                         ->join(env('DB_DATABASE_EPL_PMT').'.region as region', 'region.id', '=', 'employees.region_id')
-        //                         ->where('region.region_code', $datamaster->region)->get();
-
-
-        // if(count($region_user) > 0){
-            // $epluser = Employee::select('name', 'telepon', 'email')->where('region_id', $region_user[0]->region_id)->get();
-            // $epluser = check_access_data('po-tracking-nonms.notif-regional', $data->region);
-            
-            // $nameuser = [];
-            // $emailuser = [];
-            // $phoneuser = [];
-            
-            // foreach($epluser as $no => $itemuser){
-            //     $nameuser[$no] = $itemuser->name;
-            //     $emailuser[$no] = $itemuser->email;
-            //     $phoneuser[$no] = $itemuser->telepon;
-            //     $message = "*Dear Operation Region ".$data->region." - ".$nameuser[$no]."*\n\n";
-            //     $message .= "*PO Tracking Non MS Ericson Region ".$data->region." Uploaded on ".date('d M Y H:i:s')."*\n\n";
-            //     send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);   
-
-            //     // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
-            // }
-        // }
-
         session()->flash('message-success',"Upload PO Tracking Non MS Ericson success, Success : <strong>{$total_success}</strong>, Double Data <strong>{$double_data}</strong>");
         return redirect()->route('po-tracking-nonms.index');   
     }

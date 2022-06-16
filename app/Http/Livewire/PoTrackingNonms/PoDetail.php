@@ -11,7 +11,7 @@ class PoDetail extends Component
     use WithFileUploads;
 
     public $data,$is_e2e,$gr_file,$bast_file,$bast_note,$file_extra_budget;
-    public $is_finance;
+    public $is_finance,$gr_number,$gr_date;
     public function render()
     {
         return view('livewire.po-tracking-nonms.po-detail');
@@ -43,6 +43,8 @@ class PoDetail extends Component
             $this->data->gr_file = "storage/po_tracking_nonms/{$this->data->id}/{$gr}";
         }
 
+        $this->data->gr_date = $this->gr_date;
+        $this->data->gr_number = $this->gr_number;
         $this->data->bast_note = $this->bast_note;
         $this->data->status = 4; // approve 
         $this->data->save();
@@ -69,6 +71,8 @@ class PoDetail extends Component
             $this->data->gr_file = "storage/po_tracking_nonms/{$this->data->id}/{$gr}";
         }
 
+        $this->data->gr_date = $this->gr_date;
+        $this->data->gr_number = $this->gr_number;
         $this->data->bast_note = $this->bast_note;
         $this->data->status = 3; // approve 
         $this->data->save();

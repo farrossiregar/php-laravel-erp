@@ -68,6 +68,7 @@
                                 <tr>
                                     <th>GR Number</th>
                                     <td>
+                                        <input type="text" class="form-control" wire:model="gr_number" />
                                         {{$data->gr_number}}
                                         @if($data->gr_file)
                                             <a href="{{asset($data->gr_file)}}"><i class="fa fa-download"></i> Document</a>
@@ -76,7 +77,10 @@
                                 </tr>
                                 <tr>
                                     <th>GR Date</th>
-                                    <td>{{$data->gr_date?date('d-M-Y',strtotime($data->gr_date)):'-'}}</td>
+                                    <td>
+                                        <input type="text" class="form-control" wire:model="gr_date" />
+                                        {{$data->gr_date?date('d-M-Y',strtotime($data->gr_date)):'-'}}
+                                    </td>
                                 </tr>
                                 @if($is_e2e and $data->status==1)
                                     <tr>

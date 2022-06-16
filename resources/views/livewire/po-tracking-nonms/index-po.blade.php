@@ -31,7 +31,7 @@
                         <th>GR Date</th>
                         <th>Works</th>
                         <th>Project</th>
-                        <th class="text-right">Amount</th>
+                        <th class="text-right">Requested Budget</th>
                         <th class="text-right">Extra Budget</th>
                         <th><div style="width:50px;"></div></th>
                     </tr>
@@ -80,7 +80,13 @@
                             </td>
                             <td>{{$item->works}}</td>
                             <td>{{$item->project}}</td>
-                            <td class="text-right">{{format_idr($item->payment_amount)}}</td>
+                            <td class="text-right">
+                                @if($item->payment_amount==0)
+                                    <a href="javascript:void(0)" wire:click="calculate_amount({{$item->id}})"><i class="fa fa-refresh"></i></a>
+                                @else
+                                    {{format_idr($item->payment_amount)}}
+                                @endif
+                            </td>
                             <td class="text-right">
                                 @if($item->extra_budget)
                                     {{format_idr($item->extra_budget)}}

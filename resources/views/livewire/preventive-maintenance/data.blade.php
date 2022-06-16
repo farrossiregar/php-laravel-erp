@@ -149,7 +149,7 @@
                                         <span class="badge badge-warning">Rect FEAT Submitted</span>
                                     @endif
                                     @if($item->status_punch_list_tmg==4)
-                                        <span class="badge badge-success"><i class="fa fa-check-circle"></i> Approved EID</span>
+                                        <span class="badge badge-success">Approved EID</span>
                                     @endif
                                 @endif
                             @endif
@@ -171,6 +171,11 @@
                                         <a href="javascript:void(0)" class="text-warning" wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_upload_laporan_pln"><i class="fa fa-upload"></i></a>
                                     @else
                                         <a href="javascript:void(0)" class="text-success"  wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_upload_laporan_pln"><i class="fa fa-check-circle"></i></a>
+                                        @if(isset($item->punch_list_laporan_pln))
+                                            @foreach($item->punch_list_laporan_pln as $key_punch => $punch)
+                                                @if($key_punch==0) {{date('d-m-Y',strtotime($punch->created_at))}} @endif
+                                            @endforeach
+                                        @endif
                                     @endif
                                 @endif
                             @endif

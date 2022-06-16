@@ -18,9 +18,7 @@ class Detailrequest extends Component
     ];
 
     use WithPagination;
-    // public $date, $employee_id;
     protected $paginationTheme = 'bootstrap';
-    
     use WithFileUploads;
     public $selected_id, $dana_from, $pr_no, $prno, $dana_amount;
     public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $position, $datalocation, $dataassetname;
@@ -33,12 +31,15 @@ class Detailrequest extends Component
                                                 ->where('is_project', '1')
                                                 ->get();
 
-        $get_project = \App\Models\ClientProject::where('id', \App\Models\EmployeeProject::where('employee_id', Auth::user()->id)->first()->client_project_id)->first();
+        $project_arr = [];
+        foreach(\Auth::user()->employee->employee_project as  $k => $i) $project_arr[] = $i->client_project_id;
+
+        $get_project = \App\Models\ClientProject::whereIn('id', $project_arr)->first();
         $this->project = $get_project->name;
 
         $this->region = \App\Models\Region::where('id', $get_project->region_id)->first()->region_code;
 
-        $this->datalocation = \App\Models\Dophomebasemaster::where('status', '1')->where('project', $get_project->name)->where('region', $this->region)->orderBy('id', 'desc')->get();
+        $this->datalocation = \App\Models\DophomebaseMaster::where('status', '1')->where('project', $get_project->name)->where('region', $this->region)->orderBy('id', 'desc')->get();
 
         if($this->asset_type){
         $this->dataassetname = \App\Models\AssetDatabase::where('asset_type', $this->asset_type)->get();

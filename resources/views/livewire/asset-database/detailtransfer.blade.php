@@ -15,24 +15,6 @@
                             <div class="row">
                                 <div class="col-md-12" >
                                     <div class="row  form-group" style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px 0; width: 100%; margin: auto;">
-                                        <br>
-                                        
-
-                                        <div class="col-md-6 form-group">
-                                            <label>Region</label>
-                                            
-                                            <select name="" id="" class="form-control"  wire:model="region">
-                                                <option value="" selected>-- Region --</option>
-                                                @foreach(\App\Models\Region::orderBy('id', 'asc')->get() as $item)
-                                                    <option value="{{$item->region}}">{{$item->region}}</option>
-                                                @endforeach
-                                            </select>
-
-                                            @error('region')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
                                         <div class="col-md-6 form-group">
                                             <label>Project</label>
                                             
@@ -46,37 +28,50 @@
                                             </select>
 
                                             @error('region')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-
                                         <div class="col-md-6 form-group">
-                                            <label>PIC Asset</label>
-                                            <!-- <input type="text"  class="form-control"  wire:model="pic" > -->
-                                            <select name="" id="" class="form-control"  wire:model="pic">
-                                                <option value="" selected>-- PIC --</option>
-                                                @foreach(\App\Models\Employee::orderBy('id', 'desc')->get() as $item)
-                                                    <option value="{{$item->name}}">{{$item->name}} - {{$item->nik}}</option>
+                                            <label>Region</label>
+
+                                            <select name="" id="" class="form-control"  wire:model="region">
+                                                <option value="" selected>-- Region --</option>
+                                                @foreach(\App\Models\Region::orderBy('id', 'asc')->get() as $item)
+                                                    <option value="{{$item->region}}">{{$item->region}}</option>
                                                 @endforeach
                                             </select>
 
-                                            @error('dana_amount')
+                                            @error('region')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-
                                         <div class="col-md-6 form-group">
-                                            <label>NIK</label>
-                                            <input type="text"  class="form-control"  wire:model="nik" >
-                                           
+                                            <label>Sub Region</label>
+                                            <select name="" id="" class="form-control">
+                                                <option value="" selected>-- Sub Region --</option>
+                                                @if($region)
+                                                    @foreach(\App\Models\SubRegion::where('region_id',$region)->orderBy('id', 'asc')->get() as $item)
+                                                        <option>{{$item->name}}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
 
+                                            @error('region')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>Field Team / PIC</label>
+                                            <select class="form-control"  wire:model="pic">
+                                                <option value="" selected>-- Select --</option>
+                                                @foreach(check_access_data('is-field-team') as $user)
+                                                    <option value="{{$user->employee_id}}">{{$user->nik}} / {{$user->name}}</option>
+                                                @endforeach
+                                            </select>
                                             @error('dana_amount')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        
-
-                                       
                                     </div>
                                 </div>
                                 

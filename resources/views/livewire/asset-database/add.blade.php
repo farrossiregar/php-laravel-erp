@@ -49,20 +49,7 @@
                                             @enderror
                                         </div>
 
-                                        <div class="col-md-6 form-group">
-                                            <label>Region</label>
-                                            
-                                            <select name="" id="" class="form-control"  wire:model="region">
-                                                <option value="" selected>-- Region --</option>
-                                                @foreach(\App\Models\Region::orderBy('id', 'asc')->get() as $item)
-                                                    <option value="{{$item->region}}">{{$item->region}}</option>
-                                                @endforeach
-                                            </select>
-
-                                            @error('region')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
+                                        
 
                                         <div class="col-md-6 form-group">
                                             <label>Project</label>
@@ -73,6 +60,20 @@
                                                                         ->where('is_project', '1')
                                                                         ->get() as $item)
                                                     <option value="{{$item->id}}">{{$item->name}}</option>
+                                                @endforeach
+                                            </select>
+
+                                            @error('region')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>Region</label>
+                                            
+                                            <select name="" id="" class="form-control"  wire:model="region">
+                                                <option value="" selected>-- Region --</option>
+                                                @foreach(\App\Models\Region::orderBy('id', 'asc')->get() as $item)
+                                                    <option value="{{$item->region}}">{{$item->region}}</option>
                                                 @endforeach
                                             </select>
 

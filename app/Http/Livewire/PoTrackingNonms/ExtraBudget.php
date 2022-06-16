@@ -36,10 +36,14 @@ class ExtraBudget extends Component
         $this->selected_data->status_extra_budget = 1; // Finance
         $this->selected_data->save();
 
-        \LogActivity::add('[web] PO Fuel Reimbursement - Extra Budget');
+        \LogActivity::add('[web] PO Fuel Reimbursement - Extra Budget Requested');
 
-        $this->emit('message-success',"Extra budget requested");
-        $this->emit('refresh');
-        $this->emit('modal','hide');   
+        session()->flash('message-success',"Extra budget requested");
+
+        return redirect()->route('po-tracking-nonms.index');
+
+        // $this->emit('message-success',"Extra budget requested");
+        // $this->emit('refresh');
+        // $this->emit('modal','hide');   
     }
 }

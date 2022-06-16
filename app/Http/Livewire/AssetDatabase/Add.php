@@ -14,9 +14,7 @@ use Auth;
 class Add extends Component
 {
     use WithPagination;
-    // public $date, $employee_id;
     protected $paginationTheme = 'bootstrap';
-    
     use WithFileUploads;
     public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $position, $datalocation, $dataassetname;
     public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link, $pic_ba, $pic_phone, $pic_bank_name, $expired_date, $serial_number;
@@ -36,9 +34,12 @@ class Add extends Component
                                 ->where('is_project', '1')
                                 ->get();
 
-        
+        $project_arr = [];
+        foreach(\Auth::user()->employee->employee_project as  $k => $i) $project_arr[] = $i->client_project_id;
 
-        $get_project = \App\Models\ClientProject::where('id', \App\Models\EmployeeProject::where('employee_id', Auth::user()->id)->first()->client_project_id)->first();
+        //$employee_project = \App\Models\EmployeeProject::where('employee_id', Auth::user()->id)->first();
+
+        $get_project = \App\Models\ClientProject::whereIn('id', $project_arr)->first();
         $this->project = $get_project->name;
 
         $this->region = \App\Models\Region::where('id', $get_project->region_id)->first()->region_code;
@@ -59,6 +60,10 @@ class Add extends Component
   
     public function save()
     {
+        $this->validate([
+            'asset_type' => 'required',
+            'asset_name' => 'required'
+        ]);
 
         $user                           = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
         $data                           = new \App\Models\AssetDatabase();
