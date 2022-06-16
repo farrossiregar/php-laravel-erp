@@ -41,11 +41,15 @@
     <div class="col-md-2" >
         <a href="javascript:;" wire:click="$emit('modalimportasset')" class="btn btn-info"><i class="fa fa-upload"></i> Upload Asset Database </a>
     </div> 
-
+<!-- 
     <div class="col-md-2">
         <a href="javascript:;" wire:click="$emit('modaladdassetdatabase')" class="btn btn-info"><i class="fa fa-plus"></i> Request Asset Database </a>
     </div>  
-    
+     -->
+
+     <div class="col-md-2">
+        <a href="javascript:;" wire:click="$emit('modaladdassetdatabase')" class="btn btn-info"><i class="fa fa-plus"></i> Transfer Request </a>
+    </div>  
     
     
     <div class="col-md-12">
@@ -56,11 +60,12 @@
 
                     <tr>
                         <th rowspan="2" class="align-middle">No</th>
+                        <th rowspan="2" class="align-middle"></th>
                         <th rowspan="2" class="align-middle">Date Create</th>
                         <th rowspan="2" class="align-middle">Asset Status</th>
                         <!-- <th rowspan="2" class="align-middle">Expired Date</th> -->
                         
-                        <th colspan="4" class="text-center align-middle">1. Detail Asset</th>
+                        <th colspan="6" class="text-center align-middle">1. Detail Asset</th>
                         <th colspan="3" class="text-center align-middle">2. Asset Request</th> 
                         <th colspan="3" class="text-center align-middle">3. Asset Transfer</th> 
                         
@@ -69,7 +74,9 @@
                         <th class="align-middle">1.1. Asset Name</th> 
                         <th class="align-middle">Asset Type</th> 
                         <th class="align-middle">Project</th> 
-                        <th class="align-middle">Region</th> 
+                        <th class="align-middle">Region - Sub Region</th> 
+                        <th class="align-middle">Serial Number</th> 
+                        <th class="align-middle">Expired Date</th> 
                         <!-- <th class="align-middle">Location</th>  -->
 
                         
@@ -92,11 +99,14 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
+                        <td>
+                            <input type="checkbox">
+                        </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         
                         <td>
                             @if($item->pic)
-                                <label class="badge badge-info" data-toggle="tooltip" title="Assigned">Assigned</label>
+                                <label class="badge badge-info" data-toggle="tooltip" title="Used">Used</label>
                             @else
                                 <label class="badge badge-success" data-toggle="tooltip" title="Idle">Idle</label>
                             @endif
@@ -142,6 +152,8 @@
                         
                         
                         <td>{{ \App\Models\ClientProject::where('id', $item->project)->first()->name }}</td>
+                        <td>{{ $item->region }} - {{ $item->region }}</td>
+                        <td>{{ $item->region }}</td>
                         <td>{{ $item->region }}</td>
                         <!-- <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td> -->
                         <!-- <td>{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</td> -->

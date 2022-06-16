@@ -35,22 +35,26 @@
                         <th class="align-middle">Status</th> 
                         <th class="align-middle">Action</th> 
                         <th class="align-middle">Date Create</th>
-                        <th class="align-middle">User Request</th> 
-                        <th class="align-middle">NIK</th> 
+                        <th class="align-middle">Company</th>
+                        <!-- <th class="align-middle">User Request</th> 
+                        <th class="align-middle">NIK</th>  -->
                         <th class="align-middle">Project</th> 
                         <th class="align-middle">Region</th> 
-                        <th class="align-middle">Asset Type</th> 
-                        <th class="align-middle">Asset Name</th> 
-                        <th class="align-middle">Dana From</th> 
-                        <th class="align-middle">PR No</th> 
-                        <th class="align-middle">Dana Amount</th> 
-                        <th class="align-middle">Serial Number</th> 
                         <th class="align-middle">Location</th> 
                         <th class="align-middle">Dimension</th> 
-                        <th class="align-middle">Detail</th> 
-                        <th class="align-middle">Qty</th>
-                        <th class="align-middle">Reason</th> 
                         <th class="align-middle">Reference/Link</th> 
+
+
+                        <th class="align-middle">Asset Type</th> 
+                        <th class="align-middle">Asset Name</th> 
+                        <th class="align-middle">Dana From / PR No</th> 
+                        <th class="align-middle">Dana Amount</th> 
+                        <th class="align-middle">Serial Number</th> 
+                     
+                        <th class="align-middle">Detail</th> 
+                        <!-- <th class="align-middle">Qty</th> -->
+                        <th class="align-middle">Reason</th> 
+                        
                     </tr>
                    
                 </thead>
@@ -87,11 +91,17 @@
                             
                         </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
-                        <td>{{ $item->name }}</td>
+                        <!-- <td>{{ $item->name }}</td>
 
-                        <td>{{ $item->nik }}</td>
+                        <td>{{ $item->nik }}</td> -->
+                        <td></td>
                         <td>{{ $item->project }}</td>
                         <td>{{ $item->region }}</td>
+                        <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td>
+                        <td>{{ $item->dimension }}</td>
+                        <td><a href="javascript:;" wire:click="$emit('modaldetailimage','{{ $item->id }}')"><i class="fa fa-eye"></i></a></td>
+
+
 
                         <td>
                             @if($item->asset_type == '1')
@@ -128,19 +138,17 @@
                                     @endif
                                     
                                 @endif
-                            
+                            <br>
+                            <b>{{ $item->pr_no }}</b>
                         </td>
-                        
-                        <td>{{ $item->pr_no }}</td>
                         <td>{{ "Rp " . number_format($item->dana_amount,2,',','.') }}</td>
                         <td><b>{{ strtoupper($item->serial_number) }}</b></td>
-                        <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td>
-                        <td>{{ $item->dimension }}</td>
+                        
                         <td>{{ $item->detail }}</td>
-                        <td>{{ $item->quantity }}</td>
+                        <!-- <td>{{ $item->quantity }}</td> -->
                         <td>{{ $item->reason_request }}</td>
                         <!-- <td>{{ $item->reference_pic }}{{ $item->link }}</td> -->
-                        <td><a href="javascript:;" wire:click="$emit('modaldetailimage','{{ $item->id }}')"><i class="fa fa-eye"></i></a></td>
+                        
                     </tr>
                     
                     
