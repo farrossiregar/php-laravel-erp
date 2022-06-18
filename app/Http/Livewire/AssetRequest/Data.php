@@ -26,4 +26,16 @@ class Data extends Component
         
         return view('livewire.asset-request.data')->with(['data'=>$data->paginate(50)]);   
     }
+
+    public function checkdata($id)
+    {
+        $check = \App\Models\DophomebaseMaster::where('id',$id)->first();
+        if($check->remarks == '1'){
+            $check->remarks = '';
+        }else{
+            $check->remarks = '1';
+        }
+        $check->save();
+        
+    }
 }

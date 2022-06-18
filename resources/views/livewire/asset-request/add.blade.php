@@ -15,43 +15,33 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                       
-
-                                        <div class="col-md-6 form-group">
-                                            <label>Employee Name Request</label>
-                                            <input type="text" class="form-control"  wire:model="employee_name" readonly>
-                                           
-
-                                            @error('employee_name')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label>Position</label>
-                                            <input type="text" class="form-control"  wire:model="position" readonly>
-                                           
-
-                                            @error('position')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
+                                      
                                         <div class="col-md-6 form-group">
                                             <label>Project</label>
-                                            <!-- <select onclick="" class="form-control" wire:model="project">
+                                            <select class="form-control" style="width:100%;" wire:model="project">
                                                 <option value=""> --- Project --- </option>
-                                                
-                                                @foreach($dataproject as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                @foreach(\App\Models\ClientProject::orderBy('id', 'desc')
+                                                                    ->where('company_id', Session::get('company_id'))
+                                                                    ->where('is_project', '1')
+                                                                    ->get() as $item)
+                                                    <option value="{{$item->id}}">{{$item->name}}</option>
                                                 @endforeach
-                                            </select> -->
-                                            <input type="text" class="form-control"  wire:model="project" readonly>
+                                            </select>
+                                            <!-- <input type="text" class="form-control"  wire:model="project" readonly> -->
                                             @error('project')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <label>Region</label>
-                                            <input type="text" class="form-control" wire:model="region" readonly/>
+                                            <select class="form-control" style="width:100%;" wire:model="region">
+                                                <option value=""> --- Region --- </option>
+                                                @foreach(\App\Models\Region::orderBy('id', 'desc')
+                                                                    ->get() as $item)
+                                                    <option value="{{$item->region_code}}">{{$item->region_code}}</option>
+                                                @endforeach
+                                            </select>
+                                            <!-- <input type="text" class="form-control" wire:model="region" readonly/> -->
                                             
                                             @error('region')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -76,21 +66,8 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Name of Asset</label>
-                                            <!-- <input list="asset_name1" class="form-control"  wire:model="asset_name">
-                                            <datalist id="asset_name1" >
-                                                @foreach($dataassetname as $item)
-                                                <option value="{{ $item->asset_name }}">
-                                                @endforeach
-                                            </datalist> -->
-
-                                            
-                                            <select name="" id="" class="form-control"  wire:model="asset_name">
-                                                <option value="">Name of Asset</option>
-                                                @foreach($dataassetname as $item)
-                                                <option value="{{ $item->asset_name }}">{{ $item->asset_name }}</option>
-                                                @endforeach
-                                            </select>
-                                                
+                                            <input type="text" class="form-control"  wire:model="asset_name">
+                                        
 
                                             @error('asset_name')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -99,13 +76,14 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Location</label>
-                                            <input type="text"  class="form-control"  wire:model="location" readonly>
-                                            <!-- <select name="" id="" class="form-control"  wire:model="location">
+                                            
+                                            <select name="" id="" class="form-control"  wire:model="location">
                                                 <option value="" selected>-- Location --</option>
-                                                @foreach($datalocation as $item)
+                                                <option value="007">Jakarta (HQ)</option>
+                                                @foreach(\App\Models\DophomebaseMaster::where('status', '1')->orderBy('id', 'asc')->get() as $item)
                                                     <option value="{{$item->id}}">{{$item->nama_dop}}</option>
                                                 @endforeach
-                                            </select> -->
+                                            </select>
 
                                             @error('location')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -114,7 +92,7 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Dimension (H/L/W)</label>
-                                            <input type="text"  class="form-control"  wire:model="dimension" readonly>
+                                            <input type="text"  class="form-control"  wire:model="dimension" >
                                            
 
                                             @error('dimension')
@@ -123,9 +101,28 @@
                                         </div>
 
                                         <div class="col-md-6 form-group">
-                                            <label>Detail</label>
-                                            <input type="text"  class="form-control"  wire:model="detail" readonly>
-                                           
+                                            <label>Reference Picture</label>
+                                            <input type="file" class="form-control" name="file" wire:model="file" />
+                                            @if($file)
+                                            <img src="<?php echo asset('storage/Asset_database/'.$file); ?>" class="img-rounded" alt="" width="160" height="90">
+                                            @endif
+                                            @error('file')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>Link</label>
+                                            <input type="text"  class="form-control"  wire:model="link" >
+                                            @error('link')
+                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                            @enderror
+
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label>Detail Asset</label>
+                                            <textarea name="" id="" cols="30" rows="6" class="form-control"  wire:model="detail"></textarea>
 
                                             @error('detail')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
@@ -133,41 +130,21 @@
                                         </div>
 
                                         <div class="col-md-6 form-group">
-                                            <label>Quantity</label> <span style="color: red;"> Stok : <b>{{ $stock }}</b></span>
-                                            <input type="number" max="{{ $stock }}" class="form-control"  wire:model="quantity" required>
-                                           
+                                            <label>Reason Request</label>
+                                            <textarea name="" id="" cols="30" rows="6" class="form-control"  wire:model="reason_request"></textarea>
 
-                                            @error('quantity')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-12 form-group">
-                                            <label>Reason of Request</label>
-                                            <textarea name="" id="" cols="30" rows="2" class="form-control" wire:model="reason_request"></textarea>
-                                           
-
-                                            @error('request_reason')
+                                            @error('detail')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
 
                                         <div class="col-md-6 form-group">
-                                            <label>Reference Picture</label>
-                                            @if($reference_pic)
-                                            <img src="<?php echo asset('storage/Asset_Database/'.$reference_pic); ?>" class="img-rounded" alt="" width="304" height="236">
-                                            @endif
-                                            <!-- <input type="file" class="form-control" name="file" wire:model="file" />
-                                            @error('file')
+                                            <label>Serial Number</label>
+                                            <input type="text"  class="form-control"  wire:model="link" >
+                                            @error('link')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror -->
-                                        </div>
+                                            @enderror
 
-                                        <div class="col-md-6 form-group">
-                                            <label>Link</label>
-                                            @if($link)
-                                            <a href="{{ $link }}">Link</a>
-                                            @endif
                                         </div>
 
                                        

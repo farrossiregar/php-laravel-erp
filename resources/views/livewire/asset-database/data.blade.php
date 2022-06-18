@@ -63,9 +63,9 @@
                         <th rowspan="2" class="align-middle"></th>
                         <th rowspan="2" class="align-middle">Date Create</th>
                         <th rowspan="2" class="align-middle">Asset Status</th>
-                        <!-- <th rowspan="2" class="align-middle">Expired Date</th> -->
+                        <th rowspan="2" class="align-middle">Expired Date</th>
                         
-                        <th colspan="6" class="text-center align-middle">1. Detail Asset</th>
+                        <th colspan="8" class="text-center align-middle">1. Detail Asset</th>
                         <th colspan="3" class="text-center align-middle">2. Asset Request</th> 
                         <th colspan="3" class="text-center align-middle">3. Asset Transfer</th> 
                         
@@ -77,7 +77,8 @@
                         <th class="align-middle">Region - Sub Region</th> 
                         <th class="align-middle">Serial Number</th> 
                         <th class="align-middle">Expired Date</th> 
-                        <!-- <th class="align-middle">Location</th>  -->
+                        <th class="align-middle">Location</th> 
+                        <th class="align-middle">PIC</th> 
 
                         
                         <th class="align-middle">2.1. Request ID</th> 
@@ -100,7 +101,11 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>
-                            <input type="checkbox">
+                            
+                            <input type="checkbox"  wire:click="checkdata({{ $item->id }})" wire:model="data_id.{{ $item->id }}" />
+                            <!-- <a href="javascript:;" class="btn btn-danger"><i class="fa fa-close"></i></a>
+                            <a href="javascript:;" class="btn btn-success"><i class="fa fa-check"></i></a> -->
+                            
                         </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         
@@ -112,7 +117,7 @@
                             @endif
                         </td>
 
-                        <!-- <td>
+                        <td>
                             <?php
                                 $diff    = abs(strtotime(date('Y-m-d H:i:s')) - strtotime(date_format(date_create($item->expired_date), 'Y-m-d H:i:s')));
                                 $years   = floor($diff / (365*60*60*24)); 
@@ -126,10 +131,14 @@
                                 }else{
                                     echo '<b>'.date_format(date_create($item->expired_date), 'd M Y').'</b>';
                                 }
+                                // echo date_format(date_create($item->expired_date), 'd M Y');
                             ?>
-                        </td> -->
+                        </td>
                         
-                        <td><a href="javascript:;" wire:click="$emit('modaldetailasset', '{{$item->id}}')"><i class="fa fa-edit"></i> {{ $item->asset_name }}</a></td>
+                        <td>
+                            <!-- <a href="javascript:;" wire:click="$emit('modaldetailasset', '{{$item->id}}')"><i class="fa fa-edit"></i> {{ $item->asset_name }}</a> -->
+                            {{ $item->asset_name }}
+                        </td>
                         <td>
                             @if($item->asset_type == '1')
                                 Air Conditioner & Fan

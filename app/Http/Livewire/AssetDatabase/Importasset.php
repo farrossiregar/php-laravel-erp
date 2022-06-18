@@ -12,7 +12,7 @@ class Importasset extends Component
 {
 
     use WithFileUploads;
-    public $file, $selected_id, $filtermonth, $filteryear, $filterproject;
+    public $file, $selected_id, $filtermonth, $filteryear, $filterproject, $project, $region;
 
     
     public function render()
@@ -31,6 +31,8 @@ class Importasset extends Component
             'file'=>'required|mimes:xls,xlsx|max:51200' // 50MB maksimal
         ]);
 
+        
+
         $path = $this->file->getRealPath();
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $data = $reader->load($path);
@@ -42,6 +44,7 @@ class Importasset extends Component
             $total_success = 0;
 
             foreach($sheetData as $key => $i){
+                
                 if($key<1) continue; // skip header
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
@@ -49,25 +52,31 @@ class Importasset extends Component
                 if($i[0]!="") continue;
                 
                 $data = new \App\Models\AssetDatabase();
-                if($i[1] == 'HUP')
-                    $company = '1';
-                else
-                    $company = '2';
+                // if($i[1] == 'HUP')
+                //     $company = '1';
+                // else
+                //     $company = '2';
                 
-                $data->company_id                       = $company;
-                $data->region                           = $i[3];
-                if($i[4] == 'Air Conditioner & Fan')
+                // $data->company_id                       = $company;
+                $data->company_id                       = Session::get('company_id');
+                $data->region                           = $this->region;
+                $data->project                          = $this->project;
+                if($i[1] == 'Air Conditioner & Fan')
                     $assettype = '1';
-                elseif($i[4] == 'Furniture & Fixture')
+                elseif($i[1] == 'Furniture & Fixture')
                     $assettype = '2';
-                elseif($i[4] == 'Computer Equipment')
+                elseif($i[1] == 'Computer Equipment')
                     $assettype = '3';
                 else $assettype = '4';
                 
                 $data->asset_type                       = $assettype;
-                $data->asset_name                       = $i[5];
-                $data->expired_date                     = $i[6];
-                $data->project                          = \App\Models\ClientProject::where('name', $i[2])->first()->id;
+                $data->asset_name                       = $i[2];
+                $data->expired_date                     = $i[3];
+                $data->serial_number                    = $i[4];
+                $data->pic                              = $i[5];
+                
+                dd('import');
+                // $data->project                          = \App\Models\ClientProject::where('name', $i[2])->first()->id;
                 $data->save();
 
                 $total_success++;
@@ -99,24 +108,18 @@ class Importasset extends Component
        
         // $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setSize(16);
         $objPHPExcel->getActiveSheet()->getStyle('A1')->getAlignment()->setWrapText(false);
+                   
 
         $objPHPExcel->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'NO')
-                    ->setCellValue('B1', 'Company')
-                    ->setCellValue('C1', 'Project')
-                    ->setCellValue('D1', 'Region')
-                    ->setCellValue('E1', 'Asset Type')
-                    ->setCellValue('F1', 'Asset Name')
-                    ->setCellValue('G1', 'Expired Date (YYYY-MM-DD)');
-                    // ->setCellValue('G1', 'Serial Number')
-                    // ->setCellValue('H1', 'Dimension')
-                    // ->setCellValue('I1', 'Detail');
+                        ->setCellValue('A1', 'NO')
+                        ->setCellValue('B1', 'Asset Type')
+                        ->setCellValue('C1', 'Asset Name')
+                        ->setCellValue('D1', 'Expired Date (YYYY-MM-DD)')
+                        ->setCellValue('E1', 'Serial Number')
+                        ->setCellValue('F1', 'PIC');
                     
-        
-        // $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('ffcfcf');
-        // $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->getFont()->setBold( true );
-        $objPHPExcel->getActiveSheet()->getStyle('A1:G1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A1:G1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
         // $objPHPExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(34);
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
@@ -124,12 +127,11 @@ class Importasset extends Component
         $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
-        // $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
-        // $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+        // $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+        
         
         //$objPHPExcel->getActiveSheet()->freezePane('A4');
-        $objPHPExcel->getActiveSheet()->setAutoFilter('A1:G1');
+        $objPHPExcel->getActiveSheet()->setAutoFilter('A1:F1');
         
         $num=2;
 
@@ -163,35 +165,6 @@ class Importasset extends Component
         },'Sample_AssetDatabase-'.$company_name.'.xlsx');
 
 
-
-        
-        // session()->flash('message-success',"Insiden Report Berhasil diupload");
-        // require 'vendor/autoload.php';
-
-
-        // $spreadsheet = new Spreadsheet();
-        // $sheet = $spreadsheet->getActiveSheet();
-        // $sheet->setCellValue('A1', 'Hello World !');
-
-        // $writer = new Xlsx($spreadsheet);
-        // $writer->save('hello world.xlsx');
-
-
-        // $filename = 'export.xlsx';
-        // // here is generated a "normal" file download response of Laravel
-        // return Excel::download(new CustomExcelExport(), $filename);
-        // // return redirect()->route('dana-stpl.index');
-        // // dd('download');
-
-        // return Storage::disk('exports')->download('export.csv');
-
-        // Excel::create('Filename', function($excel) {
-
-        // })->download('xls');
-
-        // return response()->download('export.csv');
-
-        // return (new \App\Models\DanaStplReport($download))->download('EPL.DanaStplReport.xlsx');
     }
 
 
