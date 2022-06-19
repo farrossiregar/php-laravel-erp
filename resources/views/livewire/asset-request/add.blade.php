@@ -81,7 +81,7 @@
                                                 <option value="" selected>-- Location --</option>
                                                 <option value="007">Jakarta (HQ)</option>
                                                 @foreach(\App\Models\DophomebaseMaster::where('status', '1')->orderBy('id', 'asc')->get() as $item)
-                                                    <option value="{{$item->id}}">{{$item->nama_dop}}</option>
+                                                    <option value="{{$item->nama_dop}}">{{$item->nama_dop}}</option>
                                                 @endforeach
                                             </select>
 
@@ -104,7 +104,7 @@
                                             <label>Reference Picture</label>
                                             <input type="file" class="form-control" name="file" wire:model="file" />
                                             @if($file)
-                                            <img src="<?php echo asset('storage/Asset_database/'.$file); ?>" class="img-rounded" alt="" width="160" height="90">
+                                            <i class="fa fa-check " style="color: #22af46;"></i>
                                             @endif
                                             @error('file')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>

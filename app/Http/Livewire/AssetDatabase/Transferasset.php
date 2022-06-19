@@ -11,7 +11,7 @@ use DateTime;
 use Auth;
 
 
-class Add extends Component
+class Transferasset extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -22,39 +22,7 @@ class Add extends Component
     public function render()
     {
 
-        $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-        
-        $this->employee_name = $user->name;
-        $this->position = get_position($user->user_access_id);
-        // $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
-        // $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
-
-        $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
-                                ->where('company_id', Session::get('company_id'))
-                                ->where('is_project', '1')
-                                ->get();
-
-        $project_arr = [];
-        foreach(\Auth::user()->employee->employee_project as  $k => $i) $project_arr[] = $i->client_project_id;
-
-        //$employee_project = \App\Models\EmployeeProject::where('employee_id', Auth::user()->id)->first();
-
-        $get_project = \App\Models\ClientProject::whereIn('id', $project_arr)->first();
-        $this->project = $get_project->name;
-
-        $this->region = \App\Models\Region::where('id', $get_project->region_id)->first()->region_code;
-
-        $this->datalocation = \App\Models\DophomebaseMaster::where('status', '1')->where('project', $get_project->name)->where('region', $this->region)->orderBy('id', 'desc')->get();
-
-        if($this->asset_type){
-            $this->dataassetname = \App\Models\AssetDatabase::where('asset_type', $this->asset_type)->get();
-        }else{
-            $this->dataassetname = [];
-        }
-
-       
-        
-        return view('livewire.asset-database.add');
+        return view('livewire.asset-database.transferasset');
     }
 
   

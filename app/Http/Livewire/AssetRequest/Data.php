@@ -16,10 +16,7 @@ class Data extends Component
     
     public function render()
     {
-        $data = \App\Models\AssetRequest::where('company_name', Session::get('company_id'))->orderBy('created_at', 'desc');
-        
-        // if($this->filteryear) $data->whereYear('date',$this->filteryear);
-        // if($this->filtermonth) $data->whereMonth('date',$this->filtermonth);                
+        $data = \App\Models\AssetDatabase::where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');                
         
         if($this->date) $data->where(DB::Raw('date(created_at)'),$this->date);                        
         if($this->filterproject) $data->where('client_project_id',$this->filterproject);                        

@@ -38,8 +38,8 @@
 
 
 
-    <div class="col-md-2" >
-        <a href="javascript:;" wire:click="$emit('modalimportasset')" class="btn btn-info"><i class="fa fa-upload"></i> Upload Asset Database </a>
+    <div class="col-md-1" >
+        <a href="javascript:;" wire:click="$emit('modalimportasset')" class="btn btn-info"><i class="fa fa-upload"></i> Upload Asset </a>
     </div> 
 <!-- 
     <div class="col-md-2">
@@ -47,8 +47,23 @@
     </div>  
      -->
 
-     <div class="col-md-2">
-        <a href="javascript:;" wire:click="$emit('modaladdassetdatabase')" class="btn btn-info"><i class="fa fa-plus"></i> Transfer Request </a>
+     <div class="col-md-1">
+        @if($select == false)
+        <a href="javascript:;" wire:click="selectasset" class="btn btn-info"><i class="fa fa-plus"></i> Transfer Request </a>
+        @endif
+        
+        @if($select == true)
+        <div class="row">
+            <div class="col-md-6">
+                <a href="javascript:;" wire:click="$emit('modaltransferasset')" class="btn btn-success"><i class="fa fa-plus"></i> Add</a>
+            </div>
+            <div class="col-md-6">
+                <a href="javascript:;" wire:click="closetransfer" class="btn btn-danger"><i class="fa fa-close"></i> Close</a>
+            </div>
+        </div>
+        
+        
+        @endif
     </div>  
     
     
@@ -60,24 +75,27 @@
 
                     <tr>
                         <th rowspan="2" class="align-middle">No</th>
+                        @if($select == true)
                         <th rowspan="2" class="align-middle"></th>
+                        @endif
                         <th rowspan="2" class="align-middle">Date Create</th>
                         <th rowspan="2" class="align-middle">Asset Status</th>
                         <th rowspan="2" class="align-middle">Expired Date</th>
                         
-                        <th colspan="8" class="text-center align-middle">1. Detail Asset</th>
+                        <th colspan="7" class="text-center align-middle">1. Detail Asset</th>
                         <th colspan="3" class="text-center align-middle">2. Asset Request</th> 
                         <th colspan="3" class="text-center align-middle">3. Asset Transfer</th> 
                         
                     </tr>
                     <tr>
-                        <th class="align-middle">1.1. Asset Name</th> 
-                        <th class="align-middle">Asset Type</th> 
                         <th class="align-middle">Project</th> 
-                        <th class="align-middle">Region - Sub Region</th> 
-                        <th class="align-middle">Serial Number</th> 
-                        <th class="align-middle">Expired Date</th> 
+                        <th class="align-middle">Region</th> 
                         <th class="align-middle">Location</th> 
+
+                        <th class="align-middle">Asset Name</th> 
+                        <th class="align-middle">Asset Type</th> 
+                        <th class="align-middle">Serial Number</th> 
+                        
                         <th class="align-middle">PIC</th> 
 
                         
@@ -100,13 +118,13 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
+                        @if($select == true)
                         <td>
-                            
+                            @if($item->pic == '')
                             <input type="checkbox"  wire:click="checkdata({{ $item->id }})" wire:model="data_id.{{ $item->id }}" />
-                            <!-- <a href="javascript:;" class="btn btn-danger"><i class="fa fa-close"></i></a>
-                            <a href="javascript:;" class="btn btn-success"><i class="fa fa-check"></i></a> -->
-                            
+                            @endif
                         </td>
+                        @endif
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                         
                         <td>
@@ -135,6 +153,10 @@
                             ?>
                         </td>
                         
+                        <td>{{ \App\Models\ClientProject::where('id', $item->project)->first()->name }}</td>
+                        <td>{{ $item->region }}</td>
+                        <td>{{ $item->location }}</td>
+
                         <td>
                             <!-- <a href="javascript:;" wire:click="$emit('modaldetailasset', '{{$item->id}}')"><i class="fa fa-edit"></i> {{ $item->asset_name }}</a> -->
                             {{ $item->asset_name }}
@@ -158,12 +180,8 @@
 
                         </td>
                         
-                        
-                        
-                        <td>{{ \App\Models\ClientProject::where('id', $item->project)->first()->name }}</td>
-                        <td>{{ $item->region }} - {{ $item->region }}</td>
-                        <td>{{ $item->region }}</td>
-                        <td>{{ $item->region }}</td>
+                        <td>{{ $item->serial_number }}</td>
+                        <td>{{ $item->pic }}</td>
                         <!-- <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td> -->
                         <!-- <td>{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</td> -->
 

@@ -17,8 +17,6 @@ class Importasset extends Component
     
     public function render()
     {
-        
-      
         return view('livewire.asset-database.importasset');
         
     }
@@ -45,19 +43,14 @@ class Importasset extends Component
 
             foreach($sheetData as $key => $i){
                 
+
                 if($key<1) continue; // skip header
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
               
-                if($i[0]!="") continue;
+                // if($i[0]!="") continue;
                 
-                $data = new \App\Models\AssetDatabase();
-                // if($i[1] == 'HUP')
-                //     $company = '1';
-                // else
-                //     $company = '2';
-                
-                // $data->company_id                       = $company;
+                $data                                   = new \App\Models\AssetDatabase();
                 $data->company_id                       = Session::get('company_id');
                 $data->region                           = $this->region;
                 $data->project                          = $this->project;
@@ -74,8 +67,8 @@ class Importasset extends Component
                 $data->expired_date                     = $i[3];
                 $data->serial_number                    = $i[4];
                 $data->pic                              = $i[5];
+                // dd('test4');
                 
-                dd('import');
                 // $data->project                          = \App\Models\ClientProject::where('name', $i[2])->first()->id;
                 $data->save();
 

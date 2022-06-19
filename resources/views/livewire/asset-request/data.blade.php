@@ -27,15 +27,16 @@
     <div class="col-md-12">
         <br><br>
         <div class="table-responsive">
-            <table class="table table-striped m-b-0 c_list">
+            <table class="table table-striped table-bordered m-b-0 c_list">
                 <thead>
 
                     <tr>
                         <th class="align-middle">No</th>
-                        <th class="align-middle">Status</th> 
                         <th class="align-middle">Action</th> 
                         <th class="align-middle">Date Create</th>
-                        <th class="align-middle">Company</th>
+                        <th class="align-middle">Request Status</th> 
+                        
+                        <!-- <th class="align-middle">Company</th> -->
                         <!-- <th class="align-middle">User Request</th> 
                         <th class="align-middle">NIK</th>  -->
                         <th class="align-middle">Project</th> 
@@ -52,7 +53,6 @@
                         <th class="align-middle">Serial Number</th> 
                      
                         <th class="align-middle">Detail</th> 
-                        <!-- <th class="align-middle">Qty</th> -->
                         <th class="align-middle">Reason</th> 
                         
                     </tr>
@@ -62,6 +62,19 @@
                     @foreach($data as $key => $item)
                     <tr>
                         <td>{{ $key + 1 }}</td>
+                        <td>
+                            @if(check_access('asset-request.hq-ga'))
+                                @if($item->status == '')
+                                   
+                                    <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                @endif
+
+                            @endif
+                        </td>
+                        <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
+                       
+                        
                         <td>
                             <a href="javascript:;" wire:click="$emit('modalapprovalhistoryassetrequest','{{ $item->id }}')">
                             @if($item->status == '1')
@@ -77,25 +90,12 @@
                                 <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
                             @endif
                         </td>
-                        <td>
-                            @if(check_access('asset-request.hq-ga'))
-                                @if($item->status == '')
-                                   
-                                    <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
-                                @endif
-
-                            @endif
-
-
-                            
-                        </td>
-                        <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
+                        
                         <!-- <td>{{ $item->name }}</td>
 
                         <td>{{ $item->nik }}</td> -->
-                        <td></td>
-                        <td>{{ $item->project }}</td>
+                        
+                        <td>{{ \App\Models\ClientProject::where('id', $item->project)->first()->name }}</td>
                         <td>{{ $item->region }}</td>
                         <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td>
                         <td>{{ $item->dimension }}</td>

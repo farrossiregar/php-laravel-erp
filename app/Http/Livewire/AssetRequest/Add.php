@@ -75,20 +75,15 @@ class Add extends Component
         // $user                           = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
         $data                           = new \App\Models\AssetDatabase();
         $data->company_id               = Session::get('company_id');
-        // $data->client_project_id        = \App\Models\ClientProject::where('name', $this->project)->first()->id;
-        $data->project                  = $this->project;
-        
-        
+        $data->project                  = $this->project;      
         $data->region                   = $this->region;
         // $data->name                     = $this->employee_name;
         // $data->nik                      = $user->nik;
         $data->asset_type               = $this->asset_type;
         $data->asset_name               = $this->asset_name;
         $data->location                 = $this->location;
-        
         $data->dimension                = $this->dimension;
         $data->detail                   = $this->detail;
-        
         $data->reason_request           = $this->reason_request;
         $this->validate([
             'file'=>'required|mimes:jpg,jpeg,png|max:51200' // 50MB maksimal
@@ -103,13 +98,6 @@ class Add extends Component
         $data->link                     = $this->link;
         
         $data->save();
-
-        
-        // $stock          = \App\Models\AssetDatabase::where('asset_name', $this->asset_name)->first();
-        // $sisa           = $stock->stok - $this->quantity;
-        // $stock->stok    = $sisa;
-        // $stock->save();
-        
 
         // $notif = get_user_from_access('asset-request.hq-ga');
         // foreach($notif as $user){

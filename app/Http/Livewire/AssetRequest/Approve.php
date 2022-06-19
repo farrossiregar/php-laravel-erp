@@ -32,7 +32,7 @@ class Approve extends Component
     public function save()
     {
         $type_approve = $this->selected_id;
-        $data = \App\Models\AssetRequest::where('id', $this->selected_id)->first();
+        $data = \App\Models\AssetDatabase::where('id', $this->selected_id)->first();
         if($type_approve[1] == '1'){
             $data->status = '1';
         }else{

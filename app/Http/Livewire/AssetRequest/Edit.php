@@ -46,7 +46,7 @@ class Edit extends Component
     {
 
         // $user                           = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-        $data                           = \App\Models\AssetRequest::where('id', $this->selected_id)->first();
+        $data                           = \App\Models\AssetDatabase::where('id', $this->selected_id)->first();
         
         $data->dana_from                = $this->dana_from;
         $data->pr_no                    = $this->pr_no;

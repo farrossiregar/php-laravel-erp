@@ -32,6 +32,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-assetdatabase-transferasset" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:asset-database.transferasset />
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modal-assetdatabase-detailasset" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -129,6 +137,10 @@
 
     Livewire.on('modalimportasset',(data)=>{
         $("#modal-assetdatabase-importasset").modal('show');
+    });
+
+    Livewire.on('modaltransferasset',(data)=>{
+        $("#modal-assetdatabase-transferasset").modal('show');
     });
 
 
