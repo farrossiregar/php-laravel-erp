@@ -20,50 +20,10 @@ class Add extends Component
     use WithFileUploads;
     public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $position, $datalocation, $dataassetname, $stock;
     public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link, $reference_pic;
+    public $serial_number;
 
     public function render()
     {
-
-        // $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-        
-        // $this->employee_name        = $user->name;
-        // $this->position             = get_position($user->user_access_id);
-        // $this->location             = '';
-        // $this->dataproject = \App\Models\ClientProject::orderBy('id', 'desc')
-        //                         ->where('company_id', Session::get('company_id'))
-        //                         ->where('is_project', '1')
-        //                         ->get();
-
-        
-
-        // $get_project = \App\Models\ClientProject::where('id', \App\Models\EmployeeProject::where('employee_id', Auth::user()->id)->first()->client_project_id)->first();
-        // $this->project = $get_project->name;
-
-        // $this->region = \App\Models\Region::where('id', $get_project->region_id)->first()->region_code;
-
-        // $this->datalocation = \App\Models\DophomebaseMaster::where('status', '1')->where('project', $get_project->name)->where('region', $this->region)->orderBy('id', 'desc')->get();
-
-        // if($this->asset_type){
-        //     $this->dataassetname = \App\Models\AssetDatabase::where('asset_type', $this->asset_type)->get();
-        // }else{
-        //     $this->dataassetname = [];
-        // }
-
-        // if($this->asset_name){
-        //     $getasset = \App\Models\AssetDatabase::where('asset_name', $this->asset_name)->first();
-        //     $this->location             = @\App\Models\DophomebaseMaster::where('id', $getasset->location)->first()->nama_dop;
-        //     $this->dimension            = @$getasset->dimension;
-        //     $this->detail               = $getasset->detail;
-        //     $this->stock                = (int)$getasset->stok;
-        //     $this->reference_pic        = $getasset->reference_pic;
-            
-        // }else{
-        //     $this->location             = '';
-        //     $this->dimension            = '';
-        //     $this->detail               = '';
-        //     $this->Stock                = 0;
-        //     $this->reference_pic        = '';
-        // }
 
         return view('livewire.asset-request.add');
     }
@@ -77,14 +37,13 @@ class Add extends Component
         $data->company_id               = Session::get('company_id');
         $data->project                  = $this->project;      
         $data->region                   = $this->region;
-        // $data->name                     = $this->employee_name;
-        // $data->nik                      = $user->nik;
         $data->asset_type               = $this->asset_type;
         $data->asset_name               = $this->asset_name;
         $data->location                 = $this->location;
         $data->dimension                = $this->dimension;
         $data->detail                   = $this->detail;
         $data->reason_request           = $this->reason_request;
+        $data->serial_number            = $this->serial_number;
         $data->source_asset             = 'request';
         $this->validate([
             'file'=>'required|mimes:jpg,jpeg,png|max:51200' // 50MB maksimal

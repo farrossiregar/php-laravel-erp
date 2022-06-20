@@ -56,34 +56,29 @@ class Data extends Component
         if($check->remarks == '1'){
             $check->remarks = '';
 
-            $delete             = \App\Models\AssetTransferRequestdetail::where('user_id', \Auth::user()->id)->where('asset_id', $check->id)->first();
+            $delete             = \App\Models\AssetTransferRequestdetail::whereNull('id_transfer')->where('user_id', \Auth::user()->id)->where('asset_id', $check->id)->first();
             $delete->delete();
         }else{
             $check->remarks = '1';
 
-            $add                = new \App\Models\AssetTransferRequestdetail();
-            $add->user_id       = \Auth::user()->id;
-            $add->asset_id      = $id;
-            $add->asset_name    = $check->asset_name;
-            $add->save();
+            $check_asset        = \App\Models\AssetTransferRequestdetail::whereNull('id_transfer')->where('user_id', \Auth::user()->id)->where('asset_id', $check->id)->first();
+            if(!$check_asset){
+                $add                = new \App\Models\AssetTransferRequestdetail();
+                $add->user_id       = \Auth::user()->id;
+                $add->asset_id      = $id;
+                $add->asset_name    = $check->asset_name;
+                $add->save();
+            }
         }
         $check->save();
         
     }
 
-    // public function addtransfer(){
-    //     $this->select = true;
-    // }
 
     public function closetransfer(){
-        // $check = \App\Models\AssetDatabase::where('remarks', '=', 1)->update(array('remarks' => ''));
-        // $check->save();
-
-        $delete             = \App\Models\AssetTransferRequestDetail::where('user_id', \Auth::user()->id)->delete();
-        
-        // $delete->delete();
-
-
+        $updateremarks      = \App\Models\AssetDatabase::where('remarks', '=', 1)->update(array('remarks' => ''));
+    
+        $delete             = \App\Models\AssetTransferRequestDetail::whereNull('id_transfer')->where('user_id', \Auth::user()->id)->delete();
         
         
         $this->select = false;

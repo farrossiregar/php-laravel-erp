@@ -32,7 +32,7 @@
                         <th class="align-middle">Transfer ID</th>
                         <th class="align-middle">Detail Asset</th>
                         <th class="align-middle">Transfer From</th> 
-                        <th class="align-middle">Transfer To</th> 
+                        <th class="align-middle">Transfer To / Location</th> 
                         <th class="align-middle">Reason for Transfering</th> 
                         <!-- <th class="align-middle">Dana Transfer</th>  -->
                     </tr>
@@ -59,17 +59,17 @@
 
                             <!-- endif -->
 
-                            <!-- if(check_access('asset-transfer-request.ga-admin')) -->
-                                @if(count($check) < 1)
+                            <!-- if(check_access('asset-transfer-request.ga-admin'))
+                                if(count($check) < 1)
                                     <a href="javascript:;" wire:click="$emit('modaladdassettransferrequest','{{ $item->id_asset_req }}')" class="btn btn-info"><i class="fa fa-plus"></i> Apply Request </a>
-                                @endif
-                            <!-- endif -->
+                                endif
+                            endif -->
 
-                            <!-- if(check_access('asset-transfer-request.ga-admin')) -->
-                                @if(@$data->status == '1')
+                            <!-- if(check_access('asset-transfer-request.ga-admin'))
+                                if(@$data->status == '1')
                                     <a href="javascript:;" wire:click="$emit('modaleditassettransferrequest', ['{{ $data->id }}', '{{ $item->id_asset_req }}'])" class="btn btn-info"><i class="fa fa-plus"></i> Transfer </a>
-                                @endif
-                            <!-- endif -->
+                                endif
+                            endif -->
 
                         </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
@@ -92,13 +92,17 @@
                         </td>
                         <td><b>{{ strtoupper($item->transfer_id) }}</b> </td>
                         <td>
-                            <a href="javascript:;" wire:click="$emit('modaldetailassetrequest','{{ $item->id_asset_req }}')"><i class="fa fa-eye " style="color: #007bff;"></i></a>
+                            <!-- <a href="javascript:;" wire:click="$emit('modaldetailassetrequest','{{ $item->id_asset_req }}')"><i class="fa fa-eye " style="color: #007bff;"></i></a> -->
+                            @foreach(\App\Models\AssetTransferRequestDetail::where('id_transfer', $item->transfer_id)->get() as $items)
+                                {{ $items->asset_name }}<br>
+                            @endforeach
                         </td>
                         
-                        <!-- <td>{{ "Rp " . number_format($item->dana_amount,2,',','.') }}</td> -->
-                        <!-- <td>{{ "Rp " . number_format($item->amount_transfer,2,',','.') }}</td> -->
                         <td>{{ $item->transfer_from }}</td>
-                        <td>{{ $item->transfer_to }}</td>
+                        <td>
+                            {{ $item->transfer_to }}<br>
+                            <b>{{ $item->location }}</b>
+                        </td>
                         <td>{{ $item->transfer_reason }}</td>
                         
                        

@@ -140,7 +140,7 @@
 
                                         <div class="col-md-6 form-group">
                                             <label>Serial Number</label>
-                                            <input type="text"  class="form-control"  wire:model="link" >
+                                            <input type="text"  class="form-control"  wire:model="serial_number" >
                                             @error('link')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror

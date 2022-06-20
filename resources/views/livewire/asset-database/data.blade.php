@@ -82,22 +82,22 @@
                         <th rowspan="2" class="align-middle">Asset Status</th>
                         <th rowspan="2" class="align-middle">Expired Date</th>
                         
-                        <th colspan="7" class="text-center align-middle">1. Detail Asset</th>
+                        <th colspan="6" class="text-center align-middle">1. Detail Asset</th>
                         <!-- <th colspan="3" class="text-center align-middle">2. Asset Request</th>  -->
-                        <th colspan="3" class="text-center align-middle">3. Asset Transfer</th> 
+                        <!-- <th colspan="3" class="text-center align-middle">3. Asset Transfer</th>  -->
                         
                     </tr>
                     <tr>
                         <th class="align-middle">Project</th> 
                         <th class="align-middle">Region</th> 
-                        <th class="align-middle">Location</th> 
+                        <!-- <th class="align-middle">Location</th>  -->
                         <th class="align-middle">Asset Name</th> 
                         <th class="align-middle">Asset Type</th> 
                         <th class="align-middle">Serial Number</th> 
                         <th class="align-middle">PIC</th> 
-                        <th class="align-middle">3.1. Transfer ID</th> 
+                        <!-- <th class="align-middle">3.1. Transfer ID</th> 
                         <th class="align-middle">Asset PIC</th>
-                        <th class="align-middle">3.2 Transfer Status</th>  
+                        <th class="align-middle">3.2 Transfer Status</th>   -->
                     </tr>
                    
                 </thead>
@@ -142,7 +142,7 @@
                         
                         <td>{{ \App\Models\ClientProject::where('id', $item->project)->first()->name }}</td>
                         <td>{{ $item->region }}</td>
-                        <td>{{ $item->location }}</td>
+                        <!-- <td>{{ $item->location }}</td> -->
 
                         <td>
                             <!-- <a href="javascript:;" wire:click="$emit('modaldetailasset', '{{$item->id}}')"><i class="fa fa-edit"></i> {{ $item->asset_name }}</a> -->
@@ -227,7 +227,7 @@
                         <!-- <td><a href="javascript:;" wire:click="$emit('modaldetailimage','{{ $item->id }}')"><i class="fa fa-eye"></i></a></td> -->
 
                         
-                        <td>
+                        <!-- <td>
                             @if($item->pic)
                                 <a href="javascript:;" wire:click="$emit('modaldetailtransfer', '{{$item->id}}')"><i class="fa fa-edit"></i> {{ $item->transfer_id }}  </a>
                             @else
@@ -254,7 +254,7 @@
                                         <a href="javascript:;" wire:click="$emit('modaldeclineassettrans','{{ $item->id }}')"><i class="fa fa-close " style="color: #de4848;"></i></a> 
                                 @endif
                             @endif
-                        </td>
+                        </td> -->
                     </tr>
                     
                     
