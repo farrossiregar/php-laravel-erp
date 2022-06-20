@@ -12,18 +12,18 @@ class Data extends Component
 {
     use WithPagination;
     public $project, $date, $region, $category, $employee_name,  $data_id;
-    public $select=false;
+    public $select=false, $is_regional=true;
     protected $paginationTheme = 'bootstrap';
 
     
     public function render()
     {
-
-        // dd(\Auth::user()->id);
-        $data = \App\Models\AssetDatabase::where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
-        
-        // if($this->filteryear) $data->whereYear('date',$this->filteryear);
-        // if($this->filtermonth) $data->whereMonth('date',$this->filtermonth);                
+        if($this->is_regional == true){
+            $region_user = \App\Models\Region::where('id', \App\Models\Employee::where('nik', \Auth::user()->nik)->first()->region_id)->first()->region;
+            $data = \App\Models\AssetDatabase::where('region', $region_user)->where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
+        }else{
+            $data = \App\Models\AssetDatabase::where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
+        }            
         
         if($this->date) $data->where(DB::Raw('date(created_at)'),$this->date);                        
         if($this->project) $data->where('project',$this->project);                        
@@ -76,11 +76,13 @@ class Data extends Component
     // }
 
     public function closetransfer(){
-        $check = \App\Models\AssetDatabase::where('remarks', '=', 1)->update(array('remarks' => ''));
+        // $check = \App\Models\AssetDatabase::where('remarks', '=', 1)->update(array('remarks' => ''));
         // $check->save();
 
-        $delete             = \App\Models\AssetTransferRequestDetail::where('user_id', \Auth::user()->id)->first();
-        $delete->delete();
+        $delete             = \App\Models\AssetTransferRequestDetail::where('user_id', \Auth::user()->id)->delete();
+        
+        // $delete->delete();
+
 
         
         

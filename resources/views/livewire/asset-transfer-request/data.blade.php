@@ -48,7 +48,7 @@
                         ?>
                         <td>{{ $key + 1 }}</td>
                         <td>
-                            @if(check_access('asset-transfer-request.ga'))
+                            <!-- if(check_access('asset-transfer-request.ga')) -->
                                 @if(count($check) > 0)
                                     @if($data->status == '')
                                         <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
@@ -57,19 +57,19 @@
                                     @endif
                                 @endif
 
-                            @endif
+                            <!-- endif -->
 
-                            @if(check_access('asset-transfer-request.ga-admin'))
+                            <!-- if(check_access('asset-transfer-request.ga-admin')) -->
                                 @if(count($check) < 1)
                                     <a href="javascript:;" wire:click="$emit('modaladdassettransferrequest','{{ $item->id_asset_req }}')" class="btn btn-info"><i class="fa fa-plus"></i> Apply Request </a>
                                 @endif
-                            @endif
+                            <!-- endif -->
 
-                            @if(check_access('asset-transfer-request.ga-admin'))
+                            <!-- if(check_access('asset-transfer-request.ga-admin')) -->
                                 @if(@$data->status == '1')
                                     <a href="javascript:;" wire:click="$emit('modaleditassettransferrequest', ['{{ $data->id }}', '{{ $item->id_asset_req }}'])" class="btn btn-info"><i class="fa fa-plus"></i> Transfer </a>
                                 @endif
-                            @endif
+                            <!-- endif -->
 
                         </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>

@@ -85,6 +85,7 @@ class Add extends Component
         $data->dimension                = $this->dimension;
         $data->detail                   = $this->detail;
         $data->reason_request           = $this->reason_request;
+        $data->source_asset             = 'request';
         $this->validate([
             'file'=>'required|mimes:jpg,jpeg,png|max:51200' // 50MB maksimal
         ]);

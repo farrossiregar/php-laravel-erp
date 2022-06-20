@@ -67,6 +67,7 @@ class Importasset extends Component
                 $data->expired_date                     = $i[3];
                 $data->serial_number                    = $i[4];
                 $data->pic                              = $i[5];
+                $data->source_asset                     = 'database';
                 // dd('test4');
                 
                 // $data->project                          = \App\Models\ClientProject::where('name', $i[2])->first()->id;
@@ -109,7 +110,8 @@ class Importasset extends Component
                         ->setCellValue('C1', 'Asset Name')
                         ->setCellValue('D1', 'Expired Date (YYYY-MM-DD)')
                         ->setCellValue('E1', 'Serial Number')
-                        ->setCellValue('F1', 'PIC');
+                        ->setCellValue('F1', 'PIC')
+                        ->setCellValue('F1', 'Location');
                     
         $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);

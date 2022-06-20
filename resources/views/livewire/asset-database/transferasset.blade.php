@@ -15,77 +15,57 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-
-                                      
-
-                                        <div class="col-md-6 form-group">
-                                            <label>Type of Asset</label>
-
-                                            <select onclick="" class="form-control" wire:model="asset_type">
-                                                <option value=""> --- Type of Asset --- </option>
-                                                <option value="1">Air Conditioner & Fan</option>
-                                                <option value="2">Furniture & Fixture</option>
-                                                <option value="3">Computer Equipment</option>
-                                                <option value="4">Printer & Device</option>
-                                            </select>
-
-                                            @error('asset_type')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
+                                        <div class="col-md-6" >
+                                            <div class="form-group" style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px 0; width: 100%; margin: auto;">
+                                                <div class="col-md-12 form-group">
+                                                    <h5>Transfer From</h4>
+                                                </div>
+                                                <br>
+                                                <!-- <input type="text" class="form-control" wire:model="transferid" readonly/> -->
+                                                
+                                                <div class="col-md-12 form-group">
+                                                    <label>PIC</label>
+                                                    <input type="text" class="form-control" wire:model="transfer_from" readonly/>
+                                                    @error('file')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+                                                
+                                            </div>
                                         </div>
 
-                                        <div class="col-md-6 form-group">
-                                            
-                                            <label>Name of Asset</label>
-                                            <input list="asset_name1" class="form-control"  wire:model="asset_name">
-
-                                            @error('asset_name')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
+                                        <div class="col-md-6" >
+                                            <div class="form-group" style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px 0; width: 100%; margin: auto;">
+                                                <div class="col-md-12 form-group">
+                                                    <h5>Transfer To</h4>
+                                                </div>
+                                                <br>
+                                                
+                                                <div class="col-md-12 form-group">
+                                                    <label>PIC</label>
+                                                    <input type="text" class="form-control" wire:model="pic_asset" readonly/>
+                                                    @error('file')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+                                                
+                                            </div>
                                         </div>
 
-                                        
+                                        <br><br>
+                                        <div class="col-md-12" style="margin-top: 15px;">
+                                            <div class="form-group" style="border: 1px solid lightgrey; border-radius: 5px; padding: 10px 0; width: 100%; margin: auto;">
+                                                <div class="col-md-12 form-group">
+                                                    <label>Reason of Transfering</label>
+                                                    <textarea name="" id="" cols="30" rows="2" class="form-control" wire:model="transfer_reason" ></textarea>
+                                                
 
-                                        <div class="col-md-6 form-group">
-                                            <label>Project</label>
-                                            
-                                            <select name="" id="" class="form-control"  wire:model="project">
-                                                <option value="" selected>-- Project --</option>
-                                                @foreach(\App\Models\ClientProject::where('company_id', Session::get('company_id'))
-                                                                        ->where('is_project', '1')
-                                                                        ->get() as $item)
-                                                    <option value="{{$item->id}}">{{$item->name}}</option>
-                                                @endforeach
-                                            </select>
-
-                                            @error('region')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label>Region</label>
-                                            
-                                            <select name="" id="" class="form-control"  wire:model="region">
-                                                <option value="" selected>-- Region --</option>
-                                                @foreach(\App\Models\Region::orderBy('id', 'asc')->get() as $item)
-                                                    <option value="{{$item->region}}">{{$item->region}}</option>
-                                                @endforeach
-                                            </select>
-
-                                            @error('region')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-                                        
-
-                                        <div class="col-md-6 form-group">
-                                            <label>Expired Date</label>
-                                            <input type="date"  class="form-control"  wire:model="expired_date" >
-                                            @error('expired_date')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-
-                                            
+                                                    @error('reason_transfer')
+                                                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                    @enderror
+                                                </div>
+                                                
+                                            </div>
                                         </div>
 
                                     </div>
@@ -113,15 +93,27 @@
                         </tr>
                     </thead> 
                     <tbody>
-                        @foreach(\App\Models\AssetTransferRequestDetail::where('user_id', \Auth::user()->id)->get() as $k => $item)
+                        @foreach(\App\Models\AssetTransferRequestDetail::select('asset_transfer_request_detail.*', 'asset_database.asset_type', 'asset_database.serial_number', 'asset_database.project', 'asset_database.region', 'asset_database.location')->join('asset_database', 'asset_database.id', '=', 'asset_transfer_request_detail.asset_id')->where('asset_transfer_request_detail.user_id', \Auth::user()->id)->get() as $k => $item)
                             <tr>
                                 <td>{{$k+1}}</td>
-                                <th>Asset Type</th>
-                                <th>Asset Name</th>
-                                <th>Serial Number</th>
-                                <th>Project</th>
-                                <th>Region</th>
-                                <th>Location</th>
+                                <td>
+                                    @if($item->asset_type == '1')
+                                        Air Conditioner & Fan
+                                    @endif
+
+                                    @if($item->asset_type == '2')
+                                        Furniture & Fixture
+                                    @endif
+
+                                    @if($item->asset_type == '3')
+                                        Computer Equipment
+                                    @endif
+                                </td>
+                                <td>{{ @$item->asset_name }}</td>
+                                <td>{{ @$item->serial_number }}</td>
+                                <td>{{ @\App\Models\ClientProject::where('id', $item->project)->first()->name }}</td>
+                                <td>{{ @$item->region }}</td>
+                                <td>{{ @\App\Models\DopHomebaseMaster::where('id', $item->location)->first()->nama_dop }}</td>
                             </tr>
                         @endforeach
                        
