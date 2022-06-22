@@ -88,7 +88,7 @@
                 @foreach($data as $item)
                     @if(!isset($item->region->region)) @continue @endif
                     @php($sow = get_setting_sow($item))
-                    @php($daily_target=floor($sow / 24))
+                    @php($daily_target=round($sow / 26))
                     <tr>
                         <td>{{isset($item->region->region) ? $item->region->region : ''}}</td>
                         <td>{{isset($item->sub_region->name) ? $item->sub_region->name : ''}}</td>
@@ -96,13 +96,13 @@
                         <td>{{$item->pm_type}}</td>
                         <td class="text-center">{{$sow}}</td>
                         <td class="text-center">{{$daily_target}}</td>
-                        <td class="text-center">{{$item->open}}</td>
-                        <td class="text-center">{{$item->in_progress}}</td>
-                        <td class="text-center">{{$item->total_submitted}}</td>
+                        <td class="text-center">{{$item->open + $item->open_punchlist}}</td>
+                        <td class="text-center">{{$item->in_progress + $item->in_progress_punchlist}}</td>
+                        <td class="text-center">{{$item->total_submitted+$item->submitted_rec_feat}}</td>
                         <td class="text-center">{{$item->approved_ied}}</td>
                         <td class="text-center">
                             @if(!empty($daily_target) and !empty($item->submitted))
-                                {{@floor(($item->submitted/$daily_target)*100)}}%
+                                {{@floor((($item->submitted)/$daily_target)*100)}}%
                             @else 
                                 0%
                             @endif

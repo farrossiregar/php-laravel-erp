@@ -22,6 +22,10 @@
         <a href="javascript:;" wire:click="$emit('modaladdassetrequest')" class="btn btn-info"><i class="fa fa-plus"></i> Asset Request </a>
     </div>  
     @endif
+
+    <div class="col-md-1" style="margin: 0 10px;">
+        <a href="javascript:;" wire:click="$emit('modaladdassetrequest')" class="btn btn-info"><i class="fa fa-plus"></i> Asset Request </a>
+    </div> 
     
     
     <div class="col-md-12">
@@ -63,11 +67,11 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>
-                            @if(check_access('asset-request.hq-ga'))
+                            @if(check_access('is-hq-ga'))
                                 @if($item->status == '')
                                    
-                                    <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                    <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest',['{{ $item->id }}', '1'])"><i class="fa fa-close " style="color: #de4848;"></i></a>
+                                    <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])" class="badge badge-success badge-active"><i class="fa fa-check"></i> approve</a>
+                                    <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest',['{{ $item->id }}', '1'])" class="badge badge-danger badge-active"><i class="fa fa-close"></i> reject</a>
                                 @endif
 
                             @endif

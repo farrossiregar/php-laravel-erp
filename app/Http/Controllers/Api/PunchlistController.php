@@ -38,6 +38,7 @@ class PunchlistController extends Controller
             $data[$k]['user_circle'] = isset($item->site->region->region) ? $item->site->region->region : '-';;
             $data[$k]['site_id'] = isset($item->site_id) ? $item->site_id : '-';
             $data[$k]['site_name'] = isset($item->site_name) ? $item->site_name : '-';
+            $data[$k]['site'] = isset($item->site_name) ? $item->site_name : '-';
             $data[$k]['site_lat_lng'] = isset($item->site->lat) ? $item->site->lat .'/'. $item->site->long : '-';
             $data[$k]['user_lat_lng'] = isset($item->employee->lat) ? $item->employee->lat .'/'. $item->employee->lng : '-';
             $data[$k]['site_distance'] = '-';

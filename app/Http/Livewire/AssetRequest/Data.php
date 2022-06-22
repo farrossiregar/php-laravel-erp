@@ -17,12 +17,13 @@ class Data extends Component
     
     public function render()
     {
-        if($this->is_regional == true){
-            $region_user = \App\Models\Region::where('id', \App\Models\Employee::where('nik', \Auth::user()->nik)->first()->region_id)->first()->region;
-            $data = \App\Models\AssetDatabase::where('source_asset', 'request')->where('region', $region_user)->where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
-        }else{
-            $data = \App\Models\AssetDatabase::where('source_asset', 'request')->where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
-        }
+        
+        //if($this->is_regional == true){
+          ///  $region_user = @\App\Models\Region::where('id', \App\Models\Employee::where('nik', \Auth::user()->nik)->first()->region_id)->first()->region;
+            //$data = @\App\Models\AssetDatabase::where('source_asset', 'request')->where('region', $region_user)->where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
+        //}else{
+            $data = @\App\Models\AssetDatabase::where('source_asset', 'request')->where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
+        //}
                 
         
         if($this->date) $data->where(DB::Raw('date(created_at)'),$this->date);                        

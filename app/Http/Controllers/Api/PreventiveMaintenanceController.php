@@ -30,9 +30,7 @@ class PreventiveMaintenanceController extends Controller
             $data[$k]['id'] = $item->id;
             $data[$k]['status'] = $item->status;
 
-            if($item->is_upload_report==1){
-                $data[$k]['status'] = $item->is_punch_list==1 ? 4 : 3;
-            }
+            if($item->is_upload_report==1) $data[$k]['status'] = $item->is_punch_list==1 ? 3 : 4;
 
             $data[$k]['user_signum'] = isset($item->employee->employee_code) ? $item->employee->employee_code : '';
             $data[$k]['user_name'] = \Auth::user()->employee->name;

@@ -44,7 +44,7 @@
                                                                 @if(Route::has($action->link))
                                                                     <a href="{{route($action->link)}}?project_id={{$menu->client_project_id}}" class="pl-5">{{$action->name}} {!!$badge_notification!!}</a>
                                                                 @else
-                                                                    <a href="javascript:void(0)" class="pl-5">{{$action->name}} {{$badge_notification}}</a>
+                                                                    <a href="javascript:void(0)" class="pl-5">{{$action->name}} {!!$badge_notification!!}</a>
                                                                 @endif
                                                                 @if($action->is_have_sub_menu==1)
                                                                     <ul>
@@ -126,7 +126,7 @@
                                     @else
                                         <a href="javascript:void(0)" class="has-arrow">
                                     @endif
-                                    {{$menu->name}} {{$badge_notification}}</a>
+                                    {{$menu->name}} {!!$badge_notification!!}</a>
 
                                     @if(\App\Models\ModulesItem::where(['module_id'=>$menu->id,'is_show'=>1])->count()>0)
                                         <ul>

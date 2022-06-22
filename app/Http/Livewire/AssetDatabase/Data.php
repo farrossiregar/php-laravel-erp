@@ -15,15 +15,14 @@ class Data extends Component
     public $select=false, $is_regional=true;
     protected $paginationTheme = 'bootstrap';
 
-    
     public function render()
     {
         if($this->is_regional == true){
-            $region_user = \App\Models\Region::where('id', \App\Models\Employee::where('nik', \Auth::user()->nik)->first()->region_id)->first()->region;
-            $data = \App\Models\AssetDatabase::where('region', $region_user)->where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
-        }else{
+            $region_user = @\App\Models\Region::where('id', \App\Models\Employee::where('nik', \Auth::user()->nik)->first()->region_id)->first()->region;
+            $data = @\App\Models\AssetDatabase::where('region', $region_user)->where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
+        }else
             $data = \App\Models\AssetDatabase::where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
-        }            
+           
         
         if($this->date) $data->where(DB::Raw('date(created_at)'),$this->date);                        
         if($this->project) $data->where('project',$this->project);                        
@@ -45,7 +44,6 @@ class Data extends Component
         }
     }
 
-
     public function selectasset(){
         $this->select = true;
     }
@@ -56,14 +54,14 @@ class Data extends Component
         if($check->remarks == '1'){
             $check->remarks = '';
 
-            $delete             = \App\Models\AssetTransferRequestdetail::whereNull('id_transfer')->where('user_id', \Auth::user()->id)->where('asset_id', $check->id)->first();
+            $delete             = \App\Models\AssetTransferRequestDetail::whereNull('id_transfer')->where('user_id', \Auth::user()->id)->where('asset_id', $check->id)->first();
             $delete->delete();
         }else{
             $check->remarks = '1';
 
-            $check_asset        = \App\Models\AssetTransferRequestdetail::whereNull('id_transfer')->where('user_id', \Auth::user()->id)->where('asset_id', $check->id)->first();
+            $check_asset        = \App\Models\AssetTransferRequestDetail::whereNull('id_transfer')->where('user_id', \Auth::user()->id)->where('asset_id', $check->id)->first();
             if(!$check_asset){
-                $add                = new \App\Models\AssetTransferRequestdetail();
+                $add                = new \App\Models\AssetTransferRequestDetail();
                 $add->user_id       = \Auth::user()->id;
                 $add->asset_id      = $id;
                 $add->asset_name    = $check->asset_name;
@@ -74,12 +72,11 @@ class Data extends Component
         
     }
 
-
-    public function closetransfer(){
+    public function closetransfer()
+    {
         $updateremarks      = \App\Models\AssetDatabase::where('remarks', '=', 1)->update(array('remarks' => ''));
     
         $delete             = \App\Models\AssetTransferRequestDetail::whereNull('id_transfer')->where('user_id', \Auth::user()->id)->delete();
-        
         
         $this->select = false;
     }

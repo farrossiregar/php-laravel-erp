@@ -48,8 +48,7 @@ class Importasset extends Component
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
               
-                // if($i[0]!="") continue;
-                
+                if($i[1]!="") continue;
                 $data                                   = new \App\Models\AssetDatabase();
                 $data->company_id                       = Session::get('company_id');
                 $data->region                           = $this->region;
@@ -61,15 +60,16 @@ class Importasset extends Component
                 elseif($i[1] == 'Computer Equipment')
                     $assettype = '3';
                 else $assettype = '4';
-                
+
                 $data->asset_type                       = $assettype;
                 $data->asset_name                       = $i[2];
-                $data->expired_date                     = $i[3];
+
+                if($i[3]) $data->expired_date = date('Y-m-d',\PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($i[3]));
+                
                 $data->serial_number                    = $i[4];
                 $data->pic                              = $i[5];
                 // $data->location                         = $i[6];
                 $data->source_asset                     = 'database';
-                
                 $data->save();
 
                 $total_success++;

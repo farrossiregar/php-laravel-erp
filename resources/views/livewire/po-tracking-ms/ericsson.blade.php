@@ -132,8 +132,7 @@
                                         <li class="dropdown">
                                             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
                                             <ul class="dropdown-menu dropdown-menu-right">
-                                                    <li><a href="javascript:void(0)" wire:click="set_selected({{$item->id}})" data-toggle="modal" data-target="#modal_regional_proccess"><i class="fa fa-upload"></i> Process</a></li>
-                                                @endif
+                                                <li><a href="javascript:void(0)" wire:click="set_selected({{$item->id}})" data-toggle="modal" data-target="#modal_regional_proccess"><i class="fa fa-upload"></i> Process</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -307,7 +306,7 @@
                         <td class="text-center">
                             @if($is_service_manager)
                                 @if($item->head_of_operation==0)
-                                    <a href="javascript:void(0)" data-target="#modal_upload_progress" data-toggle="modal" wire:click="set_selected({{$item->id}},'head_of_operation_file')" class="text-danger"><i class="fa fa-times"></i></a>
+                                    <a href="javascript:void(0)" data-target="#modal_upload_progress" data-toggle="modal" wire:click="set_selected({{$item->id}},'head_of_operation')" class="text-danger"><i class="fa fa-times"></i></a>
                                 @endif
                             @else
                                 @if($item->head_of_operation==0)
