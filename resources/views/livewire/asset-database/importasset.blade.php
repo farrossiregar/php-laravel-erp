@@ -14,7 +14,7 @@
                     <label for="">Project</label>
                     <select class="form-control" name="project" wire:model="project">
                         <option value=""> -- Project -- </option>
-                        @foreach(\App\Models\ClientProject::where('company_id', Session::get('company_id'))->get() as $item)
+                        @foreach(\App\Models\ClientProject::where('company_id', Session::get('company_id'))->where('is_project', 1)->get() as $item)
                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     </select>
@@ -26,8 +26,8 @@
                     <label for="">Region</label>
                     <select class="form-control" name="region" wire:model="region">
                         <option value=""> -- Region -- </option>
-                        @foreach(\App\Models\Region::get() as $item)
-                        <option value="{{ $item->region }}">{{ $item->region }}</option>
+                        @foreach($regionlist as $item)
+                        <option value="{{ $item->id }}">{{ $item->region }}</option>
                         @endforeach
                     </select>
                     @error('region')

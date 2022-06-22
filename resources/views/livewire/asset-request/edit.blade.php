@@ -29,9 +29,9 @@
                                             @enderror
                                         </div>
 
-                                        @if($prno == '1')
+                                        @if($prno == '1' && $location == 'Jakarta (HQ)')
                                         <div class="col-md-12 form-group">
-                                            <label>PR No</label>
+                                            <label>PR / PO No</label>
                                             <input type="text"  class="form-control"  wire:model="pr_no" >
                                            
 

@@ -18,7 +18,8 @@ class Data extends Component
     public function render()
     {
         if($this->is_regional == true){
-            $region_user = @\App\Models\Region::where('id', \App\Models\Employee::where('nik', \Auth::user()->nik)->first()->region_id)->first()->region;
+            // $region_user = @\App\Models\Region::where('id', \App\Models\Employee::where('nik', \Auth::user()->nik)->first()->region_id)->first()->region;
+            $region_user = @\App\Models\Employee::where('nik', \Auth::user()->nik)->first()->region_id;
             $data = @\App\Models\AssetDatabase::where('region', $region_user)->where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
         }else
             $data = \App\Models\AssetDatabase::where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');

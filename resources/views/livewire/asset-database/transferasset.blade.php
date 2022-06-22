@@ -25,7 +25,13 @@
                                                 
                                                 <div class="col-md-12 form-group">
                                                     <label>PIC</label>
-                                                    <input type="text" class="form-control" wire:model="transfer_from"/>
+                                                    <!-- <input type="text" class="form-control" wire:model="transfer_from"/> -->
+                                                    <input list="pic_from" type="text" class="form-control" wire:model="transfer_from">
+                                                    <datalist id="pic_from" >
+                                                        @foreach(\App\Models\Employee::get() as $item)
+                                                        <option value="{{ $item->name }} - {{ $item->nik }}">
+                                                        @endforeach
+                                                    </datalist>
                                                     @error('file')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                     @enderror
@@ -43,7 +49,13 @@
                                                 
                                                 <div class="col-md-12 form-group">
                                                     <label>PIC</label>
-                                                    <input type="text" class="form-control" wire:model="pic_asset"/>
+                                                    <!-- <input type="text" class="form-control" wire:model="pic_asset"/> -->
+                                                    <input list="pic_to" type="text" class="form-control" wire:model="pic_asset">
+                                                    <datalist id="pic_to" >
+                                                        @foreach(\App\Models\Employee::get() as $item)
+                                                        <option value="{{ $item->name }} - {{ $item->nik }}">
+                                                        @endforeach
+                                                    </datalist>
                                                     @error('file')
                                                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                                     @enderror
@@ -53,7 +65,7 @@
                                                     <label>Location</label>
                                                     <select name="" id="" class="form-control"  wire:model="location">
                                                         <option value="" selected>-- Location --</option>
-                                                        <option value="007">Jakarta (HQ)</option>
+                                                        <option value="Jakarta (HQ)">Jakarta (HQ)</option>
                                                         @foreach(\App\Models\DophomebaseMaster::where('status', '1')->orderBy('id', 'asc')->get() as $item)
                                                             <option value="{{$item->nama_dop}}">{{$item->nama_dop}}</option>
                                                         @endforeach
@@ -90,50 +102,50 @@
                             </div>
 
                             <div class="row">
-            <div class="form-group col-md-12">
-                <table class="table">
-                    <thead style="background: #eee;">
-                        <tr>
-                            <th>No</th>
-                            <th>Asset Type</th>
-                            <th>Asset Name</th>
-                            <th>Serial Number</th>
-                            <th>Project</th>
-                            <th>Region</th>
-                            <th>Location</th>
-                        </tr>
-                    </thead> 
-                    <tbody>
-                        <!-- foreach(\App\Models\AssetTransferRequestDetail::select('asset_transfer_request_detail.*', 'asset_database.asset_type', 'asset_database.serial_number', 'asset_database.project', 'asset_database.region', 'asset_database.location')->join('asset_database', 'asset_database.id', '=', 'asset_transfer_request_detail.asset_id')->where('asset_transfer_request_detail.user_id', \Auth::user()->id)->get() as $k => $item) -->
-                        @foreach($data_asset as $k => $item)
-                            <tr>
-                                <td>{{$k+1}}</td>
-                                <td>
-                                    @if($item->asset_type == '1')
-                                        Air Conditioner & Fan
-                                    @endif
+                                <div class="form-group col-md-12">
+                                    <table class="table">
+                                        <thead style="background: #eee;">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Asset Type</th>
+                                                <th>Asset Name</th>
+                                                <th>Serial Number</th>
+                                                <th>Project</th>
+                                                <th>Region</th>
+                                                <th>Location</th>
+                                            </tr>
+                                        </thead> 
+                                        <tbody>
+                                            <!-- foreach(\App\Models\AssetTransferRequestDetail::select('asset_transfer_request_detail.*', 'asset_database.asset_type', 'asset_database.serial_number', 'asset_database.project', 'asset_database.region', 'asset_database.location')->join('asset_database', 'asset_database.id', '=', 'asset_transfer_request_detail.asset_id')->where('asset_transfer_request_detail.user_id', \Auth::user()->id)->get() as $k => $item) -->
+                                            @foreach($data_asset as $k => $item)
+                                                <tr>
+                                                    <td>{{$k+1}}</td>
+                                                    <td>
+                                                        @if($item->asset_type == '1')
+                                                            Air Conditioner & Fan
+                                                        @endif
 
-                                    @if($item->asset_type == '2')
-                                        Furniture & Fixture
-                                    @endif
+                                                        @if($item->asset_type == '2')
+                                                            Furniture & Fixture
+                                                        @endif
 
-                                    @if($item->asset_type == '3')
-                                        Computer Equipment
-                                    @endif
-                                </td>
-                                <td>{{ @$item->asset_name }}</td>
-                                <td>{{ @$item->serial_number }}</td>
-                                <td>{{ @\App\Models\ClientProject::where('id', $item->project)->first()->name }}</td>
-                                <td>{{ @$item->region }}</td>
-                                <td>{{ @\App\Models\DopHomebaseMaster::where('id', $item->location)->first()->nama_dop }}</td>
-                            </tr>
-                        @endforeach
-                       
-                    
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                                                        @if($item->asset_type == '3')
+                                                            Computer Equipment
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ @$item->asset_name }}</td>
+                                                    <td>{{ @$item->serial_number }}</td>
+                                                    <td>{{ @\App\Models\ClientProject::where('id', $item->project)->first()->name }}</td>
+                                                    <td>{{ @$item->region }}</td>
+                                                    <td>{{ @\App\Models\DopHomebaseMaster::where('id', $item->location)->first()->nama_dop }}</td>
+                                                </tr>
+                                            @endforeach
+                                        
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

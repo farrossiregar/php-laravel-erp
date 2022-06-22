@@ -12,11 +12,21 @@ class Importasset extends Component
 {
 
     use WithFileUploads;
-    public $file, $selected_id, $filtermonth, $filteryear, $filterproject, $project, $region;
+    public $file, $selected_id, $filtermonth, $filteryear, $filterproject, $project, $region, $regionlist;
 
     
     public function render()
     {
+
+        if($this->project){
+            $this->regionlist = \App\Models\Region::select('region.*')
+                                                    ->leftjoin('client_project_region', 'client_project_region.region_id', '=', 'region.id')
+                                                    ->where('client_project_region.client_project_id', $this->project)
+                                                    ->groupBy('client_project_region.region_id')
+                                                    ->get();
+        }else{
+            $this->regionlist = [];
+        }
         return view('livewire.asset-database.importasset');
         
     }
@@ -48,11 +58,12 @@ class Importasset extends Component
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
               
-                if($i[1]!="") continue;
+                // if($i[1]!="") continue;
                 $data                                   = new \App\Models\AssetDatabase();
                 $data->company_id                       = Session::get('company_id');
                 $data->region                           = $this->region;
                 $data->project                          = $this->project;
+                $data->client_project_id                = $this->project;
                 if($i[1] == 'Air Conditioner & Fan')
                     $assettype = '1';
                 elseif($i[1] == 'Furniture & Fixture')
@@ -64,7 +75,8 @@ class Importasset extends Component
                 $data->asset_type                       = $assettype;
                 $data->asset_name                       = $i[2];
 
-                if($i[3]) $data->expired_date = date('Y-m-d',\PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($i[3]));
+                // if($i[3]) $data->expired_date = date('Y-m-d',\PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($i[3]));
+                $data->expired_date                     = date('Y-m-d');
                 
                 $data->serial_number                    = $i[4];
                 $data->pic                              = $i[5];

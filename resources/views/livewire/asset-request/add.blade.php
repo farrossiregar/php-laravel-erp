@@ -79,7 +79,7 @@
                                             
                                             <select name="" id="" class="form-control"  wire:model="location">
                                                 <option value="" selected>-- Location --</option>
-                                                <option value="007">Jakarta (HQ)</option>
+                                                <option value="Jakarta (HQ)">Jakarta (HQ)</option>
                                                 @foreach(\App\Models\DophomebaseMaster::where('status', '1')->orderBy('id', 'asc')->get() as $item)
                                                     <option value="{{$item->nama_dop}}">{{$item->nama_dop}}</option>
                                                 @endforeach

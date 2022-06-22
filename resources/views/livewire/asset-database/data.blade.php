@@ -141,7 +141,7 @@
                         </td>
                         
                         <td>{{ \App\Models\ClientProject::where('id', $item->project)->first()->name }}</td>
-                        <td>{{ $item->region }}</td>
+                        <td>{{ \App\Models\Region::where('id',$item->region)->first()->region }}</td>
                         <!-- <td>{{ $item->location }}</td> -->
 
                         <td>
