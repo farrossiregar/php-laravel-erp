@@ -52,7 +52,8 @@
 
                         <th class="align-middle">Asset Type</th> 
                         <th class="align-middle">Asset Name</th> 
-                        <th class="align-middle">Dana From / PR No</th> 
+                        <th class="align-middle">Dana From</th> 
+                        <th class="align-middle">PR / PO No</th> 
                         <th class="align-middle">Dana Amount</th> 
                         <th class="align-middle">Serial Number</th> 
                      
@@ -67,14 +68,14 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>
-                            @if(check_access('is-hq-ga'))
+                            <!-- if(check_access('is-hq-ga')) -->
                                 @if($item->status == '')
                                    
                                     <a href="javascript:;" wire:click="$emit('modalapproveassetrequest',['{{ $item->id }}', '1'])" class="badge badge-success badge-active"><i class="fa fa-check"></i> approve</a>
                                     <a href="javascript:;" wire:click="$emit('modaldeclineassetrequest',['{{ $item->id }}', '1'])" class="badge badge-danger badge-active"><i class="fa fa-close"></i> reject</a>
                                 @endif
 
-                            @endif
+                            <!-- endif -->
                         </td>
                         <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
                        
@@ -143,7 +144,16 @@
                                     
                                 @endif
                             <br>
-                            <b>{{ $item->pr_no }}</b>
+                            
+                        </td>
+                        <td>
+                            
+                            @foreach(\App\Models\AssetDatabasePoprnumber::where('asset_id', $item->id)->get() as $items)
+                                {{ $items->pr_po_number }}<br>
+                            @endforeach
+
+                            <br>
+                            <a href="javascript:;" wire:click="$emit('modalpoprassetrequest','{{ $item->id }}')"><i class="fa fa-plus "></i></a>
                         </td>
                         <td>{{ "Rp " . number_format($item->dana_amount,2,',','.') }}</td>
                         <td><b>{{ strtoupper($item->serial_number) }}</b></td>

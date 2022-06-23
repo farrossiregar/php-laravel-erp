@@ -41,6 +41,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-assetrequest-addpoprno" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <livewire:asset-request.addpoprno />
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modal-assetrequest-detaillocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -96,6 +104,10 @@
 
     Livewire.on('modaleditassetrequest',(data)=>{
         $("#modal-assetrequest-edit").modal('show');
+    });
+
+    Livewire.on('modalpoprassetrequest',(data)=>{
+        $("#modal-assetrequest-addpoprno").modal('show');
     });
 
     Livewire.on('modaldetaillocation',(data)=>{

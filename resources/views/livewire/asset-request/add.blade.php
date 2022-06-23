@@ -36,9 +36,8 @@
                                             <label>Region</label>
                                             <select class="form-control" style="width:100%;" wire:model="region">
                                                 <option value=""> --- Region --- </option>
-                                                @foreach(\App\Models\Region::orderBy('id', 'desc')
-                                                                    ->get() as $item)
-                                                    <option value="{{$item->region_code}}">{{$item->region_code}}</option>
+                                                @foreach($regionlist as $item)
+                                                <option value="{{ $item->id }}">{{ $item->region }}</option>
                                                 @endforeach
                                             </select>
                                             <!-- <input type="text" class="form-control" wire:model="region" readonly/> -->

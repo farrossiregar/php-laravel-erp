@@ -20,11 +20,19 @@ class Add extends Component
     use WithFileUploads;
     public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $position, $datalocation, $dataassetname, $stock;
     public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link, $reference_pic;
-    public $serial_number;
+    public $serial_number, $regionlist;
 
     public function render()
     {
-
+        if($this->project){
+            $this->regionlist = \App\Models\Region::select('region.*')
+                                                    ->leftjoin('client_project_region', 'client_project_region.region_id', '=', 'region.id')
+                                                    ->where('client_project_region.client_project_id', $this->project)
+                                                    ->groupBy('client_project_region.region_id')
+                                                    ->get();
+        }else{
+            $this->regionlist = [];
+        }
         return view('livewire.asset-request.add');
     }
 

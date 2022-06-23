@@ -15,31 +15,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        
-
-                                        <div class="col-md-12 form-group">
-                                            <label>Dana From</label>
-                                            <select name="" id="" class="form-control"  wire:model="dana_from">
-                                                <option value="" selected>-- Dana From --</option>
-                                                <option value="1">e-PL</option>
-                                                <option value="2">Petty Cash</option>
-                                            </select>
-                                            @error('dana_from')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
-                                        @if($prno == '1' && $location == 'Jakarta (HQ)')
-                                        <div class="col-md-12 form-group">
-                                            <!-- <label>PR / PO No</label> -->
-                                            <!-- <input type="text"  class="form-control"  wire:model="pr_no" > -->
-                                           
-
-                                            @error('pr_no')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
+                                       
                                         <div class="col-md-12">
                                             <table class="table">
                                                 <thead style="background:#eee;">
@@ -79,21 +55,6 @@
                                             <br><br>
                                         </div>
                                         
-                                        @endif
-
-                                        <div class="col-md-12 form-group">
-                                            <label>Dana Amount</label>
-                                            <input type="text"  class="form-control"  wire:model="dana_amount" >
-                                           
-
-                                            @error('dana_amount')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                            @enderror
-                                        </div>
-
-                                        
-
-                                       
                                     </div>
                                 </div>
                                 
