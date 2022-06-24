@@ -45,7 +45,7 @@ class PunchlistController extends Controller
             $data[$k]['approver_signum'] = '-';
             $data[$k]['date'] = '-';
             $data[$k]['work_order_number'] = $item->work_order_number; 
-            $data[$k]['site'] = isset($item->site->name) ? $item->site->name : '';
+            // $data[$k]['site'] = isset($item->site->name) ? $item->site->name : '';
             $data[$k]['region'] = isset($item->site->region->region) ? $item->site->region->region : '';
             $data[$k]['project'] = isset($item->project->name) ? $item->project->name : '';
             $data[$k]['description'] = $item->description;

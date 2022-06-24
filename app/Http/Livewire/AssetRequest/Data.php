@@ -6,30 +6,32 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Session;
 use DB;
+use App\Models\AssetDatabase;
 
 
 class Data extends Component
 {
     use WithPagination;
     public $project, $date, $filterproject, $employee_name;
-    public $is_regional=true;
+    public $is_regional,$is_hq_ga,$is_hq_user;
     protected $paginationTheme = 'bootstrap';
     
     public function render()
     {
-        
-        //if($this->is_regional == true){
-          ///  $region_user = @\App\Models\Region::where('id', \App\Models\Employee::where('nik', \Auth::user()->nik)->first()->region_id)->first()->region;
-            //$data = @\App\Models\AssetDatabase::where('source_asset', 'request')->where('region', $region_user)->where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
-        //}else{
-            $data = @\App\Models\AssetDatabase::where('source_asset', 'request')->where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
-        //}
-                
+        $data = AssetDatabase::where('source_asset', 'request')->where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
+        if($this->is_regional || $this->is_hq_user) $data->where('region', \Auth::user()->employee->region_id);
         
         if($this->date) $data->where(DB::Raw('date(created_at)'),$this->date);                        
         if($this->filterproject) $data->where('client_project_id',$this->filterproject);                        
         
         return view('livewire.asset-request.data')->with(['data'=>$data->paginate(50)]);   
+    }
+
+    public function mount()
+    {
+        $this->is_regional = check_access('is-regional');
+        $this->is_hq_user = check_access('is-hq-user');
+        $this->is_hq_ga = check_access('is-hq-ga');
     }
 
     public function checkdata($id)

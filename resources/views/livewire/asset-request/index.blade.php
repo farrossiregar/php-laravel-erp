@@ -1,4 +1,4 @@
-@section('title', __('Asset Request - Index'))
+@section('title', __('Asset Request'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
