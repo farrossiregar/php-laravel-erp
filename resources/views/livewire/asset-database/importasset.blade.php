@@ -14,7 +14,9 @@
                     <label for="">Project</label>
                     <select class="form-control" name="project" wire:model="project">
                         <option value=""> -- Project -- </option>
-                        @foreach(\App\Models\ClientProject::where('company_id', Session::get('company_id'))->where('is_project', 1)->get() as $item)
+                        @foreach(\App\Models\ClientProject::where('company_id', Session::get('company_id'))
+                                                            ->where('is_project', 1)
+                                                            ->get() as $item)
                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     </select>

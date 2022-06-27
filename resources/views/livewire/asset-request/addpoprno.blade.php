@@ -21,7 +21,8 @@
                                                 <thead style="background:#eee;">
                                                     <tr>
                                                         <th style="width:10px">No</th>
-                                                        <th class="text-right">PR / PO Number</th>
+                                                        <th class="text-right">PR / PO Numbers</th>
+                                                        <th class="text-right">Amount</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -29,6 +30,7 @@
                                                         <tr>
                                                             <td>{{ $k+1 }}</td>
                                                             <td class="text-right">{{ $item->pr_po_number }}</td>
+                                                            <td class="text-right">{{ $item->amount }}</td>
                                                         </tr>
                                                     @endforeach
                                                     @if($insert)
@@ -38,6 +40,12 @@
                                                             <td>
                                                                 <input type="number" class="form-control text-right" wire:model="pr_no" placeholder="PR / PO Number" />
                                                                 @error('pr_no')
+                                                                    <span class="text-danger">{{ $message }}</span>
+                                                                @enderror
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" class="form-control text-right" wire:model="amount" placeholder="Amount" />
+                                                                @error('amount')
                                                                     <span class="text-danger">{{ $message }}</span>
                                                                 @enderror
                                                             </td>

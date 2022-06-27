@@ -141,7 +141,7 @@
                         </td>
                         
                         <td>{{ \App\Models\ClientProject::where('id', $item->project)->first()->name }}</td>
-                        <td>{{ \App\Models\Region::where('id',$item->region)->first()->region }}</td>
+                        <td>{{ @\App\Models\Region::where('id',$item->region)->first()->region }}</td>
                         <!-- <td>{{ $item->location }}</td> -->
 
                         <td>
@@ -149,7 +149,8 @@
                             {{ $item->asset_name }}
                         </td>
                         <td>
-                            @if($item->asset_type == '1')
+                            {{ \App\Models\AssetsType::where('id', $item->asset_type)->first()->asset_type }}
+                            <!-- @if($item->asset_type == '1')
                                 Air Conditioner & Fan
                             @endif
 
@@ -163,7 +164,7 @@
 
                             @if($item->asset_type == '4')
                                 Printer & Device
-                            @endif
+                            @endif -->
 
                         </td>
                         

@@ -9,10 +9,10 @@ class Index extends Component
     public $is_regional,$is_hq_user,$is_hq_ga;
     public function render()
     {
-        if(!$this->is_regional and !$this->is_hq_user and !$this->is_hq_ga) {
-            session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
-            $this->redirect('/');
-        }
+        // if(!$this->is_regional and !$this->is_hq_user and !$this->is_hq_ga) {
+        //     session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
+        //     $this->redirect('/');
+        // }
         return view('livewire.asset-database.index');
     }
 

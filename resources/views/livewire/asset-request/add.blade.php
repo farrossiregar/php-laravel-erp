@@ -52,10 +52,13 @@
                                             <!-- <input type="text" class="form-control"  wire:model="asset_type" > -->
                                             <select onclick="" class="form-control" wire:model="asset_type">
                                                 <option value=""> --- Type of Asset --- </option>
-                                                <option value="1">Air Conditioner & Fan</option>
+                                                @foreach(\App\Models\AssetsType::get() as $item)
+                                                <option value="{{ $item->id }}"> {{ $item->asset_type }} </option>
+                                                @endforeach
+                                                <!-- <option value="1">Air Conditioner & Fan</option>
                                                 <option value="2">Furniture & Fixture</option>
                                                 <option value="3">Computer Equipment</option>
-                                                <option value="4">Printer & Device</option>
+                                                <option value="4">Printer & Device</option> -->
                                             </select>
 
                                             @error('asset_type')

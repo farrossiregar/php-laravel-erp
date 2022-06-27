@@ -21,7 +21,7 @@ class Addpoprno extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $selected_id, $dana_from, $pr_no, $prno, $dana_amount, $location, $insert=false;
+    public $selected_id, $dana_from, $pr_no, $prno, $dana_amount, $location, $amount, $insert=false;
 
     public function render()
     {
@@ -40,12 +40,14 @@ class Addpoprno extends Component
         $datapo                             = new \App\Models\AssetDatabasePoprnumber();
         $datapo->asset_id                   = $this->selected_id;
         $datapo->pr_po_number               = $this->pr_no;
+        $datapo->amount                     = $this->amount;
         $datapo->save();
 
         session()->flash('message-success',"Dana Asset Request Berhasil diinput");
         
         $this->insert = false;
         $this->reset(['pr_no']);
+        $this->reset(['amount']);
         // $this->emit('reload');
 
         return redirect()->route('asset-request.index');   
