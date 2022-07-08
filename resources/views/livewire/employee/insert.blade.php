@@ -38,7 +38,7 @@
                                         <button type="button" class="btn btn-default-dark" id="btn-upload-foto_ktp"><i class="fa fa-upload"></i> Upload Photo</button>
                                         <input type="file" id="foto_ktp" class="sr-only" wire:model="foto_ktp">
                                         @error('foto_ktp')
-                                        <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>

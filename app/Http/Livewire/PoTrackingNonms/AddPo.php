@@ -20,7 +20,6 @@ class AddPo extends Component
     public function mount()
     {
         $this->wo_list = PoTrackingNonms::get();
-        
         $this->date_po = date('Y-m-d');
         $this->date_contract = date('Y-m-d');
     }
@@ -92,5 +91,6 @@ class AddPo extends Component
     {
         $this->wos[] = null;$this->wo_id[]=null;
         $this->error_message = '';
+        $this->emit('select-wo');
     }
 }

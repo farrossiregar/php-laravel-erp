@@ -25,7 +25,7 @@
                                                 <option value="2">Petty Cash</option>
                                             </select>
                                             @error('dana_from')
-                                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                                <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
 

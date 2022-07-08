@@ -48,12 +48,27 @@ class Data extends Component
                                         ->join('employees','employees.id','=','employee_projects.employee_id')
                                         ->whereIn('user_access_id',[85,84])
                                         ->groupBy('employees.id')
+                                        ->where(function($table){
+                                            if($this->region_id)  $data->where('employees.region_id',$this->region_id);
+                                            if($this->sub_region_id)  $data->where('employees.sub_region_id',$this->sub_region_id);
+                                            })
                                         ->get();
     }
 
     public function updated($propertyName)
     {
         if($propertyName == 'region_id') $this->sub_regions = SubRegion::where('region_id',$this->region_id)->get();
+        // TE Engineer & CME Engineer
+        $this->employees = EmployeeProject::select('employees.*')->where('employee_projects.client_project_id',$this->project_id)
+                                        ->join('employees','employees.id','=','employee_projects.employee_id')
+                                        ->whereIn('user_access_id',[85,84])
+                                        ->groupBy('employees.id')
+                                        ->where(function($table){
+                                            if($this->region_id)  $table->where('employees.region_id',$this->region_id);
+                                            if($this->sub_region_id)  $table->where('employees.sub_region_id',$this->sub_region_id);
+                                            })
+                                        ->get();
+        $this->emit('set-pic');
     }
 
     public function upload_with_punch_list()
@@ -227,6 +242,23 @@ class Data extends Component
         $this->selected = $selected; 
         $this->reports = PreventiveMaintenanceUpload::where('preventive_maintenance',$this->selected->id)->get();
         $this->emit('set-pic');
+    }
+
+    public function pm_reject()
+    {
+        \LogActivity::add('[web] PM Reject Report');
+        $this->validate([
+            'description_report' => 'required'
+        ]);
+
+        $this->selected->note_reject = $this->description_report;
+        $this->selected->is_reject = 1;
+        $this->selected->status = 0;
+        $this->selected->save();
+
+        session()->flash('message-success','PM Report Rejected.');
+
+        return redirect()->route('preventive-maintenance.index');
     }
 
     public function upload_report()

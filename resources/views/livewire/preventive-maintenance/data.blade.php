@@ -76,9 +76,9 @@
                     <th>Open Punch List</th>
                     <th>TT Number/Laporan PLN</th>
                     <th>BOQ Evidence</th>
-                    <th class="text-center">BOQ</th>
-                    <th>Rec Evidence</th>
-                    <th>Rec FEAT</th>
+                    <th class="text-center">Submit BOQ</th>
+                    <th>Rect. Evidence</th>
+                    <th>Submit Rect. FEAT</th>
                 </tr>
             </thead>
             <tbody>
@@ -107,12 +107,13 @@
                         <td>{{ isset($item->created_at) ? date('d-M-Y',strtotime($item->created_at)) : '-' }}</td>
                         <td>{{ isset($item->start_date) ? date('d-M-Y',strtotime($item->start_date)) : '-' }}</td>
                         <td>{{ isset($item->end_date) ? date('d-M-Y',strtotime($item->end_date)) : '-' }}</td>
-                        <td class="text-center">
-                            @if($item->status==0)
+                        <td class="text-center" title="{{$item->note}}">
+                            @if($item->is_reject==1)
+                                <span class="badge badge-danger" onclick="alert('{{$item->note_reject}}')" title="{{$item->note_reject}}">Reject</span>
+                            @elseif($item->status==0)
                                 <span class="badge badge-info">Open</span>
-                            @endif
-                            @if($item->status==1)
-                                <span class="badge badge-warning">Onprogress</span>
+                            @elseif($item->status==1)
+                                <span class="badge badge-warning">In Progress</span>
                             @endif
                             @if($item->status==2 and $item->is_upload_report==null)
                                 <span class="badge badge-success">Submitted</span>
@@ -148,7 +149,7 @@
                                         <span class="badge badge-warning">Rect FEAT Submitted</span>
                                     @endif
                                     @if($item->status_punch_list_tmg==4)
-                                        <span class="badge badge-success"><i class="fa fa-check-circle"></i> Approved EID</span>
+                                        <span class="badge badge-success">Approved EID</span>
                                     @endif
                                 @endif
                             @endif
@@ -170,8 +171,15 @@
                                         <a href="javascript:void(0)" class="text-warning" wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_upload_laporan_pln"><i class="fa fa-upload"></i></a>
                                     @else
                                         <a href="javascript:void(0)" class="text-success"  wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_upload_laporan_pln"><i class="fa fa-check-circle"></i></a>
+                                        @if(isset($item->punch_list_laporan_pln))
+                                            @foreach($item->punch_list_laporan_pln as $key_punch => $punch)
+                                                @if($key_punch==0) {{date('d-m-Y',strtotime($punch->created_at))}} @endif
+                                            @endforeach
+                                        @endif
                                     @endif
                                 @endif
+                            @else
+                                -
                             @endif
                         </td>
                         <td class="text-center">
@@ -196,7 +204,7 @@
                             @if($item->is_punch_list==1)
                                 @if($item->site_type=='TMG')
                                     @if(isset($item->punch_list_rectification) and $item->punch_list_rectification->count()>0)
-                                        <a href="javascript:void(0)" wire:click="set_data({{$item->id}})" data-target="#modal_view_evidence" data-toggle="modal"><i class="fa fa-image"></i></a>
+                                        <a href="javascript:void(0)" wire:click="set_data({{$item->id}})" data-target="#modal_view_rectification" data-toggle="modal"><i class="fa fa-image"></i></a>
                                     @else
                                         -
                                     @endif
@@ -566,7 +574,12 @@
                             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                             <span class="sr-only">{{ __('Please wait...') }}</span> Please wait...
                         </span>
+                        <span wire:loading wire:target="file_report">
+                            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                            <span class="sr-only">{{ __('Please wait...') }}</span> Please wait...
+                        </span>
                         @if(isset($selected) and $selected->is_upload_report ==0)
+                            <button type="button" wire:click="pm_reject" wire:loading.remove wire:target="file_report" class="btn btn-danger"><i class="fa fa-close"></i> Reject</button>
                             <button type="submit" wire:loading.remove wire:target="file_report" class="btn btn-success"><i class="fa fa-save"></i> Upload</button>
                             <button type="button" wire:loading.remove wire:target="file_report" wire:click="upload_with_punch_list" class="btn btn-info"><i class="fa fa-check-circle"></i> Upload with Punch List</button>
                         @endif
@@ -608,7 +621,7 @@
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="modal_add_preventive_maintenance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="modal_add_preventive_maintenance" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form wire:submit.prevent="store">
@@ -636,7 +649,16 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Site Category</label>
-                                <input type="text" class="form-control" wire:model="site_category" />
+                                <select class="form-control" wire:model="site_category">
+                                    <option value="">-- Select --</option>
+                                    <option>BIG HUB</option>
+                                    <option>END SITE</option>
+                                    <option>MEDIUM HUB</option>
+                                    <option>RAN</option>
+                                    <option>RAN 3M</option>
+                                    <option>RAN 6M</option>
+                                    <option>SMALL HUB</option>
+                                </select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label>Site Type</label>
@@ -695,7 +717,7 @@
                                 <label>Sub Cluster</label>
                                 <input type="text" class="form-control" wire:model="sub_cluster" />
                             </div>
-                            <div wire:ignore class="form-group col-md-6">
+                            <div class="form-group col-md-6">
                                 <label>Employee (TE Only)</label>
                                 <select class="form-control select2">
                                     <option value="">-- Select --</option>
@@ -723,11 +745,15 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}" />
         <script>
             Livewire.on('set-pic',()=>{
-                $(".select2_pic").select2();
-                $('.select2_pic').on('select2:select', function (e) {
+                $(".select2").select2();
+                $('.select2').on('select2:select', function (e) {
                     var data = e.params.data;
                     @this.set('change_pic_id',data.id);
+                    // $('.select2').val({{$employee_id}}).trigger('change');
+                    $('.select2').select2().val({{$employee_id}}).trigger("change")
                 });
+                $('.select2').select2().val({{$employee_id}}).trigger("change")
+                // $('.select2').val({{$employee_id}}).trigger('change');
             });
 
             $(document).ready(function() {    
@@ -735,6 +761,10 @@
                 $('.select2').on('select2:select', function (e) {
                     var data = e.params.data;
                     @this.set('employee_id',data.id);
+                    setTimeout(function(){
+                        // $(this).val(data.id).trigger('change');
+                        $('.select2').select2().val(data.id).trigger("change")
+                    },1000);
                 });
                 
                 $('.date_created').daterangepicker({

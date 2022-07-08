@@ -113,7 +113,6 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('po-tracking-nonms/approvedetailfoto',App\Http\Livewire\PoTrackingNonms\Approvedetailfoto::class)->name('po-tracking-nonms.approvedetailfoto');
     Route::get('po-tracking-nonms/po-generate-bast/{data}',[App\Http\Controllers\PoTrackingNonmsController::class,'po_generate_bast'])->name('po-tracking-nonms.po-generate-bast');
     
-
     Route::get('po-tracking-ms',App\Http\Livewire\PoTrackingMs\Index::class)->name('po-tracking-ms.index');
     Route::get('po-tracking-ms/preview/{id}',App\Http\Livewire\PoTrackingMs\Preview::class)->name('po-tracking-ms.preview');
     Route::get('dana-stpl',App\Http\Livewire\DanaStpl\Index::class)->name('dana-stpl.index');
@@ -125,7 +124,6 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('database-tools-noc',App\Http\Livewire\DatabaseToolsNoc\Index::class)->name('database-tools-noc.index');
     Route::get('petty-cash',App\Http\Livewire\PettyCash\Index::class)->name('petty-cash.index');
     Route::get('team-schedule',App\Http\Livewire\TeamSchedule\Index::class)->name('team-schedule.index');
-    // Route::get('team-schedule/generateusertimesheetpdf/{id}',App\Http\Livewire\TeamSchedule\Generateusertimesheetpdf::class)->name('team-schedule.generateusertimesheetpdf');
     Route::get('timesheet-record',App\Http\Livewire\TimesheetRecord\Index::class)->name('timesheet-record.index');
     Route::get('hotel-flight-ticket',App\Http\Livewire\HotelFlightTicket\Index::class)->name('hotel-flight-ticket.index');
     

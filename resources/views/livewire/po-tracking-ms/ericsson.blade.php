@@ -87,15 +87,16 @@
                         <th>Date Inoice Backlog H1</th>
                         <th>Amount Closing site Backlog H1</th>
                         <th>Have Deduction</th>
-                        <th>PDS</th>
+                        <th>PDS</th> 
                         <th>Regional Reconciliation</th>
-                        <th>Customer GM Approval</th>
-                        <th>Customer GH Approval</th>
-                        <th>Customer OD (Operation Director) Approval</th>
+                        <th>3PP Approval</th>
+                        <th>SOV Approval</th>
+                        <th>RM Approval</th>
+                        <th>Head of Operation Approval</th>
                         <th>Verification</th>
                         <th>Approval Docs</th>
-                        <th>Verification Docs</th>
-                        <th>Acceptance & Invoice Docs</th>
+                        <th>GR Docs</th>
+                        <th>Invoice Docs</th>
                         <!-- <th>Invoice Docs</th> -->
                     </tr>
                 </head>
@@ -121,21 +122,21 @@
                                 <span class="badge badge-info" title="Finance Upload Acceptance Docs & Invoice">Finance</span>
                             @endif
                             @if($item->status_==5)
-                                <span class="badge badge-success"><i class="fa fa-check-circle"></i> Done</span>
+                                <span class="badge badge-success"><i class="fa fa-check-circle"></i> SPE COMPLETED</span>
                             @endif
                         </td>
                         <td class="header">
                             @if($is_service_manager)
-                                <ul class="header-dropdown">
-                                    <li class="dropdown">
-                                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            @if($item->status_==1 || $item->status_=="")
+                                @if($item->status_==1 || $item->status_=="")
+                                    <ul class="header-dropdown">
+                                        <li class="dropdown">
+                                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                                            <ul class="dropdown-menu dropdown-menu-right">
                                                 <li><a href="javascript:void(0)" wire:click="set_selected({{$item->id}})" data-toggle="modal" data-target="#modal_regional_proccess"><i class="fa fa-upload"></i> Process</a></li>
-                                            @endif
-                                        </ul>
-                                    </li>
-                                </ul>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                @endif
                             @endif
                             @if($is_e2e)
                                 <ul class="header-dropdown">
@@ -247,38 +248,88 @@
                             @endif
                         </td>
                         <td class="text-center">
-                            @if($item->is_regional_reconciliation==1)
-                                <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_regional_reconciliation',0)" class="text-success"><i class="fa fa-check-circle"></i></a>
+                            @if($is_service_manager)
+                                @if($item->is_regional_reconciliation==0)
+                                    <a href="javascript:void(0)" data-target="#modal_upload_progress" data-toggle="modal" wire:click="set_selected({{$item->id}},'is_regional_reconciliation')" class="text-danger"><i class="fa fa-times"></i></a>
+                                @endif
                             @else
-                                <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_regional_reconciliation',1)" class="text-danger"><i class="fa fa-times"></i></a>
+                                @if($item->is_regional_reconciliation==0)
+                                    <i class="text-danger fa fa-times"></i>
+                                @endif
+                            @endif
+                            @if($item->is_regional_reconciliation_file)
+                                <a href="{{asset($item->is_regional_reconciliation_file)}}" target="_blank"><i class="text-success fa fa-check-circle"></i></a>
                             @endif
                         </td>
                         <td class="text-center">
-                            @if($item->is_customer_gm==1)
-                                <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_customer_gm',0)" class="text-success"><i class="fa fa-check-circle"></i></a>
+                            @if($is_service_manager)
+                                @if($item->is_customer_gm==0)
+                                    <a href="javascript:void(0)" data-target="#modal_upload_progress" data-toggle="modal" wire:click="set_selected({{$item->id}},'is_customer_gm')" class="text-danger"><i class="fa fa-times"></i></a>
+                                @endif
                             @else
-                                <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_customer_gm',1)" class="text-danger"><i class="fa fa-times"></i></a>
+                                @if($item->is_customer_gm==0)
+                                    <i class="text-danger fa fa-times"></i>
+                                @endif
+                            @endif
+                            @if($item->is_customer_gm_file)
+                                <a href="{{asset($item->is_customer_gm_file)}}" target="_blank"><i class="text-success fa fa-check-circle"></i></a>
                             @endif
                         </td>
                         <td class="text-center">
-                            @if($item->is_customer_gh==1)
-                                <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_customer_gh',0)" class="text-success"><i class="fa fa-check-circle"></i></a>
+                            @if($is_service_manager)
+                                @if($item->is_customer_gh==0)
+                                    <a href="javascript:void(0)" data-target="#modal_upload_progress" data-toggle="modal" wire:click="set_selected({{$item->id}},'is_customer_gh')" class="text-danger"><i class="fa fa-times"></i></a>
+                                @endif
                             @else
-                                <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_customer_gh',1)" class="text-danger"><i class="fa fa-times"></i></a>
+                                @if($item->is_customer_gh==0)
+                                    <i class="text-danger fa fa-times"></i>
+                                @endif
+                            @endif
+                            @if($item->is_customer_gh)
+                                <a href="{{asset($item->is_customer_gh_file)}}" target="_blank"><i class="text-success fa fa-check-circle"></i></a>
                             @endif
                         </td>
                         <td class="text-center">
-                            @if($item->is_customer_od==1)
-                                <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_customer_od',0)" class="text-success"><i class="fa fa-check-circle"></i></a>
+                            @if($is_service_manager)
+                                @if($item->is_customer_od==0)
+                                    <a href="javascript:void(0)" data-target="#modal_upload_progress" data-toggle="modal" wire:click="set_selected({{$item->id}},'is_customer_od')" class="text-danger"><i class="fa fa-times"></i></a>
+                                @endif
                             @else
-                                <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_customer_od',1)" class="text-danger"><i class="fa fa-times"></i></a>
+                                @if($item->is_customer_od==0)
+                                    <i class="text-danger fa fa-times"></i>
+                                @endif
+                            @endif
+                            @if($item->is_customer_od)
+                                <a href="{{asset($item->is_customer_od_file)}}" target="_blank"><i class="text-success fa fa-check-circle"></i></a>
                             @endif
                         </td>
                         <td class="text-center">
-                            @if($item->is_verification==1)
-                                <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_verification',0)" class="text-success"><i class="fa fa-check-circle"></i></a>
+                            @if($is_service_manager)
+                                @if($item->head_of_operation==0)
+                                    <a href="javascript:void(0)" data-target="#modal_upload_progress" data-toggle="modal" wire:click="set_selected({{$item->id}},'head_of_operation')" class="text-danger"><i class="fa fa-times"></i></a>
+                                @endif
                             @else
-                                <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_verification',1)" class="text-danger"><i class="fa fa-times"></i></a>
+                                @if($item->head_of_operation==0)
+                                    <i class="text-danger fa fa-times"></i>
+                                @endif
+                            @endif
+                            @if($item->head_of_operation_file)
+                                <a href="{{asset($item->head_of_operation_file)}}" target="_blank"><i class="text-success fa fa-check-circle"></i></a>
+                            @endif
+                        
+                        </td>
+                        <td class="text-center">
+                            @if($is_service_manager)
+                                @if($item->is_verification==0)
+                                    <a href="javascript:void(0)" data-target="#modal_upload_progress" data-toggle="modal" wire:click="set_selected({{$item->id}},'is_verification')" class="text-danger"><i class="fa fa-times"></i></a>
+                                @endif
+                            @else
+                                @if($item->is_verification==0)
+                                    <i class="text-danger fa fa-times"></i>
+                                @endif
+                            @endif
+                            @if($item->is_verification)
+                                <a href="{{asset($item->is_verification_file)}}" target="_blank"><i class="text-success fa fa-check-circle"></i></a>
                             @endif
                         </td>
                         <td class="text-center">
@@ -302,17 +353,46 @@
                                 -
                             @endif
                         </td>
-                        <!-- <td class="text-center">
-                            @if($item->invoice_doc)
-                                <a href="{{asset($item->invoice_doc)}}"><i class="fa fa-download"></i> </a>
-                            @else
-                                -
-                            @endif
-                        </td> -->
                     </tr>
                     @endforeach
                 </tbody>
             </table>
+        </div> 
+    </div>
+
+    <div class="modal fade" wire:ignore.self id="modal_upload_progress" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <form wire:submit.prevent="update_progress">
+                @csrf
+                <div class="modal-header">
+                    <h6 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Upload Progress</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true close-btn">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>File</label>
+                        <input type="file" class="form-control" wire:model="file_progress" />
+                        @error('file_progress')
+                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                        @enderror
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-check-circle"></i> Submit</button>
+                </div>
+                <div wire:loading wire:target="submit_verification">
+                    <div class="page-loader-wrapper" style="display:block">
+                        <div class="loader" style="display:block">
+                            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                            <p>Please wait...</p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
         </div>
     </div>
 

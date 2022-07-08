@@ -35,7 +35,7 @@ class Detailimage extends Component
     public function detailimage($id)
     {
         $this->selected_id = $id;
-        $data = \App\Models\AssetRequest::where('id', $this->selected_id)->first();
+        $data = \App\Models\AssetDatabase::where('id', $this->selected_id)->first();
         $this->reference_pic = $data->reference_pic;
         $this->link = $data->link;
         

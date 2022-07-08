@@ -7,7 +7,7 @@
             <div class="body pt-0">    
                 <div class="row">
                     <div class="table-responsive col-md-4 pt-3">
-                        <table class="table table-striped m-b-0 c_list table-nowrap-th">
+                        <table class="table m-b-0 c_list table-nowrap-th">
                             <tbody>
                                 <tr>
                                     <th>PO No</th>
@@ -63,11 +63,12 @@
                         </table>
                     </div>
                     <div class="table-responsive col-md-4 pt-3">
-                        <table class="table table-striped m-b-0 c_list table-nowrap-th">
+                        <table class="table m-b-0 c_list table-nowrap-th">
                             <tbody>
                                 <tr>
                                     <th>GR Number</th>
                                     <td>
+                                        <input type="text" class="form-control" wire:model="gr_number" />
                                         {{$data->gr_number}}
                                         @if($data->gr_file)
                                             <a href="{{asset($data->gr_file)}}"><i class="fa fa-download"></i> Document</a>
@@ -76,7 +77,10 @@
                                 </tr>
                                 <tr>
                                     <th>GR Date</th>
-                                    <td>{{$data->gr_date?date('d-M-Y',strtotime($data->gr_date)):'-'}}</td>
+                                    <td>
+                                        <input type="text" class="form-control" wire:model="gr_date" />
+                                        {{$data->gr_date?date('d-M-Y',strtotime($data->gr_date)):'-'}}
+                                    </td>
                                 </tr>
                                 @if($is_e2e and $data->status==1)
                                     <tr>
@@ -113,6 +117,19 @@
                                             @foreach($data->bukti_transfer as $bukti_transfer)
                                                 <a href="{{asset($bukti_transfer->file)}}" title="Finance - Budget Successfully Transfered" target="_blank"><i class="fa fa-image"></i> </a> 
                                             @endforeach
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Extra Budget</th>
+                                    <td>
+                                        {{format_idr($data->extra_budget)}}
+                                        @if($data->extra_budget) 
+                                            @if($data->extra_budget_file)
+                                                <a href="{{asset($data->extra_budget_file)}}" target="_blank"><i class="fa fa-image"></i></a>
+                                            @else
+                                                <a href="javascript:void(0)" class="badge badge-info badge-active" data-toggle="modal" data-target="#modal_upload_bukti_transfer"><i class="fa fa-upload"></i> Bukti Transfer</a>
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>
@@ -189,4 +206,43 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" wire:ignore.self id="modal_upload_bukti_transfer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Upload</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true close-btn">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="file" wire:model="file_extra_budget" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" wire:click="upload" class="btn btn-success"><i class="fa fa-check-circle"></i> Submit</button>
+                </div>
+                <div wire:loading wire:target="upload">
+                    <div class="page-loader-wrapper" style="display:block">
+                        <div class="loader" style="display:block">
+                            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                            <p>Please wait...</p>
+                        </div>
+                    </div>
+                </div>
+                <div wire:loading wire:target="file_extra_budget">
+                    <div class="page-loader-wrapper" style="display:block">
+                        <div class="loader" style="display:block">
+                            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                            <p>Please wait...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>

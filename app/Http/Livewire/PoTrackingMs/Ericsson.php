@@ -12,7 +12,7 @@ class Ericsson extends Component
     use WithFileUploads;
     public $file,$is_e2e,$is_service_manager,$is_have_deduction=0,$selected;
     public $approval_file,$pds_file,$pds_amount,$file_verification,$acceptance_doc,$invoice_doc;
-    public $is_finance,$keyword;
+    public $is_finance,$keyword,$field_active,$file_progress;
     protected $rules = [
         'file' => 'required',
     ];
@@ -39,23 +39,29 @@ class Ericsson extends Component
         $this->is_finance = check_access('is-finance');
     }
 
-    public function set_selected(PoMsEricsson $selected)
+    public function set_selected(PoMsEricsson $selected,$field=null)
     {
+        $this->field_active = $field;
         $this->selected = $selected;
     }
 
-    public function update_progress(PoMsEricsson $selected, $field,$value)
+    public function update_progress()
     {
-        $selected->$field = $value;
-        $selected->save();
+        $this->validate([
+            'file_progress'=>'required|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png,gif|max:51200', // 50MB maksimal
+        ]);
+        
+        $field = $this->field_active;
+        $field_file = $field."_file";
 
-        $this->emit('message-success',"PO Number {$selected->po_no} updated.");
+        $doc = $field.'_file.'.$this->file_progress->extension();
+        $this->file_progress->storePubliclyAs("public/po_tracking_ms/{$this->selected->id}",$doc);
+        $this->selected->$field_file ="storage/po_tracking_ms/{$this->selected->id}/{$doc}";
+        $this->selected->$field = 1;
+        $this->selected->save();
+
+        $this->emit('message-success',"PO Number {$this->selected->po_no} updated.");
         $this->emit('modal','hide');
-    }
-
-    public function updated($propertyName)
-    {
-
     }
 
     public function submit_verification()
@@ -89,11 +95,6 @@ class Ericsson extends Component
             $this->acceptance_doc->storePubliclyAs("public/po_tracking_ms/{$this->selected->id}",$doc);
             $this->selected->acceptance_doc ="storage/po_tracking_ms/{$this->selected->id}/{$doc}";
         }
-        // if($this->invoice_doc){
-        //     $doc = 'invoice-docs.'.$this->invoice_doc->extension();
-        //     $this->invoice_doc->storePubliclyAs("public/po_tracking_ms/{$this->selected->id}",$doc);
-        //     $this->selected->invoice_doc ="storage/po_tracking_ms/{$this->selected->id}/{$doc}";
-        // }
 
         $this->selected->status_ = 5;
         $this->selected->save();

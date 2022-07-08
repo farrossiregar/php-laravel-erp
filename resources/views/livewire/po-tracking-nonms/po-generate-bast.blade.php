@@ -126,17 +126,15 @@
             </tr>
             @if(isset($data->wos))
                 @foreach($data->wos as $k => $wo)
-                    @foreach(\App\Models\PoTrackingNonmsBoq::where('id_po_nonms_master',$wo->id)->get() as $item)
-                        <tr>
-                            <td>{{$wo->site_id}}</td>
-                            <td>{{$wo->site_name}}</td>
-                            <td>{{$item->item_description}}</td>
-                            <td style="text-align:center">{{$item->qty}}</td>
-                            <td></td>
-                            <td style="text-right">{{format_idr($item->price)}}</td>
-                            <td style="text-right">{{format_idr($item->input_price)}}</td>
-                        </tr>
-                    @endforeach
+                    <tr>
+                        <td>{{$wo->wo->site_id}}</td>
+                        <td>{{$wo->wo->site_name}}</td>
+                        <td>{{$wo->item_description}}</td>
+                        <td style="text-align:center">{{$wo->qty}}</td>
+                        <td></td>
+                        <td style="text-right">{{format_idr($wo->price)}}</td>
+                        <td style="text-right">{{format_idr($wo->input_price)}}</td>
+                    </tr>
                 @endforeach
             @endif
         </table>
@@ -167,36 +165,35 @@
         
         @php($enter=0)
         @php($enter2=0)
-        @if(isset($data->wos))
-            @foreach($data->wos as $k => $bast)
+        @if(isset($data->wos_group))
+            @foreach($data->wos_group as $k => $bast)
                 <div class="page_break"></div>
                     <table style="border:1p solid #000;width:100%;">
-                        <tr>
+                        <!-- <tr>
                             <td style="width:50%;">Project</td>
-                            <td> : </td>
-                        </tr>
+                            <td> : {{isset($bast->wo->project) ? $bast->wo->project : '-'}}</td>
+                        </tr> -->
                         <tr>
                             <td>PO Number</td>
-                            <td> : {{ $data->po_no }}</td>
+                            <td> : {{ $data->po_number }}</td>
                         </tr>
                         <tr>
                             <td>Site ID</td>
-                            <td> : {{$bast->site_id}}</td>
+                            <td> : {{isset($bast->wo->site_id) ? $bast->wo->site_id : '-'}}</td>
                         </tr>
                         <tr>
                             <td>Site Name</td>
-                            <td> : {{$bast->site_name}}</td>
+                            <td> : {{isset($bast->wo->site_name) ? $bast->wo->site_name : '-'}}</td>
                         </tr>
                         <tr>
                             <td>Scope of Works</td>
-                            <td> : {{$data->pekerjaan}}</td>
+                            <td> : {{isset($bast->wo->site_id) ? $bast->wo->site_id : '-'}}</td>
                         </tr>
                     </table>
                     <br />
                     <br />
-                    
-                    @if(isset($bast->bast_file))
-                        @foreach($bast->bast_file as $kimg => $item)
+                    @if(isset($bast->wo->bast_file))
+                        @foreach($bast->wo->bast_file as $kimg => $item)
                             <div style="border:1px solid #000;padding:10px;float:left;width:30%;margin-right:10px;">
                                 <img src="{{asset($item->image)}}" style="width:100%;" />
                                 <div style="margin-top:10px; margin-left:-10px;margin-right:-10px;border-top:1px solid #000;text-align:center;">

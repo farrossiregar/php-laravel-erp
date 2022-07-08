@@ -14,9 +14,7 @@ use Auth;
 class Add extends Component
 {
     use WithPagination;
-    // public $date, $employee_id;
     protected $paginationTheme = 'bootstrap';
-    
     use WithFileUploads;
     public $dataproject, $company_name, $project, $client_project_id, $region, $employee_name, $position, $datalocation, $dataassetname;
     public $asset_type, $asset_name, $location, $quantity, $dimension, $detail, $file, $reason_request, $link, $pic_ba, $pic_phone, $pic_bank_name, $expired_date, $serial_number;
@@ -26,8 +24,8 @@ class Add extends Component
 
         $user = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
         
-        $this->employee_name = $user->name;
-        $this->position = get_position($user->user_access_id);
+        $this->employee_name = isset(\Auth::user()->employee->name) ? \Auth::user()->employee->name : '-';
+        $this->position = \Auth::user()->access->name;
         // $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
         // $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
 
@@ -36,22 +34,23 @@ class Add extends Component
                                 ->where('is_project', '1')
                                 ->get();
 
-        
-
-        $get_project = \App\Models\ClientProject::where('id', \App\Models\EmployeeProject::where('employee_id', Auth::user()->id)->first()->client_project_id)->first();
-        $this->project = $get_project->name;
-
-        $this->region = \App\Models\Region::where('id', $get_project->region_id)->first()->region_code;
-
-        $this->datalocation = \App\Models\Dophomebasemaster::where('status', '1')->where('project', $get_project->name)->where('region', $this->region)->orderBy('id', 'desc')->get();
-
-        if($this->asset_type){
-            $this->dataassetname = \App\Models\AssetDatabase::where('asset_type', $this->asset_type)->get();
-        }else{
-            $this->dataassetname = [];
+        $project_arr = [];
+        foreach(\Auth::user()->employee->employee_project as  $k => $i) {
+            $project_arr[] = $i->client_project_id;
         }
 
-       
+        #$employee_project = \App\Models\EmployeeProject::where('employee_id', Auth::user()->id)->first();
+        #$get_project = \App\Models\ClientProject::whereIn('id', $project_arr)->first();
+        #$this->project = $get_project->name;
+
+        #$this->region = \App\Models\Region::where('id', $get_project->region_id)->first()->region_code;
+
+        #$this->datalocation = \App\Models\DophomebaseMaster::where('status', '1')->where('project', $get_project->name)->where('region', $this->region)->orderBy('id', 'desc')->get();
+
+        if($this->asset_type)
+            $this->dataassetname = \App\Models\AssetDatabase::where('asset_type', $this->asset_type)->get();
+        else
+            $this->dataassetname = [];
         
         return view('livewire.asset-database.add');
     }
@@ -59,6 +58,10 @@ class Add extends Component
   
     public function save()
     {
+        $this->validate([
+            'asset_type' => 'required',
+            'asset_name' => 'required'
+        ]);
 
         $user                           = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
         $data                           = new \App\Models\AssetDatabase();
@@ -68,14 +71,12 @@ class Add extends Component
         
         $data->region                   = $this->region;
         // $data->pic                      = $this->employee_name;
-        // $data->pic_telephone            = $this->pic_phone;
-        // $data->pic_bank_account         = $this->pic_ba;
-        // $data->pic_bank_name            = $this->pic_bank_name;
+        
         // $data->nik                      = $user->nik;
         $data->asset_type               = $this->asset_type;
         $data->asset_name               = $this->asset_name;
         $data->location                 = $this->location;
-        // $data->stok                     = $this->quantity;
+        
         $data->dimension                = $this->dimension;
         // $data->detail                   = $this->detail;
         // $data->reason_request           = $this->reason_request;

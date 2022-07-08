@@ -44,32 +44,6 @@ class Detaillocation extends Component
         
     }
 
-  
-    // public function save()
-    // {
-
-    //     // $user                           = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-    //     $data                           = \App\Models\AssetRequest::where('id', $this->selected_id)->first();
-        
-    //     $data->dana_from                = $this->dana_from;
-    //     $data->pr_no                    = $this->pr_no;
-    //     $data->dana_amount              = $this->dana_amount;
-    //     $data->save();
-
-      
-
-    //     session()->flash('message-success',"Asset Request Berhasil diinput");
-        
-    //     return redirect()->route('asset-request.index');
-    // }
-
-    // public function weekOfMonth3($strDate) {
-	// 	$dateArray = explode("-", $strDate);
-	// 	$date = new DateTime();
-	// 	$date->setDate($dateArray[0], $dateArray[1], $dateArray[2]);
-	// 	return floor((date_format($date, 'j') - 1) / 7) + 1;  
-	//   }
-
 
 }
 

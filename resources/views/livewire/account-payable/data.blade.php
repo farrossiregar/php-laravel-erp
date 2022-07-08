@@ -2,12 +2,6 @@
     <div class="col-md-1">                
         <select class="form-control" wire:model="filteryear">
             <option value=""> --- Year --- </option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-            <option value="2019">2019</option>
-            <option value="2018">2018</option>
-            <option value="2017">2017</option>
         </select>
     </div>
     <div class="col-md-2" wire:ignore>
@@ -43,25 +37,26 @@
             <option value="9">Supplier/Vendor</option>  
         </select>
     </div>
-    <div class="col-md-1" style="margin: 0 10px;">
-        <a href="javascript:;" wire:click="$emit('modaladdaccountpayable')" class="btn btn-info"><i class="fa fa-plus"></i> Request AP </a>
+    <div class="col-md-1">
+        <a href="javascript:;" data-toggle="modal" data-target="#modal_add" class="btn btn-info"><i class="fa fa-plus"></i> Request AP </a>
     </div>  
     <div class="col-md-12">
-        <br><br>
         <div class="table-responsive">
-            <table class="table table-bordered m-b-0 c_list">
+            <table class="table m-b-0 c_list">
                 <thead style="background: #eee;">
                     <tr>
-                        <th rowspan="2" class="align-middle">No</th>
-                        <th rowspan="2" class="align-middle">Status</th> 
-                        <th rowspan="2" class="align-middle">Action</th> 
-                        <th rowspan="2" class="align-middle">Date Create</th>
-                        <th rowspan="2" class="align-middle">User</th> 
-                        <th rowspan="2" class="align-middle">Position</th> 
-                        <th rowspan="2" class="align-middle">Project</th> 
-                        <th rowspan="2" class="align-middle">Request Type</th> 
-                        <th rowspan="2" class="align-middle">Additional Document</th> 
-                        <th rowspan="2" class="align-middle">Detail Payment</th> 
+                        <th class="align-middle">No</th>
+                        <th class="align-middle">Status</th> 
+                        <th class="align-middle">Date Create</th>
+                        <th class="align-middle">Cash Transaction No</th>
+                        <!-- <th class="align-middle">NIK / Name</th>  -->
+                        <!-- <th class="align-middle">Position</th>  -->
+                        <!-- <th class="align-middle">Project</th>  -->
+                        <th class="align-middle">Request Type</th>
+                        <th class="text-center">Additional Document</th> 
+                        <th class="align-middle">Description</th> 
+                        <th class="text-right">Amount</th> 
+                        <th class="align-middle"></th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -69,142 +64,26 @@
                         <tr>
                             <td>{{ $key + 1 }}</td>
                             <td>
-                                @if($item->status == '2')
-                                    <?php
-                                        if($item->request_type == '1' || $item->request_type == '2' || $item->request_type == '3'){
-                                            $fin_app = 'Finance Supervisor';
-                                        }
-
-                                        if($item->request_type == '4' || $item->request_type == '5' || $item->request_type == '6'){
-                                            $fin_app = 'Finance Manager';
-                                        }
-
-                                        if($item->request_type == '7' || $item->request_type == '8' || $item->request_type == '9'){
-                                            $fin_app = 'Sr Finance & Acc Manager';
-                                        }
-                                    ?>
-                                    <label class="badge badge-success" data-toggle="tooltip" title="Account Payable Request is Approved by {{$fin_app}}">Approved by {{$fin_app}}</label>
+                                @if($item->status==0)
+                                    <span class="badge badge-warning">Waiting AP Staff</span>
                                 @endif
-
-                                @if($item->status == '1')
-                                    @if($item->request_type == '1' || $item->request_type == '7' || $item->request_type == '8' || $item->request_type == '9')
-                                        <label class="badge badge-success" data-toggle="tooltip" title="Account Payable Request is Approved by PMG">Approved by AP Staff</label>
-                                    @else
-                                        <label class="badge badge-success" data-toggle="tooltip" title="Account Payable Request is Approved by PMG">Approved by PMG</label>
-                                    @endif
+                                @if($item->status==1)
+                                    <span class="badge badge-info">Finance in review</span>
                                 @endif
-
-                                @if($item->status == '0')
-                                    <label class="badge badge-danger" data-toggle="tooltip" title="{{$item->note}}">Decline</label>
+                                @if($item->status==2)
+                                    <span class="badge badge-success">Settled</span>
                                 @endif
-
-                                @if($item->status == '' || $item->status == 'null')
-                                    <label class="badge badge-warning" data-toggle="tooltip" title="Waiting to Approve">Waiting to Approve</label>
+                                @if($item->status==3)
+                                    <span class="badge badge-danger" onclick="alert('{{$item->app_staff_note}}')" title="{{$item->app_staff_note}}">Reject</span>
                                 @endif
-                            </td>
-                            <td>
-                                @if($is_pmg)
-                                    @if($item->status == '')
-                                        <a href="javascript:;" wire:click="$emit('modalapproveaccountpayable',['{{ $item->id }}', '1'])" class="badge badge-info badge-active"><i class="fa fa-check-circle"></i> Approve</a>
-                                        <a href="javascript:;" wire:click="$emit('modaldeclineaccountpayable','{{ $item->id }}')" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Reject</a>
-                                    @endif
-                                @endif
-
-                                @if($is_apstaff)
-                                    @if($item->status == '')
-                                        <a href="javascript:;" wire:click="$emit('modalapproveaccountpayable',['{{ $item->id }}', '1'])" class="badge badge-info badge-active"><i class="fa fa-check-circle"></i> Approve</a>
-                                        <a href="javascript:;" wire:click="$emit('modaldeclineaccountpayable','{{ $item->id }}')" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Reject</a>
-                                    @endif
-                                @endif
-                                
-                                <!-- Revise User -->
-                                @if(!check_access('account-payable.fin-spv') || !check_access('account-payable.fin-mngr') || !check_access('account-payable.sr-fin-acc-mngr'))
-                                    @if($item->status == '0')
-                                        <a href="javascript:;" wire:click="$emit('modalrevisiaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #de4848;"></i></a>
-                                    @endif
-                                @endif
-                                
-                                @if($is_finance_spv || $is_finance_manager || $is_finance_accounting_manager)
-                                    @if($item->status == '1')
-                                        <a href="javascript:;" wire:click="$emit('modalapproveaccountpayable',['{{ $item->id }}', '2'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
-                                        <a href="javascript:;" wire:click="$emit('modaldeclineaccountpayable','{{ $item->id }}')"><i class="fa fa-close " style="color: #de4848;"></i></a>
-                                    @endif
-                                @endif
-
-                                @if($item->status == '2')
-                                    @if($is_finance_spv)    
-                                        @if($item->request_type == '1')
-                                            @if(!\App\Models\AccountPayablePettycash::where('id_master', $item->id)->first())
-                                                <a href="javascript:;" wire:click="$emit('modaladdpettycashaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
-                                            @endif
-                                        @endif
-                                        @if($item->request_type == '2')
-                                            @if(!\App\Models\AccountPayableWeeklyopex::where('id_master', $item->id)->first())
-                                                <a href="javascript:;" wire:click="$emit('modaladdweeklyopexaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
-                                            @endif
-                                        @endif
-                                        @if($item->request_type == '3')
-                                            @if(!\App\Models\AccountPayableOtheropex::where('id_master', $item->id)->first())
-                                                <a href="javascript:;" wire:click="$emit('modaladdotheropexaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
-                                            @endif
-                                        @endif
-                                    @endif
-
-                                    @if($is_finance_manager)
-                                        @if($item->request_type == '4')
-                                            @if(!\App\Models\AccountPayableRectification::where('id_master', $item->id)->first())
-                                                <a href="javascript:;" wire:click="$emit('modaladdrectificationaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
-                                            @endif
-                                        @endif
-                                        @if($item->request_type == '5')
-                                            @if(!\App\Models\AccountPayableSubcont::where('id_master', $item->id)->first())
-                                                <a href="javascript:;" wire:click="$emit('modaladdsubcontaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
-                                            @endif
-                                        @endif
-                                        @if($item->request_type == '6')
-                                            @if(!\App\Models\AccountPayableSitekeeper::where('id_master', $item->id)->first())
-                                                <a href="javascript:;" wire:click="$emit('modaladdsitekeeperaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
-                                            @endif
-                                        @endif
-                                    @endif
-
-                                    @if($is_finance_accounting_manager)
-                                        @if($item->request_type == '7')
-                                            @if(!\App\Models\AccountPayableHqadministration::where('id_master', $item->id)->first())
-                                                <a href="javascript:;" wire:click="$emit('modaladdhqadministrationaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
-                                            @endif
-                                        @endif
-                                        @if($item->request_type == '8')
-                                            @if(!\App\Models\AccountPayablePayroll::where('id_master', $item->id)->first())
-                                                <a href="javascript:;" wire:click="$emit('modaladdpayrollaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
-                                            @endif
-                                        @endif
-                                        @if($item->request_type == '9')
-                                            @if(!\App\Models\AccountPayableSuppliervendor::where('id_master', $item->id)->first())
-                                                <a href="javascript:;" wire:click="$emit('modaladdsuppliervendoraccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
-                                            @endif
-                                        @endif
-                                    @endif
+                                @if($item->status==4)
+                                    <span class="badge badge-warning">Waiting PMG</span>
                                 @endif
                             </td>
                             <td>{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
+                            <td>{{ $item->cash_transaction_no }}</td>    
                             <td class="align-middle">
-                                <b>{{ $item->name }}</b><br>
-                                {{ $item->nik }}
-                            </td>
-                            <td>
-                                <b>{{ @\App\Models\Department::where('id', \App\Models\Employee::where('nik', $item->nik)->first()->department_id)->first()->name }}</b><br>
-                                {{ @\App\Models\UserAccess::where('id', $item->position)->orderBy('id', 'asc')->first()->name }}
-                            </td>
-                            
-                            <td class="align-middle">
-                                <b>{{ $item->project }}</b><br>
-                                {{ $item->region }}
-                            </td>
-                            
-                            <td class="align-middle">
-                                <b>
-                                @if($item->request_type == '1')
+                                @if($item->request_type == 1)
                                     @if($item->update_req == '1')
                                         <a href="javascript:;" wire:click="$emit('modaladdpettycashaccountpayable','{{ $item->id }}')">
                                         Petty Cash
@@ -212,6 +91,7 @@
                                     @else
                                         Petty Cash
                                     @endif
+                                    {{isset($item->petty_cash_type->name) ? " / {$item->petty_cash_type->name}" : ''}}
                                 @endif
                                 @if($item->request_type == '2')
                                     @if($item->update_req == '1')
@@ -285,7 +165,6 @@
                                         Supplier/Vendor
                                     @endif
                                 @endif
-                                </b>
                                 <br>
                                 @if($item->request_type == '1')
                                     @if($item->subrequest_type == '1')
@@ -322,217 +201,141 @@
                                         Police Report
                                     @endif
                                 @endif
-                                @if($item->request_type == '3')
-                                    Other Opex
-                                    @if($item->subrequest_type == '1')
-                                        Consumable Material
-                                    @endif
-                                    @if($item->subrequest_type == '2')
-                                        Service / Maintenance (Include Tools)
-                                    @endif
-                                    @if($item->subrequest_type == '3')
-                                        Rapid / Swab
-                                    @endif
-                                    @if($item->subrequest_type == '4')
-                                        Opex Training
-                                    @endif
-                                    @if($item->subrequest_type == '5')
-                                        Addwork
-                                    @endif
-                                @endif
-                                @if($item->request_type == '4')
-                                    Rectification
-                                    @if($item->subrequest_type == '1')
-                                        Rectif E2E
-                                    @endif
-                                    @if($item->subrequest_type == '2')
-                                        Rectif STP
-                                    @endif
-                                    @if($item->subrequest_type == '3')
-                                        Rectif Car Track
-                                    @endif
-                                    @if($item->subrequest_type == '4')
-                                        Rectif H3I
-                                    @endif
-                                    @if($item->subrequest_type == '5')
-                                        Reimburse Solar Genset
-                                    @endif
-                                    @if($item->subrequest_type == '6')
-                                        Reimburse Electricity
-                                    @endif
-                                @endif
-                                @if($item->request_type == '5')
-                                    Subcont
-                                    @if($item->subrequest_type == '1')
-                                        Subcont
-                                    @endif
-                                @endif
-                                @if($item->request_type == '6')
-                                    Site Keeper
-                                    @if($item->subrequest_type == '1')
-                                        Huawei
-                                    @endif
-                                    @if($item->subrequest_type == '2')
-                                        Imbas Petir
-                                    @endif
-                                @endif
-                                @if($item->request_type == '7')
-                                    HQ Administration
-                                    @if($item->subrequest_type == '1')
-                                        BPJS Teragakerjaan
-                                    @endif
-                                    @if($item->subrequest_type == '2')
-                                        BPJS Kesehatan
-                                    @endif
-                                    @if($item->subrequest_type == '3')
-                                        Life Insurance
-                                    @endif
-                                    @if($item->subrequest_type == '4')
-                                        Utilities - Electricity
-                                    @endif
-                                    @if($item->subrequest_type == '5')
-                                        Utilities - Telephone
-                                    @endif
-                                    @if($item->subrequest_type == '6')
-                                        Utilities - Internet
-                                    @endif
-                                    @if($item->subrequest_type == '7')
-                                        Application Subscription (IT)
-                                    @endif
-                                    @if($item->subrequest_type == '8')
-                                        IT/System Purchasing
-                                    @endif
-                                    @if($item->subrequest_type == '9')
-                                        Staff Claim - Entertainment
-                                    @endif
-                                    @if($item->subrequest_type == '10')
-                                        Staff Claim - Medical
-                                    @endif
-                                    @if($item->subrequest_type == '11')
-                                        Staff Claim - Transport
-                                    @endif
-                                    @if($item->subrequest_type == '12')
-                                        CSR (External & Internal)
-                                    @endif
-                                    @if($item->subrequest_type == '13')
-                                        Homebase
-                                    @endif
-                                    @if($item->subrequest_type == '14')
-                                        Office/Warehouse rental
-                                    @endif
-                                    @if($item->subrequest_type == '15')
-                                        Legal Fee for vehicle
-                                    @endif
-                                    @if($item->subrequest_type == '16')
-                                        Legal Fee
-                                    @endif
-                                    @if($item->subrequest_type == '17')
-                                        Notary Fee
-                                    @endif
-                                    @if($item->subrequest_type == '18')
-                                        Audit ISO
-                                    @endif
-                                    @if($item->subrequest_type == '19')
-                                        Audit Financial Statement
-                                    @endif
-                                    @if($item->subrequest_type == '20')
-                                        Appraissal Agent Fee
-                                    @endif
-                                    @if($item->subrequest_type == '21')
-                                        E-commerce purchasing
-                                    @endif
-                                    @if($item->subrequest_type == '22')
-                                        All taxes (Finance)
-                                    @endif
-                                    @if($item->subrequest_type == '23')
-                                        Bank Loan Principle (Finance)
-                                    @endif
-                                    @if($item->subrequest_type == '24')
-                                        Bank Loan Interest (Finance)
-                                    @endif
-                                    @if($item->subrequest_type == '25')
-                                        Related/Third Party Loan Principle (Finance)
-                                    @endif
-                                    @if($item->subrequest_type == '26')
-                                        Related/Third Party Loan Interest (Finance)
-                                    @endif
-                                    @if($item->subrequest_type == '27')
-                                        Proxy (Finance)
-                                    @endif
-                                    @if($item->subrequest_type == '28')
-                                        Dividend (Finance)
-                                    @endif
-                                    @if($item->subrequest_type == '29')
-                                        Deposit (Finance)
-                                    @endif
-                                @endif
-                                @if($item->request_type == '8')
-                                    Payroll
-                                    @if($item->subrequest_type == '1')
-                                        Salary HQ Office
-                                    @endif
-                                    @if($item->subrequest_type == '2')
-                                        Salary Region / Project
-                                    @endif
-                                @endif
-                                @if($item->request_type == '9')
-                                    Supplier/Vendor
-                                    
-                                    @if($item->subrequest_type == '1')
-                                        Consumable Material
-                                    @endif
-                                    @if($item->subrequest_type == '2')
-                                        Inventory
-                                    @endif
-                                    @if($item->subrequest_type == '3')
-                                        Tools/Project supply
-                                    @endif
-                                    @if($item->subrequest_type == '4')
-                                        Fixed Assets
-                                    @endif
-                                    @if($item->subrequest_type == '5')
-                                        Office Supplies
-                                    @endif
-                                    @if($item->subrequest_type == '6')
-                                        Service/Maintenance
-                                    @endif
-                                    @if($item->subrequest_type == '7')
-                                        Ownrisk
-                                    @endif
-                                    @if($item->subrequest_type == '8')
-                                        Ownership
-                                    @endif
-                                    @if($item->subrequest_type == '9')
-                                        Training
-                                    @endif
-                                    @if($item->subrequest_type == '10')
-                                        Car Rental (+Personal)
-                                    @endif
-                                    @if($item->subrequest_type == '11')
-                                        Tools or Equipment Rental
-                                    @endif
-                                    @if($item->subrequest_type == '12')
-                                        PJK3
-                                    @endif
-                                    @if($item->subrequest_type == '13')
-                                        Freight/logistic fee
-                                    @endif
+                            </td>
+                            <td class="text-center">
+                                @if($item->additional_doc)
+                                    <a href="{{ asset($item->additional_doc)}}" target="_blank"><i class="fa fa-download"></i> {{ strtoupper($item->doc_name) }}</a>
+                                @else
+                                    -
                                 @endif
                             </td>
-                            <td><a href="<?php echo asset('storage/Account_Payable/'.$item->additional_doc) ?>" target="_blank"><i class="fa fa-download"></i> {{ strtoupper($item->doc_name) }}</a></td>
                             <td>
-                                @if($is_treasury)
-                                    @if($item->bank_account_name != '' && $item->bank_account_number != '' && $item->bank_name != '')
-                                        <a href="javascript:;" wire:click="$emit('modaltreasuryaccountpayable','{{ $item->id }}')"><i class="fa fa-eye " style="color: #17a2b8;"></i></a>
-                                    @else
-                                        <a href="javascript:;" wire:click="$emit('modaltreasuryaccountpayable','{{ $item->id }}')"><i class="fa fa-edit" style="color: #22af46;"></i></a>
+                                @php($total=0)
+                                @if($item->request_type==1)
+                                    @if(isset($item->petty_cash->items))
+                                        @php($description_ = [])
+                                        @foreach($item->petty_cash->items as $i)
+                                            @php($description_[] = $i->description)
+                                            @php($total += $i->amount)
+                                        @endforeach
+                                        {{implode(", ", $description_)}}
+                                    @endif
+                                @endif
+                                @if($item->request_type==2)
+                                    @if(isset($item->weekly_opex->items))
+                                        @php($description_ = [])
+                                        @foreach($item->weekly_opex->items as $i)
+                                            @php($description_[] = $i->description)
+                                            @php($total += $i->amount)
+                                        @endforeach
+                                        {{implode(", ", $description_)}}
                                     @endif
                                 @endif
                             </td>    
+                            <td class="text-right">{{format_idr($total)}}</td>
+                            <td>
+                                @if($is_pmg and $item->status == 4)
+                                    <a href="javascript:void(0)" wire:click="$emit('check_id',{{$item->id}})" class="badge badge-info badge-active" data-toggle="modal" data-target="#modal_process_pmg"><i class="fa fa-check-circle"></i> Process</a>
+                                @endif
+
+                                @if($is_apstaff)
+                                    @if($item->status == '')
+                                        <a href="javascript:;" wire:click="$emit('modalapproveaccountpayable',['{{ $item->id }}', '1'])" class="badge badge-info badge-active"><i class="fa fa-check-circle"></i> Approve</a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclineaccountpayable','{{ $item->id }}')" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Reject</a>
+                                    @endif
+                                @endif
+                                
+                                <!-- Revise User -->
+                                @if(!check_access('account-payable.fin-spv') || !check_access('account-payable.fin-mngr') || !check_access('account-payable.sr-fin-acc-mngr'))
+                                    @if($item->status == '0')
+                                        <!-- <a href="javascript:;" wire:click="$emit('modalrevisiaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #de4848;"></i></a> -->
+                                    @endif
+                                @endif
+                                
+                                @if($is_finance_spv || $is_finance_manager || $is_finance_accounting_manager)
+                                    @if($item->status == '1')
+                                        <!-- <a href="javascript:;" wire:click="$emit('modalapproveaccountpayable',['{{ $item->id }}', '2'])"><i class="fa fa-check " style="color: #22af46;"></i></a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclineaccountpayable','{{ $item->id }}')"><i class="fa fa-close " style="color: #de4848;"></i></a> -->
+                                        <a href="javascript:;" wire:click="$emit('modalapproveaccountpayable',['{{ $item->id }}', '2'])" class="badge badge-info badge-active"><i class="fa fa-check-circle"></i> Approve</a>
+                                        <a href="javascript:;" wire:click="$emit('modaldeclineaccountpayable','{{ $item->id }}')" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Reject</a>
+                                    @endif
+                                @endif
+
+                                @if($item->status == '2')
+                                    @if($is_finance_spv)    
+                                        @if($item->request_type == '1')
+                                            @if(!\App\Models\AccountPayablePettycash::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdpettycashaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
+                                        @endif
+                                        @if($item->request_type == '2')
+                                            @if(!\App\Models\AccountPayableWeeklyopex::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdweeklyopexaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
+                                        @endif
+                                        @if($item->request_type == '3')
+                                            @if(!\App\Models\AccountPayableOtheropex::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdotheropexaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
+                                        @endif
+                                    @endif
+
+                                    @if($is_finance_manager)
+                                        @if($item->request_type == '4')
+                                            @if(!\App\Models\AccountPayableRectification::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdrectificationaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
+                                        @endif
+                                        @if($item->request_type == '5')
+                                            @if(!\App\Models\AccountPayableSubcont::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdsubcontaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
+                                        @endif
+                                        @if($item->request_type == '6')
+                                            @if(!\App\Models\AccountPayableSitekeeper::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdsitekeeperaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
+                                        @endif
+                                    @endif
+
+                                    @if($is_finance_accounting_manager)
+                                        @if($item->request_type == '7')
+                                            @if(!\App\Models\AccountPayableHqadministration::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdhqadministrationaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
+                                        @endif
+                                        @if($item->request_type == '8')
+                                            @if(!\App\Models\AccountPayablePayroll::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdpayrollaccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
+                                        @endif
+                                        @if($item->request_type == '9')
+                                            @if(!\App\Models\AccountPayableSuppliervendor::where('id_master', $item->id)->first())
+                                                <a href="javascript:;" wire:click="$emit('modaladdsuppliervendoraccountpayable','{{ $item->id }}')"><i class="fa fa-edit " style="color: #22af46;"></i></a>
+                                            @endif
+                                        @endif
+                                    @endif
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <livewire:account-payable.add />
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_process_pmg" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            @livewire('account-payable.pmg-process')
         </div>
     </div>
 </div>

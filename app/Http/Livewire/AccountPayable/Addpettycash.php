@@ -10,14 +10,10 @@ use Session;
 use DateTime;
 use Auth;
 use DB;
-
+use App\Models\EmployeeProject;
 
 class Addpettycash extends Component
 {
-
-    // protected $listeners = [
-    //     'modaladdpettycashaccountpayable'=>'modaladdpettycashaccountpayable',
-    // ];
 
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -34,11 +30,23 @@ class Addpettycash extends Component
         // $reqnum                                 = '003';
 
         $this->employee_name                    = isset(Auth::user()->employee->name)?Auth::user()->employee->name : '-';
-        $this->project                          = isset(Auth::user()->employee->region->region)?Auth::user()->employee->region->region : '-';
+        // $this->project                          = isset(Auth::user()->employee->region->region)?Auth::user()->employee->region->region : '-';
         $this->position                         = isset(Auth::user()->employee->access->name)?Auth::user()->employee->access->name : '-';
         $this->department                       = isset(Auth::user()->employee->department->name)?Auth::user()->employee->department->name : '-';
         $this->advance_req_no                   = $this->department.'/'.date('Ym').'/'.$this->getNextId();
         $this->cash_transaction_no              = $this->getNextId().'/'.date('d').'/'.date('m').'/'.date('Y').'/CashOut';
+
+
+        $projects = EmployeeProject::select('client_projects.*')
+                                        ->join('employees','employees.id','=','employee_projects.employee_id')
+                                        ->join('client_projects','client_projects.id','=','employee_projects.client_project_id')
+                                        ->where('employees.id',\Auth::user()->employee->id)
+                                        ->get();
+        foreach($projects as $item){
+            $this->project .= $item->name ."";
+        }
+
+        $this->project .= isset(\Auth::user()->employee->region->region) ? " / ".\Auth::user()->employee->region->region : '-';
 
         // if($this->department){
         //     $this->advance_req_no               = \App\Models\Department::where('id', $this->department)->first()->name.'/'.date('Ym').'/'.$reqnum;
@@ -162,10 +170,6 @@ class Addpettycash extends Component
         //         \Mail::to($user->email)->send(new GeneralEmail("[PMT E-PM] - NOC Team Schedule",$message));
         //     }
         // }
-
-       
-
-
         session()->flash('message-success',"Request Petty Cash Berhasil diinput");
         
         return redirect()->route('finance-petty-cash.index');
@@ -174,6 +178,7 @@ class Addpettycash extends Component
     public function getNextId() 
     {
         $statement = DB::select("show table status like 'account_payable_pettycash'");
+        
         return $statement[0]->Auto_increment;
     }
 
@@ -182,10 +187,5 @@ class Addpettycash extends Component
 		$date = new DateTime();
 		$date->setDate($dateArray[0], $dateArray[1], $dateArray[2]);
 		return floor((date_format($date, 'j') - 1) / 7) + 1;  
-	  }
-
-
+	}
 }
-
-
-

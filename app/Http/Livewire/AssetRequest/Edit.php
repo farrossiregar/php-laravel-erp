@@ -22,44 +22,58 @@ class Edit extends Component
     protected $paginationTheme = 'bootstrap';
     
     use WithFileUploads;
-    public $selected_id, $dana_from, $pr_no, $prno, $dana_amount;
+    public $selected_id, $dana_from, $pr_no, $prno, $dana_amount, $amount, $location, $insert=false;
 
     public function render()
     {
         // dd($this->dana_from);
         if($this->dana_from == '1'){
             $this->prno = '1';
+        }else{
+            $this->prno = '0';
         }
-       
-        return view('livewire.asset-request.edit');
+
+        $this->location                           = @\App\Models\AssetDatabase::where('id', $this->selected_id)->first()->location;
+
+        $data = \App\Models\AssetDatabasePoprnumber::where('asset_id', $this->selected_id)->orderBy('id','DESC');
+
+        return view('livewire.asset-request.edit')->with(['data'=>$data->get()]);
     }
 
     public function editassetrequest($id)
     {
         $this->selected_id = $id;
-
-        
     }
 
   
     public function save()
     {
-
         // $user                           = \App\Models\Employee::where('user_id', Auth::user()->id)->first();
-        $data                           = \App\Models\AssetRequest::where('id', $this->selected_id)->first();
-        
+        $data                           = \App\Models\AssetDatabase::where('id', $this->selected_id)->first();
         $data->dana_from                = $this->dana_from;
-        $data->pr_no                    = $this->pr_no;
         $data->dana_amount              = $this->dana_amount;
-        $data->serial_number            = 'ar'.date('ymd').$this->selected_id;
+        // $data->serial_number            = 'ar'.date('ymd').$this->selected_id;
         $data->save();
+
+        $datapo                             = new \App\Models\AssetDatabasePoprnumber();
+        $datapo->asset_id                   = $this->selected_id;
+        $datapo->pr_po_number               = $this->pr_no;
+        $datapo->amount                     = $this->amount;
+        $datapo->save();
 
         // $message  = "<p>Dear {$data->name}<br />, Asset Request is Approved </p>";
         // \Mail::to($data->email)->send(new GeneralEmail("[PMT E-PM] - Asset Request",$message));
 
-        session()->flash('message-success',"Asset Request Berhasil diinput");
+        session()->flash('message-success',"Dana Asset Request Berhasil diinput");
         
+        $this->insert = false;
+        $this->reset(['pr_no']);
+        $this->reset(['amount']);
+        // $this->emit('reload');
+
         return redirect()->route('asset-request.index');
+
+        
     }
 
     public function weekOfMonth3($strDate) {

@@ -19,21 +19,10 @@ class Data extends Component
     
     public function render()
     {
-
-       
         $data = \App\Models\PettyCash::where('company_id', Session::get('company_id'))->orderBy('created_at', 'desc');
-            //    dd($data->get());
 
         if($this->date) $ata = $data->whereDate('created_at',$this->date);
                         
-        
-        return view('livewire.petty-cash.data')->with(['data'=>$data->paginate(50)]);
-
-        
+        return view('livewire.petty-cash.data')->with(['data'=>$data->paginate(50)]);       
     }
-
-
 }
-
-
-

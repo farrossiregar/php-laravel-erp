@@ -17,7 +17,7 @@ class Importboq extends Component
     use WithFileUploads;
     public $file;
     public $selected_id,$wo_number;
-
+    public $wo_selected;
     protected $rules = [
         'file' => 'required',
     ];
@@ -46,6 +46,8 @@ class Importboq extends Component
             $double_data = 0;
             $total_success = 0;
 
+            $is_double = false;
+
             foreach($sheetDatas as $key => $i){
                 if($key<1) continue; // skip header
                 
@@ -68,11 +70,10 @@ class Importboq extends Component
 
                 if(!$no_wo) continue; // jika tidak ada data maka skip
 
-                $data = PoTrackingNonms::where('no_tt',$no_wo)->where(function($table){
-                    $table->whereNull('status')->orWhere('status',0);
-                })->whereNull('po_tracking_nonms_po_id')->first();
+                // check double
+                $this->wo_selected = PoTrackingNonms::where('no_tt',$no_wo)->first();
                 
-                if(!$data){
+                if(!$this->wo_selected){
                     $data = new PoTrackingNonms();
                     $data->no_tt = $no_wo;
                     $data->region = $region;
@@ -80,6 +81,12 @@ class Importboq extends Component
                     $data->site_name = $site_name;
                     $data->type_doc = 2;
                     $data->save();
+                }else{
+                    if($this->wo_selected->no_tt!=$no_wo){
+                        $is_double = true;
+                        $double_data++;
+                        continue;
+                    }else $data = $this->wo_selected;
                 }
 
                 /**
@@ -93,15 +100,18 @@ class Importboq extends Component
                                                     ->where('po_line_item',$po_line)
                                                     ->first();
                 if($potrackingboq) {
-                    $double_data++;
-                    continue;
+                    $potrackingboq->qty = $potrackingboq->qty + $qty;
+                    // $double_data++;
+                    // continue;
+                }else{
+                    $potrackingboq = new PoTrackingNonmsBoq();
+                    $potrackingboq->qty = $qty;
                 }
-                $potrackingboq = new PoTrackingNonmsBoq();
+
                 $potrackingboq->category_material = $category_material;
                 $potrackingboq->item_code = $item_code;
                 $potrackingboq->item_description = $item_material;
                 $potrackingboq->uom = $uom;
-                $potrackingboq->qty = $qty;
                 $potrackingboq->price = $unit_price;
                 $potrackingboq->total_price = $total;
                 $potrackingboq->sno_material = $sno_material;
@@ -112,33 +122,6 @@ class Importboq extends Component
                 $total_success++;
             }
         }
-
-        // $region_user = DB::table(env('DB_DATABASE').'.employees as employees')
-        //                         ->where('employees.user_access_id', '29')
-        //                         ->join(env('DB_DATABASE_EPL_PMT').'.region as region', 'region.id', '=', 'employees.region_id')
-        //                         ->where('region.region_code', $datamaster->region)->get();
-
-
-        // if(count($region_user) > 0){
-            // $epluser = Employee::select('name', 'telepon', 'email')->where('region_id', $region_user[0]->region_id)->get();
-            // $epluser = check_access_data('po-tracking-nonms.notif-regional', $data->region);
-            
-            // $nameuser = [];
-            // $emailuser = [];
-            // $phoneuser = [];
-            
-            // foreach($epluser as $no => $itemuser){
-            //     $nameuser[$no] = $itemuser->name;
-            //     $emailuser[$no] = $itemuser->email;
-            //     $phoneuser[$no] = $itemuser->telepon;
-            //     $message = "*Dear Operation Region ".$data->region." - ".$nameuser[$no]."*\n\n";
-            //     $message .= "*PO Tracking Non MS Ericson Region ".$data->region." Uploaded on ".date('d M Y H:i:s')."*\n\n";
-            //     send_wa(['phone'=> $phoneuser[$no],'message'=>$message]);   
-
-            //     // \Mail::to($emailuser[$no])->send(new PoTrackingReimbursementUpload($item));
-            // }
-        // }
-
         session()->flash('message-success',"Upload PO Tracking Non MS Ericson success, Success : <strong>{$total_success}</strong>, Double Data <strong>{$double_data}</strong>");
         return redirect()->route('po-tracking-nonms.index');   
     }

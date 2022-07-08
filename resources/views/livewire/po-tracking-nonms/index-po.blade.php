@@ -31,7 +31,7 @@
                         <th>GR Date</th>
                         <th>Works</th>
                         <th>Project</th>
-                        <th class="text-right">Amount</th>
+                        <th class="text-right">Requested Budget</th>
                         <th class="text-right">Extra Budget</th>
                         <th><div style="width:50px;"></div></th>
                     </tr>
@@ -51,7 +51,7 @@
                                 @elseif($item->status==3)
                                     <span class="badge badge-warning" title="Revisi BAST">Revisi</span>
                                 @elseif($item->status==4)
-                                    <span class="badge badge-info" title="Finance Upload Acceptance and Invoice">Finance</span>
+                                    <span class="badge badge-info" title="Finance Upload Acceptance and Invoice">Finance to Invoice</span>
                                 @endif
                                 @if($item->status==5)
                                     <span class="badge badge-success badge-active"><i class="fa fa-check-circle"></i> Invoiced</span>
@@ -64,22 +64,45 @@
                             <td>{{date('d-M-Y',strtotime($item->date_contract))}}</td>
                             <td>{{$item->bast_number}}</td>
                             <td>{{$item->bast_date}}</td>
-                            <td>{{$item->gr_number}}</td>
-                            <td>{{$item->gr_date}}</td>
+                            <td>
+                                @if($is_e2e)
+                                    @livewire('po-tracking-nonms.editable-po',['data'=>$item,'field'=>'gr_number'],key($item->id))
+                                @else
+                                    {{$item->gr_number}}
+                                @endif
+                            </td>
+                            <td>
+                                @if($is_e2e)
+                                    @livewire('po-tracking-nonms.editable-po',['data'=>$item,'field'=>'gr_date'],key($item->id))
+                                @else
+                                    {{$item->gr_date}}
+                                @endif
+                            </td>
                             <td>{{$item->works}}</td>
                             <td>{{$item->project}}</td>
-                            <td class="text-right">{{format_idr($item->payment_amount)}}</td>
                             <td class="text-right">
-                                @if($item->status==5)
-                                    @if($item->status_extra_budget=="" and $is_e2e)
-                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_extra_budget" wire:click="$emit('set-data',{{$item->id}})" class="badge badge-info badge-active"><i class="fa fa-plus"></i> Extra Budget</a>
-                                    @endif
-                                    @if($item->status_extra_budget==1 and $is_finance)
-                                        <a href="javascript:void(0)" class="badge badge-info badge-active" wire:click="$emit('set-data',{{$item->id}})" data-target="#modal_process_extra_budget" data-toggle="modal"><i class="fa fa-check-circle"></i> Process Extra Budget</a>
-                                    @endif
-                                    @if($item->status_extra_budget==2)
-                                        {{format_idr($item->extra_budget)}}
-                                    @endif
+                                @if($item->payment_amount==0)
+                                    <a href="javascript:void(0)" wire:click="calculate_amount({{$item->id}})"><i class="fa fa-refresh"></i></a>
+                                @else
+                                    {{format_idr($item->payment_amount)}}
+                                @endif
+                            </td>
+                            <td class="text-right">
+                                @if($item->extra_budget)
+                                    {{format_idr($item->extra_budget)}}
+                                @endif
+                                @if($item->extra_budget_file)
+                                    <a href="{{asset($item->extra_budget_file)}}" target="_blank"><i class="fa fa-image"></i></a>
+                                @endif
+                                @if($item->status_extra_budget==1 and $is_finance)
+                                    <!-- <input type="checkbox" title="Acknowledge Extra Budget"/> -->
+                                    <a href="javascript:void(0)" class="badge badge-info badge-active" wire:click="$emit('set-data',{{$item->id}})" data-target="#modal_process_extra_budget" data-toggle="modal"><i class="fa fa-check-circle"></i> Acknowledge Extra Budget</a>
+                                @endif
+                                @if($item->status_extra_budget=="" and $is_e2e)
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_extra_budget" wire:click="$emit('set-data',{{$item->id}})" class="badge badge-info badge-active"><i class="fa fa-plus"></i> Extra Budget</a>
+                                @endif
+                                @if($item->status_extra_budget==2)
+                                    <a href="javascript:void(0)" class="text-success" title="Acknowledge"><i class="fa fa-check-circle"></i></a>
                                 @endif
                             </td>
                             <td class="header">

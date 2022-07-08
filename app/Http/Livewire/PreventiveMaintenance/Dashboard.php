@@ -12,7 +12,7 @@ class Dashboard extends Component
 {
     public $date_start,$date_end,$labels,$series,$total_submitted,$total_approved_eid,$total_pm,$total_sow=0;
     public $sub_region_id,$client_project_id,$sub_region=[];
-    public $background = ['#9ad0f5','#ffb1c1','#8fe045'];
+    public $background = ['#9ad0f5','#ffb1c1','#8fe045','#c0c071'];
     public $months=[],$years=[],$month,$year;
     public function render()
     {
@@ -66,7 +66,10 @@ class Dashboard extends Component
                                 \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.created_at)=MONTH(CURRENT_DATE()) and pm.status=0) as open"),
                                 \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.created_at)=MONTH(CURRENT_DATE()) and pm.status=1) as in_progress"),
                                 \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and DATE(pm.end_date)=DATE(pm2.end_date) and pm.status=2) as submitted"),
-                                \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.upload_report_date)=MONTH(CURRENT_DATE()) and pm.status=2 and is_upload_report=1) as approved_ied")
+                                \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.upload_report_date)=MONTH(CURRENT_DATE()) and pm.status=2 and is_upload_report=1) as approved_ied"),
+                                \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.upload_report_date)=MONTH(CURRENT_DATE()) and pm.is_punch_list=1 and (pm.status_punch_list_tlp=0 OR pm.status_punch_list_tmg=0)) as open_punchlist"),
+                                \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.upload_report_date)=MONTH(CURRENT_DATE()) and pm.is_punch_list=1 and (pm.status_punch_list_tmg=1 OR pm.status_punch_list_tmg=2 OR pm.status_punch_list_tmg=3)) as in_progress_punchlist"),
+                                \DB::raw("(SELECT count(*) FROM preventive_maintenance pm where pm.site_type=pm2.site_type and pm.pm_type=pm2.pm_type and pm.region_id=pm2.region_id and pm.sub_region_id=pm2.sub_region_id and MONTH(pm.upload_report_date)=MONTH(CURRENT_DATE()) and pm.is_punch_list=1 and  pm.status_punch_list_tmg=3) as submitted_rec_feat")
                             )
                             ->from('preventive_maintenance','pm2')
                             ->with(['region','sub_region'])
@@ -130,7 +133,7 @@ class Dashboard extends Component
             }
         }
 
-        foreach(['SOW (Monthly Target)','Submitted','Approved EID'] as $k=>$item){
+        foreach(['SOW (Monthly Target)','Submitted','Approved EID','Approved with Punch List'] as $k=>$item){
             $this->series[$k]['label'] = $item;
             $this->series[$k]['borderColor'] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
             $this->series[$k]['fill'] =  'boundary';
@@ -160,6 +163,9 @@ class Dashboard extends Component
                     
                     if($k==1) $count = $count->where('status',2);
                     if($k==2) $count = $count->where(['status'=>2,'is_upload_report'=>1]);
+                    if($k==3) $count = $count->where(function($table){
+                        $table->where('is_punch_list',1);
+                    });
 
                     $this->series[$k]['data'][] = (int)$count->count();
                 }

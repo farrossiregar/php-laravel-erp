@@ -1,55 +1,5 @@
 <div>
     <div class="row">
-        <!-- <div class="col-md-1">                
-            <select class="form-control" wire:model="year">
-                <option value=""> --- Year --- </option>
-                @foreach(\App\Models\ToolsNoc::select('year')->groupBy('year')->whereNotNull('year')->get() as $item) 
-                <option>{{$item->year}}</option>
-                @endforeach 
-            </select>
-        </div>
-
-        <div class="col-md-2" wire:ignore>
-            <select class="form-control" style="width:100%;" wire:model="month">
-                <option value=""> --- Month --- </option>
-                @for($i = 1; $i <= 12; $i++)
-                    <option value="{{$i}}">{{date('F', mktime(0, 0, 0, $i, 10))}}</option>
-                @endfor
-            </select>
-        </div> -->
-
-        <div class="col-md-2">                
-            <select onclick="" class="form-control" wire:model="category">
-                <option value=""> --- Category --- </option>
-                <option value="1">Air Conditioner & Fan</option>
-                <option value="2">Furniture & Fixture</option>
-                <option value="3">Computer Equipment</option>
-                <option value="4">Printer & Device</option>
-            </select>
-        </div>
-
-        <div class="col-md-2">                
-            <select class="form-control" wire:model="region">
-                <option value=""> --- Region --- </option>
-                @foreach(\App\Models\Region::orderBy('id', 'desc')
-                                ->get() as $item)
-                <option value="{{ $item->region_code }}">{{ $item->region_code }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="col-md-2">                
-            <select class="form-control" wire:model="project">
-                <option value=""> --- Project --- </option>
-                @foreach($dataproject as $item)
-                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-
-    <br>
-    <div class="row">
         <!-- <div class="col-md-2">
             <div class="card overflowhidden number-chart" style="background-color: #fac091;">
                 <div class="body">
@@ -66,7 +16,7 @@
 
         <div class="col-md-3">
             <div class="card overflowhidden number-chart" style="background-color: #fac091;">
-                <div class="body">
+                <div class="body p-2 text-center">
                     <div class="number">
                         <h6>Total Asset Aging</h6>
                         <span id="totalasset">0</span>
@@ -79,19 +29,19 @@
 
         <div class="col-md-3">
             <div class="card overflowhidden number-chart" style="background-color: #604a7b;">
-                <div class="body">
+                <div class="body p-2 text-center">
                     <div class="number">
                         <h6 style="color: white;">Asset Aging</h6>
                         <span id="aging" style="color: white;">0</span>
                     </div>
-                    <small class="text-muted"><p style="color: white;">Asset > 3 Years</p> </small>
+                    <small class="text-muted">Asset > 3 Years</small>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3">
             <div class="card overflowhidden number-chart" style="background-color: #92cddc;">
-                <div class="body">
+                <div class="body p-2 text-center">
                     <div class="number">
                         <h6>Expired Asset</h6>
                         <span id="expired">0</span>

@@ -38,13 +38,14 @@ class PunchlistController extends Controller
             $data[$k]['user_circle'] = isset($item->site->region->region) ? $item->site->region->region : '-';;
             $data[$k]['site_id'] = isset($item->site_id) ? $item->site_id : '-';
             $data[$k]['site_name'] = isset($item->site_name) ? $item->site_name : '-';
+            $data[$k]['site'] = isset($item->site_name) ? $item->site_name : '-';
             $data[$k]['site_lat_lng'] = isset($item->site->lat) ? $item->site->lat .'/'. $item->site->long : '-';
             $data[$k]['user_lat_lng'] = isset($item->employee->lat) ? $item->employee->lat .'/'. $item->employee->lng : '-';
             $data[$k]['site_distance'] = '-';
             $data[$k]['approver_signum'] = '-';
             $data[$k]['date'] = '-';
             $data[$k]['work_order_number'] = $item->work_order_number; 
-            $data[$k]['site'] = isset($item->site->name) ? $item->site->name : '';
+            // $data[$k]['site'] = isset($item->site->name) ? $item->site->name : '';
             $data[$k]['region'] = isset($item->site->region->region) ? $item->site->region->region : '';
             $data[$k]['project'] = isset($item->project->name) ? $item->project->name : '';
             $data[$k]['description'] = $item->description;
@@ -61,10 +62,11 @@ class PunchlistController extends Controller
             $data[$k]['sub_cluster'] = isset($item->sub_cluster) ? $item->sub_cluster : '-';
             $data[$k]['admin_project'] = isset($item->admin->name) ? $item->admin->name : '-';
             $data[$k]['assign_date'] = '-';
+            $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->created_at));
             
-            if($item->status_punch_list_tmg==0) $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->updated_at));
-            if($item->status_punch_list_tmg==1) $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->updated_at));
-            if($item->status_punch_list_tmg==2) $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->updated_at));
+            // if($item->status_punch_list_tmg==0) $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->updated_at));
+            // if($item->status_punch_list_tmg==1) $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->updated_at));
+            // if($item->status_punch_list_tmg==2) $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->updated_at));
         }
 
         \LogActivity::add('[apps] PM Data');

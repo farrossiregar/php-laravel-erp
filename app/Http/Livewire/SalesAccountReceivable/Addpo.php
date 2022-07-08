@@ -34,7 +34,7 @@ class Addpo extends Component
         
         $this->employee_name = $user->name;
         // $this->project = \App\Models\ClientProject::where('id', $user->project)->first()->name;
-        $this->region = \App\Models\Region::where('id', $user->region_id)->first()->region_code;
+        $this->region = isset(\App\Models\Region::where('id', $user->region_id)->first()->region_code) ? \App\Models\Region::where('id', $user->region_id)->first()->region_code : '-';
         $this->position = \App\Models\UserAccess::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->user_access_id)->first()->name;
         $this->department = \App\Models\Department::where('id', \App\Models\Employee::where('user_id', Auth::user()->id)->first()->department_id)->first()->name;
        

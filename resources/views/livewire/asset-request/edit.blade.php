@@ -29,21 +29,67 @@
                                             @enderror
                                         </div>
 
-                                        @if($prno == '1')
+                                        @if($prno == '1' && $location == 'Jakarta (HQ)')
                                         <div class="col-md-12 form-group">
-                                            <label>PR No</label>
-                                            <input type="text"  class="form-control"  wire:model="pr_no" >
+                                            <!-- <label>PR / PO No</label> -->
+                                            <!-- <input type="text"  class="form-control"  wire:model="pr_no" > -->
                                            
 
                                             @error('pr_no')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
                                         </div>
-                                        @else
+
+                                        <div class="col-md-12">
+                                            <table class="table">
+                                                <thead style="background:#eee;">
+                                                    <tr>
+                                                        <th style="width:10px">No</th>
+                                                        <th class="text-right">PR / PO Number</th>
+                                                        <th class="text-right">Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($data as $k =>  $item)
+                                                        <tr>
+                                                            <td>{{ $k+1 }}</td>
+                                                            <td class="text-right">{{ $item->pr_po_number }}</td>
+                                                            <td class="text-right">{{ $item->amount }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                    @if($insert)
+                                                        <tr>
+                                                            <td></td>
+                                                            
+                                                            <td>
+                                                                <input type="number" class="form-control text-right" wire:model="pr_no" placeholder="PR / PO Number" />
+                                                                @error('pr_no')
+                                                                    <span class="text-danger">{{ $message }}</span>
+                                                                @enderror
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" class="form-control text-right" wire:model="amount" placeholder="Amount" />
+                                                                @error('amount')
+                                                                    <span class="text-danger">{{ $message }}</span>
+                                                                @enderror
+                                                            </td>
+                                                            <td>
+                                                                <!-- <button wire:loading.remove wire:target="save" type="submit" class="badge badge-info badge-active"><i class="fa fa-save"></i> Save</button> -->
+                                                                <a href="javascript:void(0)" wire:loading.remove wire:target="save" wire:click="$set('insert',false)" class="badge badge-danger badge-active"><i class="fa fa-close"></i> Cancel</a>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                            @if($insert==false)
+                                                <a href="javascript:void(0)" wire:click="$set('insert',true)" class="badge badge-info badge-active"><i class="fa fa-plus"></i> PR / PO Number</a>
+                                            @endif
+                                            <br><br>
+                                        </div>
                                         
                                         @endif
 
-                                        <div class="col-md-12 form-group">
+                                        <!-- <div class="col-md-12 form-group">
                                             <label>Dana Amount</label>
                                             <input type="text"  class="form-control"  wire:model="dana_amount" >
                                            
@@ -51,7 +97,7 @@
                                             @error('dana_amount')
                                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                                             @enderror
-                                        </div>
+                                        </div> -->
 
                                         
 

@@ -1,23 +1,18 @@
-@section('title', __('Asset Database - Index'))
+@section('title', __('Asset Database'))
 @section('parentPageTitle', 'Home')
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
             <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#dashboard" wire:click="$emit('chart')">{{ __('Dashboard') }}</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data">{{ __('Data') }}</a></li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active show " id="dashboard">
+                <div class="tab-pane active show" id="data">
                     <livewire:asset-database.dashboard />
-                </div>
-                <div class="tab-pane" id="data">
                     <livewire:asset-database.data />
                 </div>
-               
             </div>
         </div>
-        
     </div>
 </div>
 
@@ -37,15 +32,13 @@
     </div>
 </div>
 
-<!-- 
- <div class="modal fade" id="modal-assetdatabase-detailimage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-assetdatabase-transferasset" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <livewire:asset-database.detailimage />
+            <livewire:asset-database.transferasset />
         </div>
     </div>
-</div> -->
-
+</div>
 
 <div class="modal fade" id="modal-assetdatabase-detailasset" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -54,10 +47,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 
 <!-- START ASSET REQUEST -->
 <div class="modal fade" id="modal-assetdatabase-detailrequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -148,6 +137,10 @@
 
     Livewire.on('modalimportasset',(data)=>{
         $("#modal-assetdatabase-importasset").modal('show');
+    });
+
+    Livewire.on('modaltransferasset',(data)=>{
+        $("#modal-assetdatabase-transferasset").modal('show');
     });
 
 
