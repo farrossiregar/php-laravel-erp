@@ -50,7 +50,6 @@
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'advance_date'],key($item->id))</td>
                                     <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
                                     <td>{{ date_format(date_create($item->settlement_date), 'd M Y')}}</td>
-                                    <!-- <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'description'],key($item->id))</td> -->
                                     <td>
                                         <?php foreach(\App\Models\AdvanceSettlementAP::where('id_master', $item->id_master)->get() as $items){ ?>
                                             <b>{{ $items->description }} </b> <br>

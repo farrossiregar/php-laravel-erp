@@ -168,7 +168,7 @@ class Addpettycash extends Component
 
         session()->flash('message-success',"Request Petty Cash Berhasil diinput");
         
-        return redirect()->route('finance-petty-cash');
+        return redirect()->route('finance-petty-cash.index');
     }
 
     public function getNextId() 
