@@ -88,7 +88,6 @@
                                     <td>{{$item->advance_req_no}}</td>
                                     <td class="text-right">{{format_idr($item->budget)}}</td>
                                     <td>{{date('F', mktime(0, 0, 0, (int)$item->month, 10))}}</td>
-                                    
                                     <td>
                                         @php($description_ = [])
                                         @foreach($item->items as $i)

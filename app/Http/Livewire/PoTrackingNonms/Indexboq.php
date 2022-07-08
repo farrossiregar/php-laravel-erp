@@ -22,7 +22,7 @@ class Indexboq extends Component
     public $filter_field_team_id,$filter_field_teams=[];
     public function render()
     {
-        $data = PoTrackingNonms::where('type_doc', 2)->orderBy('updated_at', 'DESC');//->whereIn('po_status',[0,1]);
+        $data = PoTrackingNonms::with(['field_team','coordinator'])->where('type_doc', 2)->orderBy('updated_at', 'DESC');//->whereIn('po_status',[0,1]);
                                 
         // if(check_access('po-tracking-nonms.index-regional'))
         //     $data->where('region', isset(\Auth::user()->employee->region->region)?\Auth::user()->employee->region->region:''); 
@@ -31,7 +31,7 @@ class Indexboq extends Component
             $data->where(function($table){
                 $table->where('coordinator_id',\Auth::user()->employee->id)->orWhere('field_team_id',\Auth::user()->employee->id);
             });
-        }
+        } 
 
         if($this->is_service_manager) $data->where('region', isset(\Auth::user()->employee->sub_region->name)?\Auth::user()->employee->sub_region->name:''); 
         

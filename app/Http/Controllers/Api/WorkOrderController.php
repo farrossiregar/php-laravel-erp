@@ -150,7 +150,20 @@ class WorkOrderController extends Controller
             $data[$k]['region'] = $item->region?$item->region:'-';
             $data[$k]['type_doc_name'] = $item->type_doc==1?'STP' : 'Ericson';
             $data[$k]['material'] = '-';
+            $data[$k]['po_status_mobile'] = '-';
             $material = '';
+
+            switch($item->po_status_mobile){
+                case 1:
+                    $data[$k]['po_status_mobile']='Partial';
+                    break;
+                case 2:
+                    $data[$k]['po_status_mobile']='Complete';
+                    break;
+                default:
+                    $data[$k]['po_status_mobile']='-';
+                    break;
+            }
 
             switch($item->bast_status){
                 case '':
@@ -215,6 +228,14 @@ class WorkOrderController extends Controller
     public function submitBast(Request $r)
     {
         $data = PoTrackingNonms::find($r->id);
+        
+        $count = PoTrackingNonmsBoq::where('id_po_nonms_master',$r->id)->whereNull('po_tracking_nonms_po_id')->get()->count();
+        
+        /**
+         * 1 = Partial
+         * 2 = Complete
+         */
+        $data->po_status_mobile = $count > 0 ? 1 : 2; 
         $data->bast_number  = str_pad((PoTrackingNonms::count()+1),6, '0', STR_PAD_LEFT)."/".date('m').'/HUP/'.date('Y');
         $data->status = 8;
         $data->bast_status = 1;

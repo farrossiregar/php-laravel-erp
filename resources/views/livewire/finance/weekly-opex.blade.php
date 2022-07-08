@@ -24,29 +24,21 @@
                             <tr>
                                 <th>No</th>
                                 <th>Status</th>
-                                <!-- <th>Project Code</th>           -->
                                 <th>Project Name</th>          
                                 <th>Region</th>          
                                 <th>Sub Region</th>          
                                 <th>Month (Bulanan)</th>          
-                                <th>Period (Perminggu)</th>                 
                                 <th>Budget Opex</th>          
-                                <th>Previous Balance</th>          
-                                <th>Total Transfer</th>          
-                                <th>Transfer Date</th>          
-                                <th>Cash Transaction No</th>          
-                                <th>Settlement Date</th>          
-                                <th>Description</th>          
-                                <th>Settlement Nominal</th>          
-                                <th>Total Settlement</th>
+                                <th class="text-center">Period (Perminggu)</th>   
+                                <th>Description</th> 
+                                <th>Advance Date</th>         
+                                <th>Advance Nominal</th>
+                                <th>Difference</th>          
+                                <th>Settlement Nominal</th>
+                                <th>Submitted Date</th>          
+                                <th>Cash Transaction No</th>
+                                <th>Attachment Document For Advance</th>     
                                 <th></th>
-                                <!-- <th>Admin to Team</th> 
-                                <th>Difference (Admin - Team)</th> 
-                                <th>Difference (HQ - Admin)</th>        
-                                <th>Account No Recorded</th>
-                                <th>Account Name Recorded</th>
-                                <th>Nominal Recorded</th>
-                                <th>Attachment Document For Settlement</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -71,26 +63,26 @@
                                     <td>{{$item->region}}</td>
                                     <td>{{$item->subregion}}</td>
                                     <td>{{$item->month}}</td>
-                                    <td>{{$item->year}}</td>
                                     <td>{{format_idr($item->budget_opex)}}</td>
+                                    <td class="text-center">{{$item->week}}</td>
+                                    <td>
+                                        @php($description_ = [])
+                                        @foreach(\App\Models\WeeklyOpexItem::where('weekly_opex_id', $item->id)->get() as $i)
+                                            @php($description_[] = $i->description)
+                                        @endforeach
+                                        {{implode(", ", $description_)}}
+                                    </td>
+                                    <td>{{$item->settlement_date ? date('d-F-Y',strtotime($item->settlement_date)) : '-'}}</td>
+                                    <td>{{format_idr($item->total_settlement)}}</td>
                                     <td>{{format_idr($item->previous_balance) }}</td>
                                     <td>{{format_idr($item->total_transfer)}}</td>
                                     <td>{{$item->transfer_date}}</td>
                                     <td>@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
-                                    <td>{{$item->settlement_date}}</td>
-                                    <td>
-                                        {{$item->description}}
-                                        @foreach(\App\Models\WeeklyOpexItem::where('weekly_opex_id', $item->id)->get() as $items)
-                                            {{ $items->description }} -
-                                        @endforeach
-                                       
+                                    <td class="text-center">
+                                        @if($item->doc_settlement)
+                                            <a href="{{asset($item->doc_settlement)}}"><i class="fa fa-download"></i></a>
+                                        @endif
                                     </td>
-                                    <td>
-                                        @foreach(\App\Models\WeeklyOpexItem::where('weekly_opex_id', $item->id)->get() as $items)
-                                            {{ format_idr($items->amount) }}, 
-                                        @endforeach
-                                    </td>
-                                    <td>{{format_idr($item->total_settlement)}}</td>
                                     <td>
                                         @if($item->status==0 and $is_apstaff)
                                             <a href="javascript:void(0)" wire:click="$emit('check_id',{{$item->id}})" class="badge badge-info badge-active" data-toggle="modal" data-target="#modal_process"><i class="fa fa-check-circle"></i> Process</a>

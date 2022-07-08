@@ -24,7 +24,7 @@ class Index extends Component
     public $device_selected,$file_upload;
     public function render()
     {
-        $data = Employee::select('employees.*')->with('company','department','access','employee_project.project')
+        $data = Employee::select('employees.*')->with('company','department','access','employee_project','employee_project.project')
             ->orderBy('employees.id','DESC')
             ->leftJoin('employee_projects','employee_projects.employee_id','=','employees.id')->groupBy('employees.id','employee_projects.client_project_id');
 

@@ -26,7 +26,7 @@
                             <th>No</th>
                             <th>Description</th>
                             <th class="text-right">Amount</th>
-                            <th class="text-right">Amount Settle</th>
+                            <th class="text-right">Amount Settlement</th>
                         </tr>
                     </thead> 
                     <tbody>

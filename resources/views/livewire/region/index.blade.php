@@ -15,12 +15,18 @@
             <div class="body pt-0">
                 <div class="table-responsive">
                     <table class="table table-striped m-b-0 c_list">
+                        <thead>
+                            <tr>
+                                <td></td>
+                                <th>Region Code / Region Name</th>
+                            </tr>
+                        </thead>
                         <tbody>
                             @foreach($data as $k => $item)
                                 <tr x-data="{insert:false}">
                                     <td style="width: 50px;">{{$k+1}}</td>
                                     <td>
-                                        <a href="javascript:;" wire:click="$emit('emit-edit',{{$item->id}})" data-toggle="modal" data-target="#modal_edit" >{{$item->region}}</a>
+                                        <a href="javascript:;" wire:click="$emit('emit-edit',{{$item->id}})" data-toggle="modal" data-target="#modal_edit" >{{$item->region_code ? $item->region_code." / " : ''}}{{$item->region}}</a>
                                         <div x-show="insert" @click.away="insert = false">
                                             <input type="text" wire:keydown.enter="insert_sub_region({{$item->id}})" wire:model="name_insert_sub_region" x-on:keydown.enter="insert = false" class="form-control" />
                                         </div>

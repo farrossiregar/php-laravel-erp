@@ -19,9 +19,10 @@ class Add extends Component
 {
     use WithFileUploads;
     public $request_type, $subrequest_type, $file, $doc_name,$cash_transaction_no,$items=[],$item_description=[],$item_amount=[],$total=0;
-    public $budget=0,$remain=0,$project_code,$project_name;
+    public $budget=0,$remain=0,$project_code,$project_name,$week;
     public function render()
     {
+        $project_arr = [];
         foreach(\Auth::user()->employee->employee_project as  $k => $i) $project_arr[] = $i->client_project_id;
 
         if($this->request_type == '1') $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();   
@@ -31,6 +32,7 @@ class Add extends Component
             if(isset($budget)){
                 $this->budget = $budget->amount;
                 $this->remain - $budget->remain;
+                $this->week = $budget->week;
             }    
         }else{
             $this->budget = 0;
@@ -160,23 +162,18 @@ class Add extends Component
             $weekly_opex->id_master                 = $data->id;
             $weekly_opex->region                    = isset(\Auth::user()->employee->region->region) ? \Auth::user()->employee->region->region : '-';
             $weekly_opex->subregion                 = isset(\Auth::user()->employee->subregion->name) ? \Auth::user()->employee->subregion->name : '-';
-
             $weekly_opex->project_code              = isset(\Auth::user()->employee->employee_project->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project->client_project_id)->id : '';
             $weekly_opex->project_name              = isset(\Auth::user()->employee->employee_project->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project->client_project_id)->name : '';
             $weekly_opex->cash_transaction_no       = $this->cash_transaction_no;
             $weekly_opex->month                     = date('M');//$this->month;
             $weekly_opex->year                      = date('Y');//$this->year;
-            $weekly_opex->week                      = '';
-            
+            $weekly_opex->week                      = $this->week;
             $weekly_opex->company_id                = session()->get('company_id');
             $weekly_opex->status                    = 0; // Waiting AP Staff
             $weekly_opex->total_settlement          = $this->total;
             $weekly_opex->previous_balance          = isset($prev_data) ? $prev_data->budget_opex - $prev_data->total_transfer : 0;
             $weekly_opex->total_transfer           = $this->total;
-            // $weekly_opex->total_transfer           = $this->total_transfer;
             $weekly_opex->transfer_date            = date('Y-m-d');
-            
-            
             $weekly_opex->save();
 
             if($this->items){

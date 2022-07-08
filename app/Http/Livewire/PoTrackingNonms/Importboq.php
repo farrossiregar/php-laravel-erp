@@ -17,7 +17,7 @@ class Importboq extends Component
     use WithFileUploads;
     public $file;
     public $selected_id,$wo_number;
-
+    public $wo_selected;
     protected $rules = [
         'file' => 'required',
     ];
@@ -46,6 +46,8 @@ class Importboq extends Component
             $double_data = 0;
             $total_success = 0;
 
+            $is_double = false;
+
             foreach($sheetDatas as $key => $i){
                 if($key<1) continue; // skip header
                 
@@ -68,11 +70,10 @@ class Importboq extends Component
 
                 if(!$no_wo) continue; // jika tidak ada data maka skip
 
-                $data = PoTrackingNonms::where('no_tt',$no_wo)->where(function($table){
-                    $table->whereNull('status')->orWhere('status',0);
-                })->whereNull('po_tracking_nonms_po_id')->first();
+                // check double
+                $this->wo_selected = PoTrackingNonms::where('no_tt',$no_wo)->first();
                 
-                if(!$data){
+                if(!$this->wo_selected){
                     $data = new PoTrackingNonms();
                     $data->no_tt = $no_wo;
                     $data->region = $region;
@@ -80,6 +81,12 @@ class Importboq extends Component
                     $data->site_name = $site_name;
                     $data->type_doc = 2;
                     $data->save();
+                }else{
+                    if($this->wo_selected->no_tt!=$no_wo){
+                        $is_double = true;
+                        $double_data++;
+                        continue;
+                    }else $data = $this->wo_selected;
                 }
 
                 /**

@@ -67,8 +67,8 @@
                             <td><a href="javascript:;" wire:click="$emit('modaldetaillocation','{{ $item->id }}')">{{ @\App\Models\DophomebaseMaster::where('id', $item->location)->first()->nama_dop }}</a></td>
                             <td>{{ $item->dimension }}</td>
                             <td><a href="javascript:;" wire:click="$emit('modaldetailimage','{{ $item->id }}')"><i class="fa fa-eye"></i></a></td>
-                            <td>
-                                {{ \App\Models\AssetsType::where('id', $item->asset_type)->first()->asset_type }}
+                            <td>{{isset($item->type->asset_type) ? $item->type->asset_type : '-'}}
+                            
                                 <!-- @if($item->asset_type == '1')
                                     Air Conditioner & Fan
                                 @endif

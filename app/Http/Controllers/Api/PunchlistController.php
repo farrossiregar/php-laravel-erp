@@ -62,10 +62,11 @@ class PunchlistController extends Controller
             $data[$k]['sub_cluster'] = isset($item->sub_cluster) ? $item->sub_cluster : '-';
             $data[$k]['admin_project'] = isset($item->admin->name) ? $item->admin->name : '-';
             $data[$k]['assign_date'] = '-';
+            $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->created_at));
             
-            if($item->status_punch_list_tmg==0) $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->updated_at));
-            if($item->status_punch_list_tmg==1) $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->updated_at));
-            if($item->status_punch_list_tmg==2) $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->updated_at));
+            // if($item->status_punch_list_tmg==0) $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->updated_at));
+            // if($item->status_punch_list_tmg==1) $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->updated_at));
+            // if($item->status_punch_list_tmg==2) $data[$k]['assign_date'] = date('d-M-Y',strtotime($item->updated_at));
         }
 
         \LogActivity::add('[apps] PM Data');
