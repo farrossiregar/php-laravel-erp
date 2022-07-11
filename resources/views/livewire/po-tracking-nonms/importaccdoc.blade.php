@@ -34,6 +34,16 @@
                 <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
             @enderror
         </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>VAT</label>
+                <input type="number" class="form-control" wire:model="vat" />
+            </div>
+            <div class="col-md-6">
+                <label>WHT</label>
+                <input type="number" class="form-control" wire:model="wht" />
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-info close-modal"><i class="fa fa-upload"></i> Upload</button>

@@ -32,6 +32,10 @@
                         <th>Works</th>
                         <th>Project</th>
                         <th class="text-right">Requested Budget</th>
+                        <th>VAT</th>
+                        <th>Total Price</th>
+                        <th>WHT</th>
+                        <th>Total Invoice</th>
                         <th class="text-right">Extra Budget</th>
                         <th><div style="width:50px;"></div></th>
                     </tr>
@@ -87,6 +91,10 @@
                                     {{format_idr($item->payment_amount)}}
                                 @endif
                             </td>
+                            <td>{{$item->vat}}</td>
+                            <td>{{$item->total_price_after_vat ? format_idr($item->total_price_after_vat) : '-'}}</td>
+                            <td>{{$item->wht}}</td>
+                            <td>{{$item->total_invoice ? format_idr($item->total_invoice) : '-'}}</td>
                             <td class="text-right">
                                 @if($item->extra_budget)
                                     {{format_idr($item->extra_budget)}}
@@ -95,7 +103,6 @@
                                     <a href="{{asset($item->extra_budget_file)}}" target="_blank"><i class="fa fa-image"></i></a>
                                 @endif
                                 @if($item->status_extra_budget==1 and $is_finance)
-                                    <!-- <input type="checkbox" title="Acknowledge Extra Budget"/> -->
                                     <a href="javascript:void(0)" class="badge badge-info badge-active" wire:click="$emit('set-data',{{$item->id}})" data-target="#modal_process_extra_budget" data-toggle="modal"><i class="fa fa-check-circle"></i> Acknowledge Extra Budget</a>
                                 @endif
                                 @if($item->status_extra_budget=="" and $is_e2e)

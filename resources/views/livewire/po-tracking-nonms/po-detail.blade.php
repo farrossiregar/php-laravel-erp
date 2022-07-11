@@ -78,7 +78,7 @@
                                 <tr>
                                     <th>GR Date</th>
                                     <td>
-                                        <input type="text" class="form-control" wire:model="gr_date" />
+                                        <input type="date" class="form-control" wire:model="gr_date" />
                                         {{$data->gr_date?date('d-M-Y',strtotime($data->gr_date)):'-'}}
                                     </td>
                                 </tr>

@@ -120,6 +120,7 @@
                                         ?>
                                         <span class="text-<?php echo $color; ?>">{{ $total_profit }}%</span>
                                     </td>
+                                    
                                     <td>
                                         @if($item->status==5 and $item->coordinator_id =='' and $is_service_manager)
                                             <a href="javascript:void(0)" data-target="#modal_select_coordinator" wire:click="set_data({{$item->id}})" data-toggle="modal" class="badge badge-info badge-active"><i class="fa fa-plus"></i> coordinator</a>
