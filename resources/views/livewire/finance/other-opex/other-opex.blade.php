@@ -25,18 +25,19 @@
                                 <th>No</th>
                                 <th>Status</th>
                                 <th>Project Name</th>          
-                                <!-- <th>Region</th>          
-                                <th>Sub Region</th>           -->
-                                <th>Month (Bulanan)</th>          
-                                <th>Budget Opex</th>          
+                                <th>Region</th>          
+                                <th>Sub Region</th>          
+                                <th>Period</th>          
+                                <th>Description</th>          
+                                <th>PR No</th>          
+                                <th>PO No</th>          
+                                <th>Budget</th>
                                 
-                                <th>Description</th> 
-                                <th>Advance Date</th>         
-                                <th>Advance Nominal</th>
+                                <th>Transfer Date</th>         
+                                <th>Cash Transaction No</th>
                                 <th>Difference</th>          
                                 <th>Settlement Nominal</th>
-                                <th>Submitted Date</th>          
-                                <th>Cash Transaction No</th>
+                                <th>Settlement Date</th>          
                                 <th>Attachment Document For Advance</th>     
                                 <th></th>
                             </tr>
@@ -60,11 +61,9 @@
                                         @endif
                                     </td>
                                     <td>{{$item->project_name}}</td>
-                                    <!-- <td>{{$item->region}}</td>
-                                    <td>{{$item->subregion}}</td> -->
+                                    <td>{{$item->region}}</td>
+                                    <td>{{$item->subregion}}</td>
                                     <td>{{$item->month}}</td>
-                                    <td>{{format_idr($item->budget_opex)}}</td>
-                                    
                                     <td>
                                         @php($description_ = [])
                                         @foreach(\App\Models\OtherOpexItem::where('other_opex_id', $item->id)->get() as $i)
@@ -72,12 +71,20 @@
                                         @endforeach
                                         {{implode(", ", $description_)}}
                                     </td>
-                                    <td>{{$item->settlement_date ? date('d-F-Y',strtotime($item->settlement_date)) : '-'}}</td>
-                                    <td>{{format_idr($item->total_settlement)}}</td>
-                                    <td>{{format_idr($item->previous_balance) }}</td>
-                                    <td>{{format_idr($item->total_transfer)}}</td>
+                                    <td>@livewire('finance.other-opex.other-opex-editable',['data'=>$item,'field'=>'pr_no'],key($item->id))</td>
+                                    <td>@livewire('finance.other-opex.other-opex-editable',['data'=>$item,'field'=>'po_no'],key($item->id))</td>
+                                    <td>{{format_idr($item->budget_opex)}}</td>
+                                    
                                     <td>{{$item->transfer_date}}</td>
                                     <td>@livewire('finance.other-opex.other-opex-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
+                                    <td>{{format_idr($item->previous_balance) }}</td>
+                                    <td>{{format_idr($item->total_settlement)}}</td>
+                                    <td>{{$item->settlement_date ? date('d-F-Y',strtotime($item->settlement_date)) : '-'}}</td>
+
+                                    
+                                    <!-- <td>{{format_idr($item->total_transfer)}}</td> -->
+                                    
+                                    
                                     <td class="text-center">
                                         @if($item->doc_settlement)
                                             <a href="{{asset($item->doc_settlement)}}"><i class="fa fa-download"></i></a>
@@ -88,7 +95,7 @@
                                             <a href="javascript:void(0)" wire:click="$emit('check_id',{{$item->id}})" class="badge badge-info badge-active" data-toggle="modal" data-target="#modal_process"><i class="fa fa-check-circle"></i> Process</a>
                                         @endif
                                         @if($item->status==1 and $is_finance)
-                                            <a href="javascript:;" wire:click="$emit('set_id','{{ $item->id }}')" data-toggle="modal" data-target="#modal_opex_opex_settle" class="badge badge-warning badge-active"><i class="fa fa-edit"></i> Advance</a>
+                                            <a href="javascript:;" wire:click="$emit('set_id','{{ $item->id }}')" data-toggle="modal" data-target="#modal_other_opex_settle" class="badge badge-warning badge-active"><i class="fa fa-edit"></i> Advance</a>
                                         @endif
                                     </td>
                                 </tr>

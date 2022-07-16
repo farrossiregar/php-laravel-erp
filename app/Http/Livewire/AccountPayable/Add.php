@@ -13,6 +13,8 @@ use App\Models\AccountPayableWeeklyopex;
 use App\Models\EmployeeProject;
 use App\Models\WeeklyOpexItem;
 use App\Models\WeeklyOpexBudget;
+use App\Models\AccountPayableOtheropex;
+use App\Models\OtherOpexItem;
 use App\Models\OtherOpexBudget;
 use DateTime;
 
@@ -28,7 +30,7 @@ class Add extends Component
 
         if($this->request_type == '1') $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();   
         if($this->request_type == '2') $budget = WeeklyOpexBudget::where(['company_id'=>session()->get('company_id'),'week'=>$this->weekOfMonth(date('Y-m-d')), 'region'=>\Auth::user()->employee->region_id])->whereIn('project',$project_arr)->first();
-        if($this->request_type == '3') $budget = OtherOpexBudget::where(['company_id'=>session()->get('company_id'),'week'=>$this->weekOfMonth(date('Y-m-d')), 'region'=>\Auth::user()->employee->region_id])->whereIn('project',$project_arr)->first();
+        if($this->request_type == '3') $budget = OtherOpexBudget::where(['company_id'=>session()->get('company_id')])->first();
       
         if($this->request_type){
             if(isset($budget)){
@@ -182,6 +184,45 @@ class Add extends Component
                 foreach($this->items as $k => $val){
                     $item = new WeeklyOpexItem;
                     $item->weekly_opex_id = $weekly_opex->id;
+                    $item->amount = $this->item_amount[$k];
+                    $item->description = $this->item_description[$k];
+                    $item->save();
+                }
+            }
+        }
+
+
+         // Other Opex
+         if($this->request_type==3){
+            $data->status = 4; // waiting approval PMG
+            $data->save();
+
+            $prev_data = AccountPayableOtheropex::orderBy('id', 'desc')->first();
+
+            $other_opex = new AccountPayableOtheropex();
+            $other_opex->budget_opex               = $this->budget;//$this->budget_opex;
+            $other_opex->employee_id               = \Auth::user()->employee->id;
+            $other_opex->id_master                 = $data->id;
+            $other_opex->region                    = isset(\Auth::user()->employee->region->region) ? \Auth::user()->employee->region->region : '-';
+            $other_opex->subregion                 = isset(\Auth::user()->employee->subregion->name) ? \Auth::user()->employee->subregion->name : '-';
+            $other_opex->project_code              = isset(\Auth::user()->employee->employee_project->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project->client_project_id)->id : '';
+            $other_opex->project_name              = isset(\Auth::user()->employee->employee_project->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project->client_project_id)->name : '';
+            $other_opex->cash_transaction_no       = $this->cash_transaction_no;
+            $other_opex->month                     = date('M');//$this->month;
+            $other_opex->year                      = date('Y');//$this->year;
+            $other_opex->week                      = $this->week;
+            $other_opex->company_id                = session()->get('company_id');
+            $other_opex->status                    = 0; // Waiting AP Staff
+            $other_opex->total_settlement          = $this->total;
+            $other_opex->previous_balance          = isset($prev_data) ? $prev_data->nominal - $prev_data->total_transfer : 0;
+            $other_opex->total_transfer           = $this->total;
+            $other_opex->transfer_date            = date('Y-m-d');
+            $other_opex->save();
+
+            if($this->items){
+                foreach($this->items as $k => $val){
+                    $item = new OtherOpexItem;
+                    $item->other_opex_id = $other_opex->id;
                     $item->amount = $this->item_amount[$k];
                     $item->description = $this->item_description[$k];
                     $item->save();
