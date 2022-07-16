@@ -13,6 +13,7 @@ use App\Models\AccountPayableWeeklyopex;
 use App\Models\EmployeeProject;
 use App\Models\WeeklyOpexItem;
 use App\Models\WeeklyOpexBudget;
+use App\Models\OtherOpexBudget;
 use DateTime;
 
 class Add extends Component
@@ -27,6 +28,7 @@ class Add extends Component
 
         if($this->request_type == '1') $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();   
         if($this->request_type == '2') $budget = WeeklyOpexBudget::where(['company_id'=>session()->get('company_id'),'week'=>$this->weekOfMonth(date('Y-m-d')), 'region'=>\Auth::user()->employee->region_id])->whereIn('project',$project_arr)->first();
+        if($this->request_type == '3') $budget = OtherOpexBudget::where(['company_id'=>session()->get('company_id'),'week'=>$this->weekOfMonth(date('Y-m-d')), 'region'=>\Auth::user()->employee->region_id])->whereIn('project',$project_arr)->first();
       
         if($this->request_type){
             if(isset($budget)){
