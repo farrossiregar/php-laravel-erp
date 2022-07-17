@@ -15,7 +15,9 @@
                 <select onclick="" class="form-control" wire:model="request_type">
                     <option value=""> --- Request Type --- </option>
                     <option value="1">Petty Cash</option>
-                    <option value="2">Weekly Opex</option>
+                    @if($is_weekly_opex)
+                        <option value="2">Weekly Opex</option>
+                    @endif
                     <option value="3">Other Opex</option>
                     <option value="4">Rectification</option>
                     <option value="5">Subcont</option>
@@ -97,7 +99,12 @@
                         <tr style="background: #eee;">
                             <th></th>
                             <th class="text-right">Budget</th>
-                            <th class="text-right">{{format_idr($budget)}}</th>
+                            <th class="text-right">{{format_idr($budget)}}
+                            @error('budget') 
+                                <br /><span class="text-danger">{{ $message }}</span>
+                            @enderror
+
+                            </th>
                             <th></th>
                         </tr>
                         <tr style="background: #eee;">

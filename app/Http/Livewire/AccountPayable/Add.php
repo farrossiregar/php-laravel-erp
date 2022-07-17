@@ -19,17 +19,23 @@ class Add extends Component
 {
     use WithFileUploads;
     public $request_type, $subrequest_type, $file, $doc_name,$cash_transaction_no,$items=[],$item_description=[],$item_amount=[],$total=0;
-    public $budget=0,$remain=0,$project_code,$project_name,$week;
+    public $budget=0,$remain=0,$project_code,$project_name,$week,$is_weekly_opex=false;
     public function render()
     {
         $project_arr = [];
         foreach(\Auth::user()->employee->employee_project as  $k => $i) $project_arr[] = $i->client_project_id;
+        
+        $week = 'week_'.$this->weekOfMonth(date('Y-m-d'));
 
-        if($this->request_type == '1') $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();   
-        if($this->request_type == '2') $budget = WeeklyOpexBudget::where(['company_id'=>session()->get('company_id'),'week'=>$this->weekOfMonth(date('Y-m-d')), 'region'=>\Auth::user()->employee->region_id])->whereIn('project',$project_arr)->first();
+        if($this->request_type == 1) $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();   
+        if($this->request_type == 2) $budget = WeeklyOpexBudget::where(['company_id'=>session()->get('company_id'),'employee_id'=>\Auth::user()->employee->id,'region'=>\Auth::user()->employee->region_id])->whereIn('client_project_id',$project_arr)->first();
       
         if($this->request_type){
-            if(isset($budget)){
+            if($this->request_type==2 and $budget){
+                $this->budget = $budget->$week;
+                $this->remain - $budget->remain;
+                $this->week = $this->weekOfMonth(date('Y-m-d'));
+            }elseif(isset($budget)){
                 $this->budget = $budget->amount;
                 $this->remain - $budget->remain;
                 $this->week = $budget->week;
@@ -70,6 +76,7 @@ class Add extends Component
         //     $this->project_code = $project->project->code;
         // }
 
+        $this->is_weekly_opex = WeeklyOpexBudget::where(['employee_id'=>\Auth::user()->employee->id,'month'=>date('m'),'year'=>date('Y'),'company_id'=>session()->get('company_id')])->first();
         $this->cash_transaction_no = str_pad((AccountPayable::count()+1),6, '0', STR_PAD_LEFT).'/'.date('d').'/'.date('m').'/'.date('Y').'/CashOut';
     }
 
@@ -95,9 +102,14 @@ class Add extends Component
         $this->validate([
             'request_type' => 'required',
             'subrequest_type' => 'required',
-            'file'=>'required|mimes:xls,xlsx,pdf|max:51200' // 50MB maksimal
-        ]);
-
+            'file'=>'required|mimes:xls,xlsx,pdf|max:51200', // 50MB maksimal
+            'budget' => 'required|not_in:0'
+        ],
+    [
+        'budget.not_in' => "Budget amount doesn't exist",
+        'budget.required' => "Budget amount doesn't exist",
+    ]);
+        
         $data                           = new AccountPayable();
         $data->cash_transaction_no = $this->cash_transaction_no;
         $data->region                   = isset(\Auth::user()->employee->region->region) ? \Auth::user()->employee->region->region : '-';

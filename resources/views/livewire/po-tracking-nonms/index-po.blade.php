@@ -32,9 +32,9 @@
                         <th>Works</th>
                         <th>Project</th>
                         <th class="text-right">Requested Budget</th>
-                        <th>VAT</th>
+                        <th>VAT (%)</th>
                         <th>Total Price</th>
-                        <th>WHT</th>
+                        <th>WHT (%)</th>
                         <th>Total Invoice</th>
                         <th class="text-right">Extra Budget</th>
                         <th><div style="width:50px;"></div></th>

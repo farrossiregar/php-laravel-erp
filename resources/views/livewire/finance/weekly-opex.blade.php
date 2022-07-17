@@ -6,10 +6,12 @@
                 <div class="col-md-2">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                 </div>
-                <div class="col-md-2">
-                    <a href="javascript:;" data-toggle="modal" data-target="#modal_weekly_opex_budget" class="btn btn-success"><i class="fa fa-database"></i> Budget</a>
-                    <a href="javascript:;" data-toggle="modal" data-target="#modal_weekly_opex_type" class="btn btn-info"><i class="fa fa-database"></i> Type</a>
-                </div>
+                @if($is_finance)
+                    <div class="col-md-2">
+                        <a href="javascript:;" data-toggle="modal" data-target="#modal_weekly_opex_budget" class="btn btn-success"><i class="fa fa-database"></i> Budget</a>
+                        <a href="javascript:;" data-toggle="modal" data-target="#modal_weekly_opex_type" class="btn btn-info"><i class="fa fa-database"></i> Type</a>
+                    </div>
+                @endif
                 <div class="col-md-8">
                     <span wire:loading>
                         <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -74,7 +76,11 @@
                                     </td>
                                     <td>{{$item->settlement_date ? date('d-F-Y',strtotime($item->settlement_date)) : '-'}}</td>
                                     <td>{{format_idr($item->total_settlement)}}</td>
-                                    <td>{{format_idr($item->previous_balance) }}</td>
+                                    <td>
+                                        @if($item->status==2)
+                                            <a href="javascript:void(0)" data-toggle="modal" wire:click="$emit('set_id','{{ $item->id }}')" data-target="#modal_weekly_opex_settle_detail">{{format_idr($item->budget_opex - $item->total_settlement) }}</a>
+                                        @endif
+                                    </td>
                                     <td>{{format_idr($item->total_transfer)}}</td>
                                     <td>{{$item->transfer_date}}</td>
                                     <td>@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
@@ -107,20 +113,22 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal_weekly_opex_budget" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:finance.weekly-opex-budget />
+@if($is_finance)
+    <div class="modal fade" id="modal_weekly_opex_budget" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="min-width:90%;">
+            <div class="modal-content">
+                <livewire:finance.weekly-opex-budget />
+            </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="modal_weekly_opex_type" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <livewire:finance.weekly-opex-type />
+    <div class="modal fade" id="modal_weekly_opex_type" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <livewire:finance.weekly-opex-type />
+            </div>
         </div>
     </div>
-</div>
+@endif
 <div class="modal fade" id="modal_process" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

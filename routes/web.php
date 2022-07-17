@@ -39,6 +39,23 @@ Route::get('readerpdf',function(){
 
 // All login
 Route::group(['middleware' => ['auth']], function(){    
+    Route::get('get-employees',function(){
+
+        $results = \App\Models\Employee::orderBy('name','ASC');
+
+        if(isset($_GET['search'])) $results->where('name','LIKE',"%{$_GET['search']}%")->orWhere('nik','LIKE',"%{$_GET['search']}%");
+
+        $data = [];
+        // $data['total_count'] = 10;
+        // $data['items'] = [];
+        foreach($results->paginate(10) as $k => $item){
+            $data[$k]['id'] = $item->id;
+            $data[$k]['name'] = $item->nik .' / '.$item->name;
+        }
+
+        return response()->json($data);
+    })->name('ajax.get-employees');
+
     Route::get('profile',App\Http\Livewire\Profile::class)->name('profile');
     Route::get('back-to-admin',[App\Http\Controllers\IndexController::class,'backtoadmin'])->name('back-to-admin');
     Route::get('setting',App\Http\Livewire\Setting::class)->name('setting');
@@ -140,6 +157,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('subcont',function(){})->name('subcont.index');
     Route::get('supplier-vendor',function(){})->name('supplier-vendor.index');
     Route::get('finance-petty-cash',App\Http\Livewire\Finance\PettyCash::class)->name('finance-petty-cash.index');
+    Route::get('other-opex',App\Http\Livewire\Finance\OtherOpex::class)->name('other-opex.index');
     
     Route::get('asset-database',App\Http\Livewire\AssetDatabase\Index::class)->name('asset-database.index');
     Route::get('asset-request',App\Http\Livewire\AssetRequest\Index::class)->name('asset-request.index');

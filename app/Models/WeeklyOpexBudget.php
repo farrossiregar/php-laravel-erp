@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Region;
 use App\Models\SubRegion;
+use App\Models\ClientProject;
+use App\Models\Employee;
 
 class WeeklyOpexBudget extends Model
 {
@@ -14,12 +16,17 @@ class WeeklyOpexBudget extends Model
 
     protected $table = 'weekly_opex_budget';
 
-    public function project()
+    public function client_project()
     {
-        return $this->belongsTo(Project::class);
-    }
+        return $this->hasOne(ClientProject::class,'id','client_project_id');
+    } 
 
-    public function region()
+    public function pic()
+    {
+        return $this->hasOne(Employee::class,'id','employee_id');
+    } 
+
+    public function regions()
     {
         return $this->hasOne(Region::class,'id','region');
     }

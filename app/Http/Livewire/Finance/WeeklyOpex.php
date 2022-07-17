@@ -16,8 +16,6 @@ class WeeklyOpex extends Component
 
     public function render()
     {
-        // $data = AccountPayableWeeklyopex::orderBy('updated_at','DESC');
-
         $data = AccountPayableWeeklyopex::select('account_payable_weeklyopex.*', 'account_payable.subrequest_type')
                                         ->join('account_payable','account_payable.id','=','account_payable_weeklyopex.id_master')
                                         ->where('account_payable.request_type','2')

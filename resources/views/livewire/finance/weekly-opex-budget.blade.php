@@ -1,9 +1,36 @@
 <form wire:submit.prevent="save">
-    <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-database"></i> Budget</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true close-btn">×</span>
-        </button>
+    <div class="modal-header row">
+        <div class="col-md-2">
+            <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-database"></i> Budget</h5>
+        </div>
+        <div class="col-md-2">
+            <select class="form-control" wire:model="filter_month">
+                <option value=""> -- Periode -- </option>
+                <option value="1">Januari</option>
+                <option value="2">Februari</option>
+                <option value="3">Maret</option>
+                <option value="4">April</option>
+                <option value="5">Mei</option>
+                <option value="6">Juni</option>
+                <option value="7">Juli</option>
+                <option value="8">Agustus</option>
+                <option value="9">September</option>
+                <option value="10">Oktober</option>
+                <option value="11">November</option>
+                <option value="12">Desember</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <span wire:loading wire:target="filter_month">
+                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                <span class="sr-only">{{ __('Loading...') }}</span>
+            </span>
+        </div>
+        <div class="col-md-6">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true close-btn">×</span>
+            </button>
+        </div>
     </div>
     <div class="modal-body">
         <div class="form-group">
@@ -13,28 +40,28 @@
                         <th style="width:50px">No</th>
                         <th>Project</th>
                         <th>Region</th>
-                        <th>Sub Region</th>
-                        <th>Week</th>
-                        <th class="text-right">Budget</th>
-                        <!-- <th class="text-right">Actualized</th>
-                        <th class="text-right">Remaining Budget</th> -->
+                        <th>PIC (Admin Region)</th>
+                        <th>Work Location</th>
+                        <th>Week 1</th>
+                        <th>Week 2</th>
+                        <th>Week 3</th>
+                        <th>Week 4</th>
+                        <th>Week 5</th>
                     </tr>
                 </thead>
-                <?php 
-                
-                ?>
                 <tbody>
                     @foreach($data as $k =>  $item)
                         <tr>
                             <td>{{$k+1}}</td>
-                            <td>{{isset($item->project) ? \App\Models\ClientProject::where('id',$item->project)->first()->name : '-'}}</td>
-                            <td>{{isset($item->region) ? \App\Models\Region::where('id',$item->region)->first()->region : '-'}}</td>
-                            <td>{{isset($item->sub_region->name) ? $item->sub_region->name : '-'}}</td>
-                            
-                            <td>{{$item->week}}</td>
-                            <td class="text-right">@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'amount'],key($item->id))</td>
-                            <!-- <td class="text-right">{{format_idr($item->used)}}</td>
-                            <td class="text-right">{{format_idr($item->remain)}}</td> -->
+                            <td>{{isset($item->client_project->name) ? $item->client_project->name : '-'}}</td>
+                            <td>{{isset($item->regions->region) ? $item->regions->region : '-'}}</td>
+                            <td>@livewire('finance.weekly-opex-editable-pic',['data'=>$item,'field'=>'employee_id'],key('employee_id'.$item->id))</td>
+                            <td>@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'work_location'],key('work_location_'.$item->id))</td>
+                            <td class="text-right">@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'week_1'],key('week_1'.$item->id))</td>
+                            <td class="text-right">@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'week_2'],key('week_2'.$item->id))</td>
+                            <td class="text-right">@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'week_3'],key('week_3'.$item->id))</td>
+                            <td class="text-right">@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'week_4'],key('week_4'.$item->id))</td>
+                            <td class="text-right">@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'week_5'],key('week_5'.$item->id))</td>
                         </tr>
                     @endforeach
                     @if($insert)
@@ -58,7 +85,7 @@
                                         <option value="{{$item->id}}">{{$item->region}}</option>
                                     @endforeach
                                 </select>
-                                @error('project_id')
+                                @error('regio')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </td>
@@ -104,7 +131,7 @@
                 </tbody>
             </table>
             @if($insert==false)
-                <a href="javascript:void(0)" wire:click="$set('insert',true)" class="badge badge-info badge-active"><i class="fa fa-plus"></i> Budget</a>
+                <!-- <a href="javascript:void(0)" wire:click="$set('insert',true)" class="badge badge-info badge-active"><i class="fa fa-plus"></i> Budget</a> -->
             @endif
         </div>
     </div>
