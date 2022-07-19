@@ -242,6 +242,45 @@ class Add extends Component
             }
         }
 
+
+        // Rectification
+        if($this->request_type==4){
+            $data->status = 4; // waiting approval PMG
+            $data->save();
+
+            $prev_data = AccountPayableRectification::orderBy('id', 'desc')->first();
+
+            $rectification = new AccountPayableRectification();
+            $rectification->budget_opex               = $this->budget;//$this->budget_opex;
+            $rectification->employee_id               = \Auth::user()->employee->id;
+            $rectification->id_master                 = $data->id;
+            $rectification->region                    = isset(\Auth::user()->employee->region->region) ? \Auth::user()->employee->region->region : '-';
+            $rectification->subregion                 = isset(\Auth::user()->employee->subregion->name) ? \Auth::user()->employee->subregion->name : '-';
+            $rectification->project_code              = isset(\Auth::user()->employee->employee_project[0]->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project[0]->client_project_id)->id : '';
+            $rectification->project_name              = isset(\Auth::user()->employee->employee_project[0]->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project[0]->client_project_id)->name : '';
+            $rectification->cash_transaction_no       = $this->cash_transaction_no;
+            $rectification->month                     = date('M');//$this->month;
+            $rectification->year                      = date('Y');//$this->year;
+            $rectification->week                      = $this->week;
+            $rectification->company_id                = session()->get('company_id');
+            $rectification->status                    = 0; // Waiting AP Staff
+            $rectification->total_settlement          = $this->total;
+            $rectification->previous_balance          = isset($prev_data) ? $prev_data->nominal - $prev_data->total_transfer : 0;
+            $rectification->total_transfer            = $this->total;
+            $rectification->transfer_date             = date('Y-m-d');
+            $rectification->save();
+
+            if($this->items){
+                foreach($this->items as $k => $val){
+                    $item = new OtherOpexItem;
+                    $item->other_opex_id = $rectification->id;
+                    $item->amount = $this->item_amount[$k];
+                    $item->description = $this->item_description[$k];
+                    $item->save();
+                }
+            }
+        }
+
         session()->flash('message-success',"Request Account Payable Berhasil diinput");
         
         return redirect()->route('account-payable.index');

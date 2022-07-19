@@ -54,6 +54,13 @@
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     @endif
+
+                    @if($request_type == 4)
+                        <option value=""> --- Sub Request Type (Rectification) --- </option>
+                        @foreach(\App\Models\OtherOpexType::where('company_id', session()->get('company_id'))->get() as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    @endif
                 </select>
                 @error('subrequest_type')
                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
