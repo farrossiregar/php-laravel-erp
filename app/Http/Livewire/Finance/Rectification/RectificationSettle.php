@@ -71,7 +71,7 @@ class RectificationSettle extends Component
             // }   
         // }
 
-        // $this->data->difference = $this->total_difference;
+        $this->data->difference = $this->total_difference;
         $this->data->total_settlement = $this->total_settle;
         $this->data->save();
 
