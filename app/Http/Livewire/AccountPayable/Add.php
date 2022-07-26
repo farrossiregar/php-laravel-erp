@@ -22,7 +22,7 @@ class Add extends Component
 {
     use WithFileUploads;
     public $request_type, $subrequest_type, $file, $doc_name,$cash_transaction_no,$items=[],$item_description=[],$item_amount=[],$total=0;
-    public $budget=0,$remain=0,$project_code,$project_name,$week,$is_weekly_opex=false;
+    public $budget=0,$remain=0,$project_code,$project_name,$week,$is_weekly_opex=false,$period;
     public function render()
     {
         $project_arr = [];
@@ -31,9 +31,9 @@ class Add extends Component
         $week = 'week_'.$this->weekOfMonth(date('Y-m-d'));
 
         if($this->request_type == '1') $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();   
-        if($this->request_type == '2') $budget = WeeklyOpexBudget::where(['company_id'=>session()->get('company_id'),'week'=>$this->weekOfMonth(date('Y-m-d')), 'region'=>\Auth::user()->employee->region_id])->whereIn('project',$project_arr)->first();
+        if($this->request_type == '2') $budget = WeeklyOpexBudget::where(['company_id'=>session()->get('company_id')])->where(['month'=>(int)date('m'),'year'=>date('Y')])->whereIn('client_project_id',$project_arr)->first();
         if($this->request_type == '3') $budget = OtherOpexBudget::where(['company_id'=>session()->get('company_id')])->first();
-      
+        
         if($this->request_type){
             if($this->request_type==2 and $budget){
                 $this->budget = $budget->$week;
@@ -102,17 +102,19 @@ class Add extends Component
 
     public function save()
     {
-        
-        $this->validate([
+        $validate = [
             'request_type' => 'required',
-            'subrequest_type' => 'required',
             'file'=>'required|mimes:xls,xlsx,pdf|max:51200', // 50MB maksimal
-            'budget' => 'required|not_in:0'
-        ],
-    [
-        'budget.not_in' => "Budget amount doesn't exist",
-        'budget.required' => "Budget amount doesn't exist",
-    ]);
+        ];
+        $validate_msg = [];
+        if($this->request_type !=3){
+            $validate['budget'] = 'required|not_in:0';
+            $validate_msg = [
+                'budget.not_in' => "Budget amount doesn't exist",
+                'budget.required' => "Budget amount doesn't exist",
+            ];
+        }
+        $this->validate($validate,$validate_msg);
         
         $data                           = new AccountPayable();
         $data->cash_transaction_no = $this->cash_transaction_no;
@@ -120,7 +122,7 @@ class Add extends Component
         $data->name                     = \Auth::user()->employee->name;
         $data->nik                      = \Auth::user()->employee->nik;
         $data->position = \Auth::user()->employee->access->name;
-        $data->department = isset(\Auth::user()->employee->department->name) ? \Auth::user()->employee->department->name : '';;
+        $data->department = isset(\Auth::user()->employee->employee_project_first->project->name) ? \Auth::user()->employee->employee_project_first->project->name : '';;
         $data->request_type                     = $this->request_type;
         $data->subrequest_type                  = $this->subrequest_type;
         $data->employee_id = \Auth::user()->employee->id;
@@ -178,8 +180,8 @@ class Add extends Component
             $weekly_opex->id_master                 = $data->id;
             $weekly_opex->region                    = isset(\Auth::user()->employee->region->region) ? \Auth::user()->employee->region->region : '-';
             $weekly_opex->subregion                 = isset(\Auth::user()->employee->subregion->name) ? \Auth::user()->employee->subregion->name : '-';
-            $weekly_opex->project_code              = isset(\Auth::user()->employee->employee_project->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project->client_project_id)->id : '';
-            $weekly_opex->project_name              = isset(\Auth::user()->employee->employee_project->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project->client_project_id)->name : '';
+            $weekly_opex->project_code              = isset(\Auth::user()->employee->employee_project_first->project->code) ? \Auth::user()->employee->employee_project_first->project->code : '';
+            $weekly_opex->project_name              = isset(\Auth::user()->employee->employee_project_first->project->name) ? \Auth::user()->employee->employee_project_first->project->name : '';
             $weekly_opex->cash_transaction_no       = $this->cash_transaction_no;
             $weekly_opex->month                     = date('M');//$this->month;
             $weekly_opex->year                      = date('Y');//$this->year;
@@ -208,7 +210,7 @@ class Add extends Component
          if($this->request_type==3){
             $data->status = 4; // waiting approval PMG
             $data->save();
-
+ 
             $prev_data = AccountPayableOtheropex::orderBy('id', 'desc')->first();
 
             $other_opex = new AccountPayableOtheropex();
@@ -217,8 +219,8 @@ class Add extends Component
             $other_opex->id_master                 = $data->id;
             $other_opex->region                    = isset(\Auth::user()->employee->region->region) ? \Auth::user()->employee->region->region : '-';
             $other_opex->subregion                 = isset(\Auth::user()->employee->subregion->name) ? \Auth::user()->employee->subregion->name : '-';
-            $other_opex->project_code              = isset(\Auth::user()->employee->employee_project->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project->client_project_id)->id : '';
-            $other_opex->project_name              = isset(\Auth::user()->employee->employee_project->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project->client_project_id)->name : '';
+            $other_opex->project_code              = isset(\Auth::user()->employee->employee_project_first->project->code) ? \Auth::user()->employee->employee_project_first->project->code : '';
+            $other_opex->project_name              = isset(\Auth::user()->employee->employee_project_first->project->name) ? \Auth::user()->employee->employee_project_first->project->name : '';
             $other_opex->cash_transaction_no       = $this->cash_transaction_no;
             $other_opex->month                     = date('M');//$this->month;
             $other_opex->year                      = date('Y');//$this->year;
@@ -229,6 +231,8 @@ class Add extends Component
             $other_opex->previous_balance          = isset($prev_data) ? $prev_data->nominal - $prev_data->total_transfer : 0;
             $other_opex->total_transfer           = $this->total;
             $other_opex->transfer_date            = date('Y-m-d');
+            $other_opex->period = $this->period;
+            $other_opex->client_project_id = isset(\Auth::user()->employee->employee_project_first->project->id) ? \Auth::user()->employee->employee_project_first->project->id : '';
             $other_opex->save();
 
             if($this->items){

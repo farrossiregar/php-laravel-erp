@@ -5,10 +5,13 @@ namespace App\Http\Livewire\Finance;
 use Livewire\Component;
 use App\Models\WeeklyOpexBudget as ModelWeeklyOpexBudget;
 use App\Models\ClientProject;
+use App\Models\WeeklyOpexBudgetDate;
 
 class WeeklyOpexBudget extends Component
 {
     public $project_id,$week,$insert=false,$budget,$region,$subregion,$filter_month;
+    public $week_1,$week_2,$week_3,$week_4,$week_5;
+    protected $listeners = ['reload'=>'$refresh'];
     public function render()
     {
         $data = ModelWeeklyOpexBudget::with(['client_project','regions'])->where(['company_id'=>session()->get('company_id'),'year'=>date('Y')]);
@@ -18,6 +21,14 @@ class WeeklyOpexBudget extends Component
             $this->generate_budget($this->filter_month);
         }else
             $data->where('month',date('m'));
+
+        foreach(WeeklyOpexBudgetDate::where(['year'=>date('Y'),'month'=>$this->filter_month])->get() as $item){
+            if($item->week==1) $this->week_1 = $item->start_date .' sd '. $item->end_date;
+            if($item->week==2) $this->week_2 = $item->start_date .' sd '. $item->end_date;
+            if($item->week==3) $this->week_3 = $item->start_date .' sd '. $item->end_date;
+            if($item->week==4) $this->week_4 = $item->start_date .' sd '. $item->end_date;
+            if($item->week==5) $this->week_5 = $item->start_date .' sd '. $item->end_date;
+        }
 
         return view('livewire.finance.weekly-opex-budget')->with(['data'=>$data->get()]);
     }
@@ -47,6 +58,7 @@ class WeeklyOpexBudget extends Component
 
     public function mount()
     {
+        $this->filter_month = date('m');
         $this->generate_budget(date('m'));
     }
 
@@ -65,6 +77,8 @@ class WeeklyOpexBudget extends Component
         $data->region = $this->region;
         $data->subregion = $this->subregion;
         $data->week = $this->week;
+        $data->month = $this->filter_month ? $this->filter_month : date('m'); 
+        $data->year = date('Y'); 
         $data->save();
 
         $this->insert = false;

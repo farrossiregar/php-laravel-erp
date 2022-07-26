@@ -23,6 +23,11 @@ class Employee extends Model
         return $this->hasMany(EmployeeProject::class,'employee_id','id');
     }
 
+    public function employee_project_first()
+    {
+        return $this->hasOne(EmployeeProject::class,'employee_id','id');
+    }
+
     public function region()
     {
         return $this->hasOne(Region::class,'id','region_id');

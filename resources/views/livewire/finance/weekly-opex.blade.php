@@ -28,7 +28,6 @@
                                 <th>Status</th>
                                 <th>Project Name</th>          
                                 <th>Region</th>          
-                                <th>Sub Region</th>          
                                 <th>Month (Bulanan)</th>          
                                 <th>Budget Opex</th>          
                                 <th class="text-center">Period (Perminggu)</th>   
@@ -63,19 +62,21 @@
                                     </td>
                                     <td>{{$item->project_name}}</td>
                                     <td>{{$item->region}}</td>
-                                    <td>{{$item->subregion}}</td>
+                                    <!-- <td>{{$item->subregion}}</td> -->
                                     <td>{{$item->month}}</td>
                                     <td>{{format_idr($item->budget_opex)}}</td>
                                     <td class="text-center">{{$item->week}}</td>
                                     <td>
                                         @php($description_ = [])
+                                        @php($total_advance=0)
                                         @foreach(\App\Models\WeeklyOpexItem::where('weekly_opex_id', $item->id)->get() as $i)
                                             @php($description_[] = $i->description)
+                                            @php($total_advance += $i->amount_settle)
                                         @endforeach
                                         {{implode(", ", $description_)}}
                                     </td>
                                     <td>{{$item->settlement_date ? date('d-F-Y',strtotime($item->settlement_date)) : '-'}}</td>
-                                    <td>{{format_idr($item->total_settlement)}}</td>
+                                    <td>{{format_idr($total_advance)}}</td>
                                     <td>
                                         @if($item->status==2)
                                             <a href="javascript:void(0)" data-toggle="modal" wire:click="$emit('set_id','{{ $item->id }}')" data-target="#modal_weekly_opex_settle_detail">{{format_idr($item->budget_opex - $item->total_settlement) }}</a>
@@ -148,6 +149,13 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <livewire:finance.weekly-opex-settle-detail />
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_set_date" wire:ignore.self role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            @livewire('finance.weekly-opex-set-date')
         </div>
     </div>
 </div>

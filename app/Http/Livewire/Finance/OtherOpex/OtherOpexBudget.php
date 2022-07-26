@@ -19,7 +19,7 @@ class OtherOpexBudget extends Component
     {
         $this->validate([
             'project_id'=>'required',
-            'week'=>'required',
+            // 'week'=>'required',
             'budget'=>'required',
         ]);
 
@@ -29,7 +29,7 @@ class OtherOpexBudget extends Component
         $data->amount = $this->budget;
         $data->region = $this->region;
         $data->subregion = $this->subregion;
-        $data->week = $this->week;
+        // $data->week = $this->week;
         $data->save();
 
         $this->insert = false;

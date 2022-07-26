@@ -37,16 +37,39 @@
             <table class="table">
                 <thead style="background:#eee;">
                     <tr>
+                        <th colspan="5" class="text-right">Total</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
                         <th style="width:50px">No</th>
                         <th>Project</th>
                         <th>Region</th>
                         <th>PIC (Admin Region)</th>
                         <th>Work Location</th>
-                        <th>Week 1</th>
-                        <th>Week 2</th>
-                        <th>Week 3</th>
-                        <th>Week 4</th>
-                        <th>Week 5</th>
+                        <td><strong>Week 1</strong><br />
+                            <a href="javascript:void(0)" wire:click="$emit('week_active',{'week':1,'month':{{$filter_month}}})" data-toggle="modal" data-target="#modal_set_date"><i class="fa fa-edit"></i></a>
+                            {{$week_1}}
+                        </td>
+                        <td><strong>Week 2</strong><br />
+                            <a href="javascript:void(0)" wire:click="$emit('week_active',{'week':2,'month':{{$filter_month}}})" data-toggle="modal" data-target="#modal_set_date"><i class="fa fa-edit"></i></a>
+                            {{$week_2}}
+                        </td>
+                        <td><strong>Week 3</strong><br />
+                            <a href="javascript:void(0)" wire:click="$emit('week_active',{'week':3,'month':{{$filter_month}}})" data-toggle="modal" data-target="#modal_set_date"><i class="fa fa-edit"></i></a>
+                            {{$week_3}}
+                        </td>
+                        <td><strong>Week 4</strong><br />
+                            <a href="javascript:void(0)" wire:click="$emit('week_active',{'week':4,'month':{{$filter_month}}})" data-toggle="modal" data-target="#modal_set_date"><i class="fa fa-edit"></i></a>
+                            {{$week_4}}
+                        </td>
+                        <td><strong>Week 5</strong><br />
+                            <a href="javascript:void(0)" wire:click="$emit('week_active',{'week':5,'month':{{$filter_month}}})" data-toggle="modal" data-target="#modal_set_date"><i class="fa fa-edit"></i></a>
+                            {{$week_5}}
+                        </td>
                     </tr>
                 </thead>
                 <tbody>

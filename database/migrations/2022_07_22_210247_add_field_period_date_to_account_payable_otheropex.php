@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTotalTransfersettlementToAccountPayableOtheropex extends Migration
+class AddFieldPeriodDateToAccountPayableOtheropex extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,7 @@ class AddTotalTransfersettlementToAccountPayableOtheropex extends Migration
     public function up()
     {
         Schema::table('account_payable_otheropex', function (Blueprint $table) {
-            $table->char('total_settlement', 30)->nullable();
-            // $table->char('employee_id', 30)->nullable();
-            $table->string('app_staff_note')->nullable();
+            $table->date('period')->nullable();
         });
     }
 

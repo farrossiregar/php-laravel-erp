@@ -18,7 +18,7 @@
                     @if($is_weekly_opex)
                         <option value="2">Weekly Opex</option>
                     @endif
-                    <option value="3">Other Opex</option>
+                    <option value="3">Additional Opex</option>
                     <option value="4">Rectification</option>
                     <option value="5">Subcont</option>
                     <option value="6">Site Keeper</option>
@@ -30,34 +30,40 @@
                 @enderror
             </div>
             <div class="col-md-6 form-group">
-                <label>Sub Request Type</label> {{session()->get('company_id')}}
-                <select onclick="" class="form-control" wire:model="subrequest_type">
-                    @if($request_type == 1)
-                        <option value=""> --- Sub Request Type (Petty Cash) --- </option>
-                        @foreach(\App\Models\PettyCashType::where('company_id', session()->get('company_id'))->get() as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endforeach
+                    @if($request_type==3)
+                        <label>Period</label>
+                        <input type="date" class="form-control" wire:model="period" />
+                        @error('period')
+                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                        @enderror
                     @endif
-                    @if($request_type == 2)
-                        <option value=""> --- Sub Request Type (Weekly Opex) --- </option>
-                        <!-- <option value="Opex Region">OPEX Region</option>
-                        <option value="Opex Comcase">OPEX Comcase</option>
-                        <option value="Police Report">Police Report</option> -->
-                        @foreach(\App\Models\WeeklyOpexType::where('company_id', session()->get('company_id'))->get() as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endforeach
-                    @endif
+                    @if($request_type!=3)
+                    <label>Sub Request Type</label> {{session()->get('company_id')}}
+                    <select onclick="" class="form-control" wire:model="subrequest_type">
+                        @if($request_type == 1)
+                            <option value=""> --- Sub Request Type (Petty Cash) --- </option>
+                            @foreach(\App\Models\PettyCashType::where('company_id', session()->get('company_id'))->get() as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        @endif
+                        @if($request_type == 2)
+                            <option value=""> --- Sub Request Type (Weekly Opex) --- </option>
+                            @foreach(\App\Models\WeeklyOpexType::where('company_id', session()->get('company_id'))->get() as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        @endif
 
-                    @if($request_type == 3)
-                        <option value=""> --- Sub Request Type (Other Opex) --- </option>
-                        @foreach(\App\Models\OtherOpexType::where('company_id', session()->get('company_id'))->get() as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endforeach
-                    @endif
-                </select>
-                @error('subrequest_type')
-                    <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                @enderror
+                        @if($request_type == 3)
+                            <option value=""> --- Sub Request Type (Other Opex) --- </option>
+                            @foreach(\App\Models\OtherOpexType::where('company_id', session()->get('company_id'))->get() as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                    @error('subrequest_type')
+                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                    @enderror
+                @endif
             </div>
             <div class="col-md-6 form-group">
                 <label>Additional Document </label>
@@ -103,23 +109,25 @@
                             <th class="text-right">{{format_idr($total)}}</th>
                             <th></th>
                         </tr>
-                        <tr style="background: #eee;">
-                            <th></th>
-                            <th class="text-right">Budget</th>
-                            <th class="text-right">{{format_idr($budget)}}
-                            @error('budget') 
-                                <br /><span class="text-danger">{{ $message }}</span>
-                            @enderror
+                        @if($request_type!=3)
+                            <tr style="background: #eee;">
+                                <th></th>
+                                <th class="text-right">Budget</th>
+                                <th class="text-right">{{format_idr($budget)}}
+                                @error('budget') 
+                                    <br /><span class="text-danger">{{ $message }}</span>
+                                @enderror
 
-                            </th>
-                            <th></th>
-                        </tr>
-                        <tr style="background: #eee;">
-                            <th></th>
-                            <th class="text-right">Remain</th>
-                            <th class="text-right">{{format_idr($budget-$total)}}</th>
-                            <th></th>
-                        </tr>
+                                </th>
+                                <th></th>
+                            </tr>
+                            <tr style="background: #eee;">
+                                <th></th>
+                                <th class="text-right">Remain</th>
+                                <th class="text-right">{{format_idr($budget-$total)}}</th>
+                                <th></th>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>

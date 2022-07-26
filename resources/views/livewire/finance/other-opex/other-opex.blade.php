@@ -1,14 +1,10 @@
-@section('title', __('Other Opex'))
+@section('title', __('Additional Opex'))
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
             <div class="header row">
                 <div class="col-md-2">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
-                </div>
-                <div class="col-md-2">
-                    <a href="javascript:;" data-toggle="modal" data-target="#modal_other_opex_budget" class="btn btn-success"><i class="fa fa-database"></i> Budget</a>
-                    <a href="javascript:;" data-toggle="modal" data-target="#modal_other_opex_type" class="btn btn-info"><i class="fa fa-database"></i> Type</a>
                 </div>
                 <div class="col-md-8">
                     <span wire:loading>
@@ -26,19 +22,12 @@
                                 <th>Status</th>
                                 <th>Project Name</th>          
                                 <th>Region</th>          
-                                <th>Sub Region</th>          
                                 <th>Period</th>          
+                                <th>PIC</th>          
                                 <th>Description</th>          
-                                <th>PR No</th>          
-                                <th>PO No</th>          
-                                <th>Budget</th>
-                                
-                                <th>Transfer Date</th>         
                                 <th>Cash Transaction No</th>
-                                <th>Difference</th>          
-                                <th>Settlement Nominal</th>
-                                <th>Settlement Date</th>          
-                                <th>Attachment Document For Advance</th>     
+                                <th class="text-right">Additional Amount</th>      
+                                <th>Supporting Document</th>     
                                 <th></th>
                             </tr>
                         </thead>
@@ -51,10 +40,7 @@
                                             <span class="badge badge-warning">Waiting AP Staff</span>
                                         @endif
                                         @if($item->status==1)
-                                            <span class="badge badge-info">Finance in review</span>
-                                        @endif
-                                        @if($item->status==2)
-                                            <span class="badge badge-success">Settled</span>
+                                            <span class="badge badge-success">Accepted</span>
                                         @endif
                                         @if($item->status==3)
                                             <span class="badge badge-danger" onclick="alert('{{$item->app_staff_note}}')" title="{{$item->app_staff_note}}">Reject</span>
@@ -62,8 +48,8 @@
                                     </td>
                                     <td>{{$item->project_name}}</td>
                                     <td>{{$item->region}}</td>
-                                    <td>{{$item->subregion}}</td>
                                     <td>{{$item->month}}</td>
+                                    <td>{{isset($item->employee->name) ? $item->employee->name : '-'}}</td>
                                     <td>
                                         @php($description_ = [])
                                         @foreach(\App\Models\OtherOpexItem::where('other_opex_id', $item->id)->get() as $i)
@@ -71,31 +57,16 @@
                                         @endforeach
                                         {{implode(", ", $description_)}}
                                     </td>
-                                    <td>@livewire('finance.other-opex.other-opex-editable',['data'=>$item,'field'=>'pr_no'],key($item->id))</td>
-                                    <td>@livewire('finance.other-opex.other-opex-editable',['data'=>$item,'field'=>'po_no'],key($item->id))</td>
-                                    <td>{{format_idr($item->budget_opex)}}</td>
-                                    
-                                    <td>{{$item->transfer_date}}</td>
                                     <td>@livewire('finance.other-opex.other-opex-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
-                                    <td>{{format_idr($item->previous_balance) }}</td>
-                                    <td>{{format_idr($item->total_settlement)}}</td>
-                                    <td>{{$item->settlement_date ? date('d-F-Y',strtotime($item->settlement_date)) : '-'}}</td>
-
-                                    
-                                    <!-- <td>{{format_idr($item->total_transfer)}}</td> -->
-                                    
-                                    
+                                    <td class="text-right">{{format_idr($item->total_settlement)}}</td>
                                     <td class="text-center">
-                                        @if($item->doc_settlement)
-                                            <a href="{{asset($item->doc_settlement)}}"><i class="fa fa-download"></i></a>
+                                        @if(isset($item->master->additional_doc))
+                                            <a href="{{asset($item->master->additional_doc)}}"><i class="fa fa-download"></i></a>
                                         @endif
                                     </td>
                                     <td>
                                         @if($item->status==0 and $is_apstaff)
                                             <a href="javascript:void(0)" wire:click="$emit('check_id',{{$item->id}})" class="badge badge-info badge-active" data-toggle="modal" data-target="#modal_process"><i class="fa fa-check-circle"></i> Process</a>
-                                        @endif
-                                        @if($item->status==1 and $is_finance)
-                                            <a href="javascript:;" wire:click="$emit('set_id','{{ $item->id }}')" data-toggle="modal" data-target="#modal_other_opex_settle" class="badge badge-warning badge-active"><i class="fa fa-edit"></i> Advance</a>
                                         @endif
                                     </td>
                                 </tr>

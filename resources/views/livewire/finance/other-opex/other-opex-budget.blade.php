@@ -14,15 +14,9 @@
                         <th>Project</th>
                         <th>Region</th>
                         <th>Sub Region</th>
-                        <th>Week</th>
-                        <th class="text-right">Budget</th>
-                        <!-- <th class="text-right">Actualized</th>
-                        <th class="text-right">Remaining Budget</th> -->
+                        <th class="text-right">Monthly Budget</th>
                     </tr>
                 </thead>
-                <?php 
-                
-                ?>
                 <tbody>
                     @foreach($data as $k =>  $item)
                         <tr>
@@ -30,11 +24,7 @@
                             <td>{{isset($item->project) ? \App\Models\ClientProject::where('id',$item->project)->first()->name : '-'}}</td>
                             <td>{{isset($item->region) ? \App\Models\Region::where('id',$item->region)->first()->region : '-'}}</td>
                             <td>{{isset($item->sub_region->name) ? $item->sub_region->name : '-'}}</td>
-                            
-                            <td>{{$item->week}}</td>
                             <td class="text-right">@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'amount'],key($item->id))</td>
-                            <!-- <td class="text-right">{{format_idr($item->used)}}</td>
-                            <td class="text-right">{{format_idr($item->remain)}}</td> -->
                         </tr>
                     @endforeach
                     @if($insert)
@@ -75,7 +65,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </td>
-                            <td>
+                            <!-- <td>
                                 <select class="form-control" wire:model="week">
                                     <option value=""> -- Select Week -- </option>
                                     <option>1</option>
@@ -86,7 +76,7 @@
                                 @error('week')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                            </td>
+                            </td> -->
                             <td>
                                 <input type="number" class="form-control text-right" wire:model="budget" placeholder="Budget" />
                                 @error('budget')

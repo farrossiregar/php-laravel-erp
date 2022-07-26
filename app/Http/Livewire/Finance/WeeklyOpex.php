@@ -5,13 +5,13 @@ namespace App\Http\Livewire\Finance;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\AccountPayableWeeklyopex;
-
+use App\Models\WeeklyOpexBudgetDate;
 class WeeklyOpex extends Component
 {
     use WithPagination;
     public $filterproject, $filterweek, $filtermonth, $filteryear, $subrequest_type;
     protected $paginationTheme = 'bootstrap',$listeners=['refresh'=>'$refresh'];
-    public $keyword;
+    public $keyword,$week_id;
     public $is_apstaff=false,$is_finance=false;
 
     public function render()

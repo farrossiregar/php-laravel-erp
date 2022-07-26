@@ -28,7 +28,7 @@
             <option value=""> --- Request Type --- </option>
             <option value="1">Petty Cash</option>
             <option value="2">Weekly Opex</option>
-            <option value="3">Other Opex</option>
+            <option value="3">Additional Opex</option>
             <option value="4">Rectification</option>
             <option value="5">Subcont</option>
             <option value="6">Site Keeper</option>
@@ -47,7 +47,7 @@
                     <tr>
                         <th class="align-middle">No</th>
                         <th class="align-middle">Status</th> 
-                        <th class="align-middle">Date Create</th>
+                        <th class="align-middle">Request Date</th>
                         <th class="align-middle">Cash Transaction No</th>
                         <!-- <th class="align-middle">NIK / Name</th>  -->
                         <!-- <th class="align-middle">Position</th>  -->
@@ -105,10 +105,10 @@
                                 @if($item->request_type == '3')
                                     @if($item->update_req == '1')
                                         <a href="javascript:;" wire:click="$emit('modaladdotheropexaccountpayable','{{ $item->id }}')">
-                                        Other Opex
+                                        Additional Opex
                                         </a>
                                     @else
-                                        Other Opex
+                                        Additional Opex
                                     @endif
                                 @endif
                                 @if($item->request_type == '4')
@@ -225,6 +225,16 @@
                                     @if(isset($item->weekly_opex->items))
                                         @php($description_ = [])
                                         @foreach($item->weekly_opex->items as $i)
+                                            @php($description_[] = $i->description)
+                                            @php($total += $i->amount)
+                                        @endforeach
+                                        {{implode(", ", $description_)}}
+                                    @endif
+                                @endif
+                                @if($item->request_type==3)
+                                    @if(isset($item->other_opex->items))
+                                        @php($description_ = [])
+                                        @foreach($item->other_opex->items as $i)
                                             @php($description_[] = $i->description)
                                             @php($total += $i->amount)
                                         @endforeach
