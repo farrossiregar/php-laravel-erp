@@ -61,6 +61,13 @@
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     @endif
+
+                    @if($request_type == 5)
+                        <option value=""> --- Sub Request Type (Subcont) --- </option>
+                        @foreach(\App\Models\SubcontType::where('company_id', session()->get('company_id'))->get() as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    @endif
                 </select>
                 @error('subrequest_type')
                     <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>

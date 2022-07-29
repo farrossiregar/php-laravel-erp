@@ -1,4 +1,4 @@
-@section('title', __('Rectification'))
+@section('title', __('Subcont'))
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -27,17 +27,24 @@
                                 <th>Project Name</th>          
                                 <th>Region</th>          
                                 <th>Sub Region</th>          
+                                <th>Contract No</th>          
                                 <th>Period</th>          
-                                <th>Rect Name</th>          
-                                <th>PR / PO No</th>          
-                                <th>Budget</th>
-                                <th>Previous Balance</th>         
-                                <th>Nominal</th>         
+                                <th>Subcont Name</th>          
+                                <th>Invoice No</th>          
+                                <th>Invoice Date</th>          
+                                <th>PR No</th>          
+                                <th>PO No</th>          
+                                <th>Other Cost</th>          
+                                <th>Total Nominal</th>          
+                                <th>VAT</th>          
+                                <th>WHT</th>          
+                                <th>Item Transfer Amount</th>
+                                <th>Total Transfer</th>
                                 <th>Transfer Date</th>         
                                 <th>Cash Transaction No</th>
-                                <th>Difference</th>          
-                                <th>Settlement Nominal</th>
                                 <th>Settlement Date</th>          
+                                <th>Settlement Amount</th>
+                                <th>Difference</th>       
                                 <!-- <th>Attachment Document For Advance</th>      -->
                                 <th></th>
                             </tr>
@@ -66,27 +73,38 @@
                                     <td>{{$item->project_name}}</td>
                                     <td>{{$item->region}}</td>
                                     <td>{{$item->subregion}}</td>
-                                    <td>{{$item->month}}</td>
+                                    <td>@livewire('finance.subcont.subcont-editable',['data'=>$item,'field'=>'contract_no'],key($item->id))</td>
+                                    <td>{{$item->month}} {{$item->year}}</td>
                                     <td>
                                         @php($description_ = [])
-                                        @foreach(\App\Models\RectificationItem::where('subcont_id', $item->id)->get() as $i)
+                                        @foreach(\App\Models\SubcontItem::where('subcont_id', $item->id)->get() as $i)
                                             @php($description_[] = $i->description)
                                         @endforeach
                                         {{implode(", ", $description_)}}
                                     </td>
+                                    <td>@livewire('finance.subcont.subcont-editable',['data'=>$item,'field'=>'invoice_no'],key($item->id))</td>
+                                    <td>@livewire('finance.subcont.subcont-editable',['data'=>$item,'field'=>'invoice_date'],key($item->id))</td>
                                     <td>@livewire('finance.subcont.subcont-editable',['data'=>$item,'field'=>'pr_no'],key($item->id))</td>
-                                    
-                                    <td>{{format_idr($item->budget_opex)}}</td>
-                                    <td>{{format_idr($item->previous_balance) }}</td>
-                                    <td>{{format_idr($item->total_transfer) }}</td>
+                                    <td>@livewire('finance.subcont.subcont-editable',['data'=>$item,'field'=>'po_no'],key($item->id))</td>
+                                    <td>{{$item->other_cost}}</td>
+                                    <td>{{format_idr($item->total_nominal)}}</td>
+                                    <td>@livewire('finance.subcont.subcont-editable',['data'=>$item,'field'=>'vat'],key($item->id))</td>
+                                    <td>@livewire('finance.subcont.subcont-editable',['data'=>$item,'field'=>'wht'],key($item->id))</td>
+                                    <td>
+                                        @php($itembudget_ = [])
+                                        @foreach(\App\Models\SubcontItem::where('subcont_id', $item->id)->get() as $i)
+                                            @php($itembudget_[] = $i->amount)
+                                        @endforeach
+                                        {{implode(", ", $itembudget_)}}
+                                    </td>
+                                    <td>{{format_idr($item->total_transfer)}}</td>
                                     <td>{{$item->transfer_date}}</td>
                                     <td>@livewire('finance.subcont.subcont-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
-                                    <td>{{format_idr($item->difference) }}</td>
-                                    <td>{{format_idr($item->total_settlement)}}</td>
                                     <td>{{$item->settlement_date ? date('d-F-Y',strtotime($item->settlement_date)) : '-'}}</td>
+                                    <td>{{format_idr($item->total_settlement)}}</td>
+                                    <td>{{format_idr($item->difference) }}</td>
+                                    
 
-                                    
-                                    
                                     <!-- <td class="text-center">
                                         @if($item->doc_settlement)
                                             <a href="{{asset($item->doc_settlement)}}"><i class="fa fa-download"></i></a>

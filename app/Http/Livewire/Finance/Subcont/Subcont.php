@@ -20,7 +20,7 @@ class Subcont extends Component
 
         $data = AccountPayableSubcont::select('account_payable_subcont.*', 'account_payable.subrequest_type')
                                         ->join('account_payable','account_payable.id','=','account_payable_subcont.id_master')
-                                        ->where('account_payable.request_type','4')
+                                        ->where('account_payable.request_type','5')
                                         ->where('account_payable_subcont.company_id',session()->get('company_id'))
                                         ->orderBy('account_payable_subcont.updated_at','DESC');
 

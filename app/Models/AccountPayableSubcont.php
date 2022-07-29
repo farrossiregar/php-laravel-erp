@@ -12,7 +12,6 @@ class AccountPayableSubcont extends Model
 
     protected $table = 'account_payable_subcont';
 
-
     public function employee()
     {
         return $this->hasOne(Employee::class,'id','employee_id');

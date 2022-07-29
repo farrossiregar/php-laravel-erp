@@ -19,6 +19,9 @@ use App\Models\OtherOpexBudget;
 use App\Models\AccountPayableRectification;
 use App\Models\RectificationItem;
 use App\Models\RectificationBudget;
+use App\Models\AccountPayableSubcont;
+use App\Models\SubcontItem;
+use App\Models\SubcontBudget;
 use DateTime;
 
 class Add extends Component
@@ -37,6 +40,7 @@ class Add extends Component
         if($this->request_type == '2') $budget = WeeklyOpexBudget::where(['company_id'=>session()->get('company_id'),'week'=>$this->weekOfMonth(date('Y-m-d')), 'region'=>\Auth::user()->employee->region_id])->whereIn('project',$project_arr)->first();
         if($this->request_type == '3') $budget = OtherOpexBudget::where(['company_id'=>session()->get('company_id')])->first();
         if($this->request_type == '4') $budget = RectificationBudget::where(['company_id'=>session()->get('company_id')])->first();
+        if($this->request_type == '5') $budget = SubcontBudget::where(['company_id'=>session()->get('company_id')])->first();
       
         if($this->request_type){
             if($this->request_type==2 and $budget){
@@ -52,6 +56,8 @@ class Add extends Component
             $this->budget = 0;
             $this->remain = 0;
         }
+
+        
 
         return view('livewire.account-payable.add');
     }
@@ -283,6 +289,51 @@ class Add extends Component
                 foreach($this->items as $k => $val){
                     $item = new RectificationItem;
                     $item->rectification_id = $rectification->id;
+                    $item->amount = $this->item_amount[$k];
+                    $item->description = $this->item_description[$k];
+                    $item->save();
+                }
+            }
+        }
+
+
+        // Subcont
+        if($this->request_type==5){
+            
+            $data->status = 4; // waiting approval PMG
+            $data->save();
+
+            $prev_data = AccountPayableSubcont::orderBy('id', 'desc')->first();
+
+            $subcont                            = new AccountPayableSubcont();
+            // $subcont->budget_opex               = $this->budget;//$this->budget_opex;
+            $subcont->employee_id               = \Auth::user()->employee->id;
+            $subcont->id_master                 = $data->id;
+            $subcont->region                    = isset(\Auth::user()->employee->region->region) ? \Auth::user()->employee->region->region : '-';
+            $subcont->subregion                 = isset(\Auth::user()->employee->subregion->name) ? \Auth::user()->employee->subregion->name : '-';
+            $subcont->contract_no               = '';
+            $subcont->subcont_name              = '';
+            $subcont->invoice_no                = '';
+            $subcont->invoice_date              = '';
+            $subcont->project_code              = isset(\Auth::user()->employee->employee_project[0]->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project[0]->client_project_id)->first()->id : '';
+            $subcont->project_name              = isset(\Auth::user()->employee->employee_project[0]->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project[0]->client_project_id)->first()->name : '';
+            $subcont->cash_transaction_no       = $this->cash_transaction_no;
+            $subcont->month                     = date('M');//$this->month;
+            $subcont->year                      = date('Y');//$this->year;
+            $subcont->week                      = $this->week;
+            $subcont->company_id                = session()->get('company_id');
+            $subcont->status                    = 0; // Waiting AP Staff
+            $subcont->total_settlement          = $this->total;
+            // $subcont->nominal                   = $this->total_transfer;
+            // $subcont->previous_balance          = isset($prev_data) ? $prev_data->nominal - $prev_data->total_transfer : 0;
+            $subcont->total_transfer            = $this->total;
+            $subcont->transfer_date             = date('Y-m-d');
+            $subcont->save();
+
+            if($this->items){
+                foreach($this->items as $k => $val){
+                    $item = new SubcontItem;
+                    $item->subcont_id = $subcont->id;
                     $item->amount = $this->item_amount[$k];
                     $item->description = $this->item_description[$k];
                     $item->save();
