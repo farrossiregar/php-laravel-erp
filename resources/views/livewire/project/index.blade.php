@@ -20,15 +20,17 @@
                                 <th>No</th>                            
                                 <th>Project Code</th>                                    
                                 <th>Project Name</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($data as $k => $item)
-                            <tr>
-                                <td style="width: 50px;">{{$k+1}}</td>
-                                <td>{{$item->code}}</td>
-                                <td><a href="javascript:void(0)" wire:click="set_id({{$item->id}})" data-toggle="modal" data-target="#modal_edit">{{$item->name}}</a></td>
-                            </tr>
+                                <tr>
+                                    <td style="width: 50px;">{{$k+1}}</td>
+                                    <td>{{$item->code}}</td>
+                                    <td><a href="javascript:void(0)" wire:click="set_id({{$item->id}})" data-toggle="modal" data-target="#modal_edit">{{$item->name}}</a></td>
+                                    <td><a href="javascript:void(0)" wire:click="delete({{$item->id}})"><i class="fa fa-trash text-danger"></i></a></td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>

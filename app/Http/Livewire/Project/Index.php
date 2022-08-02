@@ -9,7 +9,7 @@ use Livewire\WithPagination;
 class Index extends Component
 {
     use WithPagination;
-    protected $paginationTheme = 'bootstrap';
+    protected $paginationTheme = 'bootstrap',$listeners = ['reload'=>'$refresh'];
     public $keyword,$code,$name,$selected;
     public function render()
     {
@@ -21,6 +21,12 @@ class Index extends Component
 
         return view('livewire.project.index')
                     ->with(['data'=>$data->paginate(100)]);
+    }
+
+    public function delete(ClientProject $data)
+    {
+        $data->delete();
+        $this->emit('reload');
     }
 
     public function set_id(ClientProject $selected)

@@ -12,4 +12,19 @@ class AccountPayableRectification extends Model
 
     protected $table = 'account_payable_rectification';
 
+    public function employee()
+    {
+        return $this->hasOne(Employee::class,'id','employee_id');
+    }
+
+    public function items()
+    {
+        return $this->hasMany(RectificationItem::class,'rectification_id','id');
+    }
+
+    public function master()
+    {
+        return $this->hasOne(AccountPayable::class,'id','id_master');
+    }
+
 }

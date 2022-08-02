@@ -16,6 +16,10 @@ use App\Models\WeeklyOpexBudget;
 use App\Models\AccountPayableOtheropex;
 use App\Models\OtherOpexItem;
 use App\Models\OtherOpexBudget;
+use App\Models\AccountPayableRectification;
+use App\Models\RectificationItem;
+use App\Models\RectificationBudget;
+use App\Models\WeeklyOpexBudgetDate;
 use DateTime;
 
 class Add extends Component
@@ -31,14 +35,32 @@ class Add extends Component
         $week = 'week_'.$this->weekOfMonth(date('Y-m-d'));
 
         if($this->request_type == '1') $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();   
-        if($this->request_type == '2') $budget = WeeklyOpexBudget::where(['company_id'=>session()->get('company_id')])->where(['month'=>(int)date('m'),'year'=>date('Y')])->whereIn('client_project_id',$project_arr)->first();
+        if($this->request_type == '2') {
+            //$budget = WeeklyOpexBudget::where(['company_id'=>session()->get('company_id')])->where(['month'=>(int)date('m'),'year'=>date('Y')])->whereIn('client_project_id',$project_arr)->first();
+            $find = WeeklyOpexBudgetDate::where(['year'=>date('Y')])->where(
+                            function ($query){
+                            $query->whereRaw('? between start_date and end_date', [date('Y-m-d')]);
+                            })
+                            ->first();
+            if($find){
+                // find budget
+                $budget = WeeklyOpexBudget::where(['month'=>date('m'),
+                                    'year'=>$find->year,
+                                    'client_project_id'=> \Auth::user()->employee->employee_project_first->project->id,
+                                    'employee_id'=>\Auth::user()->employee->id])->first();
+                if($budget) {
+                    $week = 'week_'.$find->week;
+                    $this->week = $find->week;
+                }
+            }
+        }
         if($this->request_type == '3') $budget = OtherOpexBudget::where(['company_id'=>session()->get('company_id')])->first();
-        
+        if($this->request_type == '4') $budget = RectificationBudget::where(['company_id'=>session()->get('company_id')])->first();
+      
         if($this->request_type){
             if($this->request_type==2 and $budget){
                 $this->budget = $budget->$week;
                 $this->remain - $budget->remain;
-                $this->week = $this->weekOfMonth(date('Y-m-d'));
             }elseif(isset($budget)){
                 $this->budget = $budget->amount;
                 $this->remain - $budget->remain;
@@ -117,7 +139,7 @@ class Add extends Component
         $this->validate($validate,$validate_msg);
         
         $data                           = new AccountPayable();
-        $data->cash_transaction_no = $this->cash_transaction_no;
+        $data->cash_transaction_no      = $this->cash_transaction_no;
         $data->region                   = isset(\Auth::user()->employee->region->region) ? \Auth::user()->employee->region->region : '-';
         $data->name                     = \Auth::user()->employee->name;
         $data->nik                      = \Auth::user()->employee->nik;
@@ -190,8 +212,8 @@ class Add extends Component
             $weekly_opex->status                    = 0; // Waiting AP Staff
             $weekly_opex->total_settlement          = $this->total;
             $weekly_opex->previous_balance          = isset($prev_data) ? $prev_data->budget_opex - $prev_data->total_transfer : 0;
-            $weekly_opex->total_transfer           = $this->total;
-            $weekly_opex->transfer_date            = date('Y-m-d');
+            $weekly_opex->total_transfer            = $this->total;
+            $weekly_opex->transfer_date             = date('Y-m-d');
             $weekly_opex->save();
 
             if($this->items){
@@ -239,6 +261,47 @@ class Add extends Component
                 foreach($this->items as $k => $val){
                     $item = new OtherOpexItem;
                     $item->other_opex_id = $other_opex->id;
+                    $item->amount = $this->item_amount[$k];
+                    $item->description = $this->item_description[$k];
+                    $item->save();
+                }
+            }
+        }
+
+
+        // Rectification
+        if($this->request_type==4){
+            
+            $data->status = 4; // waiting approval PMG
+            $data->save();
+
+            $prev_data = AccountPayableRectification::orderBy('id', 'desc')->first();
+
+            $rectification = new AccountPayableRectification();
+            $rectification->budget_opex               = $this->budget;//$this->budget_opex;
+            $rectification->employee_id               = \Auth::user()->employee->id;
+            $rectification->id_master                 = $data->id;
+            $rectification->region                    = isset(\Auth::user()->employee->region->region) ? \Auth::user()->employee->region->region : '-';
+            $rectification->subregion                 = isset(\Auth::user()->employee->subregion->name) ? \Auth::user()->employee->subregion->name : '-';
+            $rectification->project_code              = isset(\Auth::user()->employee->employee_project[0]->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project[0]->client_project_id)->first()->id : '';
+            $rectification->project_name              = isset(\Auth::user()->employee->employee_project[0]->client_project_id) ? \App\Models\ClientProject::where('id', \Auth::user()->employee->employee_project[0]->client_project_id)->first()->name : '';
+            $rectification->cash_transaction_no       = $this->cash_transaction_no;
+            $rectification->month                     = date('M');//$this->month;
+            $rectification->year                      = date('Y');//$this->year;
+            $rectification->week                      = $this->week;
+            $rectification->company_id                = session()->get('company_id');
+            $rectification->status                    = 0; // Waiting AP Staff
+            $rectification->total_settlement          = $this->total;
+            $rectification->nominal                   = $this->total_transfer;
+            $rectification->previous_balance          = isset($prev_data) ? $prev_data->nominal - $prev_data->total_transfer : 0;
+            $rectification->total_transfer            = $this->total;
+            $rectification->transfer_date             = date('Y-m-d');
+            $rectification->save();
+
+            if($this->items){
+                foreach($this->items as $k => $val){
+                    $item = new RectificationItem;
+                    $item->rectification_id = $rectification->id;
                     $item->amount = $this->item_amount[$k];
                     $item->description = $this->item_description[$k];
                     $item->save();
