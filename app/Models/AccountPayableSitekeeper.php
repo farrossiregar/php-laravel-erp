@@ -12,4 +12,19 @@ class AccountPayableSitekeeper extends Model
 
     protected $table = 'account_payable_sitekeeper';
 
+    public function employee()
+    {
+        return $this->hasOne(Employee::class,'id','employee_id');
+    }
+
+    public function items()
+    {
+        return $this->hasMany(SitekeeperItem::class,'sitekeeper_id','id');
+    }
+
+    public function master()
+    {
+        return $this->hasOne(AccountPayable::class,'id','id_master');
+    }
+
 }

@@ -153,8 +153,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('other-opex',App\Http\Livewire\Finance\OtherOpex\OtherOpex::class)->name('other-opex.index');
     Route::get('rectification',App\Http\Livewire\Finance\Rectification\Rectification::class)->name('rectification.index');
     Route::get('subcont',App\Http\Livewire\Finance\Subcont\Subcont::class)->name('subcont.index');
-    
-    Route::get('site-keeper',function(){})->name('site-keeper.index');
+    Route::get('site-keeper',App\Http\Livewire\Finance\Sitekeeper\SiteKeeper::class)->name('site-keeper.index');
+
     Route::get('hq-administration',function(){})->name('hq-administration.index');
     Route::get('payroll',function(){})->name('payroll.index');
     // Route::get('subcont',function(){})->name('subcont.index');

@@ -64,6 +64,13 @@
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
                         @endif
+                        @if($request_type == 6)
+                            <option value=""> --- Sub Request Type (Site Keeper) --- </option>
+                            @foreach(\App\Models\SitekeeperType::where('company_id', session()->get('company_id'))->get() as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        @endif
+
                     </select>
                     @error('subrequest_type')
                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
