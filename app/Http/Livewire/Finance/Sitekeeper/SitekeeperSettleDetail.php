@@ -62,6 +62,6 @@ class SitekeeperSettleDetail extends Component
 
         session()->flash('message-success',__('Data processed successfully'));
         
-        return redirect()->route('sitekeeper.index');
+        return redirect()->route('site-keeper.index');
     }
 }

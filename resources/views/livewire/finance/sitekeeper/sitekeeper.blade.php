@@ -26,26 +26,19 @@
                                 <th>Status</th>
                                 <th>Project Name</th>          
                                 <th>Region</th>          
-                                <th>Sub Region</th>          
-                                <th>Contract No</th>          
-                                <th>Period</th>          
-                                <th>sitekeeper Name</th>          
-                                <th>Invoice No</th>          
-                                <th>Invoice Date</th>          
-                                <th>PR No</th>          
-                                <th>PO No</th>          
-                                <th>Other Cost</th>          
-                                <th>Total Nominal</th>          
-                                <th>VAT</th>          
-                                <th>WHT</th>          
-                                <th>Item Transfer Amount</th>
-                                <th>Total Transfer</th>
-                                <th>Transfer Date</th>         
+                                <th>Period</th>   
+                                <th>Description</th>        
+                                <th>Budget Opex</th>          
+                                <th>Previous Balance</th>          
+                                <th>Total Transfer</th>          
+                                <th>Transfer Date</th>          
                                 <th>Cash Transaction No</th>
-                                <th>Settlement Date</th>          
+                                <th>Submitted Date</th>        
+                                <th>Settlement Detail</th>
                                 <th>Settlement Amount</th>
-                                <th>Difference</th>       
+                                <th>Difference</th> 
                                 <!-- <th>Attachment Document For Advance</th>      -->
+                                <th></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -66,52 +59,55 @@
                                         @if($item->status==3)
                                             <span class="badge badge-danger" onclick="alert('{{$item->app_staff_note}}')" title="{{$item->app_staff_note}}">Reject</span>
                                         @endif
+
                                         @if($item->status==4)
-                                            <span class="badge badge-info" >Waiting PMG</span>
+                                            <span class="badge badge-info">Waiting PMG</span>
                                         @endif
                                     </td>
                                     <td>{{$item->project_name}}</td>
                                     <td>{{$item->region}}</td>
-                                    <td>{{$item->subregion}}</td>
-                                    <td>@livewire('finance.sitekeeper.sitekeeper-editable',['data'=>$item,'field'=>'contract_no'],key($item->id))</td>
+                                    
                                     <td>{{$item->month}} {{$item->year}}</td>
                                     <td>
                                         @php($description_ = [])
-                                        @foreach(\App\Models\sitekeeperItem::where('sitekeeper_id', $item->id)->get() as $i)
+                                        @php($total_advance=0)
+                                        @foreach(\App\Models\SitekeeperItem::where('sitekeeper_id', $item->id)->get() as $i)
                                             @php($description_[] = $i->description)
+                                            @php($total_advance += $i->amount_settle)
                                         @endforeach
                                         {{implode(", ", $description_)}}
                                     </td>
-                                    <td>@livewire('finance.sitekeeper.sitekeeper-editable',['data'=>$item,'field'=>'invoice_no'],key($item->id))</td>
-                                    <td>@livewire('finance.sitekeeper.sitekeeper-editable',['data'=>$item,'field'=>'invoice_date'],key($item->id))</td>
-                                    <td>@livewire('finance.sitekeeper.sitekeeper-editable',['data'=>$item,'field'=>'pr_no'],key($item->id))</td>
-                                    <td>@livewire('finance.sitekeeper.sitekeeper-editable',['data'=>$item,'field'=>'po_no'],key($item->id))</td>
-                                    <td>{{$item->other_cost}}</td>
-                                    <td>{{format_idr($item->total_nominal)}}</td>
-                                    <td>@livewire('finance.sitekeeper.sitekeeper-editable',['data'=>$item,'field'=>'vat'],key($item->id))</td>
-                                    <td>@livewire('finance.sitekeeper.sitekeeper-editable',['data'=>$item,'field'=>'wht'],key($item->id))</td>
                                     <td>
                                         @php($itembudget_ = [])
-                                        @foreach(\App\Models\sitekeeperItem::where('sitekeeper_id', $item->id)->get() as $i)
+                                        @foreach(\App\Models\SitekeeperItem::where('sitekeeper_id', $item->id)->get() as $i)
                                             @php($itembudget_[] = $i->amount)
                                         @endforeach
                                         {{implode(", ", $itembudget_)}}
                                     </td>
+                                    <td>{{format_idr($item->previous_balance)}}</td>
                                     <td>{{format_idr($item->total_transfer)}}</td>
                                     <td>{{$item->transfer_date}}</td>
                                     <td>@livewire('finance.sitekeeper.sitekeeper-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
+
+                                    
                                     <td>{{$item->settlement_date ? date('d-F-Y',strtotime($item->settlement_date)) : '-'}}</td>
                                     <td>
-                                        @php($itemsettlement_ = [])
-                                        @foreach(\App\Models\sitekeeperItem::where('sitekeeper_id', $item->id)->get() as $i)
-                                            @php($itemsettlement_[] = $i->amount_settle)
+                                        @php($settlement_item_ = [])
+                                        @php($total_settlement=0)
+                                        @foreach(\App\Models\SitekeeperItem::where('sitekeeper_id', $item->id)->get() as $i)
+                                            @php($settlement_item_[] = $i->amount_settle)
+                                            @php($total_advance += $i->amount_settle)
                                         @endforeach
-                                        {{implode(", ", $itemsettlement_)}}
+                                        {{implode(", ", $settlement_item_)}}
                                     </td>
-                                    <td>{{format_idr($item->total_settlement)}}</td>
-                                    <td>{{format_idr($item->difference) }}</td>
+                                    <td>{{format_idr($total_settlement)}}</td>
+                                    <td>
+                                        @if($item->status==2)
+                                            <a href="javascript:void(0)" data-toggle="modal" wire:click="$emit('set_id','{{ $item->id }}')" data-target="#modal_weekly_opex_settle_detail">{{format_idr($item->budget_opex - $item->total_settlement) }}</a>
+                                        @endif
+                                    </td>
                                     
-
+                                    <td></td>
                                     <!-- <td class="text-center">
                                         @if($item->doc_settlement)
                                             <a href="{{asset($item->doc_settlement)}}"><i class="fa fa-download"></i></a>
@@ -123,7 +119,7 @@
                                         <!-- endif -->
 
                                         <!-- if($item->status==4 and $is_pmg) -->
-                                         <a href="javascript:void(0)" wire:click="$emit('check_id',{{$item->id}})" class="badge badge-info badge-active" data-toggle="modal" data-target="#modal_process"><i class="fa fa-check-circle"></i> Process</a>
+                                        <a href="javascript:void(0)" wire:click="$emit('check_id',{{$item->id}})" class="badge badge-info badge-active" data-toggle="modal" data-target="#modal_process"><i class="fa fa-check-circle"></i> Process</a>
                                         <!-- endif -->
 
                                         <!-- if($item->status==1 and $is_finance) -->

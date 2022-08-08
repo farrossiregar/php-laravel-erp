@@ -44,6 +44,7 @@
                                 <th>Cash Transaction No</th>
                                 <th>Settlement Date</th>          
                                 <th>Settlement Amount</th>
+                                <th>Total Settlement</th>
                                 <th>Difference</th>       
                                 <!-- <th>Attachment Document For Advance</th>      -->
                                 <th></th>

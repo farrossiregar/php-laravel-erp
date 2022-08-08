@@ -6,7 +6,7 @@
         </button>
     </div>
     <div class="modal-body">
-        <p>Process Subcont ? </p>
+        <p>Process Site Keeper ? </p>
         <div class="form-group">
             <textarea class="form-control" wire:model="note" placeholder="Note"></textarea>
             @error('note')

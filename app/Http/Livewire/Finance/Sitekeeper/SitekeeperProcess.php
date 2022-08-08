@@ -14,7 +14,7 @@ class SitekeeperProcess extends Component
     public function render()
     {
         $this->is_apstaff = true; //check_access('is-apstaff');
-        $this->is_pmg = true; //check_access('is-pmg');
+        $this->is_pmg = false; //check_access('is-pmg');
         $this->is_finance = check_access('is-finance');
 
         return view('livewire.finance.sitekeeper.sitekeeper-process');
@@ -53,6 +53,6 @@ class SitekeeperProcess extends Component
 
         session()->flash('message-success',__('Data processed successfully'));
         
-        return redirect()->route('sitekeeper.index');
+        return redirect()->route('site-keeper.index');
     }
 }

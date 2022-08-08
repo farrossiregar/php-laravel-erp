@@ -20,7 +20,7 @@ class Sitekeeper extends Component
 
         $data = AccountPayableSitekeeper::select('account_payable_sitekeeper.*', 'account_payable.subrequest_type')
                                         ->join('account_payable','account_payable.id','=','account_payable_sitekeeper.id_master')
-                                        ->where('account_payable.request_type','5')
+                                        ->where('account_payable.request_type','6')
                                         ->where('account_payable_sitekeeper.company_id',session()->get('company_id'))
                                         ->orderBy('account_payable_sitekeeper.updated_at','DESC');
 
