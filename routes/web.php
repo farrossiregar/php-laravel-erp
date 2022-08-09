@@ -155,7 +155,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('subcont',App\Http\Livewire\Finance\Subcont\Subcont::class)->name('subcont.index');
     Route::get('site-keeper',App\Http\Livewire\Finance\Sitekeeper\SiteKeeper::class)->name('site-keeper.index');
 
-    Route::get('hq-administration',function(){})->name('hq-administration.index');
+    Route::get('hq-administration',App\Http\Livewire\Finance\HqAdministration\HqAdministration::class)->name('hq-administration.index');
     Route::get('payroll',function(){})->name('payroll.index');
     // Route::get('subcont',function(){})->name('subcont.index');
     Route::get('supplier-vendor',function(){})->name('supplier-vendor.index');
