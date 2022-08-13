@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Http\Livewire\Finance\HqAdministration;
+namespace App\Http\Livewire\Finance\SupplierVendor;
 
 use Livewire\Component;
-use App\Models\AccountPayableHqadministration;
-use App\Models\HqadministrationBudget;
+use App\Models\AccountPayableSupplierVendor;
+use App\Models\SupplierVendorBudget;
 use Livewire\WithFileUploads;
 use DateTime;
 
-class HqAdministrationSettle extends Component
+class SupplierVendorSettle extends Component
 {
     use WithFileUploads;
     protected $listeners = ['set_id'];
     public $file,$data,$total=0,$total_settle=0,$total_difference=0,$item_description,$item_amount=[];
     public function render()
     {
-
-        return view('livewire.finance.hq-administration.hq-administration-settle');
+        
+        return view('livewire.finance.suppliervendor.suppliervendor-settle');
     }
 
-    public function set_id(AccountPayableHqadministration $data)
+    public function set_id(AccountPayableSupplierVendor $data)
     {
         $this->item_description = [];$this->item_amount=[];
         $this->data = $data;$this->total=0;$this->total_settle=0;$this->total_difference=0;
@@ -60,14 +60,15 @@ class HqAdministrationSettle extends Component
         }
 
         // if($this->total_difference){
-        //     $this->data->budget = $this->data->budget + $this->total_difference;
-        //     $this->data->remain = $this->data->budget - $this->total_difference;
+        //     $this->data->budget_opex = $this->data->budget_opex + $this->total_difference;
+            // $this->data->remain = $this->data->budget_opex - $this->total_difference;
 
-        //     $budget = HqAdministrationBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>$this->data->employee->department_id])->first();
-        //     if($budget){
-        //         $budget->budget = $budget->amount + $this->total_difference;
-        //         $budget->remain = $budget->amount - $this->total_difference;
-        //     }   
+            // $budget = WeeklyOpexBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>$this->data->employee->department_id])->first();
+            // $budget = WeeklyOpexBudget::where(['company_id'=>session()->get('company_id'),'project'=>\Auth::user()->employee->project,'week'=>$this->weekOfMonth(date('Y-m-d')), 'region'=>\Auth::user()->employee->region_id])->first();
+            // if($budget){
+            //     $budget->budget = $budget->amount + $this->total_difference;
+                // $budget->remain = $budget->amount - $this->total_difference;
+            // }   
         // }
 
         $this->data->difference = $this->total_difference;
@@ -76,6 +77,13 @@ class HqAdministrationSettle extends Component
 
         session()->flash('message-success',__('Data processed successfully'));
         
-        return redirect()->route('hq-administration.index');
+        return redirect()->route('site-keeper.index');
     }
+
+    public function weekOfMonth($strDate) {
+		$dateArray = explode("-", $strDate);
+		$date = new DateTime();
+		$date->setDate($dateArray[0], $dateArray[1], $dateArray[2]);
+		return floor((date_format($date, 'j') - 1) / 7) + 1;  
+	  }
 }

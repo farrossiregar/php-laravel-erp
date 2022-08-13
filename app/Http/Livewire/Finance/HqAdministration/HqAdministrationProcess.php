@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Livewire\Finance;
+namespace App\Http\Livewire\Finance\HqAdministration;
 
 use Livewire\Component;
-use App\Models\AccountPayablePettycash;
+use App\Models\AccountPayableHqAdministration;
 
-class PettyCashProcess extends Component
+class HqAdministrationProcess extends Component
 {
     public $note,$selected;
     protected $listeners = ['check_id'];
     public function render()
     {
-        return view('livewire.finance.petty-cash-process');
+        return view('livewire.finance.hq-administration.hq-administration-process');
     }
 
-    public function check_id(AccountPayablePettycash $selected)
+    public function check_id(AccountPayableHqAdministration $selected)
     {
         $this->selected = $selected;
     }
@@ -42,6 +42,6 @@ class PettyCashProcess extends Component
 
         session()->flash('message-success',__('Data processed successfully'));
         
-        return redirect()->route('finance-petty-cash.index');
+        return redirect()->route('finance-hq-administration.index');
     }
 }

@@ -1,4 +1,4 @@
-@section('title', __('Petty Cash'))
+@section('title', __('HQ Administration'))
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -17,14 +17,14 @@
                 <div class="col-md-2 form-group">
                     <select onclick="" class="form-control" wire:model="subrequest_type">
                         <option value=""> --- Request Type --- </option>
-                        @foreach(\App\Models\RequestDetailOption::where('id_request_type', '1')->get() as $items)
+                        @foreach(\App\Models\RequestDetailOption::where('id_request_type', '7')->get() as $items)
                             <option value="{{ $items->id_request_detail_option }}">{{ $items->request_detail_option }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-md-5" style="margin: 0 10px;">
-                    <a href="javascript:;" data-toggle="modal" data-target="#modal_petty_cash_budget" class="btn btn-success"><i class="fa fa-database"></i> Budget</a>
-                    <a href="javascript:;" data-toggle="modal" data-target="#modal_petty_cash_type" class="btn btn-info"><i class="fa fa-database"></i> Type</a>
+                    <a href="javascript:;" data-toggle="modal" data-target="#modal_hq_administration_budget" class="btn btn-success"><i class="fa fa-database"></i> Budget</a>
+                    <a href="javascript:;" data-toggle="modal" data-target="#modal_hq_administration_type" class="btn btn-info"><i class="fa fa-database"></i> Type</a>
                 </div>
                 <div class="col-md-8">
                     <span wire:loading>
@@ -98,13 +98,13 @@
                                     <td>{{ $item->settlement_date ? date_format(date_create($item->settlement_date), 'd M Y') : '-'}}</td>
                                     <td class="text-right">
                                         @if($item->total_settlement)
-                                            <a href="javascript:void(0)" wire:click="$emit('set_id',{{$item->id}})" data-target="#modal_petty_cash_settle_detail" data-toggle="modal">{{format_idr($item->total_settlement)}}</a>
+                                            <a href="javascript:void(0)" wire:click="$emit('set_id',{{$item->id}})" data-target="#modal_hq_administration_settle_detail" data-toggle="modal">{{format_idr($item->total_settlement)}}</a>
                                         @endif
                                     </td>
                                     <td class="text-right">{{ $item->total_settlement ? format_idr($item->budget-$item->total_settlement) : '-' }}</td>
                                     <td class="text-right">{{format_idr($item->advance_nominal)}}</td>
-                                    <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'advance_date'],key($item->id))</td>
-                                    <td>@livewire('finance.petty-cash-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
+                                    <td>@livewire('hq-administration-editable',['data'=>$item,'field'=>'advance_date'],key($item->id))</td>
+                                    <td>@livewire('hq-administration-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
                                     <td class="text-center">
                                         @if($item->doc_settlement)
                                             <a href="{{asset($item->doc_settlement)}}" target="_blank"><i class="fa fa-download"></i></a>
@@ -115,7 +115,7 @@
                                             <a href="javascript:void(0)" wire:click="$emit('check_id',{{$item->id}})" class="badge badge-info badge-active" data-toggle="modal" data-target="#modal_process"><i class="fa fa-check-circle"></i> Process</a>
                                         @endif
                                         @if($item->status==1 and $is_finance)
-                                            <a href="javascript:;" wire:click="$emit('set_id','{{ $item->id }}')" data-toggle="modal" data-target="#modal_petty_cash_settle" class="badge badge-warning badge-active"><i class="fa fa-edit"></i> Advance</a>
+                                            <a href="javascript:;" wire:click="$emit('set_id','{{ $item->id }}')" data-toggle="modal" data-target="#modal_hq_administration_settle" class="badge badge-warning badge-active"><i class="fa fa-edit"></i> Advance</a>
                                         @endif
                                     </td>
                                 </tr>
@@ -134,38 +134,38 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal_petty_cash_settle" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_hq_administration_settle" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <livewire:finance.petty-cash-settle />
+            <livewire:hq-administration-settle>
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal_petty_cash_settle_detail" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_hq_administration_settle_detail" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <livewire:finance.petty-cash-settle-detail />
+            <!-- livewire:hq-administration-settle-detail  -->
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal_petty_cash_type" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_hq_administration_type" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <livewire:finance.petty-cash-type />
+            <!-- livewire:hq-administration-type  -->
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal_petty_cash_budget" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_hq_administration_budget" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <livewire:finance.petty-cash-budget />
+            <!-- livewire:hq-administration-budget  -->
         </div>
     </div>
 </div>
 <div class="modal fade" id="modal_process" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <livewire:finance.petty-cash-process />
+            <!-- livewire:hq-administration-process -->
         </div>
     </div>
 </div>

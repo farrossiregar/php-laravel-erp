@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Finance;
+namespace App\Http\Livewire\Finance\HqAdministration;
 
 use Livewire\Component;
 use App\Models\HqAdministrationBudget as ModelHqAdministrationBudget;
@@ -16,7 +16,7 @@ class HqAdministrationBudget extends Component
 
         if($this->filter_year) $data->where('year',$this->filter_year);
 
-        return view('livewire.finance.hqadministration.hqadministration-budget')->with(['data'=>$data->get()]);
+        return view('livewire.finance.hq-administration.hq-administration-budget')->with(['data'=>$data->get()]);
     }
 
     public function save()

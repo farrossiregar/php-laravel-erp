@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Livewire\Finance\HqAdministration;
+namespace App\Http\Livewire\Finance\Payroll;
 
 use Livewire\Component;
 
-class HqAdministrationEditable extends Component
+class PayrollEditable extends Component
 {
     public $field,$is_edit=false,$data,$value;
     public function render()
     {
-        return view('livewire.finance.hq-administration.hq-administration-editable');
+        return view('livewire.finance.payroll.payroll-editable');
     }
 
     public function mount($data,$field)

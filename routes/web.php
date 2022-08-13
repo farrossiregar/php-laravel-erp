@@ -154,11 +154,11 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('rectification',App\Http\Livewire\Finance\Rectification\Rectification::class)->name('rectification.index');
     Route::get('subcont',App\Http\Livewire\Finance\Subcont\Subcont::class)->name('subcont.index');
     Route::get('site-keeper',App\Http\Livewire\Finance\Sitekeeper\SiteKeeper::class)->name('site-keeper.index');
-
     Route::get('hq-administration',App\Http\Livewire\Finance\HqAdministration\HqAdministration::class)->name('hq-administration.index');
-    Route::get('payroll',function(){})->name('payroll.index');
+
+    Route::get('payroll',App\Http\Livewire\Finance\Payroll\Payroll::class)->name('payroll.index');
     // Route::get('subcont',function(){})->name('subcont.index');
-    Route::get('supplier-vendor',function(){})->name('supplier-vendor.index');
+    Route::get('supplier-vendor',App\Http\Livewire\Finance\SupplierVendor\SupplierVendor::class)->name('supplier-vendor.index');
     Route::get('finance-petty-cash',App\Http\Livewire\Finance\PettyCash::class)->name('finance-petty-cash.index');
     // Route::get('other-opex',App\Http\Livewire\Finance\OtherOpex::class)->name('other-opex.index');
     
