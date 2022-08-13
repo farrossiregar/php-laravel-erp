@@ -16,6 +16,7 @@ class SupplierVendorType extends Component
 
         return view('livewire.finance.suppliervendor.suppliervendor-type')->with(['data'=>$data->get()]);
     }
+    
 
     public function save()
     {
