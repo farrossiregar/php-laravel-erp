@@ -137,35 +137,35 @@
 <div class="modal fade" id="modal_hq_administration_settle" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <livewire:hq-administration-settle>
+            <livewire:finance.hq-administration.hq-administration-settle />
         </div>
     </div>
 </div>
 <div class="modal fade" id="modal_hq_administration_settle_detail" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <!-- livewire:hq-administration-settle-detail  -->
+            <livewire:finance.hq-administration.hq-administration-settle-detail />
         </div>
     </div>
 </div>
 <div class="modal fade" id="modal_hq_administration_type" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <!-- livewire:hq-administration-type  -->
+            <livewire:finance.hq-administration.hq-administration-type />
         </div>
     </div>
 </div>
 <div class="modal fade" id="modal_hq_administration_budget" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <!-- livewire:hq-administration-budget  -->
+            <livewire:finance.hq-administration.hq-administration-budget />
         </div>
     </div>
 </div>
 <div class="modal fade" id="modal_process" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <!-- livewire:hq-administration-process -->
+            <livewire:finance.hq-administration.hq-administration-process />
         </div>
     </div>
 </div>

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\Finance;
+namespace App\Http\Livewire\Finance\HqAdministration;
 
 use Livewire\Component;
 use Illuminate\Validation\Rule;
 use App\Models\PettyCashType as ModelPettyCashType;
 
-class PettyCashType extends Component
+class HqAdministrationType extends Component
 {
     protected $listeners = ['reload'=>'$refresh'];
     public $insert=false,$name;
