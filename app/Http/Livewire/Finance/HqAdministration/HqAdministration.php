@@ -17,7 +17,7 @@ class HqAdministration extends Component
     {
         $data = AccountPayableHqadministration::select('account_payable_hqadministration.*', 'account_payable.subrequest_type')
                                         ->join('account_payable','account_payable.id','=','account_payable_hqadministration.id_master')
-                                        ->where('account_payable.request_type','1')
+                                        ->where('account_payable.request_type','7')
                                         ->where('account_payable_hqadministration.company_id',session()->get('company_id'))
                                         ->orderBy('account_payable_hqadministration.updated_at','DESC');
 

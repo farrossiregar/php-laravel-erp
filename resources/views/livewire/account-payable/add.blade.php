@@ -38,7 +38,7 @@
                     @enderror
                 @endif
                 @if($request_type!=3)
-                    <label>Sub Request Type</label> {{session()->get('company_id')}}
+                    <label>Sub Request Type</label>
                     <select onclick="" class="form-control" wire:model="subrequest_type">
                         @if($request_type == 1)
                             <option value=""> --- Sub Request Type (Petty Cash) --- </option>
@@ -67,6 +67,12 @@
                         @if($request_type == 6)
                             <option value=""> --- Sub Request Type (Site Keeper) --- </option>
                             @foreach(\App\Models\SitekeeperType::where('company_id', session()->get('company_id'))->get() as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        @endif
+                        @if($request_type == 7)
+                            <option value=""> --- Sub Request Type (HQ Administration) --- </option>
+                            @foreach(\App\Models\HqAdministrationType::where('company_id', session()->get('company_id'))->get() as $item)
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
                         @endif

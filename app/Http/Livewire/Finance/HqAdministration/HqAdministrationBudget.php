@@ -10,6 +10,7 @@ class HqAdministrationBudget extends Component
 {
     protected $listeners = ['reload'=>'$refresh'];
     public $filter_year,$insert=false,$year,$department_id,$budget,$message,$validate_unique,$sub_department_id;
+    public $project_id,$week,$region, $subregion;
     public function render()
     {
         $data = ModelHqAdministrationBudget::where('company_id',session()->get('company_id'))->orderBy('id','DESC');
@@ -40,12 +41,16 @@ class HqAdministrationBudget extends Component
 
         
 
-        $data = new ModelHqAdministrationBudget();
-        $data->company_id = session()->get('company_id');
-        $data->year = $this->year;
-        $data->department_id = $this->department_id;
-        $data->sub_department_id = $this->sub_department_id;
-        $data->amount = $this->budget;
+        $data                   = new ModelHqAdministrationBudget();
+        $data->company_id       = session()->get('company_id');
+        $data->department_id    = $this->department_id;        
+        $data->sub_department_id= $this->sub_department_id;        
+        $data->year             = $this->year;        
+        $data->project          = $this->project_id;
+        $data->amount           = $this->budget;
+        $data->region           = $this->region;
+        $data->subregion        = $this->subregion;
+        $data->week             = $this->week;
         $data->save();
 
         

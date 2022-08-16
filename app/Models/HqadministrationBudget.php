@@ -28,4 +28,14 @@ class HqadministrationBudget extends Model
     {
         return $this->belongsTo(SubRegion::class,'subregion','id');
     }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function sub_department()
+    {
+        return $this->belongsTo(DepartmentSub::class,'sub_department_id','id');
+    }
 }

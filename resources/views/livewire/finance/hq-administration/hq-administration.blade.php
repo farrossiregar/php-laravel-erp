@@ -41,19 +41,19 @@
                                 <th>No</th>
                                 <th>Status</th>
                                 <th>Dept</th>               
-                                <th>Employee</th>               
-                                <th>Project</th>               
-                                <th>Advance Request No</th>    
-                                <th class="text-right">Budget</th>
-                                <th>Period(Bulan)</th>          
-                                <th>Description</th>          
-                                <th>Advance Date</th>          
-                                <th class="text-right">Advance Nominal</th>          
-                                <th class="text-right">Difference</th>          
-                                <th class="text-right">Settlement Nominal</th>     
+                                <th>Request Type</th>               
+                                <th>Period</th>       
+                                <th>Transfer To</th>       
+                                <th>Invoice No</th>       
+                                <th>Invoice Date</th>       
+                                <th>Total Transfer</th>       
+                                <th>Transfer Date</th>      
+                                <th>Cash Transaction No</th>  
+                                <th>Advance or Not</th>  
                                 <th>Submitted Date</th>          
-                                <th>Cash Transaction No</th> 
-                                <th class="text-center">Attachment Document For Advance</th>      
+                                <th class="text-right">Settlement Amount</th> 
+                                <th class="text-right">Difference</th>          
+                                <!-- <th class="text-center">Attachment Document For Advance</th>       -->
                                 <th></th>    
                             </tr>
                         </thead>
@@ -77,17 +77,34 @@
                                         @endif
                                     </td>
                                     <td>{{$item->department}}</td>
-                                    <td>{{isset($item->employee->name) ?  $item->employee->nik .' / '. $item->employee->name : '-'}}</td>
+                                    <td></td>
+                                    <td>{{date('F', mktime(0, 0, 0, (int)$item->month, 10))}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Total Transfer</td>
+                                    <td>Transfer Date</td>
+                                    <td>@livewire('finance.hq-administration.hq-administration-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
+                                    <td></td>
+                                    <td>{{ $item->settlement_date ? date_format(date_create($item->settlement_date), 'd M Y') : '-'}}</td>
+                                    <td></td>
+                                    <td></td>
                                     <td>
+                                        <!-- if($item->status==0 and $is_apstaff) -->
+                                            <a href="javascript:void(0)" wire:click="$emit('check_id',{{$item->id}})" class="badge badge-info badge-active" data-toggle="modal" data-target="#modal_process"><i class="fa fa-check-circle"></i> Process</a>
+                                        <!-- endif -->
+                                        <!-- if($item->status==1 and $is_finance) -->
+                                            <a href="javascript:;" wire:click="$emit('set_id','{{ $item->id }}')" data-toggle="modal" data-target="#modal_hq_administration_settle" class="badge badge-warning badge-active"><i class="fa fa-edit"></i> Advance</a>
+                                        <!-- endif -->
+                                    </td>
+
+                                    <!-- <td>
                                         @if(isset($item->employee->employee_project))
                                             @foreach($item->employee->employee_project as $project)
                                                 {{isset($project->project->name) ? $project->project->name : ''}}
                                             @endforeach
                                         @endif
-                                    </td>
-                                    <td>{{$item->advance_req_no}}</td>
-                                    <td class="text-right">{{format_idr($item->budget)}}</td>
-                                    <td>{{date('F', mktime(0, 0, 0, (int)$item->month, 10))}}</td>
+                                    </td>                                    
                                     <td>
                                         @php($description_ = [])
                                         @foreach($item->items as $i)
@@ -95,29 +112,20 @@
                                         @endforeach
                                         {{implode(", ", $description_)}}
                                     </td>
-                                    <td>{{ $item->settlement_date ? date_format(date_create($item->settlement_date), 'd M Y') : '-'}}</td>
+                                    
                                     <td class="text-right">
                                         @if($item->total_settlement)
                                             <a href="javascript:void(0)" wire:click="$emit('set_id',{{$item->id}})" data-target="#modal_hq_administration_settle_detail" data-toggle="modal">{{format_idr($item->total_settlement)}}</a>
                                         @endif
                                     </td>
-                                    <td class="text-right">{{ $item->total_settlement ? format_idr($item->budget-$item->total_settlement) : '-' }}</td>
-                                    <td class="text-right">{{format_idr($item->advance_nominal)}}</td>
-                                    <td>@livewire('hq-administration-editable',['data'=>$item,'field'=>'advance_date'],key($item->id))</td>
-                                    <td>@livewire('hq-administration-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
-                                    <td class="text-center">
+                                    <td>@livewire('finance.hq-administration.hq-administration-editable',['data'=>$item,'field'=>'advance_date'],key($item->id))</td>
+                                     -->
+                                    <!-- <td class="text-center">
                                         @if($item->doc_settlement)
                                             <a href="{{asset($item->doc_settlement)}}" target="_blank"><i class="fa fa-download"></i></a>
                                         @endif
-                                    </td>
-                                    <td>
-                                        @if($item->status==0 and $is_apstaff)
-                                            <a href="javascript:void(0)" wire:click="$emit('check_id',{{$item->id}})" class="badge badge-info badge-active" data-toggle="modal" data-target="#modal_process"><i class="fa fa-check-circle"></i> Process</a>
-                                        @endif
-                                        @if($item->status==1 and $is_finance)
-                                            <a href="javascript:;" wire:click="$emit('set_id','{{ $item->id }}')" data-toggle="modal" data-target="#modal_hq_administration_settle" class="badge badge-warning badge-active"><i class="fa fa-edit"></i> Advance</a>
-                                        @endif
-                                    </td>
+                                    </td> -->
+                                    
                                 </tr>
                             @endforeach
                             @if($data->count()==0)

@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Finance\HqAdministration;
 
 use Livewire\Component;
 use Illuminate\Validation\Rule;
-use App\Models\PettyCashType as ModelPettyCashType;
+use App\Models\HqAdministrationType as ModelHqAdministrationType;
 
 class HqAdministrationType extends Component
 {
@@ -12,16 +12,16 @@ class HqAdministrationType extends Component
     public $insert=false,$name;
     public function render()
     {
-        $data = ModelPettyCashType::where('company_id',session()->get('company_id'))->orderBy('id','DESC');
+        $data = ModelHqAdministrationType::where('company_id',session()->get('company_id'))->orderBy('id','DESC');
 
-        return view('livewire.finance.petty-cash-type')->with(['data'=>$data->get()]);
+        return view('livewire.finance.hq-administration.hq-administration-type')->with(['data'=>$data->get()]);
     }
 
     public function save()
     {
         $this->validate([
             'name' => ['required',
-                Rule::unique('petty_cash_type')->where(function ($query) {
+                Rule::unique('hqadministration_type')->where(function ($query) {
                     return $query->where('company_id',session()->get('company_id'))->where('name', $this->name);
                 })
             ],
@@ -30,7 +30,7 @@ class HqAdministrationType extends Component
             'name.unique' => 'Data already exists'
         ]);
 
-        $data = new ModelPettyCashType();
+        $data = new ModelHqAdministrationType();
         $data->company_id = session()->get('company_id');
         $data->name = $this->name;
         $data->save();

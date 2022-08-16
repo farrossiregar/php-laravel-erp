@@ -42,6 +42,6 @@ class HqAdministrationProcess extends Component
 
         session()->flash('message-success',__('Data processed successfully'));
         
-        return redirect()->route('finance-hq-administration.index');
+        return redirect()->route('hq-administration.index');
     }
 }

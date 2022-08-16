@@ -415,30 +415,30 @@ class Add extends Component
 
             $prev_data = AccountPayableHqAdministration::orderBy('id', 'desc')->first();
 
-            $sitekeeper = new AccountPayableHqAdministration();
-            $sitekeeper->budget_opex               = $this->budget;//$this->budget_opex;
-            $sitekeeper->employee_id               = \Auth::user()->employee->id;
-            $sitekeeper->id_master                 = $data->id;
-            $sitekeeper->region                    = isset(\Auth::user()->employee->region->region) ? \Auth::user()->employee->region->region : '-';
-            $sitekeeper->subregion                 = isset(\Auth::user()->employee->subregion->name) ? \Auth::user()->employee->subregion->name : '-';
-            $sitekeeper->project_code              = isset(\Auth::user()->employee->employee_project_first->project->code) ? \Auth::user()->employee->employee_project_first->project->code : '';
-            $sitekeeper->project_name              = isset(\Auth::user()->employee->employee_project_first->project->name) ? \Auth::user()->employee->employee_project_first->project->name : '';
-            $sitekeeper->cash_transaction_no       = $this->cash_transaction_no;
-            $sitekeeper->month                     = date('M');//$this->month;
-            $sitekeeper->year                      = date('Y');//$this->year;
-            $sitekeeper->week                      = $this->week;
-            $sitekeeper->company_id                = session()->get('company_id');
-            $sitekeeper->status                    = 0; // Waiting AP Staff
-            $sitekeeper->total_settlement          = $this->total;
-            $sitekeeper->previous_balance          = isset($prev_data) ? $prev_data->budget_opex - $prev_data->total_transfer : 0;
-            $sitekeeper->total_transfer            = $this->total;
-            $sitekeeper->transfer_date             = date('Y-m-d');
-            $sitekeeper->save();
+            $hqadministration                            = new AccountPayableHqAdministration();
+            $hqadministration->budget_opex               = $this->budget;//$this->budget_opex;
+            $hqadministration->employee_id               = \Auth::user()->employee->id;
+            $hqadministration->id_master                 = $data->id;
+            $hqadministration->region                    = isset(\Auth::user()->employee->region->region) ? \Auth::user()->employee->region->region : '-';
+            $hqadministration->subregion                 = isset(\Auth::user()->employee->subregion->name) ? \Auth::user()->employee->subregion->name : '-';
+            // $hqadministration->project_code              = isset(\Auth::user()->employee->employee_project_first->project->code) ? \Auth::user()->employee->employee_project_first->project->code : '';
+            // $hqadministration->project_name              = isset(\Auth::user()->employee->employee_project_first->project->name) ? \Auth::user()->employee->employee_project_first->project->name : '';
+            $hqadministration->cash_transaction_no       = $this->cash_transaction_no;
+            $hqadministration->month                     = date('M');//$this->month;
+            $hqadministration->year                      = date('Y');//$this->year;
+            $hqadministration->week                      = $this->week;
+            $hqadministration->company_id                = session()->get('company_id');
+            $hqadministration->status                    = 0; // Waiting AP Staff
+            $hqadministration->total_settlement          = $this->total;
+            $hqadministration->previous_balance          = isset($prev_data) ? $prev_data->budget_opex - $prev_data->total_transfer : 0;
+            $hqadministration->total_transfer            = $this->total;
+            $hqadministration->transfer_date             = date('Y-m-d');
+            $hqadministration->save();
 
             if($this->items){
                 foreach($this->items as $k => $val){
                     $item = new HqAdministrationItem;
-                    $item->sitekeeper_id = $sitekeeper->id;
+                    $item->hqadministration_id = $hqadministration->id;
                     $item->amount = $this->item_amount[$k];
                     $item->description = $this->item_description[$k];
                     $item->save();
