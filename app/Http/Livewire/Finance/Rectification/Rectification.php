@@ -16,8 +16,6 @@ class Rectification extends Component
 
     public function render()
     {
-        // $data = AccountPayableWeeklyopex::orderBy('updated_at','DESC');
-
         $data = AccountPayableRectification::select('account_payable_rectification.*', 'account_payable.subrequest_type')
                                         ->join('account_payable','account_payable.id','=','account_payable_rectification.id_master')
                                         ->where('account_payable.request_type','4')

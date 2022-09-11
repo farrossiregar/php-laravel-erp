@@ -163,12 +163,22 @@ class Insert extends Component
         
         // send notifikasi wa
         if($employee->telepon){
-            $message = "Hallo {$employee->name},\nBerikut username dan password login ERP anda\n";
-            $message .= "NIK : ". $employee->nik;
-            $message .= "\nUsername : ". $employee->email;
-            $message .= "\nPassword : ". $this->password;
-            $message .= "\nLink : https://erp.pmt.co.id";
-            send_wa(['phone'=> $employee->telepon,'message'=>$message]);
+            if($this->is_use_android == 1){
+                $message = "Hallo {$employee->name},\nBerikut username dan password login ERP dan e-PM anda\n";
+                $message .= "NIK : ". $employee->nik;
+                $message .= "\nUsername : ". $employee->email;
+                $message .= "\nPassword : ". $this->password;
+                $message .= "\nLink : https://erp.pmt.co.id";
+                $message .= "\nDownload : https://play.google.com/store/apps/details?id=com.pmt.access";
+                send_wa(['phone'=> $employee->telepon,'message'=>$message]);
+            }else{
+                $message = "Hallo {$employee->name},\nBerikut username dan password login ERP anda\n";
+                $message .= "NIK : ". $employee->nik;
+                $message .= "\nUsername : ". $employee->email;
+                $message .= "\nPassword : ". $this->password;
+                $message .= "\nLink : https://erp.pmt.co.id";
+                send_wa(['phone'=> $employee->telepon,'message'=>$message]);
+            }
         }
         
         if($this->project_id){

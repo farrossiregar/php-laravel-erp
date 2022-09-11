@@ -39,7 +39,7 @@
                 @endif
                 @if($request_type!=3)
                     <label>Sub Request Type</label> {{session()->get('company_id')}}
-                    <select onclick="" class="form-control" wire:model="subrequest_type">
+                    <select class="form-control" wire:model="subrequest_type">
                         @if($request_type == 1)
                             <option value=""> --- Sub Request Type (Petty Cash) --- </option>
                             @foreach(\App\Models\PettyCashType::where('company_id', session()->get('company_id'))->get() as $item)

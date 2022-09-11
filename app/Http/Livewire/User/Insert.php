@@ -27,6 +27,10 @@ class Insert extends Component
 
     public function render()
     {
+        if(\Auth::user()->user_access_id!=1){
+            session()->flash('message-error','Access denied.');
+            $this->redirect('/');
+        }
         return view('livewire.user.insert')->with(
             ['access'=>UserAccess::all()]
         );

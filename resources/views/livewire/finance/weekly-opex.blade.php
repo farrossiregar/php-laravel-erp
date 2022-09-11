@@ -6,13 +6,21 @@
                 <div class="col-md-2">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Searching..." />
                 </div>
+                <div class="col-md-2">
+                    <select class="form-control" wire:model="filter_client_project_id">
+                        <option value=""> -- Project -- </option>
+                        @foreach($projects as $item)
+                            <option>{{$item->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
                 @if($is_finance)
                     <div class="col-md-2">
                         <a href="javascript:;" data-toggle="modal" data-target="#modal_weekly_opex_budget" class="btn btn-success"><i class="fa fa-database"></i> Budget</a>
                         <a href="javascript:;" data-toggle="modal" data-target="#modal_weekly_opex_type" class="btn btn-info"><i class="fa fa-database"></i> Type</a>
                     </div>
                 @endif
-                <div class="col-md-8">
+                <div class="col-md-4">
                     <span wire:loading>
                         <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                         <span class="sr-only">{{ __('Loading...') }}</span>
@@ -21,7 +29,7 @@
             </div>
             <div class="body pt-0">
                 <div class="table-responsive">
-                    <table class="table m-b-0 c_list">
+                    <table class="table m-b-0 c_list table-nowrap-th">
                         <thead style="background:#eee;">
                             <tr>
                                 <th>No</th>
@@ -43,6 +51,9 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php($total_total_advance = 0)
+                            @php($total_total_transfer = 0)
+                            @php($total_total_settlement = 0)
                             @foreach($data as $k => $item)
                                 <tr>
                                     <td>{{$k+1}}</td>
@@ -62,7 +73,6 @@
                                     </td>
                                     <td>{{$item->project_name}}</td>
                                     <td>{{$item->region}}</td>
-                                    <!-- <td>{{$item->subregion}}</td> -->
                                     <td>{{$item->month}}</td>
                                     <td>{{format_idr($item->budget_opex)}}</td>
                                     <td class="text-center">{{$item->week}}</td>
@@ -74,15 +84,22 @@
                                             @php($total_advance += $i->amount_settle)
                                         @endforeach
                                         {{implode(", ", $description_)}}
+                                        @php($total_total_advance += $total_advance)
                                     </td>
                                     <td>{{$item->settlement_date ? date('d-F-Y',strtotime($item->settlement_date)) : '-'}}</td>
-                                    <td>{{format_idr($total_advance)}}</td>
+                                    <td>
+                                        {{format_idr($total_advance)}}
+                                    </td>
                                     <td>
                                         @if($item->status==2)
                                             <a href="javascript:void(0)" data-toggle="modal" wire:click="$emit('set_id','{{ $item->id }}')" data-target="#modal_weekly_opex_settle_detail">{{format_idr($item->budget_opex - $item->total_settlement) }}</a>
+                                            @php($total_total_transfer += $item->budget_opex - $item->total_settlement)
                                         @endif
                                     </td>
-                                    <td>{{format_idr($item->total_transfer)}}</td>
+                                    <td>
+                                        {{format_idr($item->total_transfer)}}
+                                        @php($total_total_settlement += $item->total_transfer)
+                                    </td>
                                     <td>{{$item->transfer_date}}</td>
                                     <td>@livewire('finance.weekly-opex-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
                                     <td class="text-center">
@@ -105,6 +122,19 @@
                                     <td colspan="18" class="text-center"><i>empty</i></td>
                                 </tr>
                             @endif
+                            <tr style="background:#eeeeee69">
+                                <th colspan="5" class="text-right">Total</th>
+                                <th>{{format_idr($total->sum('budget_opex'))}}</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>{{format_idr($total_total_advance)}}</th>
+                                <th>{{format_idr($total_total_transfer)}}</th>
+                                <th>{{format_idr($total_total_settlement)}}</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\PoTrackingNonmsBuktiTransfer;
 use App\Models\PoTrackingNonmsBast;
 use App\Models\PoTrackingNonmsPo;
+use App\Models\PoTrackingNonmsBoq;
 
 class PoTrackingNonms extends Model
 {
@@ -36,5 +37,10 @@ class PoTrackingNonms extends Model
     public function po__()
     {
         return $this->hasOne(PoTrackingNonmsPo::class,'id','po_tracking_nonms_po_id');
+    }
+
+    public function boq()
+    {
+        return $this->hasMany(PoTrackingNonmsBoq::class,'id_po_nonms_master','id');
     }
 }

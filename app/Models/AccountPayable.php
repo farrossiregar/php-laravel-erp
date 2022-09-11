@@ -9,6 +9,7 @@ use App\Models\AccountPayablePettycash;
 use App\Models\WeeklyOpexType;
 use App\Models\AccountPayableWeeklyopex;
 use App\Models\AccountPayableOtheropex;
+use App\Models\AccountPayableRectification;
 
 class AccountPayable extends Model
 {
@@ -39,5 +40,10 @@ class AccountPayable extends Model
     public function other_opex()
     {
         return $this->hasOne(AccountPayableOtheropex::class,'id_master','id');
+    }
+
+    public function rec()
+    {
+        return $this->hasOne(AccountPayableRectification::class,'id_master','id');
     }
 }

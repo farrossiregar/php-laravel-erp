@@ -16,14 +16,11 @@
                     @livewire('po-tracking-ms.huawei')
                 </div>
                 <!-- <div class="tab-pane" id="tab_data">
-                    
                 </div> -->
             </div>
         </div>
     </div>
 </div>
-
-
 
 <div class="modal fade" id="modal-potrackingms-importericsson" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -32,7 +29,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="modal-potrackingms-importhuawei" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

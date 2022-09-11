@@ -19,7 +19,7 @@
             </div>
             <div class="body pt-0">
                 <div class="table-responsive">
-                    <table class="table m-b-0 c_list">
+                    <table class="table m-b-0 c_list table-nowrap-th">
                         <thead style="background:#eee;">
                             <tr>
                                 <th>No</th>
@@ -31,13 +31,13 @@
                                 <th>Rect Name</th>          
                                 <th>PR / PO No</th>          
                                 <th>Budget</th>
-                                <th>Previous Balance</th>         
-                                <th>Nominal</th>         
-                                <th>Transfer Date</th>         
+                                <!-- <th>Previous Balance</th>          -->
+                                <th>Settlement Nominal	</th>         
+                                <th>Submitted Date</th>         
                                 <th>Cash Transaction No</th>
-                                <th>Difference</th>          
-                                <th>Settlement Nominal</th>
-                                <th>Settlement Date</th>          
+                                <th>Difference</th>      
+                                <th>Advance Date</th>          
+                                <th>Advance Nominal</th>
                                 <!-- <th>Attachment Document For Advance</th>      -->
                                 <th></th>
                             </tr>
@@ -69,29 +69,27 @@
                                     <td>{{$item->month}}</td>
                                     <td>
                                         @php($description_ = [])
+                                        @php($total_advance=0)
                                         @foreach(\App\Models\RectificationItem::where('rectification_id', $item->id)->get() as $i)
                                             @php($description_[] = $i->description)
+                                            @php($total_advance += $i->amount_settle)
                                         @endforeach
                                         {{implode(", ", $description_)}}
                                     </td>
                                     <td>@livewire('finance.rectification.rectification-editable',['data'=>$item,'field'=>'pr_no'],key($item->id))</td>
-                                    
                                     <td>{{format_idr($item->budget_opex)}}</td>
-                                    <td>{{format_idr($item->previous_balance) }}</td>
-                                    <td>{{format_idr($item->total_transfer) }}</td>
+                                    <td>
+                                        {{format_idr($item->total_settlement)}}
+                                    </td>
                                     <td>{{$item->transfer_date}}</td>
                                     <td>@livewire('finance.rectification.rectification-editable',['data'=>$item,'field'=>'cash_transaction_no'],key($item->id))</td>
-                                    <td>{{format_idr($item->difference) }}</td>
-                                    <td>{{format_idr($item->total_settlement)}}</td>
-                                    <td>{{$item->settlement_date ? date('d-F-Y',strtotime($item->settlement_date)) : '-'}}</td>
-
-                                    
-                                    
-                                    <!-- <td class="text-center">
-                                        @if($item->doc_settlement)
-                                            <a href="{{asset($item->doc_settlement)}}"><i class="fa fa-download"></i></a>
+                                    <td>
+                                        @if($total_advance!=0)
+                                            <a href="javascript:void(0)" data-toggle="modal" wire:click="$emit('set_id','{{ $item->id }}')" data-target="#modal_rectification_settle_detail">{{format_idr($item->budget_opex - $total_advance) }}</a>
                                         @endif
-                                    </td> -->
+                                    </td>
+                                    <td>{{$item->settlement_date ? date('d-F-Y',strtotime($item->settlement_date)) : '-'}}</td>
+                                    <td>{{format_idr($total_advance)}}</td>
                                     <td>
                                         @if($item->status==0 and $is_apstaff)
                                             <a href="javascript:void(0)" wire:click="$emit('check_id',{{$item->id}})" class="badge badge-info badge-active" data-toggle="modal" data-target="#modal_process"><i class="fa fa-check-circle"></i> Process</a>

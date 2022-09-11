@@ -14,7 +14,7 @@ class Huawei extends Component
     use WithFileUploads;
     public $file,$is_e2e,$is_service_manager,$is_have_deduction=0,$selected;
     public $approval_file,$pds_file,$pds_amount,$file_verification,$acceptance_doc,$invoice_doc;
-    public $is_finance,$keyword;
+    public $is_finance,$keyword,$field_active,$file_progress;
     protected $rules = [
         'file' => 'required',
     ];
@@ -40,18 +40,28 @@ class Huawei extends Component
         $this->is_finance = check_access('is-finance');
     }
 
-    public function set_selected(PoMsHuawei $selected)
+    public function set_selected(PoMsHuawei $selected,$field=null)
     {
-        $this->selected = $selected;
-        
+        $this->field_active = $field;
+        $this->selected = $selected;   
     }
 
-    public function update_progress(PoMsHuawei $selected, $field,$value)
+    public function update_progress()
     {
-        $selected->$field = $value;
-        $selected->save();
+        $this->validate([
+            'file_progress'=>'required|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png,gif|max:51200', // 50MB maksimal
+        ]);
+        
+        $field = $this->field_active;
+        $field_file = $field."_file";
 
-        $this->emit('message-success',"PO Number {$selected->po_no} updated.");
+        $doc = $field.'_file.'.$this->file_progress->extension();
+        $this->file_progress->storePubliclyAs("public/po_tracking_ms/{$this->selected->id}",$doc);
+        $this->selected->$field_file ="storage/po_tracking_ms/{$this->selected->id}/{$doc}";
+        $this->selected->$field = 1;
+        $this->selected->save();
+
+        $this->emit('message-success',"PO Number {$this->selected->po_no} updated.");
         $this->emit('modal','hide');
     }
 

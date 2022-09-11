@@ -39,7 +39,6 @@ class Add extends Component
 
         if($this->request_type == '1') $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();   
         if($this->request_type == '2') {
-            //$budget = WeeklyOpexBudget::where(['company_id'=>session()->get('company_id')])->where(['month'=>(int)date('m'),'year'=>date('Y')])->whereIn('client_project_id',$project_arr)->first();
             $find = WeeklyOpexBudgetDate::where(['year'=>date('Y')])->where(
                             function ($query){
                             $query->whereRaw('? between start_date and end_date', [date('Y-m-d')]);
@@ -75,39 +74,11 @@ class Add extends Component
             $this->remain = 0;
         }
 
-        
-
         return view('livewire.account-payable.add');
     }
 
     public function mount()
     {
-        // if($this->request_type == '1'){
-        //     $budget = PettyCashBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();
-        // }
-        
-        // if($this->request_type == '2'){
-        //     $budget = WeeklyOpexBudget::where(['company_id'=>session()->get('company_id'),'department_id'=>\Auth::user()->employee->department_id])->first();
-        // }
-      
-        // if($this->request_type){
-            
-        //     if($budget){
-        //         $this->budget = $budget->amount;
-        //         $this->remain - $budget->remain;
-        //     }    
-        // }else{
-        //     $this->budget = 0;
-        //     $this->remain = 0;
-        // }
-        
-        
-        // $project = EmployeeProject::where('employee_id',\Auth::user()->employee->id)->first();
-        // if(isset($project->project->name)) {
-        //     $this->project_name = $project->project->name;
-        //     $this->project_code = $project->project->code;
-        // }
-
         $this->is_weekly_opex = WeeklyOpexBudget::where(['employee_id'=>\Auth::user()->employee->id,'month'=>date('m'),'year'=>date('Y'),'company_id'=>session()->get('company_id')])->first();
         $this->cash_transaction_no = str_pad((AccountPayable::count()+1),6, '0', STR_PAD_LEFT).'/'.date('d').'/'.date('m').'/'.date('Y').'/CashOut';
     }
@@ -210,6 +181,7 @@ class Add extends Component
             $weekly_opex->subregion                 = isset(\Auth::user()->employee->subregion->name) ? \Auth::user()->employee->subregion->name : '-';
             $weekly_opex->project_code              = isset(\Auth::user()->employee->employee_project_first->project->code) ? \Auth::user()->employee->employee_project_first->project->code : '';
             $weekly_opex->project_name              = isset(\Auth::user()->employee->employee_project_first->project->name) ? \Auth::user()->employee->employee_project_first->project->name : '';
+            $weekly_opex->client_project_id = isset(\Auth::user()->employee->employee_project_first->project->id) ? \Auth::user()->employee->employee_project_first->project->id : '';
             $weekly_opex->cash_transaction_no       = $this->cash_transaction_no;
             $weekly_opex->month                     = date('M');//$this->month;
             $weekly_opex->year                      = date('Y');//$this->year;
@@ -298,7 +270,7 @@ class Add extends Component
             $rectification->company_id                = session()->get('company_id');
             $rectification->status                    = 0; // Waiting AP Staff
             $rectification->total_settlement          = $this->total;
-            $rectification->nominal                   = $this->total_transfer;
+            $rectification->nominal                   = $this->total;
             $rectification->previous_balance          = isset($prev_data) ? $prev_data->nominal - $prev_data->total_transfer : 0;
             $rectification->total_transfer            = $this->total;
             $rectification->transfer_date             = date('Y-m-d');

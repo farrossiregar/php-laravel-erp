@@ -26,7 +26,6 @@ class AddPo extends Component
 
     public function updated()
     {
-        // if($this->wo_id) $this->wo_list = PoTrackingNonms::whereIn('po_status',[0,1])->get();
         if($this->wo_id) $this->wo_list = PoTrackingNonms::get();
     }
 
@@ -40,9 +39,7 @@ class AddPo extends Component
         if(!$this->wos) return $this->error_message = "WO Number required";
         
         $this->validate([
-            // 'po_number' => ['required',Rule::unique('po_tracking_nonms_po')],
             'po_number' => ['required'],
-            // 'po_line_item' => ['required',Rule::unique('po_tracking_nonms_po')],
             'date_po' => 'required',
             'contract' => 'required',
             'date_contract' => 'required'

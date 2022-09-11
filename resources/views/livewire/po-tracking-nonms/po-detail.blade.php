@@ -168,7 +168,11 @@
                                 @foreach($data->wos as $k => $item)
                                     <tr>
                                         <td>{{$k+1}}</td>
-                                        <td><a href="{{ route('po-tracking-nonms.edit-boq',['id'=>$item->wo->id]) }}">{{ $item->wo->no_tt }}</a></td>  
+                                        <td>
+                                            @if(isset($item->wo->id))
+                                                <a href="{{ route('po-tracking-nonms.edit-boq',['id'=>$item->wo->id]) }}">{{ $item->wo->no_tt }}</a>
+                                            @endif
+                                        </td>  
                                         <td>{{$item->po_line_item}}</td>
                                         <td class="text-center">{{$item->sno_material}}</td>                               
                                         <td class="text-center">{{$item->sno_rectification}}</td>                           
@@ -243,6 +247,4 @@
             </div>
         </div>
     </div>
-
-
 </div>

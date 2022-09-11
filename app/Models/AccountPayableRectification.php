@@ -26,5 +26,4 @@ class AccountPayableRectification extends Model
     {
         return $this->hasOne(AccountPayable::class,'id','id_master');
     }
-
 }

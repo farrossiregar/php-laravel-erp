@@ -38,7 +38,7 @@ class Index extends Component
         //     $this->redirect('/');
         // }
 
-        if(check_access_controller('users.index') == false){
+        if(\Auth::user()->user_access_id!=1){
             session()->flash('message-error','Access denied.');
             $this->redirect('/');
         }

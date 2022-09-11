@@ -38,6 +38,8 @@ class Setting extends Component
     }
     public function updateBasic()
     {
+        \LogActivity::add('[web] Update basic');
+
         update_setting('company',$this->company);
         update_setting('email',$this->email);
         update_setting('phone',$this->phone);
@@ -47,6 +49,8 @@ class Setting extends Component
 
     public function save()
     {
+        \LogActivity::add('[web] Update setting');
+
         if($this->logo!=""){
             $this->validate([
                 'logo' => 'image:max:1024', // 1Mb Max

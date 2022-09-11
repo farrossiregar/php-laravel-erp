@@ -196,9 +196,7 @@
                         <td>{{ $item->invoice_amount }}</td>
                         <td>{{ $item->no_inv }}</td>
                         <td>{{ $item->inv_date }}</td>
-
                         <td>{{ $item->payment_date }}</td>
-
                         <td>{{ $item->date_bast_approval2 }}</td>
                         <td>{{ $item->date_bast_approval_system2 }}</td>
                         <td>{{ $item->date_gr_req2 }}</td>
@@ -207,14 +205,12 @@
                         <td>{{ $item->invoice_amount2 }}</td>
                         <td>{{ $item->no_inv2 }}</td>
                         <td>{{ $item->inv_date2 }}</td>
-
                         <td>{{ $item->qty_site_hold }}</td>
                         <td>{{ $item->type2 }}</td>
                         <td>{{ $item->amount_hold_payment }}</td>
                         <td>{{ $item->closing_site }}</td>
                         <td>{{ $item->no_bast2 }}</td>
                         <td>{{ $item->claim }}</td>
-
                         <td>{{ $item->date_bast_approval3 }}</td>
                         <td>{{ $item->date_bast_approval_system3 }}</td>
                         <td>{{ $item->req_gr }}</td>
@@ -596,4 +592,4 @@
             </div>
         </div>
     </div>
-</div>  
+</div>

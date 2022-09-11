@@ -241,6 +241,16 @@
                                         {{implode(", ", $description_)}}
                                     @endif
                                 @endif
+                                @if($item->request_type==4)
+                                    @if(isset($item->rec->items))
+                                        @php($description_ = [])
+                                        @foreach($item->rec->items as $i)
+                                            @php($description_[] = $i->description)
+                                            @php($total += $i->amount)
+                                        @endforeach
+                                        {{implode(", ", $description_)}}
+                                    @endif
+                                @endif
                             </td>    
                             <td class="text-right">{{format_idr($total)}}</td>
                             <td>

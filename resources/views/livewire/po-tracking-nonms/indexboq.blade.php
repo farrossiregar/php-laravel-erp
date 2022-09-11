@@ -2,11 +2,15 @@
 @section('parentPageTitle', 'Home')
 <div>
     <ul class="nav nav-tabs">
-        <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#tab_work_order">Work Order</a></li>
+        <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#tab_dashboard_ericson">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_work_order">Work Order</a></li>
         <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_po">Purchase Order</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane show active" id="tab_work_order">
+        <div class="tab-pane show active" id="tab_dashboard_ericson">
+            @livewire('po-tracking-nonms.dashboard')
+        </div>
+        <div class="tab-pane" id="tab_work_order">
             <div class="header row px-0">
                 <div class="col-md-2">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Keyword" />
@@ -28,6 +32,9 @@
                         <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import WO')}}</a>
                         <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal-potrackinginput-pono"><i class="fa fa-plus"></i> Add PO</a>
                     @endif
+                   @if($sum_budget_request)
+                        <span class="btn btn-warning float-right">Rp. {{format_idr($sum_budget_request)}}</span>
+                   @endif
                     <span wire:loading>
                         <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                         <span class="sr-only">{{ __('Loading...') }}</span>
@@ -57,6 +64,8 @@
                         </thead>
                         <tbody>
                             @foreach($data as $key => $item)
+                                @php($total_actual = $item->boq_sum_total_price)
+                                @php($total_price = $item->boq_sum_input_price)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>
@@ -70,7 +79,11 @@
                                             <label class="badge badge-success">Complete</label>
                                         @endif
                                     </td>
-                                    <td><a href="{{ route('po-tracking-nonms.edit-boq',['id'=>$item->id]) }}">{{ $item->no_tt }}</a></td>  
+                                    <td>
+                                        <input type="checkbox" wire:model="total_price_arr.{{$key}}" value="{{$item->id}}" />
+
+                                        <a href="{{ route('po-tracking-nonms.edit-boq',['id'=>$item->id]) }}">{{ $item->no_tt }}</a>
+                                    </td>  
                                     <td>{{ $item->region }}</td>    
                                     <td class="text-center">
                                         @if($item->status==0 || $item->status == null || $item->status == '0')
@@ -103,12 +116,12 @@
                                     </td>
                                     <td>{{$item->site_id}}</td>
                                     <td>{{$item->site_name}}</td>
-                                    <td class="text-right">Rp {{ format_idr(get_total_actual_price($item->id)) }}</td>                               
-                                    <td class="text-right">Rp {{ format_idr(get_total_price($item->id)) }}</td> 
+                                    <td class="text-right">Rp {{ format_idr($total_actual) }}</td>                               
+                                    <td class="text-right">Rp {{ format_idr($total_price) }}</td> 
                                     <td class="text-center">
                                         <?php
-                                            if(get_total_price($item->id) && get_total_actual_price($item->id))
-                                                $total_profit = 100 - round((get_total_price($item->id) / get_total_actual_price($item->id)) * 100);
+                                            if($total_price && $total_actual)
+                                                $total_profit = 100 - round(($total_price / $total_actual) * 100);
                                             else
                                                 $total_profit = 100;
                                             
@@ -120,7 +133,6 @@
                                         ?>
                                         <span class="text-<?php echo $color; ?>">{{ $total_profit }}%</span>
                                     </td>
-                                    
                                     <td>
                                         @if($item->status==5 and $item->coordinator_id =='' and $is_service_manager)
                                             <a href="javascript:void(0)" data-target="#modal_select_coordinator" wire:click="set_data({{$item->id}})" data-toggle="modal" class="badge badge-info badge-active"><i class="fa fa-plus"></i> coordinator</a>
@@ -138,15 +150,14 @@
                                         @if($item->bast_status)
                                             <a href="{{route('po-tracking-nonms.detailfoto',['id'=>$item->id]) }}" ><i class="fa fa-image"></i> Foto</a>
                                         @endif
-                                        <!-- @if(check_access('po-tracking-nonms.import-approvedbast') and $item->status==7 and $item->bast_status==2)
-                                            <a href="javascript:;" class="badge badge-info badge-active" wire:click="set_data({{$item->id}})" data-toggle="modal" data-target="#modal_e2e_review"><i class="fa fa-check-circle"></i> Review</a>
-                                        @endif -->
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+                <br />
+                {{$data->links()}}
                 <br />
                 <div class="modal fade" wire:ignore.self id="modal_e2e_upload_bast_gr" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">

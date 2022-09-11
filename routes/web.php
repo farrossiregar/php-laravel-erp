@@ -38,6 +38,10 @@ Route::get('readerpdf',function(){
 });
 
 // All login
+Route::group(['middleware' => ['auth','access:1']], function(){
+    Route::get('setting',App\Http\Livewire\Setting::class)->name('setting');
+});   
+
 Route::group(['middleware' => ['auth']], function(){    
     Route::get('get-employees',function(){
 
@@ -58,7 +62,6 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::get('profile',App\Http\Livewire\Profile::class)->name('profile');
     Route::get('back-to-admin',[App\Http\Controllers\IndexController::class,'backtoadmin'])->name('back-to-admin');
-    Route::get('setting',App\Http\Livewire\Setting::class)->name('setting');
     Route::get('users/insert',App\Http\Livewire\User\Insert::class)->name('users.insert');
     Route::get('user-access', App\Http\Livewire\UserAccess\Index::class)->name('user-access.index');
     Route::get('user-access/insert', App\Http\Livewire\UserAccess\Insert::class)->name('user-access.insert');
@@ -129,8 +132,16 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('po-tracking-nonms/detailfoto/{id}',App\Http\Livewire\PoTrackingNonms\Detailfoto::class)->name('po-tracking-nonms.detailfoto');
     Route::get('po-tracking-nonms/approvedetailfoto',App\Http\Livewire\PoTrackingNonms\Approvedetailfoto::class)->name('po-tracking-nonms.approvedetailfoto');
     Route::get('po-tracking-nonms/po-generate-bast/{data}',[App\Http\Controllers\PoTrackingNonmsController::class,'po_generate_bast'])->name('po-tracking-nonms.po-generate-bast');
-    
+
+    Route::get('po-tracking-nonms/huawei',App\Http\Livewire\PoTrackingNonms\Huawei\Index::class)->name('po-tracking-nonms.huawei');
+    Route::get('po-tracking-nonms/huawei/detail/{id}',App\Http\Livewire\PoTrackingNonms\Huawei\Detail::class)->name('po-tracking-nonms.huawei.detail');
+    Route::get('po-tracking-nonms/huawei/regional-bast/{id}',App\Http\Livewire\PoTrackingNonms\Huawei\RegionalBast::class)->name('po-tracking-nonms.huawei.regional-bast');
+    Route::get('po-tracking-nonms/huawei/e2e-bast/{id}',App\Http\Livewire\PoTrackingNonms\Huawei\E2eBast::class)->name('po-tracking-nonms.huawei.e2e-bast');
+
     Route::get('po-tracking-ms',App\Http\Livewire\PoTrackingMs\Index::class)->name('po-tracking-ms.index');
+
+    Route::get('po-tracking-ms-huawei',App\Http\Livewire\PoTrackingMs\Huawei::class)->name('po-tracking-ms.huawei');
+
     Route::get('po-tracking-ms/preview/{id}',App\Http\Livewire\PoTrackingMs\Preview::class)->name('po-tracking-ms.preview');
     Route::get('dana-stpl',App\Http\Livewire\DanaStpl\Index::class)->name('dana-stpl.index');
     Route::get('dana-stpl/download-report',[App\Http\Controllers\DanaStplReportController::class,'downloadreport'])->name('dana-stpl.download-report');    

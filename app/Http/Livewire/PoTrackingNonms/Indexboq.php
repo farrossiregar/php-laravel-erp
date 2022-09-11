@@ -19,14 +19,14 @@ class Indexboq extends Component
     public $is_finance=false,$wo_id=[],$is_e2e,$is_pmg = false;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['refresh'=>'$refresh'];
-    public $filter_field_team_id,$filter_field_teams=[];
+    public $filter_field_team_id,$filter_field_teams=[],$total_price_arr=[],$sum_total_request=0,$sum_budget_request=0;
     public function render()
     {
-        $data = PoTrackingNonms::with(['field_team','coordinator'])->where('type_doc', 2)->orderBy('updated_at', 'DESC');//->whereIn('po_status',[0,1]);
-                                
-        // if(check_access('po-tracking-nonms.index-regional'))
-        //     $data->where('region', isset(\Auth::user()->employee->region->region)?\Auth::user()->employee->region->region:''); 
-        
+        $data = PoTrackingNonms::with(['field_team','coordinator'])
+                            ->withSum('boq','input_price')
+                            ->withSum('boq','total_price')
+                            ->where('type_doc', 2)
+                            ->orderBy('updated_at', 'DESC');
         if(!$this->is_service_manager and !$this->is_e2e and !$this->is_finance and !$this->is_pmg){
             $data->where(function($table){
                 $table->where('coordinator_id',\Auth::user()->employee->id)->orWhere('field_team_id',\Auth::user()->employee->id);
@@ -46,7 +46,22 @@ class Indexboq extends Component
 
         if($this->date) $data->whereDate('created_at',$this->date);
         if($this->filter_field_team_id) $data->where('field_team_id',$this->filter_field_team_id);
-        return view('livewire.po-tracking-nonms.indexboq')->with(['data'=>$data->paginate(50)]);
+
+        if($this->total_price_arr){
+            $temp = PoTrackingNonms::with(['field_team','coordinator'])
+                            ->withSum('boq','input_price')
+                            ->withSum('boq','total_price')
+                            ->where('type_doc', 2)
+                            ->orderBy('updated_at', 'DESC')
+                            ->whereIn('id',$this->total_price_arr)->get();
+            
+            $this->sum_total_request = 0;$this->sum_budget_request = 0;
+            foreach($temp as $item){
+                $this->sum_budget_request += $item->boq_sum_total_price;
+            }
+        }
+
+        return view('livewire.po-tracking-nonms.indexboq')->with(['data'=>$data->paginate(100)]);
     }
 
     public function mount()
@@ -54,7 +69,7 @@ class Indexboq extends Component
         $client_project_ids = Arr::pluck(EmployeeProject::select('client_project_id')->where(['employee_id'=>\Auth::user()->employee->id])->get()->toArray(),'client_project_id');
         
         $this->coordinators = get_user_from_access('is-coordinator',$client_project_ids,\Auth::user()->employee->region_id);
-        $this->field_teams = Employee::select('employees.*')->join('employee_projects','employee_projects.employee_id','=','employees.id')->whereIn('client_project_id',$client_project_ids)->get();;
+        $this->field_teams = Employee::select('employees.*')->join('employee_projects','employee_projects.employee_id','=','employees.id')->whereIn('client_project_id',$client_project_ids)->get();
         $this->filter_field_teams = PoTrackingNonms::groupBy('field_team_id')->get();
         $this->is_service_manager = check_access('is-service-manager');
         $this->is_coordinator = check_access('is-coordinator');

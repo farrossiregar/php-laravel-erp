@@ -46,7 +46,7 @@
                         <td>{{date('d F Y',strtotime($item->due_date))}}</td>
                         <td></td>
                         <td>
-                            @if($item->site->site_owner)
+                            @if(isset($item->site->site_owner))
                                 <a href="javascript:;" wire:click="set_report({{$item->id}},'{{$item->site->site_owner}}')" class="badge badge-success" data-toggle="modal" data-target="#modal_download_report"><i class="fa fa-download"></i> Report</a>
                             @endif
                         </td>

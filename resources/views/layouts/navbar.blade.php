@@ -32,7 +32,6 @@
                     </div>
                 </div>
             </form>
-            
             <div id="navbar-menu">
                 <ul class="nav navbar-nav">
                     <li class="d-none d-sm-inline-block d-md-none d-lg-inline-block">

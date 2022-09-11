@@ -34,13 +34,14 @@
                         <th>QTY</th>    
                         <th>Unit Price</th>    
                         <th>Total Amount</th>    
-                        <th>Status</th>    
+                        <!-- <th>Status</th>     -->
                         <th>BOS Approved</th>    
                         <th>GM Approved</th>    
                         <th>GH Approved</th>    
                         <th>Director Approved</th>    
                         <th>Verification</th>    
-                        <th>Acceptance</th>    
+                        <th>Acceptance Submission</th>    
+                        <th>Approved Acceptance</th>    
                         <th>Deduction (%)</th>    
                         <th>EHS Deduction / Other Deduction</th>    
                         <th class="text-right">RP Deduction</th>    
@@ -48,13 +49,15 @@
                         <th>Have Deduction</th>
                         <th>PDS</th>
                         <th>Regional Reconciliation</th>
+                        <th>BOS Approval</th>
                         <th>Customer GM Approval</th>
                         <th>Customer GH Approval</th>
                         <th>Customer OD (Operation Director) Approval</th>
                         <th>Verification</th>
                         <th>Approval Docs</th>
                         <th>Verification Docs</th>
-                        <th>Acceptance & Invoice Docs</th>
+                        <th>Acceptance Docs</th>
+                        <th>Invoice Docs</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -134,13 +137,14 @@
                             <td>{{ $item->qty }}</td>
                             <td>{{ $item->unit_price }}</td>
                             <td>{{ $item->total_amount }}</td>
-                            <td>{{ $item->status }}</td>
+                            <!-- <td>{{ $item->status }}</td> -->
                             <td>{{ $item->bos_approved }}</td>
                             <td>{{ $item->gm_approved }}</td>
                             <td>{{ $item->gh_approved }}</td>
                             <td>{{ $item->director_approved }}</td>
                             <td>{{ $item->verification }}</td>
                             <td>{{ $item->acceptance }}</td>
+                            <td>-</td>
                             <td>{{ $item->deduction }}</td>
                             <td>{{ $item->ehs_other_deduction }}</td>
                             <td class="text-right">{{ $item->rp_deduction }}</td>
@@ -158,39 +162,62 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                @if($item->is_regional_reconciliation==1)
-                                    <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_regional_reconciliation',0)" class="text-success"><i class="fa fa-check-circle"></i></a>
+                                @if($item->is_regional_reconciliation)
+                                    <a href="{{asset($item->is_regional_reconciliation_file)}}" target="_blank"><i class="text-success fa fa-check-circle"></i></a>
                                 @else
-                                    <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_regional_reconciliation',1)" class="text-danger"><i class="fa fa-times"></i></a>
+                                    <a href="javascript:void(0)" data-target="#modal_upload_progress_huawei" data-toggle="modal" wire:click="set_selected({{$item->id}},'is_regional_reconciliation')" class="text-danger"><i class="fa fa-times"></i></a>
                                 @endif
                             </td>
+                            <td></td>
                             <td class="text-center">
-                                @if($item->is_customer_gm==1)
+                                @if($item->is_customer_gm)
+                                    <a href="{{asset($item->is_customer_gm_file)}}" target="_blank"><i class="text-success fa fa-check-circle"></i></a>
+                                @else
+                                    <a href="javascript:void(0)" data-target="#modal_upload_progress_huawei" data-toggle="modal" wire:click="set_selected({{$item->id}},'is_customer_gm')" class="text-danger"><i class="fa fa-times"></i></a>
+                                @endif
+
+                                <!-- @if($item->is_customer_gm==1)
                                     <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_customer_gm',0)" class="text-success"><i class="fa fa-check-circle"></i></a>
                                 @else
                                     <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_customer_gm',1)" class="text-danger"><i class="fa fa-times"></i></a>
-                                @endif
+                                @endif -->
                             </td>
                             <td class="text-center">
-                                @if($item->is_customer_gh==1)
+                                @if($item->is_customer_gh)
+                                    <a href="{{asset($item->is_customer_gh_file)}}" target="_blank"><i class="text-success fa fa-check-circle"></i></a>
+                                @else
+                                    <a href="javascript:void(0)" data-target="#modal_upload_progress_huawei" data-toggle="modal" wire:click="set_selected({{$item->id}},'is_customer_gh')" class="text-danger"><i class="fa fa-times"></i></a>
+                                @endif
+                                <!-- @if($item->is_customer_gh==1)
                                     <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_customer_gh',0)" class="text-success"><i class="fa fa-check-circle"></i></a>
                                 @else
                                     <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_customer_gh',1)" class="text-danger"><i class="fa fa-times"></i></a>
-                                @endif
+                                @endif -->
                             </td>
                             <td class="text-center">
+                                @if($item->is_customer_od)
+                                    <a href="{{asset($item->is_customer_od_file)}}" target="_blank"><i class="text-success fa fa-check-circle"></i></a>
+                                @else
+                                    <a href="javascript:void(0)" data-target="#modal_upload_progress_huawei" data-toggle="modal" wire:click="set_selected({{$item->id}},'is_customer_gh')" class="text-danger"><i class="fa fa-times"></i></a>
+                                @endif
+                                <!--                                 
                                 @if($item->is_customer_od==1)
                                     <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_customer_od',0)" class="text-success"><i class="fa fa-check-circle"></i></a>
                                 @else
-                                    <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_customer_od',1)" class="text-danger"><i class="fa fa-times"></i></a>
-                                @endif
+                                    <a href="javascript:void(0)" data-target="#modal_upload_progress" data-toggle="modal" wire:click="set_selected({{$item->id}},'is_customer_od')" class="text-danger"><i class="fa fa-times"></i></a>
+                                @endif -->
                             </td>
                             <td class="text-center">
-                                @if($item->is_verification==1)
+                                @if($item->is_verification)
+                                    <a href="{{asset($item->is_verification_file)}}" target="_blank"><i class="text-success fa fa-check-circle"></i></a>
+                                @else
+                                    <a href="javascript:void(0)" data-target="#modal_upload_progress_huawei" data-toggle="modal" wire:click="set_selected({{$item->id}},'is_verification')" class="text-danger"><i class="fa fa-times"></i></a>
+                                @endif
+                                <!-- @if($item->is_verification==1)
                                     <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_verification',0)" class="text-success"><i class="fa fa-check-circle"></i></a>
                                 @else
                                     <a href="javascript:void(0)" wire:click="update_progress({{$item->id}},'is_verification',1)" class="text-danger"><i class="fa fa-times"></i></a>
-                                @endif
+                                @endif -->
                             </td>
                             <td class="text-center">
                                 @if($item->approval_file)
@@ -213,12 +240,49 @@
                                     -
                                 @endif
                             </td>
+                            <td>-</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
+
+    <div class="modal fade" wire:ignore.self id="modal_upload_progress_huawei" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <form wire:submit.prevent="update_progress">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Upload Progress</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true close-btn">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>File (xlsx)</label>
+                        <input type="file" class="form-control" wire:model="file_progress" />
+                        @error('file_progress')
+                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                        @enderror
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info close-modal"><i class="fa fa-check-circle"></i> Submit</button>
+                </div>
+                <div wire:loading wire:target="submit_verification">
+                    <div class="page-loader-wrapper" style="display:block">
+                        <div class="loader" style="display:block">
+                            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                            <p>Please wait...</p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
 
     <div class="modal fade" wire:ignore.self id="modal_upload_verification_huawei" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

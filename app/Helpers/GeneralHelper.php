@@ -469,7 +469,6 @@ function get_total_price($id){
 
 }
 
-
 function get_total_actual_price($id){
     $data             = \App\Models\PoTrackingNonms::where('id', $id)->first();  
         

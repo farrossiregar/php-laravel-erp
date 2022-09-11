@@ -27,13 +27,6 @@
                                                 @endforeach
                                             </select>
                                         </div>
-<!-- 
-                                        <div class="col-md-6 form-group">
-                                            <label>Project Code</label>
-                                            <input type="text" class="form-control" style="width:100%;" wire:model="" readonly>
-                                        </div> -->
-
-
                                         <div class="col-md-6 form-group">
                                             <div class="row">
                                                 <div class="col-md-6">
