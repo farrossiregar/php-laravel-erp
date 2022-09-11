@@ -38,8 +38,8 @@
                     @enderror
                 @endif
                 @if($request_type!=3)
-                    <label>Sub Request Type</label> {{session()->get('company_id')}}
-                    <select class="form-control" wire:model="subrequest_type">
+                    <label>Sub Request Type</label>
+                    <select onclick="" class="form-control" wire:model="subrequest_type">
                         @if($request_type == 1)
                             <option value=""> --- Sub Request Type (Petty Cash) --- </option>
                             @foreach(\App\Models\PettyCashType::where('company_id', session()->get('company_id'))->get() as $item)
@@ -64,6 +64,19 @@
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
                         @endif
+                        @if($request_type == 6)
+                            <option value=""> --- Sub Request Type (Site Keeper) --- </option>
+                            @foreach(\App\Models\SitekeeperType::where('company_id', session()->get('company_id'))->get() as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        @endif
+                        @if($request_type == 7)
+                            <option value=""> --- Sub Request Type (HQ Administration) --- </option>
+                            @foreach(\App\Models\HqAdministrationType::where('company_id', session()->get('company_id'))->get() as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        @endif
+
                     </select>
                     @error('subrequest_type')
                         <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
