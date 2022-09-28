@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDepartmentHqadministrationBudget extends Migration
+class AddFieldToBosApprovalFileToPoMsHuawei extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class AddDepartmentHqadministrationBudget extends Migration
      */
     public function up()
     {
-        // Schema::table('hqadministration_budget', function (Blueprint $table) {
-        //     $table->integer('department_id')->nullable();
-        //     $table->integer('sub_department_id')->nullable();
-        // });
+        Schema::table('po_ms_huawei', function (Blueprint $table) {
+            $table->text('bos_approval_file')->nullable();
+        });
     }
 
     /**
@@ -26,6 +25,8 @@ class AddDepartmentHqadministrationBudget extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('bos_approval_file_to_po_ms_huawei', function (Blueprint $table) {
+            //
+        });
     }
 }

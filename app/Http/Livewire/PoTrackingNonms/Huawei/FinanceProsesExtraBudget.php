@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\PoTrackingNonms\Huawei;
 
 use Livewire\Component;
-use App\Models\PoTrackingNonmsHuawei;
+use App\Models\PoTrackingNonmsHuaweiItem;
 
 class FinanceProsesExtraBudget extends Component
 {
@@ -14,7 +14,7 @@ class FinanceProsesExtraBudget extends Component
         return view('livewire.po-tracking-nonms.huawei.finance-proses-extra-budget');
     }
 
-    public function set_id(PoTrackingNonmsHuawei $id)
+    public function set_id(PoTrackingNonmsHuaweiItem $id)
     {
         $this->data = $id;
     }

@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\PoTrackingNonms\Huawei;
 
 use Livewire\Component;
-use App\Models\PoTrackingNonmsHuawei;
+use App\Models\PoTrackingNonmsHuaweiItem;
 
 class RegionalBast extends Component
 {
@@ -13,7 +13,7 @@ class RegionalBast extends Component
         return view('livewire.po-tracking-nonms.huawei.regional-bast');
     }
 
-    public function mount(PoTrackingNonmsHuawei $id)
+    public function mount(PoTrackingNonmsHuaweiItem $id)
     {
         $this->data = $id;
     }

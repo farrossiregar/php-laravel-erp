@@ -16,4 +16,19 @@ class PoTrackingNonmsHuaweiItem extends Model
     {
         return $this->hasOne(PoTrackingNonmsHuawei::class,'id','po_tracking_nonms_huawei_id');
     }
+
+    public function client_project()
+    {
+        return $this->hasOne(ClientProject::class,'id','client_project_id');
+    }
+
+    public function field_team()
+    {
+        return $this->hasOne(Employee::class,'id','field_team_id');
+    }
+
+    public function coordinator()
+    {
+        return $this->hasOne(Employee::class,'id','coordinator_id');
+    }
 }

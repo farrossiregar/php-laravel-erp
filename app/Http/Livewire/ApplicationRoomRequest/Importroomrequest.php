@@ -6,13 +6,14 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Auth;
 use DB;
+use App\Models\ApplicationRoomRequest;
 
 class Importroomrequest extends Component
 {
 
     use WithFileUploads;
     public $nik,$employee_id, $employee_name, $departement, $lokasi, $type_request, $request_room_detail;
-    public $purpose, $participant, $start_date_booking, $start_time_booking, $end_date_booking, $end_time_booking;
+    public $purpose, $participant, $start_date_booking, $start_time_booking, $end_date_booking, $end_time_booking,$message_error;
     protected $listeners = ['set_selected_date'];
 
     public function render()
@@ -31,6 +32,24 @@ class Importroomrequest extends Component
         $this->start_date_booking = date('Y-m-d');
     }
 
+    public function updated($propertyName)
+    {
+        if($this->start_date_booking and $this->start_time_booking and $this->end_time_booking and $this->request_room_detail){
+            $check = ApplicationRoomRequest::where(function($table){
+                $table->whereBetween('start_booking',[$this->start_date_booking .' '.$this->start_time_booking.':00',$this->start_date_booking.' '.$this->end_time_booking.':00'])
+                        ->orWhereBetween('end_booking',[$this->start_date_booking.' '.$this->start_time_booking.':00',$this->start_date_booking.' '.$this->end_time_booking.':00']);
+                })
+                ->where('request_room_detail', $this->request_room_detail)
+                ->where('status',2)
+                ->first();
+            
+            if($check)
+                $this->message_error = 'Request Can Not be Saved, Try Another Room or Time';
+            else
+                $this->message_error = '';
+        }
+    }
+
     public function set_selected_date($date)
     {
         $this->start_date_booking = date('Y-m-d',strtotime($date));
@@ -38,13 +57,22 @@ class Importroomrequest extends Component
 
     public function save()
     {
-        $check = \App\Models\ApplicationRoomRequest::whereDate('start_booking', $this->start_date_booking)
-                                                    ->where(DB::Raw('substring(start_booking, 12, 8)'), '>=', $this->start_time_booking.':00')
-                                                    ->where(DB::Raw('substring(end_booking, 12, 8)'), '<=', $this->end_time_booking.':00')
-                                                    ->where('request_room_detail', $this->request_room_detail)
-                                                    ->where('status',2)
-                                                    ->get();
-        if(count($check) < 1){
+        // $check = \App\Models\ApplicationRoomRequest::whereDate('start_booking', $this->start_date_booking)
+        //                                             ->where(DB::Raw('substring(start_booking, 12, 8)'), '>=', $this->start_time_booking.':00')
+        //                                             ->where(DB::Raw('substring(end_booking, 12, 8)'), '<=', $this->end_time_booking.':00')
+        //                                             ->where('request_room_detail', $this->request_room_detail)
+        //                                             ->where('status',2)
+        //                                             ->get();
+
+        $check = ApplicationRoomRequest::where(function($table){
+                                        $table->whereBetween('start_booking',[$this->start_date_booking .' '.$this->start_time_booking.':00',$this->start_date_booking.' '.$this->end_time_booking.':00'])
+                                                ->orWhereBetween('end_booking',[$this->start_date_booking.' '.$this->start_time_booking.':00',$this->start_date_booking.' '.$this->end_time_booking.':00']);
+                                        })
+                                        ->where('request_room_detail', $this->request_room_detail)
+                                        ->where('status',2)
+                                        ->first();
+
+        if(!$check){
             $datamaster                             = new \App\Models\ApplicationRoomRequest();
             $datamaster->employee_id                = $this->employee_id;
             $datamaster->employee_name              = $this->employee_name;
@@ -61,8 +89,6 @@ class Importroomrequest extends Component
             $datamaster->note                       = '';
             $datamaster->created_at                 = date('Y-m-d H:i:s');
             $datamaster->updated_at                 = date('Y-m-d H:i:s');
-            // dd($this->duration($datamaster->end_booking, $datamaster->start_booking));
-            // dd($datamaster->end_booking.' - '.$datamaster->start_booking);
             $datamaster->save();
             session()->flash('message-success',"Success, <strong>Request Successfully Added</strong>");
             return redirect()->route('application-room-request.index');

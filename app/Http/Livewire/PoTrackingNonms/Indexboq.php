@@ -5,6 +5,7 @@ namespace App\Http\Livewire\PoTrackingNonms;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\PoTrackingNonms;
+use App\Models\PoTrackingNonmsBoq;
 use App\Models\EmployeeProject;
 use App\Models\Employee;
 use Illuminate\Support\Arr;
@@ -81,6 +82,14 @@ class Indexboq extends Component
     public function updated($propertyName)
     {
         if($propertyName=='wo_id') $this->emit('set_wo',$this->wo_id);
+    }
+
+    public function delete(PoTrackingNonms $data)
+    {
+        PoTrackingNonmsBoq::where('id_po_nonms_master',$data->id)->delete();
+        $data->delete();
+
+        $this->emit('message-success',"Deleted");
     }
 
     public function set_data(PoTrackingNonms $id){

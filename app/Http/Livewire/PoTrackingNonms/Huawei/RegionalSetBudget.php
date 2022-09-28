@@ -30,8 +30,8 @@ class RegionalSetBudget extends Component
     public function updated()
     {
         if($this->pr_amount){
-            $amount =$this->data->po_amount - $this->pr_amount;
-            $this->margin = round(($amount/$this->data->po_amount) * 100,2);
+            $amount =$this->data->line_amount - $this->pr_amount;
+            $this->margin = round(($amount/$this->data->line_amount) * 100,2);
         }else
             $this->margin = 0;
         
@@ -47,17 +47,25 @@ class RegionalSetBudget extends Component
         $this->data->status_pr = $this->status_pr;
         $this->data->save();
 
-        $parent = PoTrackingNonmsHuawei::where('id',$this->data->po_tracking_nonms_huawei_id)
-                                        ->withSum('items','po_amount')
-                                        ->withSum('items','pr_amount')
-                                        ->first();
-        if($parent){
-            $margin = $parent->items_sum_po_amount - $parent->items_sum_pr_amount;
-            $parent->po_amount =  $parent->items_sum_po_amount;
-            $parent->pr_amount =  $parent->items_sum_pr_amount;
-            $parent->margin =  @($margin/$parent->items_sum_po_amount)*100;
-            $parent->save();
-        }
+
+        if($this->data->margin<30)
+            $this->data->status = 3;  // PMG Review karna profit dibawah 30%
+        else
+            $this->data->status = 1; // Finance review
+        
+        $this->data->save();
+
+        // $parent = PoTrackingNonmsHuawei::where('id',$this->data->po_tracking_nonms_huawei_id)
+        //                                 ->withSum('items','po_amount')
+        //                                 ->withSum('items','pr_amount')
+        //                                 ->first();
+        // if($parent){
+        //     $margin = $parent->items_sum_po_amount - $parent->items_sum_pr_amount;
+        //     $parent->po_amount =  $parent->items_sum_po_amount;
+        //     $parent->pr_amount =  $parent->items_sum_pr_amount;
+        //     $parent->margin =  @($margin/$parent->items_sum_po_amount)*100;
+        //     $parent->save();
+        // }
 
         $this->emit('modal','hide');
         $this->emit('reload-page');

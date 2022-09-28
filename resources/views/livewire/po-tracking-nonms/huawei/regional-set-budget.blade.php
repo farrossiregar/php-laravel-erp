@@ -53,7 +53,7 @@
         
     </div>
     <div class="modal-footer">
-        <button type="submit" wire:loading.remove wire:target="save" class="btn btn-info"><i class="fa fa-save"></i> Submit</button>
+        <button type="submit" wire:loading.remove wire:target="save" class="btn btn-info"><i class="fa fa-save"></i> Submit Budget</button>
         <span wire:loading wire:target="save">
             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
             <span class="sr-only">{{ __('Loading...') }}</span>

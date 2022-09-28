@@ -146,10 +146,11 @@
                                         {{isset($item->field_team->name)?$item->field_team->name : ''}}
                                     </td>
                                     <td>{{$item->scoope_of_works}}</td>
-                                    <td>
+                                    <td class="text-center">
                                         @if($item->bast_status)
                                             <a href="{{route('po-tracking-nonms.detailfoto',['id'=>$item->id]) }}" ><i class="fa fa-image"></i> Foto</a>
                                         @endif
+                                        <a href="javascript:void(0)" wire:click="delete({{$item->id}})"><i class="fa fa-trash text-danger"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

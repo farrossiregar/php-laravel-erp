@@ -4,6 +4,7 @@ namespace App\Http\Livewire\PoTrackingNonms\Huawei;
 
 use Livewire\Component;
 use App\Models\PoTrackingNonmsHuawei;
+use App\Models\PoTrackingNonmsHuaweiItem;
 use Livewire\WithPagination;
 
 class Index extends Component
@@ -14,11 +15,11 @@ class Index extends Component
     protected $paginationTheme = 'bootstrap',$listeners = ['reload-page'=>'$refresh'];
     public function render()
     {
-        $data = PoTrackingNonmsHuawei::orderBy('id','DESC');
+        $data = PoTrackingNonmsHuaweiItem::orderBy('id','DESC');
 
         if($this->keyword) $data = $data->where(function($table){
-            foreach(\Illuminate\Support\Facades\Schema::getColumnListing('po_tracking_nonms_huawei') as $column){
-                $table->orWhere('po_tracking_nonms_huawei.'.$column,'LIKE',"%{$this->keyword}%");
+            foreach(\Illuminate\Support\Facades\Schema::getColumnListing('po_tracking_nonms_huawei_item') as $column){
+                $table->orWhere('po_tracking_nonms_huawei_item.'.$column,'LIKE',"%{$this->keyword}%");
             }
         });
 
@@ -33,5 +34,17 @@ class Index extends Component
         $this->is_finance = check_access('is-finance');
         $this->is_pmg = check_access('is-pmg');
         $this->is_regional = check_access('is-regional');
+    }
+
+    public function submit_finance_budget(PoTrackingNonmsHuaweiItem $data)
+    {
+        $data->status = 2; // Finance Approved
+        $data->save();
+
+        \LogActivity::add("[web] PO Non MS Huawei - Submit Finance Budget {$data->id}");
+
+        session()->flash('message-success',"PO Nonms Finance Submit Budget");
+
+        return redirect()->route('po-tracking-nonms.huawei');
     }
 }

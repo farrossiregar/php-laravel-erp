@@ -154,7 +154,6 @@
                     <table class="table table-striped m-b-0 c_list table-nowrap-th">
                         <thead>
                             <tr>
-                                <th>No</th>
                                 <th>PO Details</th>
                                 <th>PO Aging (day)</th>
                                 <th>PO Aging By Category</th>
@@ -181,36 +180,33 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($data->items as $k => $item)
                                 <tr>
-                                    <td>{{$k+1}}</td>
-                                    <td>{{$item->po_detail}}</td>
-                                    <td>{{$item->po_aging}}</td>
-                                    <td>{{$item->po_aging_by_category}}</td>
-                                    <td>{{$item->po_aging_by_month}}</td>
-                                    <td>{{$item->po_month_creation}}</td>
-                                    <td>{{format_idr($item->po_amount)}}</td>
-                                    <td>{{$item->pic_project}}</td>
-                                    <td>{{$item->project_code}}</td>
-                                    <td>{{$item->region_code}}</td>
-                                    <td>{{$item->account_drop_down}}</td>
-                                    <td>{{$item->sub_account}}</td>
-                                    <td>{{$item->project_type}}</td>
-                                    <td>{{$item->pr_no}}</td>
-                                    <td>{{$item->date_of_req_pr?$item->date_of_req_pr : '-'}}</td>
-                                    <td>{{$item->supplier?$item->supplier:'-'}}</td>
-                                    <td>{{format_idr($item->pr_amount)}}</td>
-                                    <td>{{$item->margin}}%</td>
-                                    <td>{{$item->status_pr}}</td>
-                                    <td>{{$item->sub_account}}</td>
-                                    <td>{{$item->current_pic_handler}}</td>
-                                    <td>{{$item->system_dropdown}}</td>
-                                    <td>{{$item->change_history}}</td>
-                                    <td>{{$item->rep_office}}</td>
-                                    <td>{{$item->customer}}</td>
+                                    <td>{{$data->po_detail}}</td>
+                                    <td>{{$data->po_aging}}</td>
+                                    <td>{{$data->po_aging_by_category}}</td>
+                                    <td>{{$data->po_aging_by_month}}</td>
+                                    <td>{{$data->po_month_creation}}</td>
+                                    <td>{{format_idr($data->po_amount)}}</td>
+                                    <td>{{$data->pic_project}}</td>
+                                    <td>{{$data->project_code}}</td>
+                                    <td>{{$data->region_code}}</td>
+                                    <td>{{$data->account_drop_down}}</td>
+                                    <td>{{$data->sub_account}}</td>
+                                    <td>{{$data->project_type}}</td>
+                                    <td>{{$data->pr_no}}</td>
+                                    <td>{{$data->date_of_req_pr?$data->date_of_req_pr : '-'}}</td>
+                                    <td>{{$data->supplier?$data->supplier:'-'}}</td>
+                                    <td>{{format_idr($data->pr_amount)}}</td>
+                                    <td>{{$data->margin}}%</td>
+                                    <td>{{$data->status_pr}}</td>
+                                    <td>{{$data->sub_account}}</td>
+                                    <td>{{$data->current_pic_handler}}</td>
+                                    <td>{{$data->system_dropdown}}</td>
+                                    <td>{{$data->change_history}}</td>
+                                    <td>{{$data->rep_office}}</td>
+                                    <td>{{$data->customer}}</td>
                                     <td></td>
                                 </tr>
-                            @endforeach
                         </tbody>
                     </table>
                 </div>

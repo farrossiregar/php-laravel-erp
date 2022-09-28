@@ -141,6 +141,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('po-tracking-ms',App\Http\Livewire\PoTrackingMs\Index::class)->name('po-tracking-ms.index');
 
     Route::get('po-tracking-ms-huawei',App\Http\Livewire\PoTrackingMs\Huawei::class)->name('po-tracking-ms.huawei');
+    Route::get('po-tracking-ms-huawei/detail/{po_no}',App\Http\Livewire\PoTrackingMs\Huawei\Detail::class)->name('po-tracking-ms.huawei.detail');
 
     Route::get('po-tracking-ms/preview/{id}',App\Http\Livewire\PoTrackingMs\Preview::class)->name('po-tracking-ms.preview');
     Route::get('dana-stpl',App\Http\Livewire\DanaStpl\Index::class)->name('dana-stpl.index');
@@ -164,7 +165,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('other-opex',App\Http\Livewire\Finance\OtherOpex\OtherOpex::class)->name('other-opex.index');
     Route::get('rectification',App\Http\Livewire\Finance\Rectification\Rectification::class)->name('rectification.index');
     Route::get('subcont',App\Http\Livewire\Finance\Subcont\Subcont::class)->name('subcont.index');
-    Route::get('site-keeper',App\Http\Livewire\Finance\Sitekeeper\SiteKeeper::class)->name('site-keeper.index');
+   /// Route::get('site-keeper',App\Http\Livewire\Finance\Sitekeeper\SiteKeeper::class)->name('site-keeper.index');
     Route::get('hq-administration',App\Http\Livewire\Finance\HqAdministration\HqAdministration::class)->name('hq-administration.index');
 
     Route::get('payroll',App\Http\Livewire\Finance\Payroll\Payroll::class)->name('payroll.index');

@@ -6,7 +6,7 @@ use Livewire\Component;
 use App\Models\EmployeeProject;
 use Illuminate\Support\Arr;
 use App\Models\Employee;
-use App\Models\PoTrackingNonmsHuawei;
+use App\Models\PoTrackingNonmsHuaweiItem;
 
 class SelectFieldteam extends Component
 {
@@ -25,7 +25,7 @@ class SelectFieldteam extends Component
         $this->field_teams = Employee::select('employees.*')->join('employee_projects','employee_projects.employee_id','=','employees.id')->whereIn('client_project_id',$client_project_ids)->get();;
     }
 
-    public function set_id(PoTrackingNonmsHuawei $id)
+    public function set_id(PoTrackingNonmsHuaweiItem $id)
     {
         $this->data = $id;
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDepartmentHqadministrationBudget extends Migration
+class AddFieldPrNoIntegerToPoTrackingNonmsHuaweiItem extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class AddDepartmentHqadministrationBudget extends Migration
      */
     public function up()
     {
-        // Schema::table('hqadministration_budget', function (Blueprint $table) {
-        //     $table->integer('department_id')->nullable();
-        //     $table->integer('sub_department_id')->nullable();
-        // });
+        Schema::table('po_tracking_nonms_huawei_item', function (Blueprint $table) {
+            $table->string('pr_no_integer',50)->nullable();
+        });
     }
 
     /**
@@ -26,6 +25,8 @@ class AddDepartmentHqadministrationBudget extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('po_tracking_nonms_huawei_item', function (Blueprint $table) {
+            //
+        });
     }
 }

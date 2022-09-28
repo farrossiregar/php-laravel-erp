@@ -3,22 +3,23 @@
 namespace App\Http\Livewire\PoTrackingNonms\Huawei;
 
 use Livewire\Component;
-use App\Models\PoTrackingNonmsHuawei;
+use App\Models\PoTrackingNonmsHuaweiItem;
 use Livewire\WithFileUploads;
 
 class FinanceTransferBudget extends Component
 {
     use WithFileUploads;
     public $amount,$data,$file;
+    protected $listeners = ['set_id'=>'set_id'];
     public function render()
     {
         return view('livewire.po-tracking-nonms.huawei.finance-transfer-budget');
     }
 
-    public function mount(PoTrackingNonmsHuawei $data)
+    public function set_id(PoTrackingNonmsHuaweiItem $id)
     {
-        $this->data = $data;
-        $this->amount = $data->pr_amount;       
+        $this->data = $id;
+        $this->amount = $id->pr_amount;       
     }
     
     public function save()
@@ -35,6 +36,6 @@ class FinanceTransferBudget extends Component
 
         session()->flash('message-success',"Success!, Budget for PO Tracking Non MS has been Succeed Transfered");
 
-        return redirect()->route('po-tracking-nonms.huawei.detail',$this->data->id);
+        return redirect()->route('po-tracking-nonms.huawei');
     }
 }

@@ -361,9 +361,9 @@ function get_menu($user_access_id){
     return $menu;
 }
 
-function format_idr($number)
+function format_idr($number,$decimal=0)
 {
-    return $number ? number_format($number,0,0,'.') : 0;
+    return $number ? number_format($number,$decimal,',','.') : 0;
 }
 
 function get_setting($key)
