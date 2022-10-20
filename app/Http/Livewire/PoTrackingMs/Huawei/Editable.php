@@ -25,7 +25,13 @@ class Editable extends Component
         $value = [$this->field=>$this->value];
 
         // jika qty maka kalkulasi ulang total_amount
-        if($this->field == 'qty') $value['total_amount'] = $this->data->unit_price * $this->value;
+        if($this->field=='qty') {
+            $value['total_amount'] = $this->data->unit_price * $this->value;
+            $value['rp_deduction'] = (($value['total_amount']*$this->data->deduction) / 100) + $this->data->ehs_other_deduction;
+        }
+
+        if($this->field=='deduction') $value['rp_deduction'] = (($this->data->total_amount*$this->value) / 100) + $this->data->ehs_other_deduction;
+        if($this->field=='ehs_other_deduction') $value['rp_deduction'] = (($this->data->total_amount*$this->data->deduction) / 100) + $this->value;
 
         PoMsHuawei::where('id',$this->data->id)->update($value);
 

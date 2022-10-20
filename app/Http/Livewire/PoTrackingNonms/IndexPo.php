@@ -8,10 +8,24 @@ use App\Models\PoTrackingNonmsBoq;
 
 class IndexPo extends Component
 {
-    public $keyword,$is_service_manager,$is_e2e,$is_finance;
+    public $keyword,$is_service_manager,$is_e2e,$is_finance,$filter_status_po;
     public function render()
     {
         $data = PoTrackingNonmsPo::orderBy('id','DESC');
+
+        if($this->keyword) $data = $data->where(function($table){
+            foreach(\Illuminate\Support\Facades\Schema::getColumnListing('po_tracking_nonms_po') as $column){
+                $table->orWhere('po_tracking_nonms_po.'.$column,'LIKE',"%{$this->keyword}%");
+            }
+        });
+        
+        if($this->filter_status_po) {
+            if($this->filter_status_po==0){
+                $data->where(function($table){
+                    $table->where('status','0')->orWhere('status','');
+                });
+            }else $data->where('status',$this->filter_status_po);
+        }
 
         return view('livewire.po-tracking-nonms.index-po')->with(['data'=>$data->paginate(100)]);
     }

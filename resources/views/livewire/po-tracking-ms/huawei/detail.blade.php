@@ -41,7 +41,6 @@
                                 <th class="text-right">RP Deduction</th>    
                                 <th>Scar No</th>    
                                 <th>Have Deduction</th>
-                                <th>PDS</th>
                                 <th>Regional Reconciliation</th>
                                 <th>BOS Approval</th>
                                 <th>Customer GM Approval</th>
@@ -49,7 +48,7 @@
                                 <th>Customer OD (Operation Director) Approval</th>
                                 <th>Verification</th>
                                 <th>Approval and Verification Docs</th>
-                                <th> and Acceptance Docs</th>
+                                <th>Acceptance Docs</th>
                                 <th>Invoice Docs</th>
                                 <th>VAT (%)</th>
                                 <th class="text-right">Total Price</th>
@@ -104,16 +103,25 @@
                                     <td class="text-right">{{ format_idr($item->rp_deduction,2) }}</td>
                                     <td>@livewire('po-tracking-ms.huawei.editable',['data'=>$item,'field'=>'scar_no','value'=>$item->scar_no],key('scar_no'.$item->id))</td>
                                     <td class="text-center">
+                                        @if($item->is_have_deduction==NULL)
+                                            <a href="javascript:void" wire:loading.remove wire:target="set_have_deduction({{$item->id}},1)" wire:click="set_have_deduction({{$item->id}},1)" class="badge badge-success">Yes</a>
+                                            <a href="javascript:void" wire:loading.remove wire:target="set_have_deduction({{$item->id}},2)" wire:click="set_have_deduction({{$item->id}},2)" class="badge badge-danger">No</a>
+                                            <span wire:loading wire:target="set_have_deduction({{$item->id}},1)">
+                                                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                                                <span class="sr-only">{{ __('Loading...') }}</span>
+                                            </span>
+                                            <span wire:loading wire:target="set_have_deduction({{$item->id}},2)">
+                                                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                                                <span class="sr-only">{{ __('Loading...') }}</span>
+                                            </span>
+                                        @endif
                                         @if($item->is_have_deduction==1)
-                                            <span class="text-success"><i class="fa fa-check-circle"></i></span>
-                                        @else
-                                            <span class="text-danger"><i class="fa fa-times"></i></span>
+                                            <span class="text-success">Yes</span>
+                                        @endif
+                                        @if($item->is_have_deduction==2)
+                                            <span class="text-danger">No</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        @if($item->pds_amount)
-                                            {{format_idr($item->pds_amount)}} <a href="{{asset($item->pds_file)}}" target="_blank"><i class="fa fa-download"></i></a>
-                                        @endif
                                     </td>
                                     <td class="text-center">
                                         @if($item->is_regional_reconciliation)
@@ -160,13 +168,13 @@
                                     <td class="text-center">
                                         @if($item->approval_file)
                                             <a href="{{asset($item->approval_file)}}"><i class="fa fa-download"></i> </a>
+                                            <a href="{{asset($item->file_verification)}}"><i class="fa fa-download"></i> Verification Docs</a><br />
                                         @else
                                             -
                                         @endif
                                     </td>
                                     <td class="text-center">
                                         @if($item->file_verification and $item->acceptance_doc)
-                                            <a href="{{asset($item->file_verification)}}"><i class="fa fa-download"></i> Verification Docs</a><br />
                                             <a href="{{asset($item->acceptance_doc)}}"><i class="fa fa-download"></i> Acceptance Docs</a>
                                         @else
                                             -
@@ -200,6 +208,11 @@
                                         @if($is_finance and $item->status_==4)
                                             <a href="javascript:void(0)" wire:click="set_selected({{$item->id}})" data-toggle="modal" data-target="#modal_upload_acceptance_huawei"><i class="fa fa-upload"></i> Acceptance & <br />Verification</a>
                                         @endif
+                                        <a href="javascript:void(0)" wire:loading.remove wire:target="delete({{$item->id}})" class="text-danger" wire:click="delete({{$item->id}})"><i class="fa fa-trash"></i></a>
+                                        <span wire:loading wire:target="delete({{$item->id}})">
+                                            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                                            <span class="sr-only">{{ __('Loading...') }}</span>
+                                        </span>
                                     </td>
                                 </tr>
                             @endforeach
@@ -290,14 +303,6 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <div class="form-group">
-                                    <label>Verification Docs</label>
-                                    <input type="file" class="form-control" wire:model="file_verification" />
-                                    @error('file_verification')
-                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
-                                    @enderror
-                                </div>
-
                                 <div class="form-group">
                                     <label>Acceptance Docs</label>
                                     <input type="file" class="form-control" wire:model="acceptance_doc" />
@@ -443,6 +448,13 @@
                                         <p id="error-checkbox"></p>
                                     </div>
                                 @endif
+                                <div class="form-group">
+                                    <label>Verification Docs</label>
+                                    <input type="file" class="form-control" wire:model="file_verification" />
+                                    @error('file_verification')
+                                        <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                                    @enderror
+                                </div>
                                 @if($is_have_deduction==0)
                                     <div class="form-group">
                                         <label>Upload Approval Docs</label>

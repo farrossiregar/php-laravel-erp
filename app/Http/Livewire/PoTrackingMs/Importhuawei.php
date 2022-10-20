@@ -4,39 +4,27 @@ namespace App\Http\Livewire\PoTrackingMs;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Auth;
-use DB;
+use App\Models\PoMsHuawei;
 
 class Importhuawei extends Component
 {
-
     use WithFileUploads;
     public $employee_id, $employee_name, $departement, $lokasi, $type_request, $request_room_detail;
     public $purpose, $participant, $start_date_booking, $start_time_booking, $end_date_booking, $end_time_booking;
     public $file;
 
-    
     public function render()
     {
         $user = \Auth::user();
         $this->employee_id = $user->id;
         $this->employee_name = $user->name;
         $this->departement = get_position($user->user_access_id);
-        // dd($user);
-        // if(!check_access('accident-report.index')){
-        //     session()->flash('message-error','Access denied, you have no permission please contact your administrator.');
-        //     $this->redirect('/');
-        // }
-        
         
         return view('livewire.po-tracking-ms.importhuawei');
-        
     }
 
-  
     public function save()
-    {
-        
+    {        
         $this->validate([
             'file'=>'required|mimes:xls,xlsx|max:51200' // 50MB maksimal
         ]);
@@ -52,20 +40,27 @@ class Importhuawei extends Component
             $countLimit = 1;
             $total_failed = 0;
             $total_success = 0;
+            $data_double = [];
             foreach($sheetDatas as $key => $i){
                 if($key<1) continue; // skip header
                 
                 foreach($i as $k=>$a){ $i[$k] = trim($a); }
-                $data                                   = new \App\Models\PoMsHuawei();
+                $data = PoMsHuawei::where('po_line_shipment',$i[1])->first();
+                if($data) {
+                    $data_double[] = $i[1];$total_failed++;
+                    continue;
+                }
+
+                $data = new PoMsHuawei();
                 
                 if($i[0]=="") continue;
                 
-                $data->po_no                            = $i[0];
-                $data->po_line_shipment                 = $i[1];
+                $data->po_no = $i[0];
+                $data->po_line_shipment = $i[1];
                 $data->region                           = $i[2];
                 $data->site_id                          = $i[3];
                 $data->site_name                        = $i[4];
-                $data->po_period                        = $i[5];
+                $data->po_period = @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($i[5])->format('M-Y');
                 $data->type_po                          = $i[6];
                 $data->po_category                      = $i[7];
                 $data->item_description                 = $i[8];
@@ -74,18 +69,6 @@ class Importhuawei extends Component
                 $data->unit_price                       = $i[11];
                 $data->total_amount                     = $i[12];
                 $data->status                           = $i[13];
-                $data->bos_approved = @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($i[14])->format('Y-m-d');
-                $data->gm_approved = @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($i[15])->format('Y-m-d');
-                $data->gh_approved = @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($i[16])->format('Y-m-d');
-                $data->director_approved = @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($i[17])->format('Y-m-d');
-                $data->verification = @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($i[18])->format('Y-m-d');
-                $data->acceptance = @\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($i[19])->format('Y-m-d');
-                // $data->bos_approved                     = $this->explode_date(2, $i[14]).'-'.$this->explode_date(1, $i[14]).'-'.$this->explode_date(0, $i[14]);
-                // $data->gm_approved                      = $this->explode_date(2, $i[15]).'-'.$this->explode_date(1, $i[15]).'-'.$this->explode_date(0, $i[15]);
-                // $data->gh_approved                      = $this->explode_date(2, $i[16]).'-'.$this->explode_date(1, $i[16]).'-'.$this->explode_date(0, $i[16]);
-                // $data->director_approved                = $this->explode_date(2, $i[17]).'-'.$this->explode_date(1, $i[17]).'-'.$this->explode_date(0, $i[17]);
-                // $data->verification                     = $this->explode_date(2, $i[18]).'-'.$this->explode_date(1, $i[18]).'-'.$this->explode_date(0, $i[18]);
-                // $data->acceptance                       = $this->explode_date(2, $i[19]).'-'.$this->explode_date(1, $i[19]).'-'.$this->explode_date(0, $i[19]);
                 $data->deduction                        = $i[20];
                 $data->ehs_other_deduction              = $i[21];
                 $data->rp_deduction                     = $i[22];
@@ -94,15 +77,20 @@ class Importhuawei extends Component
                 $data->save();
 
                 $total_success++;
+            }           
+        } 
+        
+        session()->flash('message-success',"Upload PO Tracking MS Huawei success, Success : <strong>{$total_success}</strong>");
+        if($total_failed>0){
+            $failed_data ='Reject Data <ul>';
+            foreach($data_double as $item){
+                $failed_data .= "<li>{$item}</li>";
             }
-           
+            $failed_data .= '</ul>';
+            session()->flash('message-error',$failed_data);
         }
-
-       
-
-        session()->flash('message-success',"Upload PO Tracking MS Huawei success, Success : <strong>{$total_success}</strong>, Total Failed <strong>{$total_failed}</strong>");
             
-        return redirect()->route('po-tracking-ms.index');  
+        return redirect()->route('po-tracking-ms.huawei');  
          
     }
 
@@ -124,5 +112,4 @@ class Importhuawei extends Component
 
         return $result;
     }
-    
 }

@@ -2,20 +2,20 @@
 @section('parentPageTitle', 'Home')
 <div>
     <ul class="nav nav-tabs">
-        <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#tab_dashboard_ericson">Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_work_order">Work Order</a></li>
-        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_po">Purchase Order</a></li>
+        <li class="nav-item"><a class="nav-link {{$active_tab=='tab_dashboard' ? 'active show' :''}}" data-toggle="tab" href="#tab_dashboard_ericson" wire:click="$set('active_tab','tab_dashboard')">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link {{$active_tab=='tab_wo' ? 'active show' :''}}" data-toggle="tab" href="#tab_work_order" wire:click="$set('active_tab','tab_wo')">Work Order</a></li>
+        <li class="nav-item"><a class="nav-link {{$active_tab=='tab_po' ? 'active show' :''}}" data-toggle="tab" href="#tab_po" wire:click="$set('active_tab','tab_po')">Purchase Order</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane show active" id="tab_dashboard_ericson">
+        <div class="tab-pane {{$active_tab=='tab_dashboard' ? 'active show' :''}}" id="tab_dashboard_ericson">
             @livewire('po-tracking-nonms.dashboard')
         </div>
-        <div class="tab-pane" id="tab_work_order">
+        <div class="tab-pane {{$active_tab=='tab_wo' ? 'active show' :''}}" id="tab_work_order">
             <div class="header row px-0">
                 <div class="col-md-2">
                     <input type="text" class="form-control" wire:model="keyword" placeholder="Keyword" />
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <input type="date" class="form-control" wire:model="date" />
                 </div>
                 <div class="col-md-2">
@@ -27,7 +27,21 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-1">
+                    <select class="form-control" wire:model="filter_status">
+                        <option value=""> -- Status -- </option>
+                        <option value="0">Waiting PR Submission</option>
+                        <option value="1">Finance In Review</option>
+                        <option value="2">Finance - Approved</option>
+                        <option value="3">PMG Review</option>
+                        <option value="5">Budget Transferred To Project Admin/Finance</option>
+                        <option value="6">Pending Assignment To Field Team</option>
+                        <option value="7">Ongoing Execution</option>
+                        <option value="8">Field Team Submitted</option>
+                        
+                    </select>
+                </div>
+                <div class="col-md-4">
                     @if($is_e2e)
                         <a href="#" data-toggle="modal" data-target="#modal-potrackingboq-upload" title="Upload" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Import WO')}}</a>
                         <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal-potrackinginput-pono"><i class="fa fa-plus"></i> Add PO</a>
@@ -341,7 +355,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="tab_po">
+        <div class="tab-pane {{$active_tab=='tab_po' ? 'active show' :''}}" id="tab_po">
             @livewire('po-tracking-nonms.index-po')
         </div>
     </div>

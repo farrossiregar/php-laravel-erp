@@ -17,9 +17,23 @@ class HealthCheckController extends Controller
         $data->company = $request->perusahaan == 1 ? 'PT. Putra Mulia Telecommunication' : 'PT. Harapan Utama Prima';
         $data->department = isset(\Auth::user()->employee->department->name) ? \Auth::user()->employee->department->name : '';
         
-        if($request->lokasi_kantor==1) $data->lokasi_kantor = "Kantor Pusat (Duren Tiga, Jakarta)";
-        if($request->lokasi_kantor==2) $data->lokasi_kantor = "Kantor Cabang / Homebase";
-        
+        /**
+         * Jika status bekerja di kantor 
+         */
+        if($request->status_bekerja=='Bekerja (hadir dikantor)'){
+            switch($request->lokasi_kantor){
+                case 1:
+                    $data->lokasi_kantor = "Kantor Pusat (Duren Tiga, Jakarta)";
+                    break;
+                case 2:
+                    $data->lokasi_kantor = "Kantor Cabang / Homebase";
+                    break;
+                default:
+                    $data->lokasi_kantor = $request->lokasi_kantor;
+                break;
+            }
+        }
+
         $employee = isset(\Auth::user()->employee->id) ? \Auth::user()->employee : '';
         if($employee){
             $data->region_id = $employee->region_id;
@@ -27,7 +41,8 @@ class HealthCheckController extends Controller
             $project = EmployeeProject::where('employee_id',$employee->id)->first();
             if($project) $data->client_project_id = $project->client_project_id; 
         }
-
+        
+        $data->izin_others = $request->izin_others;
         $data->employee_id = \Auth::user()->employee->id;
         $data->status_bekerja = $request->status_bekerja;
         $data->status_bekerja_others = $request->status_bekerja_others;

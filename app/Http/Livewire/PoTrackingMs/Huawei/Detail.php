@@ -33,6 +33,22 @@ class Detail extends Component
         $this->po_no = $po_no;
     }
 
+    public function set_have_deduction($id,$status)
+    {
+        $data = PoMsHuawei::where('id',$id)->first();
+        if($data) { 
+            $data->is_have_deduction = $status;$data->save();
+            $this->emit('reload-page'); 
+        }
+    }
+
+    public function delete($id)
+    {
+        PoMsHuawei::find($id)->delete();
+        
+        $this->emit('reload-page');
+    }
+
     public function set_selected(PoMsHuawei $selected,$field=null)
     {
         $this->field_active = $field;
@@ -85,15 +101,8 @@ class Detail extends Component
     public function submit_verification()
     {
         $this->validate([
-            'file_verification'=>'required|mimes:pdf,doc,docx,xls,xlsx|max:51200', // 50MB maksimal
             'acceptance_doc'=>'required|mimes:pdf,doc,docx,xls,xlsx|max:51200', // 50MB maksimal
         ]);
-
-        if($this->file_verification){
-            $doc = 'verification-docs.'.$this->file_verification->extension();
-            $this->file_verification->storePubliclyAs("public/po_tracking_ms/{$this->selected->id}",$doc);
-            $this->selected->file_verification ="storage/po_tracking_ms/{$this->selected->id}/{$doc}";
-        }
 
         if($this->acceptance_doc){
             $doc = 'acceptance-docs.'.$this->acceptance_doc->extension();
@@ -154,10 +163,18 @@ class Detail extends Component
 
     public function process_regional()
     {
+        $validate['file_verification'] = 'required|mimes:pdf,doc,docx,xls,xlsx|max:51200'; // 50MB maksimal
+
         if($this->is_have_deduction==0){
-            $this->validate([
-                'approval_file'=>'required|mimes:pdf,doc,docx,xls,xlsx|max:51200' // 50MB maksimal
-            ]);
+            $validate['approval_file'] = 'required|mimes:pdf,doc,docx,xls,xlsx|max:51200'; // 50MB maksimal
+        }
+
+        $this->validate($validate);
+
+        if($this->file_verification){
+            $doc = 'verification-docs.'.$this->file_verification->extension();
+            $this->file_verification->storePubliclyAs("public/po_tracking_ms/{$this->selected->id}",$doc);
+            $this->selected->file_verification ="storage/po_tracking_ms/{$this->selected->id}/{$doc}";
         }
 
         if($this->approval_file and $this->is_have_deduction==0){

@@ -21,6 +21,7 @@ class Indexboq extends Component
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['refresh'=>'$refresh'];
     public $filter_field_team_id,$filter_field_teams=[],$total_price_arr=[],$sum_total_request=0,$sum_budget_request=0;
+    public $filter_status,$active_tab='tab_dashboard';
     public function render()
     {
         $data = PoTrackingNonms::with(['field_team','coordinator'])
@@ -47,7 +48,14 @@ class Indexboq extends Component
 
         if($this->date) $data->whereDate('created_at',$this->date);
         if($this->filter_field_team_id) $data->where('field_team_id',$this->filter_field_team_id);
-
+        if($this->filter_status){
+            if($this->filter_status==0){
+                $data->where(function($table){
+                    $table->where('status',0)->orWhere('status','');
+                });
+            }else
+                $data->where('status',$this->filter_status);
+        }
         if($this->total_price_arr){
             $temp = PoTrackingNonms::with(['field_team','coordinator'])
                             ->withSum('boq','input_price')

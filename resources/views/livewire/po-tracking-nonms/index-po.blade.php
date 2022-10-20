@@ -3,10 +3,20 @@
         <div class="col-md-2">
             <input type="text" class="form-control" wire:model="keyword" placeholder="Keyword" />
         </div>
-        <div class="col-md-2">
+        <div class="col-md1">
             <input type="date" class="form-control" wire:model="date" />
         </div>
-        <div class="col-md-8">
+        <div class="col-md-1">
+            <select class="form-control" wire:model="filter_status_po">
+                <option value=""> -- Status -- </option>
+                <option value="0">BAST - Regional</option>
+                <option value="1">BAST - E2E</option>
+                <option value="3">Revisi</option>
+                <option value="4">Finance to Invoice</option>
+                <option value="5">Invoiced</option>
+            </select>
+        </div>
+        <div class="col-md-7">
             <span wire:loading>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">{{ __('Loading...') }}</span>

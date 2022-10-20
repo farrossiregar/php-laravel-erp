@@ -32,6 +32,7 @@ class Index extends Component
         if($this->project_id) $data->where('employee_projects.client_project_id',$this->project_id);
         if($this->keyword) $data = $data->where(function($table){
             foreach(\Illuminate\Support\Facades\Schema::getColumnListing('employees') as $column){
+                if($column=='telepon2') continue;
                 $table->orWhere('employees.'.$column,'LIKE',"%{$this->keyword}%");
             }
         });
