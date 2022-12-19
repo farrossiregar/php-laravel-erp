@@ -41,7 +41,7 @@
                                 <th>Customer OD (Operation Director) Approval</th>
                                 <th>Verification</th>
                                 <th class="text-center">VAT (%) </th>
-                                <th class="text-right">Total Price</th>
+                                <!-- <th class="text-right">Total Price</th> -->
                                 <th class="text-center">WHT (%)</th>
                                 <th class="text-right">Invoice Amount</th>
                             </tr>
@@ -69,7 +69,7 @@
                                     <td class="text-center">{{@abs($item->count_customer_od_count/$item->details_count*100)}}%</td>
                                     <td class="text-center">{{@abs($item->count_verification_count/$item->details_count*100)}}%</td>
                                     <td class="text-center">{{ $item->details_sum_vat >0 ? abs($item->details_sum_vat / $item->details_count) : '0' }}</td></td>
-                                    <td class="text-right">{{format_idr($item->details_sum_total_amount+$item->details_sum_ehs_other_deduction+$item->details_sum_rp_deduction)}}</td>
+                                    <!-- <td class="text-right">{{format_idr($item->details_sum_total_amount+$item->details_sum_ehs_other_deduction+$item->details_sum_rp_deduction)}}</td> -->
                                     <td class="text-center">{{ $item->details_sum_wht >0 ? abs($item->details_sum_wht / $item->details_count) : '0' }}</td>
                                     <td class="text-right">{{format_idr($item->details_sum_invoice_amount)}}</td>
                                 </tr>

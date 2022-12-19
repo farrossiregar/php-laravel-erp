@@ -10,6 +10,8 @@ class LocationOfFieldTeam extends Model
 {
     use HasFactory;
 
+    protected $connection = 'mysql_location_of_field_team';
+
     public function _employee()
     {
         return $this->belongsTo(Employee::class,'employee_id');

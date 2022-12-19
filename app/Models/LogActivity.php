@@ -11,6 +11,8 @@ class LogActivity extends Model
 
     protected $table = 'log_activity';
 
+    protected $connection = 'mysql_log';
+
     /**
      * The attributes that are mass assignable.
      *

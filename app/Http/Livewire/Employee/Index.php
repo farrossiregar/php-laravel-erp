@@ -17,7 +17,6 @@ class Index extends Component
 {
     use WithFileUploads;
     use WithPagination;
-    
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['emit-delete-hide' => '$refresh'];
     public $keyword,$user_access_id,$department_sub_id,$department_id,$project_id;
@@ -26,7 +25,7 @@ class Index extends Component
     {
         $data = Employee::select('employees.*')->with('company','department','access','employee_project','employee_project.project')
             ->orderBy('employees.id','DESC')
-            ->leftJoin('employee_projects','employee_projects.employee_id','=','employees.id')->groupBy('employees.id','employee_projects.client_project_id');
+            ->leftJoin('employee_projects','employee_projects.employee_id','=','employees.id')->groupBy('employees.id');
 
         if($this->department_id) $data->where('department_id',$this->department_id);
         if($this->project_id) $data->where('employee_projects.client_project_id',$this->project_id);

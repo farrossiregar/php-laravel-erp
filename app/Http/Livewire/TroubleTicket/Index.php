@@ -8,14 +8,15 @@ use App\Models\TroubleTicket;
 use App\Models\TroubleTicketCategory;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads,WithPagination;
     public $trouble_ticket_number,$category,$description,$employee_id,$employee,$show_category_others=false,$trouble_ticket_category,$trouble_ticket_category_others;
     public $type=1,$lokasi_kejadian,$selected,$risk,$note,$status=3,$reason,$recommendation,$tanggal_kejadian,$file;
     public $filter_type;
-
+    protected $paginationTheme = 'bootstrap';
     public function render()
     {
         $data = TroubleTicket::with(['pic','employee'])->orderBy('id','DESC');
@@ -69,6 +70,8 @@ class Index extends Component
         
         session()->flash('message-success',__("Trouble Ticket #{$this->selected->trouble_ticket_number} ".($this->status==3 ? "Solve" : "Not Solve")));
         
+        \LogActivity::add('[web] Trouble Ticket solved #'. $this->selected->trouble_ticket_number);
+
         return redirect()->route('trouble-ticket.index');
     }
 
@@ -89,6 +92,8 @@ class Index extends Component
         if(isset($this->selected->employee->device_token)) 
             push_notification_android($this->selected->employee->device_token,"TT Number #".$this->selected->trouble_ticket_number ." Pick-up" ,$description,6,1,1);
         
+        \LogActivity::add('[web] Trouble Ticket Accept #'. $this->selected->trouble_ticket_number);
+
         session()->flash('message-success',__("Accepted and Generate Trouble Ticket Number #{$this->selected->trouble_ticket_number}"));
         
         return redirect()->route('trouble-ticket.index');
@@ -102,6 +107,12 @@ class Index extends Component
             'lokasi_kejadian' => 'required'
         ]);
 
+        if($this->file!="") {
+            $this->validate([
+                'file' => 'file|mimes:xlsx,csv,xls,doc,docx,pdf,jpg,jpeg,png|max:51200', //] 50MB Max
+                ]
+            );
+        }
         $data = new TroubleTicket();
         $data->employee_id = \Auth::user()->employee->id;
         $data->trouble_ticket_category = $this->trouble_ticket_category;
@@ -125,6 +136,9 @@ class Index extends Component
             push_notification_android($user->device_token,"Trouble Ticket #".\Auth::user()->employee->name ." - ". $this->trouble_ticket_category ,$this->description,6,1,1);
         }
 
+        \LogActivity::add('[web] Trouble Ticket Store #ID-'.$data->id);
+
+
         session()->flash('message-success',__("Trouble Ticket submited"));
         
         return redirect()->route('trouble-ticket.index');
@@ -137,6 +151,8 @@ class Index extends Component
         $data->save();
         
         $description = "Closed By : ". \Auth::user()->employee->name ."\n";
+
+        \LogActivity::add('[web] Trouble Ticket Closed #'. $data->trouble_ticket_number);
 
         if(isset($data->pic->device_token)) 
             push_notification_android($data->pic->device_token,"TT Number #".$data->trouble_ticket_number ." Closed" ,$description,6,1,1);

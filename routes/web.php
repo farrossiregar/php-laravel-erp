@@ -17,6 +17,7 @@ date_default_timezone_set("Asia/Bangkok");
 */
 
 Route::get('/', Home::class)->name('home')->middleware('auth');
+Route::get('privacy-policy',App\Http\Livewire\Privacy::class);
 Route::get('login', App\Http\Livewire\Login::class)->name('login');
 Route::post('diskalert',function(){
     //send_wa(['phone'=>'081289992707','message'=>'Warning, Disk server alibaba penuh, silahkan cek']);
