@@ -157,7 +157,6 @@ class GeneralNotification extends Command
                     }
                 }
             }
-            
         }
 	
         return 0;

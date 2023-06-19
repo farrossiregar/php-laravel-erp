@@ -121,20 +121,21 @@ class CommitmentDaily extends Component
         $activeSheet->getStyle('A4:O4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('c2d7f3');
         $activeSheet
                     ->setCellValue('A4', 'No')
-                    ->setCellValue('B4', 'Employee')
-                    ->setCellValue('C4', 'Jobe Role/Access')
-                    ->setCellValue('D4', 'Berkomitment Menggunakan PPE/APD')
-                    ->setCellValue('E4', 'Bagian PPE/APD yang tidak punya')
-                    ->setCellValue('F4', 'Regulasi sanksi dari management')
-                    ->setCellValue('G4', 'Regulasi terhadap kecurian')
-                    ->setCellValue('H4', 'Regulasi terhadap kerusakan nama baik perusahaan')
-                    ->setCellValue('I4', 'Regulasi terkait minuman keras/obat terlarang')
-                    ->setCellValue('J4', 'Regulasi terkait pelanggaran peraturan perusahaan')
-                    ->setCellValue('K4', 'Regulasi terkait protokol kesehatan')
-                    ->setCellValue('L4', 'Regulasi terkait penggunaan kendaraan')
-                    ->setCellValue('M4', 'Regulasi BCG')
-                    ->setCellValue('N4', 'Regulasi terkait cyber security')
-                    ->setCellValue('O4', 'Date');
+                    ->setCellValue('B4', 'NIK')
+                    ->setCellValue('C4', 'Employee')
+                    ->setCellValue('D4', 'Jobe Role/Access')
+                    ->setCellValue('E4', 'Berkomitment Menggunakan PPE/APD')
+                    ->setCellValue('F4', 'Bagian PPE/APD yang tidak punya')
+                    ->setCellValue('G4', 'Regulasi sanksi dari management')
+                    ->setCellValue('H4', 'Regulasi terhadap kecurian')
+                    ->setCellValue('I4', 'Regulasi terhadap kerusakan nama baik perusahaan')
+                    ->setCellValue('J4', 'Regulasi terkait minuman keras/obat terlarang')
+                    ->setCellValue('K4', 'Regulasi terkait pelanggaran peraturan perusahaan')
+                    ->setCellValue('L4', 'Regulasi terkait protokol kesehatan')
+                    ->setCellValue('M4', 'Regulasi terkait penggunaan kendaraan')
+                    ->setCellValue('N4', 'Regulasi BCG')
+                    ->setCellValue('O4', 'Regulasi terkait cyber security')
+                    ->setCellValue('P4', 'Date');
 
         $activeSheet->getColumnDimension('A')->setWidth(5);
         $activeSheet->getColumnDimension('B')->setAutoSize(true);
@@ -151,28 +152,30 @@ class CommitmentDaily extends Component
         $activeSheet->getColumnDimension('M')->setAutoSize(true);
         $activeSheet->getColumnDimension('N')->setAutoSize(true);
         $activeSheet->getColumnDimension('O')->setAutoSize(true);
+        $activeSheet->getColumnDimension('P')->setAutoSize(true);
         $num=5;
 
         $data = $this->init_data();
         foreach($data->get() as $k => $i){
             $activeSheet
                 ->setCellValue('A'.$num,($k+1))
-                ->setCellValue('B'.$num,$i->name)
-                ->setCellValue('C'.$num,isset($i->employee->access->name) ? $i->employee->access->name : '');
+                ->setCellValue('B'.$num,isset($i->employee->nik) ? $i->employee->nik : '-')
+                ->setCellValue('C'.$num,$i->name)
+                ->setCellValue('D'.$num,isset($i->employee->access->name) ? $i->employee->access->name : '');
 
             if($i->is_submit ==1){
-                $activeSheet->setCellValue('D'.$num,$i->regulasi_terkait_ppe_apd_menggunakan==1 ? "Yes" : "No")
-                            ->setCellValue('E'.$num,$i->regulasi_terkait_ppe_apd_tidak_punya)
-                            ->setCellValue('F'.$num,$i->regulasi_terkait_sanksi==1 ? "Yes" : "No")
-                            ->setCellValue('G'.$num,$i->regulasi_terhadap_kecurian==1 ? "Yes" : "No")
-                            ->setCellValue('H'.$num,$i->regulasi_terhadap_kerusakan_nama_baik_perusahaan==1 ? "Yes" : "No")
-                            ->setCellValue('I'.$num,$i->regulasi_terkait_minuman_keras_obat_terlarang==1 ? "Yes" : "No")
-                            ->setCellValue('J'.$num,$i->regulasi_terkait_pelanggaran_peraturan_perusahaan==1 ? "Yes" : "No")
-                            ->setCellValue('K'.$num,$i->regulasi_terkait_protokol_kesehatan==1 ? "Yes" : "No")
-                            ->setCellValue('L'.$num,$i->regulasi_terkait_penggunaan_kendaraan==1 ? "Yes" : "No")
-                            ->setCellValue('M'.$num,$i->regulasi_bcg==1 ? "Yes" : "No")
-                            ->setCellValue('N'.$num,$i->regulasi_terkait_cyber_security==1 ? "Yes" : "No")
-                            ->setCellValue('O'.$num,date('d-M-Y H:i',strtotime($i->updated_at)));
+                $activeSheet->setCellValue('E'.$num,$i->regulasi_terkait_ppe_apd_menggunakan==1 ? "Yes" : "No")
+                            ->setCellValue('F'.$num,$i->regulasi_terkait_ppe_apd_tidak_punya)
+                            ->setCellValue('G'.$num,$i->regulasi_terkait_sanksi==1 ? "Yes" : "No")
+                            ->setCellValue('H'.$num,$i->regulasi_terhadap_kecurian==1 ? "Yes" : "No")
+                            ->setCellValue('I'.$num,$i->regulasi_terhadap_kerusakan_nama_baik_perusahaan==1 ? "Yes" : "No")
+                            ->setCellValue('J'.$num,$i->regulasi_terkait_minuman_keras_obat_terlarang==1 ? "Yes" : "No")
+                            ->setCellValue('K'.$num,$i->regulasi_terkait_pelanggaran_peraturan_perusahaan==1 ? "Yes" : "No")
+                            ->setCellValue('L'.$num,$i->regulasi_terkait_protokol_kesehatan==1 ? "Yes" : "No")
+                            ->setCellValue('M'.$num,$i->regulasi_terkait_penggunaan_kendaraan==1 ? "Yes" : "No")
+                            ->setCellValue('N'.$num,$i->regulasi_bcg==1 ? "Yes" : "No")
+                            ->setCellValue('O'.$num,$i->regulasi_terkait_cyber_security==1 ? "Yes" : "No")
+                            ->setCellValue('P'.$num,date('d-M-Y H:i',strtotime($i->updated_at)));
             }else{
                 $activeSheet->setCellValue('D'.$num,"-")
                             ->setCellValue('E'.$num,"-")
@@ -185,7 +188,8 @@ class CommitmentDaily extends Component
                             ->setCellValue('L'.$num,"-")
                             ->setCellValue('M'.$num,"-")
                             ->setCellValue('N'.$num,"-")
-                            ->setCellValue('O'.$num,"-");
+                            ->setCellValue('O'.$num,"-")
+                            ->setCellValue('P'.$num,"-");
             }
             
             $num++;

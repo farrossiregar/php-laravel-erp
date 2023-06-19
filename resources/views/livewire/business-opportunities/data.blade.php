@@ -6,10 +6,13 @@
         <input type="date" class="form-control" wire:model="date" />
     </div>
     @if(check_access('business-opportunities.add'))
+        <div class="col-md-2">
+            <a href="#" data-toggle="modal" data-target="#modal-businessopportunities-input" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input New Opportunity')}}</a>
+        </div>
+    @endif
     <div class="col-md-2">
         <a href="#" data-toggle="modal" data-target="#modal-businessopportunities-input" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('Input New Opportunity')}}</a>
     </div>
-    @endif
     <div class="col-md-12">
         <br><br>
         <div class="table-responsive">

@@ -16,6 +16,13 @@ date_default_timezone_set("Asia/Bangkok");
 |
 */
 
+Route::post('wa',function(Illuminate\Http\Request $r){
+    
+    $data['message'] = 'success';
+
+    return response()->json($data,200);
+});
+
 Route::get('/', Home::class)->name('home')->middleware('auth');
 Route::get('privacy-policy',App\Http\Livewire\Privacy::class);
 Route::get('login', App\Http\Livewire\Login::class)->name('login');

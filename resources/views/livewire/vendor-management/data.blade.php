@@ -21,8 +21,7 @@
         <a href="#" data-toggle="modal" data-target="#modal-vendormanagement-materialinput" title="Add" class="btn btn-primary"><i class="fa fa-plus"></i> {{__('New Material Supplier')}}</a>
     </div>
     <div class="col-md-12">
-        <br><br>
-        <div class="table-responsive">
+        <div class="table-responsive mt-4">
             <table class="table table-striped m-b-0 c_list">
                 <thead>
                     <tr>
@@ -111,8 +110,7 @@
                                 }
                             ?>
                             <label class="badge <?php echo $badgetype; ?>" data-toggle="tooltip" title="<?php echo $badgetitle; ?>">{{ $badgetitle }}</label>
-                        </td> --}}
-                        {{-- <td></td> --}}
+                        </td> 
                         <td>{{ $item->supplier_name }}</td>
                         <td>{{ $item->supplier_pic }}</td>
                         <td>{{ $item->supplier_category }}</td>
