@@ -1,14 +1,22 @@
-![PT Stalavista Evolusi Teknologi](https://stalavista.com/logo.png)
-## ERP - PT Putra Mulia Telecommunication
+This repo is consist of ERP Project. This project is as custom request by a company based in Jakarta, it integrating difference on business model from some Department to help the company monitoring a resource and help them to plan better.
 
-Sistem yang dibangun untuk kebutuhan Sales Management, Project Management, Vendor Management, Finance, etc
+Tech Stack : PHP Laravel 8, Livewire, MySQL, Linux, Apache
 
-## Teknologi
+Periode Development : Jan 2021 - Dec 2022
 
-- PHP 
-- Apache
-- MySQL
+Feature : 
+- Field : Site Tracking, Accident Report
+- HR : Hotel Flight Attendant (Accomodation), Team Schedule, Timesheet Record
+- Customer Asset Management
+- Finance : Account Payable, Payroll
+- Vendor Management
+- Inventory : Asset Database
 
-## Framework
-- Laravel 8
-- Livewire
+
+
+Screenshot
+1. ![image](https://github.com/user-attachments/assets/18201598-53aa-4c67-a05c-7101600fc5ea)
+
+2. 
+
+
